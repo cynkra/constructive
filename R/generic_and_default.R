@@ -55,15 +55,17 @@ construct_apply <- function(args, fun = "list", keep_trailing_comma = FALSE, lan
   if (!language) args <- lapply(args, construct, ...)
   args <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
   args <- unlist(args)
-  if (!keep_trailing_comma) {
-    args[[length(args)]] <- sub(",$", "", args[[length(args)]])
-  }
   # if line is short enough stick all in one line
   # FIXME : chunk unnamed lists of single line items by lines of 80 chars ?
   if(sum(nchar(args)) < 80) {
     args <- paste(args, collapse = " ")
     new_line <- FALSE
+    keep_trailing_comma <- FALSE
   }
+  if (!keep_trailing_comma) {
+    args[[length(args)]] <- sub(",$", "", args[[length(args)]])
+  }
+
   wrap(args, fun, new_line)
 }
 
