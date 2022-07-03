@@ -28,12 +28,10 @@ dput(foo)
 
 construct(foo)
 #> data.frame(
-#>   a = factor(
-#>     c(
-#>       "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-#>       "Oct", "Nov", "Dec"
-#>     )
-#>   ),
+#>   a = factor(c(
+#>     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+#>     "Oct", "Nov", "Dec"
+#>   )),
 #>   b = as.Date(c(
 #>     "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01",
 #>     "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01",
@@ -60,7 +58,7 @@ construct(list(c("a", "b", "c"), c("d", "e", "f")), data = dplyr::lst(head(lette
 library(dplyr, warn = F)
 grouped_band_members <- group_by(band_members, band)
 construct(grouped_band_members)
-#> tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles"), ) |>
+#> tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
 #>   dplyr::group_by(band)
 
 # the data arg can be a package name too
@@ -71,8 +69,7 @@ construct(grouped_band_members, data = "dplyr")
 # dms are supported too
 library(dm, warn = F)
 construct(dm(cars = head(cars)))
-#> dm::dm(cars = data.frame(speed = c(4, 4, 7, 7, 8, 9), dist = c(2, 10, 4, 22, 16, 10)), ) |>
-#>   structure(class = "dm", version = 2L)
+#> dm::dm(cars = data.frame(speed = c(4, 4, 7, 7, 8, 9), dist = c(2, 10, 4, 22, 16, 10)))
 
 construct(dm_pixarfilms(), data = "pixarfilms")
 #> dm::dm(
@@ -100,8 +97,7 @@ construct(dm_pixarfilms(), data = "pixarfilms")
 #>     `#ED7D31FF` = "box_office",
 #>     `#ED7D31FF` = "genres",
 #>     `#ED7D31FF` = "public_response"
-#>   ) |>
-#>   structure(class = "dm", version = 2L)
+#>   )
 
 # environments are not always possible to reproduce but we support some common cases
 search()
@@ -114,9 +110,32 @@ construct(as.environment(search()[1]))
 #> .GlobalEnv
 construct(as.environment(search()[2]))
 #> as.environment("package:dm")
+construct(as.environment(search()[12]))
+#> as.environment("Autoloads")
+construct(as.environment(search()[13]))
+#> .BaseNamespaceEnv
+#> Error in `construct()`:
+#> ! {constructive} couldn't create code that reproduces perfectly the output
+#> `original` is <env:package:base>
+#> `recreated` is <env:namespace:base>
+#> ℹ use `check = FALSE` to ignore this error
 construct(environment(group_by))
 #> asNamespace("dplyr")
+
+# and if not possible, we try something that might sometimes be enough
+e <- new.env()
+e$x <- 1
+e$y <- 2
+construct(e)
+#> as.environment(list(x = 1, y = 2))
+#> Error in `construct()`:
+#> ! {constructive} couldn't create code that reproduces perfectly the output
+#> `original` is <env:0x1389c0a80>
+#> `recreated` is <env:0x11f33a0a8>
+#> ℹ use `check = FALSE` to ignore this error
 ```
+
+# How it works
 
 {constructive} has a single exported function `construct()` built around
 a `construct_raw()`, the main unexported function, and adding some
@@ -126,20 +145,9 @@ checks and pretty printing using {styler}.
 made of 3 steps : \* Check if we already have the object in store in our
 `data` arg, if so display its name rather than the code to rebuild it \*
 If the object cannot be found in `data` build it idiomatically by
-calling the `construct_idiomatic()` generic \* If the
+calling the `construct_idiomatic()` generic \* Then the
+`repair_attributes()` generic adapts the above to make sure created
+object has the same class and other attributes as the source object
 
-, new methods can be added to extend the package.
-
--   Check (by default but optionally) if the created code creates an
-    object identical to the original
--   Fail gracefully if the code could not be built, or parsed,
--   Fail gracefully, by default but optionally (if `check = TRUE`), if
-    the code could not be evaluated or if the created code builds an
-    object different from the original
--   Print prettily using {styler}
-
-Support can be added outside of the package by implementing your own
-`construct_idiomatic.your_class` and `repair_attributes.your_class`
-methods.
-
-Overriding existing methods is not yet supported.
+To extend the package to a new object we only need to add a method for
+`construct_idiomatic()` and for `repair_attributes()`.
