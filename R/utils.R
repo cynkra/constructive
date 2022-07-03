@@ -1,0 +1,37 @@
+wrap <- function(x, fun, new_line = FALSE) {
+  if (new_line) return(c(paste0(fun, "("), x, ")"))
+  x[1] <- paste0(fun, "(", x[1])
+  l <- length(x)
+  x[l] <- paste0(x[l], ")")
+  x
+}
+
+# "c(1,2)" to "foo = c(1,2),"
+name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
+  if(nm != "" && (!implicit_names || !identical(nm, x))) {
+    x[1] <- paste(protect(nm), "=", x[1])
+  }
+  x[length(x)] <- paste0(x[length(x)], ",")
+  x
+}
+
+pipe <- function(x, y, pipe) {
+  pipe_symbol <- c(base = "|>", magrittr = "%>%")[[pipe]]
+  x[length(x)] <- paste(x[length(x)], pipe_symbol)
+  c(x, y)
+}
+
+protect <- function(name) {
+  if (name == make.names(name)) return(name)
+  paste0("`", name, "`")
+}
+
+namespace_as_list <- function(pkg) {
+  ns <- asNamespace(pkg)
+  if (pkg == "base") return(as.list(ns))
+  c(
+    as.list(.getNamespaceInfo(ns, "exports")),
+    as.list(.getNamespaceInfo(ns, "imports")),
+    as.list(.getNamespaceInfo(ns, "lazydata"))
+  )
+}

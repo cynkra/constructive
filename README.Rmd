@@ -1,0 +1,85 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# constructive
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+`dput()` but better
+
+## Examples
+
+```{r, error = TRUE}
+library(constructive)
+
+foo <- data.frame(
+  a = factor(month.abb),
+  b = as.Date(sprintf("2022-%s-01", 1:12))
+)
+
+dput(foo)
+
+construct(foo)
+
+# we don't have to deparse everything
+construct(foo, data = list(month.abb = month.abb)) # or dplyr::lst(month.abb)
+
+# we'll often use `dplyr::lst` and we can even use some complex expressions there
+construct(list(c("a", "b", "c"), c("d", "e", "f")), data = dplyr::lst(head(letters, 3)))
+
+# we can handle some complex attributes
+library(dplyr, warn = F)
+grouped_band_members <- group_by(band_members, band)
+construct(grouped_band_members)
+
+# the data arg can be a package name too
+construct(grouped_band_members, data = "dplyr")
+
+# dms are supported too
+library(dm, warn = F)
+construct(dm(cars = head(cars)))
+
+construct(dm_pixarfilms(), data = "pixarfilms")
+
+# environments are not always possible to reproduce but we support some common cases
+search()
+construct(as.environment(search()[1]))
+construct(as.environment(search()[2]))
+construct(as.environment(search()[12]))
+construct(as.environment(search()[13]))
+construct(environment(group_by))
+
+# and if not possible, we try something that might sometimes be enough
+e <- new.env()
+e$x <- 1
+e$y <- 2
+construct(e)
+```
+
+# How it works
+
+{constructive} has a single exported function `construct()` built around a `construct_raw()`, the main
+unexported function, and adding some checks and pretty printing using {styler}.
+
+`construct_raw` is called recursively through list-like objects and is made of 3 steps :
+* Check if we already have the object in store in our `data` arg, if so display its name rather than the code to rebuild it
+* If the object cannot be found in `data` build it idiomatically by calling the `construct_idiomatic()`
+ generic
+* Then the `repair_attributes()` generic adapts the above to make sure created object
+has the same class and other attributes as the source object
+ 
+To extend the package to a new object we only need to add a method for `construct_idiomatic()`
+and for `repair_attributes()`.
