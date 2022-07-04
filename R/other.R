@@ -48,7 +48,7 @@ construct_idiomatic.dm <- function(x, pipe = "base", ...) {
   def <- unclass(x)$def
   named_list_of_tables <- set_names(def$data, def$table)
   code <- construct_apply(
-    x, fun = "dm::dm", keep_trailing_comma = TRUE, implicit_names = TRUE, ...)
+    named_list_of_tables, fun = "dm::dm", keep_trailing_comma = TRUE, implicit_names = TRUE, ...)
 
   pk_code <- unlist(Map(
     function(table, pk_tibble) {
