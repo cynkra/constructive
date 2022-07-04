@@ -62,7 +62,6 @@ try_eval <- function(styled_code, data) {
 
 check_round_trip <- function(x, evaled, styled_code) {
   caller <- caller_env()
-  # FIXME -> check_round_trip
   if (!identical(x, evaled)) {
     print(styled_code)
     comparison <- waldo::compare(
