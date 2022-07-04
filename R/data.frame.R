@@ -51,7 +51,7 @@ construct_tribble <- function(x, tribble, ...) {
   }
   code_df <- x
   code_df[] <- lapply(x, function(col) paste0(sapply(col, function(cell) paste(construct_raw(cell, ...), collapse = "")), ","))
-  code_df <- rbind(paste0("~", sapply(names(x), protect), ","), code_df)
+  code_df <- rbind(paste0("~", sapply(names(x), protect), ","), as.data.frame(code_df))
   code_df[] <- lapply(code_df, format)
   code <- c("tibble::tribble(", do.call(paste, code_df), ")")
   code
