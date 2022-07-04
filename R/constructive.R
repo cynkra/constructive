@@ -11,14 +11,14 @@
 #' @param ... Additional parameters passed to `construct_impl()` generic and methods.
 #'
 #' @export
-construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE, ...) {
+construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE, ignore_srcref = TRUE, ...) {
   pipe <- match.arg(pipe)
   data <- preprocess_data(data)
   code <- try_construct(x, data, pipe = pipe, ...)
   styled_code <- try_parse(code, data)
   if (check) {
     evaled <- try_eval(styled_code, data)
-    check_round_trip(x, evaled, styled_code)
+    check_round_trip(x, evaled, styled_code, ignore_srcref = ignore_srcref)
   }
   styled_code
 }
@@ -60,8 +60,17 @@ try_eval <- function(styled_code, data) {
   )
 }
 
-check_round_trip <- function(x, evaled, styled_code) {
+# FIXME: we might not be identical and still have waldo not find any difference
+#   we should print something in those cases.
+# FIXME: we should be able to set the ignore_* args from `construct()`, `identical()`
+#   itself has args `ignore.bytecode`, `ignore.environment` and `ignore.srcref`
+#   that we can use. We migth sometimes have to do the comparison using `waldo()` directly though.
+check_round_trip <- function(x, evaled, styled_code, ignore_srcref) {
   caller <- caller_env()
+  if (ignore_srcref) {
+    x <- rlang::zap_srcref(x)
+    evaled <- rlang::zap_srcref(evaled)
+  }
   if (!identical(x, evaled)) {
     print(styled_code)
     comparison <- waldo::compare(
