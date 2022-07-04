@@ -65,11 +65,22 @@ check_round_trip <- function(x, evaled, styled_code) {
   # FIXME -> check_round_trip
   if (!identical(x, evaled)) {
     print(styled_code)
+    comparison <- waldo::compare(
+      x,
+      evaled,
+      x_arg = "original",
+      y_arg = "recreated",
+      ignore_srcref = FALSE,
+      ignore_attr = FALSE,
+      ignore_encoding = FALSE,
+      ignore_function_env = FALSE,
+      ignore_formula_env = FALSE
+    )
     abort(
       c(
         paste0(
           "{constructive} couldn't create code that reproduces perfectly the output\n",
-          paste(waldo::compare(x, evaled, x_arg = "original", y_arg = "recreated"), collapse = "\n")
+          paste(comparison, collapse = "\n")
         ),
         i = "use `check = FALSE` to ignore this error"
       ),
