@@ -57,7 +57,7 @@ construct_apply <- function(args, fun = "list", keep_trailing_comma = FALSE, lan
   args <- unlist(args)
   # if line is short enough stick all in one line
   # FIXME : chunk unnamed lists of single line items by lines of 80 chars ?
-  if(sum(nchar(args)) < 80) {
+  if(sum(nchar(args)) < 80 && all(endsWith(args, ","))) {
     args <- paste(args, collapse = " ")
     new_line <- FALSE
     keep_trailing_comma <- FALSE
