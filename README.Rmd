@@ -75,6 +75,7 @@ construct(e)
 unexported function, and adding some checks and pretty printing using {styler}.
 
 `construct_raw` is called recursively through list-like objects and is made of 3 steps :
+
 * Check if we already have the object in store in our `data` arg, if so display its name rather than the code to rebuild it
 * If the object cannot be found in `data` build it idiomatically by calling the `construct_idiomatic()`
  generic
