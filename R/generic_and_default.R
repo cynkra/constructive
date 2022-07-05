@@ -47,7 +47,12 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
   attrs <- attributes(x)
   attrs$names <- NULL # names are already provided by construct_idiomatic
   attrs[ignore] <- NULL
-  if (identical(attrs$class, idiomatic_class)) attrs$class <- NULL
+  if (identical(attrs$class, idiomatic_class)) {
+    attrs$class <- NULL
+  } else if(is.null(attrs$class)) {
+    # to be able to remove the idiomatic class explicitly, mainly (only ?) useful for classless formulas
+    attrs["class"] <- list(NULL)
+  }
   if (!length(attrs)) return(code)
   # append structure() code to repair object
   attrs_code <- construct_apply(attrs, fun = "structure", pipe = pipe, ...)
