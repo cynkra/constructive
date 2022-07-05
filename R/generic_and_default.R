@@ -25,6 +25,7 @@ construct_idiomatic <- function(x, ...) {
 #' @export
 construct_idiomatic.default <- function(x, ...) {
   if (is.list(x))  return(construct_idiomatic.list(x, ...))
+  if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, code, pipe, ...))
   if (is.language(x))  return(construct_idiomatic.language(x, ...))
   attributes(x) <- NULL
   capture.output(dput(x))
@@ -36,6 +37,7 @@ repair_attributes <- function(x, code, pipe = "base", ...) {
 
 #' @export
 repair_attributes.default <- function(x, code, pipe = "base", ...) {
+  if (rlang::is_formula(x))  return(repair_attributes.formula(x, code, pipe, ...))
   if (is.language(x))  return(repair_attributes.language(x, code, pipe, ...))
   repair_attributes_impl(x, code, pipe, ...)
 }
