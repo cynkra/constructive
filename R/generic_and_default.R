@@ -60,7 +60,7 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
 }
 
 construct_apply <- function(args, fun = "list", keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, ...) {
-  if(!length(args)) return("list()")
+  if (!length(args)) return("list()")
   if (!language) args <- lapply(args, construct_raw, ...)
   args <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
   args <- unlist(args)
