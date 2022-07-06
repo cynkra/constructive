@@ -48,6 +48,12 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
   attrs[ignore] <- NULL
   # names are already provided by construct_idiomatic except if they're ""
   if(is.null(attrs$names) || !all(attrs$names == "")) attrs$names <- NULL
+  # The `noquote` class is added at the end of the class vector so method `.noquote`
+  # wouldn't be triggered
+  if (inherits(x, "noquote")) {
+    attrs$class <- setdiff(attrs$class, "noquote")
+    code <- wrap(code, "noquote", new_line = FALSE)
+  }
   if (identical(attrs$class, idiomatic_class)) {
     attrs$class <- NULL
   } else if(is.null(attrs$class)) {
