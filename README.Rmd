@@ -45,6 +45,9 @@ library(dplyr, warn = F)
 grouped_band_members <- group_by(band_members, band)
 construct(grouped_band_members)
 
+# And we can implement alternative constructors
+construct(grouped_band_members, tribble = TRUE)
+
 # the data arg can be a package name too
 construct(grouped_band_members, data = "dplyr")
 
@@ -67,14 +70,18 @@ e <- new.env()
 e$x <- 1
 e$y <- 2
 construct(e)
+
+# We can construct some functions faithfully, using `rlang::new_function()`
+construct(group_by)
 ```
 
 # How it works
 
-{constructive} has a single exported function `construct()` built around a `construct_raw()`, the main
+{constructive} has a main exported function `construct()` built around a `construct_raw()`, the main
 unexported function, and adding some checks and pretty printing using {styler}.
 
 `construct_raw` is called recursively through list-like objects and is made of 3 steps :
+
 * Check if we already have the object in store in our `data` arg, if so display its name rather than the code to rebuild it
 * If the object cannot be found in `data` build it idiomatically by calling the `construct_idiomatic()`
  generic
@@ -83,3 +90,51 @@ has the same class and other attributes as the source object
  
 To extend the package to a new object we only need to add a method for `construct_idiomatic()`
 and for `repair_attributes()`.
+
+# Use cases 
+
+* create reproducible examples
+* compact snapshot tests that contain all the information
+* debugging (avoiding the caveats of the default printing, where 2 objects might print the same but not be the same)
+* Understand object structure better than when using `dput` or `str`, even if
+  {constructive} doesn't feature a specific constructor for the class.
+
+```{r}
+x <- table(c(1, 1, 1, 4))
+
+x
+
+construct(x)
+
+# compare with `str`, a generic which doesn't display everything:
+str(x)
+
+# and `dput()` which is often confusing, and sometimes uses different attribute names
+dput(x)
+
+# we can use `max_atomic` to hide all atomic vectors and see only the skeleton:
+construct(table(c(1,1,1,4)), max_atomic = 0)
+
+construct(iris, max_atomic = 2)
+```
+
+## construct_diff
+
+An alternative to `waldo::compare()` (looks better in the IDE without `interactive = FALSE`) 
+
+```{r}
+# The args max_atomic, max_boy and env_as_list can be used to reduce output,
+# here we want to see what adding geom_point() does to a ggplot
+library(ggplot2)
+construct_diff(
+  # max_atomic limits number of displayed elements for atomic vectors
+  max_atomic = 4, 
+  # if env_as_list is FALSE instead of defining unnamed envs as 
+  # `as.environment(list(elt = ...))` we simply use `new.env()`
+  env_as_list = FALSE, 
+  interactive = FALSE,
+  ggplot(cars, aes(speed, dist)),
+  ggplot(cars, aes(speed, dist)) + geom_point()
+)
+```
+
