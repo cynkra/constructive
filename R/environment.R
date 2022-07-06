@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.environment <- function(x, ...) {
+construct_idiomatic.environment <- function(x, env_as_list = TRUE, ...) {
   # this is not very robust but might help in some useful special cases
 
   # The name of `asNamespace("pkg")` is always "pkg" and print as `<environment: namespace:pkg>`
@@ -16,7 +16,11 @@ construct_idiomatic.environment <- function(x, ...) {
   if (name == "base") return(".BaseNamespaceEnv")
   if (name %in% row.names(installed.packages())) return(sprintf('asNamespace("%s")', name))
   if (name %in% search()) return(sprintf('as.environment("%s")', name))
-  wrap(construct_apply(as.list(x)), "as.environment", new_line = FALSE)
+  if (env_as_list) {
+    wrap(construct_apply(as.list(x), ...), "as.environment", new_line = FALSE)
+  } else {
+    "new.env()"
+  }
 }
 
 #' @export
