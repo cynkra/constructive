@@ -25,11 +25,12 @@ construct_idiomatic.data.frame <- function(x, read.table = FALSE, ...) {
 }
 
 #' @export
-repair_attributes.data.frame <- function(x, code, pipe = "base") {
+repair_attributes.data.frame <- function(x, code, pipe = "base", ...) {
   repair_attributes_impl(
     x, code, pipe,
     ignore = "row.names",
-    idiomatic_class = c("data.frame")
+    idiomatic_class = c("data.frame"),
+    ...
   )
 }
 
