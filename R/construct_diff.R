@@ -1,0 +1,70 @@
+#' Display diff of object definitions
+#'
+#' @inheritParams construct
+#' @inheritParams diffobj::diffChr
+#' @param mode passed to `diffobj::diffChr()`, with a different default
+#' @param ... additional parameters passed to `diffobj::diffChr()`
+#'
+#' @return Returns `NULL` invisibly, called for side effects
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # some object print the same though they're differemt
+#' # `construct_diff()` shows how they differ :
+#' df1 <- data.frame(a=1, b = "x")
+#' df2 <- data.frame(a=1L, b = "x", stringsAsFactors = TRUE)
+#' attr(df2, "some_attribute") <- "a value"
+#' df1
+#' df2
+#' construct_diff(df1, df2)
+#'
+#'
+#' # Those are made easy to compare
+#' construct_diff(substr, substring)
+#' construct_diff(month.abb, month.name)
+#'
+#' # more examples borrowed from {waldo} package
+#' construct_diff(c("a", "b", "c"), c("a", "B", "c"))
+#' construct_diff(c("X", letters), c(letters, "X"))
+#' construct_diff(list(factor("x")), list(1L))
+#' construct_diff(df1, df2)
+#' x <- list(a = list(b = list(c = list(structure(1, e = 1)))))
+#' y <- list(a = list(b = list(c = list(structure(1, e = "a")))))
+#' construct_diff(x, y)
+#' }
+construct_diff <- function(
+    target, current, data = NULL, pipe = c("base", "magrittr"), check = TRUE, max_atomic = NULL, max_body = NULL, env_as_list = TRUE, ignore_srcref = TRUE,
+    mode = c("sidebyside", "auto", "unified", "context"), ...) {
+  mode <- match.arg(mode)
+  tar.banner <- format_call_for_diffobj_banner(substitute(target), ...)
+  cur.banner <- format_call_for_diffobj_banner(substitute(current), ...)
+  if (identical(target, current)) {
+    rlang::inform("No difference to show!")
+    return(invisible(NULL))
+  }
+  target_code <- construct(
+    target, data, pipe = pipe, check = check, max_atomic = max_atomic,
+    max_body = max_body, env_as_list = env_as_list, ignore_srcref = ignore_srcref)
+  current_code <- construct(
+    current, data, pipe = pipe, check = check, max_atomic = max_atomic,
+    max_body = max_body, env_as_list = env_as_list, ignore_srcref = ignore_srcref)
+  f <- tempfile(fileext = ".html")
+  diffobj::diffChr(
+    target_code,
+    current_code,
+    mode = mode,
+    tar.banner = tar.banner,
+    cur.banner = cur.banner,
+    pager=list(file.path=f),
+    ...)
+}
+
+format_call_for_diffobj_banner <- function(call, interactive = TRUE, ...) {
+  deparsed <- rlang::expr_deparse(call)
+  styled <- styler::style_text(deparsed)
+  if (!interactive) return(paste(styled, collapse = " "))
+  multiline <- paste(styled, collapse = "<BR>")
+  idented <- gsub(" ", "&#x00A0;", multiline)
+  idented
+}
