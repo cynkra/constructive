@@ -31,10 +31,9 @@ preprocess_data <- function(data) {
   data
 }
 
-try_construct <- function(x, data, ...) {
+try_construct <- function(...) {
   caller <- caller_env()
-
-  rlang::try_fetch(construct_raw(x, data = data, ...), error = function(e) {
+  rlang::try_fetch(construct_raw(...), error = function(e) {
     abort("{constructive} could not build the requested code.", parent = e, call = caller)
   })
 }
