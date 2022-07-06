@@ -8,6 +8,10 @@
 #' @param pipe Which pipe to use, either "base" or "magrittr"
 #' @param check should we try to eval the result and check if it is identical to
 #'   `data`
+#' @param max_atomic maximum number of elements of atomic vectors to print, forces check to `FALSE`
+#' @param max_body maximum number of calls to show from a function's body, forces check to `FALSE`
+#' @param env_as_list translate environments to `new.env()` rather than `as.environment(list(...))`
+#' @param ignore_srcref whether to ignore all srcref attributes in the check
 #' @param ... Additional parameters passed to `construct_impl()` generic and methods.
 #'
 #' @export
