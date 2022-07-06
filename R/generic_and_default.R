@@ -1,6 +1,6 @@
 construct_raw <- function(x, data = NULL, ...) {
   idiomatic_code <- data_match(x, data) %||% construct_idiomatic(x, data = data, ...)
-  repaired_code <- repair_attributes(x, idiomatic_code, ...)
+  repaired_code <- repair_attributes(x, idiomatic_code, data = data, ...)
   repaired_code
 }
 
