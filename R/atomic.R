@@ -4,10 +4,11 @@ construct_idiomatic.Date <- function(x, ...) {
 }
 
 #' @export
-repair_attributes.Date <- function(x, code, pipe = "base") {
+repair_attributes.Date <- function(x, code, pipe = "base", ...) {
   repair_attributes_impl(
     x, code, pipe,
-    idiomatic_class = "Date"
+    idiomatic_class = "Date",
+    ...
   )
 }
 
