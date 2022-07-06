@@ -24,11 +24,12 @@ construct_idiomatic.factor <- function(x, ...) {
 }
 
 #' @export
-repair_attributes.factor <- function(x, code, pipe = "base") {
+repair_attributes.factor <- function(x, code, pipe = "base", ...) {
   repair_attributes_impl(
     x, code, pipe,
     ignore = "levels",
-    idiomatic_class = "factor"
+    idiomatic_class = "factor",
+    ...
   )
 }
 
