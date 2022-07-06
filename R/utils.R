@@ -8,7 +8,7 @@ wrap <- function(x, fun, new_line = FALSE) {
 
 # "c(1,2)" to "foo = c(1,2),"
 name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
-  if(nm != "" && (!implicit_names || !identical(nm, x))) {
+  if (nm != "" && (!implicit_names || !identical(nm, x))) {
     x[1] <- paste(protect(nm), "=", x[1])
   }
   x[length(x)] <- paste0(x[length(x)], ",")

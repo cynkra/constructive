@@ -2,7 +2,7 @@
 construct_idiomatic.data.frame <- function(x, read.table = FALSE, ...) {
   df_has_list_cols <- any(sapply(x, is.list))
   # FIXME: not safe re attributes
-  if(df_has_list_cols) {
+  if (df_has_list_cols) {
     tibble_code <- construct_apply(x, fun = "tibble::tibble", keep_trailing_comma = FALSE, read.table = read.table, ...)
     df_code <- wrap(tibble_code, "as.data.frame", new_line = FALSE)
     return(df_code)

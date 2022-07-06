@@ -10,7 +10,7 @@ construct_idiomatic.environment <- function(x, env_as_list = TRUE, ...) {
   # This means `asNamespace("base")` (a.k.a. `.BaseNamespaceEnv`) and
   #   `as.environment("package:base")` (a.k.a. `baseenv()`) have the same name
   #   but are different. So we implement a workaround.
-  if(identical(x, baseenv())) return('baseenv()')
+  if (identical(x, baseenv())) return('baseenv()')
   name <- environmentName(x)
   if (name == "R_GlobalEnv") return(".GlobalEnv")
   if (name == "base") return(".BaseNamespaceEnv")

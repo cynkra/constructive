@@ -63,7 +63,7 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
   attrs <- attributes(x)
   attrs[ignore] <- NULL
   # names are already provided by construct_idiomatic except if they're ""
-  if(is.null(attrs$names) || !all(attrs$names == "")) attrs$names <- NULL
+  if (is.null(attrs$names) || !all(attrs$names == "")) attrs$names <- NULL
   # The `noquote` class is added at the end of the class vector so method `.noquote`
   # wouldn't be triggered
   if (inherits(x, "noquote")) {
@@ -72,11 +72,11 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
   }
   if (identical(attrs$class, idiomatic_class)) {
     attrs$class <- NULL
-  } else if(is.null(attrs$class)) {
+  } else if (is.null(attrs$class)) {
     # to be able to remove the idiomatic class explicitly, mainly (only ?) useful for classless formulas
     attrs["class"] <- list(NULL)
   }
-  if(length(remove)) attrs <- c(attrs, setNames(replicate(length(remove), NULL), remove))
+  if (length(remove)) attrs <- c(attrs, setNames(replicate(length(remove), NULL), remove))
   if (!length(attrs)) return(code)
   # append structure() code to repair object
   attrs_code <- construct_apply(attrs, fun = "structure", pipe = pipe, ...)
@@ -90,7 +90,7 @@ construct_apply <- function(args, fun = "list", keep_trailing_comma = FALSE, lan
   args <- unlist(args)
   # if line is short enough stick all in one line
   # FIXME : chunk unnamed lists of single line items by lines of 80 chars ?
-  if(sum(nchar(args)) < 80 && all(endsWith(args, ","))) {
+  if (sum(nchar(args)) < 80 && all(endsWith(args, ","))) {
     args <- paste(args, collapse = " ")
     new_line <- FALSE
     keep_trailing_comma <- FALSE

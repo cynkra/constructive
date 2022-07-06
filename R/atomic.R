@@ -20,7 +20,6 @@ construct_idiomatic.factor <- function(x, ...) {
     } else {
       construct_apply(list(levs[x], levels = levs), "factor", ...)
     }
-
 }
 
 #' @export

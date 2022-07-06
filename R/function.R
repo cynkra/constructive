@@ -4,7 +4,7 @@ construct_idiomatic.function <- function(x, pipe, max_body = NULL, ...) {
 
   if (!is.null(max_body)) {
     body_lng <- x_lst[[length(x_lst)]]
-    if(length(body_lng) > max_body + 1) {
+    if (length(body_lng) > max_body + 1) {
       x_lst[[length(x_lst)]] <- as.call(c(head(as.list(body_lng), max_body + 1), quote(...)))
     }
   }
