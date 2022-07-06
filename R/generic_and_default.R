@@ -22,11 +22,26 @@ construct_idiomatic <- function(x, ...) {
   UseMethod("construct_idiomatic")
 }
 
+# the default case handles all atomic modes through dput
+# ("logical", "integer", "numeric", "complex", "character" and "raw")
+# FIXME: dput loses precision, so we might implement our own construct_idiomatic.numeric
 #' @export
-construct_idiomatic.default <- function(x, ...) {
-  if (is.list(x))  return(construct_idiomatic.list(x, ...))
-  if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, code, pipe, ...))
-  if (is.language(x))  return(construct_idiomatic.language(x, ...))
+construct_idiomatic.default <- function(x, max_atomic = NULL, ...) {
+  if (is.environment(x)) return(construct_idiomatic.environment(x, max_atomic = max_atomic, ...))
+  if (is.list(x))  return(construct_idiomatic.list(x, max_atomic = max_atomic, ...))
+  if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, max_atomic = max_atomic, ...))
+  if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, max_atomic = max_atomic, ...))
+  # FIXME : rather use a max_atomic param and use ellipsis, for max_atomic = 2 : c("foo", "bar", ...)
+  # it will parse and non ambiguous unless in a function's body, or c("foo", "bar", `*`)
+  attributes(x) <- NULL
+  if (!is.null(max_atomic)) {
+    if (max_atomic == 0) return("`*`")
+    l <- length(x)
+    if (l <= max_atomic) return(capture.output(dput(x)))
+    code <- capture.output(dput(head(x, max_atomic)))
+    code[[length(code)]] <- sub(")$", ", ...)", code[[length(code)]])
+    return(code)
+  }
   attributes(x) <- NULL
   capture.output(dput(x))
 }
@@ -37,8 +52,9 @@ repair_attributes <- function(x, code, pipe = "base", ...) {
 
 #' @export
 repair_attributes.default <- function(x, code, pipe = "base", ...) {
+  if (is.environment(x)) return(repair_attributes.environment(x, code, pipe, ...))
   if (rlang::is_formula(x))  return(repair_attributes.formula(x, code, pipe, ...))
-  if (is.language(x))  return(repair_attributes.language(x, code, pipe, ...))
+  if (is.language(x) && !is.expression(x))  return(repair_attributes.language(x, code, pipe, ...))
   repair_attributes_impl(x, code, pipe, ...)
 }
 
