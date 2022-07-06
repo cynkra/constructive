@@ -18,7 +18,7 @@ construct_idiomatic.function <- function(x, pipe, max_body = NULL, ...) {
   srcrefed <- startsWith(body0[[1]], "{")
   args <- construct_apply(args0, "alist", language = TRUE, pipe = pipe, max_body = max_body, ...)
   body <- construct_apply(list(body0), "quote", language = TRUE, pipe = pipe, max_body = max_body, ...)
-  env <- construct_raw(environment(x), pipe = pipe, max_body = max_body, env_as_list = FALSE, ...)
+  env <- construct_raw(environment(x), pipe = pipe, max_body = max_body, ...)
   code <- construct_apply(list(args, body, env), "rlang::new_function", language = TRUE, ...)
   if (srcrefed) pipe(code, "rlang::zap_srcref()", pipe) else code
 }
