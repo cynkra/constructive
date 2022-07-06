@@ -128,16 +128,20 @@ construct(e)
 #> as.environment(list(x = 1, y = 2))
 #> Error in `construct()`:
 #> ! {constructive} couldn't create code that reproduces perfectly the output
-#> `original` is <env:0x157fcb990>
-#> `recreated` is <env:0x121ab5828>
+#> `original` is <env:0x1232d34e0>
+#> `recreated` is <env:0x123920700>
 #> ℹ use `check = FALSE` to ignore this error
 
 # We can construct some functions faithfully, using `rlang::new_function()`
 construct(group_by)
-#> Error in `construct()`:
-#> ! {constructive} could not build the requested code.
-#> Caused by error in `construct_idiomatic.environment()`:
-#> ! formal argument "env_as_list" matched by multiple actual arguments
+#> rlang::new_function(
+#>   alist(.data = , ... = , .add = FALSE, .drop = group_by_drop_default(.data)),
+#>   quote({
+#>     UseMethod("group_by")
+#>   }),
+#>   asNamespace("dplyr")
+#> ) |>
+#>   rlang::zap_srcref()
 ```
 
 # How it works
@@ -231,7 +235,7 @@ construct_diff(
   # max_atomic limits number of displayed elements for atomic vectors
   max_atomic = 4, 
   # if env_as_list is FALSE instead of defining unnamed envs as 
-  # `as.environment(as.list(elt = ...))` we simply use `new.env()`
+  # `as.environment(list(elt = ...))` we simply use `new.env()`
   env_as_list = FALSE, 
   interactive = FALSE,
   ggplot(cars, aes(speed, dist)),
