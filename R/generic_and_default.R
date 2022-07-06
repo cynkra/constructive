@@ -45,8 +45,9 @@ repair_attributes.default <- function(x, code, pipe = "base", ...) {
 repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, ...) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
-  attrs$names <- NULL # names are already provided by construct_idiomatic
   attrs[ignore] <- NULL
+  # names are already provided by construct_idiomatic except if they're ""
+  if(is.null(attrs$names) || !all(attrs$names == "")) attrs$names <- NULL
   if (identical(attrs$class, idiomatic_class)) {
     attrs$class <- NULL
   } else if(is.null(attrs$class)) {
