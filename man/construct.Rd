@@ -4,7 +4,17 @@
 \alias{construct}
 \title{Build code to recreate an object}
 \usage{
-construct(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE, ...)
+construct(
+  x,
+  data = NULL,
+  pipe = c("base", "magrittr"),
+  check = TRUE,
+  max_atomic = NULL,
+  max_body = NULL,
+  env_as_list = TRUE,
+  ignore_srcref = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{An object}
@@ -15,6 +25,14 @@ construct(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE, ...)
 
 \item{check}{should we try to eval the result and check if it is identical to
 \code{data}}
+
+\item{max_atomic}{maximum number of elements of atomic vectors to print, forces check to \code{FALSE}}
+
+\item{max_body}{maximum number of calls to show from a function's body, forces check to \code{FALSE}}
+
+\item{env_as_list}{translate environments to \code{new.env()} rather than \code{as.environment(list(...))}}
+
+\item{ignore_srcref}{whether to ignore all srcref attributes in the check}
 
 \item{...}{Additional parameters passed to \code{construct_impl()} generic and methods.}
 }

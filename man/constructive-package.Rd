@@ -6,7 +6,15 @@
 \alias{constructive-package}
 \title{constructive: Display Idiomatic Code to Construct Most R Objects}
 \description{
-Display idiomatic code to construct most R objects
+Display idiomatic code to construct most R objects.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/cynkra/constructive}
+  \item Report bugs at \url{https://github.com/cynkra/constructive/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Antoine Fabri \email{antoine.fabri@gmail.com}

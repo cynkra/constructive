@@ -61,6 +61,16 @@ construct(grouped_band_members)
 #> tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
 #>   dplyr::group_by(band)
 
+# And we can implement alternative constructors
+construct(grouped_band_members, tribble = TRUE)
+#> tibble::tribble(
+#>   ~name,  ~band,
+#>   "Mick", "Stones",
+#>   "John", "Beatles",
+#>   "Paul", "Beatles",
+#> ) |>
+#>   dplyr::group_by(band)
+
 # the data arg can be a package name too
 construct(grouped_band_members, data = "dplyr")
 #> band_members |>
@@ -72,14 +82,7 @@ construct(dm(cars = head(cars)))
 #> dm::dm(cars = data.frame(speed = c(4, 4, 7, 7, 8, 9), dist = c(2, 10, 4, 22, 16, 10)))
 
 construct(dm_pixarfilms(), data = "pixarfilms")
-#> dm::dm(
-#>   pixar_films = pixar_films,
-#>   pixar_people = pixar_people,
-#>   academy = academy,
-#>   box_office = box_office,
-#>   genres = genres,
-#>   public_response = public_response,
-#> ) |>
+#> dm::dm(pixar_films, pixar_people, academy, box_office, genres, public_response) |>
 #>   dm::dm_add_pk(pixar_films, "film") |>
 #>   dm::dm_add_pk(academy, c("film", "award_type")) |>
 #>   dm::dm_add_pk(box_office, "film") |>
@@ -113,12 +116,7 @@ construct(as.environment(search()[2]))
 construct(as.environment(search()[12]))
 #> as.environment("Autoloads")
 construct(as.environment(search()[13]))
-#> .BaseNamespaceEnv
-#> Error in `construct()`:
-#> ! {constructive} couldn't create code that reproduces perfectly the output
-#> `original` is <env:package:base>
-#> `recreated` is <env:namespace:base>
-#> ℹ use `check = FALSE` to ignore this error
+#> baseenv()
 construct(environment(group_by))
 #> asNamespace("dplyr")
 
@@ -130,24 +128,127 @@ construct(e)
 #> as.environment(list(x = 1, y = 2))
 #> Error in `construct()`:
 #> ! {constructive} couldn't create code that reproduces perfectly the output
-#> `original` is <env:0x1389c0a80>
-#> `recreated` is <env:0x11f33a0a8>
+#> `original` is <env:0x157fcb990>
+#> `recreated` is <env:0x121ab5828>
 #> ℹ use `check = FALSE` to ignore this error
+
+# We can construct some functions faithfully, using `rlang::new_function()`
+construct(group_by)
+#> Error in `construct()`:
+#> ! {constructive} could not build the requested code.
+#> Caused by error in `construct_idiomatic.environment()`:
+#> ! formal argument "env_as_list" matched by multiple actual arguments
 ```
 
 # How it works
 
-{constructive} has a single exported function `construct()` built around
-a `construct_raw()`, the main unexported function, and adding some
-checks and pretty printing using {styler}.
+{constructive} has a main exported function `construct()` built around a
+`construct_raw()`, the main unexported function, and adding some checks
+and pretty printing using {styler}.
 
 `construct_raw` is called recursively through list-like objects and is
-made of 3 steps : \* Check if we already have the object in store in our
-`data` arg, if so display its name rather than the code to rebuild it \*
-If the object cannot be found in `data` build it idiomatically by
-calling the `construct_idiomatic()` generic \* Then the
-`repair_attributes()` generic adapts the above to make sure created
-object has the same class and other attributes as the source object
+made of 3 steps :
+
+-   Check if we already have the object in store in our `data` arg, if
+    so display its name rather than the code to rebuild it
+-   If the object cannot be found in `data` build it idiomatically by
+    calling the `construct_idiomatic()` generic
+-   Then the `repair_attributes()` generic adapts the above to make sure
+    created object has the same class and other attributes as the source
+    object
 
 To extend the package to a new object we only need to add a method for
 `construct_idiomatic()` and for `repair_attributes()`.
+
+# Use cases
+
+-   create reproducible examples
+-   compact snapshot tests that contain all the information
+-   debugging (avoiding the caveats of the default printing, where 2
+    objects might print the same but not be the same)
+-   Understand object structure better than when using `dput` or `str`,
+    even if {constructive} doesn’t feature a specific constructor for
+    the class.
+
+``` r
+x <- table(c(1, 1, 1, 4))
+
+x
+#> 
+#> 1 4 
+#> 3 1
+
+construct(x)
+#> c(3L, 1L) |>
+#>   structure(
+#>     dim = 2L,
+#>     dimnames = list(c("1", "4")) |>
+#>       structure(names = ""),
+#>     class = "table"
+#>   )
+
+# compare with `str`, a generic which doesn't display everything:
+str(x)
+#>  'table' int [1:2(1d)] 3 1
+#>  - attr(*, "dimnames")=List of 1
+#>   ..$ : chr [1:2] "1" "4"
+
+# and `dput()` which is often confusing, and sometimes uses different attribute names
+dput(x)
+#> structure(c(`1` = 3L, `4` = 1L), .Dim = 2L, .Dimnames = structure(list(
+#>     c("1", "4")), .Names = ""), class = "table")
+
+# we can use `max_atomic` to hide all atomic vectors and see only the skeleton:
+construct(table(c(1,1,1,4)), max_atomic = 0)
+#> `*` |>
+#>   structure(
+#>     dim = `*`,
+#>     dimnames = list(`*`) |>
+#>       structure(names = `*`),
+#>     class = `*`
+#>   )
+
+construct(iris, max_atomic = 2)
+#> data.frame(
+#>   Sepal.Length = c(5.1, 4.9, ...),
+#>   Sepal.Width = c(3.5, 3, ...),
+#>   Petal.Length = c(1.4, 1.4, ...),
+#>   Petal.Width = c(0.2, 0.2, ...),
+#>   Species = factor(c("setosa", "setosa", ...))
+#> )
+```
+
+## construct_diff
+
+An alternative to `waldo::compare()` (looks better in the IDE without
+`interactive = FALSE`)
+
+``` r
+# The args max_atomic, max_boy and env_as_list can be used to reduce output,
+# here we want to see what adding geom_point() does to a ggplot
+library(ggplot2)
+construct_diff(
+  # max_atomic limits number of displayed elements for atomic vectors
+  max_atomic = 4, 
+  # if env_as_list is FALSE instead of defining unnamed envs as 
+  # `as.environment(as.list(elt = ...))` we simply use `new.env()`
+  env_as_list = FALSE, 
+  interactive = FALSE,
+  ggplot(cars, aes(speed, dist)),
+  ggplot(cars, aes(speed, dist)) + geom_point()
+)
+#> < ggplot(cars, aes(speed, dist))         > ggplot(cars, aes(speed, dist)) +   ..
+#> @@ 1,5 @@                                @@ 1,8 @@                              
+#>   list(                                    list(                                
+#>     data = data.frame(speed = c(4, 4, 7      data = data.frame(speed = c(4, 4, 7
+#>   , 7, ...), dist = c(2, 10, 4, 22, ...    , 7, ...), dist = c(2, 10, 4, 22, ...
+#>   )),                                      )),                                  
+#> <   layers = list(),                     >   layers = list(                     
+#> ~                                        >     new.env() |>                     
+#> ~                                        >       structure(class = c("LayerInsta
+#> ~                                        : nce", "Layer", "ggproto", "gg"))     
+#> ~                                        >   ),                                 
+#>     scales = new.env() |>                    scales = new.env() |>              
+#>       structure(class = c("ScalesList",        structure(class = c("ScalesList",
+#>    "ggproto", "gg")),                       "ggproto", "gg")),
+```
