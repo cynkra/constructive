@@ -17,7 +17,9 @@ construct_idiomatic.environment <- function(x, env_as_list = TRUE, ...) {
   if (name %in% row.names(installed.packages())) return(sprintf('asNamespace("%s")', name))
   if (name %in% search()) return(sprintf('as.environment("%s")', name))
   if (env_as_list) {
-    wrap(construct_apply(as.list(x), ...), "as.environment", new_line = FALSE)
+    # We need to use as.list.environment directly because as.list will only map
+    # to "as.list.environment" if class was not overriden
+    wrap(construct_apply(as.list.environment(x), env_as_list = env_as_list, ...), "as.environment", new_line = FALSE)
   } else {
     "new.env()"
   }
