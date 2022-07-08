@@ -72,6 +72,7 @@ try_eval <- function(styled_code, data) {
 check_round_trip <- function(x, evaled, styled_code, ignore_srcref) {
   caller <- caller_env()
   if (ignore_srcref) {
+    if(identical(x, quote(expr=)) && missing(evaled)) return(invisible(NULL))
     x <- rlang::zap_srcref(x)
     evaled <- rlang::zap_srcref(evaled)
   }
