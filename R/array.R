@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.array <- function(x, pipe, ...) {
+construct_idiomatic.array <- function(x, ...) {
   dim <- attr(x, "dim")
   dimnames <- attr(x, "dimnames")
   dim_names_lst <- if (!is.null(dimnames)) list(dimnames = dimnames)
@@ -8,7 +8,8 @@ construct_idiomatic.array <- function(x, pipe, ...) {
   construct_apply(
     c(list(x, dim = dim), dim_names_lst),
     "array",
-    new_line = FALSE
+    new_line = TRUE,
+    ...
   )
 }
 
