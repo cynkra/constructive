@@ -5,7 +5,7 @@ construct_idiomatic.AsIs <- function(x, ...) {
 }
 
 #' @export
-repair_attributes.AsIs <- function(x, code, pipe ="base", ...) {
+repair_attributes.AsIs <- function(x, code, ...) {
   # no reparation needed, this will be dealt with in `I()`'s arg
   code
 }
