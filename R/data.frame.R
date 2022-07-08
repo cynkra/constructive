@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.data.frame <- function(x, read.table = FALSE, ...) {
+construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = FALSE, ...) {
   df_has_list_cols <- any(sapply(x, is.list))
   # FIXME: not safe re attributes
   if (df_has_list_cols) {
