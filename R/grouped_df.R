@@ -6,6 +6,7 @@ repair_attributes.grouped_df <- function(x, code, pipe = "base", ...) {
     grps,
     "dplyr::group_by",
     language = TRUE,
+    pipe = pipe,
     ...
   )
   code <- pipe(
@@ -16,6 +17,7 @@ repair_attributes.grouped_df <- function(x, code, pipe = "base", ...) {
   repair_attributes_impl(
     x, code, pipe,
     ignore = c("row.names", "groups"),
-    idiomatic_class = c("grouped_df", "tbl_df", "tbl", "data.frame")
+    idiomatic_class = c("grouped_df", "tbl_df", "tbl", "data.frame"),
+    ...
   )
 }
