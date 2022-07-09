@@ -1,5 +1,6 @@
 #' @export
 construct_idiomatic.language <- function(x, ...) {
+  if (identical(x, quote(expr=))) return("quote(expr=)")
   wrap(rlang::expr_deparse(x), "quote", new_line = FALSE)
 }
 
