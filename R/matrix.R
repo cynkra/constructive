@@ -10,7 +10,8 @@ construct_idiomatic.matrix <- function(x, pipe, ...) {
     "matrix",
     new_line = TRUE,
     pipe = pipe,
-    ...)
+    ...
+  )
 }
 
 #' @export
