@@ -26,7 +26,7 @@ construct_idiomatic.double <- function(x, ...) {
     format(x, digits = 22)
   }
   if (length(x) == 0) return("numeric(0)")
-  if (length(x) == 1) return(format_flex(x))
+  if (length(x) == 1 && is.null(names(x))) return(format_flex(x))
   construct_apply(vapply(x, format_flex, character(1)), "c", new_line = FALSE, language = TRUE)
 }
 
