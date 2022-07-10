@@ -86,20 +86,29 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
 construct_apply <- function(args, fun = "list", keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, ...) {
   if (!length(args)) return("list()")
   if (!language) args <- lapply(args, construct_raw, ...)
-  args <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
-  args <- unlist(args)
+  args_chr <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
+  args_chr <- unlist(args_chr)
   # if line is short enough stick all in one line
   # FIXME : chunk unnamed lists of single line items by lines of 80 chars ?
-  if (sum(nchar(args)) < 80 && all(endsWith(args, ","))) {
-    args <- paste(args, collapse = " ")
+  nchrs <- nchar(args_chr)
+  if (sum(nchrs) < 80 && all(endsWith(args_chr, ","))) {
+    args_chr <- paste(args_chr, collapse = " ")
     new_line <- FALSE
     keep_trailing_comma <- FALSE
+  } else if (all(rlang::names2(args) == "") && all(endsWith(args_chr, ","))) {
+    lines <- character()
+    while(length(args_chr)) {
+      ind <- union(1, which(cumsum(nchar(args_chr) + 1) < 80))
+      lines[[length(lines) + 1]] <- paste(args_chr[ind], collapse = " ")
+      args_chr <- args_chr[-ind]
+    }
+    args_chr <- lines
   }
   if (!keep_trailing_comma) {
-    args[[length(args)]] <- sub(",$", "", args[[length(args)]])
+    args_chr[[length(args_chr)]] <- sub(",$", "", args_chr[[length(args_chr)]])
   }
 
-  wrap(args, fun, new_line)
+  wrap(args_chr, fun, new_line)
 }
 
 
