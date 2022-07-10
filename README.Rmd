@@ -4,6 +4,8 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+`r lifecycle::badge("experimental")`
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -13,114 +15,80 @@ knitr::opts_chunk$set(
 )
 ```
 
-# constructive
+# constructive 
 
-<!-- badges: start -->
-<!-- badges: end -->
+{constructive} prints code that can be used to recreate R objects. In a sense it
+is similar to `base::dput()` but {constructive} strives to use "natural" constructors
+(`factor` for factors, `as.Date()` for dates, `data.frame()` for data frames etc),
+in order to get output readable by humans.
 
-`dput()` but better
+Some use cases : 
+
+* snapshot test
+* Exploring objects (alternative to `dput()` or `str()`)
+* Creating reproducible examples from existing data
+* Comparing two objects (using `construct_diff()`)
+
+## Installation
+
+Install with:
+
+```
+remotes::install_github("cynkra/constructive")
+```
 
 ## Examples
+
+A few examples compared to their `dput()` output.
 
 ```{r, error = TRUE}
 library(constructive)
 
-foo <- data.frame(
-  a = factor(month.abb),
-  b = as.Date(sprintf("2022-%s-01", 1:12))
-)
+construct(head(iris, 2))
+dput(head(iris, 2))
 
-dput(foo)
+construct(.leap.seconds)
+dput(.leap.seconds)
 
-construct(foo)
-
-# we don't have to deparse everything
-construct(foo, data = list(month.abb = month.abb)) # or dplyr::lst(month.abb)
-
-# we'll often use `dplyr::lst` and we can even use some complex expressions there
-construct(list(c("a", "b", "c"), c("d", "e", "f")), data = dplyr::lst(head(letters, 3)))
-
-# we can handle some complex attributes
 library(dplyr, warn = F)
 grouped_band_members <- group_by(band_members, band)
+dput(grouped_band_members)
 construct(grouped_band_members)
-
-# And we can implement alternative constructors
-construct(grouped_band_members, tribble = TRUE)
-
-# the data arg can be a package name too
-construct(grouped_band_members, data = "dplyr")
-
-# dms are supported too
-library(dm, warn = F)
-construct(dm(cars = head(cars)))
-
-construct(dm_pixarfilms(), data = "pixarfilms")
-
-# environments are not always possible to reproduce but we support some common cases
-search()
-construct(as.environment(search()[1]))
-construct(as.environment(search()[2]))
-construct(as.environment(search()[12]))
-construct(as.environment(search()[13]))
-construct(environment(group_by))
-
-# and if not possible, we try something that might sometimes be enough
-e <- new.env()
-e$x <- 1
-e$y <- 2
-construct(e)
-
-# We can construct some functions faithfully, using `rlang::new_function()`
-construct(group_by)
 ```
 
-# How it works
-
-{constructive} has a main exported function `construct()` built around a `construct_raw()`, the main
-unexported function, and adding some checks and pretty printing using {styler}.
-
-`construct_raw` is called recursively through list-like objects and is made of 3 steps :
-
-* Check if we already have the object in store in our `data` arg, if so display its name rather than the code to rebuild it
-* If the object cannot be found in `data` build it idiomatically by calling the `construct_idiomatic()`
- generic
-* Then the `repair_attributes()` generic adapts the above to make sure created object
-has the same class and other attributes as the source object
- 
-To extend the package to a new object we only need to add a method for `construct_idiomatic()`
-and for `repair_attributes()`.
-
-# Use cases 
-
-* create reproducible examples
-* compact snapshot tests that contain all the information
-* debugging (avoiding the caveats of the default printing, where 2 objects might print the same but not be the same)
-* Understand object structure better than when using `dput` or `str`, even if
-  {constructive} doesn't feature a specific constructor for the class.
+We can provide to the `data`argument a list, environment, or package where to look
+for data so we don't print more than necessary, for example improving the previous example:
 
 ```{r}
-x <- table(c(1, 1, 1, 4))
-
-x
-
-construct(x)
-
-# compare with `str`, a generic which doesn't display everything:
-str(x)
-
-# and `dput()` which is often confusing, and sometimes uses different attribute names
-dput(x)
-
-# we can use `max_atomic` to hide all atomic vectors and see only the skeleton:
-construct(table(c(1,1,1,4)), max_atomic = 0)
-
-construct(iris, max_atomic = 2)
+construct(grouped_band_members, data = "dplyr")
 ```
+
+We can also trim the output and display onle `max_atomic` element at most in a vector :
+
+```{r}
+construct(list(iris = iris, cars = cars), max_atomic = 3)
+```
+If we use `max_atomic = 0` we build a prototype :
+
+```{r}
+construct(list(iris = iris, cars = cars), max_atomic = 0)
+```
+Some other options :
+
+```{r}
+construct(band_members, tribble = TRUE)
+construct(as.data.frame(band_members), read.table = TRUE)
+```
+## Limitations
+
+Environments are not always possible to reproduce but we support some common cases.
+Due to this several objects such as formulas, srcrefs, R6 objects, ggplot objects
+etc might not be reproducible exactly. If an approximation is enough you might
+set `check = FALSE`, `ignore_srcref = TRUE`, `env_as_list = FALSE`.
 
 ## construct_diff
 
-An alternative to `waldo::compare()` (looks better in the IDE without `interactive = FALSE`) 
+An alternative to `waldo::compare()` (looks best in the IDE without `interactive = FALSE`) 
 
 ```{r}
 # The args max_atomic, max_boy and env_as_list can be used to reduce output,

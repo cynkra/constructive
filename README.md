@@ -1,230 +1,154 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 # constructive
 
-<!-- badges: start -->
-<!-- badges: end -->
+{constructive} prints code that can be used to recreate R objects. In a
+sense it is similar to `base::dput()` but {constructive} strives to use
+“natural” constructors (`factor` for factors, `as.Date()` for dates,
+`data.frame()` for data frames etc), in order to get output readable by
+humans.
 
-`dput()` but better
+Some use cases :
+
+-   snapshot test
+-   Exploring objects (alternative to `dput()` or `str()`)
+-   Creating reproducible examples from existing data
+-   Comparing two objects (using `construct_diff()`)
+
+## Installation
+
+Install with:
+
+    remotes::install_github("cynkra/constructive")
 
 ## Examples
+
+A few examples compared to their `dput()` output.
 
 ``` r
 library(constructive)
 
-foo <- data.frame(
-  a = factor(month.abb),
-  b = as.Date(sprintf("2022-%s-01", 1:12))
-)
-
-dput(foo)
-#> structure(list(a = structure(c(5L, 4L, 8L, 1L, 9L, 7L, 6L, 2L, 
-#> 12L, 11L, 10L, 3L), .Label = c("Apr", "Aug", "Dec", "Feb", "Jan", 
-#> "Jul", "Jun", "Mar", "May", "Nov", "Oct", "Sep"), class = "factor"), 
-#>     b = structure(c(18993, 19024, 19052, 19083, 19113, 19144, 
-#>     19174, 19205, 19236, 19266, 19297, 19327), class = "Date")), class = "data.frame", row.names = c(NA, 
-#> -12L))
-
-construct(foo)
+construct(head(iris, 2))
 #> data.frame(
-#>   a = factor(c(
-#>     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-#>     "Oct", "Nov", "Dec"
-#>   )),
-#>   b = as.Date(c(
-#>     "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01",
-#>     "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01",
-#>     "2022-11-01", "2022-12-01"
-#>   ))
+#>   Sepal.Length = c(5.1, 4.9),
+#>   Sepal.Width = c(3.5, 3),
+#>   Petal.Length = c(1.4, 1.4),
+#>   Petal.Width = c(0.2, 0.2),
+#>   Species = factor(c("setosa", "setosa"), levels = c("setosa", "versicolor", "virginica"))
 #> )
+dput(head(iris, 2))
+#> structure(list(Sepal.Length = c(5.1, 4.9), Sepal.Width = c(3.5, 
+#> 3), Petal.Length = c(1.4, 1.4), Petal.Width = c(0.2, 0.2), Species = structure(c(1L, 
+#> 1L), .Label = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")
 
-# we don't have to deparse everything
-construct(foo, data = list(month.abb = month.abb)) # or dplyr::lst(month.abb)
-#> data.frame(
-#>   a = factor(month.abb),
-#>   b = as.Date(c(
-#>     "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01",
-#>     "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01",
-#>     "2022-11-01", "2022-12-01"
-#>   ))
+construct(.leap.seconds)
+#> as.POSIXct(
+#>   c(
+#>     "1972-07-01", "1973-01-01", "1974-01-01", "1975-01-01", "1976-01-01",
+#>     "1977-01-01", "1978-01-01", "1979-01-01", "1980-01-01", "1981-07-01",
+#>     "1982-07-01", "1983-07-01", "1985-07-01", "1988-01-01", "1990-01-01",
+#>     "1991-01-01", "1992-07-01", "1993-07-01", "1994-07-01", "1996-01-01",
+#>     "1997-07-01", "1999-01-01", "2006-01-01", "2009-01-01", "2012-07-01",
+#>     "2015-07-01", "2017-01-01"
+#>   ),
+#>   tz = "GMT"
 #> )
+dput(.leap.seconds)
+#> structure(c(78796800, 94694400, 126230400, 157766400, 189302400, 
+#> 220924800, 252460800, 283996800, 315532800, 362793600, 394329600, 
+#> 425865600, 489024000, 567993600, 631152000, 662688000, 709948800, 
+#> 741484800, 773020800, 820454400, 867715200, 915148800, 1136073600, 
+#> 1230768000, 1341100800, 1435708800, 1483228800), class = c("POSIXct", 
+#> "POSIXt"), tzone = "GMT")
 
-# we'll often use `dplyr::lst` and we can even use some complex expressions there
-construct(list(c("a", "b", "c"), c("d", "e", "f")), data = dplyr::lst(head(letters, 3)))
-#> list(head(letters, 3), c("d", "e", "f"))
-
-# we can handle some complex attributes
 library(dplyr, warn = F)
 grouped_band_members <- group_by(band_members, band)
+dput(grouped_band_members)
+#> structure(list(name = c("Mick", "John", "Paul"), band = c("Stones", 
+#> "Beatles", "Beatles")), class = c("grouped_df", "tbl_df", "tbl", 
+#> "data.frame"), row.names = c(NA, -3L), groups = structure(list(
+#>     band = c("Beatles", "Stones"), .rows = structure(list(2:3, 
+#>         1L), ptype = integer(0), class = c("vctrs_list_of", "vctrs_vctr", 
+#>     "list"))), class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, 
+#> -2L), .drop = TRUE))
 construct(grouped_band_members)
 #> tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
 #>   dplyr::group_by(band)
+```
 
-# And we can implement alternative constructors
-construct(grouped_band_members, tribble = TRUE)
+We can provide to the `data`argument a list, environment, or package
+where to look for data so we don’t print more than necessary, for
+example improving the previous example:
+
+``` r
+construct(grouped_band_members, data = "dplyr")
+#> band_members |>
+#>   dplyr::group_by(band)
+```
+
+We can also trim the output and display onle `max_atomic` element at
+most in a vector :
+
+``` r
+construct(list(iris = iris, cars = cars), max_atomic = 3)
+#> list(
+#>   iris = data.frame(
+#>     Sepal.Length = c(5.1, 4.9, 4.7, ...),
+#>     Sepal.Width = c(3.5, 3, 3.2, ...),
+#>     Petal.Length = c(1.4, 1.4, 1.3, ...),
+#>     Petal.Width = c(0.2, 0.2, 0.2, ...),
+#>     Species = factor(c("setosa", "setosa", "setosa", ...))
+#>   ),
+#>   cars = data.frame(speed = c(4, 4, 7, ...), dist = c(2, 10, 4, ...))
+#> )
+```
+
+If we use `max_atomic = 0` we build a prototype :
+
+``` r
+construct(list(iris = iris, cars = cars), max_atomic = 0)
+#> list(
+#>   iris = data.frame(
+#>     Sepal.Length = numeric(0),
+#>     Sepal.Width = numeric(0),
+#>     Petal.Length = numeric(0),
+#>     Petal.Width = numeric(0),
+#>     Species = factor(character(0))
+#>   ),
+#>   cars = data.frame(speed = numeric(0), dist = numeric(0))
+#> )
+```
+
+Some other options :
+
+``` r
+construct(band_members, tribble = TRUE)
 #> tibble::tribble(
 #>   ~name,  ~band,
 #>   "Mick", "Stones",
 #>   "John", "Beatles",
 #>   "Paul", "Beatles",
-#> ) |>
-#>   dplyr::group_by(band)
-
-# the data arg can be a package name too
-construct(grouped_band_members, data = "dplyr")
-#> band_members |>
-#>   dplyr::group_by(band)
-
-# dms are supported too
-library(dm, warn = F)
-construct(dm(cars = head(cars)))
-#> dm::dm(cars = data.frame(speed = c(4, 4, 7, 7, 8, 9), dist = c(2, 10, 4, 22, 16, 10)))
-
-construct(dm_pixarfilms(), data = "pixarfilms")
-#> dm::dm(pixar_films, pixar_people, academy, box_office, genres, public_response) |>
-#>   dm::dm_add_pk(pixar_films, "film") |>
-#>   dm::dm_add_pk(academy, c("film", "award_type")) |>
-#>   dm::dm_add_pk(box_office, "film") |>
-#>   dm::dm_add_pk(genres, c("film", "genre")) |>
-#>   dm::dm_add_pk(public_response, "film") |>
-#>   dm::dm_add_fk(pixar_people, "film", pixar_films, "film") |>
-#>   dm::dm_add_fk(academy, "film", pixar_films, "film") |>
-#>   dm::dm_add_fk(box_office, "film", pixar_films, "film") |>
-#>   dm::dm_add_fk(genres, "film", pixar_films, "film") |>
-#>   dm::dm_add_fk(public_response, "film", pixar_films, "film") |>
-#>   dm::dm_set_colors(
-#>     `#5B9BD5FF` = "pixar_films",
-#>     `#70AD47FF` = "pixar_people",
-#>     `#ED7D31FF` = "academy",
-#>     `#ED7D31FF` = "box_office",
-#>     `#ED7D31FF` = "genres",
-#>     `#ED7D31FF` = "public_response"
-#>   )
-
-# environments are not always possible to reproduce but we support some common cases
-search()
-#>  [1] ".GlobalEnv"           "package:dm"           "package:dplyr"       
-#>  [4] "package:constructive" "package:stats"        "package:graphics"    
-#>  [7] "package:grDevices"    "package:utils"        "package:datasets"    
-#> [10] "package:methods"      "dm_cache"             "Autoloads"           
-#> [13] "package:base"
-construct(as.environment(search()[1]))
-#> .GlobalEnv
-construct(as.environment(search()[2]))
-#> as.environment("package:dm")
-construct(as.environment(search()[12]))
-#> as.environment("Autoloads")
-construct(as.environment(search()[13]))
-#> baseenv()
-construct(environment(group_by))
-#> asNamespace("dplyr")
-
-# and if not possible, we try something that might sometimes be enough
-e <- new.env()
-e$x <- 1
-e$y <- 2
-construct(e)
-#> as.environment(list(x = 1, y = 2))
-#> Error in `construct()`:
-#> ! {constructive} couldn't create code that reproduces perfectly the output
-#> `original` is <env:0x1232d34e0>
-#> `recreated` is <env:0x123920700>
-#> ℹ use `check = FALSE` to ignore this error
-
-# We can construct some functions faithfully, using `rlang::new_function()`
-construct(group_by)
-#> rlang::new_function(
-#>   alist(.data = , ... = , .add = FALSE, .drop = group_by_drop_default(.data)),
-#>   quote({
-#>     UseMethod("group_by")
-#>   }),
-#>   asNamespace("dplyr")
-#> ) |>
-#>   rlang::zap_srcref()
-```
-
-# How it works
-
-{constructive} has a main exported function `construct()` built around a
-`construct_raw()`, the main unexported function, and adding some checks
-and pretty printing using {styler}.
-
-`construct_raw` is called recursively through list-like objects and is
-made of 3 steps :
-
--   Check if we already have the object in store in our `data` arg, if
-    so display its name rather than the code to rebuild it
--   If the object cannot be found in `data` build it idiomatically by
-    calling the `construct_idiomatic()` generic
--   Then the `repair_attributes()` generic adapts the above to make sure
-    created object has the same class and other attributes as the source
-    object
-
-To extend the package to a new object we only need to add a method for
-`construct_idiomatic()` and for `repair_attributes()`.
-
-# Use cases
-
--   create reproducible examples
--   compact snapshot tests that contain all the information
--   debugging (avoiding the caveats of the default printing, where 2
-    objects might print the same but not be the same)
--   Understand object structure better than when using `dput` or `str`,
-    even if {constructive} doesn’t feature a specific constructor for
-    the class.
-
-``` r
-x <- table(c(1, 1, 1, 4))
-
-x
-#> 
-#> 1 4 
-#> 3 1
-
-construct(x)
-#> c(3L, 1L) |>
-#>   structure(
-#>     dim = 2L,
-#>     dimnames = list(c("1", "4")) |>
-#>       structure(names = ""),
-#>     class = "table"
-#>   )
-
-# compare with `str`, a generic which doesn't display everything:
-str(x)
-#>  'table' int [1:2(1d)] 3 1
-#>  - attr(*, "dimnames")=List of 1
-#>   ..$ : chr [1:2] "1" "4"
-
-# and `dput()` which is often confusing, and sometimes uses different attribute names
-dput(x)
-#> structure(c(`1` = 3L, `4` = 1L), .Dim = 2L, .Dimnames = structure(list(
-#>     c("1", "4")), .Names = ""), class = "table")
-
-# we can use `max_atomic` to hide all atomic vectors and see only the skeleton:
-construct(table(c(1,1,1,4)), max_atomic = 0)
-#> `*` |>
-#>   structure(
-#>     dim = `*`,
-#>     dimnames = list(`*`) |>
-#>       structure(names = `*`),
-#>     class = `*`
-#>   )
-
-construct(iris, max_atomic = 2)
-#> data.frame(
-#>   Sepal.Length = c(5.1, 4.9, ...),
-#>   Sepal.Width = c(3.5, 3, ...),
-#>   Petal.Length = c(1.4, 1.4, ...),
-#>   Petal.Width = c(0.2, 0.2, ...),
-#>   Species = factor(c("setosa", "setosa", ...))
 #> )
+construct(as.data.frame(band_members), read.table = TRUE)
+#> read.table(header = TRUE, text = "
+#> name band
+#> Mick Stones
+#> John Beatles
+#> Paul Beatles
+#> ")
 ```
+
+## Limitations
+
+Environments are not always possible to reproduce but we support some
+common cases. Due to this several objects such as formulas, srcrefs, R6
+objects, ggplot objects etc might not be reproducible exactly. If an
+approximation is enough you might set `check = FALSE`,
+`ignore_srcref = TRUE`, `env_as_list = FALSE`.
 
 ## construct_diff
 
-An alternative to `waldo::compare()` (looks better in the IDE without
+An alternative to `waldo::compare()` (looks best in the IDE without
 `interactive = FALSE`)
 
 ``` r
