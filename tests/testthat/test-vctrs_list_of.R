@@ -1,0 +1,5 @@
+test_that("vctrs_list_of", {
+  expect_snapshot(
+    construct(vctrs::vec_c(vctrs::list_of(1, 2), vctrs::list_of(FALSE, TRUE)))
+  )
+})
