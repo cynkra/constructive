@@ -42,7 +42,6 @@ construct_idiomatic.default <- function(x, max_atomic = NULL, ...) {
     code[[length(code)]] <- sub(")$", ", ...)", code[[length(code)]])
     return(code)
   }
-  attributes(x) <- NULL
   capture.output(dput(x))
 }
 
