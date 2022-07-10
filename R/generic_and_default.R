@@ -35,7 +35,7 @@ construct_idiomatic.default <- function(x, max_atomic = NULL, ...) {
   # it will parse and non ambiguous unless in a function's body, or c("foo", "bar", `*`)
   attributes(x) <- NULL
   if (!is.null(max_atomic)) {
-    if (max_atomic == 0) return("`*`")
+    if (max_atomic == 0) x <- x[0]
     l <- length(x)
     if (l <= max_atomic) return(capture.output(dput(x)))
     code <- capture.output(dput(head(x, max_atomic)))
