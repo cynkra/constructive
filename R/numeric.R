@@ -19,7 +19,7 @@
 # Running under: macOS Monterey 12.0.1
 
 #' @export
-construct_idiomatic.double <- function(x, max_atomic, ...) {
+construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
   if (length(x) == 0 || (!is.null(max_atomic) && max_atomic == 0)) return("numeric(0)")
 
   format_flex <- function(x) {
