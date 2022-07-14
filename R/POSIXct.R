@@ -1,5 +1,7 @@
 #' @export
-construct_idiomatic.POSIXct <- function(x, ...) {
+construct_idiomatic.POSIXct <- function(x, max_atomic = NULL, ...) {
+  if (length(x) == 0 || (!is.null(max_atomic) && max_atomic == 0)) return("POSIXct(0)")
+
   tzone <- attr(x, "tzone")
   x_chr <- format(x)
   split_s <- as.numeric(x) %% 1
