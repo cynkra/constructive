@@ -12,7 +12,7 @@ construct_idiomatic.POSIXct <- function(x, max_atomic = NULL, ...) {
   } else {
     if (!is.null(max_atomic)) {
       if (max_atomic == 0) {
-        args <- list(split_s)
+        args <- list(split_s)[[1]][0]
       }
     }
   }
