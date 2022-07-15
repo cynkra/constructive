@@ -33,7 +33,6 @@ construct_idiomatic.default <- function(x, max_atomic = NULL, ...) {
   if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, max_atomic = max_atomic, ...))
   # FIXME : rather use a max_atomic param and use ellipsis, for max_atomic = 2 : c("foo", "bar", ...)
   # it will parse and non ambiguous unless in a function's body, or c("foo", "bar", `*`)
-  max_atomic <- 0
   attributes(x) <- NULL
   if (!is.null(max_atomic)) {
     if (max_atomic == 0) x <- x[0]
