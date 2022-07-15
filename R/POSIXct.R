@@ -12,11 +12,10 @@ construct_idiomatic.POSIXct <- function(x, max_atomic = NULL, ...) {
   args <- list(x_chr)
   if (!is.null(tzone) && tzone != "") {
     args <- c(args, list(tz = tzone))
-  } else {
-    if (!is.null(max_atomic)) {
-      if (max_atomic == 0) {
-        args <- list(split_s)
-      }
+  }
+  if (!is.null(max_atomic)) {
+    if (max_atomic == 0) {
+      args <- list(split_s)
     }
   }
   construct_apply(args, "as.POSIXct", new_line = TRUE)
