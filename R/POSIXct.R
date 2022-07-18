@@ -1,9 +1,5 @@
 #' @export
-construct_idiomatic.POSIXct <- function(x, max_atomic = NULL, ...) {
-  if (length(x) == 0 || (!is.null(max_atomic) && max_atomic == 0)) {
-    x <- x[0]
-  }
-
+construct_idiomatic.POSIXct <- function(x, ...) {
   tzone <- attr(x, "tzone")
   x_chr <- format(x)
   split_s <- as.numeric(x) %% 1
@@ -13,7 +9,7 @@ construct_idiomatic.POSIXct <- function(x, max_atomic = NULL, ...) {
   if (!is.null(tzone) && tzone != "") {
     args <- c(args, list(tz = tzone))
   }
-  construct_apply(args, "as.POSIXct", new_line = TRUE)
+  construct_apply(args, "as.POSIXct", new_line = TRUE, ...)
 }
 
 #' @export
