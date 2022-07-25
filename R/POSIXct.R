@@ -9,7 +9,7 @@ construct_idiomatic.POSIXct <- function(x, ...) {
   if (!is.null(tzone) && tzone != "") {
     args <- c(args, list(tz = tzone))
   }
-  construct_apply(args, "as.POSIXct", new_line = TRUE)
+  construct_apply(args, "as.POSIXct", new_line = TRUE, ...)
 }
 
 #' @export
