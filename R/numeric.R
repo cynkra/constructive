@@ -32,10 +32,10 @@ construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
 
   if (!is.null(max_atomic) && length(x) > max_atomic) {
     x <- x[seq_len(max_atomic)]
-    code <- construct_apply(vapply(x, format_flex, character(1)), "c", new_line = FALSE, language = TRUE)
+    code <- construct_apply(vapply(x, format_flex, character(1)), "c", new_line = FALSE, language = TRUE, ...)
     code[[length(code)]] <- sub(")$", ", ...)", code[[length(code)]])
     return(code)
   }
-  construct_apply(vapply(x, format_flex, character(1)), "c", new_line = FALSE, language = TRUE)
+  construct_apply(vapply(x, format_flex, character(1)), "c", new_line = FALSE, language = TRUE, ...)
 }
 

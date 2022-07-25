@@ -4,7 +4,7 @@ construct_idiomatic.mts <- function(x, pipe, ...) {
   attr(x, "tsp") <- NULL
   class(x) <- setdiff(oldClass(x), c("mts", "ts"))
   #browser()
-  construct_apply(list(x, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", new_line = TRUE)
+  construct_apply(list(x, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", new_line = TRUE, ...)
 }
 
 #' @export
