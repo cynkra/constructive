@@ -16,7 +16,12 @@ Imports:
 Suggests: 
     dm,
     pixarfilms,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    dplyr,
+    data.table,
+    vctrs,
+    tibble,
+    prettycode
 URL: https://github.com/cynkra/constructive,
     https://cynkra.github.io/constructive
 BugReports: https://github.com/cynkra/constructive/issues
