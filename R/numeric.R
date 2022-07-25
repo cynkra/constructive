@@ -27,7 +27,6 @@ construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
     if (as.numeric(formatted) == x) return(formatted)
     format(x, digits = 22)
   }
-  if (length(x) == 0) return("numeric(0)")
   if (length(x) == 1 && is.null(names(x))) return(format_flex(x))
 
   if (!is.null(max_atomic) && length(x) > max_atomic) {
