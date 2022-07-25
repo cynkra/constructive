@@ -21,12 +21,6 @@
 #' @export
 construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
   if (length(x) == 0 || (!is.null(max_atomic) && max_atomic == 0)) return("numeric(0)")
-
-  format_flex <- function(x) {
-    formatted <- format(x, digits = 16)
-    if (as.numeric(formatted) == x) return(formatted)
-    format(x, digits = 22)
-  }
   if (length(x) == 1 && is.null(names(x))) return(format_flex(x))
 
   if (!is.null(max_atomic) && length(x) > max_atomic) {
@@ -38,3 +32,8 @@ construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
   construct_apply(vapply(x, format_flex, character(1)), "c", new_line = FALSE, language = TRUE, ...)
 }
 
+format_flex <- function(x) {
+  formatted <- format(x, digits = 16)
+  if (as.numeric(formatted) == x) return(formatted)
+  format(x, digits = 22)
+}
