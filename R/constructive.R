@@ -39,7 +39,9 @@ preprocess_data <- function(data) {
 try_construct <- function(...) {
   caller <- caller_env()
   rlang::try_fetch(construct_raw(...), error = function(e) {
+    #nocov start
     abort("{constructive} could not build the requested code.", parent = e, call = caller)
+    #nocov end
   })
 }
 
@@ -48,7 +50,9 @@ try_parse <- function(code, data) {
   rlang::try_fetch(
     styler::style_text(code, scope = "line_breaks"),
     error = function(e) {
+      #nocov start
       abort("The code built by {constructive} could not be parsed.", parent = e, call = caller)
+      #nocov end
     }
   )
 }
@@ -58,8 +62,10 @@ try_eval <- function(styled_code, data) {
   rlang::try_fetch(
     eval(parse(text = styled_code), envir = data, enclos = caller),
     error = function(e) {
+      #nocov start
       print(styled_code)
       abort("The code built by {constructive} could not be evaluated.", parent = e, call = caller)
+      #nocov end
     }
   )
 }
@@ -77,6 +83,7 @@ check_round_trip <- function(x, evaled, styled_code, ignore_srcref) {
     evaled <- rlang::zap_srcref(evaled)
   }
   if (!identical(x, evaled)) {
+    #nocov start
     print(styled_code)
     comparison <- waldo::compare(
       x,
@@ -99,6 +106,7 @@ check_round_trip <- function(x, evaled, styled_code, ignore_srcref) {
       ),
       call = caller
     )
+    #nocov end
   }
   invisible(NULL)
 }
