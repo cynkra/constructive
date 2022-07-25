@@ -17,7 +17,7 @@ construct_idiomatic.POSIXlt <- function(x, ...) {
   if (!is.null(tzone) && length(tzone) == 1) {
     args <- c(args, list(tz = tzone))
   }
-  construct_apply(args, "as.POSIXlt", new_line = TRUE)
+  construct_apply(args, "as.POSIXlt", new_line = TRUE, ...)
 }
 
 #' @export
