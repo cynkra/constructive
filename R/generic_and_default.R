@@ -22,9 +22,8 @@ construct_idiomatic <- function(x, ...) {
   UseMethod("construct_idiomatic")
 }
 
-# the default case handles all atomic modes through dput
-# ("logical", "integer", "numeric", "complex", "character" and "raw")
-# FIXME: dput loses precision, so we might implement our own construct_idiomatic.numeric
+# the default case handles all atomic modes through dput except for numeric
+# ("logical", "integer", "complex", "character" and "raw")
 #' @export
 construct_idiomatic.default <- function(x, max_atomic = NULL, ...) {
   if (is.environment(x)) return(construct_idiomatic.environment(x, max_atomic = max_atomic, ...))
