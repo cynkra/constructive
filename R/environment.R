@@ -19,7 +19,11 @@ construct_idiomatic.environment <- function(x, env_as_list = TRUE, ...) {
   if (env_as_list) {
     # We need to use as.list.environment directly because as.list will only map
     # to "as.list.environment" if class was not overriden
-    wrap(construct_apply(as.list.environment(x), env_as_list = env_as_list, ...), "as.environment", new_line = FALSE)
+    wrap(
+      construct_apply(as.list.environment(x), env_as_list = env_as_list, ...),
+      "as.environment",
+      new_line = FALSE
+    )
   } else {
     "new.env()"
   }
