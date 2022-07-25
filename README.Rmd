@@ -22,9 +22,9 @@ is similar to `base::dput()` but {constructive} strives to use "natural" constru
 (`factor` for factors, `as.Date()` for dates, `data.frame()` for data frames etc),
 in order to get output readable by humans.
 
-Some use cases : 
+Some use cases are: 
 
-* snapshot test
+* Snapshot tests
 * Exploring objects (alternative to `dput()` or `str()`)
 * Creating reproducible examples from existing data
 * Comparing two objects (using `construct_diff()`)
@@ -50,7 +50,7 @@ dput(head(iris, 2))
 construct(.leap.seconds)
 dput(.leap.seconds)
 
-library(dplyr, warn = F)
+library(dplyr, warn.conflicts = FALSE)
 grouped_band_members <- group_by(band_members, band)
 dput(grouped_band_members)
 construct(grouped_band_members)
@@ -63,15 +63,17 @@ for data so we don't print more than necessary, for example improving the previo
 construct(grouped_band_members, data = "dplyr")
 ```
 
-We can also trim the output and display onle `max_atomic` element at most in a vector :
+We can also trim the output and display only `max_atomic` elements at most from a vector,
+or `max_list` elements from a list. Notice the last element of trimmed objects,
+prefixed by `+`, showing how many items were not printed.
 
 ```{r}
-construct(list(iris = iris, cars = cars), max_atomic = 3)
+construct(dplyr::starwars, max_atomic = 2, max_list = 1)
 ```
-If we use `max_atomic = 0` we build a prototype :
+If we set those to `0` we build a prototype :
 
 ```{r}
-construct(list(iris = iris, cars = cars), max_atomic = 0)
+construct(dplyr::starwars, max_atomic = 0, max_list = 0)
 ```
 Some other options :
 
@@ -83,26 +85,25 @@ construct(as.data.frame(band_members), read.table = TRUE)
 
 Environments are not always possible to reproduce but we support some common cases.
 Due to this several objects such as formulas, srcrefs, R6 objects, ggplot objects
-etc might not be reproducible exactly. If an approximation is enough you might
-set `check = FALSE`, `ignore_srcref = TRUE`, `env_as_list = FALSE`.
+etc might not be reproducible exactly. If an approximation is enough one might
+set `check = FALSE` (don't fail if object cannot be reproduced), `ignore_srcref = TRUE` (don't fail if srcrefs are different), `env_as_list = FALSE` (don't attempt to recreate fancy environments, simply use `new.env()` instead).
 
 ## construct_diff
 
-An alternative to `waldo::compare()` (looks best in the IDE without `interactive = FALSE`) 
+`construct_diff()` highlights the differences in the code used to produce 2 objects.
 
-```{r}
-# The args max_atomic, max_boy and env_as_list can be used to reduce output,
-# here we want to see what adding geom_point() does to a ggplot
+Let's try it on ggplot objects, these objects are very complex and {constructive}
+cannot reproduce them exactly (because environments can't be reproduced reliably)
+but we can get close enough to see how adding a geom changes the structure of the object.
+
+```{r, eval = FALSE}
 library(ggplot2)
 construct_diff(
-  # max_atomic limits number of displayed elements for atomic vectors
-  max_atomic = 4, 
-  # if env_as_list is FALSE instead of defining unnamed envs as 
-  # `as.environment(list(elt = ...))` we simply use `new.env()`
-  env_as_list = FALSE, 
-  interactive = FALSE,
   ggplot(cars, aes(speed, dist)),
-  ggplot(cars, aes(speed, dist)) + geom_point()
+  ggplot(cars, aes(speed, dist)) + geom_point(),
+  max_atomic = 3, 
+  env_as_list = FALSE, #  -> use `new.env()` to produce env objects
 )
 ```
 
+![](man/figures/construct_diff.png)

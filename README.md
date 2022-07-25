@@ -8,9 +8,9 @@ sense it is similar to `base::dput()` but {constructive} strives to use
 `data.frame()` for data frames etc), in order to get output readable by
 humans.
 
-Some use cases :
+Some use cases are:
 
--   snapshot test
+-   Snapshot tests
 -   Exploring objects (alternative to `dput()` or `str()`)
 -   Creating reproducible examples from existing data
 -   Comparing two objects (using `construct_diff()`)
@@ -61,7 +61,7 @@ dput(.leap.seconds)
 #> 1230768000, 1341100800, 1435708800, 1483228800), class = c("POSIXct", 
 #> "POSIXt"), tzone = "GMT")
 
-library(dplyr, warn = F)
+library(dplyr, warn.conflicts = FALSE)
 grouped_band_members <- group_by(band_members, band)
 dput(grouped_band_members)
 #> structure(list(name = c("Mick", "John", "Paul"), band = c("Stones", 
@@ -86,36 +86,48 @@ construct(grouped_band_members, data = "dplyr")
 #>   dplyr::group_by(band)
 ```
 
-We can also trim the output and display onle `max_atomic` element at
-most in a vector :
+We can also trim the output and display only `max_atomic` elements at
+most from a vector, or `max_list` elements from a list:
 
 ``` r
-construct(list(iris = iris, cars = cars), max_atomic = 3)
-#> list(
-#>   iris = data.frame(
-#>     Sepal.Length = c(5.1, 4.9, 4.7, ...),
-#>     Sepal.Width = c(3.5, 3, 3.2, ...),
-#>     Petal.Length = c(1.4, 1.4, 1.3, ...),
-#>     Petal.Width = c(0.2, 0.2, 0.2, ...),
-#>     Species = factor(c("setosa", "setosa", "setosa", ...))
-#>   ),
-#>   cars = data.frame(speed = c(4, 4, 7, ...), dist = c(2, 10, 4, ...))
+construct(dplyr::starwars, max_atomic = 2, max_list = 1)
+#> tibble::tibble(
+#>   name = c("Luke Skywalker", "C-3PO", +85),
+#>   height = c(172L, 167L, +85),
+#>   mass = c(77, 75, +85),
+#>   hair_color = c("blond", NA, +85),
+#>   skin_color = c("fair", "gold", +85),
+#>   eye_color = c("blue", "yellow", +85),
+#>   birth_year = c(19, 112, +85),
+#>   sex = c("male", "none", +85),
+#>   gender = c("masculine", "masculine", +85),
+#>   homeworld = c("Tatooine", "Tatooine", +85),
+#>   species = c("Human", "Droid", +85),
+#>   films = list(c("The Empire Strikes Back", "Revenge of the Sith", +3), +86),
+#>   vehicles = list(c("Snowspeeder", "Imperial Speeder Bike"), +86),
+#>   starships = list(c("X-wing", "Imperial shuttle"), +86),
 #> )
 ```
 
-If we use `max_atomic = 0` we build a prototype :
+If we set those to `0` we build a prototype :
 
 ``` r
-construct(list(iris = iris, cars = cars), max_atomic = 0)
-#> list(
-#>   iris = data.frame(
-#>     Sepal.Length = numeric(0),
-#>     Sepal.Width = numeric(0),
-#>     Petal.Length = numeric(0),
-#>     Petal.Width = numeric(0),
-#>     Species = factor(character(0))
-#>   ),
-#>   cars = data.frame(speed = numeric(0), dist = numeric(0))
+construct(dplyr::starwars, max_atomic = 0, max_list = 0)
+#> tibble::tibble(
+#>   name = character(0),
+#>   height = integer(0),
+#>   mass = numeric(0),
+#>   hair_color = character(0),
+#>   skin_color = character(0),
+#>   eye_color = character(0),
+#>   birth_year = numeric(0),
+#>   sex = character(0),
+#>   gender = character(0),
+#>   homeworld = character(0),
+#>   species = character(0),
+#>   films = list(),
+#>   vehicles = list(),
+#>   starships = list(),
 #> )
 ```
 
@@ -143,40 +155,29 @@ construct(as.data.frame(band_members), read.table = TRUE)
 Environments are not always possible to reproduce but we support some
 common cases. Due to this several objects such as formulas, srcrefs, R6
 objects, ggplot objects etc might not be reproducible exactly. If an
-approximation is enough you might set `check = FALSE`,
-`ignore_srcref = TRUE`, `env_as_list = FALSE`.
+approximation is enough one might set `check = FALSE` (don’t fail if
+object cannot be reproduced), `ignore_srcref = TRUE` (don’t fail if
+srcrefs are different), `env_as_list = FALSE` (don’t attempt to recreate
+fancy environments, simply use `new.env()`).
 
 ## construct_diff
 
-An alternative to `waldo::compare()` (looks best in the IDE without
-`interactive = FALSE`)
+`construct_diff()` highlights the differences in the code used to
+produce 2 objects.
+
+Let’s try it on ggplot objects, these objects are very complex and
+{constructive} cannot reproduce them exactly (because environments can’t
+be reproduced reliably) but we can get close enough to see how adding a
+geom changes the structure of the object.
 
 ``` r
-# The args max_atomic, max_boy and env_as_list can be used to reduce output,
-# here we want to see what adding geom_point() does to a ggplot
 library(ggplot2)
 construct_diff(
-  # max_atomic limits number of displayed elements for atomic vectors
-  max_atomic = 4, 
-  # if env_as_list is FALSE instead of defining unnamed envs as 
-  # `as.environment(list(elt = ...))` we simply use `new.env()`
-  env_as_list = FALSE, 
-  interactive = FALSE,
   ggplot(cars, aes(speed, dist)),
-  ggplot(cars, aes(speed, dist)) + geom_point()
+  ggplot(cars, aes(speed, dist)) + geom_point(),
+  max_atomic = 3, 
+  env_as_list = FALSE, #  -> use `new.env()` to produce env objects
 )
-#> < ggplot(cars, aes(speed, dist))         > ggplot(cars, aes(speed, dist)) +   ..
-#> @@ 1,5 @@                                @@ 1,8 @@                              
-#>   list(                                    list(                                
-#>     data = data.frame(speed = c(4, 4, 7      data = data.frame(speed = c(4, 4, 7
-#>   , 7, ...), dist = c(2, 10, 4, 22, ...    , 7, ...), dist = c(2, 10, 4, 22, ...
-#>   )),                                      )),                                  
-#> <   layers = list(),                     >   layers = list(                     
-#> ~                                        >     new.env() |>                     
-#> ~                                        >       structure(class = c("LayerInsta
-#> ~                                        : nce", "Layer", "ggproto", "gg"))     
-#> ~                                        >   ),                                 
-#>     scales = new.env() |>                    scales = new.env() |>              
-#>       structure(class = c("ScalesList",        structure(class = c("ScalesList",
-#>    "ggproto", "gg")),                       "ggproto", "gg")),
 ```
+
+![](man/figures/construct_diff.png)
