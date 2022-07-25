@@ -65,6 +65,7 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
   # wouldn't be triggered
   if (inherits(x, "noquote")) {
     attrs$class <- setdiff(attrs$class, "noquote")
+    if (!length(attrs$class)) attrs$class <- NULL
     code <- wrap(code, "noquote", new_line = FALSE)
   }
   if (identical(attrs$class, idiomatic_class)) {
