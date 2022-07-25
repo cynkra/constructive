@@ -12,7 +12,7 @@ construct_idiomatic.function <- function(x, pipe, max_body = NULL, ...) {
   fun_lst <- lapply(x_lst, deparse)
 
   # as.function creates a srcref if the body starts with `{` so we remove it
-  srcrefed <- identical(body_lng[[1]], as.symbol("{"))
+  srcrefed <- is.call(body_lng) && identical(body_lng[[1]], as.symbol("{"))
   x_arg <- construct_apply(fun_lst, "alist", language = TRUE, pipe = pipe, max_body = max_body, ...)
   envir_arg <- construct_raw(environment(x), pipe = pipe, max_body = max_body, ...)
   code <- construct_apply(list(x_arg, envir = envir_arg), "as.function", language = TRUE, ...)
