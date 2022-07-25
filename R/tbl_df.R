@@ -11,7 +11,6 @@ construct_tribble <- function(x, tribble, ...) {
   }
   some_cols_are_unsupported <- any(sapply(x, is_unsupported_col))
   if (some_cols_are_unsupported) {
-    warn("A tibble couldn't be built using `tibble::tribble()`, using `tibble::tibble()` instead")
     return(NULL)
   }
   code_df <- x
