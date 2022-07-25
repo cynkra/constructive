@@ -12,6 +12,7 @@ Display idiomatic code to construct most R objects.
 Useful links:
 \itemize{
   \item \url{https://github.com/cynkra/constructive}
+  \item \url{https://cynkra.github.io/constructive}
   \item Report bugs at \url{https://github.com/cynkra/constructive/issues}
 }
 
