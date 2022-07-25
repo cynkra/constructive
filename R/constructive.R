@@ -68,7 +68,7 @@ try_eval <- function(styled_code, data) {
 #   we should print something in those cases.
 # FIXME: we should be able to set the ignore_* args from `construct()`, `identical()`
 #   itself has args `ignore.bytecode`, `ignore.environment` and `ignore.srcref`
-#   that we can use. We migth sometimes have to do the comparison using `waldo()` directly though.
+#   that we can use. We might sometimes have to do the comparison using `waldo()` directly though.
 check_round_trip <- function(x, evaled, styled_code, ignore_srcref) {
   caller <- caller_env()
   if (ignore_srcref) {
