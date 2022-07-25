@@ -31,5 +31,5 @@
     Code
       construct(c(1, 2, 3), max_atomic = 2)
     Output
-      c(1, 2, ...)
+      c(1, 2, +1)
 

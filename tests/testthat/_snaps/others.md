@@ -26,7 +26,7 @@
     Code
       construct(letters, max_atomic = 2)
     Output
-      c("a", "b", ...)
+      c("a", "b", +24)
 
 # noquote is supported
 

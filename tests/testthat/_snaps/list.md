@@ -18,4 +18,19 @@
     Output
       list(1) |>
         structure(class = "foo")
+    Code
+      construct(as.list(letters), max_list = 3)
+    Output
+      list("a", "b", "c", +23)
+    Code
+      construct(as.list(letters), max_list = 28)
+    Output
+      list(
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
+        "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+      )
+    Code
+      construct(as.list(letters), max_list = 0)
+    Output
+      list()
 

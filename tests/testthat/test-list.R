@@ -5,5 +5,8 @@ test_that("list", {
     x <- list(1)
     class(x) <- "foo"
     construct(x)
+    construct(as.list(letters), max_list = 3)
+    construct(as.list(letters), max_list = 28)
+    construct(as.list(letters), max_list = 0)
   })
 })

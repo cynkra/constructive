@@ -39,7 +39,11 @@ trim_atomic <- function(x, max_atomic) {
   l <- length(x)
   if (l <= max_atomic) return(capture.output(dput(x)))
   code <- capture.output(dput(head(x, max_atomic)))
-  code[[length(code)]] <- sub(")$", ", ...)", code[[length(code)]])
+  code[[length(code)]] <- sub(
+    ")$",
+    sprintf(", +%s)", l - max_atomic),
+    code[[length(code)]]
+  )
   code
 }
 

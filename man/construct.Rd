@@ -10,6 +10,7 @@ construct(
   pipe = c("base", "magrittr"),
   check = TRUE,
   max_atomic = NULL,
+  max_list = NULL,
   max_body = NULL,
   env_as_list = TRUE,
   ignore_srcref = TRUE,
@@ -27,6 +28,8 @@ construct(
 \code{data}}
 
 \item{max_atomic}{maximum number of elements of atomic vectors to print, forces check to \code{FALSE}}
+
+\item{max_list}{maximum number of elements of a list to print, forces check to \code{FALSE}}
 
 \item{max_body}{maximum number of calls to show from a function's body, forces check to \code{FALSE}}
 

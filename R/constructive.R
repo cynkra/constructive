@@ -9,18 +9,19 @@
 #' @param check should we try to eval the result and check if it is identical to
 #'   `data`
 #' @param max_atomic maximum number of elements of atomic vectors to print, forces check to `FALSE`
+#' @param max_list maximum number of elements of a list to print, forces check to `FALSE`
 #' @param max_body maximum number of calls to show from a function's body, forces check to `FALSE`
 #' @param env_as_list translate environments to `new.env()` rather than `as.environment(list(...))`
 #' @param ignore_srcref whether to ignore all srcref attributes in the check
 #' @param ... Additional parameters passed to `construct_impl()` generic and methods.
 #'
 #' @export
-construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE, max_atomic = NULL, max_body = NULL, env_as_list = TRUE, ignore_srcref = TRUE, ...) {
+construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE, max_atomic = NULL, max_list = NULL, max_body = NULL, env_as_list = TRUE, ignore_srcref = TRUE, ...) {
   pipe <- match.arg(pipe)
   data <- preprocess_data(data)
-  code <- try_construct(x, data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, env_as_list = env_as_list,...)
+  code <- try_construct(x, data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, ...)
   styled_code <- try_parse(code, data)
-  check <- check && is.null(max_atomic) && is.null(max_body)
+  check <- check && is.null(max_atomic) && is.null(max_list) && is.null(max_body)
   if (check) {
     evaled <- try_eval(styled_code, data)
     check_round_trip(x, evaled, styled_code, ignore_srcref = ignore_srcref)
