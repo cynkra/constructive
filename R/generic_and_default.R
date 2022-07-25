@@ -32,15 +32,16 @@ construct_idiomatic.default <- function(x, max_atomic = NULL, ...) {
   if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, max_atomic = max_atomic, ...))
   if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, max_atomic = max_atomic, ...))
   attributes(x) <- NULL
-  if (!is.null(max_atomic)) {
-    if (max_atomic == 0) x <- x[0]
-    l <- length(x)
-    if (l <= max_atomic) return(capture.output(dput(x)))
-    code <- capture.output(dput(head(x, max_atomic)))
-    code[[length(code)]] <- sub(")$", ", ...)", code[[length(code)]])
-    return(code)
-  }
-  capture.output(dput(x))
+  if (!is.null(max_atomic)) trim_atomic(x, max_atomic) else capture.output(dput(x))
+}
+
+trim_atomic <- function(x, max_atomic) {
+  if (max_atomic == 0) x <- x[0]
+  l <- length(x)
+  if (l <= max_atomic) return(capture.output(dput(x)))
+  code <- capture.output(dput(head(x, max_atomic)))
+  code[[length(code)]] <- sub(")$", ", ...)", code[[length(code)]])
+  code
 }
 
 repair_attributes <- function(x, code, pipe = "base", ...) {
