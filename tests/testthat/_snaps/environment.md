@@ -36,4 +36,11 @@
       construct(environment(setNames), env_as_list = FALSE)
     Output
       asNamespace("stats")
+    Code
+      env <- new.env()
+      class(env) <- "foo"
+      construct(env, check = FALSE)
+    Output
+      as.environment(list()) |>
+        structure(class = "foo")
 

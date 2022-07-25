@@ -54,4 +54,12 @@
         Petal.Width = c(0.2, 0.2),
         Species = factor(c("setosa", "setosa"), levels = c("setosa", "versicolor", "virginica"))
       )
+    Code
+      construct(as.data.frame(tibble::tibble(a = 1:2, b = list(3, 4))))
+    Output
+      as.data.frame(tibble::tibble(a = 1:2, b = list(3, 4)))
+    Code
+      construct(as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4))))
+    Output
+      as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4)))
 

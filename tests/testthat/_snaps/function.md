@@ -3,21 +3,38 @@
     Code
       construct(as.function(alist(x = , x), .GlobalEnv))
     Output
-      rlang::new_function(alist(x = ), quote(x), .GlobalEnv)
+      as.function(alist(x = , x), envir = .GlobalEnv)
     Code
       construct(identity)
     Output
-      rlang::new_function(alist(x = ), quote(x), .BaseNamespaceEnv)
+      as.function(alist(x = , x), envir = .BaseNamespaceEnv)
     Code
       construct(setNames)
     Output
-      rlang::new_function(
-        alist(object = nm, nm = ),
-        quote({
-          names(object) <- nm
-          object
-        }),
-        asNamespace("stats")
+      as.function(
+        alist(
+          object = nm,
+          nm = ,
+          {
+            names(object) <- nm
+            object
+          }
+        ),
+        envir = asNamespace("stats")
+      ) |>
+        rlang::zap_srcref()
+    Code
+      construct(setNames, max_body = 0)
+    Output
+      as.function(
+        alist(
+          object = nm,
+          nm = ,
+          {
+            ...
+          }
+        ),
+        envir = asNamespace("stats")
       ) |>
         rlang::zap_srcref()
 

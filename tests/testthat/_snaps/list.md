@@ -11,4 +11,11 @@
         a = 1,
         b = list(c(1L, 3L), list(as.POSIXct(c("1972-07-01", "1973-01-01"), tz = "GMT")))
       )
+    Code
+      x <- list(1)
+      class(x) <- "foo"
+      construct(x)
+    Output
+      list(1) |>
+        structure(class = "foo")
 

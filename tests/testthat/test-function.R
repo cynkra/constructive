@@ -6,6 +6,8 @@ test_that("function", {
     construct(identity)
     # with src_ref
     construct(setNames)
+    # with max_body
+    construct(setNames, max_body = 0)
   })
 })
 

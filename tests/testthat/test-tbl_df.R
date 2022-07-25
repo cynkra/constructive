@@ -8,3 +8,9 @@ test_that("tbl_df", {
   })
 })
 
+test_that("tbl_df with `tribble = TRUE` falls back on tibble() if unsupported cols are found", {
+  expect_snapshot({
+    construct(tibble::tibble(a = 1:2, b = list(3, 4)), tribble = TRUE)
+    construct(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4)), tribble = TRUE)
+  })
+})
