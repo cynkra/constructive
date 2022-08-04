@@ -10,7 +10,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     diffobj,
-    rlang,
+    rlang (>= 1.0.0),
     styler,
     waldo
 Suggests: 
