@@ -34,11 +34,14 @@ construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
     )
     return(code)
   }
-  construct_apply(vapply(x, format_flex, character(1)), "c", new_line = FALSE, language = TRUE, ...)
+  construct_apply(vapply(x, format_flex, character(1), all_na = all(is.na(x))), "c", new_line = FALSE, language = TRUE, ...)
 }
 
-format_flex <- function(x) {
+format_flex <- function(x, all_na) {
   formatted <- format(x, digits = 16)
+  if (formatted == "NA") {
+    if (all_na) return("NA_real_") else return("NA")
+  }
   if (as.numeric(formatted) == x) return(formatted)
   format(x, digits = 22)
 }
