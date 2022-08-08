@@ -38,10 +38,12 @@ construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
 }
 
 format_flex <- function(x, all_na) {
-  formatted <- format(x, digits = 16)
+  formatted <- format(x, digits = 15)
   if (formatted == "NA") {
     if (all_na) return("NA_real_") else return("NA")
   }
   if (as.numeric(formatted) == x) return(formatted)
-  format(x, digits = 22)
+  formatted <- format(x, digits = 22)
+  if (as.numeric(formatted) == x) return(formatted)
+  sprintf("%a", x)
 }

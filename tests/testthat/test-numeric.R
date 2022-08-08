@@ -1,6 +1,5 @@
 test_that("multiplication works", {
   expect_snapshot({
-    construct(pi)
     # by default no scientific notation
     construct(10000)
     # by default scientific notation
@@ -14,5 +13,7 @@ test_that("multiplication works", {
     # max_atomic
     construct(c(1, 2, 3), max_atomic = 0)
     construct(c(1, 2, 3), max_atomic = 2)
+    # don't print useless extra digits (thanks to format(x, digits = 15))
+    construct(0.07)
   })
 })
