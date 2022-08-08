@@ -62,4 +62,23 @@
       construct(as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4))))
     Output
       as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4)))
+    Code
+      construct(data.frame(a = 1, `a a` = 2, check.names = FALSE))
+    Output
+      data.frame(a = 1, `a a` = 2, check.names = FALSE)
+    Code
+      construct(data.frame(a = c(NA, NA), b = c(TRUE, NA), c = c(NA_character_, NA),
+      d = c("a", NA), e = c(NA_integer_, NA), f = c(1L, NA), g = c(NA_real_, NA), h = c(
+        1, NA)))
+    Output
+      data.frame(
+        a = c(NA, NA),
+        b = c(TRUE, NA),
+        c = c(NA_character_, NA_character_),
+        d = c("a", NA),
+        e = c(NA_integer_, NA_integer_),
+        f = c(1L, NA),
+        g = c(NA_real_, NA_real_),
+        h = c(1, NA)
+      )
 

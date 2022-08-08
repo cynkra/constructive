@@ -42,6 +42,6 @@
         )                                        )                                    
     Code
       construct_diff(1, 1)
-    Message <rlang_message>
+    Message
       No difference to show!
 
