@@ -21,8 +21,12 @@ pipe <- function(x, y, pipe) {
   c(x, y)
 }
 
+is_syntactic <- function(x) {
+  x == make.names(x)
+}
+
 protect <- function(name) {
-  if (name == make.names(name)) return(name)
+  if (is_syntactic(name)) return(name)
   paste0("`", name, "`")
 }
 

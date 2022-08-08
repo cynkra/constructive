@@ -21,6 +21,8 @@ construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = 
     return(code)
   }
 
+  some_names_are_non_syntactic <- any(!is_syntactic(names(x)))
+  if (some_names_are_non_syntactic) x <- c(x, list(check.names = FALSE))
   construct_apply(x, fun = "data.frame", read.table = read.table, ...)
 }
 
