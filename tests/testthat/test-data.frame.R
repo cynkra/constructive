@@ -17,5 +17,16 @@ test_that("data.frame", {
     construct(as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4))))
     # handle non syntactic names
     construct(data.frame(a=1, `a a` = 2, check.names = FALSE))
+    # handle nas
+    construct(data.frame(
+      a= c(NA, NA),
+      b= c(TRUE, NA),
+      c= c(NA_character_, NA),
+      d= c("a", NA),
+      e= c(NA_integer_, NA),
+      f= c(1L, NA),
+      g= c(NA_real_, NA),
+      h= c(1, NA)
+    ))
   })
 })
