@@ -1,10 +1,6 @@
 # multiplication works
 
     Code
-      construct(pi)
-    Output
-      3.141592653589793
-    Code
       construct(10000)
     Output
       10000
@@ -32,4 +28,8 @@
       construct(c(1, 2, 3), max_atomic = 2)
     Output
       c(1, 2, +1)
+    Code
+      construct(0.07)
+    Output
+      0.07
 
