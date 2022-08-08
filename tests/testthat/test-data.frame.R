@@ -15,5 +15,7 @@ test_that("data.frame", {
     # handle list  and df cols
     construct(as.data.frame(tibble::tibble(a = 1:2, b = list(3, 4))))
     construct(as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4))))
+    # handle non syntactic names
+    construct(data.frame(a=1, `a a` = 2, check.names = FALSE))
   })
 })
