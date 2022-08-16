@@ -1,6 +1,6 @@
 #' @export
 construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = FALSE, ...) {
-  df_has_list_cols <- any(sapply(x, is.list))
+  df_has_list_cols <- any(sapply(x, function(col) is.list(col) && ! inherits(col, "AsIs")))
   # FIXME: not safe re attributes
   if (df_has_list_cols) {
     tibble_code <- construct_apply(x, fun = "tibble::tibble", keep_trailing_comma = FALSE, read.table = read.table, ...)
