@@ -81,4 +81,8 @@
         g = c(NA_real_, NA_real_),
         h = c(1, NA)
       )
+    Code
+      construct(data.frame(a = I(list(2))))
+    Output
+      data.frame(a = I(list(2)))
 

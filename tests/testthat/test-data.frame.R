@@ -28,5 +28,7 @@ test_that("data.frame", {
       g= c(NA_real_, NA),
       h= c(1, NA)
     ))
+    # handle AsIs list columns
+    construct(data.frame(a = I(list(2))))
   })
 })
