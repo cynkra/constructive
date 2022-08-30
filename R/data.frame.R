@@ -30,7 +30,7 @@ construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = 
 repair_attributes.data.frame <- function(x, code, pipe = "base", ...) {
   repair_attributes_impl(
     x, code, pipe,
-    ignore = if (identical(attr(x, "row.names"), seq.int(nrow(x)))) "row.names",
+    ignore = if (identical(attr(x, "row.names"), seq_len(nrow(x)))) "row.names",
     idiomatic_class = c("data.frame"),
     ...
   )
