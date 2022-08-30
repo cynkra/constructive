@@ -30,5 +30,7 @@ test_that("data.frame", {
     ))
     # handle AsIs list columns
     construct(data.frame(a = I(list(2))))
+    # handle zero row data frame
+    construct(data.frame(a = character()))
   })
 })

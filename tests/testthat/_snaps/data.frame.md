@@ -85,4 +85,8 @@
       construct(data.frame(a = I(list(2))))
     Output
       data.frame(a = I(list(2)))
+    Code
+      construct(data.frame(a = character()))
+    Output
+      data.frame(a = character(0))
 
