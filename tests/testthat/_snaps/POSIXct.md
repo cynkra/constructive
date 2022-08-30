@@ -17,4 +17,8 @@
       construct(as.POSIXct("2022-01-01 01:00:00.1", tz = "GMT"))
     Output
       as.POSIXct("2022-01-01 01:00:00.1", tz = "GMT")
+    Code
+      construct(as.POSIXct(c("2022-01-01 01:00:00.1", NA), tz = "GMT"))
+    Output
+      as.POSIXct(c("2022-01-01 01:00:00.1", NA), tz = "GMT")
 
