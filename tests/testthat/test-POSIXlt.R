@@ -7,5 +7,6 @@ test_that("POSIXlt", {
     construct(as.POSIXlt(sys_time_1970))
     construct(as.POSIXlt("2022-01-01 01:00:00", tz = "UTC"))
     construct(as.POSIXlt("2022-01-01 01:00:00.1", tz = "GMT"))
+    construct(as.POSIXlt(c("2022-01-01 01:00:00.1", NA), tz = "GMT"))
   })
 })
