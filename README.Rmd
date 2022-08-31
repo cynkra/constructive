@@ -57,7 +57,7 @@ construct(grouped_band_members)
 ```
 
 We can provide to the `data`argument a list, environment, or package where to look
-for data so we don't print more than necessary, for example improving the previous example:
+for data so we don't print more than necessary, for instance improving the previous example:
 
 ```{r}
 construct(grouped_band_members, data = "dplyr")
