@@ -23,3 +23,25 @@
     Output
       quote(expr = )
 
+# complex language
+
+    Code
+      x <- quote(a(1)(2))
+      attr(x[[1]], "foo") <- "bar"
+      construct(x)
+    Output
+      as.call(list(
+        quote(a(1)) |>
+          structure(foo = "bar"),
+        2
+      ))
+    Code
+      y <- quote(a(1))
+      y[[1]] <- mean
+      construct(y)
+    Output
+      as.call(list(
+        as.function(alist(x = , ... = , UseMethod("mean")), envir = .BaseNamespaceEnv),
+        1
+      ))
+

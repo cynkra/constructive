@@ -7,3 +7,15 @@ test_that("language", {
   })
 })
 
+test_that("complex language", {
+  expect_snapshot({
+    x <- quote(a(1)(2))
+    attr(x[[1]], "foo") <- "bar"
+    construct(x)
+
+    y <- quote(a(1))
+    y[[1]] <- mean
+    construct(y)
+  })
+})
+
