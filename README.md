@@ -39,7 +39,7 @@ construct(head(iris, 2))
 dput(head(iris, 2))
 #> structure(list(Sepal.Length = c(5.1, 4.9), Sepal.Width = c(3.5, 
 #> 3), Petal.Length = c(1.4, 1.4), Petal.Width = c(0.2, 0.2), Species = structure(c(1L, 
-#> 1L), .Label = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")
+#> 1L), levels = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")
 
 construct(.leap.seconds)
 #> as.POSIXct(
@@ -78,7 +78,7 @@ construct(grouped_band_members)
 
 We can provide to the `data`argument a list, environment, or package
 where to look for data so we don’t print more than necessary, for
-example improving the previous example:
+instance improving the previous example:
 
 ``` r
 construct(grouped_band_members, data = "dplyr")
@@ -87,7 +87,9 @@ construct(grouped_band_members, data = "dplyr")
 ```
 
 We can also trim the output and display only `max_atomic` elements at
-most from a vector, or `max_list` elements from a list:
+most from a vector, or `max_list` elements from a list. Notice the last
+element of trimmed objects, prefixed by `+`, showing how many items were
+not printed.
 
 ``` r
 construct(dplyr::starwars, max_atomic = 2, max_list = 1)
@@ -158,7 +160,7 @@ objects, ggplot objects etc might not be reproducible exactly. If an
 approximation is enough one might set `check = FALSE` (don’t fail if
 object cannot be reproduced), `ignore_srcref = TRUE` (don’t fail if
 srcrefs are different), `env_as_list = FALSE` (don’t attempt to recreate
-fancy environments, simply use `new.env()`).
+fancy environments, simply use `new.env()` instead).
 
 ## construct_diff
 
