@@ -16,11 +16,13 @@
 #' @param ... Additional parameters passed to `construct_impl()` generic and methods.
 #'
 #' @export
-construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE, max_atomic = NULL, max_list = NULL, max_body = NULL, env_as_list = TRUE, ignore_srcref = TRUE, ...) {
+construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE,
+                      max_atomic = NULL, max_list = NULL, max_body = NULL, env_as_list = TRUE,
+                      ignore_srcref = TRUE, one_liner = FALSE, ...) {
   pipe <- match.arg(pipe)
   data <- preprocess_data(data)
-  code <- try_construct(x, data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, ...)
-  styled_code <- try_parse(code, data)
+  code <- try_construct(x, data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, one_liner = one_liner, ...)
+  styled_code <- try_parse(code, data, one_liner)
   check <- check && is.null(max_atomic) && is.null(max_list) && is.null(max_body)
   if (check) {
     evaled <- try_eval(styled_code, data)
@@ -46,10 +48,11 @@ try_construct <- function(...) {
   })
 }
 
-try_parse <- function(code, data) {
+try_parse <- function(code, data, one_liner) {
   caller <- caller_env()
+  scope <- if (one_liner) "indention" else "line_breaks"
   rlang::try_fetch(
-    styler::style_text(code, scope = "line_breaks"),
+    styler::style_text(code, scope = scope),
     error = function(e) {
       #nocov start
       abort("The code built by {constructive} could not be parsed.", parent = e, call = caller)

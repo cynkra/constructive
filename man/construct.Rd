@@ -14,6 +14,7 @@ construct(
   max_body = NULL,
   env_as_list = TRUE,
   ignore_srcref = TRUE,
+  one_liner = FALSE,
   ...
 )
 }
