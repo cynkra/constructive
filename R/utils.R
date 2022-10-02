@@ -35,11 +35,8 @@ protect <- function(name) {
 namespace_as_list <- function(pkg) {
   ns <- asNamespace(pkg)
   if (pkg == "base") return(as.list(ns))
-
-  # this is slow, we should only fetch datasets
   c(
     mget(setdiff(getNamespaceExports(ns), unlist(.getNamespaceInfo(ns, "imports"))), ns),
-    # #as.list(.getNamespaceInfo(ns, "imports")),
     as.list(.getNamespaceInfo(ns, "lazydata"))
   )
 }
