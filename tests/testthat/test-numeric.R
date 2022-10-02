@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("numeric", {
   expect_snapshot({
     # by default no scientific notation
     construct(10000)
@@ -15,5 +15,7 @@ test_that("multiplication works", {
     construct(c(1, 2, 3), max_atomic = 2)
     # don't print useless extra digits (thanks to format(x, digits = 15))
     construct(0.07)
+    construct(NA_real_)
+    construct(c(1, NA_real_))
   })
 })

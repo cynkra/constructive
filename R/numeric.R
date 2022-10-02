@@ -22,7 +22,7 @@
 construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
   l <- length(x)
   if (l == 0 || (!is.null(max_atomic) && max_atomic == 0)) return("numeric(0)")
-  if (l == 1 && is.null(names(x))) return(format_flex(x))
+  if (l == 1 && is.null(names(x))) return(format_flex(x, all_na = TRUE))
 
   if (!is.null(max_atomic) && l > max_atomic) {
     x <- x[seq_len(max_atomic)]
