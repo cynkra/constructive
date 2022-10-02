@@ -6,9 +6,8 @@ construct_raw <- function(x, data = NULL, ...) {
 
 data_match <- function(x, data) {
   if (is.null(data)) return(NULL)
-  # match doesn't look at attributes, which is a feature here
-  m <- match(list(x), data)
-  if (is.na(m)) return(NULL)
+  m <- match2(x, data)
+  if (!length(m)) return(NULL)
   names(data)[m]
 }
 

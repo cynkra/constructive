@@ -57,3 +57,17 @@ keep_only_non_defaults <- function(args, fun, env = environment(fun)) {
   args[names(args_are_defaults)[args_are_defaults]] <- NULL
   args
 }
+
+# much faster than match()
+match2 <- function(needle, haystack) {
+  # ignore attributes of needle and its environment-ness
+  if (is.environment(needle)) needle <- as.list(needle)
+  attributes(needle) <- NULL
+  # like identical but ignoring attributes of haystack elements and their environment-ness
+  identical2 <- function(x, needle) {
+    if (is.environment(x)) x <- as.list(x)
+    attributes(x) <- NULL
+    identical(x, needle)
+  }
+  which(vapply(haystack, identical2, needle, FUN.VALUE = logical(1)))
+}
