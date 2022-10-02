@@ -4,13 +4,7 @@ construct_raw <- function(x, data = NULL, ...) {
   repaired_code
 }
 
-# kept generic for flexibility
 data_match <- function(x, data) {
-  UseMethod("data_match")
-}
-
-#' @export
-data_match.default <- function(x, data) {
   if (is.null(data)) return(NULL)
   # match doesn't look at attributes, which is a feature here
   m <- match(list(x), data)
