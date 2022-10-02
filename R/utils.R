@@ -35,11 +35,8 @@ protect <- function(name) {
 namespace_as_list <- function(pkg) {
   ns <- asNamespace(pkg)
   if (pkg == "base") return(as.list(ns))
-
-  # this is slow, we should only fetch datasets
   c(
     mget(setdiff(getNamespaceExports(ns), unlist(.getNamespaceInfo(ns, "imports"))), ns),
-    # #as.list(.getNamespaceInfo(ns, "imports")),
     as.list(.getNamespaceInfo(ns, "lazydata"))
   )
 }
@@ -56,4 +53,18 @@ keep_only_non_defaults <- function(args, fun, env = environment(fun)) {
   args_are_defaults <- mapply(identical, defaults, args[names(defaults)], ignore.environment = TRUE)
   args[names(args_are_defaults)[args_are_defaults]] <- NULL
   args
+}
+
+# much faster than match()
+match2 <- function(needle, haystack) {
+  # ignore attributes of needle and its environment-ness
+  if (is.environment(needle)) needle <- as.list(needle)
+  attributes(needle) <- NULL
+  # like identical but ignoring attributes of haystack elements and their environment-ness
+  identical2 <- function(x, needle) {
+    if (is.environment(x)) x <- as.list(x)
+    attributes(x) <- NULL
+    identical(x, needle)
+  }
+  which(vapply(haystack, identical2, needle, FUN.VALUE = logical(1)))
 }

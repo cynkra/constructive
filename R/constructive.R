@@ -2,7 +2,10 @@
 #'
 #' @param x An object
 #'
-#' @param data named list of data we don't want to deparse
+#' @param data named list of objects we don't want to deparse, can also be a package
+#' name and its namespace and datasets will be used to look for objects. Both can
+#' be combined so you can provide a list of named objects and unnamed namespaces.
+#'
 #' @param check Boolean. Whether to check if the created code reproduces the object
 #'   exactly (using `identical()`)
 #' @param pipe Which pipe to use, either "base" or "magrittr"
@@ -34,9 +37,13 @@ construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE
 # helpers for the above --------------------------------------------------------
 
 preprocess_data <- function(data) {
-  if (is.character(data)) data <- namespace_as_list(data)
-  if (is.environment(data)) data <- as.list(data)
-  data
+  if (is.character(data)) return(namespace_as_list(data))
+  if (is.environment(data)) return(as.list(data))
+  # recurse into unnamed elements
+  nms <- rlang::names2(data)
+  named_elts <-  data[nms != ""]
+  unnamed_elts <-  data[nms == ""]
+  c(named_elts, do.call(c, lapply(unnamed_elts, preprocess_data)))
 }
 
 try_construct <- function(...) {
