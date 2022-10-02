@@ -34,9 +34,13 @@ construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE
 # helpers for the above --------------------------------------------------------
 
 preprocess_data <- function(data) {
-  if (is.character(data)) data <- namespace_as_list(data)
-  if (is.environment(data)) data <- as.list(data)
-  data
+  if (is.character(data)) return(namespace_as_list(data))
+  if (is.environment(data)) return(as.list(data))
+  # recurse into unnamed elements
+  nms <- rlang::names2(data)
+  named_elts <-  data[nms != ""]
+  unnamed_elts <-  data[nms == ""]
+  c(named_elts, do.call(c, lapply(unnamed_elts, preprocess_data)))
 }
 
 try_construct <- function(...) {
