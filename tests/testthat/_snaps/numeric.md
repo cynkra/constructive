@@ -1,4 +1,4 @@
-# multiplication works
+# numeric
 
     Code
       construct(10000)
@@ -32,4 +32,12 @@
       construct(0.07)
     Output
       0.07
+    Code
+      construct(NA_real_)
+    Output
+      NA_real_
+    Code
+      construct(c(1, NA_real_))
+    Output
+      c(1, NA)
 
