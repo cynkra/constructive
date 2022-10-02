@@ -21,7 +21,9 @@ construct(
 \arguments{
 \item{x}{An object}
 
-\item{data}{named list of data we don't want to deparse}
+\item{data}{named list of objects we don't want to deparse, can also be a package
+name and its namespace and datasets will be used to look for objects. Both can
+be combined so you can provide a list of named objects and unnamed namespaces.}
 
 \item{pipe}{Which pipe to use, either "base" or "magrittr"}
 

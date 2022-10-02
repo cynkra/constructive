@@ -2,7 +2,10 @@
 #'
 #' @param x An object
 #'
-#' @param data named list of data we don't want to deparse
+#' @param data named list of objects we don't want to deparse, can also be a package
+#' name and its namespace and datasets will be used to look for objects. Both can
+#' be combined so you can provide a list of named objects and unnamed namespaces.
+#'
 #' @param check Boolean. Whether to check if the created code reproduces the object
 #'   exactly (using `identical()`)
 #' @param pipe Which pipe to use, either "base" or "magrittr"
