@@ -59,7 +59,7 @@ repair_attributes.default <- function(x, code, pipe = "base", ...) {
   repair_attributes_impl(x, code, pipe, ...)
 }
 
-repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, ...) {
+repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE, ...) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL
@@ -81,19 +81,23 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
   if (length(remove)) attrs <- c(attrs, setNames(replicate(length(remove), NULL), remove))
   if (!length(attrs)) return(code)
   # append structure() code to repair object
-  attrs_code <- construct_apply(attrs, fun = "structure", pipe = pipe, ...)
-  pipe(code, attrs_code, pipe)
+  attrs_code <- construct_apply(attrs, fun = "structure", pipe = pipe, one_liner = one_liner, ...)
+  pipe(code, attrs_code, pipe, one_liner)
 }
 
-construct_apply <- function(args, fun = "list", keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, ...) {
+construct_apply <- function(args, fun = "list", keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE, ...) {
+  new_line <- new_line && !one_liner
+  keep_trailing_comma <- keep_trailing_comma && !one_liner
   if (!length(args)) return("list()")
-  if (!language) args <- lapply(args, construct_raw, ...)
+  if (!language) args <- lapply(args, construct_raw, one_liner = one_liner, ...)
   args_chr <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
   args_chr <- unlist(args_chr)
   # if line is short enough stick all in one line
   # FIXME : chunk unnamed lists of single line items by lines of 80 chars ?
   nchrs <- nchar(args_chr)
-  if (sum(nchrs) < 80 && all(endsWith(args_chr, ","))) {
+
+  one_liner <- one_liner || (sum(nchrs) < 80 && all(endsWith(args_chr, ",")))
+  if (one_liner) {
     args_chr <- paste(args_chr, collapse = " ")
     new_line <- FALSE
     keep_trailing_comma <- FALSE
