@@ -1,11 +1,10 @@
-# multiplication works
+# externalptr
 
     Code
-      obj <- attributes(data.table::data.table(a = 1))
-      construct(obj, check = FALSE)
-    Condition
-      Warning:
-      {constructive} cannot reconstruct pointers, <pointer: 0x14f80cee0> was replaced by `NULL`
+      suppressWarnings({
+        obj <- attributes(data.table::data.table(a = 1))
+        construct(obj, check = FALSE)
+      })
     Output
       list(
         names = "a",
