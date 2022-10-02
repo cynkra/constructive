@@ -2,7 +2,7 @@
 #'
 #' This is an alternative to `base::deparse()` and `rlang::expr_deparse()` that
 #' handles additional corner cases and fails when encountering tokens other than
-#' symbols and syntactic litterals where cited alternatives would produce non syntactic code.\cr\cr
+#' symbols and syntactic literals where cited alternatives would produce non syntactic code.\cr\cr
 #' Moreover it will produce a one liner if `one_liner = TRUE` and
 #' will attempt to use the base pipe on nested calls if `pipe = TRUE`.\cr\cr
 #' By default the output is styled with {styler}, if style is set to `FALSE` a regular
