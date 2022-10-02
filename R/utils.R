@@ -16,7 +16,7 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
 }
 
 pipe <- function(x, y, pipe) {
-  pipe_symbol <- c(base = "|>", magrittr = "%>%")[[pipe]]
+  pipe_symbol <- c(base = "|>", magrittr = "%>%", plus = "+")[[pipe]]
   x[length(x)] <- paste(x[length(x)], pipe_symbol)
   c(x, y)
 }
