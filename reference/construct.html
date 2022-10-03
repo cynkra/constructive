@@ -52,12 +52,15 @@
 <span>  <span class="va">x</span>,</span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pipe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"base"</span>, <span class="st">"magrittr"</span><span class="op">)</span>,</span>
-<span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_atomic <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_body <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  env_as_list <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ignore_srcref <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ignore_attr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore_function_env <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore_formula_env <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -80,8 +83,8 @@ be combined so you can provide a list of named objects and unnamed namespaces.</
 
 
 <dt>check</dt>
-<dd><p>should we try to eval the result and check if it is identical to
-<code>data</code></p></dd>
+<dd><p>Boolean. Whether to check if the created code reproduces the object
+using <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code></p></dd>
 
 
 <dt>max_atomic</dt>
@@ -100,8 +103,8 @@ be combined so you can provide a list of named objects and unnamed namespaces.</
 <dd><p>translate environments to <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> rather than <code>as.environment(list(...))</code></p></dd>
 
 
-<dt>ignore_srcref</dt>
-<dd><p>whether to ignore all srcref attributes in the check</p></dd>
+<dt>ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env</dt>
+<dd><p>passed to <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code></p></dd>
 
 
 <dt>...</dt>
