@@ -30,8 +30,8 @@ be combined so you can provide a list of named objects and unnamed namespaces.}
 
 \item{pipe}{Which pipe to use, either "base" or "magrittr"}
 
-\item{check}{should we try to eval the result and check if it is identical to
-\code{data}}
+\item{check}{Boolean. Whether to check if the created code reproduces the object
+using \code{waldo::compare()}}
 
 \item{max_atomic}{maximum number of elements of atomic vectors to print, forces check to \code{FALSE}}
 
@@ -41,7 +41,7 @@ be combined so you can provide a list of named objects and unnamed namespaces.}
 
 \item{env_as_list}{translate environments to \code{new.env()} rather than \code{as.environment(list(...))}}
 
-\item{ignore_srcref}{whether to ignore all srcref attributes in the check}
+\item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{passed to \code{waldo::compare()}}
 
 \item{...}{Additional parameters passed to \code{construct_impl()} generic and methods.}
 }

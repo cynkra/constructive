@@ -6,16 +6,14 @@
 #' name and its namespace and datasets will be used to look for objects. Both can
 #' be combined so you can provide a list of named objects and unnamed namespaces.
 #'
-#' @param check Boolean. Whether to check if the created code reproduces the object
-#'   exactly (using `identical()`)
 #' @param pipe Which pipe to use, either "base" or "magrittr"
-#' @param check should we try to eval the result and check if it is identical to
-#'   `data`
+#' @param check Boolean. Whether to check if the created code reproduces the object
+#'   using `waldo::compare()`
 #' @param max_atomic maximum number of elements of atomic vectors to print, forces check to `FALSE`
 #' @param max_list maximum number of elements of a list to print, forces check to `FALSE`
 #' @param max_body maximum number of calls to show from a function's body, forces check to `FALSE`
 #' @param env_as_list translate environments to `new.env()` rather than `as.environment(list(...))`
-#' @param ignore_srcref whether to ignore all srcref attributes in the check
+#' @param ignore_srcref,ignore_attr,ignore_function_env,ignore_formula_env passed to `waldo::compare()`
 #' @param ... Additional parameters passed to `construct_impl()` generic and methods.
 #'
 #' @export
