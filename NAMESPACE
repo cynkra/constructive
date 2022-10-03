@@ -48,7 +48,12 @@ S3method(repair_attributes,ts)
 S3method(repair_attributes,vctrs_list_of)
 export(construct)
 export(construct_diff)
+<<<<<<< HEAD
 export(construct_issues)
+||||||| 251ef30
+=======
+export(constructive_issues)
+>>>>>>> 886010ce926a62be98d10e732ab1a9790d7c2107
 export(deparse_call)
 importFrom(rlang,"%||%")
 importFrom(rlang,abort)

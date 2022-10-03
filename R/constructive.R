@@ -128,10 +128,19 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
     msg <- paste0(msg, "\n", paste(out, collapse = "\n"))
     abort(c(msg))
   }
+<<<<<<< HEAD
 
   info <- "Call `construct_issues()` to inspect the last issues"
   inform(c(msg, i = info))
   out
+||||||| 251ef30
+  invisible(NULL)
+=======
+
+  info <- "Call `constructive_issues()` to inspect the last issues"
+  inform(c(msg, i = info))
+  out
+>>>>>>> 886010ce926a62be98d10e732ab1a9790d7c2107
 }
 
 
