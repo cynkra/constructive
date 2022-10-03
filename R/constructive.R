@@ -19,22 +19,41 @@
 #' @param ... Additional parameters passed to `construct_impl()` generic and methods.
 #'
 #' @export
-construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = TRUE,
+construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = NULL,
                       max_atomic = NULL, max_list = NULL, max_body = NULL, env_as_list = TRUE,
-                      ignore_srcref = TRUE, one_liner = FALSE, ...) {
+                      ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE, ...) {
   pipe <- match.arg(pipe)
   data <- preprocess_data(data)
   code <- try_construct(x, data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, one_liner = one_liner, ...)
   styled_code <- try_parse(code, data, one_liner)
-  check <- check && is.null(max_atomic) && is.null(max_list) && is.null(max_body)
-  if (check) {
-    evaled <- try_eval(styled_code, data)
-    check_round_trip(x, evaled, styled_code, ignore_srcref = ignore_srcref)
+  if (!is.null(max_atomic) || !is.null(max_list) || !is.null(max_body)) {
+    check <- FALSE
   }
-  styled_code
+  compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env)
+  structure(list(code = styled_code, compare = compare), class = "constructive")
 }
 
 # helpers for the above --------------------------------------------------------
+
+globals <- new.env()
+
+#' Show constructive issues
+#'
+#' @param x An object built by `construct()`, if `NULL` the latest encountered
+#'   issues will be displayed
+#'
+#' @return A character vector with class "waldo_compare"
+#' @export
+constructive_issues <- function(x = NULL) {
+  if (is.null(x)) return(globals$issues)
+  x$compare
+}
+
+#' @export
+print.constructive <- function(x) {
+  print(x$code)
+  invisible(x)
+}
 
 preprocess_data <- function(data) {
   if (is.character(data)) return(namespace_as_list(data))
@@ -86,40 +105,33 @@ try_eval <- function(styled_code, data) {
 # FIXME: we should be able to set the ignore_* args from `construct()`, `identical()`
 #   itself has args `ignore.bytecode`, `ignore.environment` and `ignore.srcref`
 #   that we can use. We might sometimes have to do the comparison using `waldo()` directly though.
-check_round_trip <- function(x, evaled, styled_code, ignore_srcref) {
-  caller <- caller_env()
-  if (ignore_srcref) {
-    if(identical(x, quote(expr=)) && missing(evaled)) return(invisible(NULL))
-    x <- rlang::zap_srcref(x)
-    evaled <- rlang::zap_srcref(evaled)
-  }
-  if (!identical(x, evaled)) {
-    #nocov start
+check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env) {
+  if (isFALSE(check)) return(NULL)
+  evaled <- try_eval(styled_code, data)
+  out <- waldo::compare(
+    x,
+    evaled,
+    x_arg = "original",
+    y_arg = "recreated",
+    ignore_srcref = ignore_srcref,
+    ignore_attr = ignore_attr,
+    ignore_encoding = TRUE,
+    ignore_function_env = ignore_function_env,
+    ignore_formula_env = ignore_formula_env
+  )
+  if (!length(out)) return(NULL)
+
+  globals$issues <- out
+  msg <- "{constructive} couldn't create code that reproduces perfectly the input"
+  if (isTRUE(check)) {
     print(styled_code)
-    comparison <- waldo::compare(
-      x,
-      evaled,
-      x_arg = "original",
-      y_arg = "recreated",
-      ignore_srcref = FALSE,
-      ignore_attr = FALSE,
-      ignore_encoding = FALSE,
-      ignore_function_env = FALSE,
-      ignore_formula_env = FALSE
-    )
-    abort(
-      c(
-        paste0(
-          "{constructive} couldn't create code that reproduces perfectly the output\n",
-          paste(comparison, collapse = "\n")
-        ),
-        i = "use `check = FALSE` to ignore this error"
-      ),
-      call = caller
-    )
-    #nocov end
+    msg <- paste0(msg, "\n", paste(out, collapse = "\n"))
+    abort(c(msg))
   }
-  invisible(NULL)
+
+  info <- "Call `constructive_issues()` to inspect the last issues"
+  inform(c(msg, i = info))
+  out
 }
 
 

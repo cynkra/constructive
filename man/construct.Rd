@@ -8,12 +8,15 @@ construct(
   x,
   data = NULL,
   pipe = c("base", "magrittr"),
-  check = TRUE,
+  check = NULL,
   max_atomic = NULL,
   max_list = NULL,
   max_body = NULL,
   env_as_list = TRUE,
   ignore_srcref = TRUE,
+  ignore_attr = FALSE,
+  ignore_function_env = FALSE,
+  ignore_formula_env = FALSE,
   one_liner = FALSE,
   ...
 )
