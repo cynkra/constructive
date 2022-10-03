@@ -74,7 +74,9 @@
 
 
 <dt>data</dt>
-<dd><p>named list of data we don't want to deparse</p></dd>
+<dd><p>named list of objects we don't want to deparse, can also be a package
+name and its namespace and datasets will be used to look for objects. Both can
+be combined so you can provide a list of named objects and unnamed namespaces.</p></dd>
 
 
 <dt>pipe</dt>
@@ -82,8 +84,8 @@
 
 
 <dt>check</dt>
-<dd><p>should we try to eval the result and check if it is identical to
-<code>data</code></p></dd>
+<dd><p>Boolean. Whether to check if the created code reproduces the object
+using <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code></p></dd>
 
 
 <dt>max_atomic</dt>
@@ -96,10 +98,6 @@
 
 <dt>env_as_list</dt>
 <dd><p>translate environments to <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> rather than <code>as.environment(list(...))</code></p></dd>
-
-
-<dt>ignore_srcref</dt>
-<dd><p>whether to ignore all srcref attributes in the check</p></dd>
 
 
 <dt>mode</dt>
