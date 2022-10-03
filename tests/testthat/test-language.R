@@ -14,7 +14,7 @@ test_that("complex language", {
     construct(x)
 
     y <- quote(a(1))
-    y[[1]] <- mean
+    y[[1]] <- c("a", "vector")
     construct(y)
   })
 })

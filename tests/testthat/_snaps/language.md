@@ -37,11 +37,8 @@
       ))
     Code
       y <- quote(a(1))
-      y[[1]] <- mean
+      y[[1]] <- c("a", "vector")
       construct(y)
     Output
-      as.call(list(
-        as.function(alist(x = , ... = , UseMethod("mean")), envir = .BaseNamespaceEnv),
-        1
-      ))
+      as.call(list(c("a", "vector"), 1))
 

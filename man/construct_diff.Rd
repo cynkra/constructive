@@ -23,20 +23,20 @@ construct_diff(
 
 \item{current}{the object being compared to \code{target}}
 
-\item{data}{named list of data we don't want to deparse}
+\item{data}{named list of objects we don't want to deparse, can also be a package
+name and its namespace and datasets will be used to look for objects. Both can
+be combined so you can provide a list of named objects and unnamed namespaces.}
 
 \item{pipe}{Which pipe to use, either "base" or "magrittr"}
 
-\item{check}{should we try to eval the result and check if it is identical to
-\code{data}}
+\item{check}{Boolean. Whether to check if the created code reproduces the object
+using \code{waldo::compare()}}
 
 \item{max_atomic}{maximum number of elements of atomic vectors to print, forces check to \code{FALSE}}
 
 \item{max_body}{maximum number of calls to show from a function's body, forces check to \code{FALSE}}
 
 \item{env_as_list}{translate environments to \code{new.env()} rather than \code{as.environment(list(...))}}
-
-\item{ignore_srcref}{whether to ignore all srcref attributes in the check}
 
 \item{mode}{passed to \code{diffobj::diffChr()}, with a different default}
 
