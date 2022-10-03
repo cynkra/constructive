@@ -44,7 +44,7 @@ globals <- new.env()
 #'
 #' @return A character vector with class "waldo_compare"
 #' @export
-constructive_issues <- function(x = NULL) {
+construct_issues <- function(x = NULL) {
   if (is.null(x)) return(globals$issues)
   x$compare
 }
@@ -129,7 +129,7 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
     abort(c(msg))
   }
 
-  info <- "Call `constructive_issues()` to inspect the last issues"
+  info <- "Call `construct_issues()` to inspect the last issues"
   inform(c(msg, i = info))
   out
 }
