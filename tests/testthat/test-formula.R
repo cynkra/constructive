@@ -16,5 +16,5 @@ test_that("formula", {
   z <- ~d
   environment(z) <- new.env()
   #expect_s3_class(try(construct(z), silent = TRUE), "try-error")
-  expect_error(construct(z), "couldn't create code")
+  expect_error(construct(z, check = TRUE), "couldn't create code")
 })
