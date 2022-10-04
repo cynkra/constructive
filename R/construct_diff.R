@@ -45,10 +45,10 @@ construct_diff <- function(
   }
   target_code <- construct(
     target, data, pipe = pipe, check = check, max_atomic = max_atomic,
-    max_body = max_body, env_as_list = env_as_list, ignore_srcref = ignore_srcref)
+    max_body = max_body, env_as_list = env_as_list, ignore_srcref = ignore_srcref)$code
   current_code <- construct(
     current, data, pipe = pipe, check = check, max_atomic = max_atomic,
-    max_body = max_body, env_as_list = env_as_list, ignore_srcref = ignore_srcref)
+    max_body = max_body, env_as_list = env_as_list, ignore_srcref = ignore_srcref)$code
   f <- tempfile(fileext = ".html")
   diffobj::diffChr(
     target_code,
