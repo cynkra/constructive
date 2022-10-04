@@ -106,6 +106,7 @@ try_eval <- function(styled_code, data) {
 check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env) {
   if (isFALSE(check)) return(NULL)
   evaled <- try_eval(styled_code, data)
+  if (missing(evaled)) return(NULL)
   out <- waldo::compare(
     x,
     evaled,
