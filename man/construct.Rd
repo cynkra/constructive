@@ -6,6 +6,7 @@
 \usage{
 construct(
   x,
+  ...,
   data = NULL,
   pipe = c("base", "magrittr"),
   check = NULL,
@@ -17,12 +18,13 @@ construct(
   ignore_attr = FALSE,
   ignore_function_env = FALSE,
   ignore_formula_env = FALSE,
-  one_liner = FALSE,
-  ...
+  one_liner = FALSE
 )
 }
 \arguments{
 \item{x}{An object}
+
+\item{...}{Additional parameters passed to \code{construct_impl()} generic and methods.}
 
 \item{data}{named list of objects we don't want to deparse, can also be a package
 name and its namespace and datasets will be used to look for objects. Both can
@@ -42,8 +44,6 @@ using \code{waldo::compare()}}
 \item{env_as_list}{translate environments to \code{new.env()} rather than \code{as.environment(list(...))}}
 
 \item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{passed to \code{waldo::compare()}}
-
-\item{...}{Additional parameters passed to \code{construct_impl()} generic and methods.}
 }
 \description{
 Build code to recreate an object
