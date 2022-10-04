@@ -1,7 +1,7 @@
 #' @export
 construct_idiomatic.function <- function(
-    x, pipe, max_body = NULL, function.as.function = FALSE,
-    function.zap_srcref = FALSE, function.construct_env = FALSE, one_liner = FALSE, ...) {
+    x, ..., pipe, max_body = NULL, function.as.function = FALSE,
+    function.zap_srcref = FALSE, function.construct_env = FALSE, one_liner = FALSE) {
   x_lst <- as.list(x)
   body_lng <- x_lst[[length(x_lst)]]
   if (!is.null(max_body)) {
@@ -34,20 +34,20 @@ construct_idiomatic.function <- function(
     # so we must use regular deparse
     fun_lst <- lapply(x_lst, deparse)
     x_arg <- construct_apply(
-      fun_lst, "alist", language = TRUE, pipe = pipe, max_body = max_body,
+      fun_lst, "alist", ..., language = TRUE, pipe = pipe, max_body = max_body,
                              function.as.function = function.as.function, function.zap_srcref = function.zap_srcref,
-                             function.construct_env = function.construct_env, one_liner = one_liner, ...)
+                             function.construct_env = function.construct_env, one_liner = one_liner)
     if (function.construct_env) {
-      envir_arg <- construct_raw(environment(x), pipe = pipe, max_body = max_body, ...)
+      envir_arg <- construct_raw(environment(x), ..., pipe = pipe, max_body = max_body)
       code <- construct_apply(
-        list(x_arg, envir = envir_arg), "as.function", language = TRUE,
+        list(x_arg, envir = envir_arg), "as.function", ..., language = TRUE,
         function.as.function = function.as.function, function.zap_srcref = function.zap_srcref,
-        function.construct_env = function.construct_env, one_liner = one_liner, ...)
+        function.construct_env = function.construct_env, one_liner = one_liner)
     } else {
       code <- construct_apply(
-        list(x_arg), "as.function", language = TRUE,
+        list(x_arg), "as.function", ..., language = TRUE,
         function.as.function = function.as.function, function.zap_srcref = function.zap_srcref,
-        function.construct_env = function.construct_env, one_liner = one_liner, ...)
+        function.construct_env = function.construct_env, one_liner = one_liner)
     }
   }
 
@@ -60,10 +60,10 @@ construct_idiomatic.function <- function(
 }
 
 #' @export
-repair_attributes.function <- function(x, code, pipe ="base", ...) {
+repair_attributes.function <- function(x, code, ..., pipe ="base") {
   repair_attributes_impl(
-    x, code, pipe,
-    ignore = c("name", "path"),
-    ...
+    x, code, ...,
+    pipe = pipe,
+    ignore = c("name", "path")
   )
 }

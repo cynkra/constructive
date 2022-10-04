@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.environment <- function(x, env_as_list = TRUE, ...) {
+construct_idiomatic.environment <- function(x, ..., env_as_list = TRUE) {
   # this is not very robust but might help in some useful special cases
 
   # The name of `asNamespace("pkg")` is always "pkg" and print as `<environment: namespace:pkg>`
@@ -30,10 +30,10 @@ construct_idiomatic.environment <- function(x, env_as_list = TRUE, ...) {
 }
 
 #' @export
-repair_attributes.environment <- function(x, code, pipe ="base", ...) {
+repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   repair_attributes_impl(
-    x, code, pipe,
-    ignore = c("name", "path"),
-    ...
+    x, code, ...,
+    pipe = pipe,
+    ignore = c("name", "path")
   )
 }

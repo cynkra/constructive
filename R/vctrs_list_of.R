@@ -8,11 +8,11 @@ construct_idiomatic.vctrs_list_of <- function(x, ...) {
 }
 
 #' @export
-repair_attributes.vctrs_list_of <- function(x, code, pipe = "base", ...) {
+repair_attributes.vctrs_list_of <- function(x, code, ..., pipe = "base") {
   repair_attributes_impl(
-    x, code, pipe,
+    x, code, ...,
+    pipe = pipe,
     ignore = "ptype",
-    idiomatic_class = c("vctrs_list_of", "vctrs_vctr", "list"),
-    ...
+    idiomatic_class = c("vctrs_list_of", "vctrs_vctr", "list")
   )
 }

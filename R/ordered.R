@@ -7,11 +7,11 @@ construct_idiomatic.ordered <- function(x, ...) {
 }
 
 #' @export
-repair_attributes.ordered <- function(x, code, pipe = "base", ...) {
+repair_attributes.ordered <- function(x, code, ..., pipe = "base") {
   repair_attributes_impl(
-    x, code, pipe,
+    x, code, ...,
+    pipe = pipe,
     ignore = "levels",
-    idiomatic_class = c("ordered", "factor"),
-    ...
+    idiomatic_class = c("ordered", "factor")
   )
 }

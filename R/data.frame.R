@@ -27,12 +27,12 @@ construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = 
 }
 
 #' @export
-repair_attributes.data.frame <- function(x, code, pipe = "base", ...) {
+repair_attributes.data.frame <- function(x, code, ..., pipe = "base") {
   repair_attributes_impl(
-    x, code, pipe,
+    x, code, ...,
+    pipe = pipe,
     ignore = if (identical(attr(x, "row.names"), seq_len(nrow(x)))) "row.names",
-    idiomatic_class = c("data.frame"),
-    ...
+    idiomatic_class = c("data.frame")
   )
 }
 

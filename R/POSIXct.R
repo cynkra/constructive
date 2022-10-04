@@ -13,12 +13,12 @@ construct_idiomatic.POSIXct <- function(x, ...) {
 }
 
 #' @export
-repair_attributes.POSIXct <- function(x, code, pipe ="base", ...) {
+repair_attributes.POSIXct <- function(x, code, ..., pipe ="base") {
   repair_attributes_impl(
-    x, code, pipe,
+    x, code, ...,
+    pipe = pipe,
     idiomatic_class = c("POSIXct", "POSIXt"),
     ignore = "tzone",
-    remove = if (is.null(attr(x, "tzone"))) "tzone" else NULL,
-    ...
+    remove = if (is.null(attr(x, "tzone"))) "tzone" else NULL
   )
 }

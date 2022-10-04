@@ -19,14 +19,14 @@
 # Running under: macOS Monterey 12.0.1
 
 #' @export
-construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
+construct_idiomatic.double <- function(x, ..., max_atomic = NULL) {
   l <- length(x)
   if (l == 0 || (!is.null(max_atomic) && max_atomic == 0)) return("numeric(0)")
   if (l == 1 && is.null(names(x))) return(format_flex(x, all_na = TRUE))
 
   if (!is.null(max_atomic) && l > max_atomic) {
     x <- x[seq_len(max_atomic)]
-    code <- construct_apply(vapply(x, format_flex, character(1)), "c", new_line = FALSE, language = TRUE, ...)
+    code <- construct_apply(vapply(x, format_flex, character(1)), "c", ..., new_line = FALSE, language = TRUE)
     code[[length(code)]] <- sub(
       ")$",
       sprintf(", +%s)", l - max_atomic),
@@ -34,7 +34,7 @@ construct_idiomatic.double <- function(x, max_atomic = NULL, ...) {
     )
     return(code)
   }
-  construct_apply(vapply(x, format_flex, character(1), all_na = all(is.na(x))), "c", new_line = FALSE, language = TRUE, ...)
+  construct_apply(vapply(x, format_flex, character(1), all_na = all(is.na(x))), "c", ..., new_line = FALSE, language = TRUE)
 }
 
 format_flex <- function(x, all_na) {

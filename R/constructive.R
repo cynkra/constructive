@@ -17,12 +17,12 @@
 #' @param ... Additional parameters passed to `construct_impl()` generic and methods.
 #'
 #' @export
-construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = NULL,
+construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
                       max_atomic = NULL, max_list = NULL, max_body = NULL, env_as_list = TRUE,
-                      ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE, ...) {
+                      ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE) {
   pipe <- match.arg(pipe)
   data <- preprocess_data(data)
-  code <- try_construct(x, data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, one_liner = one_liner, ...)
+  code <- try_construct(x, ..., data = data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, one_liner = one_liner)
   styled_code <- try_parse(code, data, one_liner)
   if (!is.null(max_atomic) || !is.null(max_list) || !is.null(max_body)) {
     check <- FALSE
@@ -63,9 +63,9 @@ preprocess_data <- function(data) {
   c(named_elts, do.call(c, lapply(unnamed_elts, preprocess_data)))
 }
 
-try_construct <- function(...) {
+try_construct <- function(x, ...) {
   caller <- caller_env()
-  rlang::try_fetch(construct_raw(...), error = function(e) {
+  rlang::try_fetch(construct_raw(x, ...), error = function(e) {
     #nocov start
     abort("{constructive} could not build the requested code.", parent = e, call = caller)
     #nocov end
