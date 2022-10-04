@@ -1,13 +1,30 @@
+#' Constructive options for class 'data.frame'
+#'
+#' @param read.table Boolean, whether to build data frames using `read.table()` whenever possible
+#'
+#' @return An object of class <constructive_options/constructive_options_data.frame>
 #' @export
-construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = FALSE, ...) {
+opts_data.frame <- function(read.table = FALSE) {
+  abort_not_boolean(read.table)
+  structure(
+    class = c("constructive_options", "constructive_options_data.frame"),
+    list(
+      read.table = read.table
+    )
+  )
+}
+
+#' @export
+construct_idiomatic.data.frame <- function(x, ...) {
+  args <- fetch_opts("data.frame", ...)
   df_has_list_cols <- any(sapply(x, function(col) is.list(col) && ! inherits(col, "AsIs")))
   # FIXME: not safe re attributes
   if (df_has_list_cols) {
-    tibble_code <- construct_apply(x, fun = "tibble::tibble", keep_trailing_comma = FALSE, read.table = read.table, ...)
+    tibble_code <- construct_apply(x, fun = "tibble::tibble", ...)
     df_code <- wrap(tibble_code, "as.data.frame", new_line = FALSE)
     return(df_code)
   }
-  if (read.table && !any(lengths(lapply(x, attributes)))) {
+  if (args$read.table && !any(lengths(lapply(x, attributes)))) {
     code_df <- x
     code_df[] <- lapply(x, as.character)
     dbl_cols <- sapply(x, is.double)
@@ -23,7 +40,7 @@ construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = 
 
   some_names_are_non_syntactic <- any(!is_syntactic(names(x)))
   if (some_names_are_non_syntactic) x <- c(x, list(check.names = FALSE))
-  construct_apply(x, fun = "data.frame", read.table = read.table, ...)
+  construct_apply(x, fun = "data.frame", ...)
 }
 
 #' @export

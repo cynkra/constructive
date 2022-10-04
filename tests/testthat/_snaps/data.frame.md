@@ -27,7 +27,7 @@
       data.frame(speed = c(24, 25), dist = c(120, 85)) |>
         structure(row.names = 49:50)
     Code
-      construct(head(cars, 2), read.table = TRUE)
+      construct(head(cars, 2), opts_data.frame(read.table = TRUE))
     Output
       read.table(header = TRUE, text = "
       speed dist
@@ -36,7 +36,7 @@
       ")
     Code
       construct(transform(mtcars[1:2, 1:2], chr = c("a", "b"), int = 1:2),
-      read.table = TRUE)
+      opts_data.frame(read.table = TRUE))
     Output
       read.table(header = TRUE, text = "
                       mpg cyl chr int

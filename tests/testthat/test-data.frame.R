@@ -7,9 +7,9 @@ test_that("data.frame", {
     # row names (numbers) are integer but not  1:n
     construct(tail(cars,2))
     # read.table on num, no row names
-    construct(head(cars,2), read.table = TRUE)
+    construct(head(cars,2), opts_data.frame(read.table = TRUE))
     # read.table on num
-    construct(transform(mtcars[1:2, 1:2], chr = c("a", "b"), int = 1:2), read.table = TRUE)
+    construct(transform(mtcars[1:2, 1:2], chr = c("a", "b"), int = 1:2), opts_data.frame(read.table = TRUE))
     # read.table ignored if unsupported types, e.g. factor
     construct(head(iris,2), read.table = TRUE)
     # handle list  and df cols
