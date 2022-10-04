@@ -127,7 +127,7 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
     abort(c(msg))
   }
   info <- "Call `construct_issues()` to inspect the last issues"
-  inform(c(msg, i = info))
+  rlang::inform(c(msg, i = info))
   out
 }
 
