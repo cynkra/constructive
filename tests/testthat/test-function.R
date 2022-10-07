@@ -1,21 +1,33 @@
 test_that("function", {
   expect_snapshot({
-    construct(as.function(alist(x=, x), .GlobalEnv), check = FALSE)
-    construct(as.function(alist(x=, {x}), .GlobalEnv), check = FALSE)
-    construct(as.function(alist(x=, x), .GlobalEnv), function.construct_env = TRUE)
-    construct(as.function(alist(x=, x), .GlobalEnv), function.zap_srcref = TRUE, check = FALSE)
-    construct(as.function(alist(x=, {x}), .GlobalEnv), function.zap_srcref = TRUE, check = FALSE)
+    f1 <- as.function(alist(x=, x), .GlobalEnv)
+    f2 <- as.function(alist(x=, {x}), .GlobalEnv)
 
-    construct(as.function(alist(x=, x), .GlobalEnv), function.as.function = TRUE, check = FALSE)
-    construct(as.function(alist(x=, {x}), .GlobalEnv), function.as.function = TRUE, check = FALSE)
-    construct(as.function(alist(x=, x), .GlobalEnv), function.as.function = TRUE, function.construct_env = TRUE)
-    construct(as.function(alist(x=, x), .GlobalEnv), function.as.function = TRUE, function.zap_srcref = TRUE, check = FALSE)
-    construct(as.function(alist(x=, {x}), .GlobalEnv), function.as.function = TRUE, function.zap_srcref = TRUE, check = FALSE)
+    construct(f1)
+    construct(f2)
+    construct(f1, opts_function(environment = TRUE))
+    construct(f1, opts_function(zap_srcref = TRUE))
+    construct(f2, opts_function(zap_srcref = TRUE))
 
-    construct(setNames, function.construct_env = TRUE)
-    construct(setNames, function.as.function = TRUE, function.construct_env = TRUE)
+    construct(f1, opts_function("as.function"))
+    construct(f2, opts_function("as.function"))
+    construct(f1, opts_function("as.function", environment = FALSE))
+    construct(f1, opts_function("as.function", zap_srcref = TRUE))
+    construct(f2, opts_function("as.function", zap_srcref = TRUE))
+
+    construct(f1, opts_function("new_function"))
+    construct(f2, opts_function("new_function"))
+    construct(f1, opts_function("new_function", environment = FALSE))
+    construct(f1, opts_function("new_function", zap_srcref = TRUE))
+    construct(f2, opts_function("new_function", zap_srcref = TRUE))
+
+    construct(setNames, opts_function(environment = TRUE))
+    construct(setNames, opts_function("as.function", environment = TRUE))
     # with max_body
-    construct(setNames, max_body = 0, check = FALSE)
+    construct(setNames, opts_function(trim = 1))
+
+    # primitives
+    construct(`+`)
   })
 })
 
