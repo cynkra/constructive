@@ -4,14 +4,24 @@
 \alias{opts_data.frame}
 \title{Constructive options for class 'data.frame'}
 \usage{
-opts_data.frame(read.table = FALSE)
+opts_data.frame(constructor = c("data.frame", "read.table"))
 }
 \arguments{
-\item{read.table}{Boolean, whether to build data frames using \code{read.table()} whenever possible}
+\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 }
 \value{
 An object of class <constructive_options/constructive_options_data.frame>
 }
 \description{
-Constructive options for class 'data.frame'
+These options will be used on objects of class 'data.frame'.
+}
+\details{
+Depending on \code{constructor}, we construct the environment as follows:
+\itemize{
+\item \code{"data.frame"} (default): Wrap the column definitions in a \code{data.frame()} call. If some
+columns are lists or data frames, we wrap the column definitions in \code{tibble::tibble()}.
+then use \code{as.data.frame()}
+\item \code{"read.table"} : We build the object using \code{read.table()} if possible, and fall
+back to \code{data.frame()}.
+}
 }

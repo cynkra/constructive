@@ -8,7 +8,8 @@
 #'   then use `as.data.frame()`
 #' * `"read.table"` : We build the object using `read.table()` if possible, and fall
 #'   back to `data.frame()`.
-#' @param read.table Boolean, whether to build data frames using `read.table()` whenever possible
+#'
+#' @param constructor String. Name of the function used to construct the environment, see Details section.
 #'
 #' @return An object of class <constructive_options/constructive_options_data.frame>
 #' @export
