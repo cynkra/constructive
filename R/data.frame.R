@@ -1,15 +1,23 @@
 #' Constructive options for class 'data.frame'
 #'
+#' These options will be used on objects of class 'data.frame'.
+#'
+#' Depending on `constructor`, we construct the environment as follows:
+#' * `"data.frame"` (default): Wrap the column definitions in a `data.frame()` call. If some
+#'   columns are lists or data frames, we wrap the column definitions in `tibble::tibble()`.
+#'   then use `as.data.frame()`
+#' * `"read.table"` : We build the object using `read.table()` if possible, and fall
+#'   back to `data.frame()`.
 #' @param read.table Boolean, whether to build data frames using `read.table()` whenever possible
 #'
 #' @return An object of class <constructive_options/constructive_options_data.frame>
 #' @export
-opts_data.frame <- function(read.table = FALSE) {
-  abort_not_boolean(read.table)
+opts_data.frame <- function(constructor = c("data.frame", "read.table")) {
+  constructor <- rlang::arg_match(constructor)
   structure(
     class = c("constructive_options", "constructive_options_data.frame"),
     list(
-      read.table = read.table
+      constructor = constructor
     )
   )
 }
@@ -24,7 +32,7 @@ construct_idiomatic.data.frame <- function(x, ...) {
     df_code <- wrap(tibble_code, "as.data.frame", new_line = FALSE)
     return(df_code)
   }
-  if (args$read.table && !any(lengths(lapply(x, attributes)))) {
+  if (args$constructor == "read.table" && !any(lengths(lapply(x, attributes)))) {
     code_df <- x
     code_df[] <- lapply(x, as.character)
     dbl_cols <- sapply(x, is.double)
@@ -38,8 +46,9 @@ construct_idiomatic.data.frame <- function(x, ...) {
     return(code)
   }
 
-  some_names_are_non_syntactic <- any(!is_syntactic(names(x)))
-  if (some_names_are_non_syntactic) x <- c(x, list(check.names = FALSE))
+  rn <- attr(x, "row.names")
+  if (!identical(rn, seq_len(nrow(x)))) x <- c(x, list(row.names = rn))
+  if (any(!is_syntactic(names(x)))) x <- c(x, list(check.names = FALSE))
   construct_apply(x, fun = "data.frame", ...)
 }
 
@@ -48,7 +57,7 @@ repair_attributes.data.frame <- function(x, code, ..., pipe = "base") {
   repair_attributes_impl(
     x, code, ...,
     pipe = pipe,
-    ignore = if (identical(attr(x, "row.names"), seq_len(nrow(x)))) "row.names",
+    ignore = "row.names",
     idiomatic_class = c("data.frame")
   )
 }
