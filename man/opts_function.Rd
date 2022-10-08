@@ -20,9 +20,9 @@ get rid recursively of all srcref related attributes.}
 \item{environment}{Boolean. Whether to attempt to reconstruct the function's environment,
 \code{FALSE} by default with the default \code{"function"} constructor. \code{TRUE} by default otherwise.}
 
-\item{trim}{\code{NULL} or integerish. Maximum of lines allowed in the body before it's trimmed,
+\item{trim}{\code{NULL} or integerish. Maximum of lines showed in the body before it's trimmed,
 replacing code with \code{...}. Note that it will necessarily produce code that doesn't
-reproduce the input, this will parse however.}
+reproduce the input, this will parse and evaluate without failure.}
 }
 \value{
 An object of class <constructive_options/constructive_options_function>

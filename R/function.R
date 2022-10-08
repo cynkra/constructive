@@ -17,9 +17,9 @@
 #'   get rid recursively of all srcref related attributes.
 #' @param environment Boolean. Whether to attempt to reconstruct the function's environment,
 #'   `FALSE` by default with the default `"function"` constructor. `TRUE` by default otherwise.
-#' @param trim `NULL` or integerish. Maximum of lines allowed in the body before it's trimmed,
+#' @param trim `NULL` or integerish. Maximum of lines showed in the body before it's trimmed,
 #' replacing code with `...`. Note that it will necessarily produce code that doesn't
-#' reproduce the input, this will parse however.
+#' reproduce the input, this will parse and evaluate without failure.
 #'
 #' @return An object of class <constructive_options/constructive_options_function>
 #' @export
@@ -28,10 +28,11 @@ opts_function <- function(
     zap_srcref = FALSE,
     environment = constructor != "function",
     trim = NULL) {
-  constructor <- rlang::arg_match(constructor)
   combine_errors(
+    constructor <- rlang::arg_match(constructor),
     abort_not_boolean(zap_srcref),
-    abort_not_boolean(environment)
+    abort_not_boolean(environment),
+    abort_not_null_or_integerish(trim)
   )
   structure(
     class = c("constructive_options", "constructive_options_function"),

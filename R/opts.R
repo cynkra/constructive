@@ -14,16 +14,3 @@ print.constructive_options <- function(x, ...) {
   writeLines(c(cl, paste(nms, opts)))
   invisible(x)
 }
-
-# opts_function <- function(trim = NULL, as.function = FALSE, zap_srcref = FALSE, construct_env = FALSE) {
-#   # insert check and processing of args here
-#   structure(
-#     class = c("constructive_options", "constructive_options_function"),
-#     list(
-#       trim = trim,
-#       as.function = as.function,
-#       zap_srcref = zap_srcref,
-#       construct_env = construct_env
-#     )
-#   )
-# }
