@@ -63,3 +63,12 @@ abort_not_boolean <- function(x) {
     abort(c(msg, i = describe(x)), call = parent.frame())
   }
 }
+
+abort_not_null_or_integerish <- function(x) {
+  var <- as.character(substitute(x))
+  if (!rlang::is_null(x) && !rlang::is_integerish(x, 1)) {
+    msg <- sprintf("`%s` is not `NULL` or a scalar integerish ", var)
+    abort(c(msg, i = describe(x)), call = parent.frame())
+  }
+}
+
