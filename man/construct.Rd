@@ -18,13 +18,15 @@ construct(
   ignore_attr = FALSE,
   ignore_function_env = FALSE,
   ignore_formula_env = FALSE,
-  one_liner = FALSE
+  one_liner = FALSE,
+  template = getOption("constructive_opts_template")
 )
 }
 \arguments{
 \item{x}{An object}
 
-\item{...}{Additional parameters passed to \code{construct_impl()} generic and methods.}
+\item{...}{Constructive options built with the \verb{opts_*()} family of functions. See the "Constructive options"
+section below.}
 
 \item{data}{named list of objects we don't want to deparse, can also be a package
 name and its namespace and datasets will be used to look for objects. Both can
@@ -44,7 +46,34 @@ using \code{waldo::compare()}}
 \item{env_as_list}{translate environments to \code{new.env()} rather than \code{as.environment(list(...))}}
 
 \item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{passed to \code{waldo::compare()}}
+
+\item{template}{A list of constructive options build with \verb{opts_*()} functions,
+they will be overriden by \code{...}. This is designed to help users set a default
+behavior for \code{{constructive}}.}
 }
 \description{
 Build code to recreate an object
 }
+\section{Constructive options}{
+
+
+Constructive options provide a way to customize the output of \code{construct()}.
+We can provide calls to \verb{opts_*()} functions to the \code{...} argument. Each of
+these functions targets a specific element type and is documented on its own page.
+\itemize{
+\item \code{\link[=opts_data.frame]{opts_data.frame()}}
+\item \code{\link[=opts_Date]{opts_Date()}}
+\item \code{\link[=opts_environment]{opts_environment()}}
+\item \code{\link[=opts_formula]{opts_formula()}}
+\item \code{\link[=opts_factor]{opts_factor()}}
+\item \code{\link[=opts_ordered]{opts_ordered()}}
+\item \code{\link[=opts_function]{opts_function()}}
+}
+
+In particular by default the environments of functions and formulas are not reconstructed,
+and \code{opts_formula()} and \code{opts_function()} help you adjust this behavior.
+Note that objects referring to environment often can't be reconstructed faithfully.
+Some compromises have to be made and \code{opts_environment()} helps you make them.
+Other \verb{opts_*()} functions should have a purely cosmetic effect.
+}
+

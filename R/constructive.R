@@ -14,12 +14,37 @@
 #' @param max_body maximum number of calls to show from a function's body, forces check to `FALSE`
 #' @param env_as_list translate environments to `new.env()` rather than `as.environment(list(...))`
 #' @param ignore_srcref,ignore_attr,ignore_function_env,ignore_formula_env passed to `waldo::compare()`
-#' @param ... Additional parameters passed to `construct_impl()` generic and methods.
+#' @param ... Constructive options built with the `opts_*()` family of functions. See the "Constructive options"
+#'   section below.
+#' @param template A list of constructive options build with `opts_*()` functions,
+#'   they will be overriden by `...`. This is designed to help users set a default
+#'   behavior for `{constructive}`.
+#'
+#' @section Constructive options:
+#'
+#' Constructive options provide a way to customize the output of `construct()`.
+#' We can provide calls to `opts_*()` functions to the `...` argument. Each of
+#' these functions targets a specific element type and is documented on its own page.
+#'
+#' * [opts_data.frame()]
+#' * [opts_Date()]
+#' * [opts_environment()]
+#' * [opts_formula()]
+#' * [opts_factor()]
+#' * [opts_ordered()]
+#' * [opts_function()]
+#'
+#' In particular by default the environments of functions and formulas are not reconstructed,
+#' and `opts_formula()` and `opts_function()` help you adjust this behavior.
+#' Note that objects referring to environment often can't be reconstructed faithfully.
+#' Some compromises have to be made and `opts_environment()` helps you make them.
+#' Other `opts_*()` functions should have a purely cosmetic effect.
 #'
 #' @export
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
                       max_atomic = NULL, max_list = NULL, max_body = NULL, env_as_list = TRUE,
-                      ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE) {
+                      ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
+                      template = getOption("constructive_opts_template")) {
   pipe <- match.arg(pipe)
   data <- preprocess_data(data)
   code <- try_construct(x, ..., data = data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, one_liner = one_liner)
