@@ -32,6 +32,7 @@
 #' * [opts_list()]
 #' * [opts_ordered()]
 #' * [opts_POSIXct()]
+#' * [opts_tbl_df()]
 #'
 #' In particular by default the environments of functions and formulas are not reconstructed,
 #' and `opts_formula()` and `opts_function()` help you adjust this behavior.
