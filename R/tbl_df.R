@@ -13,9 +13,10 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_tbl_df>
 #' @export
-opts_tbl_df <- function(constructor = c("tibble", "tribble"), trailing_comma = TRUE) {
+opts_tbl_df <- function(constructor = c("tibble", "tribble"), ..., trailing_comma = TRUE) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty(),
     abort_not_boolean(trailing_comma)
   )
   structure(

@@ -53,9 +53,13 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_environment <- function(constructor = c("list2env", "as.environment", "new.env", "topenv", "new_environment"), recurse = FALSE) {
-  constructor <- rlang::arg_match(constructor)
-  abort_not_boolean(recurse)
+opts_environment <- function(constructor = c("list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty(),
+    abort_not_boolean(recurse)
+  )
+
   structure(
     class = c("constructive_options", "constructive_options_environment"),
     list(constructor = constructor, recurse = recurse)

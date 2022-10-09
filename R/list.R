@@ -28,10 +28,12 @@
 #' @export
 opts_list <- function(
     constructor = c("list", "list2"),
+    ...,
     trim = NULL,
     fill = c("vector", "new_list", "+", "...", "none")) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill)
   )

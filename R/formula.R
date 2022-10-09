@@ -22,9 +22,13 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_formula"), environment = constructor != "~") {
-  constructor <- rlang::arg_match(constructor)
-  abort_not_boolean(environment)
+opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = constructor != "~") {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty(),
+    abort_not_boolean(environment)
+  )
+
   structure(
     class = c("constructive_options", "constructive_options_formula"),
     list(constructor = constructor, environment = environment)

@@ -13,8 +13,12 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_data.frame>
 #' @export
-opts_data.frame <- function(constructor = c("data.frame", "read.table")) {
-  constructor <- rlang::arg_match(constructor)
+opts_data.frame <- function(constructor = c("data.frame", "read.table"), ...) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+
   structure(
     class = c("constructive_options", "constructive_options_data.frame"),
     list(

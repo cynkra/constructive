@@ -25,11 +25,13 @@
 #' @export
 opts_function <- function(
     constructor = c("function", "as.function", "new_function"),
+    ...,
     zap_srcref = FALSE,
     environment = constructor != "function",
     trim = NULL) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty(),
     abort_not_boolean(zap_srcref),
     abort_not_boolean(environment),
     abort_not_null_or_integerish(trim)

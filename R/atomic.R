@@ -19,6 +19,7 @@
 #' @export
 opts_atomic <- function(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none")) {
   combine_errors(
+    ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill)
   )
@@ -94,5 +95,6 @@ format_flex <- function(x, all_na) {
   if (as.numeric(formatted) == x) return(formatted)
   formatted <- format(x, digits = 22)
   if (as.numeric(formatted) == x) return(formatted)
-  sprintf("%a", x)
+  # remove from coverage since system dependent
+  sprintf("%a", x) # nocov
 }
