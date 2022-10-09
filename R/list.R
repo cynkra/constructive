@@ -54,7 +54,6 @@ construct_idiomatic.list <- function(x, ...) {
         } else if (fill == "...") {
           new_args <- c(new_args, "...")
         }
-        debugonce(construct_apply)
         code <- construct_apply(new_args, "list", ..., new_line = FALSE, language = TRUE)
         return(code)
       }
