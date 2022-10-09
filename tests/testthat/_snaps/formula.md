@@ -10,8 +10,18 @@
       lhs ~ rhs
     Code
       construct(fml1, opts_formula(constructor = "formula"))
+    Output
+      formula("lhs ~ rhs", env = .GlobalEnv)
+    Code
       construct(fml1, opts_formula(constructor = "new_formula"))
+    Output
+      rlang::new_formula(quote(lhs), quote(rhs), env = .GlobalEnv)
+    Code
       construct(fml1, opts_formula(environment = TRUE))
+    Output
+      (lhs ~ rhs) |>
+        structure(.Environment = .GlobalEnv)
+    Code
       construct(fml1, opts_formula(constructor = "formula", environment = FALSE))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
@@ -35,8 +45,18 @@
       ~rhs
     Code
       construct(fml2, opts_formula(constructor = "formula"))
+    Output
+      formula("~rhs", env = .GlobalEnv)
+    Code
       construct(fml2, opts_formula(constructor = "new_formula"))
+    Output
+      rlang::new_formula(NULL, quote(rhs), env = .GlobalEnv)
+    Code
       construct(fml2, opts_formula(environment = TRUE))
+    Output
+      (~rhs) |>
+        structure(.Environment = .GlobalEnv)
+    Code
       construct(fml2, opts_formula(constructor = "formula", environment = FALSE))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
@@ -62,6 +82,10 @@
         structure(foo = "bar")
     Code
       construct(fml3, opts_formula(environment = TRUE))
+    Output
+      (lhs ~ rhs) |>
+        structure(.Environment = .GlobalEnv, foo = "bar")
+    Code
       fml4 <- fml1
       class(fml4) <- "foo"
       construct(fml4)
