@@ -13,9 +13,11 @@ opts_list(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 
-\item{trim}{\code{NULL} or integerish. Maximum of elements showed before it's trimmed,
-replacing code with \code{...}. Note that it will necessarily produce code that doesn't
-reproduce the input. This code will parse without failure but its evaluation might fail.}
+\item{trim}{\code{NULL} or integerish. Maximum of elements showed before it's trimmed.
+Note that it will necessarily produce code that doesn't reproduce the input.
+This code will parse without failure but its evaluation might fail.}
+
+\item{fill}{String. Method to use to represent the trimmed elements.}
 }
 \value{
 An object of class <constructive_options/constructive_options_list>
@@ -37,7 +39,8 @@ If \code{trim} is provided, depending on \code{fill} we will present trimmed ele
 \item \code{"vector"} (default): Use \code{vector()}, so for instance \code{list("a", "b", "c")} might become \code{c(list("a"), vector("list", 2))}.
 \item \code{"new_list"}: Use \code{rlang::new_list()}, so for instance \code{list("a", "b", "c")} might become \code{c(list("a"), rlang::new_list(2))}.
 \item \code{"+"}: Use unary \code{+}, so for instance \code{list("a", "b", "c")} might become \code{list("a", +2)}.
-\item \code{"..."}: Use \code{...}, so for instance \code{list("a", "b", "c")} might \code{list("a", ...)}
+\item \code{"..."}: Use \code{...}, so for instance \code{list("a", "b", "c")} might become \code{list("a", ...)}
+\item \code{"none"}: Don't represent trimmed elements.
 }
 
 When \code{trim} is used the output is parsable but might not be possible to evaluate,

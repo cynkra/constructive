@@ -12,15 +12,17 @@
 #' * `"vector"` (default): Use `vector()`, so for instance `list("a", "b", "c")` might become `c(list("a"), vector("list", 2))`.
 #' * `"new_list"`: Use `rlang::new_list()`, so for instance `list("a", "b", "c")` might become `c(list("a"), rlang::new_list(2))`.
 #' * `"+"`: Use unary `+`, so for instance `list("a", "b", "c")` might become `list("a", +2)`.
-#' * `"..."`: Use `...`, so for instance `list("a", "b", "c")` might `list("a", ...)`
+#' * `"..."`: Use `...`, so for instance `list("a", "b", "c")` might become `list("a", ...)`
+#' * `"none"`: Don't represent trimmed elements.
 #'
 #' When `trim` is used the output is parsable but might not be possible to evaluate,
 #' especially with `fill = "..."`. In that case you might want to set `check = FALSE`
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
-#' @param trim `NULL` or integerish. Maximum of elements showed before it's trimmed,
-#' replacing code with `...`. Note that it will necessarily produce code that doesn't
-#' reproduce the input. This code will parse without failure but its evaluation might fail.
+#' @param trim `NULL` or integerish. Maximum of elements showed before it's trimmed.
+#' Note that it will necessarily produce code that doesn't reproduce the input.
+#' This code will parse without failure but its evaluation might fail.
+#' @param fill String. Method to use to represent the trimmed elements.
 #'
 #' @return An object of class <constructive_options/constructive_options_list>
 #' @export
