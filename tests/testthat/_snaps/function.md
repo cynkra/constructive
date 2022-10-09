@@ -1,69 +1,53 @@
 # function
 
     Code
-      construct(as.function(alist(x = , x), .GlobalEnv), check = FALSE)
+      f1 <- as.function(alist(x = , x), .GlobalEnv)
+      f2 <- as.function(alist(x = , {
+        x
+      }), .GlobalEnv)
+      construct(f1)
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
       function(x) x
     Code
-      construct(as.function(alist(x = , {
-        x
-      }), .GlobalEnv), check = FALSE)
+      construct(f2)
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
       function(x) {
         x
       }
     Code
-      construct(as.function(alist(x = , x), .GlobalEnv), function.construct_env = TRUE)
+      construct(f1, opts_function(environment = TRUE))
     Output
       (function(x) x) |>
         match.fun("environment<-")(.GlobalEnv)
     Code
-      construct(as.function(alist(x = , x), .GlobalEnv), function.zap_srcref = TRUE,
-      check = FALSE)
+      construct(f1, opts_function(zap_srcref = TRUE))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
-      (function(x) x)
+      function(x) x
     Code
-      construct(as.function(alist(x = , {
-        x
-      }), .GlobalEnv), function.zap_srcref = TRUE, check = FALSE)
+      construct(f2, opts_function(zap_srcref = TRUE))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
       (function(x) {
         x
       }) |>
         rlang::zap_srcref()
     Code
-      construct(as.function(alist(x = , x), .GlobalEnv), function.as.function = TRUE,
-      check = FALSE)
-    Output
-      as.function(alist(x = , x))
-    Code
-      construct(as.function(alist(x = , {
-        x
-      }), .GlobalEnv), function.as.function = TRUE, check = FALSE)
-    Output
-      as.function(
-        alist(
-          x = ,
-          {
-            x
-          }
-        )
-      )
-    Code
-      construct(as.function(alist(x = , x), .GlobalEnv), function.as.function = TRUE,
-      function.construct_env = TRUE)
+      construct(f1, opts_function("as.function"))
     Output
       as.function(alist(x = , x), envir = .GlobalEnv)
     Code
-      construct(as.function(alist(x = , x), .GlobalEnv), function.as.function = TRUE,
-      function.zap_srcref = TRUE, check = FALSE)
-    Output
-      as.function(alist(x = , x))
-    Code
-      construct(as.function(alist(x = , {
-        x
-      }), .GlobalEnv), function.as.function = TRUE, function.zap_srcref = TRUE,
-      check = FALSE)
+      construct(f2, opts_function("as.function"))
     Output
       as.function(
         alist(
@@ -71,11 +55,71 @@
           {
             x
           }
-        )
+        ),
+        envir = .GlobalEnv
+      )
+    Code
+      construct(f1, opts_function("as.function", environment = FALSE))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      as.function(alist(x = , x))
+    Code
+      construct(f1, opts_function("as.function", zap_srcref = TRUE))
+    Output
+      as.function(alist(x = , x), envir = .GlobalEnv)
+    Code
+      construct(f2, opts_function("as.function", zap_srcref = TRUE))
+    Output
+      as.function(
+        alist(
+          x = ,
+          {
+            x
+          }
+        ),
+        envir = .GlobalEnv
       ) |>
         rlang::zap_srcref()
     Code
-      construct(setNames, function.construct_env = TRUE)
+      construct(f1, opts_function("new_function"))
+    Output
+      rlang::new_function(args = alist(x = ), body = quote(x), env = .GlobalEnv)
+    Code
+      construct(f2, opts_function("new_function"))
+    Output
+      rlang::new_function(
+        args = alist(x = ),
+        body = quote({
+          x
+        }),
+        env = .GlobalEnv
+      )
+    Code
+      construct(f1, opts_function("new_function", environment = FALSE))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      rlang::new_function(args = alist(x = ), body = quote(x))
+    Code
+      construct(f1, opts_function("new_function", zap_srcref = TRUE))
+    Output
+      rlang::new_function(args = alist(x = ), body = quote(x), env = .GlobalEnv)
+    Code
+      construct(f2, opts_function("new_function", zap_srcref = TRUE))
+    Output
+      rlang::new_function(
+        args = alist(x = ),
+        body = quote({
+          x
+        }),
+        env = .GlobalEnv
+      ) |>
+        rlang::zap_srcref()
+    Code
+      construct(setNames, opts_function(environment = TRUE))
     Output
       (function(object = nm, nm) {
         names(object) <- nm
@@ -83,7 +127,7 @@
       }) |>
         match.fun("environment<-")(asNamespace("stats"))
     Code
-      construct(setNames, function.as.function = TRUE, function.construct_env = TRUE)
+      construct(setNames, opts_function("as.function", environment = TRUE))
     Output
       as.function(
         alist(
@@ -97,9 +141,17 @@
         envir = asNamespace("stats")
       )
     Code
-      construct(setNames, max_body = 0, check = FALSE)
+      construct(setNames, opts_function(trim = 1))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
       function(object = nm, nm) {
+        names(object) <- nm
         ...
       }
+    Code
+      construct(`+`)
+    Output
+      .Primitive("+")
 
