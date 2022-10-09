@@ -25,7 +25,7 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table")) {
 
 #' @export
 construct_idiomatic.data.frame <- function(x, ...) {
-  args <- fetch_opts("data.frame", ...)
+  opts <- fetch_opts("data.frame", ...)
   df_has_list_cols <- any(sapply(x, function(col) is.list(col) && ! inherits(col, "AsIs")))
   # FIXME: not safe re attributes
   if (df_has_list_cols) {
@@ -33,7 +33,7 @@ construct_idiomatic.data.frame <- function(x, ...) {
     df_code <- wrap(tibble_code, "as.data.frame", new_line = FALSE)
     return(df_code)
   }
-  if (args$constructor == "read.table" && !any(lengths(lapply(x, attributes)))) {
+  if (opts$constructor == "read.table" && !any(lengths(lapply(x, attributes)))) {
     code_df <- x
     code_df[] <- lapply(x, as.character)
     dbl_cols <- sapply(x, is.double)

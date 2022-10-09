@@ -43,24 +43,24 @@ opts_list <- function(
 
 #' @export
 construct_idiomatic.list <- function(x, ...) {
-  args <- fetch_opts("list", ...)
-  trim <- args$trim
-  fill <- args$fill
+  opts <- fetch_opts("list", ...)
+  trim <- opts$trim
+  fill <- opts$fill
   if (!is.null(trim)) {
     l <- length(x)
     if (l > trim) {
-      new_args <- lapply(x[seq_len(args$trim)], construct_raw, ...)
+      args <- lapply(x[seq_len(trim)], construct_raw, ...)
       if (fill %in% c("+", "...", "none")) {
         if (fill == "+") {
-          new_args <- c(new_args, list(paste0("+", l - trim)))
+          args <- c(args, list(paste0("+", l - trim)))
         } else if (fill == "...") {
-          new_args <- c(new_args, "...")
+          args <- c(args, "...")
         }
-        code <- construct_apply(new_args, "list", ..., new_line = FALSE, language = TRUE)
+        code <- construct_apply(args, "list", ..., new_line = FALSE, language = TRUE)
         return(code)
       }
 
-      list_code <- construct_apply(new_args, "list", ..., new_line = FALSE, language = TRUE)
+      list_code <- construct_apply(args, "list", ..., new_line = FALSE, language = TRUE)
       if (fill == "vector") {
         null_list_code <- sprintf('vector("list", %s)', l - trim)
       } else {
@@ -71,7 +71,7 @@ construct_idiomatic.list <- function(x, ...) {
       return(code)
     }
   }
-  constructor <- args$constructor
+  constructor <- opts$constructor
   if (constructor == "list2") constructor <- "rlang::list2"
   construct_apply(x, fun = constructor, ..., keep_trailing_comma = constructor == "rlang::list2")
 }

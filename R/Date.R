@@ -31,9 +31,9 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
 
 #' @export
 construct_idiomatic.Date <- function(x, ...) {
-  args <- fetch_opts("Date", ...)
-  origin <- args$origin
-  constructor <- args$constructor
+  opts <- fetch_opts("Date", ...)
+  origin <- opts$origin
+  constructor <- opts$constructor
 
   if (constructor == "as.Date") {
     if (any(is.infinite(x)) && any(is.finite(x))) {
@@ -65,7 +65,7 @@ construct_idiomatic.Date <- function(x, ...) {
   if (constructor == "as.Date.numeric") {
     x_dbl <- unclass(x)
     if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
-    code <- construct_apply(list(x_dbl, origin = args$origin), "as.Date", ..., new_line = FALSE)
+    code <- construct_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
     return(code)
   }
 

@@ -45,29 +45,32 @@ opts_function <- function(
 construct_idiomatic.function <- function(
     x, ..., pipe, one_liner = FALSE) {
   if (rlang::is_primitive(x)) return(deparse(`+`))
-  args <- fetch_opts("function", ...)
+  opts <- fetch_opts("function", ...)
+  trim <- opts$trim
+  constructor <- opts$constructor
+  environment <- opts$environment
 
   x_lst <- as.list(x)
   body_lng <- x_lst[[length(x_lst)]]
-  zap_srcref <-  args$zap_srcref && is.call(body_lng) && identical(body_lng[[1]], as.symbol("{"))
+  zap_srcref <-  opts$zap_srcref && is.call(body_lng) && identical(body_lng[[1]], as.symbol("{"))
 
   # trim if relevant
-  if (!is.null(args$trim)) {
-    if (length(body_lng) > args$trim + 1) {
-      x_lst[[length(x_lst)]] <- as.call(c(head(as.list(body_lng), args$trim + 1), quote(...)))
+  if (!is.null(trim)) {
+    if (length(body_lng) > trim + 1) {
+      x_lst[[length(x_lst)]] <- as.call(c(head(as.list(body_lng), trim + 1), quote(...)))
     }
   }
 
-  if (args$constructor == "function") {
+  if (constructor == "function") {
     # FIXME: we should use the srcref
     code <- deparse(as.function(x_lst))
     if (length(code) == 2) code <- paste(code[1], code[2])
-    if (args$environment || zap_srcref) {
+    if (environment || zap_srcref) {
       code[1] <- paste0("(", code[1])
       n <- length(code)
       code[n] <- paste0(code[n], ")")
     }
-    if (args$environment) {
+    if (environment) {
       envir_code <- construct_apply(
         list(environment(x)),
         'match.fun("environment<-")',
@@ -76,30 +79,30 @@ construct_idiomatic.function <- function(
         ...)
       code <- pipe(code, envir_code, pipe, one_liner)
     }
-  } else if (args$constructor == "as.function") {
+  } else if (constructor == "as.function") {
     # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
     # so we must use regular deparse
     fun_lst <- lapply(x_lst, deparse)
-    new_args <- list(construct_apply(
+    args <- list(construct_apply(
       fun_lst, "alist", ..., language = TRUE, pipe = pipe, one_liner = one_liner))
-    if (args$environment) {
+    if (environment) {
       envir_arg <- construct_raw(environment(x), ..., pipe = pipe, one_liner = one_liner)
-      new_args <- c(new_args, list(envir = envir_arg))
+      args <- c(args, list(envir = envir_arg))
     }
-    code <- construct_apply(new_args, "as.function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
-  } else if (args$constructor == "new_function") {
+    code <- construct_apply(args, "as.function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
+  } else if (constructor == "new_function") {
     # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
     # so we must use regular deparse
     fun_lst <- lapply(x_lst, deparse)
-    new_args <- list(
+    args <- list(
       args = construct_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE, pipe = pipe, one_liner = one_liner),
       body = wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
     )
-    if (args$environment) {
+    if (environment) {
       envir_arg <- construct_raw(environment(x), ..., pipe = pipe, one_liner = one_liner)
-      new_args <- c(new_args, list(env = envir_arg))
+      args <- c(args, list(env = envir_arg))
     }
-    code <- construct_apply(new_args, "rlang::new_function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
+    code <- construct_apply(args, "rlang::new_function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
   }
 
   # zap srcref if relevant

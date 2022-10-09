@@ -33,18 +33,19 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
 
 #' @export
 construct_idiomatic.formula <- function(x, ...) {
-  args <- fetch_opts("formula", ...)
+  opts <- fetch_opts("formula", ...)
+  constructor <- opts$constructor
   env <- environment(x)
 
-  if (args$constructor == "~") {
+  if (constructor == "~") {
     # envir might be fixed in repair ?
     return(deparse(x))
   }
 
-  if (args$constructor == "new_formula") {
+  if (constructor == "new_formula") {
     lhs_code <-construct_raw(rlang::f_lhs(x))
     rhs_code <-construct_raw(rlang::f_rhs(x))
-    if (args$environment) {
+    if (opts$environment) {
       env_code <- construct_raw(env, ...)
       code <- construct_apply(list(lhs_code, rhs_code, env = env_code), "rlang::new_formula", ..., language = TRUE)
     } else {
@@ -54,21 +55,22 @@ construct_idiomatic.formula <- function(x, ...) {
   }
 
   # constructor is "formula" or "as.formula"
-  if (args$environment) {
-    code <- construct_apply(list(deparse(x), env = env), args$constructor, ...)
+  if (opts$environment) {
+    code <- construct_apply(list(deparse(x), env = env), constructor, ...)
   } else {
-    code <- construct_apply(list(deparse(x)), args$constructor, ..., language = TRUE)
+    code <- construct_apply(list(deparse(x)), constructor, ..., language = TRUE)
   }
   code
 }
 
 #' @export
 repair_attributes.formula <- function(x, code, ..., pipe ="base") {
-  args <- fetch_opts("formula", ...)
+  opts <- fetch_opts("formula", ...)
+  constructor <- opts$constructor
   ignore <- ".Environment"
-  use_tilde_with_environment <- args$environment && args$constructor == "~"
-  if (args$constructor == "~") {
-    if (args$environment) {
+  use_tilde_with_environment <- opts$environment && constructor == "~"
+  if (constructor == "~") {
+    if (opts$environment) {
       ignore <- NULL # don't ignore the .Environment attr, we need to set it up
       code <- wrap(code, "")
     } else {

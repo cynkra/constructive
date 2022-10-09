@@ -73,7 +73,10 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
   # This means `asNamespace("base")` (a.k.a. `.BaseNamespaceEnv`) and
   #   `as.environment("package:base")` (a.k.a. `baseenv()`) have the same name
   #   but are different. So we implement a workaround.
-  args <- fetch_opts("environment", ...)
+  opts <- fetch_opts("environment", ...)
+  constructor <- opts$constructor
+  recurse <- opts$recurse
+
   if (identical(x, baseenv())) return('baseenv()')
   if (identical(x, emptyenv())) return('emptyenv()')
   name <- environmentName(x)
@@ -82,14 +85,14 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
   if (name %in% row.names(installed.packages())) return(sprintf('asNamespace("%s")', name))
   if (name %in% search()) return(sprintf('as.environment("%s")', name))
 
-  if (args$constructor %in% c("list2env", "new_environment")) {
+  if (constructor %in% c("list2env", "new_environment")) {
     constructor <- switch(
-      args$constructor,
+      constructor,
       list2env = "list2env",
       new_environment = "rlang::new_environment"
     )
 
-    if (!args$recurse) {
+    if (!recurse) {
       if (length(names(x))) {
         code <- construct_apply(list(as.list.environment(x), parent = topenv(x)), constructor, ..., pipe = pipe, one_liner = one_liner)
         return(code)
@@ -113,9 +116,9 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
     return(code)
   }
 
-  if (args$constructor == "new.env") return("new.env()")
+  if (constructor == "new.env") return("new.env()")
 
-  if (args$constructor == "as.environment") {
+  if (constructor == "as.environment") {
     # We need to use as.list.environment directly because as.list will only map
     # to "as.list.environment" if class was not overriden
     code <- wrap(
@@ -126,7 +129,7 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
     return(code)
   }
 
-  # if (args$constructor == "topenv")
+  # constructor == "topenv"
   construct_raw(topenv(x))
 }
 

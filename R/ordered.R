@@ -23,8 +23,8 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered")) {
 
 #' @export
 construct_idiomatic.ordered <- function(x, ...) {
-  args <- fetch_opts("ordered", ...)
-  constructor <- args$constructor
+  opts <- fetch_opts("ordered", ...)
+  constructor <- opts$constructor
   levs <- levels(x)
 
   if (constructor == "new_ordered") {
@@ -32,15 +32,15 @@ construct_idiomatic.ordered <- function(x, ...) {
     return(code)
   }
 
-  new_args <- list(levs[x])
+  args <- list(levs[x])
   default_levs <- sort(unique(as.character(x)))
   if (identical(default_levs, levs)) {
-    if (constructor == "factor") new_args <- c(new_args, list(ordered = TRUE))
-    code <- construct_apply(new_args, constructor, new_line =  constructor == "factor", ...)
+    if (constructor == "factor") args <- c(args, list(ordered = TRUE))
+    code <- construct_apply(args, constructor, new_line =  constructor == "factor", ...)
   } else {
-    new_args <- c(new_args, list(levels = levs))
-    if (constructor == "factor") new_args <- c(new_args, list(ordered = TRUE))
-    code <- construct_apply(new_args, constructor, ...)
+    args <- c(args, list(levels = levs))
+    if (constructor == "factor") args <- c(args, list(ordered = TRUE))
+    code <- construct_apply(args, constructor, ...)
   }
   code
 }

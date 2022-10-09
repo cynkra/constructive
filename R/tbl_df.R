@@ -22,9 +22,9 @@ opts_tbl_df <- function(tribble = FALSE, trailing_comma = TRUE) {
 
 #' @export
 construct_idiomatic.tbl_df <- function(x, ...) {
-  args <- fetch_opts("tbl_df", ...)
-  construct_tribble(x, ..., tribble = args$tribble, trailing_comma = args$trailing_comma) %||%
-    construct_apply(x, fun = "tibble::tibble", ..., keep_trailing_comma = args$trailing_comma)
+  opts <- fetch_opts("tbl_df", ...)
+  construct_tribble(x, ..., tribble = opts$tribble, trailing_comma = opts$trailing_comma) %||%
+    construct_apply(x, fun = "tibble::tibble", ..., keep_trailing_comma = opts$trailing_comma)
 }
 
 construct_tribble <- function(x, ..., tribble, trailing_comma) {

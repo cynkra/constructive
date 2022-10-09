@@ -25,8 +25,8 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor")) {
 
 #' @export
 construct_idiomatic.factor <- function(x, ...) {
-  args <- fetch_opts("factor", ...)
-  constructor <- args$constructor
+  opts <- fetch_opts("factor", ...)
+  constructor <- opts$constructor
   levs <- levels(x)
 
   if (constructor == "new_factor") {
