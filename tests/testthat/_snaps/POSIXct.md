@@ -14,6 +14,41 @@
     Output
       as.POSIXct("2022-01-01 01:00:00", tz = "UTC")
     Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct(
+        ".POSIXct"))
+    Output
+      .POSIXct(1640998800, tz = "UTC")
+    Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct(
+        "as_datetime"))
+    Output
+      lubridate::as_datetime("2022-01-01 01:00:00")
+    Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct(
+        "as.POSIXct"))
+    Output
+      as.POSIXct("2022-01-01 01:00:00", tz = "UTC")
+    Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct(
+        "as.POSIXct.numeric"))
+    Output
+      as.POSIXct(1640998800, tz = "UTC", origin = "1970-01-01")
+    Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct(
+        "as.POSIXct.numeric", origin = "2000-01-01"))
+    Output
+      as.POSIXct(694310400, tz = "CET", origin = "2000-01-01")
+    Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct(
+        "as_datetime.numeric"))
+    Output
+      lubridate::as_datetime(1640998800)
+    Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct(
+        "as_datetime.numeric", origin = "2000-01-01"))
+    Output
+      lubridate::as_datetime(694310400, tz = "CET", origin = "2000-01-01")
+    Code
       construct(as.POSIXct("2022-01-01 01:00:00.1", tz = "GMT"))
     Output
       as.POSIXct("2022-01-01 01:00:00.1", tz = "GMT")
