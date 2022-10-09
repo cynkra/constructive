@@ -17,17 +17,6 @@
     Output
       list(foo)
 
-# max_atomic works
-
-    Code
-      construct(letters, max_atomic = 0)
-    Output
-      character(0)
-    Code
-      construct(letters, max_atomic = 2)
-    Output
-      c("a", "b", +24)
-
 # noquote is supported
 
     Code

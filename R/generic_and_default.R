@@ -19,33 +19,11 @@ construct_idiomatic <- function(x, ...) {
 # ("logical", "integer", "complex", "character" and "raw")
 #' @export
 construct_idiomatic.default <- function(x, ..., max_atomic = NULL, one_liner = FALSE) {
-  if (is.environment(x)) return(construct_idiomatic.environment(x, ..., max_atomic = max_atomic))
-  if (is.list(x))  return(construct_idiomatic.list(x, ..., max_atomic = max_atomic))
-  if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, ..., max_atomic = max_atomic))
-  if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, ..., max_atomic = max_atomic))
-  attributes(x) <- NULL
-  if (!is.null(max_atomic)) return(trim_atomic(x, max_atomic, one_liner))
-  code <- deparse(x)
-  if (one_liner) code <- paste(code, collapse = " ")
-  code
-}
-
-trim_atomic <- function(x, max_atomic, one_liner) {
-  if (max_atomic == 0) x <- x[0]
-  l <- length(x)
-  if (l <= max_atomic) {
-    code <- deparse(x)
-    if (one_liner) code <- paste(code, collapse = " ")
-    return(code)
-  }
-  code <- deparse(head(x, max_atomic))
-  code[[length(code)]] <- sub(
-    ")$",
-    sprintf(", +%s)", l - max_atomic),
-    code[[length(code)]]
-  )
-  if (one_liner) code <- paste(code, collapse = " ")
-  code
+  if (is.environment(x)) return(construct_idiomatic.environment(x, ..., one_liner = one_liner))
+  if (is.list(x))  return(construct_idiomatic.list(x, ..., one_liner = one_liner))
+  if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, ..., one_liner = one_liner))
+  if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, ..., one_liner = one_liner))
+  construct_idiomatic.atomic(x, ..., one_liner = one_liner)
 }
 
 repair_attributes <- function(x, code, ..., pipe = "base") {
