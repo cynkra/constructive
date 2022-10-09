@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.matrix <- function(x, ..., pipe) {
+construct_idiomatic.matrix <- function(x, ..., pipe = "base") {
   dim <- attr(x, "dim")
   dimnames <- attr(x, "dimnames")
   dim_names_lst <- if (!is.null(dimnames)) list(dimnames = dimnames)
