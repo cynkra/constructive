@@ -10,10 +10,6 @@ construct(
   data = NULL,
   pipe = c("base", "magrittr"),
   check = NULL,
-  max_atomic = NULL,
-  max_list = NULL,
-  max_body = NULL,
-  env_as_list = TRUE,
   ignore_srcref = TRUE,
   ignore_attr = FALSE,
   ignore_function_env = FALSE,
@@ -37,14 +33,6 @@ be combined so you can provide a list of named objects and unnamed namespaces.}
 \item{check}{Boolean. Whether to check if the created code reproduces the object
 using \code{waldo::compare()}}
 
-\item{max_atomic}{maximum number of elements of atomic vectors to print, forces check to \code{FALSE}}
-
-\item{max_list}{maximum number of elements of a list to print, forces check to \code{FALSE}}
-
-\item{max_body}{maximum number of calls to show from a function's body, forces check to \code{FALSE}}
-
-\item{env_as_list}{translate environments to \code{new.env()} rather than \code{as.environment(list(...))}}
-
 \item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{passed to \code{waldo::compare()}}
 
 \item{template}{A list of constructive options build with \verb{opts_*()} functions,
@@ -61,19 +49,22 @@ Constructive options provide a way to customize the output of \code{construct()}
 We can provide calls to \verb{opts_*()} functions to the \code{...} argument. Each of
 these functions targets a specific element type and is documented on its own page.
 \itemize{
+\item \code{\link[=opts_atomic]{opts_atomic()}}
 \item \code{\link[=opts_data.frame]{opts_data.frame()}}
 \item \code{\link[=opts_Date]{opts_Date()}}
 \item \code{\link[=opts_environment]{opts_environment()}}
 \item \code{\link[=opts_formula]{opts_formula()}}
 \item \code{\link[=opts_factor]{opts_factor()}}
-\item \code{\link[=opts_ordered]{opts_ordered()}}
 \item \code{\link[=opts_function]{opts_function()}}
+\item \code{\link[=opts_list]{opts_list()}}
+\item \code{\link[=opts_ordered]{opts_ordered()}}
+\item \code{\link[=opts_POSIXct]{opts_POSIXct()}}
 }
 
 In particular by default the environments of functions and formulas are not reconstructed,
 and \code{opts_formula()} and \code{opts_function()} help you adjust this behavior.
 Note that objects referring to environment often can't be reconstructed faithfully.
 Some compromises have to be made and \code{opts_environment()} helps you make them.
-Other \verb{opts_*()} functions should have a purely cosmetic effect.
+Other \verb{opts_*()} functions have a purely cosmetic effect.
 }
 

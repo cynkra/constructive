@@ -23,7 +23,7 @@ test_that("function", {
 
     construct(setNames, opts_function(environment = TRUE))
     construct(setNames, opts_function("as.function", environment = TRUE))
-    # with max_body
+    # with trim
     construct(setNames, opts_function(trim = 1))
 
     # primitives

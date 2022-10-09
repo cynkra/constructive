@@ -18,7 +18,7 @@ construct_idiomatic <- function(x, ...) {
 # the default case handles all atomic modes through dput except for numeric
 # ("logical", "integer", "complex", "character" and "raw")
 #' @export
-construct_idiomatic.default <- function(x, ..., max_atomic = NULL, one_liner = FALSE) {
+construct_idiomatic.default <- function(x, ..., one_liner = FALSE) {
   if (is.environment(x)) return(construct_idiomatic.environment(x, ..., one_liner = one_liner))
   if (is.list(x))  return(construct_idiomatic.list(x, ..., one_liner = one_liner))
   if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, ..., one_liner = one_liner))

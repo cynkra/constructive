@@ -9,10 +9,6 @@
 #' @param pipe Which pipe to use, either "base" or "magrittr"
 #' @param check Boolean. Whether to check if the created code reproduces the object
 #'   using `waldo::compare()`
-#' @param max_atomic maximum number of elements of atomic vectors to print, forces check to `FALSE`
-#' @param max_list maximum number of elements of a list to print, forces check to `FALSE`
-#' @param max_body maximum number of calls to show from a function's body, forces check to `FALSE`
-#' @param env_as_list translate environments to `new.env()` rather than `as.environment(list(...))`
 #' @param ignore_srcref,ignore_attr,ignore_function_env,ignore_formula_env passed to `waldo::compare()`
 #' @param ... Constructive options built with the `opts_*()` family of functions. See the "Constructive options"
 #'   section below.
@@ -26,32 +22,31 @@
 #' We can provide calls to `opts_*()` functions to the `...` argument. Each of
 #' these functions targets a specific element type and is documented on its own page.
 #'
+#' * [opts_atomic()]
 #' * [opts_data.frame()]
 #' * [opts_Date()]
 #' * [opts_environment()]
 #' * [opts_formula()]
 #' * [opts_factor()]
-#' * [opts_ordered()]
 #' * [opts_function()]
+#' * [opts_list()]
+#' * [opts_ordered()]
+#' * [opts_POSIXct()]
 #'
 #' In particular by default the environments of functions and formulas are not reconstructed,
 #' and `opts_formula()` and `opts_function()` help you adjust this behavior.
 #' Note that objects referring to environment often can't be reconstructed faithfully.
 #' Some compromises have to be made and `opts_environment()` helps you make them.
-#' Other `opts_*()` functions should have a purely cosmetic effect.
+#' Other `opts_*()` functions have a purely cosmetic effect.
 #'
 #' @export
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
-                      max_atomic = NULL, max_list = NULL, max_body = NULL, env_as_list = TRUE,
                       ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {
   pipe <- match.arg(pipe)
   data <- preprocess_data(data)
-  code <- try_construct(x, ..., data = data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, one_liner = one_liner)
+  code <- try_construct(x, ..., data = data, pipe = pipe, one_liner = one_liner)
   styled_code <- try_parse(code, data, one_liner)
-  if (!is.null(max_atomic) || !is.null(max_list) || !is.null(max_body)) {
-    check <- FALSE
-  }
   compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env)
   structure(list(code = styled_code, compare = compare), class = "constructive")
 }

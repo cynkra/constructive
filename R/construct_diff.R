@@ -34,7 +34,7 @@
 #' construct_diff(x, y)
 #' }
 construct_diff <- function(
-    target, current, data = NULL, pipe = c("base", "magrittr"), check = TRUE, max_atomic = NULL, max_body = NULL, env_as_list = TRUE, ignore_srcref = TRUE,
+    target, current, data = NULL, pipe = c("base", "magrittr"), check = TRUE, ignore_srcref = TRUE,
     mode = c("sidebyside", "auto", "unified", "context"), ...) {
   mode <- match.arg(mode)
   tar.banner <- format_call_for_diffobj_banner(substitute(target), ...)
@@ -44,11 +44,9 @@ construct_diff <- function(
     return(invisible(NULL))
   }
   target_code <- construct(
-    target, data, pipe = pipe, check = check, max_atomic = max_atomic,
-    max_body = max_body, env_as_list = env_as_list, ignore_srcref = ignore_srcref)$code
+    target, data, pipe = pipe, check = check, ignore_srcref = ignore_srcref)$code
   current_code <- construct(
-    current, data, pipe = pipe, check = check, max_atomic = max_atomic,
-    max_body = max_body, env_as_list = env_as_list, ignore_srcref = ignore_srcref)$code
+    current, data, pipe = pipe, check = check, ignore_srcref = ignore_srcref)$code
   f <- tempfile(fileext = ".html")
   diffobj::diffChr(
     target_code,

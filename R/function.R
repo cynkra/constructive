@@ -43,7 +43,7 @@ opts_function <- function(
 
 #' @export
 construct_idiomatic.function <- function(
-    x, ..., pipe, max_body = NULL, one_liner = FALSE) {
+    x, ..., pipe, one_liner = FALSE) {
   if (rlang::is_primitive(x)) return(deparse(`+`))
   args <- fetch_opts("function", ...)
 
