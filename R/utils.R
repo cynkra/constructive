@@ -41,20 +41,6 @@ namespace_as_list <- function(pkg) {
   )
 }
 
-default_args <- function(fun, env = environment(fun)) {
-  defaults <- head(as.list(fun), -1)
-  defaults <- Filter(function(x) !identical(x, quote(expr=)), defaults)
-  # FIXME: might fail if some args depend on previous args
-  lapply(defaults, eval, env)
-}
-
-keep_only_non_defaults <- function(args, fun, env = environment(fun)) {
-  defaults <- default_args(fun, env)
-  args_are_defaults <- mapply(identical, defaults, args[names(defaults)], ignore.environment = TRUE)
-  args[names(args_are_defaults)[args_are_defaults]] <- NULL
-  args
-}
-
 # much faster than match()
 match2 <- function(needle, haystack) {
   # ignore attributes of needle and its environment-ness
