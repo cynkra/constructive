@@ -2,7 +2,8 @@
 #'
 #' @inheritParams construct
 #' @inheritParams diffobj::diffChr
-#' @param mode passed to `diffobj::diffChr()`, with a different default
+#' @param mode,interactive passed to `diffobj::diffChr()`
+#'
 #' @param ... additional parameters passed to `diffobj::diffChr()`
 #'
 #' @return Returns `NULL` invisibly, called for side effects
@@ -34,19 +35,42 @@
 #' construct_diff(x, y)
 #' }
 construct_diff <- function(
-    target, current, data = NULL, pipe = c("base", "magrittr"), check = TRUE, ignore_srcref = TRUE,
-    mode = c("sidebyside", "auto", "unified", "context"), ...) {
+    target, current, ..., data = NULL, pipe = c("base", "magrittr"), check = TRUE, ignore_srcref = TRUE,
+    ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
+    template = getOption("constructive_opts_template"), mode = c("sidebyside", "auto", "unified", "context"), interactive = TRUE) {
   mode <- match.arg(mode)
-  tar.banner <- format_call_for_diffobj_banner(substitute(target), ...)
-  cur.banner <- format_call_for_diffobj_banner(substitute(current), ...)
+  tar.banner <- format_call_for_diffobj_banner(substitute(target), interactive = interactive)
+  cur.banner <- format_call_for_diffobj_banner(substitute(current), interactive = interactive)
   if (identical(target, current)) {
     rlang::inform("No difference to show!")
     return(invisible(NULL))
   }
   target_code <- construct(
-    target, data, pipe = pipe, check = check, ignore_srcref = ignore_srcref)$code
+    target,
+    ...,
+    data = data,
+    pipe = pipe,
+    check = check,
+    ignore_srcref = ignore_srcref,
+    ignore_attr = ignore_attr,
+    ignore_function_env = ignore_function_env,
+    ignore_formula_env = ignore_formula_env,
+    one_liner = one_liner,
+    template = template
+    )$code
   current_code <- construct(
-    current, data, pipe = pipe, check = check, ignore_srcref = ignore_srcref)$code
+    current,
+    ...,
+    data = data,
+    pipe = pipe,
+    check = check,
+    ignore_srcref = ignore_srcref,
+    ignore_attr = ignore_attr,
+    ignore_function_env = ignore_function_env,
+    ignore_formula_env = ignore_formula_env,
+    one_liner = one_liner,
+    template = template
+  )$code
   f <- tempfile(fileext = ".html")
   diffobj::diffChr(
     target_code,
@@ -55,10 +79,11 @@ construct_diff <- function(
     tar.banner = tar.banner,
     cur.banner = cur.banner,
     pager=list(file.path=f),
-    ...)
+    interactive = interactive
+  )
 }
 
-format_call_for_diffobj_banner <- function(call, interactive = TRUE, ...) {
+format_call_for_diffobj_banner <- function(call, interactive) {
   deparsed <- rlang::expr_deparse(call)
   styled <- styler::style_text(deparsed)
   if (!interactive) return(paste(styled, collapse = " "))
