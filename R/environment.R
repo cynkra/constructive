@@ -12,8 +12,11 @@
 #' Luckily in many cases we don't need a perfect copy of an environment to reproduce
 #' an object faithfully from a practical standpoint, and in a some cases we might build
 #' code that points to a specific environment such as `.GlobalEnv` or a given namespace.\cr
+#' {constructive} will not signal any difference if it can reproduce an equivalent environment,
+#' defined as containing the same values and having a same or equivalent parent.\cr
 #' See also the `ignore_function_env` argument in `?construct`, which disables the check
 #' of environments of function.
+#'
 #'
 #' Environment construction works as follows:
 #' * Special environments `.GlobalEnv`, `.BaseNamespaceEnv`, `baseenv()` and
