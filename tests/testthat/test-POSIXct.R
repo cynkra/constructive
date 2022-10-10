@@ -8,6 +8,7 @@ test_that("POSIXct", {
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"))
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct(".POSIXct"))
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct("as_datetime"))
+    construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct("as_datetime"))
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct("as.POSIXct"))
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct("as.POSIXct.numeric"))
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct("as.POSIXct.numeric", origin = "2000-01-01"))
