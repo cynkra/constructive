@@ -4,7 +4,7 @@
 \alias{opts_ordered}
 \title{Constructive options for class 'ordered'}
 \usage{
-opts_ordered(constructor = c("ordered", "factor", "new_ordered"))
+opts_ordered(constructor = c("ordered", "factor", "new_ordered"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}

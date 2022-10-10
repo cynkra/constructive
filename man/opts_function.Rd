@@ -6,6 +6,7 @@
 \usage{
 opts_function(
   constructor = c("function", "as.function", "new_function"),
+  ...,
   zap_srcref = FALSE,
   environment = constructor != "function",
   trim = NULL

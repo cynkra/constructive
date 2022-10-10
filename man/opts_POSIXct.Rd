@@ -7,6 +7,7 @@
 opts_POSIXct(
   constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric",
     "as_datetime.numeric"),
+  ...,
   origin = "1970-01-01"
 )
 }

@@ -6,6 +6,7 @@
 \usage{
 opts_formula(
   constructor = c("~", "formula", "as.formula", "new_formula"),
+  ...,
   environment = constructor != "~"
 )
 }

@@ -4,7 +4,7 @@
 \alias{opts_data.frame}
 \title{Constructive options for class 'data.frame'}
 \usage{
-opts_data.frame(constructor = c("data.frame", "read.table"))
+opts_data.frame(constructor = c("data.frame", "read.table"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}

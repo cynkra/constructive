@@ -6,6 +6,7 @@
 \usage{
 opts_environment(
   constructor = c("list2env", "as.environment", "new.env", "topenv", "new_environment"),
+  ...,
   recurse = FALSE
 )
 }

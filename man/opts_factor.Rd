@@ -4,7 +4,7 @@
 \alias{opts_factor}
 \title{Constructive options for class 'factor'}
 \usage{
-opts_factor(constructor = c("factor", "as_factor", "new_factor"))
+opts_factor(constructor = c("factor", "as_factor", "new_factor"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}

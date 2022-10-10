@@ -7,6 +7,7 @@
 opts_Date(
   constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric",
     "as_date.numeric"),
+  ...,
   origin = "1970-01-01"
 )
 }

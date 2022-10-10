@@ -6,6 +6,7 @@
 \usage{
 opts_list(
   constructor = c("list", "list2"),
+  ...,
   trim = NULL,
   fill = c("vector", "new_list", "+", "...", "none")
 )

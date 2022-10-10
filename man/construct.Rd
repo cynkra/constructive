@@ -59,6 +59,7 @@ these functions targets a specific element type and is documented on its own pag
 \item \code{\link[=opts_list]{opts_list()}}
 \item \code{\link[=opts_ordered]{opts_ordered()}}
 \item \code{\link[=opts_POSIXct]{opts_POSIXct()}}
+\item \code{\link[=opts_tbl_df]{opts_tbl_df()}}
 }
 
 In particular by default the environments of functions and formulas are not reconstructed,

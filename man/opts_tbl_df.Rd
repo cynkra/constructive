@@ -2,19 +2,27 @@
 % Please edit documentation in R/tbl_df.R
 \name{opts_tbl_df}
 \alias{opts_tbl_df}
-\title{Constructive options for class 'tbl_df'}
+\title{Constructive options for tibbles}
 \usage{
-opts_tbl_df(tribble = FALSE, trailing_comma = TRUE)
+opts_tbl_df(constructor = c("tibble", "tribble"), ..., trailing_comma = TRUE)
 }
 \arguments{
-\item{tribble}{Boolean, whether to build tibbles using \code{tribble()} whenever possible}
+\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 
-\item{trailing_comma}{Boolean, whether to leave a trailing comma at the end of tibble
+\item{trailing_comma}{Boolean, whether to leave a trailing comma at the end of the constructor call
 calls}
 }
 \value{
 An object of class <constructive_options/constructive_options_tbl_df>
 }
 \description{
-Constructive options for class 'tbl_df'
+These options will be used on objects of class 'tbl_df', also known as tibbles. .
+}
+\details{
+Depending on \code{constructor}, we construct the environment as follows:
+\itemize{
+\item \code{"tibble"} (default): Wrap the column definitions in a \code{tibble::tibble()} call.
+\item \code{"tribble"} : We build the object using \code{tibble::tribble()} if possible, and fall
+back to \code{tibble::tibble()}.
+}
 }
