@@ -16,6 +16,6 @@ test_that("list", {
     construct(x2, opts_list(trim = 2, fill = "new_list"))
     construct(x2, opts_list(trim = 2, fill = "+"))
     construct(x2, opts_list(trim = 2, fill = "none"))
-    try(construct(x2, opts_list(trim = 2, fill = "...")), silent = TRUE)
+    construct(x2, opts_list(trim = 2, fill = "..."))
   })
 })

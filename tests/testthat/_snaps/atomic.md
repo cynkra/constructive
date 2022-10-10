@@ -56,7 +56,9 @@
     Output
       c(1, +2)
     Code
-      try(construct(c(1, 2, 3), opts_atomic(trim = 1, fill = "...")), silent = TRUE)
+      construct(c(1, 2, 3), opts_atomic(trim = 1, fill = "..."))
+    Message
+      ! The code built by {constructive} could not be evaluated.
     Output
       c(1, ...)
     Code
@@ -119,7 +121,9 @@
     Output
       c("a", +25)
     Code
-      try(construct(letters, opts_atomic(trim = 1, fill = "...")), silent = TRUE)
+      construct(letters, opts_atomic(trim = 1, fill = "..."))
+    Message
+      ! The code built by {constructive} could not be evaluated.
     Output
       c("a", ...)
     Code

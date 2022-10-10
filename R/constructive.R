@@ -106,14 +106,18 @@ try_parse <- function(code, data, one_liner) {
   )
 }
 
-try_eval <- function(styled_code, data) {
+try_eval <- function(styled_code, data, check) {
   caller <- caller_env()
   rlang::try_fetch(
     eval(parse(text = styled_code), envir = data, enclos = caller),
     error = function(e) {
       #nocov start
-      print(styled_code)
-      abort("The code built by {constructive} could not be evaluated.", parent = e, call = caller)
+      msg <- "The code built by {constructive} could not be evaluated."
+      if (isTRUE(check)) {
+        print(styled_code)
+        abort(msg, parent = e, call = caller)
+      }
+      rlang::inform(c("!" = msg))
       #nocov end
     }
   )
@@ -121,8 +125,8 @@ try_eval <- function(styled_code, data) {
 
 check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env) {
   if (isFALSE(check)) return(NULL)
-  evaled <- try_eval(styled_code, data)
-  if (missing(evaled)) return(NULL)
+  evaled <- try_eval(styled_code, data, check)
+  if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
   out <- waldo::compare(
     x,
     evaled,

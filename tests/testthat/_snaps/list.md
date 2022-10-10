@@ -74,7 +74,9 @@
     Output
       list("a", "b")
     Code
-      try(construct(x2, opts_list(trim = 2, fill = "...")), silent = TRUE)
+      construct(x2, opts_list(trim = 2, fill = "..."))
+    Message
+      ! The code built by {constructive} could not be evaluated.
     Output
       list("a", "b", ...)
 
