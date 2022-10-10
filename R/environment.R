@@ -126,7 +126,7 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
     # We need to use as.list.environment directly because as.list will only map
     # to "as.list.environment" if class was not overriden
     code <- wrap(
-      construct_raw(as.list.environment(x), ...),
+      construct_raw(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner),
       "as.environment",
       new_line = FALSE
     )
@@ -134,7 +134,7 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
   }
 
   # constructor == "topenv"
-  construct_raw(topenv(x))
+  construct_raw(topenv(x), ...,  pipe = pipe, one_liner = one_liner)
 }
 
 #' @export

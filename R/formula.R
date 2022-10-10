@@ -47,8 +47,8 @@ construct_idiomatic.formula <- function(x, ...) {
   }
 
   if (constructor == "new_formula") {
-    lhs_code <-construct_raw(rlang::f_lhs(x))
-    rhs_code <-construct_raw(rlang::f_rhs(x))
+    lhs_code <-construct_raw(rlang::f_lhs(x), ...)
+    rhs_code <-construct_raw(rlang::f_rhs(x), ...)
     if (opts$environment) {
       env_code <- construct_raw(env, ...)
       code <- construct_apply(list(lhs_code, rhs_code, env = env_code), "rlang::new_formula", ..., language = TRUE)

@@ -44,9 +44,19 @@
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
                       ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {
-  pipe <- match.arg(pipe)
+  combine_errors(
+    ellipsis::check_dots_unnamed(),
+    # FIXME: check data
+    pipe <- rlang::arg_match(pipe),
+    abort_not_boolean(ignore_srcref),
+    abort_not_boolean(ignore_attr),
+    abort_not_boolean(ignore_function_env),
+    abort_not_boolean(ignore_formula_env),
+    abort_not_boolean(one_liner)
+    # FIXME: check template
+  )
   data <- preprocess_data(data)
-  code <- try_construct(x, ..., data = data, pipe = pipe, one_liner = one_liner)
+  code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner)
   styled_code <- try_parse(code, data, one_liner)
   compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env)
   structure(list(code = styled_code, compare = compare), class = "constructive")

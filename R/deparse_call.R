@@ -43,7 +43,7 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE)
   if(is.symbol(call)) return(as.character(call))
   # artificial cases where caller is NULL, a numeric etc
   if (rlang::is_syntactic_literal(call)) {
-    return(construct_idiomatic(call))
+    return(construct_idiomatic(call, template = NULL))
   }
   if (!is.call(call)) {
     code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
