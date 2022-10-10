@@ -9,6 +9,8 @@ opts_tbl_df(constructor = c("tibble", "tribble"), ..., trailing_comma = TRUE)
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 
+\item{...}{Should not be used. Forces passing arguments by name.}
+
 \item{trailing_comma}{Boolean, whether to leave a trailing comma at the end of the constructor call
 calls}
 }

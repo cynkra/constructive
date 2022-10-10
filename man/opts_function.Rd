@@ -15,6 +15,8 @@ opts_function(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 
+\item{...}{Should not be used. Forces passing arguments by name.}
+
 \item{zap_srcref}{Boolean. Whether to pipe the output to \code{rlang::zapo_srcref()} which will
 get rid recursively of all srcref related attributes.}
 

@@ -3,9 +3,6 @@
 #' @inheritParams construct
 #' @inheritParams diffobj::diffChr
 #' @param mode,interactive passed to `diffobj::diffChr()`
-#'
-#' @param ... additional parameters passed to `diffobj::diffChr()`
-#'
 #' @return Returns `NULL` invisibly, called for side effects
 #' @export
 #'

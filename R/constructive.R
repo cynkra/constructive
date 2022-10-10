@@ -12,6 +12,7 @@
 #' @param ignore_srcref,ignore_attr,ignore_function_env,ignore_formula_env passed to `waldo::compare()`
 #' @param ... Constructive options built with the `opts_*()` family of functions. See the "Constructive options"
 #'   section below.
+#' @param one_liner Boolean. Whether to collapse the output to a single line of code.
 #' @param template A list of constructive options build with `opts_*()` functions,
 #'   they will be overriden by `...`. This is designed to help users set a default
 #'   behavior for `{constructive}`.
@@ -79,7 +80,7 @@ construct_issues <- function(x = NULL) {
 }
 
 #' @export
-print.constructive <- function(x) {
+print.constructive <- function(x, ...) {
   print(x$code)
   invisible(x)
 }

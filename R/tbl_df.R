@@ -8,6 +8,7 @@
 #'   back to `tibble::tibble()`.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_atomic
 #' @param trailing_comma Boolean, whether to leave a trailing comma at the end of the constructor call
 #' calls
 #'

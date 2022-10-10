@@ -46,6 +46,7 @@
 #' * `"topenv"` : we construct `base::topenv(x)`, see `?topenv`. `recurse` is ignored.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_atomic
 #' @param recurse Boolean. Only considered if `constructor` is `"list2env"` or `"new_environment"`. Whether to
 #'   attempt to recreate all parent environments until a known environment is found,
 #'   if `FALSE` (the default) we will use `topenv()` to find a known ancestor to set as

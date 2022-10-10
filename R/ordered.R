@@ -10,6 +10,7 @@
 #'   always defined explicitly.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export

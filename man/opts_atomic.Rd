@@ -7,6 +7,8 @@
 opts_atomic(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"))
 }
 \arguments{
+\item{...}{Should not be used. Forces passing arguments by name.}
+
 \item{trim}{\code{NULL} or integerish. Maximum of elements showed before it's trimmed.
 Note that it will necessarily produce code that doesn't reproduce the input.
 This code will parse without failure but its evaluation might fail.}

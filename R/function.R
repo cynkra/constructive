@@ -13,6 +13,7 @@
 #'   attempt to recreate the environment.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_atomic
 #' @param zap_srcref Boolean. Whether to pipe the output to `rlang::zapo_srcref()` which will
 #'   get rid recursively of all srcref related attributes.
 #' @param environment Boolean. Whether to attempt to reconstruct the function's environment,

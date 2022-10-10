@@ -10,7 +10,7 @@
 #'   back to `data.frame()`.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
-#'
+#' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_data.frame>
 #' @export
 opts_data.frame <- function(constructor = c("data.frame", "read.table"), ...) {

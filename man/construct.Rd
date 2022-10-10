@@ -35,6 +35,8 @@ using \code{waldo::compare()}}
 
 \item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{passed to \code{waldo::compare()}}
 
+\item{one_liner}{Boolean. Whether to collapse the output to a single line of code.}
+
 \item{template}{A list of constructive options build with \verb{opts_*()} functions,
 they will be overriden by \code{...}. This is designed to help users set a default
 behavior for \code{{constructive}}.}

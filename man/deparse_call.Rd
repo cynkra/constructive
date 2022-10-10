@@ -9,11 +9,13 @@ deparse_call(call, one_liner = FALSE, pipe = FALSE, style = TRUE)
 \arguments{
 \item{call}{A call}
 
-\item{one_liner}{Whether to collapse multi-line expressions on a single line using
+\item{one_liner}{Boolean. Whether to collapse multi-line expressions on a single line using
 semicolons}
 
-\item{pipe}{Whether to use the base pipe to disentangle nested calls. This
+\item{pipe}{Boolean. Whether to use the base pipe to disentangle nested calls. This
 works best on simple calls.}
+
+\item{style}{Boolean. Whether to use \code{styler::style_text()} on thr output}
 }
 \value{
 a string or a styled character vector

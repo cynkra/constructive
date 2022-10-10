@@ -19,6 +19,7 @@
 #' especially with `fill = "..."`. In that case you might want to set `check = FALSE`
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_atomic
 #' @param trim `NULL` or integerish. Maximum of elements showed before it's trimmed.
 #' Note that it will necessarily produce code that doesn't reproduce the input.
 #' This code will parse without failure but its evaluation might fail.

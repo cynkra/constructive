@@ -13,6 +13,8 @@ opts_environment(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 
+\item{...}{Should not be used. Forces passing arguments by name.}
+
 \item{recurse}{Boolean. Only considered if \code{constructor} is \code{"list2env"} or \code{"new_environment"}. Whether to
 attempt to recreate all parent environments until a known environment is found,
 if \code{FALSE} (the default) we will use \code{topenv()} to find a known ancestor to set as

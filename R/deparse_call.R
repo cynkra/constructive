@@ -9,10 +9,11 @@
 #' string is returned, using `"\n"` for new lines.
 #'
 #' @param call A call
-#' @param one_liner Whether to collapse multi-line expressions on a single line using
+#' @param one_liner Boolean. Whether to collapse multi-line expressions on a single line using
 #'   semicolons
-#' @param pipe Whether to use the base pipe to disentangle nested calls. This
+#' @param pipe Boolean. Whether to use the base pipe to disentangle nested calls. This
 #'   works best on simple calls.
+#' @param style Boolean. Whether to use `styler::style_text()` on thr output
 #'
 #' @return a string or a styled character vector
 #' @export

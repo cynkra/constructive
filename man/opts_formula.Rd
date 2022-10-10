@@ -13,6 +13,8 @@ opts_formula(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 
+\item{...}{Should not be used. Forces passing arguments by name.}
+
 \item{environment}{Boolean. Whether to attempt to construct the environment,
 by default \code{FALSE} for the \code{"~"} comstructor and \code{TRUE} for the others
 

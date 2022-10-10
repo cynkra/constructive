@@ -4,6 +4,7 @@
 #' of their `"class"` attribute.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_atomic
 #' @param environment Boolean. Whether to attempt to construct the environment,
 #'   by default `FALSE` for the `"~"` comstructor and `TRUE` for the others
 #'
