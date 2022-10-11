@@ -59,10 +59,12 @@ construct_idiomatic.data.frame <- function(x, ...) {
 
 #' @export
 repair_attributes.data.frame <- function(x, code, ..., pipe = "base") {
+  ignore <- "row.names"
+  if (identical(names(x), character())) ignore <- c(ignore, "names")
   repair_attributes_impl(
     x, code, ...,
     pipe = pipe,
-    ignore = "row.names",
+    ignore = ignore,
     idiomatic_class = c("data.frame")
   )
 }

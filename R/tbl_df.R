@@ -21,7 +21,7 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble"), ..., trailing_comm
     abort_not_boolean(trailing_comma)
   )
   structure(
-    class = c("constructive_options", "constructive_options_tbl_df"),
+    class = c("constructive_options_tbl_df", "constructive_options"),
     list(
       constructor = constructor,
       trailing_comma = trailing_comma
@@ -34,7 +34,7 @@ construct_idiomatic.tbl_df <- function(x, ...) {
   opts <- fetch_opts("tbl_df", ...)
   constructor <- opts$constructor
   trailing_comma <- opts$trailing_comma
-  if (constructor == "tribble") {
+  if (constructor == "tribble" && nrow(x)) {
     is_unsupported_col <- function(col) {
       is.data.frame(col) || (is.list(col) && all(lengths(col) == 1))
     }
@@ -62,10 +62,12 @@ construct_tribble <- function(x, ..., trailing_comma) {
 
 #' @export
 repair_attributes.tbl_df <- function(x, code, ..., pipe = "base") {
+  ignore <- "row.names"
+  if (identical(names(x), character())) ignore <- c(ignore, "names")
   repair_attributes_impl(
     x, code, ...,
     pipe = pipe,
-    ignore = c("row.names"),
+    ignore = ignore,
     idiomatic_class = c("tbl_df", "tbl", "data.frame")
   )
 }
