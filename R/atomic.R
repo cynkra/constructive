@@ -35,7 +35,10 @@ construct_idiomatic.atomic <- function(x, ..., one_liner = FALSE) {
   opts <- fetch_opts("atomic", ...)
   trim <- opts$trim
   fill <- opts$fill
+
+  nms <- names(x)
   attributes(x) <- NULL
+  names(x) <- nms
 
   l <- length(x)
   if (!is.null(trim) && trim < l) {
