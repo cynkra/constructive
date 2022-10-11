@@ -40,8 +40,14 @@ deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE) {
   code
 }
 
-deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE) {
-  if(is.symbol(call)) return(as.character(call))
+deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE, check_syntactic = TRUE) {
+  if(is.symbol(call)) {
+    code <- as.character(call)
+    if (check_syntactic && code != "" && !is_syntactic(code)) {
+      code <- sprintf("`%s`", code)
+    }
+    return(code)
+  }
   # artificial cases where caller is NULL, a numeric etc
   if (rlang::is_syntactic_literal(call)) {
     return(construct_idiomatic(call, template = NULL))
@@ -52,7 +58,7 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE)
     abort(msg)
   }
   caller_lng <- call[[1]]
-  caller <- deparse_call_impl(caller_lng)
+  caller <- deparse_call_impl(caller_lng, check_syntactic = FALSE)
 
   if (caller == "function") {
     # no need to check more, already done by is_expression2

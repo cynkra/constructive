@@ -202,4 +202,8 @@
       }), style = FALSE)
     Output
       [1] "repeat {\n  this\n}"
+    Code
+      deparse_call(quote(`*a*`))
+    Output
+      `*a*`
 

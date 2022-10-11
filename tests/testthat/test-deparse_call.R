@@ -48,5 +48,8 @@ test_that("deparse_call()", {
     deparse_call(quote(for (i in this) {that}), style = FALSE)
     deparse_call(quote(repeat this), style = FALSE)
     deparse_call(quote(repeat {this}), style = FALSE)
+
+    # non syntatic symbols
+    deparse_call(quote(`*a*`))
   })
 })
