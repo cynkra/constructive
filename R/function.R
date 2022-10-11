@@ -66,7 +66,11 @@ construct_idiomatic.function <- function(
 
   if (constructor == "function") {
     # FIXME: we should use the srcref
-    code <- deparse(as.function(x_lst))
+    fun_call <- call("function")
+    fun_call[[2]] <- as.pairlist(x_lst[-length(x_lst)])
+    fun_call[[3]] <- x_lst[[length(x_lst)]]
+    code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
+
     if (length(code) == 2) code <- paste(code[1], code[2])
     if (environment || zap_srcref) {
       code[1] <- paste0("(", code[1])
