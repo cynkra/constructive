@@ -22,9 +22,9 @@ test_that("environment", {
     e2 <- new.env(parent = e1)
     e2$y <- 2
     construct(e2) # constructor = "list2env", recurse = FALSE
-    construct(e2, opts_environment(recurse = TRUE), pipe = "magrittr")
+    construct(e2, opts_environment(recurse = TRUE))
     construct(e2, opts_environment(constructor = "new_environment"))
-    construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE), pipe = "magrittr")
+    construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
     construct(e2, opts_environment(constructor = "new.env"))
     construct(e2, opts_environment(constructor = "topenv"))
     construct(e2, opts_environment(constructor = "as.environment"))

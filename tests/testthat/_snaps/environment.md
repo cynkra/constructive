@@ -64,14 +64,11 @@
     Output
       list2env(list(y = 2), parent = .GlobalEnv)
     Code
-      construct(e2, opts_environment(recurse = TRUE), pipe = "magrittr")
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
+      construct(e2, opts_environment(recurse = TRUE))
     Output
-      .GlobalEnv %>%
-        list2env(list(x = 1), parent = .) %>%
-        list2env(list(y = 2), parent = .)
+      .GlobalEnv |>
+        list2env(list(x = 1), parent = _) |>
+        list2env(list(y = 2), parent = _)
     Code
       construct(e2, opts_environment(constructor = "new_environment"))
     Message
@@ -80,15 +77,11 @@
     Output
       rlang::new_environment(list(y = 2), parent = .GlobalEnv)
     Code
-      construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE),
-      pipe = "magrittr")
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
+      construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
     Output
-      .GlobalEnv %>%
-        rlang::new_environment(list(x = 1), parent = .) %>%
-        rlang::new_environment(list(y = 2), parent = .)
+      .GlobalEnv |>
+        rlang::new_environment(list(x = 1), parent = _) |>
+        rlang::new_environment(list(y = 2), parent = _)
     Code
       construct(e2, opts_environment(constructor = "new.env"))
     Message
