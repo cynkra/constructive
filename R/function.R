@@ -14,10 +14,9 @@
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
 #' @inheritParams opts_atomic
-#' @param zap_srcref Boolean. Whether to pipe the output to `rlang::zapo_srcref()` which will
-#'   get rid recursively of all srcref related attributes.
 #' @param environment Boolean. Whether to attempt to reconstruct the function's environment,
 #'   `FALSE` by default with the default `"function"` constructor. `TRUE` by default otherwise.
+#' @param srcref Boolean. Whether to attempt to reconstruct the function's srcref.
 #' @param trim `NULL` or integerish. Maximum of lines showed in the body before it's trimmed,
 #' replacing code with `...`. Note that it will necessarily produce code that doesn't
 #' reproduce the input, this will parse and evaluate without failure.
@@ -27,19 +26,19 @@
 opts_function <- function(
     constructor = c("function", "as.function", "new_function"),
     ...,
-    zap_srcref = FALSE,
     environment = constructor != "function",
+    srcref = FALSE,
     trim = NULL) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
-    abort_not_boolean(zap_srcref),
     abort_not_boolean(environment),
+    abort_not_boolean(srcref),
     abort_not_null_or_integerish(trim)
   )
   structure(
     class = c("constructive_options", "constructive_options_function"),
-    list(constructor = constructor, zap_srcref = zap_srcref, environment = environment, trim = trim)
+    list(constructor = constructor, environment = environment, srcref = srcref, trim = trim)
   )
 }
 
@@ -47,35 +46,38 @@ opts_function <- function(
 #' @export
 construct_idiomatic.function <- function(
     x, ..., pipe, one_liner = FALSE) {
-  if (rlang::is_primitive(x)) return(deparse(`+`))
+  if (rlang::is_primitive(x)) return(deparse(x))
   opts <- fetch_opts("function", ...)
   trim <- opts$trim
   constructor <- opts$constructor
   environment <- opts$environment
-
-  x_lst <- as.list(x)
-  body_lng <- x_lst[[length(x_lst)]]
-  zap_srcref <-  opts$zap_srcref && is.call(body_lng) && identical(body_lng[[1]], as.symbol("{"))
+  srcref <- opts$srcref
+  x_lst <- as.list(unclass(x))
+  x_length <- length(x_lst)
+  body_lng <- x_lst[[x_length]]
+  #zap_srcref <-  opts$zap_srcref && is.call(body_lng) && identical(body_lng[[1]], as.symbol("{"))
 
   # trim if relevant
   if (!is.null(trim)) {
     if (length(body_lng) > trim + 1) {
-      x_lst[[length(x_lst)]] <- as.call(c(head(as.list(body_lng), trim + 1), quote(...)))
+      x_lst[[x_length]] <- as.call(c(head(as.list(body_lng), trim + 1), quote(...)))
     }
   }
 
   if (constructor == "function") {
     # FIXME: we should use the srcref
     fun_call <- call("function")
-    fun_call[[2]] <- as.pairlist(x_lst[-length(x_lst)])
-    fun_call[[3]] <- x_lst[[length(x_lst)]]
+    if (x_length > 1) {
+      fun_call[[2]] <- as.pairlist(x_lst[-x_length])
+    }
+    fun_call[[3]] <- x_lst[[x_length]]
     code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
 
     if (length(code) == 2) code <- paste(code[1], code[2])
-    if (environment || zap_srcref) {
-      code[1] <- paste0("(", code[1])
-      n <- length(code)
-      code[n] <- paste0(code[n], ")")
+    attrs <- attributes(x)
+    if (!srcref) attrs$srcref <- NULL
+    if (environment || length(attrs)) {
+      code <- wrap(code, fun = "")
     }
     if (environment) {
       envir_code <- construct_apply(
@@ -113,17 +115,21 @@ construct_idiomatic.function <- function(
   }
 
   # zap srcref if relevant
-  if (zap_srcref) {
-    code <- pipe(code, "rlang::zap_srcref()", pipe, one_liner)
-  }
+  # if (zap_srcref) {
+  #   code <- pipe(code, "rlang::zap_srcref()", pipe, one_liner)
+  # }
   code
 }
 
 #' @export
 repair_attributes.function <- function(x, code, ..., pipe ="base") {
+  opts <- fetch_opts("function", ...)
+  srcref <- opts$srcref
+  ignore <- c("name", "path")
+  if (!srcref) ignore <- c(ignore, "srcref")
   repair_attributes_impl(
     x, code, ...,
     pipe = pipe,
-    ignore = c("name", "path")
+    ignore = ignore
   )
 }

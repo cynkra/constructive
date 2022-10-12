@@ -21,6 +21,7 @@ construct_idiomatic <- function(x, ...) {
 construct_idiomatic.default <- function(x, ..., one_liner = FALSE) {
   if (is.environment(x)) return(construct_idiomatic.environment(x, ..., one_liner = one_liner))
   if (is.list(x))  return(construct_idiomatic.list(x, ..., one_liner = one_liner))
+  if (is.function(x))  return(construct_idiomatic.function(x, ..., one_liner = one_liner))
   if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, ..., one_liner = one_liner))
   if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, ..., one_liner = one_liner))
   construct_idiomatic.atomic(x, ..., one_liner = one_liner)
