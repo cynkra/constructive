@@ -66,8 +66,6 @@ construct_idiomatic.function <- function(
   }
 
   if (constructor == "function") {
-    # FIXME: we should use the srcref
-
     # if the srcref matches the function's body (always in non artifical cases)
     # we might use the srcref rather than the body, so we keep the comments
     if (!one_liner && is.null(trim)) {
