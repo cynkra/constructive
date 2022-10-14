@@ -59,7 +59,8 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
   data <- preprocess_data(data)
   code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner)
   styled_code <- try_parse(code, data, one_liner)
-  compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env)
+  caller <- caller_env()
+  compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller)
   structure(list(code = styled_code, compare = compare), class = "constructive")
 }
 
@@ -117,8 +118,7 @@ try_parse <- function(code, data, one_liner) {
   )
 }
 
-try_eval <- function(styled_code, data, check) {
-  caller <- caller_env()
+try_eval <- function(styled_code, data, check, caller) {
   rlang::try_fetch(
     eval(parse(text = styled_code), envir = data, enclos = caller),
     error = function(e) {
@@ -134,9 +134,9 @@ try_eval <- function(styled_code, data, check) {
   )
 }
 
-check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env) {
+check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller) {
   if (isFALSE(check)) return(NULL)
-  evaled <- try_eval(styled_code, data, check)
+  evaled <- try_eval(styled_code, data, check, caller)
   if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
   out <- waldo::compare(
     x,
