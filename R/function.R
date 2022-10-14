@@ -5,7 +5,9 @@
 #' Depending on `constructor`, we construct the environment as follows:
 #' * `"function"` (default): Build the object using a standard `function() {}`
 #'   definition. This won't set the environment by default, unless `environment`
-#'   is set to `TRUE`
+#'   is set to `TRUE`. If a srcref is available, if this srcref matches the function's
+#'   definition, and if `trim` is left `NULL`, the code is returned fromn using the srcref,
+#'   so comments will be shown in the output of `construct()`.
 #' * `"as.function"` : Build the object using a `as.function()` call, by default will
 #'   attempt to recreate the environment.
 #'   back to `data.frame()`.
@@ -55,7 +57,6 @@ construct_idiomatic.function <- function(
   x_lst <- as.list(unclass(x))
   x_length <- length(x_lst)
   body_lng <- x_lst[[x_length]]
-  #zap_srcref <-  opts$zap_srcref && is.call(body_lng) && identical(body_lng[[1]], as.symbol("{"))
 
   # trim if relevant
   if (!is.null(trim)) {
@@ -66,6 +67,14 @@ construct_idiomatic.function <- function(
 
   if (constructor == "function") {
     # FIXME: we should use the srcref
+
+    # if the srcref matches the function's body (always in non artifical cases)
+    # we might use the srcref rather than the body, so we keep the comments
+    if (!one_liner && is.null(trim)) {
+      code <- code_from_srcref(x)
+      if(!is.null(code)) return(code)
+    }
+
     fun_call <- call("function")
     if (x_length > 1) {
       fun_call[[2]] <- as.pairlist(x_lst[-x_length])
@@ -113,11 +122,6 @@ construct_idiomatic.function <- function(
     }
     code <- construct_apply(args, "rlang::new_function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
   }
-
-  # zap srcref if relevant
-  # if (zap_srcref) {
-  #   code <- pipe(code, "rlang::zap_srcref()", pipe, one_liner)
-  # }
   code
 }
 
@@ -132,4 +136,23 @@ repair_attributes.function <- function(x, code, ..., pipe ="base") {
     pipe = pipe,
     ignore = ignore
   )
+}
+
+# returns the srcref as a character vector IF it matches the actual function, NULL otherwise
+code_from_srcref <- function(x) {
+  srcref <- attr(x, "srcref")
+  # srcref might have been zapped or function built withoiut srcref
+  if (is.null(srcref)) return(NULL)
+  srcref_chr <- as.character(srcref)
+  # srcref might have been manipulated and not parseable -> try
+  parsed <- try(parse(text=srcref_chr)[[1]], silent = TRUE)
+  if (
+    inherits(parsed, "try-error") ||
+    # don't bother trying to eval if it's not a function call
+    !identical(parsed[[1]], quote(`function`)) ||
+    !identical(eval(parsed), x, ignore.srcref = TRUE, ignore.environment = TRUE)
+  ) {
+    return(NULL)
+  }
+  srcref_chr
 }

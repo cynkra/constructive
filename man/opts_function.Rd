@@ -7,8 +7,8 @@
 opts_function(
   constructor = c("function", "as.function", "new_function"),
   ...,
-  zap_srcref = FALSE,
   environment = constructor != "function",
+  srcref = FALSE,
   trim = NULL
 )
 }
@@ -17,11 +17,10 @@ opts_function(
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
-\item{zap_srcref}{Boolean. Whether to pipe the output to \code{rlang::zapo_srcref()} which will
-get rid recursively of all srcref related attributes.}
-
 \item{environment}{Boolean. Whether to attempt to reconstruct the function's environment,
 \code{FALSE} by default with the default \code{"function"} constructor. \code{TRUE} by default otherwise.}
+
+\item{srcref}{Boolean. Whether to attempt to reconstruct the function's srcref.}
 
 \item{trim}{\code{NULL} or integerish. Maximum of lines showed in the body before it's trimmed,
 replacing code with \code{...}. Note that it will necessarily produce code that doesn't
@@ -38,7 +37,9 @@ Depending on \code{constructor}, we construct the environment as follows:
 \itemize{
 \item \code{"function"} (default): Build the object using a standard \code{function() {}}
 definition. This won't set the environment by default, unless \code{environment}
-is set to \code{TRUE}
+is set to \code{TRUE}. If a srcref is available, if this srcref matches the function's
+definition, and if \code{trim} is left \code{NULL}, the code is returned fromn using the srcref,
+so comments will be shown in the output of \code{construct()}.
 \item \code{"as.function"} : Build the object using a \code{as.function()} call, by default will
 attempt to recreate the environment.
 back to \code{data.frame()}.

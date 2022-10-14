@@ -131,4 +131,20 @@
     Output
       (function(x) x) |>
         structure(class = "foo")
+    Code
+      f5 <- structure((function(x) {
+        x
+      }), srcref = structure(c(1L, 8L, 4L, 1L, 8L, 1L, 1L, 4L), srcfile = structure(
+        list2env(list(fixedNewlines = TRUE, lines = c("foo <- function(x) {",
+          "  # foo", "  x", "}", ""), filename = ""), parent = .GlobalEnv), class = c(
+          "srcfilecopy", "srcfile")), class = "srcref"))
+      construct(f5)
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      function(x) {
+        # foo
+        x
+      }
 
