@@ -55,7 +55,6 @@ construct_idiomatic.function <- function(
   x_lst <- as.list(unclass(x))
   x_length <- length(x_lst)
   body_lng <- x_lst[[x_length]]
-  #zap_srcref <-  opts$zap_srcref && is.call(body_lng) && identical(body_lng[[1]], as.symbol("{"))
 
   # trim if relevant
   if (!is.null(trim)) {
@@ -113,11 +112,6 @@ construct_idiomatic.function <- function(
     }
     code <- construct_apply(args, "rlang::new_function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
   }
-
-  # zap srcref if relevant
-  # if (zap_srcref) {
-  #   code <- pipe(code, "rlang::zap_srcref()", pipe, one_liner)
-  # }
   code
 }
 
