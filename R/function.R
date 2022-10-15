@@ -148,7 +148,8 @@ code_from_srcref <- function(x) {
     inherits(parsed, "try-error") ||
     # don't bother trying to eval if it's not a function call
     !identical(parsed[[1]], quote(`function`)) ||
-    !identical(eval(parsed), x, ignore.srcref = TRUE, ignore.environment = TRUE)
+    # Note : ignore.srcef = TRUE is not enough, it might just look at the srcref attribute at the top level
+    !identical(rlang::zap_srcref(eval(parsed)), rlang::zap_srcref(x), ignore.environment = TRUE)
   ) {
     return(NULL)
   }
