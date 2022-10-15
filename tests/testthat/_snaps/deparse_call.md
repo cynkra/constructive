@@ -1,6 +1,30 @@
 # deparse_call()
 
     Code
+      deparse_call(call("::", 1, 2), style = FALSE)
+    Output
+      [1] "`::`(1, 2)"
+    Code
+      deparse_call(call("::", "a", quote(b)), style = FALSE)
+    Output
+      [1] "\"a\"::b"
+    Code
+      deparse_call(call("::", quote(a), "b"), style = FALSE)
+    Output
+      [1] "a::\"b\""
+    Code
+      deparse_call(call(":::", 1, 2), style = FALSE)
+    Output
+      [1] "`:::`(1, 2)"
+    Code
+      deparse_call(call(":::", "a", quote(b)), style = FALSE)
+    Output
+      [1] "\"a\":::b"
+    Code
+      deparse_call(call(":::", quote(a), "b"), style = FALSE)
+    Output
+      [1] "a:::\"b\""
+    Code
       deparse_call(call("+", 1, 2, 3), style = FALSE)
     Output
       [1] "`+`(1, 2, 3)"
