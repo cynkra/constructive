@@ -131,13 +131,13 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
 
   if (caller == "[" && length(call) > 1) {
     arg1 <- deparse_call_impl(call[[2]])
-    other_args <- paste(vapply(call[-(1:2)], deparse_call_impl, character(1), one_liner = one_liner, indent = indent), collapse = ", ")
+    other_args <- deparse_named_args_to_string(call[-(1:2)], one_liner = one_liner, indent = indent)
     return(sprintf("%s[%s]", arg1, other_args))
   }
 
   if (caller == "[[" && length(call) > 1) {
     arg1 <- deparse_call_impl(call[[2]])
-    other_args <- paste(vapply(call[-(1:2)], deparse_call_impl, character(1), one_liner = one_liner, indent = indent), collapse = ", ")
+    other_args <- deparse_named_args_to_string(call[-(1:2)], one_liner = one_liner, indent = indent)
     return(sprintf("%s[[%s]]", arg1, other_args))
   }
 
@@ -175,10 +175,8 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     return(sprintf("%s |> %s(%s)", arg1, caller, paste(other_args, collapse = ", ")))
     }
   }
-  args <- vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent)
-  args <- paste(rlang::names2(args), "=", args)
-  args <- sub("^ = ", "", args)
-  sprintf("%s(%s)", caller, paste(args, collapse = ", "))
+  args <- deparse_named_args_to_string(call[-1], one_liner = one_liner, indent = indent)
+  sprintf("%s(%s)", caller, args)
 }
 
 is_syntactic <- function(x) {
@@ -197,4 +195,13 @@ is_infix_narrow <- function(x) {
   x %in% c("::", ":::", "$", "@", "^", ":")
 }
 
-
+# FIXME: better handling of indent, doesn't impact if we style
+deparse_named_args_to_string <- function(args, one_liner, indent) {
+  args <- vapply(args, deparse_call_impl, character(1), one_liner = one_liner, indent = indent)
+  args <- paste(rlang::names2(args), "=", args)
+  args <- sub("^ = ", "", args)
+  # FIXME: the 80 is a bit arbitrary, since we don't account for indent and length of caller
+  if (one_liner || max(nchar(args)) < 80) return(paste(args, collapse = ", "))
+  args <- paste(args, collapse = ",\n")
+  paste0("\n", args, "\n")
+}

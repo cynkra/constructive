@@ -51,5 +51,14 @@ test_that("deparse_call()", {
 
     # non syntatic symbols
     deparse_call(quote(`*a*`))
+
+    # brackets and function calls with names
+    deparse_call(quote(a(b=1, c)))
+    deparse_call(quote(a[b=1, c]))
+    deparse_call(quote(a[[b=1, c]]))
+    deparse_call(quote(a(bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c)))
+    deparse_call(quote(a[bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c]))
+    # looks odd, but that's on {styler} : https://github.com/r-lib/styler/issues/1029
+    deparse_call(quote(a[[bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c]]))
   })
 })
