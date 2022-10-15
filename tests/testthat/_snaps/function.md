@@ -139,9 +139,6 @@
           "  # foo", "  x", "}", ""), filename = ""), parent = .GlobalEnv), class = c(
           "srcfilecopy", "srcfile")), class = "srcref"))
       construct(f5)
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
     Output
       function(x) {
         # foo
