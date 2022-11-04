@@ -53,6 +53,10 @@
     Output
       [1] "a$b"
     Code
+      deparse_call(call("$", quote(a), quote(b)), style = FALSE)
+    Output
+      [1] "a$b"
+    Code
       deparse_call(call("$", "a", 1), style = FALSE)
     Output
       [1] "`$`(\"a\", 1)"
@@ -269,4 +273,8 @@
       bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb = 1,
       c
       ]]
+    Code
+      deparse_call(quote(function(`_x`) `_x`))
+    Output
+      function(`_x`) `_x`
 

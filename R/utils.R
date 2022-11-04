@@ -28,8 +28,7 @@ is_syntactic <- function(x) {
 }
 
 protect <- function(name) {
-  if (is_syntactic(name)) return(name)
-  paste0("`", name, "`")
+  ifelse(is_syntactic(name), name, paste0("`", name, "`"))
 }
 
 namespace_as_list <- function(pkg) {
