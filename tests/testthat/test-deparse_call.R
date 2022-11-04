@@ -13,6 +13,7 @@ test_that("deparse_call()", {
     deparse_call(call("$", "a", "b", "c"), style = FALSE)
     deparse_call(call("$", "a", "b"), style = FALSE)
     deparse_call(call("$", quote(a), "b"), style = FALSE)
+    deparse_call(call("$", quote(a), quote(b)), style = FALSE)
     deparse_call(call("$", "a", 1), style = FALSE)
     deparse_call(call("$", 1, "b"), style = FALSE)
     deparse_call(call("$"), style = FALSE)
@@ -66,5 +67,8 @@ test_that("deparse_call()", {
     deparse_call(quote(a[bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c]))
     # looks odd, but that's on {styler} : https://github.com/r-lib/styler/issues/1029
     deparse_call(quote(a[[bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c]]))
+
+    # function with non syntactioc formal names
+    deparse_call(quote(function(`_x`) `_x`))
   })
 })

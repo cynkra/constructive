@@ -63,7 +63,7 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
   if (caller == "function") {
     # no need to check more, already done by is_expression2
     pair_list_args <- sapply(call[[2]], deparse_call_impl)
-    pair_list_code <- paste(names(pair_list_args), "=", pair_list_args)
+    pair_list_code <- paste(protect(names(pair_list_args)), "=", pair_list_args)
     pair_list_code <- sub(" = $", "", pair_list_code)
     pair_list_code <- paste(pair_list_code, collapse = ", ")
     body_code <- deparse_call_impl(call[[3]], one_liner, indent, pipe)
@@ -126,8 +126,8 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     return(code)
   }
 
-  if (caller %in% c("@", "$") && length(call) == 3 && is.character(call[[3]])) {
-    return(sprintf("%s%s%s" , deparse_call_impl(call[[2]], one_liner, indent), caller, call[[3]]))
+  if (caller %in% c("@", "$") && length(call) == 3 && (is.symbol(call[[3]]) || is.character(call[[3]]))) {
+    return(sprintf("%s%s%s" , deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
   }
 
   if (caller %in% c("^", ":") && length(call) == 3) {
@@ -167,8 +167,8 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     return(sprintf("{\n%s\n%s}", args, strrep(" ", indent)))
   }
 
-  if (is.symbol(caller_lng) && !is_syntactic(caller)) {
-    caller <- sprintf("`%s`", caller)
+  if (is.symbol(caller_lng)) {
+    caller <- protect(caller)
   }
 
   if (pipe && length(call) > 1 && rlang::names2(call)[[2]] == "") {
