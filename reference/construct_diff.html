@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">constructive</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,15 +54,18 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">construct_diff</span><span class="op">(</span></span>
 <span>  <span class="va">target</span>,</span>
 <span>  <span class="va">current</span>,</span>
+<span>  <span class="va">...</span>,</span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pipe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"base"</span>, <span class="st">"magrittr"</span><span class="op">)</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  max_atomic <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  max_body <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  env_as_list <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ignore_srcref <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ignore_attr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore_function_env <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ignore_formula_env <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  template <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"constructive_opts_template"</span><span class="op">)</span>,</span>
 <span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sidebyside"</span>, <span class="st">"auto"</span>, <span class="st">"unified"</span>, <span class="st">"context"</span><span class="op">)</span>,</span>
-<span>  <span class="va">...</span></span>
+<span>  interactive <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,6 +77,11 @@
 
 <dt>current</dt>
 <dd><p>the object being compared to <code>target</code></p></dd>
+
+
+<dt>...</dt>
+<dd><p>Constructive options built with the <code>opts_*()</code> family of functions. See the "Constructive options"
+section below.</p></dd>
 
 
 <dt>data</dt>
@@ -91,24 +99,22 @@ be combined so you can provide a list of named objects and unnamed namespaces.</
 using <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code></p></dd>
 
 
-<dt>max_atomic</dt>
-<dd><p>maximum number of elements of atomic vectors to print, forces check to <code>FALSE</code></p></dd>
+<dt>ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env</dt>
+<dd><p>passed to <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code></p></dd>
 
 
-<dt>max_body</dt>
-<dd><p>maximum number of calls to show from a function's body, forces check to <code>FALSE</code></p></dd>
+<dt>one_liner</dt>
+<dd><p>Boolean. Whether to collapse the output to a single line of code.</p></dd>
 
 
-<dt>env_as_list</dt>
-<dd><p>translate environments to <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> rather than <code>as.environment(list(...))</code></p></dd>
+<dt>template</dt>
+<dd><p>A list of constructive options build with <code>opts_*()</code> functions,
+they will be overriden by <code>...</code>. This is designed to help users set a default
+behavior for <code>{constructive}</code>.</p></dd>
 
 
-<dt>mode</dt>
-<dd><p>passed to <code><a href="https://rdrr.io/pkg/diffobj/man/diffChr.html" class="external-link">diffobj::diffChr()</a></code>, with a different default</p></dd>
-
-
-<dt>...</dt>
-<dd><p>additional parameters passed to <code><a href="https://rdrr.io/pkg/diffobj/man/diffChr.html" class="external-link">diffobj::diffChr()</a></code></p></dd>
+<dt>mode, interactive</dt>
+<dd><p>passed to <code><a href="https://rdrr.io/pkg/diffobj/man/diffChr.html" class="external-link">diffobj::diffChr()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">

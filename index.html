@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">constructive</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="constructive">constructive<a class="anchor" aria-label="anchor" href="#constructive"></a>
 </h1></div>
-<p>{constructive} prints code that can be used to recreate R objects. In a sense it is similar to <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">base::dput()</a></code> but {constructive} strives to use “natural” constructors (<code>factor</code> for factors, <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code> for dates, <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> for data frames etc), in order to get output readable by humans.</p>
+<p>{constructive} prints code that can be used to recreate R objects. In a sense it is similar to <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">base::dput()</a></code> or <code><a href="https://rdrr.io/r/base/deparse.html" class="external-link">base::deparse()</a></code> but {constructive} strives to use “natural” constructors (<code>factor</code> for factors, <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code> for dates, <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> for data frames etc), in order to get output readable by humans.</p>
 <p>Some use cases are:</p>
 <ul>
 <li>Snapshot tests</li>
@@ -78,7 +78,8 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"cynkra/constructive"</span>)</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+<h2 id="comparison-with-dput">Comparison with <code>dput()</code>
+<a class="anchor" aria-label="anchor" href="#comparison-with-dput"></a>
 </h2>
 <p>A few examples compared to their <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> output.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -92,10 +93,11 @@
 <span><span class="co">#&gt;   Petal.Width = c(0.2, 0.2),</span></span>
 <span><span class="co">#&gt;   Species = factor(c("setosa", "setosa"), levels = c("setosa", "versicolor", "virginica"))</span></span>
 <span><span class="co">#&gt; )</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; structure(list(Sepal.Length = c(5.1, 4.9), Sepal.Width = c(3.5, </span></span>
 <span><span class="co">#&gt; 3), Petal.Length = c(1.4, 1.4), Petal.Width = c(0.2, 0.2), Species = structure(c(1L, </span></span>
-<span><span class="co">#&gt; 1L), levels = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")</span></span>
+<span><span class="co">#&gt; 1L), .Label = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">.leap.seconds</span><span class="op">)</span></span>
 <span><span class="co">#&gt; as.POSIXct(</span></span>
@@ -109,6 +111,7 @@
 <span><span class="co">#&gt;   ),</span></span>
 <span><span class="co">#&gt;   tz = "GMT"</span></span>
 <span><span class="co">#&gt; )</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="va">.leap.seconds</span><span class="op">)</span></span>
 <span><span class="co">#&gt; structure(c(78796800, 94694400, 126230400, 157766400, 189302400, </span></span>
 <span><span class="co">#&gt; 220924800, 252460800, 283996800, 315532800, 362793600, 394329600, </span></span>
@@ -119,6 +122,7 @@
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">grouped_band_members</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="va">band</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="va">grouped_band_members</span><span class="op">)</span></span>
 <span><span class="co">#&gt; structure(list(name = c("Mick", "John", "Paul"), band = c("Stones", </span></span>
 <span><span class="co">#&gt; "Beatles", "Beatles")), class = c("grouped_df", "tbl_df", "tbl", </span></span>
@@ -127,88 +131,140 @@
 <span><span class="co">#&gt;         1L), ptype = integer(0), class = c("vctrs_list_of", "vctrs_vctr", </span></span>
 <span><span class="co">#&gt;     "list"))), class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, </span></span>
 <span><span class="co">#&gt; -2L), .drop = TRUE))</span></span>
+<span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">grouped_band_members</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |&gt;</span></span>
 <span><span class="co">#&gt;   dplyr::group_by(band)</span></span></code></pre></div>
-<p>We can provide to the <code>data</code>argument a list, environment, or package where to look for data so we don’t print more than necessary, for instance improving the previous example:</p>
+<p>We can provide to the <code>data</code> argument a named list, an environment, a package where to look for data, or an unnamed list of such items, so we don’t print more than necessary, for instance improving the previous example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">grouped_band_members</span>, data <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; band_members |&gt;</span></span>
 <span><span class="co">#&gt;   dplyr::group_by(band)</span></span></code></pre></div>
-<p>We can also trim the output and display only <code>max_atomic</code> elements at most from a vector, or <code>max_list</code> elements from a list. Notice the last element of trimmed objects, prefixed by <code>+</code>, showing how many items were not printed.</p>
+</div>
+<div class="section level2">
+<h2 id="customize-output-with-constructive-options">customize output with constructive options<a class="anchor" aria-label="anchor" href="#customize-output-with-constructive-options"></a>
+</h2>
+<p>Many classes or types can be represented in various ways, for instance a tibble might be constructed using <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> or using <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tibble::tribble()</a></code>.</p>
+<p>The <code>opts_*()</code> family of functions is used for this purpose. These functions are used to provide unnamed arguments to <code><a href="reference/construct.html">construct()</a></code>, for instance :</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/starwars.html" class="external-link">starwars</a></span>, max_atomic <span class="op">=</span> <span class="fl">2</span>, max_list <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; tibble::tibble(</span></span>
-<span><span class="co">#&gt;   name = c("Luke Skywalker", "C-3PO", +85),</span></span>
-<span><span class="co">#&gt;   height = c(172L, 167L, +85),</span></span>
-<span><span class="co">#&gt;   mass = c(77, 75, +85),</span></span>
-<span><span class="co">#&gt;   hair_color = c("blond", NA, +85),</span></span>
-<span><span class="co">#&gt;   skin_color = c("fair", "gold", +85),</span></span>
-<span><span class="co">#&gt;   eye_color = c("blue", "yellow", +85),</span></span>
-<span><span class="co">#&gt;   birth_year = c(19, 112, +85),</span></span>
-<span><span class="co">#&gt;   sex = c("male", "none", +85),</span></span>
-<span><span class="co">#&gt;   gender = c("masculine", "masculine", +85),</span></span>
-<span><span class="co">#&gt;   homeworld = c("Tatooine", "Tatooine", +85),</span></span>
-<span><span class="co">#&gt;   species = c("Human", "Droid", +85),</span></span>
-<span><span class="co">#&gt;   films = list(c("The Empire Strikes Back", "Revenge of the Sith", +3), +86),</span></span>
-<span><span class="co">#&gt;   vehicles = list(c("Snowspeeder", "Imperial Speeder Bike"), +86),</span></span>
-<span><span class="co">#&gt;   starships = list(c("X-wing", "Imperial shuttle"), +86),</span></span>
-<span><span class="co">#&gt; )</span></span></code></pre></div>
-<p>If we set those to <code>0</code> we build a prototype :</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/starwars.html" class="external-link">starwars</a></span>, max_atomic <span class="op">=</span> <span class="fl">0</span>, max_list <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="co">#&gt; tibble::tibble(</span></span>
-<span><span class="co">#&gt;   name = character(0),</span></span>
-<span><span class="co">#&gt;   height = integer(0),</span></span>
-<span><span class="co">#&gt;   mass = numeric(0),</span></span>
-<span><span class="co">#&gt;   hair_color = character(0),</span></span>
-<span><span class="co">#&gt;   skin_color = character(0),</span></span>
-<span><span class="co">#&gt;   eye_color = character(0),</span></span>
-<span><span class="co">#&gt;   birth_year = numeric(0),</span></span>
-<span><span class="co">#&gt;   sex = character(0),</span></span>
-<span><span class="co">#&gt;   gender = character(0),</span></span>
-<span><span class="co">#&gt;   homeworld = character(0),</span></span>
-<span><span class="co">#&gt;   species = character(0),</span></span>
-<span><span class="co">#&gt;   films = list(),</span></span>
-<span><span class="co">#&gt;   vehicles = list(),</span></span>
-<span><span class="co">#&gt;   starships = list(),</span></span>
-<span><span class="co">#&gt; )</span></span></code></pre></div>
-<p>Some other options :</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, tribble <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="fu"><a href="reference/opts_tbl_df.html">opts_tbl_df</a></span><span class="op">(</span><span class="st">"tribble"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tibble::tribble(</span></span>
 <span><span class="co">#&gt;   ~name,  ~band,</span></span>
 <span><span class="co">#&gt;   "Mick", "Stones",</span></span>
 <span><span class="co">#&gt;   "John", "Beatles",</span></span>
 <span><span class="co">#&gt;   "Paul", "Beatles",</span></span>
+<span><span class="co">#&gt; )</span></span></code></pre></div>
+<p>These functions have their own documentation page and are referenced in <code><a href="reference/construct.html">?construct</a></code>.</p>
+<p>In particular <code><a href="reference/opts_list.html">opts_list()</a></code>, <code><a href="reference/opts_atomic.html">opts_atomic()</a></code> and <code><a href="reference/opts_function.html">opts_function()</a></code> have a <code>trim</code> argument that might be used to show a terser output. In this case obviously the output does not faithfully reproduces the input, and in some cases it is not even possible to evaluate it.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="fu"><a href="reference/opts_list.html">opts_list</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="reference/opts_atomic.html">opts_atomic</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; {constructive} couldn't create code that reproduces perfectly the input</span></span>
+<span><span class="co">#&gt; ℹ Call `construct_issues()` to inspect the last issues</span></span>
+<span><span class="co">#&gt; tibble::tibble(</span></span>
+<span><span class="co">#&gt;   name = c("Luke Skywalker", character(86)),</span></span>
+<span><span class="co">#&gt;   height = c(172L, numeric(86)),</span></span>
+<span><span class="co">#&gt;   mass = c(77, numeric(86)),</span></span>
+<span><span class="co">#&gt;   hair_color = c("blond", character(86)),</span></span>
+<span><span class="co">#&gt;   skin_color = c("fair", character(86)),</span></span>
+<span><span class="co">#&gt;   eye_color = c("blue", character(86)),</span></span>
+<span><span class="co">#&gt;   birth_year = c(19, numeric(86)),</span></span>
+<span><span class="co">#&gt;   sex = c("male", character(86)),</span></span>
+<span><span class="co">#&gt;   gender = c("masculine", character(86)),</span></span>
+<span><span class="co">#&gt;   homeworld = c("Tatooine", character(86)),</span></span>
+<span><span class="co">#&gt;   species = c("Human", character(86)),</span></span>
+<span><span class="co">#&gt;   films = c(list(c("The Empire Strikes Back", character(4))), vector("list", 86)),</span></span>
+<span><span class="co">#&gt;   vehicles = c(list(c("Snowspeeder", character(1))), vector("list", 86)),</span></span>
+<span><span class="co">#&gt;   starships = c(list(c("X-wing", character(1))), vector("list", 86)),</span></span>
 <span><span class="co">#&gt; )</span></span>
-<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">band_members</span><span class="op">)</span>, read.table <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; read.table(header = TRUE, text = "</span></span>
-<span><span class="co">#&gt; name band</span></span>
-<span><span class="co">#&gt; Mick Stones</span></span>
-<span><span class="co">#&gt; John Beatles</span></span>
-<span><span class="co">#&gt; Paul Beatles</span></span>
-<span><span class="co">#&gt; ")</span></span></code></pre></div>
+<span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="fu"><a href="reference/opts_list.html">opts_list</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">1</span>, fill <span class="op">=</span> <span class="st">"..."</span><span class="op">)</span>, <span class="fu"><a href="reference/opts_atomic.html">opts_atomic</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">1</span>, fill <span class="op">=</span> <span class="st">"..."</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ! The code built by {constructive} could not be evaluated.</span></span>
+<span><span class="co">#&gt; tibble::tibble(</span></span>
+<span><span class="co">#&gt;   name = c("Luke Skywalker", ...),</span></span>
+<span><span class="co">#&gt;   height = c(172L, ...),</span></span>
+<span><span class="co">#&gt;   mass = c(77, ...),</span></span>
+<span><span class="co">#&gt;   hair_color = c("blond", ...),</span></span>
+<span><span class="co">#&gt;   skin_color = c("fair", ...),</span></span>
+<span><span class="co">#&gt;   eye_color = c("blue", ...),</span></span>
+<span><span class="co">#&gt;   birth_year = c(19, ...),</span></span>
+<span><span class="co">#&gt;   sex = c("male", ...),</span></span>
+<span><span class="co">#&gt;   gender = c("masculine", ...),</span></span>
+<span><span class="co">#&gt;   homeworld = c("Tatooine", ...),</span></span>
+<span><span class="co">#&gt;   species = c("Human", ...),</span></span>
+<span><span class="co">#&gt;   films = list(c("The Empire Strikes Back", ...), ...),</span></span>
+<span><span class="co">#&gt;   vehicles = list(c("Snowspeeder", ...), ...),</span></span>
+<span><span class="co">#&gt;   starships = list(c("X-wing", ...), ...),</span></span>
+<span><span class="co">#&gt; )</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a>
+<h2 id="environments">Environments<a class="anchor" aria-label="anchor" href="#environments"></a>
 </h2>
-<p>Environments are not always possible to reproduce but we support some common cases. Due to this several objects such as formulas, srcrefs, R6 objects, ggplot objects etc might not be reproducible exactly. If an approximation is enough one might set <code>check = FALSE</code> (don’t fail if object cannot be reproduced), <code>ignore_srcref = TRUE</code> (don’t fail if srcrefs are different), <code>env_as_list = FALSE</code> (don’t attempt to recreate fancy environments, simply use <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> instead).</p>
+<p>Some special environments can be reproduced perfectly:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; .GlobalEnv</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">setNames</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; asNamespace("stats")</span></span></code></pre></div>
+<p>In general however, because environments use reference semantics, they cannot be copied. An attempt to copy an environment would indeed yield a different environment and <code>identical(env, copy)</code> would be <code>FALSE</code> (read more about it in <code><a href="reference/opts_environment.html">?opts_environment</a></code>).</p>
+<p>In practice however 2 environments containing the same values and having the same parent will be equivalent. When {constructive} can reproduce those, it won’t complain about any difference.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span>parent <span class="op">=</span> <span class="va">.GlobalEnv</span><span class="op">)</span></span>
+<span><span class="va">e1</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; list2env(list(x = 1), parent = .GlobalEnv)</span></span></code></pre></div>
+<p>However in the general case we’d have to construct all parents too and it might get verbose, by default {constructive} doesn’t go all the way.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">e2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span>parent <span class="op">=</span> <span class="va">e1</span><span class="op">)</span></span>
+<span><span class="va">e2</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; {constructive} couldn't create code that reproduces perfectly the input</span></span>
+<span><span class="co">#&gt; ℹ Call `construct_issues()` to inspect the last issues</span></span>
+<span><span class="co">#&gt; list2env(list(y = 2), parent = .GlobalEnv)</span></span></code></pre></div>
+<p>However if we set <code>recurse</code> to <code>TRUE</code> we’ll get an equivalent environment :</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e2</span>, <span class="fu"><a href="reference/opts_environment.html">opts_environment</a></span><span class="op">(</span>recurse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, pipe <span class="op">=</span> <span class="st">"magrittr"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; .GlobalEnv %&gt;%</span></span>
+<span><span class="co">#&gt;   list2env(list(x = 1), parent = .) %&gt;%</span></span>
+<span><span class="co">#&gt;   list2env(list(y = 2), parent = .)</span></span></code></pre></div>
+<p>See <code><a href="reference/opts_environment.html">?opts_environment</a></code> for more.</p>
+</div>
+<div class="section level2">
+<h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
+</h2>
+<p>Functions have en environment, which is not set by default. We might set it explicitly, or we might also not check for equivalence of function environments.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">setNames</span><span class="op">)</span></span>
+<span><span class="co">#&gt; {constructive} couldn't create code that reproduces perfectly the input</span></span>
+<span><span class="co">#&gt; ℹ Call `construct_issues()` to inspect the last issues</span></span>
+<span><span class="co">#&gt; function(object = nm, nm) {</span></span>
+<span><span class="co">#&gt;   names(object) &lt;- nm</span></span>
+<span><span class="co">#&gt;   object</span></span>
+<span><span class="co">#&gt; }</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">setNames</span>, <span class="fu"><a href="reference/opts_function.html">opts_function</a></span><span class="op">(</span>environment <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (function(object = nm, nm) {</span></span>
+<span><span class="co">#&gt;   names(object) &lt;- nm</span></span>
+<span><span class="co">#&gt;   object</span></span>
+<span><span class="co">#&gt; }) |&gt;</span></span>
+<span><span class="co">#&gt;   match.fun("environment&lt;-")(asNamespace("stats"))</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">setNames</span>, ignore_function_env <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; function(object = nm, nm) {</span></span>
+<span><span class="co">#&gt;   names(object) &lt;- nm</span></span>
+<span><span class="co">#&gt;   object</span></span>
+<span><span class="co">#&gt; }</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="construct_diff">construct_diff<a class="anchor" aria-label="anchor" href="#construct_diff"></a>
 </h2>
 <p><code><a href="reference/construct_diff.html">construct_diff()</a></code> highlights the differences in the code used to produce 2 objects.</p>
-<p>Let’s try it on ggplot objects, these objects are very complex and {constructive} cannot reproduce them exactly (because environments can’t be reproduced reliably) but we can get close enough to see how adding a geom changes the structure of the object.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/construct_diff.html">construct_diff</a></span><span class="op">(</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="va">cars</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">speed</span>, <span class="va">dist</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="va">cars</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">speed</span>, <span class="va">dist</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  max_atomic <span class="op">=</span> <span class="fl">3</span>, </span>
-<span>  env_as_list <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co">#  -&gt; use `new.env()` to produce env objects</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/construct_diff.html">construct_diff</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cars</span>,<span class="fl">2</span><span class="op">)</span>, b <span class="op">=</span> <span class="st">"aaaaaaaaaaaaaaaaaaaa"</span>, c <span class="op">=</span> <span class="st">"Foo"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span>,<span class="fl">1</span><span class="op">)</span>, b <span class="op">=</span> <span class="st">"aaaaaaaaaaaaaaaaaaaa"</span>, c <span class="op">=</span> <span class="st">"foo"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/construct_diff.png"></p>
+<!-- ![](man/figures/construct_diff.png) -->
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

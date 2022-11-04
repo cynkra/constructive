@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">constructive</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,19 +53,16 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">construct</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
+<span>  <span class="va">...</span>,</span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pipe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"base"</span>, <span class="st">"magrittr"</span><span class="op">)</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  max_atomic <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  max_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  max_body <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  env_as_list <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ignore_srcref <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  ignore_attr <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ignore_function_env <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ignore_formula_env <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">...</span></span>
+<span>  template <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"constructive_opts_template"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -73,6 +70,11 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>An object</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Constructive options built with the <code>opts_*()</code> family of functions. See the "Constructive options"
+section below.</p></dd>
 
 
 <dt>data</dt>
@@ -90,30 +92,44 @@ be combined so you can provide a list of named objects and unnamed namespaces.</
 using <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code></p></dd>
 
 
-<dt>max_atomic</dt>
-<dd><p>maximum number of elements of atomic vectors to print, forces check to <code>FALSE</code></p></dd>
-
-
-<dt>max_list</dt>
-<dd><p>maximum number of elements of a list to print, forces check to <code>FALSE</code></p></dd>
-
-
-<dt>max_body</dt>
-<dd><p>maximum number of calls to show from a function's body, forces check to <code>FALSE</code></p></dd>
-
-
-<dt>env_as_list</dt>
-<dd><p>translate environments to <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env()</a></code> rather than <code>as.environment(list(...))</code></p></dd>
-
-
 <dt>ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env</dt>
 <dd><p>passed to <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code></p></dd>
 
 
-<dt>...</dt>
-<dd><p>Additional parameters passed to <code>construct_impl()</code> generic and methods.</p></dd>
+<dt>one_liner</dt>
+<dd><p>Boolean. Whether to collapse the output to a single line of code.</p></dd>
+
+
+<dt>template</dt>
+<dd><p>A list of constructive options build with <code>opts_*()</code> functions,
+they will be overriden by <code>...</code>. This is designed to help users set a default
+behavior for <code>{constructive}</code>.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="constructive-options">Constructive options<a class="anchor" aria-label="anchor" href="#constructive-options"></a></h2>
+    
+
+
+<p>Constructive options provide a way to customize the output of <code>construct()</code>.
+We can provide calls to <code>opts_*()</code> functions to the <code>...</code> argument. Each of
+these functions targets a specific element type and is documented on its own page.</p><ul><li><p><code><a href="opts_atomic.html">opts_atomic()</a></code></p></li>
+<li><p><code><a href="opts_data.frame.html">opts_data.frame()</a></code></p></li>
+<li><p><code><a href="opts_Date.html">opts_Date()</a></code></p></li>
+<li><p><code><a href="opts_environment.html">opts_environment()</a></code></p></li>
+<li><p><code><a href="opts_formula.html">opts_formula()</a></code></p></li>
+<li><p><code><a href="opts_factor.html">opts_factor()</a></code></p></li>
+<li><p><code><a href="opts_function.html">opts_function()</a></code></p></li>
+<li><p><code><a href="opts_list.html">opts_list()</a></code></p></li>
+<li><p><code><a href="opts_ordered.html">opts_ordered()</a></code></p></li>
+<li><p><code><a href="opts_POSIXct.html">opts_POSIXct()</a></code></p></li>
+<li><p><code><a href="opts_tbl_df.html">opts_tbl_df()</a></code></p></li>
+</ul><p>In particular by default the environments of functions and formulas are not reconstructed,
+and <code><a href="opts_formula.html">opts_formula()</a></code> and <code><a href="opts_function.html">opts_function()</a></code> help you adjust this behavior.
+Note that objects referring to environment often can't be reconstructed faithfully.
+Some compromises have to be made and <code><a href="opts_environment.html">opts_environment()</a></code> helps you make them.
+Other <code>opts_*()</code> functions have a purely cosmetic effect.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
