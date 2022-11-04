@@ -24,6 +24,7 @@ construct_idiomatic.default <- function(x, ..., one_liner = FALSE) {
   if (is.function(x))  return(construct_idiomatic.function(x, ..., one_liner = one_liner))
   if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, ..., one_liner = one_liner))
   if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, ..., one_liner = one_liner))
+  if (typeof(x) == "...")  return(construct_idiomatic.dots(x, ..., one_liner = one_liner))
   construct_idiomatic.atomic(x, ..., one_liner = one_liner)
 }
 
