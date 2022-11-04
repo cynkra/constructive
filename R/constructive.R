@@ -98,11 +98,6 @@ try_eval <- function(styled_code, data) {
   )
 }
 
-# FIXME: we might not be identical and still have waldo not find any difference
-#   we should print something in those cases.
-# FIXME: we should be able to set the ignore_* args from `construct()`, `identical()`
-#   itself has args `ignore.bytecode`, `ignore.environment` and `ignore.srcref`
-#   that we can use. We might sometimes have to do the comparison using `waldo()` directly though.
 check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env) {
   if (isFALSE(check)) return(NULL)
   evaled <- try_eval(styled_code, data)
