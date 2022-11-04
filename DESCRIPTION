@@ -1,6 +1,6 @@
 Package: constructive
 Title: Display Idiomatic Code to Construct Most R Objects
-Version: 0.0.1
+Version: 0.0.1.9000
 Authors@R: 
     person("Antoine", "Fabri", , "antoine.fabri@gmail.com", role = c("aut", "cre"))
 Description: Display idiomatic code to construct most R objects.
