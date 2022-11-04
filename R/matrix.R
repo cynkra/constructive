@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.matrix <- function(x, pipe, ...) {
+construct_idiomatic.matrix <- function(x, ..., pipe = "base") {
   dim <- attr(x, "dim")
   dimnames <- attr(x, "dimnames")
   dim_names_lst <- if (!is.null(dimnames)) list(dimnames = dimnames)
@@ -7,18 +7,18 @@ construct_idiomatic.matrix <- function(x, pipe, ...) {
   attr(x, "dimnames") <- NULL
   construct_apply(
     c(list(x, nrow = dim[[1]], ncol = dim[[2]]), dim_names_lst),
-    "matrix",
+    ...,
+    fun = "matrix",
     new_line = TRUE,
-    pipe = pipe,
-    ...
+    pipe = pipe
   )
 }
 
 #' @export
-repair_attributes.matrix <- function(x, code, pipe ="base", ...) {
+repair_attributes.matrix <- function(x, code, ..., pipe ="base") {
   repair_attributes_impl(
-    x, code, pipe,
-    ignore = c("dim", "dimnames"),
-    ...
+    x, code, ...,
+    pipe = pipe,
+    ignore = c("dim", "dimnames")
   )
 }

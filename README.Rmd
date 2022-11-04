@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 # constructive 
 
 {constructive} prints code that can be used to recreate R objects. In a sense it
-is similar to `base::dput()` but {constructive} strives to use "natural" constructors
+is similar to `base::dput()` or `base::deparse()` but {constructive} strives to use "natural" constructors
 (`factor` for factors, `as.Date()` for dates, `data.frame()` for data frames etc),
 in order to get output readable by humans.
 
@@ -37,7 +37,7 @@ Install with:
 remotes::install_github("cynkra/constructive")
 ```
 
-## Examples
+## Comparison with `dput()`
 
 A few examples compared to their `dput()` output.
 
@@ -45,65 +45,115 @@ A few examples compared to their `dput()` output.
 library(constructive)
 
 construct(head(iris, 2))
+
 dput(head(iris, 2))
 
 construct(.leap.seconds)
+
 dput(.leap.seconds)
 
 library(dplyr, warn.conflicts = FALSE)
 grouped_band_members <- group_by(band_members, band)
+
 dput(grouped_band_members)
+
 construct(grouped_band_members)
 ```
 
-We can provide to the `data`argument a list, environment, or package where to look
-for data so we don't print more than necessary, for instance improving the previous example:
+We can provide to the `data` argument a named list, an environment, a package where to look
+for data, or an unnamed list of such items, so we don't print more than necessary, for instance improving the previous example:
 
 ```{r}
 construct(grouped_band_members, data = "dplyr")
 ```
 
-We can also trim the output and display only `max_atomic` elements at most from a vector,
-or `max_list` elements from a list. Notice the last element of trimmed objects,
-prefixed by `+`, showing how many items were not printed.
+## customize output with constructive options
+
+Many classes or types can be represented in various ways, for instance a tibble
+might be constructed using `tibble::tibble()` or using `tibble::tribble()`.
+
+The `opts_*()` family of functions is used for this purpose. These functions
+are used to provide unnamed arguments to `construct()`, for instance :
 
 ```{r}
-construct(dplyr::starwars, max_atomic = 2, max_list = 1)
+construct(band_members, opts_tbl_df("tribble"))
 ```
-If we set those to `0` we build a prototype :
+These functions have their own documentation page and are referenced in `?construct`.
+
+In particular `opts_list()`, `opts_atomic()` and `opts_function()` have a `trim`
+argument that might be used to show a terser output. In this case obviously the 
+output does not faithfully reproduces the input, and in some cases it is not even
+possible to evaluate it.
 
 ```{r}
-construct(dplyr::starwars, max_atomic = 0, max_list = 0)
+construct(starwars, opts_list(trim = 1), opts_atomic(trim = 1))
+
+construct(starwars, opts_list(trim = 1, fill = "..."), opts_atomic(trim = 1, fill = "..."))
 ```
-Some other options :
+
+
+## Environments
+
+Some special environments can be reproduced perfectly:
 
 ```{r}
-construct(band_members, tribble = TRUE)
-construct(as.data.frame(band_members), read.table = TRUE)
-```
-## Limitations
+construct(globalenv())
 
-Environments are not always possible to reproduce but we support some common cases.
-Due to this several objects such as formulas, srcrefs, R6 objects, ggplot objects
-etc might not be reproducible exactly. If an approximation is enough one might
-set `check = FALSE` (don't fail if object cannot be reproduced), `ignore_srcref = TRUE` (don't fail if srcrefs are different), `env_as_list = FALSE` (don't attempt to recreate fancy environments, simply use `new.env()` instead).
+construct(environment(setNames))
+```
+
+In general however, because environments use reference semantics, they cannot be copied.
+An attempt to copy an environment would indeed yield a different environment and `identical(env, copy)` would be `FALSE`
+(read more about it in `?opts_environment`).
+
+In practice however 2 environments containing the same values and having the same
+parent will be equivalent. When {constructive} can reproduce those, it won't complain
+about any difference.
+
+```{r}
+e1 <- new.env(parent = .GlobalEnv)
+e1$x <- 1
+construct(e1)
+```
+
+However in the general case we'd have to construct all parents too and it might
+get verbose, by default {constructive} doesn't go all the way.
+
+```{r}
+e2 <- new.env(parent = e1)
+e2$y <- 2
+construct(e2)
+```
+
+However if we set `recurse` to `TRUE` we'll get an equivalent environment :
+
+```{r}
+construct(e2, opts_environment(recurse = TRUE), pipe = "magrittr")
+```
+See `?opts_environment` for more.
+
+## Functions
+
+Functions have en environment, which is not set by default. We might set it explicitly, or we might also
+not check for equivalence of function environments.
+
+```{r}
+construct(setNames)
+
+construct(setNames, opts_function(environment = TRUE))
+
+construct(setNames, ignore_function_env = TRUE)
+```
 
 ## construct_diff
 
 `construct_diff()` highlights the differences in the code used to produce 2 objects.
 
-Let's try it on ggplot objects, these objects are very complex and {constructive}
-cannot reproduce them exactly (because environments can't be reproduced reliably)
-but we can get close enough to see how adding a geom changes the structure of the object.
-
 ```{r, eval = FALSE}
-library(ggplot2)
 construct_diff(
-  ggplot(cars, aes(speed, dist)),
-  ggplot(cars, aes(speed, dist)) + geom_point(),
-  max_atomic = 3, 
-  env_as_list = FALSE, #  -> use `new.env()` to produce env objects
+  list(a = head(cars,2), b = "aaaaaaaaaaaaaaaaaaaa", c = "Foo"),
+  list(a = head(iris,1), b = "aaaaaaaaaaaaaaaaaaaa", c = "foo")
 )
 ```
 
-![](man/figures/construct_diff.png)
+<!-- ![](man/figures/construct_diff.png) -->

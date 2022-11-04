@@ -55,11 +55,11 @@ construct_idiomatic.dm <- function(x, pipe = "base", one_liner = FALSE, ...) {
 
 
 #' @export
-repair_attributes.dm <- function(x, code, pipe ="base", ...) {
+repair_attributes.dm <- function(x, code, ..., pipe ="base") {
   repair_attributes_impl(
-    x, code, pipe,
+    x, code, ...,
+    pipe = pipe,
     idiomatic_class = "dm",
-    ignore = c("version"),
-    ...
+    ignore = c("version")
   )
 }

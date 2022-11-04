@@ -9,25 +9,58 @@
 #' @param pipe Which pipe to use, either "base" or "magrittr"
 #' @param check Boolean. Whether to check if the created code reproduces the object
 #'   using `waldo::compare()`
-#' @param max_atomic maximum number of elements of atomic vectors to print, forces check to `FALSE`
-#' @param max_list maximum number of elements of a list to print, forces check to `FALSE`
-#' @param max_body maximum number of calls to show from a function's body, forces check to `FALSE`
-#' @param env_as_list translate environments to `new.env()` rather than `as.environment(list(...))`
 #' @param ignore_srcref,ignore_attr,ignore_function_env,ignore_formula_env passed to `waldo::compare()`
-#' @param ... Additional parameters passed to `construct_impl()` generic and methods.
+#' @param ... Constructive options built with the `opts_*()` family of functions. See the "Constructive options"
+#'   section below.
+#' @param one_liner Boolean. Whether to collapse the output to a single line of code.
+#' @param template A list of constructive options build with `opts_*()` functions,
+#'   they will be overriden by `...`. This is designed to help users set a default
+#'   behavior for `{constructive}`.
+#'
+#' @section Constructive options:
+#'
+#' Constructive options provide a way to customize the output of `construct()`.
+#' We can provide calls to `opts_*()` functions to the `...` argument. Each of
+#' these functions targets a specific element type and is documented on its own page.
+#'
+#' * [opts_atomic()]
+#' * [opts_data.frame()]
+#' * [opts_Date()]
+#' * [opts_environment()]
+#' * [opts_formula()]
+#' * [opts_factor()]
+#' * [opts_function()]
+#' * [opts_list()]
+#' * [opts_ordered()]
+#' * [opts_POSIXct()]
+#' * [opts_tbl_df()]
+#'
+#' In particular by default the environments of functions and formulas are not reconstructed,
+#' and `opts_formula()` and `opts_function()` help you adjust this behavior.
+#' Note that objects referring to environment often can't be reconstructed faithfully.
+#' Some compromises have to be made and `opts_environment()` helps you make them.
+#' Other `opts_*()` functions have a purely cosmetic effect.
 #'
 #' @export
-construct <- function(x, data = NULL, pipe = c("base", "magrittr"), check = NULL,
-                      max_atomic = NULL, max_list = NULL, max_body = NULL, env_as_list = TRUE,
-                      ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE, ...) {
-  pipe <- match.arg(pipe)
+construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
+                      ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
+                      template = getOption("constructive_opts_template")) {
+  combine_errors(
+    ellipsis::check_dots_unnamed(),
+    # FIXME: check data
+    pipe <- rlang::arg_match(pipe),
+    abort_not_boolean(ignore_srcref),
+    abort_not_boolean(ignore_attr),
+    abort_not_boolean(ignore_function_env),
+    abort_not_boolean(ignore_formula_env),
+    abort_not_boolean(one_liner)
+    # FIXME: check template
+  )
   data <- preprocess_data(data)
-  code <- try_construct(x, data, pipe = pipe, max_atomic = max_atomic, max_body = max_body, max_list = max_list, env_as_list = env_as_list, one_liner = one_liner, ...)
+  code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner)
   styled_code <- try_parse(code, data, one_liner)
-  if (!is.null(max_atomic) || !is.null(max_list) || !is.null(max_body)) {
-    check <- FALSE
-  }
-  compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env)
+  caller <- caller_env()
+  compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller)
   structure(list(code = styled_code, compare = compare), class = "constructive")
 }
 
@@ -48,7 +81,7 @@ construct_issues <- function(x = NULL) {
 }
 
 #' @export
-print.constructive <- function(x) {
+print.constructive <- function(x, ...) {
   print(x$code)
   invisible(x)
 }
@@ -63,9 +96,9 @@ preprocess_data <- function(data) {
   c(named_elts, do.call(c, lapply(unnamed_elts, preprocess_data)))
 }
 
-try_construct <- function(...) {
+try_construct <- function(x, ...) {
   caller <- caller_env()
-  rlang::try_fetch(construct_raw(...), error = function(e) {
+  rlang::try_fetch(construct_raw(x, ...), error = function(e) {
     #nocov start
     abort("{constructive} could not build the requested code.", parent = e, call = caller)
     #nocov end
@@ -85,23 +118,26 @@ try_parse <- function(code, data, one_liner) {
   )
 }
 
-try_eval <- function(styled_code, data) {
-  caller <- caller_env()
+try_eval <- function(styled_code, data, check, caller) {
   rlang::try_fetch(
     eval(parse(text = styled_code), envir = data, enclos = caller),
     error = function(e) {
       #nocov start
-      print(styled_code)
-      abort("The code built by {constructive} could not be evaluated.", parent = e, call = caller)
+      msg <- "The code built by {constructive} could not be evaluated."
+      if (isTRUE(check)) {
+        print(styled_code)
+        abort(msg, parent = e, call = caller)
+      }
+      rlang::inform(c("!" = msg))
       #nocov end
     }
   )
 }
 
-check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env) {
+check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller) {
   if (isFALSE(check)) return(NULL)
-  evaled <- try_eval(styled_code, data)
-  if (missing(evaled)) return(NULL)
+  evaled <- try_eval(styled_code, data, check, caller)
+  if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
   out <- waldo::compare(
     x,
     evaled,

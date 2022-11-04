@@ -13,11 +13,11 @@ construct_idiomatic.language <- function(x, ..., one_liner = FALSE) {
 }
 
 #' @export
-repair_attributes.language <- function(x, code, pipe ="base", ...) {
+repair_attributes.language <- function(x, code, ..., pipe ="base") {
   repair_attributes_impl(
-    x, code, pipe,
-    ignore = c("srcref", "srcfile", "wholeSrcref"),
-    ...
+    x, code, ...,
+    pipe = pipe,
+    ignore = c("srcref", "srcfile", "wholeSrcref")
   )
 }
 

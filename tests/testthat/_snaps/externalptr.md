@@ -1,10 +1,8 @@
 # externalptr
 
     Code
-      suppressWarnings({
-        obj <- attributes(data.table::data.table(a = 1))
-        construct(obj, check = FALSE)
-      })
+      obj <- attributes(data.table::data.table(a = 1))
+      construct(obj, check = FALSE)
     Output
       list(
         names = "a",

@@ -1,29 +1,81 @@
 # formula
 
     Code
-      evalq(construct(~a), .GlobalEnv)
+      fml1 <- formula(lhs ~ rhs, .GlobalEnv)
+      construct(fml1)
     Output
-      match.fun("environment<-")(~a, .GlobalEnv)
+      lhs ~ rhs
     Code
-      construct(local(~a), check = FALSE)
+      construct(fml1, opts_formula(constructor = "formula"))
     Output
-      match.fun("environment<-")(~a, as.environment(list()))
+      formula("lhs ~ rhs", env = .GlobalEnv)
     Code
-      construct(local(~a), check = FALSE, env_as_list = FALSE)
+      construct(fml1, opts_formula(constructor = "new_formula"))
     Output
-      match.fun("environment<-")(~a, new.env())
+      rlang::new_formula(quote(lhs), quote(rhs), env = .GlobalEnv)
     Code
-      x <- ~a
-      class(x) <- "foo"
-      construct(x, check = FALSE, env_as_list = FALSE)
+      construct(fml1, opts_formula(environment = TRUE))
     Output
-      match.fun("environment<-")(~a, new.env()) |>
+      (lhs ~ rhs) |>
+        structure(.Environment = .GlobalEnv)
+    Code
+      construct(fml1, opts_formula(constructor = "formula", environment = FALSE))
+    Output
+      formula(lhs ~ rhs)
+    Code
+      construct(fml1, opts_formula(constructor = "new_formula", environment = FALSE))
+    Output
+      rlang::new_formula(quote(lhs), quote(rhs))
+    Code
+      fml2 <- formula(~rhs, .GlobalEnv)
+      construct(fml2)
+    Output
+      ~rhs
+    Code
+      construct(fml2, opts_formula(constructor = "formula"))
+    Output
+      formula("~rhs", env = .GlobalEnv)
+    Code
+      construct(fml2, opts_formula(constructor = "new_formula"))
+    Output
+      rlang::new_formula(NULL, quote(rhs), env = .GlobalEnv)
+    Code
+      construct(fml2, opts_formula(environment = TRUE))
+    Output
+      (~rhs) |>
+        structure(.Environment = .GlobalEnv)
+    Code
+      construct(fml2, opts_formula(constructor = "formula", environment = FALSE))
+    Output
+      formula(~rhs)
+    Code
+      construct(fml2, opts_formula(constructor = "new_formula", environment = FALSE))
+    Output
+      rlang::new_formula(NULL, quote(rhs))
+    Code
+      fml3 <- fml1
+      attr(fml3, "foo") <- "bar"
+      construct(fml3)
+    Output
+      (lhs ~ rhs) |>
+        structure(foo = "bar")
+    Code
+      construct(fml3, opts_formula(environment = TRUE))
+    Output
+      (lhs ~ rhs) |>
+        structure(.Environment = .GlobalEnv, foo = "bar")
+    Code
+      fml4 <- fml1
+      class(fml4) <- "foo"
+      construct(fml4)
+    Output
+      (lhs ~ rhs) |>
         structure(class = "foo")
     Code
-      y <- ~classless
-      class(y) <- NULL
-      construct(y, check = FALSE, env_as_list = FALSE)
+      fml5 <- fml1
+      class(fml5) <- NULL
+      construct(fml4)
     Output
-      match.fun("environment<-")(~classless, new.env()) |>
-        structure(class = NULL)
+      (lhs ~ rhs) |>
+        structure(class = "foo")
 

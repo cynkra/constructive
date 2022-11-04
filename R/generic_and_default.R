@@ -1,6 +1,6 @@
-construct_raw <- function(x, data = NULL, ...) {
-  idiomatic_code <- data_match(x, data) %||% construct_idiomatic(x, data = data, ...)
-  repaired_code <- repair_attributes(x, idiomatic_code, data = data, ...)
+construct_raw <- function(x, ..., data = NULL) {
+  idiomatic_code <- data_match(x, data) %||% construct_idiomatic(x, ..., data = data)
+  repaired_code <- repair_attributes(x, idiomatic_code, ..., data = data)
   repaired_code
 }
 
@@ -18,49 +18,28 @@ construct_idiomatic <- function(x, ...) {
 # the default case handles all atomic modes through dput except for numeric
 # ("logical", "integer", "complex", "character" and "raw")
 #' @export
-construct_idiomatic.default <- function(x, max_atomic = NULL, one_liner = FALSE, ...) {
-  if (is.environment(x)) return(construct_idiomatic.environment(x, max_atomic = max_atomic, ...))
-  if (is.list(x))  return(construct_idiomatic.list(x, max_atomic = max_atomic, ...))
-  if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, max_atomic = max_atomic, ...))
-  if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, max_atomic = max_atomic, ...))
-  attributes(x) <- NULL
-  if (!is.null(max_atomic)) return(trim_atomic(x, max_atomic, one_liner))
-  code <- deparse(x)
-  if (one_liner) code <- paste(code, collapse = " ")
-  code
+construct_idiomatic.default <- function(x, ..., one_liner = FALSE) {
+  if (is.environment(x)) return(construct_idiomatic.environment(x, ..., one_liner = one_liner))
+  if (is.list(x))  return(construct_idiomatic.list(x, ..., one_liner = one_liner))
+  if (is.function(x))  return(construct_idiomatic.function(x, ..., one_liner = one_liner))
+  if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, ..., one_liner = one_liner))
+  if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, ..., one_liner = one_liner))
+  construct_idiomatic.atomic(x, ..., one_liner = one_liner)
 }
 
-trim_atomic <- function(x, max_atomic, one_liner) {
-  if (max_atomic == 0) x <- x[0]
-  l <- length(x)
-  if (l <= max_atomic) {
-    code <- deparse(x)
-    if (one_liner) code <- paste(code, collapse = " ")
-    return(code)
-  }
-  code <- deparse(head(x, max_atomic))
-  code[[length(code)]] <- sub(
-    ")$",
-    sprintf(", +%s)", l - max_atomic),
-    code[[length(code)]]
-  )
-  if (one_liner) code <- paste(code, collapse = " ")
-  code
-}
-
-repair_attributes <- function(x, code, pipe = "base", ...) {
+repair_attributes <- function(x, code, ..., pipe = "base") {
   UseMethod("repair_attributes")
 }
 
 #' @export
-repair_attributes.default <- function(x, code, pipe = "base", ...) {
-  if (is.environment(x)) return(repair_attributes.environment(x, code, pipe, ...))
-  if (rlang::is_formula(x))  return(repair_attributes.formula(x, code, pipe, ...))
-  if (is.language(x) && !is.expression(x))  return(repair_attributes.language(x, code, pipe, ...))
-  repair_attributes_impl(x, code, pipe, ...)
+repair_attributes.default <- function(x, code, ..., pipe = "base") {
+  if (is.environment(x)) return(repair_attributes.environment(x, code, ..., pipe = pipe))
+  if (rlang::is_formula(x))  return(repair_attributes.formula(x, code, ..., pipe = pipe))
+  if (is.language(x) && !is.expression(x))  return(repair_attributes.language(x, code, ..., pipe = pipe))
+  repair_attributes_impl(x, code, ..., pipe = pipe)
 }
 
-repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE, ...) {
+repair_attributes_impl <- function(x, code, ..., pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL
@@ -82,15 +61,15 @@ repair_attributes_impl <- function(x, code, pipe = "base", ignore = NULL, idioma
   if (length(remove)) attrs <- c(attrs, setNames(replicate(length(remove), NULL), remove))
   if (!length(attrs)) return(code)
   # append structure() code to repair object
-  attrs_code <- construct_apply(attrs, fun = "structure", pipe = pipe, one_liner = one_liner, ...)
+  attrs_code <- construct_apply(attrs, fun = "structure", ..., pipe = pipe, one_liner = one_liner)
   pipe(code, attrs_code, pipe, one_liner)
 }
 
-construct_apply <- function(args, fun = "list", keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE, ...) {
+construct_apply <- function(args, fun = "list", ..., keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE) {
   new_line <- new_line && !one_liner
   keep_trailing_comma <- keep_trailing_comma && !one_liner
-  if (!length(args)) return("list()")
-  if (!language) args <- lapply(args, construct_raw, one_liner = one_liner, ...)
+  if (!length(args)) return(sprintf("%s()", fun))
+  if (!language) args <- lapply(args, construct_raw, ..., one_liner = one_liner)
   args_chr <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
   args_chr <- unlist(args_chr)
   # if line is short enough stick all in one line

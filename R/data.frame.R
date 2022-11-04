@@ -1,13 +1,43 @@
+#' Constructive options for class 'data.frame'
+#'
+#' These options will be used on objects of class 'data.frame'.
+#'
+#' Depending on `constructor`, we construct the environment as follows:
+#' * `"data.frame"` (default): Wrap the column definitions in a `data.frame()` call. If some
+#'   columns are lists or data frames, we wrap the column definitions in `tibble::tibble()`.
+#'   then use `as.data.frame()`
+#' * `"read.table"` : We build the object using `read.table()` if possible, and fall
+#'   back to `data.frame()`.
+#'
+#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_atomic
+#' @return An object of class <constructive_options/constructive_options_data.frame>
 #' @export
-construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = FALSE, ...) {
+opts_data.frame <- function(constructor = c("data.frame", "read.table"), ...) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+
+  structure(
+    class = c("constructive_options", "constructive_options_data.frame"),
+    list(
+      constructor = constructor
+    )
+  )
+}
+
+#' @export
+construct_idiomatic.data.frame <- function(x, ...) {
+  opts <- fetch_opts("data.frame", ...)
   df_has_list_cols <- any(sapply(x, function(col) is.list(col) && ! inherits(col, "AsIs")))
   # FIXME: not safe re attributes
   if (df_has_list_cols) {
-    tibble_code <- construct_apply(x, fun = "tibble::tibble", keep_trailing_comma = FALSE, read.table = read.table, ...)
+    tibble_code <- construct_apply(x, fun = "tibble::tibble", ...)
     df_code <- wrap(tibble_code, "as.data.frame", new_line = FALSE)
     return(df_code)
   }
-  if (read.table && !any(lengths(lapply(x, attributes)))) {
+  if (opts$constructor == "read.table" && !any(lengths(lapply(x, attributes)))) {
     code_df <- x
     code_df[] <- lapply(x, as.character)
     dbl_cols <- sapply(x, is.double)
@@ -21,18 +51,21 @@ construct_idiomatic.data.frame <- function(x, keep_trailing_comma, read.table = 
     return(code)
   }
 
-  some_names_are_non_syntactic <- any(!is_syntactic(names(x)))
-  if (some_names_are_non_syntactic) x <- c(x, list(check.names = FALSE))
-  construct_apply(x, fun = "data.frame", read.table = read.table, ...)
+  rn <- attr(x, "row.names")
+  if (!identical(rn, seq_len(nrow(x)))) x <- c(x, list(row.names = rn))
+  if (any(!is_syntactic(names(x)))) x <- c(x, list(check.names = FALSE))
+  construct_apply(x, fun = "data.frame", ...)
 }
 
 #' @export
-repair_attributes.data.frame <- function(x, code, pipe = "base", ...) {
+repair_attributes.data.frame <- function(x, code, ..., pipe = "base") {
+  ignore <- "row.names"
+  if (identical(names(x), character())) ignore <- c(ignore, "names")
   repair_attributes_impl(
-    x, code, pipe,
-    ignore = if (identical(attr(x, "row.names"), seq_len(nrow(x)))) "row.names",
-    idiomatic_class = c("data.frame"),
-    ...
+    x, code, ...,
+    pipe = pipe,
+    ignore = ignore,
+    idiomatic_class = c("data.frame")
   )
 }
 

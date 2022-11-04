@@ -1,69 +1,157 @@
+#' Constructive options for functions
+#'
+#' These options will be used on functions, i.e. objects of type "closure", "special" and "builtin".
+#'
+#' Depending on `constructor`, we construct the environment as follows:
+#' * `"function"` (default): Build the object using a standard `function() {}`
+#'   definition. This won't set the environment by default, unless `environment`
+#'   is set to `TRUE`. If a srcref is available, if this srcref matches the function's
+#'   definition, and if `trim` is left `NULL`, the code is returned fromn using the srcref,
+#'   so comments will be shown in the output of `construct()`.
+#' * `"as.function"` : Build the object using a `as.function()` call, by default will
+#'   attempt to recreate the environment.
+#'   back to `data.frame()`.
+#' * `"new_function"` : Build the object using a `rlang::new_function()` call, by default will
+#'   attempt to recreate the environment.
+#'
+#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_atomic
+#' @param environment Boolean. Whether to attempt to reconstruct the function's environment,
+#'   `FALSE` by default with the default `"function"` constructor. `TRUE` by default otherwise.
+#' @param srcref Boolean. Whether to attempt to reconstruct the function's srcref.
+#' @param trim `NULL` or integerish. Maximum of lines showed in the body before it's trimmed,
+#' replacing code with `...`. Note that it will necessarily produce code that doesn't
+#' reproduce the input, this will parse and evaluate without failure.
+#'
+#' @return An object of class <constructive_options/constructive_options_function>
+#' @export
+opts_function <- function(
+    constructor = c("function", "as.function", "new_function"),
+    ...,
+    environment = constructor != "function",
+    srcref = FALSE,
+    trim = NULL) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty(),
+    abort_not_boolean(environment),
+    abort_not_boolean(srcref),
+    abort_not_null_or_integerish(trim)
+  )
+  structure(
+    class = c("constructive_options", "constructive_options_function"),
+    list(constructor = constructor, environment = environment, srcref = srcref, trim = trim)
+  )
+}
+
+
 #' @export
 construct_idiomatic.function <- function(
-    x, pipe, max_body = NULL, function.as.function = FALSE,
-    function.zap_srcref = FALSE, function.construct_env = FALSE, one_liner = FALSE, ...) {
-  x_lst <- as.list(x)
-  body_lng <- x_lst[[length(x_lst)]]
-  if (!is.null(max_body)) {
-    if (length(body_lng) > max_body + 1) {
-      x_lst[[length(x_lst)]] <- as.call(c(head(as.list(body_lng), max_body + 1), quote(...)))
+    x, ..., pipe, one_liner = FALSE) {
+  if (rlang::is_primitive(x)) return(deparse(x))
+  opts <- fetch_opts("function", ...)
+  trim <- opts$trim
+  constructor <- opts$constructor
+  environment <- opts$environment
+  srcref <- opts$srcref
+  x_lst <- as.list(unclass(x))
+  x_length <- length(x_lst)
+  body_lng <- x_lst[[x_length]]
+
+  # trim if relevant
+  if (!is.null(trim)) {
+    if (length(body_lng) > trim + 1) {
+      x_lst[[x_length]] <- as.call(c(head(as.list(body_lng), trim + 1), quote(...)))
     }
   }
-  if (!function.as.function) {
-    # FIXME: we should use the srcref
-    code <- deparse(as.function(x_lst))
-    if (length(code) == 2) code <- paste(code[1], code[2])
-    if (function.construct_env || function.zap_srcref) {
-      code[1] <- paste0("(", code[1])
-      n <- length(code)
-      code[n] <- paste0(code[n], ")")
+
+  if (constructor == "function") {
+    # if the srcref matches the function's body (always in non artifical cases)
+    # we might use the srcref rather than the body, so we keep the comments
+    if (!one_liner && is.null(trim)) {
+      code <- code_from_srcref(x)
+      if(!is.null(code)) return(code)
     }
-    if (function.construct_env) {
+
+    fun_call <- call("function")
+    if (x_length > 1) {
+      fun_call[[2]] <- as.pairlist(x_lst[-x_length])
+    }
+    fun_call[[3]] <- x_lst[[x_length]]
+    code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
+
+    if (length(code) == 2) code <- paste(code[1], code[2])
+    attrs <- attributes(x)
+    if (!srcref) attrs$srcref <- NULL
+    if (environment || length(attrs)) {
+      code <- wrap(code, fun = "")
+    }
+    if (environment) {
       envir_code <- construct_apply(
         list(environment(x)),
         'match.fun("environment<-")',
-        function.as.function = function.as.function,
-        function.zap_srcref = function.zap_srcref,
-        function.construct_env = function.construct_env,
+        pipe = pipe,
         one_liner = one_liner,
         ...)
       code <- pipe(code, envir_code, pipe, one_liner)
     }
-  } else {
+  } else if (constructor == "as.function") {
     # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
     # so we must use regular deparse
     fun_lst <- lapply(x_lst, deparse)
-    x_arg <- construct_apply(
-      fun_lst, "alist", language = TRUE, pipe = pipe, max_body = max_body,
-                             function.as.function = function.as.function, function.zap_srcref = function.zap_srcref,
-                             function.construct_env = function.construct_env, one_liner = one_liner, ...)
-    if (function.construct_env) {
-      envir_arg <- construct_raw(environment(x), pipe = pipe, max_body = max_body, ...)
-      code <- construct_apply(
-        list(x_arg, envir = envir_arg), "as.function", language = TRUE,
-        function.as.function = function.as.function, function.zap_srcref = function.zap_srcref,
-        function.construct_env = function.construct_env, one_liner = one_liner, ...)
-    } else {
-      code <- construct_apply(
-        list(x_arg), "as.function", language = TRUE,
-        function.as.function = function.as.function, function.zap_srcref = function.zap_srcref,
-        function.construct_env = function.construct_env, one_liner = one_liner, ...)
+    args <- list(construct_apply(
+      fun_lst, "alist", ..., language = TRUE, pipe = pipe, one_liner = one_liner))
+    if (environment) {
+      envir_arg <- construct_raw(environment(x), ..., pipe = pipe, one_liner = one_liner)
+      args <- c(args, list(envir = envir_arg))
     }
-  }
-
-  if (function.zap_srcref) {
-    # a srcref is created if the body starts with `{` so we remove it
-    srcrefed <- is.call(body_lng) && identical(body_lng[[1]], as.symbol("{"))
-    if (srcrefed) code <- pipe(code, "rlang::zap_srcref()", pipe, one_liner)
+    code <- construct_apply(args, "as.function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
+  } else if (constructor == "new_function") {
+    # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
+    # so we must use regular deparse
+    fun_lst <- lapply(x_lst, deparse)
+    args <- list(
+      args = construct_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE, pipe = pipe, one_liner = one_liner),
+      body = wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
+    )
+    if (environment) {
+      envir_arg <- construct_raw(environment(x), ..., pipe = pipe, one_liner = one_liner)
+      args <- c(args, list(env = envir_arg))
+    }
+    code <- construct_apply(args, "rlang::new_function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
   }
   code
 }
 
 #' @export
-repair_attributes.function <- function(x, code, pipe ="base", ...) {
+repair_attributes.function <- function(x, code, ..., pipe ="base") {
+  opts <- fetch_opts("function", ...)
+  srcref <- opts$srcref
+  ignore <- c("name", "path")
+  if (!srcref) ignore <- c(ignore, "srcref")
   repair_attributes_impl(
-    x, code, pipe,
-    ignore = c("name", "path"),
-    ...
+    x, code, ...,
+    pipe = pipe,
+    ignore = ignore
   )
+}
+
+# returns the srcref as a character vector IF it matches the actual function, NULL otherwise
+code_from_srcref <- function(x) {
+  srcref <- attr(x, "srcref")
+  # srcref might have been zapped or function built withoiut srcref
+  if (is.null(srcref)) return(NULL)
+  srcref_chr <- as.character(srcref)
+  # srcref might have been manipulated and not parseable -> try
+  parsed <- try(parse(text=srcref_chr)[[1]], silent = TRUE)
+  if (
+    inherits(parsed, "try-error") ||
+    # don't bother trying to eval if it's not a function call
+    !identical(parsed[[1]], quote(`function`)) ||
+    # Note : ignore.srcef = TRUE is not enough, it might just look at the srcref attribute at the top level
+    !identical(rlang::zap_srcref(eval(parsed)), rlang::zap_srcref(x), ignore.environment = TRUE)
+  ) {
+    return(NULL)
+  }
+  srcref_chr
 }

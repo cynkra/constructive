@@ -9,10 +9,11 @@
 #' string is returned, using `"\n"` for new lines.
 #'
 #' @param call A call
-#' @param one_liner Whether to collapse multi-line expressions on a single line using
+#' @param one_liner Boolean. Whether to collapse multi-line expressions on a single line using
 #'   semicolons
-#' @param pipe Whether to use the base pipe to disentangle nested calls. This
+#' @param pipe Boolean. Whether to use the base pipe to disentangle nested calls. This
 #'   works best on simple calls.
+#' @param style Boolean. Whether to use `styler::style_text()` on thr output
 #'
 #' @return a string or a styled character vector
 #' @export
@@ -39,11 +40,17 @@ deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE) {
   code
 }
 
-deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE) {
-  if(is.symbol(call)) return(as.character(call))
+deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE, check_syntactic = TRUE) {
+  if(is.symbol(call)) {
+    code <- as.character(call)
+    if (check_syntactic && code != "" && !is_syntactic(code)) {
+      code <- sprintf("`%s`", code)
+    }
+    return(code)
+  }
   # artificial cases where caller is NULL, a numeric etc
   if (rlang::is_syntactic_literal(call)) {
-    return(construct_idiomatic(call))
+    return(construct_idiomatic(call, template = NULL))
   }
   if (!is.call(call)) {
     code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
@@ -51,7 +58,7 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE)
     abort(msg)
   }
   caller_lng <- call[[1]]
-  caller <- deparse_call_impl(caller_lng)
+  caller <- deparse_call_impl(caller_lng, check_syntactic = FALSE)
 
   if (caller == "function") {
     # no need to check more, already done by is_expression2
@@ -59,7 +66,6 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE)
     pair_list_code <- paste(names(pair_list_args), "=", pair_list_args)
     pair_list_code <- sub(" = $", "", pair_list_code)
     pair_list_code <- paste(pair_list_code, collapse = ", ")
-    #pair_list_code <- construct_idiomatic.pairlist(call[[2]], new_line = FALSE, max_list = NULL)
     body_code <- deparse_call_impl(call[[3]], one_liner, indent, pipe)
     code <- sprintf("function(%s) %s", pair_list_code, body_code)
     return(code)
@@ -110,9 +116,14 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE)
     return(code)
   }
 
-
-  if (caller %in% c("::", ":::") && length(call) == 3 && is.character(call[[2]]) && is.character(call[[3]])) {
-    return(sprintf("%s%s%s" , call[[2]], caller, call[[3]]))
+  if (
+    caller %in% c("::", ":::") &&
+    length(call) == 3 &&
+    (is.symbol(call[[2]]) || is.character(call[[2]])) &&
+    (is.symbol(call[[3]]) || is.character(call[[3]]))
+  ) {
+    code <- sprintf("%s%s%s" , deparse_call_impl(call[[2]]), caller, deparse_call_impl(call[[3]]))
+    return(code)
   }
 
   if (caller %in% c("@", "$") && length(call) == 3 && is.character(call[[3]])) {
@@ -125,13 +136,13 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE)
 
   if (caller == "[" && length(call) > 1) {
     arg1 <- deparse_call_impl(call[[2]])
-    other_args <- paste(vapply(call[-(1:2)], deparse_call_impl, character(1), one_liner = one_liner, indent = indent), collapse = ", ")
+    other_args <- deparse_named_args_to_string(call[-(1:2)], one_liner = one_liner, indent = indent)
     return(sprintf("%s[%s]", arg1, other_args))
   }
 
   if (caller == "[[" && length(call) > 1) {
     arg1 <- deparse_call_impl(call[[2]])
-    other_args <- paste(vapply(call[-(1:2)], deparse_call_impl, character(1), one_liner = one_liner, indent = indent), collapse = ", ")
+    other_args <- deparse_named_args_to_string(call[-(1:2)], one_liner = one_liner, indent = indent)
     return(sprintf("%s[[%s]]", arg1, other_args))
   }
 
@@ -169,10 +180,8 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE)
     return(sprintf("%s |> %s(%s)", arg1, caller, paste(other_args, collapse = ", ")))
     }
   }
-  args <- vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent)
-  args <- paste(rlang::names2(args), "=", args)
-  args <- sub("^ = ", "", args)
-  sprintf("%s(%s)", caller, paste(args, collapse = ", "))
+  args <- deparse_named_args_to_string(call[-1], one_liner = one_liner, indent = indent)
+  sprintf("%s(%s)", caller, args)
 }
 
 is_syntactic <- function(x) {
@@ -191,4 +200,13 @@ is_infix_narrow <- function(x) {
   x %in% c("::", ":::", "$", "@", "^", ":")
 }
 
-
+# FIXME: better handling of indent, doesn't impact if we style
+deparse_named_args_to_string <- function(args, one_liner, indent) {
+  args <- vapply(args, deparse_call_impl, character(1), one_liner = one_liner, indent = indent)
+  args <- paste(rlang::names2(args), "=", args)
+  args <- sub("^ = ", "", args)
+  # FIXME: the 80 is a bit arbitrary, since we don't account for indent and length of caller
+  if (one_liner || max(nchar(args)) < 80) return(paste(args, collapse = ", "))
+  args <- paste(args, collapse = ",\n")
+  paste0("\n", args, "\n")
+}

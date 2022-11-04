@@ -1,3 +1,9 @@
+# constructive 0.0.1.9000
+
+* Important redesign of options system
+* Handle more classes
+* Bug fixes
+
 # constructive 0.0.1
 
 * {constructive} produces code that can be used to recreate R objects. In a sense it

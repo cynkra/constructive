@@ -1,20 +1,36 @@
 test_that("formula", {
-  expect_snapshot({
-    # formula in global env
-    evalq(construct(~a), .GlobalEnv)
-    # formula in unrecognized env
-    construct(local(~a), check = FALSE)
-    construct(local(~a), check = FALSE, env_as_list = FALSE)
-    x <- ~a
-    class(x) <- "foo"
-    construct(x, check = FALSE, env_as_list = FALSE)
-    y <- ~classless
-    class(y) <- NULL
-    construct(y, check = FALSE, env_as_list = FALSE)
-  })
-  # fail when expecting identical environment
-  z <- ~d
-  environment(z) <- new.env()
-  #expect_s3_class(try(construct(z), silent = TRUE), "try-error")
-  expect_error(construct(z, check = TRUE), "couldn't create code")
+  #testthat::skip("skipping formula tests")
+  local(
+    envir = .GlobalEnv,
+    expect_snapshot({
+      fml1 <- formula(lhs ~ rhs, .GlobalEnv)
+      construct(fml1) # by default no env for constructor = "~"
+      construct(fml1, opts_formula(constructor = "formula"))
+      construct(fml1, opts_formula(constructor = "new_formula"))
+      construct(fml1, opts_formula(environment = TRUE))
+      construct(fml1, opts_formula(constructor = "formula", environment = FALSE))
+      construct(fml1, opts_formula(constructor = "new_formula", environment = FALSE))
+
+      fml2 <- formula(~ rhs, .GlobalEnv)
+      construct(fml2) # by default no env for constructor = "~"
+      construct(fml2, opts_formula(constructor = "formula"))
+      construct(fml2, opts_formula(constructor = "new_formula"))
+      construct(fml2, opts_formula(environment = TRUE))
+      construct(fml2, opts_formula(constructor = "formula", environment = FALSE))
+      construct(fml2, opts_formula(constructor = "new_formula", environment = FALSE))
+
+      fml3 <- fml1
+      attr(fml3, "foo") <- "bar"
+      construct(fml3)
+      construct(fml3, opts_formula(environment = TRUE))
+
+      fml4 <- fml1
+      class(fml4) <- "foo"
+      construct(fml4)
+
+      fml5 <- fml1
+      class(fml5) <- NULL
+      construct(fml4)
+    })
+  )
 })

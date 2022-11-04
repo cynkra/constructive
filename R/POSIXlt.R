@@ -17,18 +17,18 @@ construct_idiomatic.POSIXlt <- function(x, ...) {
   if (!is.null(tzone) && length(tzone) == 1) {
     args <- c(args, list(tz = tzone))
   }
-  construct_apply(args, "as.POSIXlt", new_line = TRUE, ...)
+  construct_apply(args, "as.POSIXlt", ..., new_line = TRUE)
 }
 
 #' @export
-repair_attributes.POSIXlt <- function(x, code, pipe ="base", ...) {
+repair_attributes.POSIXlt <- function(x, code, ..., pipe ="base") {
   code <- repair_attributes_impl(
-    x, code, pipe,
+    x, code, ...,
+    pipe = pipe,
     idiomatic_class = c("POSIXlt", "POSIXt"),
     #ignore = if (length(attr(x, "tzone")) > 1) "names" else c("names", "tzone"),
     ignore =  "tzone",
-    remove = NULL,
-    ...
+    remove = NULL
   )
   code
 }

@@ -7,11 +7,11 @@ construct_idiomatic.ts <- function(x, pipe, ...) {
 }
 
 #' @export
-repair_attributes.ts <- function(x, code, pipe ="base", ...) {
+repair_attributes.ts <- function(x, code, ..., pipe ="base") {
   repair_attributes_impl(
-    x, code, pipe,
+    x, code, ...,
+    pipe = pipe,
     ignore = "tsp",
-    idiomatic_class = "ts",
-    ...
+    idiomatic_class = "ts"
   )
 }

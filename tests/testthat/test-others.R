@@ -7,13 +7,6 @@ test_that("The data arg works", {
   })
 })
 
-test_that("max_atomic works", {
-  expect_snapshot({
-    construct(letters, max_atomic = 0)
-    construct(letters, max_atomic = 2)
-  })
-})
-
 test_that("noquote is supported", {
   expect_snapshot({
     construct(noquote("a"))

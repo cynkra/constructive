@@ -1,5 +1,11 @@
 test_that("deparse_call()", {
   expect_snapshot({
+    deparse_call(call("::", 1, 2), style = FALSE)
+    deparse_call(call("::", "a", quote(b)), style = FALSE)
+    deparse_call(call("::", quote(a), "b"), style = FALSE)
+    deparse_call(call(":::", 1, 2), style = FALSE)
+    deparse_call(call(":::", "a", quote(b)), style = FALSE)
+    deparse_call(call(":::", quote(a), "b"), style = FALSE)
     deparse_call(call("+", 1, 2, 3), style = FALSE)
     deparse_call(call("+", 1, 2), style = FALSE)
     deparse_call(call("+", 1), style = FALSE)
@@ -48,5 +54,17 @@ test_that("deparse_call()", {
     deparse_call(quote(for (i in this) {that}), style = FALSE)
     deparse_call(quote(repeat this), style = FALSE)
     deparse_call(quote(repeat {this}), style = FALSE)
+
+    # non syntatic symbols
+    deparse_call(quote(`*a*`))
+
+    # brackets and function calls with names
+    deparse_call(quote(a(b=1, c)))
+    deparse_call(quote(a[b=1, c]))
+    deparse_call(quote(a[[b=1, c]]))
+    deparse_call(quote(a(bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c)))
+    deparse_call(quote(a[bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c]))
+    # looks odd, but that's on {styler} : https://github.com/r-lib/styler/issues/1029
+    deparse_call(quote(a[[bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c]]))
   })
 })
