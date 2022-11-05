@@ -1,4 +1,5 @@
-#' Build code to recreate an object
+#' `construct()` builds the code to reproduce one object, `construct_multi()`
+#' builds the code to reproduce objects stored in a named list or environment.
 #'
 #' @param x An object
 #'
@@ -16,7 +17,7 @@
 #' @param template A list of constructive options build with `opts_*()` functions,
 #'   they will be overriden by `...`. This is designed to help users set a default
 #'   behavior for `{constructive}`.
-#'
+#' @return An object of class 'constructive'
 #' @section Constructive options:
 #'
 #' Constructive options provide a way to customize the output of `construct()`.
@@ -62,6 +63,37 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
   caller <- caller_env()
   compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller)
   structure(list(code = styled_code, compare = compare), class = "constructive")
+}
+
+#' @export
+#' @rdname construct
+construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
+                            ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
+                            template = getOption("constructive_opts_template")) {
+  abort_not_env_or_named_list(x)
+  if (is.environment(x)) x <- as.list.environment(x)
+  data <- preprocess_data(data)
+  constructives <- lapply(
+    x, construct,  ...,
+    data = data, pipe = pipe, check = check,
+    ignore_srcref = ignore_srcref, ignore_attr = ignore_attr,
+    ignore_function_env = ignore_function_env,
+    ignore_formula_env = ignore_formula_env, one_liner = one_liner,
+    template = template
+  )
+  code <- lapply(constructives, `[[`, "code")
+  issues <- lapply(constructives, `[[`, "compare")
+  issues <- Filter(Negate(is.null), issues)
+  globals$issues <- issues
+  code <-  Map(
+    code, names(code),
+    f = function(x, y) {
+      x[[1]] <- paste(protect(y), "<-", x[[1]])
+      c(x, "")
+    })
+  code <- unlist(code)
+  class(code) <- "vertical"
+  structure(list(code = unname(code), compare = issues), class = "constructive")
 }
 
 # helpers for the above --------------------------------------------------------
