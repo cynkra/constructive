@@ -72,3 +72,19 @@ abort_not_null_or_integerish <- function(x) {
   }
 }
 
+abort_not_env_or_named_list <- function(x) {
+  var <- as.character(substitute(x))
+  env_or_named_list_bool <-
+    !is_environment(x) &&
+    !(is_list(x) && is_named(x))
+  if (env_or_named_list_bool) {
+    msg <- sprintf("`%s` must be a named list or an environment.", var)
+    info <- if (is_list(x)) {
+      "It is a list with unnamed elements."
+    } else {
+      describe(x)
+    }
+    abort(c(msg, i = info), call = parent.frame())
+  }
+}
+

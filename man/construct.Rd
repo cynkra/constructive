@@ -2,9 +2,25 @@
 % Please edit documentation in R/constructive.R
 \name{construct}
 \alias{construct}
-\title{Build code to recreate an object}
+\alias{construct_multi}
+\title{\code{construct()} builds the code to reproduce one object, \code{construct_multi()}
+builds the code to reproduce objects stored in a named list or environment.}
 \usage{
 construct(
+  x,
+  ...,
+  data = NULL,
+  pipe = c("base", "magrittr"),
+  check = NULL,
+  ignore_srcref = TRUE,
+  ignore_attr = FALSE,
+  ignore_function_env = FALSE,
+  ignore_formula_env = FALSE,
+  one_liner = FALSE,
+  template = getOption("constructive_opts_template")
+)
+
+construct_multi(
   x,
   ...,
   data = NULL,
@@ -41,8 +57,12 @@ using \code{waldo::compare()}}
 they will be overriden by \code{...}. This is designed to help users set a default
 behavior for \code{{constructive}}.}
 }
+\value{
+An object of class 'constructive'
+}
 \description{
-Build code to recreate an object
+\code{construct()} builds the code to reproduce one object, \code{construct_multi()}
+builds the code to reproduce objects stored in a named list or environment.
 }
 \section{Constructive options}{
 
