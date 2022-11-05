@@ -47,7 +47,8 @@ match2 <- function(needle, haystack) {
   attributes(needle) <- NULL
   # like identical but ignoring attributes of haystack elements and their environment-ness
   identical2 <- function(x, needle) {
-    if (is.environment(x)) x <- as.list(x)
+    # as.list() doesn't work on environments with a S3 class excluding "environment"
+    if (is.environment(x)) x <- as.list.environment(x)
     attributes(x) <- NULL
     identical(x, needle)
   }
