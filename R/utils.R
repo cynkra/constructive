@@ -35,7 +35,7 @@ namespace_as_list <- function(pkg) {
   ns <- asNamespace(pkg)
   if (pkg == "base") return(as.list(ns))
   c(
-    mget(setdiff(getNamespaceExports(ns), unlist(.getNamespaceInfo(ns, "imports"))), ns),
+    mget(getNamespaceExports(ns), ns, inherits = TRUE, ifnotfound = NULL),
     as.list(.getNamespaceInfo(ns, "lazydata"))
   )
 }
