@@ -1,7 +1,9 @@
+#' Build code to recreate an object
+#'
 #' `construct()` builds the code to reproduce one object, `construct_multi()`
 #' builds the code to reproduce objects stored in a named list or environment.
 #'
-#' @param x An object
+#' @param x An object, for `construct_multi()` a named list or an environment.
 #'
 #' @param data named list of objects we don't want to deparse, can also be a package
 #' name and its namespace and datasets will be used to look for objects. Both can
@@ -46,6 +48,9 @@
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
                       ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {
+  globals$predefinition <- character()
+  globals$envs <- data.frame(hash = character(), name = character())
+
   combine_errors(
     ellipsis::check_dots_unnamed(),
     # FIXME: check data
@@ -59,6 +64,7 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
   )
   data <- preprocess_data(data)
   code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner)
+  code <- c(globals$predefinition, code)
   styled_code <- try_parse(code, data, one_liner)
   caller <- caller_env()
   compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller)
@@ -119,7 +125,7 @@ print.constructive <- function(x, ...) {
 }
 
 preprocess_data <- function(data) {
-  if (is.character(data)) return(namespace_as_list(data))
+  if (is.character(data) && length(data) == 1) return(namespace_as_list(data))
   if (is.environment(data)) return(as.list(data))
   # recurse into unnamed elements
   nms <- rlang::names2(data)

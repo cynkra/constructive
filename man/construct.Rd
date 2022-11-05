@@ -3,8 +3,7 @@
 \name{construct}
 \alias{construct}
 \alias{construct_multi}
-\title{\code{construct()} builds the code to reproduce one object, \code{construct_multi()}
-builds the code to reproduce objects stored in a named list or environment.}
+\title{Build code to recreate an object}
 \usage{
 construct(
   x,
@@ -35,7 +34,7 @@ construct_multi(
 )
 }
 \arguments{
-\item{x}{An object}
+\item{x}{An object, for \code{construct_multi()} a named list or an environment.}
 
 \item{...}{Constructive options built with the \verb{opts_*()} family of functions. See the "Constructive options"
 section below.}
