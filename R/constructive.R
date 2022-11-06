@@ -98,6 +98,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), c
       c(x, "")
     })
   code <- unlist(code)
+  if (is.null(code)) code <- character(0)
   class(code) <- "vertical"
   structure(list(code = unname(code), compare = issues), class = "constructive")
 }
