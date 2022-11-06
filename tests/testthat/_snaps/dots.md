@@ -6,7 +6,7 @@
     Output
       evalq(
         (function(...) environment()$...)(a = x, y),
-        envir = new.env(parent = .GlobalEnv)
+        envir = new.env(parent = asNamespace("constructive"))
       )
     Code
       f <- (function(...) {
@@ -19,7 +19,7 @@
       construct(dots2)
     Output
       rlang::inject((function(...) environment()$...)(!!!list(
-        y = rlang::as_quosure(~y, list2env(list(y = 1), parent = .GlobalEnv)),
-        x = rlang::as_quosure(~x, new.env(parent = .GlobalEnv))
+        y = rlang::as_quosure(~y, list2env(list(y = 1), parent = asNamespace("constructive"))),
+        x = rlang::as_quosure(~x, new.env(parent = asNamespace("constructive")))
       )))
 
