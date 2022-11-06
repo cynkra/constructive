@@ -64,6 +64,14 @@ abort_not_boolean <- function(x) {
   }
 }
 
+abort_not_string <- function(x) {
+  var <- as.character(substitute(x))
+  if (!rlang::is_string(x)) {
+    msg <- sprintf("`%s` must be a string.", var)
+    abort(c(msg, i = describe(x)), call = parent.frame())
+  }
+}
+
 abort_not_null_or_integerish <- function(x) {
   var <- as.character(substitute(x))
   if (!rlang::is_null(x) && !rlang::is_integerish(x, 1)) {
