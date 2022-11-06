@@ -16,6 +16,15 @@
       construct(list(letters), data = list(foo = letters))
     Output
       list(foo)
+    Code
+      construct(list(letters), data = list(foo = letters, bar = letters))
+    Output
+      list(foo)
+    Code
+      construct(list(data.table::first, dplyr::first, dplyr::select), data = c(
+        "dplyr", "data.table"))
+    Output
+      list(data.table::first, dplyr::first, select)
 
 # noquote is supported
 
