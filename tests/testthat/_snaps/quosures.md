@@ -9,8 +9,8 @@
     Output
       rlang::as_quosures(
         list(
-          rlang::as_quosure(~x, new.env(parent = .GlobalEnv)),
-          rlang::as_quosure(~x, new.env(parent = .GlobalEnv))
+          rlang::as_quosure(~x, new.env(parent = asNamespace("constructive"))),
+          rlang::as_quosure(~x, new.env(parent = asNamespace("constructive")))
         )
       )
     Code
@@ -22,8 +22,8 @@
     Output
       rlang::as_quosures(
         list(
-          a = rlang::as_quosure(~x, new.env(parent = .GlobalEnv)),
-          rlang::as_quosure(~x, new.env(parent = .GlobalEnv))
+          a = rlang::as_quosure(~x, new.env(parent = asNamespace("constructive"))),
+          rlang::as_quosure(~x, new.env(parent = asNamespace("constructive")))
         )
       )
 
