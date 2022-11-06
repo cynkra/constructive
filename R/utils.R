@@ -44,13 +44,15 @@ namespace_as_list <- function(pkg) {
 match2 <- function(needle, haystack) {
   # ignore attributes of needle and its environment-ness
   if (is.environment(needle)) needle <- as.list(needle)
-  attributes(needle) <- NULL
+  attributes(needle) <- attributes(needle)["names"]
   # like identical but ignoring attributes of haystack elements and their environment-ness
   identical2 <- function(x, needle) {
     # as.list() doesn't work on environments with a S3 class excluding "environment"
     if (is.environment(x)) x <- as.list.environment(x)
-    attributes(x) <- NULL
+    attributes(x) <- attributes(x)["names"]
     identical(x, needle)
   }
-  which(vapply(haystack, identical2, needle, FUN.VALUE = logical(1)))
+  ind <- which(vapply(haystack, identical2, needle, FUN.VALUE = logical(1)))
+  if (length(ind)) ind <- ind[[1]]
+  ind
 }
