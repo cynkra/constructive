@@ -31,14 +31,16 @@ protect <- function(name) {
   ifelse(is_syntactic(name), name, paste0("`", name, "`"))
 }
 
-namespace_as_list <- function(pkg) {
+namespace_as_list <- function(pkg, main) {
   ns <- asNamespace(pkg)
   if (pkg == "base") return(as.list(ns))
   objs <- c(
     mget(getNamespaceExports(ns), ns, inherits = TRUE, ifnotfound = list(NULL)),
     as.list(.getNamespaceInfo(ns, "lazydata"))
   )
-  names(objs) <- paste0(pkg, "::", names(objs))
+  if (!main) {
+    names(objs) <- paste0(pkg, "::", names(objs))
+  }
   objs
 }
 
