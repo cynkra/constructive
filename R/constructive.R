@@ -124,14 +124,26 @@ print.constructive <- function(x, ...) {
   invisible(x)
 }
 
-preprocess_data <- function(data) {
-  if (is.character(data) && length(data) == 1) return(namespace_as_list(data))
+preprocess_data <- function(data, main = TRUE) {
+  if (is.character(data) && length(data) == 1) return(namespace_as_list(data, main = main))
   if (is.environment(data)) return(as.list(data))
   # recurse into unnamed elements
   nms <- rlang::names2(data)
   named_elts <-  data[nms != ""]
   unnamed_elts <-  data[nms == ""]
-  c(named_elts, do.call(c, lapply(unnamed_elts, preprocess_data)))
+  objs <- c(named_elts, do.call(c, lapply(unnamed_elts, preprocess_data, main = FALSE)))
+  if (main) {
+    if (anyDuplicated(names(objs))) {
+      dupes <- names(objs)[duplicated(names(objs))]
+      msg <- "`data` must contain must one definition per name"
+      info <- sprintf("Found duplicate definitions for %s", collapse(dupes, quote = "`"))
+      abort(c(msg, x = info), call = parent.frame())
+    }
+    short_nms <- sub("^[^:]+::", "", names(objs))
+    dupes_lgl <- duplicated(short_nms) | duplicated(short_nms, fromLast = TRUE)
+    names(objs)[!dupes_lgl] <- short_nms[!dupes_lgl]
+  }
+  objs
 }
 
 try_construct <- function(x, ...) {
