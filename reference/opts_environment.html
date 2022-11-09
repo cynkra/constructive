@@ -54,7 +54,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">opts_environment</span><span class="op">(</span></span>
 <span>  constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"list2env"</span>, <span class="st">"as.environment"</span>, <span class="st">"new.env"</span>, <span class="st">"topenv"</span>, <span class="st">"new_environment"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span>,</span>
-<span>  recurse <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  recurse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  predefine <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -73,6 +74,13 @@
 attempt to recreate all parent environments until a known environment is found,
 if <code>FALSE</code> (the default) we will use <code><a href="https://rdrr.io/r/base/ns-topenv.html" class="external-link">topenv()</a></code> to find a known ancestor to set as
 the parent.</p></dd>
+
+
+<dt>predefine</dt>
+<dd><p>Boolean. Whether to define environments first. If <code>TRUE</code> <code>constructor</code> and <code>recurse</code>
+are ignored. This is the most faithful approach as it circumvents the circularity
+and recursivity issues of available constructors. The caveat is that the created code
+won't be a single call and will create objects in the workspace.</p></dd>
 
 </dl></div>
     <div class="section level2">
