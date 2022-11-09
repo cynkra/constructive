@@ -103,4 +103,41 @@
       i Call `construct_issues()` to inspect the last issues
     Output
       as.environment(list(y = 2))
+    Code
+      construct(tidyselect::peek_vars, opts_environment(predefine = TRUE),
+      opts_function(environment = TRUE))
+    Output
+      ..env.1.. <- new.env(parent = asNamespace("tidyselect"))
+      ..env.1..$what <- "selected"
+      (function(..., fn = NULL) {
+        if (!missing(...)) {
+          check_dots_empty()
+        }
+        x <- vars_env[[what]]
+        if (is_null(x)) {
+          if (is_null(fn)) {
+            fn <- "Selection helpers"
+          } else {
+            fn <- glue::glue("`{fn}()`")
+          }
+          cli::cli_abort(
+            c("{fn} must be used within a *selecting* function.", i = "See {peek_vars_link()} for details."),
+            call = NULL
+          )
+        }
+        x
+      }) |>
+        match.fun("environment<-")(..env.1..)
+    Code
+      evalq({
+        e <- new.env()
+        e$f <- e
+        foo <- evalq(~a, e)
+        construct(foo, opts_environment(predefine = TRUE), opts_formula(environment = TRUE))
+      }, .GlobalEnv)
+    Output
+      ..env.1.. <- new.env(parent = .GlobalEnv)
+      ..env.1..$f <- ..env.1..
+      (~a) |>
+        structure(.Environment = ..env.1..)
 

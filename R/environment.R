@@ -54,10 +54,14 @@
 #'   attempt to recreate all parent environments until a known environment is found,
 #'   if `FALSE` (the default) we will use `topenv()` to find a known ancestor to set as
 #'   the parent.
+#' @param predefine Boolean. Whether to define environments first. If `TRUE` `constructor` and `recurse`
+#'   are ignored. This is the most faithful approach as it circumvents the circularity
+#'   and recursivity issues of available constructors. The caveat is that the created code
+#'   won't be a single call and will create objects in the workspace.
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_environment <- function(constructor = c("list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE) {
+opts_environment <- function(constructor = c("list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
@@ -66,10 +70,9 @@ opts_environment <- function(constructor = c("list2env", "as.environment", "new.
 
   structure(
     class = c("constructive_options", "constructive_options_environment"),
-    list(constructor = constructor, recurse = recurse)
+    list(constructor = constructor, recurse = recurse, predefine = predefine)
   )
 }
-
 
 #' @export
 construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = FALSE) {
@@ -84,6 +87,17 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
   opts <- fetch_opts("environment", ...)
   constructor <- opts$constructor
   recurse <- opts$recurse
+  predefine <- opts$predefine
+
+  if (predefine) {
+    globals$special_envs <-  c(row.names(installed.packages()), search(), "R_EmptyEnv", "R_GlobalEnv")
+    # construct only if not found
+    if (!environmentName(x) %in% globals$special_envs) {
+      code <- update_predefinition(x, ..., pipe = pipe, one_liner = one_liner)
+      return(code)
+    }
+  }
+
 
   if (identical(x, baseenv())) return('baseenv()')
   if (identical(x, emptyenv())) return('emptyenv()')
@@ -143,9 +157,62 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
 
 #' @export
 repair_attributes.environment <- function(x, code, ..., pipe ="base") {
+  opts <- fetch_opts("environment", ...)
   repair_attributes_impl(
     x, code, ...,
     pipe = pipe,
-    ignore = c("name", "path")
+    ignore = c("name", "path",  if(opts$predefine) "class")
   )
+}
+
+update_predefinition <- function(env, ...) {
+  # construct parent before constructing env
+  parent_code <- construct_raw(parent.env(env), ...)
+  # if env was already constructed (recorded in globals$env), just return its name
+  hash <- format(env)
+  if (hash %in% globals$envs$hash) {
+    return(globals$envs$name[hash == globals$envs$hash][[1]])
+  }
+  # create a new name, incrementing count
+  env_name <- sprintf("..env.%s..", nrow(globals$envs) + 1)
+  # update globals$envs with new row (hash + variable name)
+  globals$envs <- rbind(globals$envs, data.frame(hash = hash, name = env_name))
+  # initialize with new.env(), repairing attributes
+  code <- sprintf("new.env(parent = %s)", parent_code)
+  # hack: we use  opts_environment(predefine = FALSE) to switch on attribute reparation just there
+  code <- repair_attributes.environment(env, code, opts_environment(predefine = FALSE), ...)
+  code[[1]] <- sprintf("%s <- %s", env_name, code[[1]])
+  # update predefinitions with env definition
+  globals$predefinition <- c(
+    globals$predefinition,
+    code
+  )
+  # build non environment objects of env above
+  for(nm in names(env)) {
+    obj <- env[[nm]]
+    if (!is.environment(obj)) {
+      nm <- protect(nm)
+      # this defines the objects as a side effect
+      obj_code <- construct_raw(obj, ...)
+      obj_code[[1]] <- sprintf("%s$%s <- %s", env_name, nm, obj_code[[1]])
+      globals$predefinition <- c(
+        globals$predefinition,
+        obj_code
+      )
+    }
+  }
+
+  # build environment objects of env above
+  for(nm in names(env)) {
+    obj <- env[[nm]]
+    if (is.environment(obj)) {
+      nm <- protect(nm)
+      sub_env_name <- construct_raw(obj, ...) # this will also print code
+      globals$predefinition <- c(
+        globals$predefinition,
+        sprintf("%s$%s <- %s", env_name, nm, sub_env_name)
+      )
+    }
+  }
+  env_name
 }
