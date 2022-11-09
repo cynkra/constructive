@@ -48,6 +48,7 @@
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
                       ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {
+  # reset globals
   globals$predefinition <- character()
   globals$envs <- data.frame(hash = character(), name = character())
 
