@@ -20,6 +20,11 @@ opts_environment(
 attempt to recreate all parent environments until a known environment is found,
 if \code{FALSE} (the default) we will use \code{topenv()} to find a known ancestor to set as
 the parent.}
+
+\item{predefine}{Boolean. Whether to define environments first. If \code{TRUE} \code{constructor} and \code{recurse}
+are ignored. This is the most faithful approach as it circumvents the circularity
+and recursivity issues of available constructors. The caveat is that the created code
+won't be a single call and will create objects in the workspace.}
 }
 \value{
 An object of class <constructive_options/constructive_options_environment>
