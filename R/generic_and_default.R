@@ -70,7 +70,7 @@ construct_apply <- function(args, fun = "list", ..., keep_trailing_comma = FALSE
   new_line <- new_line && !one_liner
   keep_trailing_comma <- keep_trailing_comma && !one_liner
   if (!length(args)) return(sprintf("%s()", fun))
-  if (!language) args <- lapply(args, construct_raw, ..., one_liner = one_liner)
+  if (!language) args <- lapply(unclass(args), construct_raw, ..., one_liner = one_liner)
   args_chr <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
   args_chr <- unlist(args_chr)
   # if line is short enough stick all in one line
