@@ -1,13 +1,10 @@
 # externalptr
 
     Code
-      obj <- attributes(data.table::data.table(a = 1))
-      construct(obj, check = FALSE)
+      dt <- data.table::data.table(a = 1)
+      class(dt) <- "data.frame"
+      construct(dt)
     Output
-      list(
-        names = "a",
-        row.names = 1L,
-        class = c("data.table", "data.frame"),
-        .internal.selfref = NULL
-      )
+      data.frame(a = 1) |>
+        structure(.internal.selfref = constructive::external_pointer("0x12a80dee0"))
 
