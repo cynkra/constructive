@@ -25,6 +25,8 @@ test_that("numeric", {
     # one_liner
     construct(c(0, 1:30))
     construct(c(0, 1:30), one_liner = TRUE)
+    # empty names
+    construct(structure("a", names = ""))
   })
 })
 
