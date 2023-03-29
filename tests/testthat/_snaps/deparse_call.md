@@ -137,11 +137,7 @@
     Output
       [1] "{1; 2}"
     Code
-      deparse_call(quote({
-        {
-          x
-        }
-      }), style = FALSE)
+      deparse_call(quote({{ x }}), style = FALSE)
     Output
       [1] "{{ x }}"
     Code
