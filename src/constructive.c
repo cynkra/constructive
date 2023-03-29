@@ -4,8 +4,8 @@
 #include <stdio.h>
 
 
-SEXP external_pointer(SEXP p, SEXP tag, SEXP protected) {
-  return R_MakeExternalPtr((void*) strtol(CHAR(STRING_PTR(p)[0]), NULL, 0), tag, protected);
+SEXP external_pointer(SEXP p) {
+  return R_MakeExternalPtr((void*) strtol(CHAR(STRING_PTR(p)[0]), NULL, 0), NULL, NULL);
 }
 
 SEXP external_pointer_address(SEXP s) {

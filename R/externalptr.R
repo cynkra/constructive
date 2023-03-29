@@ -15,7 +15,7 @@ NULL
 #' @param address Memory address
 #' @export
 external_pointer <- function(address) {
-  .Call("external_pointer", PACKAGE = "constructive", address, NULL, NULL)
+  .Call("external_pointer", PACKAGE = "constructive", address)
 }
 
 external_pointer_address <- function(s) {
