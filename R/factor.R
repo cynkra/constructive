@@ -34,21 +34,23 @@ construct_idiomatic.factor <- function(x, ...) {
   levs <- levels(x)
 
   if (constructor == "new_factor") {
-    code <- construct_apply(list(as.integer(x), levels = levs), "vctrs::new_factor", ...)
+    code <- construct_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_factor", ...)
     return(code)
   }
 
+  x_chr <- as.character(x)
+  x_chr_named <- setNames(x_chr, names(x))
   if (constructor == "as_factor" && identical(unique(as.character(x)), levs)) {
-    code <- construct_apply(list(levs[x]), "forcats::as_factor", new_line =  FALSE, ...)
+    code <- construct_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
     return(code)
   }
 
   # constructor == "factor"
-  default_levs <- sort(unique(as.character(x)))
+  default_levs <- sort(unique(x_chr))
   if (identical(default_levs, levs)) {
-    code <- construct_apply(list(levs[x]), "factor", new_line =  FALSE, ...)
+    code <- construct_apply(list(x_chr_named), "factor", new_line =  FALSE, ...)
   } else {
-    code <- construct_apply(list(levs[x], levels = levs), "factor", ...)
+    code <- construct_apply(list(x_chr_named, levels = levs), "factor", ...)
   }
   code
 }

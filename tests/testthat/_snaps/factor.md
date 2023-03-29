@@ -54,4 +54,8 @@
           "Oct", "Nov", "Dec"
         )
       )
+    Code
+      construct(factor(c(a = "foo")))
+    Output
+      factor(c(a = "foo"))
 
