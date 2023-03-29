@@ -126,8 +126,13 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     return(code)
   }
 
-  if (caller %in% c("@", "$") && length(call) == 3 && (is.symbol(call[[3]]) || is.character(call[[3]]))) {
-    return(sprintf("%s%s%s" , deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
+  if (caller %in% c("@", "$") && length(call) == 3) {
+    if (is.symbol(call[[3]])) {
+      return(sprintf("%s%s%s" , deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
+    }
+    if (is.character(call[[3]])) {
+      return(sprintf('%s%s"%s"' , deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
+    }
   }
 
   if (caller %in% c("^", ":") && length(call) == 3) {
