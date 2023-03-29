@@ -32,11 +32,11 @@ construct_idiomatic.ordered <- function(x, ...) {
   levs <- levels(x)
 
   if (constructor == "new_ordered") {
-    code <- construct_apply(list(as.integer(x), levels = levs), "vctrs::new_ordered", ...)
+    code <- construct_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_ordered", ...)
     return(code)
   }
 
-  args <- list(levs[x])
+  args <- list(setNames(as.character(x), names(x)))
   default_levs <- sort(unique(as.character(x)))
   if (identical(default_levs, levs)) {
     if (constructor == "factor") args <- c(args, list(ordered = TRUE))

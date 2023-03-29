@@ -65,4 +65,8 @@
           "Oct", "Nov", "Dec"
         )
       )
+    Code
+      construct(ordered(c(a = "foo")))
+    Output
+      ordered(c(a = "foo"))
 

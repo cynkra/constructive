@@ -7,5 +7,6 @@ test_that("ordered", {
     construct(factor(month.abb, month.abb, ordered = TRUE))
     construct(factor(month.abb, month.abb, ordered = TRUE), opts_ordered("factor"))
     construct(factor(month.abb, month.abb, ordered = TRUE), opts_ordered("new_ordered"))
+    construct(ordered(c(a="foo")))
   })
 })
