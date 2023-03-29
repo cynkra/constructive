@@ -38,7 +38,8 @@ construct_idiomatic.atomic <- function(x, ..., one_liner = FALSE) {
 
   nms <- names(x)
   attributes(x) <- NULL
-  names(x) <- nms
+  # if all names are "" we let `repair_attributes_impl()` deal with it
+  names(x) <- if (!all(nms == "")) nms
 
   l <- length(x)
   if (!is.null(trim) && trim < l) {
