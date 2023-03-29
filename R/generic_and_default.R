@@ -25,6 +25,8 @@ construct_idiomatic.default <- function(x, ..., one_liner = FALSE) {
   if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, ..., one_liner = one_liner))
   if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, ..., one_liner = one_liner))
   if (typeof(x) == "...")  return(construct_idiomatic.dots(x, ..., one_liner = one_liner))
+  # for some reason the S3 method is not always caught the first time
+  if (typeof(x) == "externalptr")  return(construct_idiomatic.externalptr(x, ..., one_liner = one_liner))
   construct_idiomatic.atomic(x, ..., one_liner = one_liner)
 }
 
