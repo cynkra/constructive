@@ -1,7 +1,7 @@
 test_that("externalptr", {
-  expect_snapshot({
+  expect_null({
     dt <- data.table::data.table(a = 1)
     class(dt) <- "data.frame"
-    construct(dt)
+    construct_issues(construct(dt))
   })
 })
