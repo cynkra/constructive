@@ -61,7 +61,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_environment <- function(constructor = c("list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
+opts_environment <- function(constructor = c("env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
@@ -106,6 +106,15 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
   if (name == "base") return(".BaseNamespaceEnv")
   if (name %in% row.names(installed.packages())) return(sprintf('asNamespace("%s")', name))
   if (name %in% search()) return(sprintf('as.environment("%s")', name))
+
+  if (constructor == "env") {
+    res <- construct_apply(
+      list(env_memory_address(x), parents = fetch_parent_names(x)),
+      "constructive::env",
+      ..., pipe = pipe, one_liner = one_liner
+    )
+    return(res)
+  }
 
   if (constructor %in% c("list2env", "new_environment")) {
     constructor <- switch(
