@@ -28,7 +28,7 @@
 opts_function <- function(
     constructor = c("function", "as.function", "new_function"),
     ...,
-    environment = constructor != "function",
+    environment = TRUE,
     srcref = FALSE,
     trim = NULL) {
   combine_errors(
