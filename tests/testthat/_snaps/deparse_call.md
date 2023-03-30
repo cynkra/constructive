@@ -47,11 +47,11 @@
     Code
       deparse_call(call("$", "a", "b"), style = FALSE)
     Output
-      [1] "\"a\"$b"
+      [1] "\"a\"$\"b\""
     Code
       deparse_call(call("$", quote(a), "b"), style = FALSE)
     Output
-      [1] "a$b"
+      [1] "a$\"b\""
     Code
       deparse_call(call("$", quote(a), quote(b)), style = FALSE)
     Output
@@ -63,7 +63,7 @@
     Code
       deparse_call(call("$", 1, "b"), style = FALSE)
     Output
-      [1] "1$b"
+      [1] "1$\"b\""
     Code
       deparse_call(call("$"), style = FALSE)
     Output

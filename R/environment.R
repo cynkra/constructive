@@ -9,44 +9,56 @@
 #' For this reason environments are {constructive}'s cryptonite. They make some objects
 #' impossible to reproduce exactly. And since every function or formula has one they're hard to
 #' avoid \cr
-#' Luckily in many cases we don't need a perfect copy of an environment to reproduce
-#' an object faithfully from a practical standpoint, and in a some cases we might build
-#' code that points to a specific environment such as `.GlobalEnv` or a given namespace.\cr
-#' {constructive} will not signal any difference if it can reproduce an equivalent environment,
-#' defined as containing the same values and having a same or equivalent parent.\cr
-#' See also the `ignore_function_env` argument in `?construct`, which disables the check
-#' of environments of function.
 #'
+#' In some case we can build code that points to a specific environment, namely:
+#' * `.GlobalEnv`, `.BaseNamespaceEnv`, `baseenv()` and `emptyenv()` are used to construct
+#'   the global environment, the base namespace, the base package environment and the empty
+#'   environment
+#' * Namespaces are constructed using `asNamespace("pkg")`
+#' * Package environments are constructed using `as.environment("package:pkg")`
 #'
-#' Environment construction works as follows:
-#' * Special environments `.GlobalEnv`, `.BaseNamespaceEnv`, `baseenv()` and
-#'   `emptyenv()` are used whenever possible.
-#' * The idiom `asNamespace("pkg")` is
-#'   used whenever possible.
-#' * The idiom `as.environment("package:pkg")` is used
-#'   whenever possible.
-#' * The `constructor` argument is used to recreate a similar environment whenever
-#'   the above conditions are not met.
+#' By default For other environments we use {constructive}'s function `constructive::env()`, it fetches
+#'   the environment from its memory address and provides as additional information
+#'   the sequence of parents until we reach a special environment (those enumerated above).
+#'   The advantage of this approach is that it's readable and that the object is accurately reproduced.
+#'   Inconvenient is that it's not stable between sessions.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
-#' * `"list2env"` (default): We construct the environment as a list then
+#' Often however we wish to be able to reproduce from scratch a similar environment,
+#' so that we might run the constructed code later in a new session. We offer different
+#' different options to do this, with different trade-offs regarding accuracy and verbosity.
+#' We might set the `constructor` argument to:
+#'
+#' * `"list2env"`: We construct the environment as a list then
 #'   use `base::list2env()` to convert it to an environment and assign it a parent. By
 #'   default we will use `base::topenv()` to construct a parent. If `recurse` is `TRUE`
 #'   the parent will be built recursively so all ancestors will be created until
 #'   we meet a known environment, this might be verbose and will fail if environments
-#'   are nested too deep or have a circular relationship, but if it works it's the
-#'   most faithful method. If the environment is empty we use `new.env(parent=)`
+#'   are nested too deep or have a circular relationship. If the environment is empty we use `new.env(parent=)`
 #'   for a more economic syntax.
 #' * `"new_environment"` : Similar to the above, but using `rlang::new_environment()`.
-#' * `"new.env"` : All environments will be recreated with the code `"base::new.env()"`, effectively creating an empty environment child of
+#' * `"new.env"` : All environments will be recreated with the code `"base::new.env()"`,
+#'   without argument, effectively creating an empty environment child of
 #'   the local (often global) environment. This is enough in cases where the environment
-#'   doesn't matter at all (or matters as long as it inherits from the local environment),
-#'   this is the case for most formulas. `recurse` is ignored.
+#'   doesn't matter (or matters as long as it inherits from the local environment),
+#'   as is often the case with formulas. `recurse` is ignored.
 #' * `"as.environment"` : we attempt to construct the environment as a list and use
 #' `base::as.environment()` on top of it, as in `as.environment(list(a=1, b=2))`, it will
 #'  contain the same variables as the original environment but the parent will be the
 #'  `emptyenv()`. `recurse` is ignored.
 #' * `"topenv"` : we construct `base::topenv(x)`, see `?topenv`. `recurse` is ignored.
+#'   This is the most accurate we can be when constructing only special environments.
+#'
+#' {constructive} will not signal any difference if it can reproduce an equivalent environment,
+#' defined as containing the same values and having a same or equivalent parent.\cr
+#'
+#' Building environments from scratch using the above methods can be verbose and
+#' sometimes redundant if and environment is used several time. One last option
+#' is to define the environments and their content above the object returning call,
+#' using placeholder names `..env.1..`, `..env.2..` etc. This is done by setting
+#' `predefine` to `TRUE`. `constructor` and `recurse` are ignored in that case.
+#'
+#' See also the `ignore_function_env` argument in `?construct`, which disables the check
+#' of environments of function.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
 #' @inheritParams opts_atomic
@@ -55,13 +67,13 @@
 #'   if `FALSE` (the default) we will use `topenv()` to find a known ancestor to set as
 #'   the parent.
 #' @param predefine Boolean. Whether to define environments first. If `TRUE` `constructor` and `recurse`
-#'   are ignored. This is the most faithful approach as it circumvents the circularity
-#'   and recursivity issues of available constructors. The caveat is that the created code
-#'   won't be a single call and will create objects in the workspace.
+#'   are ignored. It circumvents the circularity, recursivity and redundancy issues of
+#'   other constructors. The caveat is that the created code won't be a single call
+#'   and will create objects in the workspace.
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_environment <- function(constructor = c("list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
+opts_environment <- function(constructor = c("env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
@@ -101,11 +113,23 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
 
   if (identical(x, baseenv())) return('baseenv()')
   if (identical(x, emptyenv())) return('emptyenv()')
+  if (identical(x, .GlobalEnv)) return(".GlobalEnv")
+  if (identical(x, .BaseNamespaceEnv)) return(".BaseNamespaceEnv")
+  # testing on name is not enough but we use it to identify candidated
   name <- environmentName(x)
-  if (name == "R_GlobalEnv") return(".GlobalEnv")
-  if (name == "base") return(".BaseNamespaceEnv")
-  if (name %in% row.names(installed.packages())) return(sprintf('asNamespace("%s")', name))
-  if (name %in% search()) return(sprintf('as.environment("%s")', name))
+  # handle {testthat} corner case
+  if (identical(Sys.getenv("TESTTHAT"), "true") && name == "constructive") return('asNamespace("constructive")')
+  if (name %in% row.names(installed.packages()) && identical(x, asNamespace(name))) return(sprintf('asNamespace("%s")', name))
+  if (name %in% search() && identical(x, as.environment(name))) return(sprintf('as.environment("%s")', name))
+
+  if (constructor == "env") {
+    res <- construct_apply(
+      list(env_memory_address(x), parents = fetch_parent_names(x)),
+      "constructive::env",
+      ..., pipe = pipe, one_liner = one_liner
+    )
+    return(res)
+  }
 
   if (constructor %in% c("list2env", "new_environment")) {
     constructor <- switch(
@@ -158,11 +182,74 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
 #' @export
 repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   opts <- fetch_opts("environment", ...)
+  constructor <- opts$constructor
+  if (constructor == "env" ||
+      grepl("asNamespace\\(\"[^\"]+\"\\)", code) ||
+      code %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
+  ) {
+    # nothing to repair
+    return(code)
+  }
+
+  pkg_env_lgl <- grepl("as.environment\\(\"[^\"]+\"\\)", code)
   repair_attributes_impl(
     x, code, ...,
     pipe = pipe,
-    ignore = c("name", "path",  if(opts$predefine) "class")
+    ignore = c(
+      # pkg:fun envs have name and path attributes already set by `as.environment()`
+      if( pkg_env_lgl) c("name", "path"),
+      if(opts$predefine) "class"
+    )
   )
+}
+
+env_memory_address <- function(x) {
+  sub("<environment: (.*)>", "\\1", capture.output(x)[[1]])
+}
+
+# adapted from rlang::env_name
+env_name <- function (env) {
+  if (identical(env, global_env())) {
+    return("global")
+  }
+  if (identical(env, base_env())) {
+    return("package:base")
+  }
+  if (identical(env, empty_env())) {
+    return("empty")
+  }
+  nm <- environmentName(env)
+  if (isNamespace(env)) {
+    return(paste0("namespace:", nm))
+  }
+  nm
+}
+
+fetch_parent_names <- function(x) {
+  parents <- character()
+  repeat {
+    x <- parent.env(x)
+    nm <- env_name(x)
+    if (nm != "") {
+      return(c(parents, nm))
+    }
+    nm <- env_memory_address(x)
+    parents <- c(parents, nm)
+  }
+}
+
+#' Fetch environment from memory address
+#'
+#' This is designed to be used in constructed output. The `parents` argument is not processed
+#'  and only used to display additional information. If used on an improper memory address
+#'  the output might be erratic or the session might crash.
+#'
+#' @param address Memory adress of the environment
+#' @param parents ignored
+#' @export
+env <- function(address, parents = NULL) {
+  force(parents) # to avoid notes
+  env_impl(address)
 }
 
 update_predefinition <- function(env, ...) {

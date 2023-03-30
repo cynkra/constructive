@@ -8,7 +8,7 @@ test_that("environment", {
     construct(as.environment("Autoloads"))
     construct(environment(setNames))
     # env from list
-    construct(as.environment(head(cars,2)))
+    construct(as.environment(head(cars,2)), opts_environment("list2env"))
     # env "prototype" with constructor = "new.env"
     construct(as.environment(head(cars,2)), opts_environment(constructor = "new.env"))
     # but only if can't be guessed
@@ -16,13 +16,13 @@ test_that("environment", {
     # envs with a class are correctly forwarded to env method
     env <- new.env()
     class(env) <- "foo"
-    construct(env)
+    construct(env, opts_environment("list2env"))
     e1 <- new.env(parent = .GlobalEnv)
     e1$x <- 1
     e2 <- new.env(parent = e1)
     e2$y <- 2
-    construct(e2) # constructor = "list2env", recurse = FALSE
-    construct(e2, opts_environment(recurse = TRUE))
+    construct(e2, opts_environment(constructor = "list2env")) # constructor = "list2env", recurse = FALSE
+    construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
     construct(e2, opts_environment(constructor = "new_environment"))
     construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
     construct(e2, opts_environment(constructor = "new.env"))

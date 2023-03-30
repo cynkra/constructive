@@ -25,7 +25,7 @@
     Output
       asNamespace("stats")
     Code
-      construct(as.environment(head(cars, 2)))
+      construct(as.environment(head(cars, 2)), opts_environment("list2env"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
@@ -45,7 +45,7 @@
     Code
       env <- new.env()
       class(env) <- "foo"
-      construct(env)
+      construct(env, opts_environment("list2env"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
@@ -57,14 +57,14 @@
       e1$x <- 1
       e2 <- new.env(parent = e1)
       e2$y <- 2
-      construct(e2)
+      construct(e2, opts_environment(constructor = "list2env"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
       list2env(list(y = 2), parent = .GlobalEnv)
     Code
-      construct(e2, opts_environment(recurse = TRUE))
+      construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
     Output
       .GlobalEnv |>
         list2env(list(x = 1), parent = _) |>

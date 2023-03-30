@@ -6,29 +6,26 @@
 #' * `"function"` (default): Build the object using a standard `function() {}`
 #'   definition. This won't set the environment by default, unless `environment`
 #'   is set to `TRUE`. If a srcref is available, if this srcref matches the function's
-#'   definition, and if `trim` is left `NULL`, the code is returned fromn using the srcref,
+#'   definition, and if `trim` is left `NULL`, the code is returned from using the srcref,
 #'   so comments will be shown in the output of `construct()`.
-#' * `"as.function"` : Build the object using a `as.function()` call, by default will
-#'   attempt to recreate the environment.
+#' * `"as.function"` : Build the object using a `as.function()` call.
 #'   back to `data.frame()`.
-#' * `"new_function"` : Build the object using a `rlang::new_function()` call, by default will
-#'   attempt to recreate the environment.
+#' * `"new_function"` : Build the object using a `rlang::new_function()` call.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
 #' @inheritParams opts_atomic
-#' @param environment Boolean. Whether to attempt to reconstruct the function's environment,
-#'   `FALSE` by default with the default `"function"` constructor. `TRUE` by default otherwise.
+#' @param environment Boolean. Whether to reconstruct the function's environment.
 #' @param srcref Boolean. Whether to attempt to reconstruct the function's srcref.
 #' @param trim `NULL` or integerish. Maximum of lines showed in the body before it's trimmed,
 #' replacing code with `...`. Note that it will necessarily produce code that doesn't
-#' reproduce the input, this will parse and evaluate without failure.
+#' reproduce the input, but it will parse and evaluate without failure.
 #'
 #' @return An object of class <constructive_options/constructive_options_function>
 #' @export
 opts_function <- function(
     constructor = c("function", "as.function", "new_function"),
     ...,
-    environment = constructor != "function",
+    environment = TRUE,
     srcref = FALSE,
     trim = NULL) {
   combine_errors(
