@@ -113,11 +113,14 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
 
   if (identical(x, baseenv())) return('baseenv()')
   if (identical(x, emptyenv())) return('emptyenv()')
+  if (identical(x, .GlobalEnv)) return(".GlobalEnv")
+  if (identical(x, .BaseNamespaceEnv)) return(".BaseNamespaceEnv")
+  # testing on name is not enough but we use it to identify candidated
   name <- environmentName(x)
-  if (name == "R_GlobalEnv") return(".GlobalEnv")
-  if (name == "base") return(".BaseNamespaceEnv")
-  if (name %in% row.names(installed.packages())) return(sprintf('asNamespace("%s")', name))
-  if (name %in% search()) return(sprintf('as.environment("%s")', name))
+  # handle {testthat} corner case
+  if (identical(Sys.getenv("TESTTHAT"), "true") && name == "constructive") return('asNamespace("constructive")')
+  if (name %in% row.names(installed.packages()) && identical(x, asNamespace(name))) return(sprintf('asNamespace("%s")', name))
+  if (name %in% search() && identical(x, as.environment(name))) return(sprintf('as.environment("%s")', name))
 
   if (constructor == "env") {
     res <- construct_apply(
@@ -179,10 +182,24 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
 #' @export
 repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   opts <- fetch_opts("environment", ...)
+  constructor <- opts$constructor
+  if (constructor == "env" ||
+      grepl("asNamespace\\(\"[^\"]+\"\\)", code) ||
+      code %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
+  ) {
+    # nothing to repair
+    return(code)
+  }
+
+  pkg_env_lgl <- grepl("as.environment\\(\"[^\"]+\"\\)", code)
   repair_attributes_impl(
     x, code, ...,
     pipe = pipe,
-    ignore = c("name", "path",  if(opts$predefine) "class")
+    ignore = c(
+      # pkg:fun envs have name and path attributes already set by `as.environment()`
+      if( pkg_env_lgl) c("name", "path"),
+      if(opts$predefine) "class"
+    )
   )
 }
 
