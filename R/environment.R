@@ -165,6 +165,20 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   )
 }
 
+#' Fetch environment from memory address
+#'
+#' This is designed to be used in constructed output. The `parents` argument is not processed
+#'  and only used to display additional information. If used on an improper memory address
+#'  the output might be erratic or the session might crash.
+#'
+#' @param address Memory adress of the environment
+#' @param parents ignored
+#' @export
+env <- function(address, parents = NULL) {
+  force(parents) # to avoid notes
+  env_impl(address)
+}
+
 update_predefinition <- function(env, ...) {
   # construct parent before constructing env
   parent_code <- construct_raw(parent.env(env), ...)
