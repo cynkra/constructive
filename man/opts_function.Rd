@@ -7,7 +7,7 @@
 opts_function(
   constructor = c("function", "as.function", "new_function"),
   ...,
-  environment = constructor != "function",
+  environment = TRUE,
   srcref = FALSE,
   trim = NULL
 )
@@ -17,14 +17,13 @@ opts_function(
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
-\item{environment}{Boolean. Whether to attempt to reconstruct the function's environment,
-\code{FALSE} by default with the default \code{"function"} constructor. \code{TRUE} by default otherwise.}
+\item{environment}{Boolean. Whether to reconstruct the function's environment.}
 
 \item{srcref}{Boolean. Whether to attempt to reconstruct the function's srcref.}
 
 \item{trim}{\code{NULL} or integerish. Maximum of lines showed in the body before it's trimmed,
 replacing code with \code{...}. Note that it will necessarily produce code that doesn't
-reproduce the input, this will parse and evaluate without failure.}
+reproduce the input, but it will parse and evaluate without failure.}
 }
 \value{
 An object of class <constructive_options/constructive_options_function>
@@ -38,12 +37,10 @@ Depending on \code{constructor}, we construct the environment as follows:
 \item \code{"function"} (default): Build the object using a standard \code{function() {}}
 definition. This won't set the environment by default, unless \code{environment}
 is set to \code{TRUE}. If a srcref is available, if this srcref matches the function's
-definition, and if \code{trim} is left \code{NULL}, the code is returned fromn using the srcref,
+definition, and if \code{trim} is left \code{NULL}, the code is returned from using the srcref,
 so comments will be shown in the output of \code{construct()}.
-\item \code{"as.function"} : Build the object using a \code{as.function()} call, by default will
-attempt to recreate the environment.
+\item \code{"as.function"} : Build the object using a \code{as.function()} call.
 back to \code{data.frame()}.
-\item \code{"new_function"} : Build the object using a \code{rlang::new_function()} call, by default will
-attempt to recreate the environment.
+\item \code{"new_function"} : Build the object using a \code{rlang::new_function()} call.
 }
 }
