@@ -6,34 +6,32 @@
         x
       }), .GlobalEnv)
       construct(f1)
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
-    Output
-      function(x) x
-    Code
-      construct(f2)
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
-    Output
-      function(x) {
-        x
-      }
-    Code
-      construct(f1, opts_function(environment = TRUE))
     Output
       (function(x) x) |>
         match.fun("environment<-")(.GlobalEnv)
     Code
-      construct(f1, opts_function(srcref = TRUE))
+      construct(f2)
+    Output
+      (function(x) {
+        x
+      }) |>
+        match.fun("environment<-")(.GlobalEnv)
+    Code
+      construct(f1, opts_function(environment = FALSE))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
       function(x) x
     Code
-      construct(f2, opts_function(srcref = TRUE))
+      construct(f1, opts_function(srcref = TRUE, environment = FALSE))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      function(x) x
+    Code
+      construct(f2, opts_function(srcref = TRUE, environment = FALSE))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
@@ -113,10 +111,11 @@
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      function(object = nm, nm) {
+      (function(object = nm, nm) {
         names(object) <- nm
         ...
-      }
+      }) |>
+        match.fun("environment<-")(asNamespace("stats"))
     Code
       construct(`+`)
     Output
@@ -125,11 +124,9 @@
       f4 <- f1
       class(f4) <- "foo"
       construct(f4)
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
     Output
       (function(x) x) |>
+        match.fun("environment<-")(.GlobalEnv) |>
         structure(class = "foo")
     Code
       f5 <- structure((function(x) {

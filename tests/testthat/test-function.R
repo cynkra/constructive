@@ -5,10 +5,10 @@ test_that("function", {
 
     construct(f1)
     construct(f2)
+    construct(f1, opts_function(environment = FALSE))
 
-    construct(f1, opts_function(environment = TRUE))
-    construct(f1, opts_function(srcref = TRUE))
-    construct(f2, opts_function(srcref = TRUE))
+    construct(f1, opts_function(srcref = TRUE, environment = FALSE))
+    construct(f2, opts_function(srcref = TRUE, environment = FALSE))
 
     construct(f1, opts_function("as.function"))
     construct(f2, opts_function("as.function"))

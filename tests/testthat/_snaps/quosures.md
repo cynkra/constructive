@@ -2,7 +2,7 @@
 
     Code
       construct(rlang::new_quosures(list(rlang::new_quosure(quote(x)), rlang::new_quosure(
-        quote(x), new.env()))))
+        quote(x), new.env()))), opts_environment("list2env"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
@@ -15,7 +15,7 @@
       )
     Code
       construct(rlang::new_quosures(list(a = rlang::new_quosure(quote(x)), rlang::new_quosure(
-        quote(x), new.env()))))
+        quote(x), new.env()))), opts_environment("list2env"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
