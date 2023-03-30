@@ -165,6 +165,41 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   )
 }
 
+env_memory_address <- function(x) {
+  sub("<environment: (.*)>", "\\1", capture.output(x)[[1]])
+}
+
+# adapted from rlang::env_name
+env_name <- function (env) {
+  if (identical(env, global_env())) {
+    return("global")
+  }
+  if (identical(env, base_env())) {
+    return("package:base")
+  }
+  if (identical(env, empty_env())) {
+    return("empty")
+  }
+  nm <- environmentName(env)
+  if (isNamespace(env)) {
+    return(paste0("namespace:", nm))
+  }
+  nm
+}
+
+fetch_parent_names <- function(x) {
+  parents <- character()
+  repeat {
+    x <- parent.env(x)
+    nm <- env_name(x)
+    if (nm != "") {
+      return(c(parents, nm))
+    }
+    nm <- env_memory_address(x)
+    parents <- c(parents, nm)
+  }
+}
+
 #' Fetch environment from memory address
 #'
 #' This is designed to be used in constructed output. The `parents` argument is not processed
