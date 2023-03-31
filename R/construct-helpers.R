@@ -1,5 +1,3 @@
-globals <- new.env()
-
 preprocess_data <- function(data, main = TRUE) {
   if (is.character(data) && length(data) == 1) return(namespace_as_list(data, main = main))
   if (is.environment(data)) return(as.list(data))
