@@ -20,10 +20,7 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  structure(
-    class = c("constructive_options", "constructive_options_POSIXct"),
-    list(constructor = constructor, origin = origin)
-  )
+  constructive_options("POSIXct", constructor = constructor, origin = origin)
 }
 
 #' @export

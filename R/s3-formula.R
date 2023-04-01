@@ -29,11 +29,7 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
     ellipsis::check_dots_empty(),
     abort_not_boolean(environment)
   )
-
-  structure(
-    class = c("constructive_options", "constructive_options_formula"),
-    list(constructor = constructor, environment = environment)
-  )
+  constructive_options("formula", constructor = constructor, environment = environment)
 }
 
 #' @export

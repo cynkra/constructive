@@ -21,10 +21,7 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor"), ..
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  structure(
-    class = c("constructive_options", "constructive_options_factor"),
-    list(constructor = constructor)
-  )
+  constructive_options("factor", constructor = constructor)
 }
 
 #' @export

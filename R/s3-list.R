@@ -38,10 +38,7 @@ opts_list <- function(
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill)
   )
-  structure(
-    class = c("constructive_options", "constructive_options_list"),
-    list(constructor = constructor, trim = trim, fill = fill)
-  )
+  constructive_options("list", constructor = constructor, trim = trim, fill = fill)
 }
 
 #' @export
