@@ -99,3 +99,7 @@ data_match <- function(x, data) {
   if (!length(m)) return(NULL)
   names(data)[m]
 }
+
+new_constructive <- function(code, compare) {
+  structure(list(code = code, compare = compare), class = "constructive")
+}
