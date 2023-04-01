@@ -197,8 +197,8 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
     pipe = pipe,
     ignore = c(
       # pkg:fun envs have name and path attributes already set by `as.environment()`
-      if( pkg_env_lgl) c("name", "path"),
-      if(opts$predefine) "class"
+      if (pkg_env_lgl) c("name", "path"),
+      if (opts$predefine) "class"
     )
   )
 }
