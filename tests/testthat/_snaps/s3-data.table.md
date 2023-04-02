@@ -20,13 +20,4 @@
         gear = c(4, 4),
         carb = c(4, 4)
       )
-    Code
-      construct(data.table::as.data.table(head(cars, 2)), opts_data.table("list"))
-    Output
-      list(speed = c(4, 4), dist = c(2, 10)) |>
-        structure(
-          row.names = 1:2,
-          class = c("data.table", "data.frame"),
-          .internal.selfref = constructive::external_pointer("0x15700cee0")
-        )
 

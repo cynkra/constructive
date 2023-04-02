@@ -4,7 +4,11 @@
 \alias{opts_tbl_df}
 \title{Constructive options for tibbles}
 \usage{
-opts_tbl_df(constructor = c("tibble", "tribble"), ..., trailing_comma = TRUE)
+opts_tbl_df(
+  constructor = c("tibble", "tribble", "list"),
+  ...,
+  trailing_comma = TRUE
+)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
@@ -21,10 +25,11 @@ An object of class <constructive_options/constructive_options_tbl_df>
 These options will be used on objects of class 'tbl_df', also known as tibbles. .
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"tibble"} (default): Wrap the column definitions in a \code{tibble::tibble()} call.
 \item \code{"tribble"} : We build the object using \code{tibble::tribble()} if possible, and fall
 back to \code{tibble::tibble()}.
+\item \code{"list"} : Use \code{list()} and treat the class as a regular attribute.
 }
 }
