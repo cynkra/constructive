@@ -4,16 +4,16 @@
 
 {constructive} prints code that can be used to recreate R objects. In a
 sense it is similar to `base::dput()` or `base::deparse()` but
-{constructive} strives to use “natural” constructors (`factor` for
+{constructive} strives to use idiomatic constructors (`factor` for
 factors, `as.Date()` for dates, `data.frame()` for data frames etc), in
 order to get output readable by humans.
 
 Some use cases are:
 
--   Snapshot tests
--   Exploring objects (alternative to `dput()` or `str()`)
--   Creating reproducible examples from existing data
--   Comparing two objects (using `construct_diff()`)
+- Snapshot tests
+- Exploring objects (alternative to `dput()` or `str()`)
+- Creating reproducible examples from existing data
+- Comparing two objects (using `construct_diff()`)
 
 ## Installation
 
@@ -40,7 +40,7 @@ construct(head(iris, 2))
 dput(head(iris, 2))
 #> structure(list(Sepal.Length = c(5.1, 4.9), Sepal.Width = c(3.5, 
 #> 3), Petal.Length = c(1.4, 1.4), Petal.Width = c(0.2, 0.2), Species = structure(c(1L, 
-#> 1L), .Label = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")
+#> 1L), levels = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")
 
 construct(.leap.seconds)
 #> as.POSIXct(
@@ -91,15 +91,16 @@ construct(grouped_band_members, data = "dplyr")
 #>   dplyr::group_by(band)
 ```
 
-## customize output with constructive options
+## Customize the output using constructive options
 
-Many classes or types can be represented in various ways, for instance a
-tibble might be constructed using `tibble::tibble()` or using
+Some objects can be constructed in several ways, for instance a tibble
+might be constructed using `tibble::tibble()` or using
 `tibble::tribble()`.
 
-The `opts_*()` family of functions is used for this purpose. These
-functions are used to provide unnamed arguments to `construct()`, for
-instance :
+The `opts_*()` family of functions provides ways to tweak the output
+code, this includes setting the constructor (e.g. setting
+`"tribble" rather than the default "tibble") is used for this purpose. Use these functions`construct()`'s`…\`,
+for instance :
 
 ``` r
 construct(band_members, opts_tbl_df("tribble"))
@@ -109,148 +110,83 @@ construct(band_members, opts_tbl_df("tribble"))
 #>   "John", "Beatles",
 #>   "Paul", "Beatles",
 #> )
+construct(iris, opts_atomic(trim = 2))
+#> {constructive} couldn't create code that reproduces perfectly the input
+#> ℹ Call `construct_issues()` to inspect the last issues
+#> data.frame(
+#>   Sepal.Length = c(5.1, 4.9, numeric(148)),
+#>   Sepal.Width = c(3.5, 3, numeric(148)),
+#>   Petal.Length = c(1.4, 1.4, numeric(148)),
+#>   Petal.Width = c(0.2, 0.2, numeric(148)),
+#>   Species = factor(c("setosa", "setosa", character(148)))
+#> )
 ```
 
 These functions have their own documentation page and are referenced in
 `?construct`.
 
-In particular `opts_list()`, `opts_atomic()` and `opts_function()` have
-a `trim` argument that might be used to show a terser output. In this
-case obviously the output does not faithfully reproduces the input, and
-in some cases it is not even possible to evaluate it.
+## Other functions
 
-``` r
-construct(starwars, opts_list(trim = 1), opts_atomic(trim = 1))
-#> {constructive} couldn't create code that reproduces perfectly the input
-#> ℹ Call `construct_issues()` to inspect the last issues
-#> tibble::tibble(
-#>   name = c("Luke Skywalker", character(86)),
-#>   height = c(172L, numeric(86)),
-#>   mass = c(77, numeric(86)),
-#>   hair_color = c("blond", character(86)),
-#>   skin_color = c("fair", character(86)),
-#>   eye_color = c("blue", character(86)),
-#>   birth_year = c(19, numeric(86)),
-#>   sex = c("male", character(86)),
-#>   gender = c("masculine", character(86)),
-#>   homeworld = c("Tatooine", character(86)),
-#>   species = c("Human", character(86)),
-#>   films = c(list(c("The Empire Strikes Back", character(4))), vector("list", 86)),
-#>   vehicles = c(list(c("Snowspeeder", character(1))), vector("list", 86)),
-#>   starships = c(list(c("X-wing", character(1))), vector("list", 86)),
-#> )
+- `construct_diff()` highlights the differences in the code used to
+  produce 2 objects
+- `construct_multi()` constructs several objects from a named list
+- `construct_dump()` is similar to `base::dump()`, it’s a wrapper around
+  `construct_multi()` that writes to a file.
+- `construct_issues()` is used without arguments to check what were the
+  issues encountered with the last reconstructed object, it can also be
+  provided a specific constructive object
+- `construct_signature()` constructs a function signature such as the
+  one we see in the “usage” section of a function’s help file. outputs
+  the code produced  
+- `deparse_call()` is an alternative to `base::deparse()` and
+  `rlang::expr_deparse()` that handles additional corner cases and fails
+  when encountering tokens other than symbols and syntactic literals .
 
-construct(starwars, opts_list(trim = 1, fill = "..."), opts_atomic(trim = 1, fill = "..."))
-#> ! The code built by {constructive} could not be evaluated.
-#> tibble::tibble(
-#>   name = c("Luke Skywalker", ...),
-#>   height = c(172L, ...),
-#>   mass = c(77, ...),
-#>   hair_color = c("blond", ...),
-#>   skin_color = c("fair", ...),
-#>   eye_color = c("blue", ...),
-#>   birth_year = c(19, ...),
-#>   sex = c("male", ...),
-#>   gender = c("masculine", ...),
-#>   homeworld = c("Tatooine", ...),
-#>   species = c("Human", ...),
-#>   films = list(c("The Empire Strikes Back", ...), ...),
-#>   vehicles = list(c("Snowspeeder", ...), ...),
-#>   starships = list(c("X-wing", ...), ...),
-#> )
-```
+## Note about environments
 
-## Environments
+Environments use reference semantics, they cannot be copied. An attempt
+to copy an environment would indeed yield a different environment and
+`identical(env, copy)` would be `FALSE` (read more about it in
+`?opts_environment`).
 
-Some special environments can be reproduced perfectly:
+In some case we can build code that points to a specific environment,
+for instance:
 
 ``` r
 construct(globalenv())
 #> .GlobalEnv
-
 construct(environment(setNames))
 #> asNamespace("stats")
 ```
 
-In general however, because environments use reference semantics, they
-cannot be copied. An attempt to copy an environment would indeed yield a
-different environment and `identical(env, copy)` would be `FALSE` (read
-more about it in `?opts_environment`).
-
-In practice however 2 environments containing the same values and having
-the same parent will be equivalent. When {constructive} can reproduce
-those, it won’t complain about any difference.
+When it’s not possible we use `constructive::env()` function for this
+purpose.
 
 ``` r
 e1 <- new.env(parent = .GlobalEnv)
 e1$x <- 1
 construct(e1)
+#> constructive::env("0x12a0e47b8", parents = "global")
+```
+
+`constructive::env()` fetches the environment from its memory address.
+The `parents` argument doesn’t do anything, it provides as additional
+information the sequence of parents until we reach a special
+environment.
+
+This strategy is convenient because it always works, but it’s not
+reproducible between sessions as the memory address is not stable.
+Moreover it doesn’t tell us anything about the environment’s content.
+
+Depending on what compromise you’re ready to make, you might use
+different constructions in `opts_environment()`. For the case above,
+choosing `"list2env"` works well :
+
+``` r
+construct(e1, opts_environment("list2env"))
 #> list2env(list(x = 1), parent = .GlobalEnv)
 ```
 
-However in the general case we’d have to construct all parents too and
-it might get verbose, by default {constructive} doesn’t go all the way.
-
-``` r
-e2 <- new.env(parent = e1)
-e2$y <- 2
-construct(e2)
-#> {constructive} couldn't create code that reproduces perfectly the input
-#> ℹ Call `construct_issues()` to inspect the last issues
-#> list2env(list(y = 2), parent = .GlobalEnv)
-```
-
-However if we set `recurse` to `TRUE` we’ll get an equivalent
-environment :
-
-``` r
-construct(e2, opts_environment(recurse = TRUE), pipe = "magrittr")
-#> .GlobalEnv %>%
-#>   list2env(list(x = 1), parent = .) %>%
-#>   list2env(list(y = 2), parent = .)
-```
-
-See `?opts_environment` for more.
-
-## Functions
-
-Functions have en environment, which is not set by default. We might set
-it explicitly, or we might also not check for equivalence of function
-environments.
-
-``` r
-construct(setNames)
-#> {constructive} couldn't create code that reproduces perfectly the input
-#> ℹ Call `construct_issues()` to inspect the last issues
-#> function(object = nm, nm) {
-#>   names(object) <- nm
-#>   object
-#> }
-
-construct(setNames, opts_function(environment = TRUE))
-#> (function(object = nm, nm) {
-#>   names(object) <- nm
-#>   object
-#> }) |>
-#>   match.fun("environment<-")(asNamespace("stats"))
-
-construct(setNames, ignore_function_env = TRUE)
-#> function(object = nm, nm) {
-#>   names(object) <- nm
-#>   object
-#> }
-```
-
-## construct_diff
-
-`construct_diff()` highlights the differences in the code used to
-produce 2 objects.
-
-``` r
-construct_diff(
-  list(a = head(cars,2), b = "aaaaaaaaaaaaaaaaaaaa", c = "Foo"),
-  list(a = head(iris,1), b = "aaaaaaaaaaaaaaaaaaaa", c = "foo")
-)
-```
-
-<!-- ![](man/figures/construct_diff.png) -->
+`constructive::external_pointer()` is the counterpart of
+`constructive::env()` to construct `"externalptr"` objects from a memory
+address.
