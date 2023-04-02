@@ -7,15 +7,18 @@
 construct_diff(
   target,
   current,
+  ...,
   data = NULL,
   pipe = c("base", "magrittr"),
   check = TRUE,
-  max_atomic = NULL,
-  max_body = NULL,
-  env_as_list = TRUE,
   ignore_srcref = TRUE,
+  ignore_attr = FALSE,
+  ignore_function_env = FALSE,
+  ignore_formula_env = FALSE,
+  one_liner = FALSE,
+  template = getOption("constructive_opts_template"),
   mode = c("sidebyside", "auto", "unified", "context"),
-  ...
+  interactive = TRUE
 )
 }
 \arguments{
@@ -23,24 +26,27 @@ construct_diff(
 
 \item{current}{the object being compared to \code{target}}
 
-\item{data}{named list of data we don't want to deparse}
+\item{...}{Constructive options built with the \verb{opts_*()} family of functions. See the "Constructive options"
+section below.}
+
+\item{data}{named list of objects we don't want to deparse, can also be a package
+name and its namespace and datasets will be used to look for objects. Both can
+be combined so you can provide a list of named objects and unnamed namespaces.}
 
 \item{pipe}{Which pipe to use, either "base" or "magrittr"}
 
-\item{check}{should we try to eval the result and check if it is identical to
-\code{data}}
+\item{check}{Boolean. Whether to check if the created code reproduces the object
+using \code{waldo::compare()}}
 
-\item{max_atomic}{maximum number of elements of atomic vectors to print, forces check to \code{FALSE}}
+\item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{passed to \code{waldo::compare()}}
 
-\item{max_body}{maximum number of calls to show from a function's body, forces check to \code{FALSE}}
+\item{one_liner}{Boolean. Whether to collapse the output to a single line of code.}
 
-\item{env_as_list}{translate environments to \code{new.env()} rather than \code{as.environment(list(...))}}
+\item{template}{A list of constructive options build with \verb{opts_*()} functions,
+they will be overriden by \code{...}. This is designed to help users set a default
+behavior for \code{{constructive}}.}
 
-\item{ignore_srcref}{whether to ignore all srcref attributes in the check}
-
-\item{mode}{passed to \code{diffobj::diffChr()}, with a different default}
-
-\item{...}{additional parameters passed to \code{diffobj::diffChr()}}
+\item{mode, interactive}{passed to \code{diffobj::diffChr()}}
 }
 \value{
 Returns \code{NULL} invisibly, called for side effects

@@ -16,17 +16,15 @@
       construct(list(letters), data = list(foo = letters))
     Output
       list(foo)
-
-# max_atomic works
-
     Code
-      construct(letters, max_atomic = 0)
+      construct(list(letters), data = list(foo = letters, bar = letters))
     Output
-      character(0)
+      list(foo)
     Code
-      construct(letters, max_atomic = 2)
+      construct(list(data.table::first, dplyr::first, dplyr::select), data = c(
+        "dplyr", "data.table"))
     Output
-      c("a", "b", +24)
+      list(data.table::first, dplyr::first, select)
 
 # noquote is supported
 

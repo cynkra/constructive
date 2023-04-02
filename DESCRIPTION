@@ -1,15 +1,17 @@
 Package: constructive
 Title: Display Idiomatic Code to Construct Most R Objects
-Version: 0.0.0.9000
+Version: 0.0.1.9000
 Authors@R: 
     person("Antoine", "Fabri", , "antoine.fabri@gmail.com", role = c("aut", "cre"))
 Description: Display idiomatic code to construct most R objects.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Imports: 
+    cli,
     diffobj,
+    ellipsis,
     rlang (>= 1.0.0),
     styler,
     waldo
@@ -21,7 +23,8 @@ Suggests:
     data.table,
     vctrs,
     tibble,
-    prettycode
+    prettycode,
+    tidyselect
 URL: https://github.com/cynkra/constructive,
     https://cynkra.github.io/constructive
 BugReports: https://github.com/cynkra/constructive/issues
