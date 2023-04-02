@@ -64,29 +64,21 @@ An object of class 'constructive'
 builds the code to reproduce objects stored in a named list or environment.
 }
 \section{Constructive options}{
+Constructive options provide a way to customize the output of `construct()`.
+We can provide calls to `opts_*()` functions to the `...` argument. Each of these functions targets a specific element type and is documented on its own page.
 
-
-Constructive options provide a way to customize the output of \code{construct()}.
-We can provide calls to \verb{opts_*()} functions to the \code{...} argument. Each of
-these functions targets a specific element type and is documented on its own page.
 \itemize{
-\item \code{\link[=opts_atomic]{opts_atomic()}}
-\item \code{\link[=opts_data.frame]{opts_data.frame()}}
-\item \code{\link[=opts_Date]{opts_Date()}}
-\item \code{\link[=opts_environment]{opts_environment()}}
-\item \code{\link[=opts_formula]{opts_formula()}}
-\item \code{\link[=opts_factor]{opts_factor()}}
-\item \code{\link[=opts_function]{opts_function()}}
-\item \code{\link[=opts_list]{opts_list()}}
-\item \code{\link[=opts_ordered]{opts_ordered()}}
-\item \code{\link[=opts_POSIXct]{opts_POSIXct()}}
-\item \code{\link[=opts_tbl_df]{opts_tbl_df()}}
+  \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric"), ..., origin = "1970-01-01")}
+  \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric"), ..., origin = "1970-01-01")}
+  \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"))}
+  \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table"), ...)}
+  \item \code{\link[=opts_environment]{opts_environment}(constructor = c("env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
+  \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor"), ...)}
+  \item \code{\link[=opts_formula]{opts_formula}(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = constructor != "~")}
+  \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
+  \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
+  \item \code{\link[=opts_ordered]{opts_ordered}(constructor = c("ordered", "factor", "new_ordered"), ...)}
+  \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble"), ..., trailing_comma = TRUE)}
 }
-
-In particular by default the environments of functions and formulas are not reconstructed,
-and \code{opts_formula()} and \code{opts_function()} help you adjust this behavior.
-Note that objects referring to environment often can't be reconstructed faithfully.
-Some compromises have to be made and \code{opts_environment()} helps you make them.
-Other \verb{opts_*()} functions have a purely cosmetic effect.
 }
 

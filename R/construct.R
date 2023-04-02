@@ -20,29 +20,7 @@
 #'   they will be overriden by `...`. This is designed to help users set a default
 #'   behavior for `{constructive}`.
 #' @return An object of class 'constructive'
-#' @section Constructive options:
-#'
-#' Constructive options provide a way to customize the output of `construct()`.
-#' We can provide calls to `opts_*()` functions to the `...` argument. Each of
-#' these functions targets a specific element type and is documented on its own page.
-#'
-#' * [opts_atomic()]
-#' * [opts_data.frame()]
-#' * [opts_Date()]
-#' * [opts_environment()]
-#' * [opts_formula()]
-#' * [opts_factor()]
-#' * [opts_function()]
-#' * [opts_list()]
-#' * [opts_ordered()]
-#' * [opts_POSIXct()]
-#' * [opts_tbl_df()]
-#'
-#' In particular by default the environments of functions and formulas are not reconstructed,
-#' and `opts_formula()` and `opts_function()` help you adjust this behavior.
-#' Note that objects referring to environment often can't be reconstructed faithfully.
-#' Some compromises have to be made and `opts_environment()` helps you make them.
-#' Other `opts_*()` functions have a purely cosmetic effect.
+#' @enumerateOptFunctions
 #'
 #' @export
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
