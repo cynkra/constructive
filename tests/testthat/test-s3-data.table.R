@@ -4,7 +4,7 @@ test_that("data.table", {
     construct(data.table::as.data.table(head(cars,2)))
     # multiline, data.table doesn't support row names
     construct(data.table::as.data.table(head(mtcars,2)))
-    # use list constructor
-    construct(data.table::as.data.table(head(cars,2)), opts_data.table("list"))
+    # use list constructor FIXME: find a way to cleanup the outputs with memory addresses
+    # construct(data.table::as.data.table(head(cars,2)), opts_data.table("list"))
   })
 })
