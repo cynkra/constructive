@@ -51,7 +51,12 @@ test_that("function", {
             class = "srcref"
           )
       )
-    construct(f5)
+    construct(f5, opts_function(environment = FALSE))
+
+    # function without body and without srcref
+    f6 <- function() NULL
+    attr(f6, "srcref") <- NULL
+    construct(f6, opts_function(environment = FALSE))
   })
 })
 

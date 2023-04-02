@@ -135,10 +135,16 @@
         list2env(list(fixedNewlines = TRUE, lines = c("foo <- function(x) {",
           "  # foo", "  x", "}", ""), filename = ""), parent = .GlobalEnv), class = c(
           "srcfilecopy", "srcfile")), class = "srcref"))
-      construct(f5)
+      construct(f5, opts_function(environment = FALSE))
     Output
       function(x) {
         # foo
         x
       }
+    Code
+      f6 <- (function() NULL)
+      attr(f6, "srcref") <- NULL
+      construct(f6, opts_function(environment = FALSE))
+    Output
+      function() NULL
 
