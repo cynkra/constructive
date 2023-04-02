@@ -277,7 +277,13 @@ update_predefinition <- function(env, ...) {
   # build non environment objects of env above
   for(nm in names(env)) {
     obj <- env[[nm]]
-    if (!is.environment(obj)) {
+    if (missing(obj)) {
+      obj_code <- sprintf("%s$%s <- quote(expr=)", env_name, nm)
+      globals$predefinition <- c(
+        globals$predefinition,
+        obj_code
+      )
+    } else if (!is.environment(obj)) {
       nm <- protect(nm)
       # this defines the objects as a side effect
       obj_code <- construct_raw(obj, ...)
@@ -292,7 +298,13 @@ update_predefinition <- function(env, ...) {
   # build environment objects of env above
   for(nm in names(env)) {
     obj <- env[[nm]]
-    if (is.environment(obj)) {
+    if (missing(obj)) {
+      obj_code <- sprintf("%s$%s <- quote(expr=)", env_name, nm)
+      globals$predefinition <- c(
+        globals$predefinition,
+        obj_code
+      )
+    } else if (is.environment(obj)) {
       nm <- protect(nm)
       sub_env_name <- construct_raw(obj, ...) # this will also print code
       globals$predefinition <- c(
