@@ -14,7 +14,7 @@ test_that("environment", {
     # but only if can't be guessed
     construct(environment(setNames), opts_environment(constructor = "new.env"))
     # envs with a class are correctly forwarded to env method
-    env <- new.env()
+    env <- new.env(parent = asNamespace("stats"))
     class(env) <- "foo"
     construct(env, opts_environment("list2env"))
     e1 <- new.env(parent = .GlobalEnv)

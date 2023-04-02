@@ -19,10 +19,7 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered"), ..
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  structure(
-    class = c("constructive_options", "constructive_options_ordered"),
-    list(constructor = constructor)
-  )
+  constructive_options("ordered", constructor = constructor)
 }
 
 #' @export

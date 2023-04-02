@@ -1,3 +1,9 @@
+constructive_options <- function(class, ...) {
+  structure(
+    class = c(paste0("constructive_options_", class), "constructive_options"),
+    list(...)
+  )
+}
 
 fetch_opts <- function(suffix, ..., template) {
   class <- paste0("constructive_options_", suffix)

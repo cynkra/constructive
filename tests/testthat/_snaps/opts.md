@@ -3,7 +3,7 @@
     Code
       opts_formula()
     Output
-      <constructive_options/constructive_options_formula>
+      <constructive_options_formula/constructive_options>
       constructor: "~"
       environment: FALSE
 

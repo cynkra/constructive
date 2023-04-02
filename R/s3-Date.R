@@ -27,10 +27,7 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  structure(
-    class = c("constructive_options", "constructive_options_Date"),
-    list(constructor = constructor, origin = origin)
-  )
+  constructive_options("Date", constructor = constructor, origin = origin)
 }
 
 #' @export

@@ -35,10 +35,7 @@ opts_function <- function(
     abort_not_boolean(srcref),
     abort_not_null_or_integerish(trim)
   )
-  structure(
-    class = c("constructive_options", "constructive_options_function"),
-    list(constructor = constructor, environment = environment, srcref = srcref, trim = trim)
-  )
+  constructive_options("function", constructor = constructor, environment = environment, srcref = srcref, trim = trim)
 }
 
 
