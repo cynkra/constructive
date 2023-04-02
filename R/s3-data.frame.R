@@ -2,18 +2,19 @@
 #'
 #' These options will be used on objects of class 'data.frame'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"data.frame"` (default): Wrap the column definitions in a `data.frame()` call. If some
 #'   columns are lists or data frames, we wrap the column definitions in `tibble::tibble()`.
-#'   then use `as.data.frame()`
+#'   then use `as.data.frame()`.
 #' * `"read.table"` : We build the object using `read.table()` if possible, and fall
 #'   back to `data.frame()`.
+#' * `"list"` : Use `list()` and treat the class as a regular attribute.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_data.frame>
 #' @export
-opts_data.frame <- function(constructor = c("data.frame", "read.table"), ...) {
+opts_data.frame <- function(constructor = c("data.frame", "read.table", "list"), ...) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
@@ -24,6 +25,9 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table"), ...) {
 #' @export
 construct_idiomatic.data.frame <- function(x, ...) {
   opts <- fetch_opts("data.frame", ...)
+  if (opts$constructor == "list") {
+    return(construct_idiomatic.list(x, ...))
+  }
   df_has_list_cols <- any(sapply(x, function(col) is.list(col) && ! inherits(col, "AsIs")))
   # FIXME: not safe re attributes
   if (df_has_list_cols) {
@@ -53,6 +57,10 @@ construct_idiomatic.data.frame <- function(x, ...) {
 
 #' @export
 repair_attributes.data.frame <- function(x, code, ..., pipe = "base") {
+  opts <- fetch_opts("data.frame", ...)
+  if (opts$constructor == "list") {
+    return(repair_attributes.default(x, code, ..., pipe = pipe))
+  }
   ignore <- "row.names"
   if (identical(names(x), character())) ignore <- c(ignore, "names")
   repair_attributes_impl(

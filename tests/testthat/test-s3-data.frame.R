@@ -32,5 +32,7 @@ test_that("data.frame", {
     construct(data.frame(a = I(list(2))))
     # handle zero row data frame
     construct(data.frame(a = character()))
+    # use list constructor
+    construct(head(cars,2), opts_data.frame("list"))
   })
 })

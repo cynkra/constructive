@@ -71,14 +71,16 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"))}
-  \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table"), ...)}
+  \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "list"), ...)}
+  \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "list"), ...)}
   \item \code{\link[=opts_environment]{opts_environment}(constructor = c("env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
   \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor"), ...)}
   \item \code{\link[=opts_formula]{opts_formula}(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = constructor != "~")}
   \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
   \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
   \item \code{\link[=opts_ordered]{opts_ordered}(constructor = c("ordered", "factor", "new_ordered"), ...)}
-  \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble"), ..., trailing_comma = TRUE)}
+  \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "list"), ..., trailing_comma = TRUE)}
+  \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}(constructor = c("list_of", "list"), ...)}
 }
 }
 

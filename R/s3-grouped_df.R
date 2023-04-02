@@ -1,6 +1,10 @@
 # no need for a constructor for grouped_df since it falls back on tbl_df
 #' @export
 repair_attributes.grouped_df <- function(x, code, ..., pipe = "base", one_liner = FALSE) {
+  opts <- fetch_opts("tbl_df", ...)
+  if (opts$constructor == "list") {
+    return(repair_attributes.default(x, code, ..., pipe = pipe))
+  }
   grps <- head(names(attr(x, "groups")), -1)
   group_by_code <- construct_apply(
     grps,

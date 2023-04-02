@@ -2,10 +2,11 @@
 #'
 #' These options will be used on objects of class 'tbl_df', also known as tibbles. .
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"tibble"` (default): Wrap the column definitions in a `tibble::tibble()` call.
 #' * `"tribble"` : We build the object using `tibble::tribble()` if possible, and fall
 #'   back to `tibble::tibble()`.
+#' * `"list"` : Use `list()` and treat the class as a regular attribute.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
 #' @inheritParams opts_atomic
@@ -14,7 +15,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_tbl_df>
 #' @export
-opts_tbl_df <- function(constructor = c("tibble", "tribble"), ..., trailing_comma = TRUE) {
+opts_tbl_df <- function(constructor = c("tibble", "tribble", "list"), ..., trailing_comma = TRUE) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
@@ -26,6 +27,9 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble"), ..., trailing_comm
 #' @export
 construct_idiomatic.tbl_df <- function(x, ...) {
   opts <- fetch_opts("tbl_df", ...)
+  if (opts$constructor == "list") {
+    return(construct_idiomatic.list(x, ...))
+  }
   constructor <- opts$constructor
   trailing_comma <- opts$trailing_comma
   if (constructor == "tribble" && nrow(x)) {
@@ -56,6 +60,10 @@ construct_tribble <- function(x, ..., trailing_comma) {
 
 #' @export
 repair_attributes.tbl_df <- function(x, code, ..., pipe = "base") {
+  opts <- fetch_opts("tbl_df", ...)
+  if (opts$constructor == "list") {
+    return(repair_attributes.default(x, code, ..., pipe = pipe))
+  }
   ignore <- "row.names"
   if (identical(names(x), character())) ignore <- c(ignore, "names")
   repair_attributes_impl(

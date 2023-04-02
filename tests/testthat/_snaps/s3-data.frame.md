@@ -87,4 +87,9 @@
       construct(data.frame(a = character()))
     Output
       data.frame(a = character(0))
+    Code
+      construct(head(cars, 2), opts_data.frame("list"))
+    Output
+      list(speed = c(4, 4), dist = c(2, 10)) |>
+        structure(row.names = 1:2, class = "data.frame")
 
