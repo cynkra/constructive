@@ -8,6 +8,8 @@
 #' This code will parse without failure but its evaluation might fail.
 #' @param fill String. Method to use to represent the trimmed elements.
 #'
+#' @details
+#'
 #' If `trim` is provided, depending on `fill` we will present trimmed elements as followed:
 #' * `"default"` : Use default atomic constructors, so for instance `c("a", "b", "c")` might become `c("a", character(2))`.
 #' * `"rlang"` : Use rlang atomic constructors, so for instance `c("a", "b", "c")` might become `c("a", rlang::new_character(2))`,
@@ -16,8 +18,19 @@
 #' * `"..."`: Use `...`, so for instance `c("a", "b", "c")` might become `c("a", ...)`
 #' * `"none"`: Don't represent trimmed elements.
 #'
+#' Depending on the case some or all of the choices above might generate code that
+#' cannot be executed. The 2 former options above are the most likely to suceed
+#' and produce an output of the same type and dimensions recursively. This would
+#' at least be the case for data frame.
+#'
 #' @return An object of class <constructive_options/constructive_options_atomic>
 #' @export
+#' @examples
+#' construct(iris, opts_atomic(trim = 2)) # fill = "default"
+#' construct(iris, opts_atomic(trim = 2, fill = "rlang"))
+#' construct(iris, opts_atomic(trim = 2, fill = "+"))
+#' construct(iris, opts_atomic(trim = 2, fill = "..."))
+#' construct(iris, opts_atomic(trim = 2, fill = "none"))
 opts_atomic <- function(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none")) {
   combine_errors(
     ellipsis::check_dots_empty(),
@@ -99,4 +112,12 @@ format_flex <- function(x, all_na) {
   if (as.numeric(formatted) == x) return(formatted)
   # remove from coverage since system dependent
   sprintf("%a", x) # nocov
+}
+
+
+true_rep <- function(x) {
+  formatted <- format(x, digits = 22)
+  digit <- floor(log(x, 10))
+
+
 }
