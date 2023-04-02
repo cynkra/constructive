@@ -204,7 +204,7 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
 }
 
 env_memory_address <- function(x) {
-  sub("<environment: (.*)>", "\\1", capture.output(x)[[1]])
+  sub("<environment: (.*)>", "\\1", capture.output(print.default(x))[[1]])
 }
 
 # adapted from rlang::env_name
