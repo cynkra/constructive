@@ -62,21 +62,29 @@ construct_idiomatic.function <- function(
   if (constructor == "function") {
     # if the srcref matches the function's body (always in non artifical cases)
     # we might use the srcref rather than the body, so we keep the comments
+
+    code_from_srcref <- FALSE
     if (!one_liner && is.null(trim)) {
       code <- code_from_srcref(x)
-      if(!is.null(code)) return(code)
+      if(!is.null(code)) {
+        code_from_srcref <- TRUE
+      }
     }
 
-    fun_call <- call("function")
-    if (x_length > 1) {
-      fun_call[[2]] <- as.pairlist(x_lst[-x_length])
-    }
-    fun_call[[3]] <- x_lst[[x_length]]
-    code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
+    if (!code_from_srcref) {
+      fun_call <- call("function")
+      if (x_length > 1) {
+        fun_call[[2]] <- as.pairlist(x_lst[-x_length])
+      }
+      fun_call[3] <- x_lst[x_length]
+      code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
 
-    if (length(code) == 2) code <- paste(code[1], code[2])
+      if (length(code) == 2) code <- paste(code[1], code[2])
+    }
+
     attrs <- attributes(x)
     if (!srcref) attrs$srcref <- NULL
+
     if (environment || length(attrs)) {
       code <- wrap(code, fun = "")
     }
