@@ -1,11 +1,11 @@
-preprocess_data <- function(data, main = TRUE) {
+process_data <- function(data, main = TRUE) {
   if (is.character(data) && length(data) == 1) return(namespace_as_list(data, main = main))
   if (is.environment(data)) return(as.list(data))
   # recurse into unnamed elements
   nms <- rlang::names2(data)
   named_elts <-  data[nms != ""]
   unnamed_elts <-  data[nms == ""]
-  objs <- c(named_elts, do.call(c, lapply(unnamed_elts, preprocess_data, main = FALSE)))
+  objs <- c(named_elts, do.call(c, lapply(unnamed_elts, process_data, main = FALSE)))
   if (main) {
     if (anyDuplicated(names(objs))) {
       dupes <- names(objs)[duplicated(names(objs))]

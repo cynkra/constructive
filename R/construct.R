@@ -45,7 +45,7 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
     abort_not_boolean(one_liner)
     # FIXME: check template
   )
-  data <- preprocess_data(data)
+  data <- process_data(data)
   caller <- caller_env()
   code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner, env = caller)
   code <- c(globals$predefinition, code)
@@ -62,7 +62,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), c
                             template = getOption("constructive_opts_template")) {
   abort_not_env_or_named_list(x)
   if (is.environment(x)) x <- as.list.environment(x)
-  data <- preprocess_data(data)
+  data <- process_data(data)
   constructives <- lapply(
     x, construct,  ...,
     data = data, pipe = pipe, check = check,
