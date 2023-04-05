@@ -12,7 +12,9 @@ Imports:
     cli,
     diffobj,
     ellipsis,
+    ggplot2,
     rlang (>= 1.0.0),
+    roxygen2,
     styler,
     waldo
 Suggests: 
