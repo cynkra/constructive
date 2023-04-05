@@ -7,7 +7,7 @@ test_that("The data arg works", {
     # if two choices, pick first
     construct(list(letters), data = list(foo = letters, bar = letters))
     # use namespace notation only if ambiguous
-    construct(list(data.table::first, dplyr::first, dplyr::select), data = c("dplyr", "data.table"))
+    construct(list(data.table::first, dplyr::first, dplyr::select), data = list("dplyr", "data.table"))
   })
 
   expect_error(
