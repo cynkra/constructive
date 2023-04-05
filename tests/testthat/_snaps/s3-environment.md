@@ -62,17 +62,6 @@
       list2env(list(y = 2), parent = .GlobalEnv)
     Code
       construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
-    Condition
-      Warning in `constructor == "env" || grepl("^asNamespace\\(\"[^\"]+\"\\)", code)`:
-      'length(x) = 2 > 1' in coercion to 'logical(1)'
-      Warning in `constructor == "env" || grepl("^asNamespace\\(\"[^\"]+\"\\)", code) || code %in%
-          c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")`:
-      'length(x) = 2 > 1' in coercion to 'logical(1)'
-      Warning in `constructor == "env" || grepl("^asNamespace\\(\"[^\"]+\"\\)", code)`:
-      'length(x) = 3 > 1' in coercion to 'logical(1)'
-      Warning in `constructor == "env" || grepl("^asNamespace\\(\"[^\"]+\"\\)", code) || code %in%
-          c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")`:
-      'length(x) = 3 > 1' in coercion to 'logical(1)'
     Output
       .GlobalEnv |>
         list2env(list(x = 1), parent = _) |>
@@ -86,17 +75,6 @@
       rlang::new_environment(list(y = 2), parent = .GlobalEnv)
     Code
       construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
-    Condition
-      Warning in `constructor == "env" || grepl("^asNamespace\\(\"[^\"]+\"\\)", code)`:
-      'length(x) = 2 > 1' in coercion to 'logical(1)'
-      Warning in `constructor == "env" || grepl("^asNamespace\\(\"[^\"]+\"\\)", code) || code %in%
-          c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")`:
-      'length(x) = 2 > 1' in coercion to 'logical(1)'
-      Warning in `constructor == "env" || grepl("^asNamespace\\(\"[^\"]+\"\\)", code)`:
-      'length(x) = 3 > 1' in coercion to 'logical(1)'
-      Warning in `constructor == "env" || grepl("^asNamespace\\(\"[^\"]+\"\\)", code) || code %in%
-          c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")`:
-      'length(x) = 3 > 1' in coercion to 'logical(1)'
     Output
       .GlobalEnv |>
         rlang::new_environment(list(x = 1), parent = _) |>

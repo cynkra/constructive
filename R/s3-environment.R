@@ -184,8 +184,8 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   opts <- fetch_opts("environment", ...)
   constructor <- opts$constructor
   if (constructor == "env" ||
-      grepl("^asNamespace\\(\"[^\"]+\"\\)", code) ||
-      code %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
+      grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||
+      code[[1]] %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
   ) {
     # nothing to repair
     return(code)
