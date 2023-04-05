@@ -11,7 +11,6 @@ repair_attributes.theme <- function(x, ...) {
   repair_attributes_impl(x, idiomatic_class = c("theme", "gg"), ignore = c("complete", "validate"), ...)
 }
 
-
 #' @export
 construct_idiomatic.element_blank <- function(x, ...) {
   "ggplot2::element_blank()"

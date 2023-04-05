@@ -1,4 +1,7 @@
-# aes
+# This reproduces the aes() call, note that due to NSE we cannot guarantee that
+# the variables will be found in caller env, and it would be costly and unsafe to
+# eval the expressions or components
+
 #' @export
 construct_idiomatic.uneval <- function(x, ...) {
   args <- lapply(x, function(x) rlang::expr_deparse(rlang::quo_squash(x)))
