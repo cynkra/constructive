@@ -140,7 +140,7 @@ construct_glyph <- function(draw_key) {
   for (pkg in globals$ggpackages[-1]) {
     # FIXME: compute a list of draw_key funs when adding packages
     ns <- asNamespace(pkg)
-    match <- data_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
+    match <- flex_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
     if (!is.null(match)) return(sprintf("%s::%s"), pkg, match)
   }
 
@@ -149,7 +149,7 @@ construct_glyph <- function(draw_key) {
     key_glyph <- eval(quote(f), environment(draw_key))
 
     ns <- asNamespace("ggplot2")
-    match <- data_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
+    match <- flex_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
     if (!is.null(match)) {
       key_glyph <- sub("^draw_key_", "", match)
       return(sprintf('"%s"', key_glyph))
@@ -157,7 +157,7 @@ construct_glyph <- function(draw_key) {
     for (pkg in globals$ggpackages[-1]) {
       # FIXME: compute a list of draw_key funs when adding packages
       ns <- asNamespace(pkg)
-      match <- data_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
+      match <- flex_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
       if (!is.null(match)) return(sprintf("%s::%s"), pkg, match)
     }
   }

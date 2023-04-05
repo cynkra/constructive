@@ -45,9 +45,14 @@ namespace_as_list <- function(pkg, main) {
 }
 
 # much faster than match()
-match2 <- function(needle, haystack) {
+perfect_match <- function(needle, haystack) {
+  ind <- vapply(haystack, identical, needle, FUN.VALUE = logical(1))
+  if (any(ind)) names(haystack[ind])[1]
+}
+
+flex_match <- function(needle, haystack) {
   # ignore attributes of needle and its environment-ness
-  if (is.environment(needle)) needle <- as.list(needle)
+  if (is.environment(needle)) needle <- as.list.environment(needle)
   attributes(needle) <- attributes(needle)["names"]
   # like identical but ignoring attributes of haystack elements and their environment-ness
   identical2 <- function(x, needle) {
@@ -56,9 +61,8 @@ match2 <- function(needle, haystack) {
     attributes(x) <- attributes(x)["names"]
     identical(x, needle)
   }
-  ind <- which(vapply(haystack, identical2, needle, FUN.VALUE = logical(1)))
-  if (length(ind)) ind <- ind[[1]]
-  ind
+  ind <- vapply(haystack, identical2, needle, FUN.VALUE = logical(1))
+  if (any(ind)) names(haystack[ind])[1]
 }
 
 

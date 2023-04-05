@@ -97,16 +97,14 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
 }
 
 construct_raw <- function(x, ..., data = NULL) {
-  idiomatic_code <- data_match(x, data) %||% construct_idiomatic(x, ..., data = data)
+  code <- perfect_match(x, data)
+  if (!is.null(code)) return(code)
+  idiomatic_code <- flex_match(x, data)
+  if (is.null(idiomatic_code)) {
+    idiomatic_code <- construct_idiomatic(x, ..., data = data)
+  }
   repaired_code <- repair_attributes(x, idiomatic_code, ..., data = data)
   repaired_code
-}
-
-data_match <- function(x, data) {
-  if (is.null(data)) return(NULL)
-  m <- match2(x, data)
-  if (!length(m)) return(NULL)
-  names(data)[m]
 }
 
 new_constructive <- function(code, compare) {
