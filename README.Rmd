@@ -31,7 +31,13 @@ Some use cases are:
 
 ## Installation
 
-Install with:
+Install it from [cynkra R-universe](https://cynkra.r-universe.dev):
+
+```r
+install.packages('constructive', repos = c('https://cynkra.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Or install with:
 
 ```
 remotes::install_github("cynkra/constructive")
