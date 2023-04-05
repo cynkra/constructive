@@ -3,7 +3,7 @@
 #' An alternative to `base::dump()` using code built with {constructive}
 #'
 #' @param x A named list or an environment.
-#' @param file File or connection to write to.
+#' @param path File or connection to write to.
 #' @param append If FALSE, will overwrite existing file. If TRUE, will append to existing file. In both cases, if the file does not exist a new file is created.
 #' @param ... Forwarded to `construct_multi()`
 #'
