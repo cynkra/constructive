@@ -97,7 +97,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), c
   Encoding(code) <- "UTF-8"
   if (is.null(code)) code <- character(0)
   class(code) <- "vertical"
-  new_constructive(unname(code), compare)
+  new_constructive(unname(code), issues)
 }
 
 #' @export
