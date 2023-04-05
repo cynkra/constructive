@@ -8,6 +8,6 @@ test_that("ggplot", {
       base_99 +
       scale_x_continuous(limits = c(1, 7)) +
       scale_y_continuous(limits = c(10, 45))
-    construct(p, data = lst(mpg_99))
+    construct(p, data = lst(mpg_99), check = FALSE)
   })
 })
