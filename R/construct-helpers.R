@@ -1,3 +1,5 @@
+# Functions that are called in construct, or functions called only by the former
+
 process_data <- function(data, main = TRUE) {
   if (is.character(data) && length(data) == 1) return(namespace_as_list(data, main = main))
   if (is.environment(data)) return(as.list(data))
@@ -59,7 +61,10 @@ try_eval <- function(styled_code, data, check, caller) {
 }
 
 check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller) {
+  # return early if no check
   if (isFALSE(check)) return(NULL)
+
+  # attempt to eval and fail explicitly if we can't
   evaled <- try_eval(styled_code, data, check, caller)
   if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
 
@@ -95,6 +100,7 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
   # return issues
   issues
 }
+
 
 construct_raw <- function(x, ..., data = NULL) {
   code <- perfect_match(x, data)

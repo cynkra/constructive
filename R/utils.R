@@ -1,3 +1,5 @@
+# Functions that are used in several places, or that have a general scope
+
 wrap <- function(x, fun, new_line = FALSE) {
   if (new_line) return(c(paste0(fun, "("), x, ")"))
   x[1] <- paste0(fun, "(", x[1])

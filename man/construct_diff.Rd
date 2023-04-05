@@ -29,21 +29,22 @@ construct_diff(
 \item{...}{Constructive options built with the \verb{opts_*()} family of functions. See the "Constructive options"
 section below.}
 
-\item{data}{named list of objects we don't want to deparse, can also be a package
-name and its namespace and datasets will be used to look for objects. Both can
-be combined so you can provide a list of named objects and unnamed namespaces.}
+\item{data}{Named list or environment of objects we want to detect and mention by name (as opposed to
+deparsing them further). Can also contain unnamed nested lists, environments, or
+package names, in the latter case package exports and datasets will be considered.
+In case of conflict, the last provided name is considered.}
 
 \item{pipe}{Which pipe to use, either "base" or "magrittr"}
 
 \item{check}{Boolean. Whether to check if the created code reproduces the object
-using \code{waldo::compare()}}
+using \code{waldo::compare()}.}
 
-\item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{passed to \code{waldo::compare()}}
+\item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{Passed to \code{waldo::compare()}.}
 
 \item{one_liner}{Boolean. Whether to collapse the output to a single line of code.}
 
-\item{template}{A list of constructive options build with \verb{opts_*()} functions,
-they will be overriden by \code{...}. This is designed to help users set a default
+\item{template}{A list of constructive options built with \verb{opts_*()} functions,
+they will be overriden by \code{...}. Use it to set a default
 behavior for \code{{constructive}}.}
 
 \item{mode, interactive}{passed to \code{diffobj::diffChr()}}
