@@ -58,7 +58,7 @@ pipe_to_layers <- function(code, layers, ..., one_liner) {
 
 pipe_to_facets <- function(code, facet, ..., one_liner) {
   if (inherits(facet, "FacetNull")) return(code)
-  facet_code <- construct_raw(facet, ...)
+  facet_code <- construct_raw(facet, one_liner = one_liner, ...)
   pipe(code, facet_code, pipe = "plus", one_liner = one_liner)
 }
 
@@ -98,19 +98,19 @@ pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
 
 pipe_to_scales <- function(code, scales, ..., one_liner) {
   if (!length(scales$scales)) return(code)
-  scales_code <- construct_raw(scales, ...)
+  scales_code <- construct_raw(scales, one_liner = one_liner, ...)
   pipe(code, scales_code, pipe = "plus", one_liner = one_liner)
 }
 
 pipe_to_theme <- function(code, theme, ..., one_liner) {
   if (!length(theme)) return(code)
   class(theme) <- c("theme", "gg")
-  theme_code <- construct_raw(theme, ...)
+  theme_code <- construct_raw(theme, one_liner = one_liner, ...)
   pipe(code, theme_code, pipe = "plus", one_liner = one_liner)
 }
 
 pipe_to_coord <- function(code, coord, ..., one_liner) {
-  coord_code <- construct_raw(coord, ...)
+  coord_code <- construct_raw(coord, one_liner = one_liner, ...)
   if (identical(coord_code, "ggplot2::coord_cartesian()")) return(code)
   pipe(code, coord_code, pipe = "plus", one_liner = one_liner)
 }
