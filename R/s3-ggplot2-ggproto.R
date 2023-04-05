@@ -8,7 +8,7 @@ construct_idiomatic.ggproto <- function(x, ggproto.ignore_draw_key = FALSE, ...,
     x$draw_key <- NULL
   }
   res <- find_in_package_protos(x, ggproto.ignore_draw_key)
-  if(!is.null(res)) return(res) else contruct_idiomatic.environment(x)
+  if(!is.null(res)) return(res) else construct_idiomatic.environment(x)
 }
 
 #' @export
