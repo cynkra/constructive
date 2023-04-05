@@ -44,11 +44,11 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
     # FIXME: check template
   )
   data <- preprocess_data(data)
-  code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner)
+  caller <- caller_env()
+  code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner, env = caller)
   code <- c(globals$predefinition, code)
   Encoding(code) <- "UTF-8"
   styled_code <- try_parse(code, data, one_liner)
-  caller <- caller_env()
   compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller)
   new_constructive(styled_code, compare)
 }
