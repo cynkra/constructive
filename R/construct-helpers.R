@@ -29,7 +29,7 @@ try_construct <- function(x, ...) {
   })
 }
 
-try_parse <- function(code, data, one_liner) {
+try_parse <- function(code, one_liner) {
   caller <- caller_env()
   scope <- if (one_liner) "indention" else "line_breaks"
   rlang::try_fetch(
