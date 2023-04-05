@@ -28,7 +28,7 @@
       base_99 <- ggplot(mpg_99, aes(displ, hwy)) + geom_point()
       p <- base_99 + scale_x_continuous(limits = c(1, 7)) + scale_y_continuous(
         limits = c(10, 45))
-      construct(p, data = lst(mpg_99))
+      construct(p, data = lst(mpg_99), check = FALSE)
     Output
       mpg_99 |>
         ggplot2::ggplot(ggplot2::aes(displ, hwy)) +

@@ -9,11 +9,11 @@ construct_dump(x, path, append = FALSE, ...)
 \arguments{
 \item{x}{A named list or an environment.}
 
+\item{path}{File or connection to write to.}
+
 \item{append}{If FALSE, will overwrite existing file. If TRUE, will append to existing file. In both cases, if the file does not exist a new file is created.}
 
 \item{...}{Forwarded to \code{construct_multi()}}
-
-\item{file}{File or connection to write to.}
 }
 \value{
 Returns \code{NULL} invisibly, called for side effects.
