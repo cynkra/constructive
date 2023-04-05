@@ -97,7 +97,7 @@ abort_not_env_or_named_list <- function(x) {
 }
 
 abort_wrong_data <- function(x) {
-  if (is.null(x)) return(invisible(NULL))
+  if (is.null(x) || is.environment(x)) return(invisible(NULL))
   if (is.character(x)) {
     if (length(x) != 1) {
       msg <- "`data` has an unexpected value."
@@ -109,6 +109,7 @@ abort_wrong_data <- function(x) {
       info <- sprintf("There is no installed package called '%s'", x)
       abort(c(msg, i = info), call = parent.frame())
     }
+    return(invisible(NULL))
   }
   if (!is.environment(x) && !is.list(x)) {
     msg <- "`data` has an unexpected value."
