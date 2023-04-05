@@ -55,8 +55,6 @@ construct_layer_default <- function(constructor, env, ...) {
   }
   args <- lapply(as.list(constructor)[-1], eval, env)
   args <- keep_only_non_defaults(args, caller_val)
-  base_objs <- all_base_funs
-  base_objs[names(data)] <- NULL
   construct_apply(args, caller_chr, ...)
 }
 
