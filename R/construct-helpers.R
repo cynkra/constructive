@@ -23,6 +23,8 @@ process_data <- function(data, main = TRUE) {
 }
 
 try_construct <- function(x, ...) {
+  # deal early with special case x = quote(expr=)
+  if (identical(x, quote(expr=))) return("quote(expr=)")
   caller <- caller_env()
   rlang::try_fetch(construct_raw(x, ...), error = function(e) {
     #nocov start
