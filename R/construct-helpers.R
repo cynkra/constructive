@@ -86,7 +86,7 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
   msg <- "{constructive} couldn't create code that reproduces perfectly the input"
   if (isTRUE(check)) {
     print(styled_code)
-    msg <- paste0(msg, "\n", paste(out, collapse = "\n"))
+    msg <- paste0(msg, "\n", paste(issues, collapse = "\n"))
     abort(c(msg))
   }
   info <- "Call `construct_issues()` to inspect the last issues"
