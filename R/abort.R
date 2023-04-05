@@ -20,7 +20,7 @@ combine_errors <- function(
   err <- header
   for (expr in unnamed_dots) {
     new_err <- try(eval(expr, env), silent = TRUE)
-    if (inherits(new_err, "try-error")) {
+    if (!missing(new_err) && inherits(new_err, "try-error")) {
       err <- c(err, "!" = attr(new_err, "condition")$message, attr(new_err, "condition")$body)
     }
   }
