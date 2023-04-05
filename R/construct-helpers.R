@@ -62,20 +62,27 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
   if (isFALSE(check)) return(NULL)
   evaled <- try_eval(styled_code, data, check, caller)
   if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
-  out <- waldo::compare(
-    x,
-    evaled,
-    x_arg = "original",
-    y_arg = "recreated",
-    ignore_srcref = ignore_srcref,
-    ignore_attr = ignore_attr,
-    ignore_encoding = TRUE,
-    ignore_function_env = ignore_function_env,
-    ignore_formula_env = ignore_formula_env
-  )
-  if (!length(out)) return(NULL)
 
-  globals$issues <- out
+  # compare, using use a temp ggplot method so we can have a fairer comparison
+  issues <- with_s3_method(
+    "compare_proxy", "ggplot", compare_proxy_ggplot, "waldo",
+    waldo::compare(
+      x,
+      evaled,
+      x_arg = "original",
+      y_arg = "recreated",
+      ignore_srcref = ignore_srcref,
+      ignore_attr = ignore_attr,
+      ignore_encoding = TRUE,
+      ignore_function_env = ignore_function_env,
+      ignore_formula_env = ignore_formula_env
+    ))
+
+  # return early if no issue
+  if (!length(issues)) return(NULL)
+
+  # set and signal issues
+  globals$issues <- issues
   msg <- "{constructive} couldn't create code that reproduces perfectly the input"
   if (isTRUE(check)) {
     print(styled_code)
@@ -84,7 +91,9 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
   }
   info <- "Call `construct_issues()` to inspect the last issues"
   rlang::inform(c(msg, i = info))
-  out
+
+  # return issues
+  issues
 }
 
 construct_raw <- function(x, ..., data = NULL) {
