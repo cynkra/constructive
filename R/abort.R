@@ -96,3 +96,48 @@ abort_not_env_or_named_list <- function(x) {
   }
 }
 
+abort_wrong_data <- function(x) {
+  if (is.null(x)) return(invisible(NULL))
+  if (is.character(x)) {
+    if (length(x) != 1) {
+      msg <- "`data` has an unexpected value."
+      info <- describe(x)
+      abort(c(msg, i = info), call = parent.frame())
+    }
+    if (!is_installed(x)) {
+      msg <- "`data` can be a string only if it's an installed package name."
+      info <- sprintf("There is no installed package called '%s'", x)
+      abort(c(msg, i = info), call = parent.frame())
+    }
+  }
+  if (!is.environment(x) && !is.list(x)) {
+    msg <- "`data` has an unexpected value."
+    info <- describe(x)
+    abort(c(msg, i = info), call = parent.frame())
+  }
+  nms <- names2(x)
+  unnamed_objs <- x[nms == ""]
+  for (i in seq_along(x)) {
+    if (nms[[i]] != "") next
+    if (is.character(x[[i]])) {
+      if (length(x[[i]]) != 1) {
+        msg <- sprintf("`data[[%s]]` has an unexpected value", i)
+        info <- describe(x[[i]])
+        abort(c(msg, i = info), call = parent.frame())
+      }
+      if (!is_installed(x[[i]])) {
+        msg <- "`data` can contain unnamed strings only if it's an installed package name."
+        info1 <- sprintf("`x[[%s]]` is \"%s\".", i, x[[i]])
+        info2 <- sprintf("There is no installed package called '%s'", x[[i]])
+        abort(c(msg, i = info1, i = info2), call = parent.frame())
+      }
+      next
+    }
+    if (!is.environment(x[[i]]) && !(is.list(x[[i]]) && is_named2(x[[i]]))) {
+      msg <- sprintf("`data[[%s]]` is unnamed and has an unexpected value.", i)
+      info <- describe(x[[i]])
+      abort(c(msg, i = info), call = parent.frame())
+    }
+  }
+  invisible(NULL)
+}
