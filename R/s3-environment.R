@@ -205,7 +205,7 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
 
 env_memory_address <- function(x) {
   if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x000000000")
-  rlang::env_label(new.env())
+  rlang::env_label(x)
 }
 
 # adapted from rlang::env_name
