@@ -51,11 +51,11 @@ construct_layer_default <- function(constructor, env, ...) {
   } else if (is.symbol(caller_lng) && isNamespace(ns) && as.character(caller_lng) %in% getNamespaceExports(ns)) {
     caller_chr <- paste0(getNamespaceName(ns), "::", as.character(caller_lng))
   } else {
-    caller_chr <- construct_raw(caller_val, ...)
+    caller_chr <- construct_raw(caller_val, env = env, ...)
   }
   args <- lapply(as.list(constructor)[-1], eval, env)
   args <- keep_only_non_defaults(args, caller_val)
-  construct_apply(args, caller_chr, ...)
+  construct_apply(args, caller_chr, env = env, ...)
 }
 
 construct_layer_layer <- function(x, ...) {
