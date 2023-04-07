@@ -128,7 +128,7 @@ abort_wrong_data <- function(x) {
       }
       if (!is_installed(x[[i]])) {
         msg <- "`data` can contain unnamed strings only if it's an installed package name."
-        info1 <- sprintf("`x[[%s]]` is \"%s\".", i, x[[i]])
+        info1 <- sprintf("`data[[%s]]` is \"%s\".", i, x[[i]])
         info2 <- sprintf("There is no installed package called '%s'", x[[i]])
         abort(c(msg, i = info1, i = info2), call = parent.frame())
       }
