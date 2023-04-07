@@ -92,11 +92,21 @@ collapse <- function (x, sep = ",", width = 80, last = " and ", quote = "") {
   x
 }
 
-compare_proxy_ggplot <- function(x, path) {
-  x <- rapply(x, function(x) {if (!is.environment(x)) return(x) else rlang::env_clone(x)}, how = "replace")
+# like rlang::env_clone but sets the class
+env_clone <- function(x) {
+  out <-  rlang::env_clone(x)
+  #attributes(out) <- attributes(x)
+  out
+}
+
+scrub_ggplot <- function(x) {
+  x$scales <- env_clone(x$scales)
+  x$coordinates <- env_clone( x$coordinates)
+  x$facet <- env_clone(x$facet)
+  x$plot_env <- NULL
 
   for (i in seq_along(x$layers)) {
-    x$layers[[i]] <- rlang::env_clone(x$layers[[i]])
+    x$layers[[i]] <- env_clone(x$layers[[i]])
     x$layers[[i]]$constructor <- NULL
     x$layers[[i]]$super <- NULL
     x$layers[[1]]$computed_geom_params <- NULL
@@ -109,13 +119,11 @@ compare_proxy_ggplot <- function(x, path) {
     # attr(x$layers[[1]]$mapping$fill, '.Environment') <- NULL
   }
 
-  x$scales <- rlang::env_clone(x$scales)
-  environment(x$scales$super) <- emptyenv()
+  environment(x$scales$super) <- emptyenv() #  env_clone(environment(x$scales$super))
   for (i in seq_along(x$scales$scales)) {
-    x$scales$scales[[i]] <- rlang::env_clone(x$scales$scales[[i]])
+    x$scales$scales[[i]] <- env_clone(x$scales$scales[[i]])
     environment(x$scales$scales[[i]]$super) <- emptyenv()
-    #return(list(object = x, path = path))
-    #x$scales$scales[[i]]$call <- NULL
+    x$scales$scales[[i]]$call <- NULL
     # the following line corrupts the plot
     #x$scales$scales[[i]]$super <- NULL
   }
@@ -124,20 +132,24 @@ compare_proxy_ggplot <- function(x, path) {
     attr(x$mapping[[var]], '.Environment') <- NULL
   }
 
-  x$plot_env <- NULL
-  x$facet <- rlang::env_clone(x$facet)
-  environment(x$facet$super) <- emptyenv()
+  environment(x$facet$super) <- emptyenv() # env_clone(environment(x$facet$super))
+  #if (exists("super", x$facet)) environment(x$facet$super) <- emptyenv()
   if (length(x$facet$params$facets)) {
     x$facet$params$facets[] <- lapply(x$facet$params$facets, function(x) {
       attr(x, '.Environment') <- NULL
       x
     })
   }
+
   # x$facet$super <- NULL
   # x$scales$super <- NULL
   # x$coordinates$super <- NULL
   # x$coordinates$default <- NULL
-  list(object = x, path = path)
+  x
+}
+
+compare_proxy_ggplot <- function(x, path) {
+  list(object = scrub_ggplot(x), path = path)
 }
 
 equivalent_ggplot <- function(x, y) {
