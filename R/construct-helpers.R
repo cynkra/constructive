@@ -70,9 +70,9 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
   evaled <- try_eval(styled_code, data, check, caller)
   if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
 
-  # compare, using use a temp ggplot method so we can have a fairer comparison
-  issues <- with_s3_method(
-    "compare_proxy", "ggplot", compare_proxy_ggplot, "waldo",
+  # set custom method for waldo
+  rlang::local_bindings(compare_proxy.ggplot = compare_proxy_ggplot, .env = .GlobalEnv)
+  issues <-
     waldo::compare(
       x,
       evaled,
@@ -82,8 +82,9 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
       ignore_attr = ignore_attr,
       ignore_encoding = TRUE,
       ignore_function_env = ignore_function_env,
-      ignore_formula_env = ignore_formula_env
-    ))
+      ignore_formula_env = ignore_formula_env,
+      max_diffs = Inf
+    )
 
   # return early if no issue
   if (!length(issues)) return(NULL)
