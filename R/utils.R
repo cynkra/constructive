@@ -69,30 +69,49 @@ flex_match <- function(needle, haystack) {
 
 compare_proxy_ggplot <- function(x, path) {
   x <- rapply(x, function(x) {if (!is.environment(x)) return(x) else rlang::env_clone(x)}, how = "replace")
+
   for (i in seq_along(x$layers)) {
+    x$layers[[i]] <- rlang::env_clone(x$layers[[i]])
     x$layers[[i]]$constructor <- NULL
     x$layers[[i]]$super <- NULL
-    attr(x$layers[[i]]$stat_params$formula, '.Environment') <- NULL
-    attr(x$layers[[i]]$mapping$colour, '.Environment') <- NULL
-    attr(x$layers[[i]]$computed_mapping$x, '.Environment') <- NULL
-    attr(x$layers[[i]]$computed_mapping$y, '.Environment') <- NULL
-    attr(x$layers[[1]]$mapping$fill, '.Environment') <- NULL
+    x$layers[[1]]$computed_geom_params <- NULL
+    x$layers[[1]]$computed_mapping <- NULL
+    x$layers[[1]]$computed_stat_params <- NULL
+    # attr(x$layers[[i]]$stat_params$formula, '.Environment') <- NULL
+    # attr(x$layers[[i]]$mapping$colour, '.Environment') <- NULL
+    # attr(x$layers[[i]]$computed_mapping$x, '.Environment') <- NULL
+    # attr(x$layers[[i]]$computed_mapping$y, '.Environment') <- NULL
+    # attr(x$layers[[1]]$mapping$fill, '.Environment') <- NULL
   }
+
+  x$scales <- rlang::env_clone(x$scales)
+  environment(x$scales$super) <- emptyenv()
   for (i in seq_along(x$scales$scales)) {
-    x$scales$scales[[i]]$call <- NULL
-    x$scales$scales[[i]]$super <- NULL
+    x$scales$scales[[i]] <- rlang::env_clone(x$scales$scales[[i]])
+    environment(x$scales$scales[[i]]$super) <- emptyenv()
+    #return(list(object = x, path = path))
+    #x$scales$scales[[i]]$call <- NULL
+    # the following line corrupts the plot
+    #x$scales$scales[[i]]$super <- NULL
   }
 
   for (var in names(x$mapping)) {
     attr(x$mapping[[var]], '.Environment') <- NULL
   }
+
   x$plot_env <- NULL
-  attr(x$facet$params$facets$class, '.Environment') <- NULL
-  attr(x$facet$params$facets$drv, '.Environment') <- NULL
-  x$facet$super <- NULL
-  x$scales$super <- NULL
-  x$coordinates$super <- NULL
-  x$coordinates$default <- NULL
+  x$facet <- rlang::env_clone(x$facet)
+  environment(x$facet$super) <- emptyenv()
+  if (length(x$facet$params$facets)) {
+    x$facet$params$facets[] <- lapply(x$facet$params$facets, function(x) {
+      attr(x, '.Environment') <- NULL
+      x
+    })
+  }
+  # x$facet$super <- NULL
+  # x$scales$super <- NULL
+  # x$coordinates$super <- NULL
+  # x$coordinates$default <- NULL
   list(object = x, path = path)
 }
 
