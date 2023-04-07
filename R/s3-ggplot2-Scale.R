@@ -63,7 +63,7 @@ construct_idiomatic.Scale <- function(x, ...) {
     } else if (identical(args$palette, quote(abs_area(max_size)))) {
       args$palette <- sprintf("scales::abs_area(%s)", environment(as.list(x)$palette)$max)
     } else {
-      args$palette <- construct_raw(as.list(x)$palette)
+      args$palette <- construct_raw(as.list(x)$palette, ...)
     }
   }
   if ("super" %in% names(args)) {
