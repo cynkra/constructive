@@ -117,24 +117,19 @@ construct_idiomatic.CoordSf <- function(x, ...) {
 
 #' @export
 construct_idiomatic.CoordTrans<- function(x, ...) {
-  # FIXME: unfinished
-  return(construct_idiomatic.environment(x, ...))
-
-  ns <- asNamespace("scales")
-  fun_nms <- ls(ns, pattern = "_trans$")
-  trans_funs <- eval(substitute(lapply(FUNS, call), list(FUNS = fun_nms)), ns)
-  match(x$trans$x, trans_funs)
   args <- list(
-    x = x$x,
-    y = x$y,
     xlim = x$limits$x,
     ylim = x$limits$y,
-    #default = x$default, # triggers message on definition, but no effect on what's printed
     clip = x$clip,
     expand = x$expand
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_trans)
-  construct_apply(args, "ggplot2::coord_trans", ...)
+  args_chr <- lapply(args, construct_raw, ...)
+  xy <- list(
+    x = construct_apply(unclass(x$trans$x), "scales::trans_new", ...),
+    y = construct_apply(unclass(x$trans$y), "scales::trans_new", ...)
+  )
+  construct_apply(c(args_chr, xy), "ggplot2::coord_trans", language = TRUE, ...)
 }
 
 
