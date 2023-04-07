@@ -10,5 +10,22 @@ test_that("abort", {
     }
     err <- try(foo("z","z","z","z"), silent = TRUE)
     cat(attr(err, "condition")$message)
+
+    try(abort_not_string(mean))
+    try(abort_not_env_or_named_list(letters))
+    try(abort_not_env_or_named_list(list(1,2)))
+    try(abort_wrong_data(letters))
+    try(abort_wrong_data(list(letters)))
+    try(abort_wrong_data("unknown"))
+    try(abort_wrong_data(list("unknown")))
+    try(abort_wrong_data(mean))
+    try(abort_wrong_data(list(mean)))
+  })
+})
+
+test_that("describe", {
+  expect_snapshot({
+    writeLines(describe(letters))
+    writeLines(describe(mean))
   })
 })
