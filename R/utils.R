@@ -67,6 +67,31 @@ flex_match <- function(needle, haystack) {
   if (any(ind)) names(haystack[ind])[1]
 }
 
+
+# adapted from glue::glue_collapse
+collapse <- function (x, sep = ",", width = 80, last = " and ", quote = "") {
+  if (length(x) == 0) {
+    return(character())
+  }
+  if (any(is.na(x))) {
+    return(NA_character_)
+  }
+  x <- paste0(quote, x, quote)
+  if (nzchar(last) && length(x) > 1) {
+    res <- collapse(x[seq(1, length(x) - 1)], sep = sep, width = Inf, last = "")
+    return(collapse(paste0(res, last, x[length(x)]), width = width))
+  }
+  x <- paste0(x, collapse = sep)
+  if (width < Inf) {
+    x_width <- nchar(x, "width")
+    too_wide <- x_width > width
+    if (too_wide) {
+      x <- paste0(substr(x, 1, width - 3), "...")
+    }
+  }
+  x
+}
+
 compare_proxy_ggplot <- function(x, path) {
   x <- rapply(x, function(x) {if (!is.environment(x)) return(x) else rlang::env_clone(x)}, how = "replace")
 
