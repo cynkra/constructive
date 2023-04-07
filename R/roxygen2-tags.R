@@ -1,3 +1,5 @@
+# nocov start
+
 #' @export
 #' @importFrom roxygen2 roxy_tag_parse
 roxy_tag_parse.roxy_tag_enumerateOptFunctions <- function(x) {
@@ -36,3 +38,5 @@ format.rd_section_enumerateOptFunctions <- function(...) {
     "}\n"
   )
 }
+
+# nocov end
