@@ -40,13 +40,15 @@ construct_idiomatic.CoordFlip <- function(x, ...) {
 
 #' @export
 construct_idiomatic.CoordMap <- function(x, ...) {
-  args <- list(
-    projection = x$projection,
-    parameters = if (length(x$params)) x$params else NULL,
-    orientation = x$orientation,
-    xlim = x$limits$x,
-    ylim = x$limits$y,
-    clip = x$clip
+  args <- c(
+    list(projection = x$projection),
+    if (length(x$params)) as.list(x$params) else NULL,
+    list(
+      orientation = x$orientation,
+      xlim = x$limits$x,
+      ylim = x$limits$y,
+      clip = x$clip
+    )
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_map)
   construct_apply(args, "ggplot2::coord_map", ...)
