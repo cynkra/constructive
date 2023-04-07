@@ -34,7 +34,7 @@ construct_idiomatic.FacetWrap <- function(x, ...) {
   if (is.null(args$ncol)) args$ncol <- NULL
   if (isTRUE(args$scales == "fixed")) args$scales <- NULL
   if (isTRUE(args$shrink)) args$shrink <- NULL
-  if (identical(args$labeller, label_value) || identical(args$labeller, "label_value")) args$labeller <- NULL
+  if (identical(args$labeller, quote(label_value)) || identical(args$labeller, "label_value")) args$labeller <- NULL
   if (isTRUE(args$as.table)) args$as.table <- NULL
   if (is.null(args$switch)) args$switch <- NULL
   if (isTRUE(args$drop)) args$drop <- NULL

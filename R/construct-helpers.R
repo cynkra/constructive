@@ -1,11 +1,13 @@
-preprocess_data <- function(data, main = TRUE) {
+# Functions that are called in construct, or functions called only by the former
+
+process_data <- function(data, main = TRUE) {
   if (is.character(data) && length(data) == 1) return(namespace_as_list(data, main = main))
   if (is.environment(data)) return(as.list(data))
   # recurse into unnamed elements
   nms <- rlang::names2(data)
   named_elts <-  data[nms != ""]
   unnamed_elts <-  data[nms == ""]
-  objs <- c(named_elts, do.call(c, lapply(unnamed_elts, preprocess_data, main = FALSE)))
+  objs <- c(named_elts, do.call(c, lapply(unnamed_elts, process_data, main = FALSE)))
   if (main) {
     if (anyDuplicated(names(objs))) {
       dupes <- names(objs)[duplicated(names(objs))]
@@ -21,6 +23,8 @@ preprocess_data <- function(data, main = TRUE) {
 }
 
 try_construct <- function(x, ...) {
+  # deal early with special case x = quote(expr=)
+  if (identical(x, quote(expr=))) return("quote(expr=)")
   caller <- caller_env()
   rlang::try_fetch(construct_raw(x, ...), error = function(e) {
     #nocov start
@@ -29,7 +33,7 @@ try_construct <- function(x, ...) {
   })
 }
 
-try_parse <- function(code, data, one_liner) {
+try_parse <- function(code, one_liner) {
   caller <- caller_env()
   scope <- if (one_liner) "indention" else "line_breaks"
   rlang::try_fetch(
@@ -59,13 +63,16 @@ try_eval <- function(styled_code, data, check, caller) {
 }
 
 check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller) {
+  # return early if no check
   if (isFALSE(check)) return(NULL)
+
+  # attempt to eval and fail explicitly if we can't
   evaled <- try_eval(styled_code, data, check, caller)
   if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
 
-  # compare, using use a temp ggplot method so we can have a fairer comparison
-  issues <- with_s3_method(
-    "compare_proxy", "ggplot", compare_proxy_ggplot, "waldo",
+  # set custom method for waldo
+  rlang::local_bindings(compare_proxy.ggplot = compare_proxy_ggplot, .env = .GlobalEnv)
+  issues <-
     waldo::compare(
       x,
       evaled,
@@ -75,8 +82,9 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
       ignore_attr = ignore_attr,
       ignore_encoding = TRUE,
       ignore_function_env = ignore_function_env,
-      ignore_formula_env = ignore_formula_env
-    ))
+      ignore_formula_env = ignore_formula_env,
+      max_diffs = Inf
+    )
 
   # return early if no issue
   if (!length(issues)) return(NULL)
@@ -86,7 +94,7 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
   msg <- "{constructive} couldn't create code that reproduces perfectly the input"
   if (isTRUE(check)) {
     print(styled_code)
-    msg <- paste0(msg, "\n", paste(out, collapse = "\n"))
+    msg <- paste0(msg, "\n", paste(issues, collapse = "\n"))
     abort(c(msg))
   }
   info <- "Call `construct_issues()` to inspect the last issues"
@@ -96,17 +104,16 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
   issues
 }
 
+
 construct_raw <- function(x, ..., data = NULL) {
-  idiomatic_code <- data_match(x, data) %||% construct_idiomatic(x, ..., data = data)
+  code <- perfect_match(x, data)
+  if (!is.null(code)) return(code)
+  idiomatic_code <- flex_match(x, data)
+  if (is.null(idiomatic_code)) {
+    idiomatic_code <- construct_idiomatic(x, ..., data = data)
+  }
   repaired_code <- repair_attributes(x, idiomatic_code, ..., data = data)
   repaired_code
-}
-
-data_match <- function(x, data) {
-  if (is.null(data)) return(NULL)
-  m <- match2(x, data)
-  if (!length(m)) return(NULL)
-  names(data)[m]
 }
 
 new_constructive <- function(code, compare) {

@@ -105,7 +105,7 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
     globals$special_envs <-  c(row.names(installed.packages()), search(), "R_EmptyEnv", "R_GlobalEnv")
     # construct only if not found
     if (!environmentName(x) %in% globals$special_envs) {
-      code <- update_predefinition(x, ..., pipe = pipe, one_liner = one_liner)
+      code <- update_predefinition(envir = x, ..., pipe = pipe, one_liner = one_liner)
       return(code)
     }
   }
@@ -184,8 +184,8 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   opts <- fetch_opts("environment", ...)
   constructor <- opts$constructor
   if (constructor == "env" ||
-      grepl("^asNamespace\\(\"[^\"]+\"\\)", code) ||
-      code %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
+      grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||
+      code[[1]] %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
   ) {
     # nothing to repair
     return(code)
@@ -204,7 +204,8 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
 }
 
 env_memory_address <- function(x) {
-  sub("<environment: (.*)>", "\\1", capture.output(print.default(x))[[1]])
+  if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x000000000")
+  rlang::env_label(x)
 }
 
 # adapted from rlang::env_name
@@ -252,11 +253,11 @@ env <- function(address, parents = NULL) {
   env_impl(address)
 }
 
-update_predefinition <- function(env, ...) {
+update_predefinition <- function(envir, ...) {
   # construct parent before constructing env
-  parent_code <- construct_raw(parent.env(env), ...)
-  # if env was already constructed (recorded in globals$env), just return its name
-  hash <- format(env)
+  parent_code <- construct_raw(parent.env(envir), ...)
+  # if envir was already constructed (recorded in globals$env), just return its name
+  hash <- format(envir)
   if (hash %in% globals$envs$hash) {
     return(globals$envs$name[hash == globals$envs$hash][[1]])
   }
@@ -267,16 +268,16 @@ update_predefinition <- function(env, ...) {
   # initialize with new.env(), repairing attributes
   code <- sprintf("new.env(parent = %s)", parent_code)
   # hack: we use  opts_environment(predefine = FALSE) to switch on attribute reparation just there
-  code <- repair_attributes.environment(env, code, opts_environment(predefine = FALSE), ...)
+  code <- repair_attributes.environment(envir, code, opts_environment(predefine = FALSE), ...)
   code[[1]] <- sprintf("%s <- %s", env_name, code[[1]])
-  # update predefinitions with env definition
+  # update predefinitions with envir definition
   globals$predefinition <- c(
     globals$predefinition,
     code
   )
-  # build non environment objects of env above
-  for(nm in names(env)) {
-    obj <- env[[nm]]
+  # build non environment objects of envir above
+  for(nm in names(envir)) {
+    obj <- envir[[nm]]
     if (missing(obj)) {
       obj_code <- sprintf("%s$%s <- quote(expr=)", env_name, nm)
       globals$predefinition <- c(
@@ -295,9 +296,9 @@ update_predefinition <- function(env, ...) {
     }
   }
 
-  # build environment objects of env above
-  for(nm in names(env)) {
-    obj <- env[[nm]]
+  # build environment objects of envir above
+  for(nm in names(envir)) {
+    obj <- envir[[nm]]
     if (missing(obj)) {
       obj_code <- sprintf("%s$%s <- quote(expr=)", env_name, nm)
       globals$predefinition <- c(

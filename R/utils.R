@@ -1,3 +1,5 @@
+# Functions that are used in several places, or that have a general scope
+
 wrap <- function(x, fun, new_line = FALSE) {
   if (new_line) return(c(paste0(fun, "("), x, ")"))
   x[1] <- paste0(fun, "(", x[1])
@@ -45,9 +47,14 @@ namespace_as_list <- function(pkg, main) {
 }
 
 # much faster than match()
-match2 <- function(needle, haystack) {
+perfect_match <- function(needle, haystack) {
+  ind <- vapply(haystack, identical, needle, FUN.VALUE = logical(1))
+  if (any(ind)) names(haystack[ind])[1]
+}
+
+flex_match <- function(needle, haystack) {
   # ignore attributes of needle and its environment-ness
-  if (is.environment(needle)) needle <- as.list(needle)
+  if (is.environment(needle)) needle <- as.list.environment(needle)
   attributes(needle) <- attributes(needle)["names"]
   # like identical but ignoring attributes of haystack elements and their environment-ness
   identical2 <- function(x, needle) {
@@ -56,9 +63,8 @@ match2 <- function(needle, haystack) {
     attributes(x) <- attributes(x)["names"]
     identical(x, needle)
   }
-  ind <- which(vapply(haystack, identical2, needle, FUN.VALUE = logical(1)))
-  if (length(ind)) ind <- ind[[1]]
-  ind
+  ind <- vapply(haystack, identical2, needle, FUN.VALUE = logical(1))
+  if (any(ind)) names(haystack[ind])[1]
 }
 
 
@@ -86,69 +92,64 @@ collapse <- function (x, sep = ",", width = 80, last = " and ", quote = "") {
   x
 }
 
-with_s3_method <- function(
-    genname,
-    class,
-    method,
-    envir,
-    expr
-) {
-  ns <- asNamespace(envir)
-  method_name <- paste0(genname, ".", class)
-  method_exists <- exists(method_name, ns$.__S3MethodsTable__.)
-  on.exit({
-    if (method_exists) {
-      ns$.__S3MethodsTable__.[[method_name]] <- initial_method
-    } else {
-      ns$.__NAMESPACE__.$S3methods <-
-        ns$.__NAMESPACE__.$S3methods[ns$.__NAMESPACE__.$S3methods[,3] != method_name]
-      lockBinding(".__NAMESPACE__.", ns)
-      rm(list = method_name, envir = ns$.__S3MethodsTable__.)
-    }
-    lockBinding(".__S3MethodsTable__.", ns)
-  })
-  if(method_exists) {
-    initial_method <- ns$.__S3MethodsTable__.[[method_name]]
-  } else {
-    # edit S3 table
-    unlockBinding(".__NAMESPACE__.", ns)
-    ns$.__NAMESPACE__.$S3methods <- rbind(
-      ns$.__NAMESPACE__.$S3methods,
-      c(genname, class, method, NA_character_)
-    )
-  }
-  unlockBinding(".__S3MethodsTable__.", ns)
-  ns$.__S3MethodsTable__.[[method_name]] <- method
-  eval(substitute(expr), parent.frame())
+# like rlang::env_clone but sets the class
+env_clone <- function(x) {
+  out <-  rlang::env_clone(x)
+  #attributes(out) <- attributes(x)
+  out
 }
 
-compare_proxy_ggplot <- function(x, path) {
-  x <- rapply(x, function(x) {if (!is.environment(x)) return(x) else rlang::env_clone(x)}, how = "replace")
+scrub_ggplot <- function(x) {
+  x$scales <- env_clone(x$scales)
+  x$coordinates <- env_clone( x$coordinates)
+  x$facet <- env_clone(x$facet)
+  x$plot_env <- NULL
+
   for (i in seq_along(x$layers)) {
+    x$layers[[i]] <- env_clone(x$layers[[i]])
     x$layers[[i]]$constructor <- NULL
     x$layers[[i]]$super <- NULL
-    attr(x$layers[[i]]$stat_params$formula, '.Environment') <- NULL
-    attr(x$layers[[i]]$mapping$colour, '.Environment') <- NULL
-    attr(x$layers[[i]]$computed_mapping$x, '.Environment') <- NULL
-    attr(x$layers[[i]]$computed_mapping$y, '.Environment') <- NULL
-    attr(x$layers[[1]]$mapping$fill, '.Environment') <- NULL
+    x$layers[[1]]$computed_geom_params <- NULL
+    x$layers[[1]]$computed_mapping <- NULL
+    x$layers[[1]]$computed_stat_params <- NULL
+    # attr(x$layers[[i]]$stat_params$formula, '.Environment') <- NULL
+    # attr(x$layers[[i]]$mapping$colour, '.Environment') <- NULL
+    # attr(x$layers[[i]]$computed_mapping$x, '.Environment') <- NULL
+    # attr(x$layers[[i]]$computed_mapping$y, '.Environment') <- NULL
+    # attr(x$layers[[1]]$mapping$fill, '.Environment') <- NULL
   }
+
+  environment(x$scales$super) <- emptyenv() #  env_clone(environment(x$scales$super))
   for (i in seq_along(x$scales$scales)) {
+    x$scales$scales[[i]] <- env_clone(x$scales$scales[[i]])
+    environment(x$scales$scales[[i]]$super) <- emptyenv()
     x$scales$scales[[i]]$call <- NULL
-    x$scales$scales[[i]]$super <- NULL
+    # the following line corrupts the plot
+    #x$scales$scales[[i]]$super <- NULL
   }
 
   for (var in names(x$mapping)) {
     attr(x$mapping[[var]], '.Environment') <- NULL
   }
-  x$plot_env <- NULL
-  attr(x$facet$params$facets$class, '.Environment') <- NULL
-  attr(x$facet$params$facets$drv, '.Environment') <- NULL
-  x$facet$super <- NULL
-  x$scales$super <- NULL
-  x$coordinates$super <- NULL
-  x$coordinates$default <- NULL
-  list(object = x, path = path)
+
+  environment(x$facet$super) <- emptyenv() # env_clone(environment(x$facet$super))
+  #if (exists("super", x$facet)) environment(x$facet$super) <- emptyenv()
+  if (length(x$facet$params$facets)) {
+    x$facet$params$facets[] <- lapply(x$facet$params$facets, function(x) {
+      attr(x, '.Environment') <- NULL
+      x
+    })
+  }
+
+  # x$facet$super <- NULL
+  # x$scales$super <- NULL
+  # x$coordinates$super <- NULL
+  # x$coordinates$default <- NULL
+  x
+}
+
+compare_proxy_ggplot <- function(x, path) {
+  list(object = scrub_ggplot(x), path = path)
 }
 
 equivalent_ggplot <- function(x, y) {
@@ -168,4 +169,11 @@ keep_only_non_defaults <- function(x, f) {
     if (identical(x[[nm]], default_values[[nm]])) x[[nm]] <- NULL
   }
   x
+}
+
+snakeize <- function (x) {
+  x <- gsub("([A-Za-z])([A-Z])([a-z])", "\\1_\\2\\3", x)
+  x <- gsub(".", "_", x, fixed = TRUE)
+  x <- gsub("([a-z])([A-Z])", "\\1_\\2", x)
+  tolower(x)
 }

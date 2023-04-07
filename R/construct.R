@@ -5,36 +5,38 @@
 #'
 #' @param x An object, for `construct_multi()` a named list or an environment.
 #'
-#' @param data named list of objects we don't want to deparse, can also be a package
-#' name and its namespace and datasets will be used to look for objects. Both can
-#' be combined so you can provide a list of named objects and unnamed namespaces.
-#'
+#' @param data Named list or environment of objects we want to detect and mention by name (as opposed to
+#'   deparsing them further). Can also contain unnamed nested lists, environments, or
+#'   package names, in the latter case package exports and datasets will be considered.
+#'   In case of conflict, the last provided name is considered.
 #' @param pipe Which pipe to use, either "base" or "magrittr"
 #' @param check Boolean. Whether to check if the created code reproduces the object
-#'   using `waldo::compare()`
-#' @param ignore_srcref,ignore_attr,ignore_function_env,ignore_formula_env passed to `waldo::compare()`
+#'   using `waldo::compare()`.
+#' @param ignore_srcref,ignore_attr,ignore_function_env,ignore_formula_env Passed to `waldo::compare()`.
 #' @param ... Constructive options built with the `opts_*()` family of functions. See the "Constructive options"
 #'   section below.
 #' @param one_liner Boolean. Whether to collapse the output to a single line of code.
-#' @param template A list of constructive options build with `opts_*()` functions,
-#'   they will be overriden by `...`. This is designed to help users set a default
+#' @param template A list of constructive options built with `opts_*()` functions,
+#'   they will be overriden by `...`. Use it to set a default
 #'   behavior for `{constructive}`.
-#' @return An object of class 'constructive'
+#' @return An object of class 'constructive'.
 #' @enumerateOptFunctions
 #'
 #' @export
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
                       ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {
-  # force so we might fail outside of the try_fetch() when x is not properly provided
-  force(x)
+
   # reset globals
   globals$predefinition <- character()
   globals$envs <- data.frame(hash = character(), name = character())
 
+  # check inputs
   combine_errors(
+    # force so we might fail outside of the try_fetch() when x is not properly provided
+    force(x),
     ellipsis::check_dots_unnamed(),
-    # FIXME: check data
+    abort_wrong_data(data),
     pipe <- rlang::arg_match(pipe),
     abort_not_boolean(ignore_srcref),
     abort_not_boolean(ignore_attr),
@@ -43,13 +45,25 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
     abort_not_boolean(one_liner)
     # FIXME: check template
   )
-  data <- preprocess_data(data)
+
+  # process data into a flat named list of objects
+  data <- process_data(data)
+
+  # build code that produces the object, prepend with predefinitions if relevant
   caller <- caller_env()
   code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner, env = caller)
   code <- c(globals$predefinition, code)
+
+  # for https://github.com/cynkra/constructive/issues/101
   Encoding(code) <- "UTF-8"
-  styled_code <- try_parse(code, data, one_liner)
+
+  # attempt to parse, and style if successful
+  styled_code <- try_parse(code, one_liner)
+
+  # check output fidelity if relevant, signal issues and update globals$issues
   compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller)
+
+  # build a new constructive object, leave the display work to the print method
   new_constructive(styled_code, compare)
 }
 
@@ -60,7 +74,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), c
                             template = getOption("constructive_opts_template")) {
   abort_not_env_or_named_list(x)
   if (is.environment(x)) x <- as.list.environment(x)
-  data <- preprocess_data(data)
+  data <- process_data(data)
   constructives <- lapply(
     x, construct,  ...,
     data = data, pipe = pipe, check = check,
@@ -83,7 +97,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), c
   Encoding(code) <- "UTF-8"
   if (is.null(code)) code <- character(0)
   class(code) <- "vertical"
-  new_constructive(unname(code), compare)
+  new_constructive(unname(code), issues)
 }
 
 #' @export

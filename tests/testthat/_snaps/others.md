@@ -21,7 +21,7 @@
     Output
       list(foo)
     Code
-      construct(list(data.table::first, dplyr::first, dplyr::select), data = c(
+      construct(list(data.table::first, dplyr::first, dplyr::select), data = list(
         "dplyr", "data.table"))
     Output
       list(data.table::first, dplyr::first, select)

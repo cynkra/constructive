@@ -8,7 +8,7 @@ construct_idiomatic.ggproto <- function(x, ggproto.ignore_draw_key = FALSE, ...,
     x$draw_key <- NULL
   }
   res <- find_in_package_protos(x, ggproto.ignore_draw_key)
-  if(!is.null(res)) return(res) else contruct_idiomatic.environment(x)
+  if(!is.null(res)) return(res) else construct_idiomatic.environment(x)
 }
 
 #' @export
@@ -28,7 +28,7 @@ find_in_package_protos <- function(x, ggproto.ignore_draw_key) {
       if(identical(x, proto, ignore.environment = TRUE)) {
         if (pkg == "ggplot2") {
           # FIXME: not good enough GeomContourFixed -> countour_fixed ?
-          return(sprintf('"%s"', sub( "^[^_]+_", "", ggplot2:::snakeize(nm))))
+          return(sprintf('"%s"', sub( "^[^_]+_", "", snakeize(nm))))
         }
         return(paste0(pkg, ":::", nm))
       }

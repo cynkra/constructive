@@ -51,13 +51,11 @@ construct_layer_default <- function(constructor, env, ...) {
   } else if (is.symbol(caller_lng) && isNamespace(ns) && as.character(caller_lng) %in% getNamespaceExports(ns)) {
     caller_chr <- paste0(getNamespaceName(ns), "::", as.character(caller_lng))
   } else {
-    caller_chr <- construct_raw(caller_val, ...)
+    caller_chr <- construct_raw(caller_val, env = env, ...)
   }
   args <- lapply(as.list(constructor)[-1], eval, env)
   args <- keep_only_non_defaults(args, caller_val)
-  base_objs <- all_base_funs
-  base_objs[names(data)] <- NULL
-  construct_apply(args, caller_chr, ...)
+  construct_apply(args, caller_chr, env = env, ...)
 }
 
 construct_layer_layer <- function(x, ...) {
@@ -140,7 +138,7 @@ construct_glyph <- function(draw_key) {
   for (pkg in globals$ggpackages[-1]) {
     # FIXME: compute a list of draw_key funs when adding packages
     ns <- asNamespace(pkg)
-    match <- data_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
+    match <- flex_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
     if (!is.null(match)) return(sprintf("%s::%s"), pkg, match)
   }
 
@@ -149,7 +147,7 @@ construct_glyph <- function(draw_key) {
     key_glyph <- eval(quote(f), environment(draw_key))
 
     ns <- asNamespace("ggplot2")
-    match <- data_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
+    match <- flex_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
     if (!is.null(match)) {
       key_glyph <- sub("^draw_key_", "", match)
       return(sprintf('"%s"', key_glyph))
@@ -157,7 +155,7 @@ construct_glyph <- function(draw_key) {
     for (pkg in globals$ggpackages[-1]) {
       # FIXME: compute a list of draw_key funs when adding packages
       ns <- asNamespace(pkg)
-      match <- data_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
+      match <- flex_match(key_glyph, mget(ls(ns, pattern = "^draw_key_"), ns))
       if (!is.null(match)) return(sprintf("%s::%s"), pkg, match)
     }
   }
