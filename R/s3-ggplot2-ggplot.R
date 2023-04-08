@@ -23,7 +23,7 @@ construct_idiomatic.ggplot <- function(x, ...) {
   code <- pipe_to_theme(code, x$theme, ...)
 
   ## coord
-  code <- pipe_to_coord(code, x$coord, ...)
+  code <- pipe_to_coord(code, x$coordinates, ...)
 
   code
 }
