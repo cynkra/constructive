@@ -273,4 +273,8 @@
       deparse_call(quote(function(`_x`) `_x`))
     Output
       function(`_x`) `_x`
+    Code
+      deparse_call(quote(list(`a + b` = a + b)))
+    Output
+      list(`a + b` = a + b)
 
