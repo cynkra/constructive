@@ -59,7 +59,7 @@ construct_idiomatic.CoordMap <- function(x, ...) {
 construct_idiomatic.CoordMunch <- function(x, ...) {
   # untested because didn't find any use case
   args <- list(
-    coord = x$coord,
+    coord = x$coordinates,
     data = x$data,
     range = x$range,
     segment_length = x$segment_length
