@@ -70,5 +70,8 @@ test_that("deparse_call()", {
 
     # function with non syntactioc formal names
     deparse_call(quote(function(`_x`) `_x`))
+
+    # non-syntactig argument name
+    deparse_call(quote(list(`a + b` = a + b)))
   })
 })

@@ -207,8 +207,11 @@ is_infix_narrow <- function(x) {
 
 # FIXME: better handling of indent, doesn't impact if we style
 deparse_named_args_to_string <- function(args, one_liner, indent) {
+  if (length(args) == 0) {
+    return("")
+  }
   args <- vapply(args, deparse_call_impl, character(1), one_liner = one_liner, indent = indent)
-  args <- paste(rlang::names2(args), "=", args)
+  args <- paste(protect(rlang::names2(args)), "=", args)
   args <- sub("^ = ", "", args)
   # FIXME: the 80 is a bit arbitrary, since we don't account for indent and length of caller
   if (one_liner || max(nchar(args)) < 80) return(paste(args, collapse = ", "))
