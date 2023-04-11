@@ -47,8 +47,11 @@ try_parse <- function(code, one_liner) {
 }
 
 try_eval <- function(styled_code, data, check, caller) {
+  # use local_bindings rather than `enclos =` so the expression is really evaled
+  # in the proper env, this makes a difference for calls that capture the env
+  local_bindings(!!!data, .env = caller)
   rlang::try_fetch(
-    eval(parse(text = styled_code), envir = data, enclos = caller),
+    eval(parse(text = styled_code), caller),
     error = function(e) {
       #nocov start
       msg <- "The code built by {constructive} could not be evaluated."
