@@ -203,9 +203,9 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   )
 }
 
-env_memory_address <- function(x) {
+env_memory_address <- function(x, by_name = FALSE) {
   if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x000000000")
-  rlang::env_label(x)
+  if (by_name) rlang::env_label(x) else rlang::obj_address(x)
 }
 
 # adapted from rlang::env_name
@@ -234,7 +234,7 @@ fetch_parent_names <- function(x) {
     if (nm != "") {
       return(c(parents, nm))
     }
-    nm <- env_memory_address(x)
+    nm <- env_memory_address(x, by_name = TRUE)
     parents <- c(parents, nm)
   }
 }
