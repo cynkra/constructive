@@ -6,6 +6,9 @@
       mpg_99 <- mpg %>% filter(year == 1999)
       base_99 <- ggplot(mpg_99, aes(displ, hwy)) + geom_point()
       construct(base_99, data = lst(mpg_99), opts_Layer("layer"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
       mpg_99 |>
         ggplot2::ggplot(ggplot2::aes(displ, hwy)) +
@@ -20,10 +23,17 @@
     Output
       mpg_99 |>
         ggplot2::ggplot(ggplot2::aes(displ, hwy)) +
-        constructive::env("0x000000000", parents = "empty")
+        constructive::env(
+          "0x000000000",
+          parents = "empty",
+          class = c("LayerInstance", "Layer", "ggproto", "gg")
+        )
     Code
       p1 <- base_99 + scale_x_continuous(limits = c(1, 7))
       construct(p1, data = lst(mpg_99))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
       mpg_99 |>
         ggplot2::ggplot(ggplot2::aes(displ, hwy)) +
