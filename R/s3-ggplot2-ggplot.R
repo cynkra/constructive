@@ -80,8 +80,8 @@ pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
     },
     character(1)
   )
-  # remove space between ops in labels (maybe was changed in recent version ?)
-  #default_labs <- sub(" ([+-/*]) ", "\\1", default_labs)
+  # remove space between around "/", for some reason ggplot seems to do this for this op only
+  default_labs <- sub(" ([/]) ", "\\1", default_labs)
   common_nms <- intersect(names(labels), names(default_labs))
   to_remove <- c(
     common_nms[labels[common_nms] == default_labs[common_nms] & !is.na(labels[common_nms])],
