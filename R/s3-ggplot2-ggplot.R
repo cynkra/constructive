@@ -103,7 +103,8 @@ pipe_to_scales <- function(code, scales, ..., one_liner) {
 }
 
 pipe_to_theme <- function(code, theme, ..., one_liner) {
-  if (!length(theme)) return(code)
+  # an empty theme has attributes "complete" and "validate" it has a (non functional) effect
+  if (!length(theme) && !length(attributes(theme))) return(code)
   class(theme) <- c("theme", "gg")
   theme_code <- construct_raw(theme, one_liner = one_liner, ...)
   pipe(code, theme_code, pipe = "plus", one_liner = one_liner)

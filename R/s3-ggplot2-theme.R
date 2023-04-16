@@ -1,8 +1,8 @@
 #' @export
 construct_idiomatic.theme <- function(x, ...) {
   args <- unclass(x)
-  args$complete <- attr(x, "complete")
-  args$validate <- attr(x, "validate")
+  args$complete <- if (attr(x, "complete")) TRUE
+  args$validate <- if (!attr(x, "validate")) FALSE
   construct_apply(args, "ggplot2::theme", ...)
 }
 
