@@ -8,7 +8,7 @@ construct_idiomatic.ggplot <- function(x, ...) {
   code <- pipe_from_data(x$data, code, ...)
 
   ## layers
-  code <- pipe_to_layers(code, x$layers, ...)
+  code <- pipe_to_layers(code, x$layers, plot_env = x$plot_env, ...)
 
   ## facets
   code <- pipe_to_facets(code, x$facet, ...)
@@ -49,9 +49,9 @@ pipe_from_data <- function(plot_data, code, ..., pipe, one_liner) {
   pipe(data_code, code, pipe = pipe, one_liner = one_liner)
 }
 
-pipe_to_layers <- function(code, layers, ..., one_liner) {
+pipe_to_layers <- function(code, layers, plot_env, ..., one_liner, env) {
   if (!length(layers)) return(code)
-  layer_lines <- lapply(layers, construct_raw, one_liner = one_liner, ...)
+  layer_lines <- lapply(layers, construct_raw, one_liner = one_liner, env = plot_env, ...)
   layer_code <- Reduce(function(x, y)  pipe(x, y, pipe = "plus", one_liner = one_liner), layer_lines)
   pipe(code, layer_code, pipe = "plus", one_liner = one_liner)
 }
