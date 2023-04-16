@@ -7,6 +7,8 @@
 #' Note that it will necessarily produce code that doesn't reproduce the input.
 #' This code will parse without failure but its evaluation might fail.
 #' @param fill String. Method to use to represent the trimmed elements.
+#' @param compress Boolean. It `TRUE` instead of `c()` Use `seq()`, `rep()`, or atomic constructors `logical()`, `integer()`,
+#'   `numeric()`, `complex()`, `raw()` when relevant to simplify the output.
 #'
 #' @details
 #'
@@ -31,13 +33,14 @@
 #' construct(iris, opts_atomic(trim = 2, fill = "+"))
 #' construct(iris, opts_atomic(trim = 2, fill = "..."))
 #' construct(iris, opts_atomic(trim = 2, fill = "none"))
-opts_atomic <- function(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none")) {
+opts_atomic <- function(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE) {
   combine_errors(
     ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
-    fill <- rlang::arg_match(fill)
+    fill <- rlang::arg_match(fill),
+    abort_not_boolean(compress)
   )
-  constructive_options("atomic", trim = trim, fill = fill)
+  constructive_options("atomic", trim = trim, fill = fill, compress = compress)
 }
 
 #' @export
@@ -45,6 +48,9 @@ construct_idiomatic.atomic <- function(x, ..., one_liner = FALSE) {
   opts <- fetch_opts("atomic", ...)
   trim <- opts$trim
   fill <- opts$fill
+
+  code <- if (opts$compress) simplify_atomic(x, ..., one_liner = one_liner)
+  if (!is.null(code)) return(code)
 
   nms <- names(x)
   attributes(x) <- NULL
@@ -87,6 +93,64 @@ construct_idiomatic.atomic <- function(x, ..., one_liner = FALSE) {
   code <- construct_apply(args, "c", ..., new_line = FALSE, language = TRUE)
   if (one_liner) code <- paste(code, collapse = " ")
   code
+}
+
+simplify_atomic <- function(x, ...) {
+  l <- length(x)
+  if (l) {
+    rle_ <- rle2(x)
+    # default vectors ----------------------------------------------------------
+    if (l > 2) {
+      if (is.logical(x) && isTRUE(all(!x))) return(sprintf("logical(%s)", l))
+      if (is.integer(x) && isTRUE(all(x == 0L))) return(sprintf("integer(%s)", l))
+      if (is.double(x) && isTRUE(all(x == 0L))) return(sprintf("numeric(%s)", l))
+      if (is.complex(x) && isTRUE(all(x == 0i))) return(sprintf("complex(%s)", l))
+      if (is.raw(x) && isTRUE(all(x == raw(1)))) return(sprintf("raw(%s)", l))
+    }
+
+    # rep ----------------------------------------------------------------------
+    # each
+    if (length(rle_[[2]]) > 1 && length(unique(rle_[[2]])) == 1 && length(rle_[[1]]) + 1 < length(x)) {
+      return(construct_apply(list(rle_[[1]], each = rle_[[2]][[1]]), "rep", ...))
+    }
+    if (length(rle_[[1]]) * 2 < length(x)) {
+      # this also supports rep(x, n) with scalar x and n, but not scalar n and vector x
+      return(construct_apply(rle_, "rep", ...))
+    }
+
+    # scalar n and vector x
+    for (d in divisors(l)) {
+      if (identical(x, rep(.subset(x, 1:d), l/d))) return(construct_apply(list(.subset(x, 1:d), l/d), "rep", ...))
+    }
+
+    # seq ----------------------------------------------------------------------
+    if (is.numeric(x) && l > 3 && !anyNA(x)) {
+      d <- diff(x)
+      if (length(unique(d)) == 1) {
+        if (is.integer(x) && abs(d[[1]]) == 1) return(sprintf("%s:%s", x[[1]], x[[l]]))
+        return(construct_apply(list(x[[1]], x[[l]], by = d[[1]]), "seq", ...))
+      }
+    }
+  }
+  NULL
+}
+
+# divisors except self and 1
+divisors <- function(x){
+  y <- setdiff(seq_len(x/2), 1)
+  y[ x%%y == 0 ]
+}
+
+# A rle without checks that treats NAs like a regular values and return an unnamed list
+# with value first
+rle2 <- function (x) {
+  n <- length(x)
+  t <- x[-1L]
+  h <- x[-n]
+  y <- t != h
+  y <- ifelse(is.na(y), !(is.na(t) & is.na(h)), y)
+  i <- c(which(y), n)
+  list(x[i], diff(c(0L, i)))
 }
 
 

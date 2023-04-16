@@ -83,14 +83,11 @@
     Code
       construct(c(0, 1:30))
     Output
-      c(
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-        22, 23, 24, 25, 26, 27, 28, 29, 30
-      )
+      seq(0, 30, by = 1)
     Code
       construct(c(0, 1:30), one_liner = TRUE)
     Output
-      c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30)
+      seq(0, 30, by = 1)
     Code
       construct(structure("a", names = ""))
     Output
@@ -138,4 +135,39 @@
       i Call `construct_issues()` to inspect the last issues
     Output
       "a"
+
+# simplify atomic
+
+    Code
+      construct(c("a", "a", "b", "c", "c", "c", "c"))
+    Output
+      rep(c("a", "b", "c"), c(2L, 1L, 4L))
+    Code
+      construct(c("a", "b", "a", "b", "a", "b", "a", "b"))
+    Output
+      rep(c("a", "b"), 4)
+    Code
+      construct(c("a", "a", "b", "b", "c", "c"))
+    Output
+      rep(c("a", "b", "c"), each = 2L)
+    Code
+      construct(c(1, 2, 3, 4, 1, 2, 3, 4))
+    Output
+      rep(seq(1, 4, by = 1), 2)
+    Code
+      construct(as.integer(c(1, 2, 3, 4, 1, 2, 3, 4)))
+    Output
+      rep(1:4, 2)
+    Code
+      construct(c(2, 4, 6, 8, 2, 4, 6, 8))
+    Output
+      rep(seq(2, 8, by = 2), 2)
+    Code
+      construct(as.integer(c(2, 4, 6, 8, 2, 4, 6, 8)))
+    Output
+      rep(seq(2L, 8L, by = 2L), 2)
+    Code
+      construct(c("a", "a", "b", "c", "c", "c", "c"), opts_atomic(compress = FALSE))
+    Output
+      c("a", "a", "b", "c", "c", "c", "c")
 

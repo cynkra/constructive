@@ -40,3 +40,17 @@ test_that("other atomic", {
     construct(letters, opts_atomic(trim = 1, fill = "none"))
   })
 })
+
+
+test_that("simplify atomic", {
+  expect_snapshot({
+    construct(c("a", "a", "b", "c", "c", "c", "c"))
+    construct(c("a", "b", "a", "b","a", "b","a", "b"))
+    construct(c("a", "a", "b", "b", "c", "c"))
+    construct(c(1, 2, 3, 4, 1, 2, 3, 4))
+    construct(as.integer(c(1, 2, 3, 4, 1, 2, 3, 4)))
+    construct(c(2, 4, 6, 8, 2, 4, 6, 8))
+    construct(as.integer(c(2, 4, 6, 8, 2, 4, 6, 8)))
+    construct(c("a", "a", "b", "c", "c", "c", "c"), opts_atomic(compress = FALSE))
+  })
+})
