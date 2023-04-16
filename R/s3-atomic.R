@@ -7,6 +7,8 @@
 #' Note that it will necessarily produce code that doesn't reproduce the input.
 #' This code will parse without failure but its evaluation might fail.
 #' @param fill String. Method to use to represent the trimmed elements.
+#' @param compress Boolean. It `TRUE` instead of `c()` Use `seq()`, `rep()`, or atomic constructors `logical()`, `integer()`,
+#'   `numeric()`, `complex()`, `raw()` when relevant to simplify the output.
 #'
 #' @details
 #'
@@ -31,13 +33,14 @@
 #' construct(iris, opts_atomic(trim = 2, fill = "+"))
 #' construct(iris, opts_atomic(trim = 2, fill = "..."))
 #' construct(iris, opts_atomic(trim = 2, fill = "none"))
-opts_atomic <- function(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none")) {
+opts_atomic <- function(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE) {
   combine_errors(
     ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
-    fill <- rlang::arg_match(fill)
+    fill <- rlang::arg_match(fill),
+    abort_not_boolean(compress)
   )
-  constructive_options("atomic", trim = trim, fill = fill)
+  constructive_options("atomic", trim = trim, fill = fill, compress = compress)
 }
 
 #' @export
@@ -46,7 +49,7 @@ construct_idiomatic.atomic <- function(x, ..., one_liner = FALSE) {
   trim <- opts$trim
   fill <- opts$fill
 
-  code <- simplify_atomic(x, ..., one_liner = one_liner)
+  code <- if (opts$compress) simplify_atomic(x, ..., one_liner = one_liner)
   if (!is.null(code)) return(code)
 
   nms <- names(x)

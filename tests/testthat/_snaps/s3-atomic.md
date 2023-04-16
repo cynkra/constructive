@@ -166,4 +166,8 @@
       construct(as.integer(c(2, 4, 6, 8, 2, 4, 6, 8)))
     Output
       rep(seq(2L, 8L, by = 2L), 2)
+    Code
+      construct(c("a", "a", "b", "c", "c", "c", "c"), opts_atomic(compress = FALSE))
+    Output
+      c("a", "a", "b", "c", "c", "c", "c")
 

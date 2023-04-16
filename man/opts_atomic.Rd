@@ -4,7 +4,12 @@
 \alias{opts_atomic}
 \title{Constructive options for atomic types}
 \usage{
-opts_atomic(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"))
+opts_atomic(
+  ...,
+  trim = NULL,
+  fill = c("default", "rlang", "+", "...", "none"),
+  compress = TRUE
+)
 }
 \arguments{
 \item{...}{Should not be used. Forces passing arguments by name.}
@@ -14,6 +19,9 @@ Note that it will necessarily produce code that doesn't reproduce the input.
 This code will parse without failure but its evaluation might fail.}
 
 \item{fill}{String. Method to use to represent the trimmed elements.}
+
+\item{compress}{Boolean. It \code{TRUE} instead of \code{c()} Use \code{seq()}, \code{rep()}, or atomic constructors \code{logical()}, \code{integer()},
+\code{numeric()}, \code{complex()}, \code{raw()} when relevant to simplify the output.}
 }
 \value{
 An object of class <constructive_options/constructive_options_atomic>
