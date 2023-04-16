@@ -8,7 +8,7 @@ construct_idiomatic.ggplot <- function(x, ...) {
   code <- pipe_from_data(x$data, code, ...)
 
   ## layers
-  code <- pipe_to_layers(code, x$layers, ...)
+  code <- pipe_to_layers(code, x$layers, plot_env = x$plot_env, ...)
 
   ## facets
   code <- pipe_to_facets(code, x$facet, ...)
@@ -49,9 +49,9 @@ pipe_from_data <- function(plot_data, code, ..., pipe, one_liner) {
   pipe(data_code, code, pipe = pipe, one_liner = one_liner)
 }
 
-pipe_to_layers <- function(code, layers, ..., one_liner) {
+pipe_to_layers <- function(code, layers, plot_env, ..., one_liner, env) {
   if (!length(layers)) return(code)
-  layer_lines <- lapply(layers, construct_raw, one_liner = one_liner, ...)
+  layer_lines <- lapply(layers, construct_raw, one_liner = one_liner, env = plot_env, ...)
   layer_code <- Reduce(function(x, y)  pipe(x, y, pipe = "plus", one_liner = one_liner), layer_lines)
   pipe(code, layer_code, pipe = "plus", one_liner = one_liner)
 }
@@ -65,6 +65,16 @@ pipe_to_facets <- function(code, facet, ..., one_liner) {
 pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
   # discard default labels  tagged as "fallback"
   labels <- Filter(function(x) !isTRUE(attr(x, "fallback")), labels)
+  # FIXME: some tests around labels to make sure they behave ok, need to try some
+  # ggtitle and some combinations of NULL and waiver() inputs for x,y and others
+  # if x and y are not found first it means they were not provided, and we should remove them
+  # we cannot just remove them if they're NULL
+  if (names(labels)[1] == "x") {
+    if (names(labels)[2]!= "y") labels[["y"]] <- NULL
+  } else {
+    labels[["x"]] <- NULL
+    if (names(labels)[1]!= "y") labels[["y"]] <- NULL
+  }
   mappings <- unlist(c(mapping, lapply(layers, function(x) x$mapping)))
   mappings <- mappings[unique(names(mappings))]
   # discard mappings given as syntactic literals
@@ -80,8 +90,8 @@ pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
     },
     character(1)
   )
-  # remove space between ops in labels (maybe was changed in recent version ?)
-  #default_labs <- sub(" ([+-/*]) ", "\\1", default_labs)
+  # remove space between around "/", for some reason ggplot seems to do this for this op only
+  default_labs <- sub(" ([/]) ", "\\1", default_labs)
   common_nms <- intersect(names(labels), names(default_labs))
   to_remove <- c(
     common_nms[labels[common_nms] == default_labs[common_nms] & !is.na(labels[common_nms])],
@@ -103,7 +113,8 @@ pipe_to_scales <- function(code, scales, ..., one_liner) {
 }
 
 pipe_to_theme <- function(code, theme, ..., one_liner) {
-  if (!length(theme)) return(code)
+  # an empty theme has attributes "complete" and "validate" it has a (non functional) effect
+  if (!length(theme) && !length(attributes(theme))) return(code)
   class(theme) <- c("theme", "gg")
   theme_code <- construct_raw(theme, one_liner = one_liner, ...)
   pipe(code, theme_code, pipe = "plus", one_liner = one_liner)

@@ -4,15 +4,15 @@
 \alias{env}
 \title{Fetch environment from memory address}
 \usage{
-env(address, parents = NULL)
+env(address, parents = NULL, ...)
 }
 \arguments{
 \item{address}{Memory adress of the environment}
 
-\item{parents}{ignored}
+\item{parents, ...}{ignored}
 }
 \description{
-This is designed to be used in constructed output. The \code{parents} argument is not processed
-and only used to display additional information. If used on an improper memory address
-the output might be erratic or the session might crash.
+This is designed to be used in constructed output. The \code{parents} and \code{...} arguments
+are not processed and only used to display additional information. If used on
+an improper memory address the output might be erratic or the session might crash.
 }

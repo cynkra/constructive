@@ -92,60 +92,87 @@ collapse <- function (x, sep = ",", width = 80, last = " and ", quote = "") {
   x
 }
 
-# like rlang::env_clone but sets the class
-env_clone <- function(x) {
-  out <-  rlang::env_clone(x)
-  #attributes(out) <- attributes(x)
-  out
+scrub_ggplot <- function(x) {
+  x <- flatten.scales(x)
+  # This works to scrub the calls from the layers but since we cannot reliably
+  # scrub calls from scales (due to self nested environment madness) we're better off
+  # staying consistent
+  # for (i in seq_along(x$layers)) {
+  #   x$layers[[i]] <- env_clone(x$layers[[i]])
+  #   x$layers[[i]]$constructor <- NULL
+  #   x$layers[[i]]$super <- NULL
+  # }
+  x
 }
 
-scrub_ggplot <- function(x) {
-  x$scales <- env_clone(x$scales)
-  x$coordinates <- env_clone( x$coordinates)
-  x$facet <- env_clone(x$facet)
-  x$plot_env <- NULL
+# Thanks to Zi Lin : https://stackoverflow.com/questions/75960769
+flatten.scales <- function(gg) {
+  # take stock how many different scales are contained within the top-level
+  # scale list, & sort their names alphabetically for consistency
+  orig.scales <- gg[["scales"]]
+  scale.count <- orig.scales$n()
+  scale.aesthetics <- lapply(seq_len(scale.count),
+                             function(i) orig.scales$scales[[i]]$aesthetics)
+  names(scale.aesthetics) <- lapply(scale.aesthetics,
+                                    function(x) x[[1]])
+  scale.names.sorted <- sort(names(scale.aesthetics))
 
-  for (i in seq_along(x$layers)) {
-    x$layers[[i]] <- env_clone(x$layers[[i]])
-    x$layers[[i]]$constructor <- NULL
-    x$layers[[i]]$super <- NULL
-    x$layers[[1]]$computed_geom_params <- NULL
-    x$layers[[1]]$computed_mapping <- NULL
-    x$layers[[1]]$computed_stat_params <- NULL
-    # attr(x$layers[[i]]$stat_params$formula, '.Environment') <- NULL
-    # attr(x$layers[[i]]$mapping$colour, '.Environment') <- NULL
-    # attr(x$layers[[i]]$computed_mapping$x, '.Environment') <- NULL
-    # attr(x$layers[[i]]$computed_mapping$y, '.Environment') <- NULL
-    # attr(x$layers[[1]]$mapping$fill, '.Environment') <- NULL
+  # define a new empty scale list ggproto object
+  new.scales <- ggplot2:::scales_list()
+
+  # for each scale, traverse up its inheritance tree until we can't go any
+  # higher without losing the function call -- i.e. any super's beyond this
+  # point are inheritances defined in ggproto (e.g. ScaleContinuousPosition
+  # inherits from ScaleContinuous, which in turn inherits from Scale), not
+  # inheritances created during cloning of scales within this ggplot object.
+  # add that scale to the new scale list.
+  for(i in seq_along(scale.names.sorted)) {
+    #print(scale.names.sorted[i])
+    scale.to.add <- orig.scales$get_scales(scale.names.sorted[[i]])
+    while("super" %in% names(scale.to.add)) {
+      #print("!")
+      scale.to.add1 <- scale.to.add$super()
+      if(!is.null(scale.to.add1$call)) {
+        #scale.to.add1$call <- NULL # try
+        scale.to.add <- scale.to.add1
+      } else {
+        break
+      }
+    }
+    new.scales$add(scale.to.add)
   }
 
-  environment(x$scales$super) <- emptyenv() #  env_clone(environment(x$scales$super))
-  for (i in seq_along(x$scales$scales)) {
-    x$scales$scales[[i]] <- env_clone(x$scales$scales[[i]])
-    environment(x$scales$scales[[i]]$super) <- emptyenv()
-    x$scales$scales[[i]]$call <- NULL
-    # the following line corrupts the plot
-    #x$scales$scales[[i]]$super <- NULL
-  }
+  gg[["scales"]] <- new.scales
+  return(gg)
+}
 
-  for (var in names(x$mapping)) {
-    attr(x$mapping[[var]], '.Environment') <- NULL
-  }
+# Not used yet, should be used in construction code rather than using flatten.scales
+# in waldo_proxy methods
+trans_order <- function(x) {
+  n_layers <- length(x$layers)
+  layers <- seq(n_layers)
+  names(layers) <- rep("layers", n_layers)
 
-  environment(x$facet$super) <- emptyenv() # env_clone(environment(x$facet$super))
-  #if (exists("super", x$facet)) environment(x$facet$super) <- emptyenv()
-  if (length(x$facet$params$facets)) {
-    x$facet$params$facets[] <- lapply(x$facet$params$facets, function(x) {
-      attr(x, '.Environment') <- NULL
-      x
-    })
-  }
+  n_scales <- x$scales$n()
+  if (!n_scales) return(layers)
+  n_trans <- n_layers + n_scales
 
-  # x$facet$super <- NULL
-  # x$scales$super <- NULL
-  # x$coordinates$super <- NULL
-  # x$coordinates$default <- NULL
-  x
+  scale_i_reversed <- function(scale) {
+    i <- 0
+    while("super" %in% names(scale)) {
+      i <- i + 1
+      scale <- scale$super()
+      if(is.null(scale$call)) break
+    }
+    i
+  }
+  scale_order_reversed <- sapply(x$scales$scales, scale_i_reversed)
+  scale_order <- n_trans - scale_order_reversed + 1
+  layer_order <- setdiff(seq(n_trans), scale_order)
+  scales <- seq(n_scales)
+  names(scales) <- rep("scales", n_scales)
+
+  c(layers, scales)[order(c(layer_order, scale_order))]
 }
 
 compare_proxy_ggplot <- function(x, path) {
