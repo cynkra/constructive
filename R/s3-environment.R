@@ -123,11 +123,11 @@ construct_idiomatic.environment <- function(x, ..., pipe = "base", one_liner = F
   if (name %in% search() && identical(x, as.environment(name))) return(sprintf('as.environment("%s")', name))
 
   if (constructor == "env") {
-    res <- construct_apply(
+    args <- c(
       list(env_memory_address(x), parents = fetch_parent_names(x)),
-      "constructive::env",
-      ..., pipe = pipe, one_liner = one_liner
+      attributes(x)
     )
+    res <- construct_apply(args, "constructive::env", ..., pipe = pipe, one_liner = one_liner)
     return(res)
   }
 
@@ -241,14 +241,14 @@ fetch_parent_names <- function(x) {
 
 #' Fetch environment from memory address
 #'
-#' This is designed to be used in constructed output. The `parents` argument is not processed
-#'  and only used to display additional information. If used on an improper memory address
-#'  the output might be erratic or the session might crash.
+#' This is designed to be used in constructed output. The `parents` and `...` arguments
+#'  are not processed and only used to display additional information. If used on
+#'  an improper memory address the output might be erratic or the session might crash.
 #'
 #' @param address Memory adress of the environment
-#' @param parents ignored
+#' @param parents,... ignored
 #' @export
-env <- function(address, parents = NULL) {
+env <- function(address, parents = NULL, ...) {
   force(parents) # to avoid notes
   env_impl(address)
 }
