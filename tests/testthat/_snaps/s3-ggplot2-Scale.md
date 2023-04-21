@@ -14,6 +14,6 @@
         palette = (function(x) {
           rescale(x, range, c(0, 1))
         }) |>
-          match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales"))
+          (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales"))
       )
 

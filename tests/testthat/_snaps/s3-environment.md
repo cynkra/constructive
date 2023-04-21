@@ -124,7 +124,7 @@
         }
         x
       }) |>
-        match.fun("environment<-")(..env.1..)
+        (`environment<-`)(..env.1..)
     Code
       evalq({
         e <- new.env()

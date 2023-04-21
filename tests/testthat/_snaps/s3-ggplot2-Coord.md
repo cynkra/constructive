@@ -54,9 +54,9 @@
         x = scales::trans_new(
           name = "log-10",
           transform = (function(x) log(x, base)) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           inverse = (function(x) base^x) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           breaks = (function(x, n = n_default) {
             raw_rng <- suppressWarnings(range(x, na.rm = TRUE))
             if (any(!is.finite(raw_rng))) {
@@ -84,7 +84,7 @@
             }
             log_sub_breaks(rng, n = n, base = base)
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           minor_breaks = (function(b, limits, n) {
             b <- b[!is.na(b)]
             if (length(b) < 2) {
@@ -105,7 +105,7 @@
             breaks <- c(breaks, b[length(b)])
             breaks
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           format = (function(x) {
             if (!is.null(names(x))) {
               return(names(x))
@@ -114,15 +114,15 @@
             ret[is.na(x)] <- NA
             ret
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           domain = c(1e-100, Inf)
         ),
         y = scales::trans_new(
           name = "log-10",
           transform = (function(x) log(x, base)) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           inverse = (function(x) base^x) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           breaks = (function(x, n = n_default) {
             raw_rng <- suppressWarnings(range(x, na.rm = TRUE))
             if (any(!is.finite(raw_rng))) {
@@ -150,7 +150,7 @@
             }
             log_sub_breaks(rng, n = n, base = base)
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           minor_breaks = (function(b, limits, n) {
             b <- b[!is.na(b)]
             if (length(b) < 2) {
@@ -171,7 +171,7 @@
             breaks <- c(breaks, b[length(b)])
             breaks
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           format = (function(x) {
             if (!is.null(names(x))) {
               return(names(x))
@@ -180,7 +180,7 @@
             ret[is.na(x)] <- NA
             ret
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           domain = c(1e-100, Inf)
         )
       )
@@ -197,9 +197,9 @@
         x = scales::trans_new(
           name = "power-10",
           transform = (function(x) base^x) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           inverse = (function(x) log(x, base = base)) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           breaks = (function(x, n = n_default) {
             x <- x[is.finite(x)]
             if (length(x) == 0) {
@@ -208,7 +208,7 @@
             rng <- range(x)
             labeling::extended(rng[1], rng[2], n, ...)
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           minor_breaks = (function(b, limits, n) {
             b <- b[!is.na(b)]
             if (length(b) < 2) {
@@ -229,7 +229,7 @@
             breaks <- c(breaks, b[length(b)])
             breaks
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           format = (function(x) {
             if (!is.null(names(x))) {
               return(names(x))
@@ -238,15 +238,15 @@
             ret[is.na(x)] <- NA
             ret
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           domain = c(-Inf, Inf)
         ),
         y = scales::trans_new(
           name = "power-10",
           transform = (function(x) base^x) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           inverse = (function(x) log(x, base = base)) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           breaks = (function(x, n = n_default) {
             x <- x[is.finite(x)]
             if (length(x) == 0) {
@@ -255,7 +255,7 @@
             rng <- range(x)
             labeling::extended(rng[1], rng[2], n, ...)
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           minor_breaks = (function(b, limits, n) {
             b <- b[!is.na(b)]
             if (length(b) < 2) {
@@ -276,7 +276,7 @@
             breaks <- c(breaks, b[length(b)])
             breaks
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           format = (function(x) {
             if (!is.null(names(x))) {
               return(names(x))
@@ -285,7 +285,7 @@
             ret[is.na(x)] <- NA
             ret
           }) |>
-            match.fun("environment<-")(constructive::env("0x000000000", parents = "namespace:scales")),
+            (`environment<-`)(constructive::env("0x000000000", parents = "namespace:scales")),
           domain = c(-Inf, Inf)
         )
       )
