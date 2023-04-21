@@ -45,6 +45,7 @@ test_that("other atomic", {
 test_that("simplify atomic", {
   expect_snapshot({
     construct(c("a", "a", "b", "c", "c", "c", "c"))
+    construct(c(foo = "a", "a", "b", "c", "c", "c", "c"))
     construct(c("a", "b", "a", "b","a", "b","a", "b"))
     construct(c("a", "a", "b", "b", "c", "c"))
     construct(c(1, 2, 3, 4, 1, 2, 3, 4))
