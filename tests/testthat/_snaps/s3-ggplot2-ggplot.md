@@ -59,7 +59,7 @@
               collapse_labels_lines(labels)
             }
           }) |>
-            match.fun("environment<-")(asNamespace("ggplot2")) |>
+            (`environment<-`)(asNamespace("ggplot2")) |>
             structure(class = c("function", "labeller"))
         ) +
         ggplot2::xlim(1, 7) +

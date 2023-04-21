@@ -25,7 +25,7 @@
       Error in eval(code, test_env) : `mean` must be a string.
       i It has type 'closure':
       (function(x, ...) UseMethod("mean")) |>
-        match.fun("environment<-")(.BaseNamespaceEnv)
+        (`environment<-`)(.BaseNamespaceEnv)
     Code
       try(abort_not_env_or_named_list(letters))
     Output
@@ -84,7 +84,7 @@
       Error in eval(code, test_env) : `data` has an unexpected value.
       i It has type 'closure':
       (function(x, ...) UseMethod("mean")) |>
-        match.fun("environment<-")(.BaseNamespaceEnv)
+        (`environment<-`)(.BaseNamespaceEnv)
     Code
       try(abort_wrong_data(list(mean)))
     Output
@@ -92,7 +92,7 @@
         `data[[1]]` is unnamed and has an unexpected value.
       i It has type 'closure':
       (function(x, ...) UseMethod("mean")) |>
-        match.fun("environment<-")(.BaseNamespaceEnv)
+        (`environment<-`)(.BaseNamespaceEnv)
 
 # describe
 
@@ -110,5 +110,5 @@
     Output
       It has type 'closure':
       (function(x, ...) UseMethod("mean")) |>
-        match.fun("environment<-")(.BaseNamespaceEnv)
+        (`environment<-`)(.BaseNamespaceEnv)
 

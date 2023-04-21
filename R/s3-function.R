@@ -91,7 +91,7 @@ construct_idiomatic.function <- function(
     if (environment) {
       envir_code <- construct_apply(
         list(environment(x)),
-        'match.fun("environment<-")',
+        "(`environment<-`)",
         pipe = pipe,
         one_liner = one_liner,
         ...)

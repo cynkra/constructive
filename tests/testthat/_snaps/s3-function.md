@@ -8,14 +8,14 @@
       construct(f1)
     Output
       (function(x) x) |>
-        match.fun("environment<-")(.GlobalEnv)
+        (`environment<-`)(.GlobalEnv)
     Code
       construct(f2)
     Output
       (function(x) {
         x
       }) |>
-        match.fun("environment<-")(.GlobalEnv)
+        (`environment<-`)(.GlobalEnv)
     Code
       construct(f1, opts_function(environment = FALSE))
     Message
@@ -90,7 +90,7 @@
         names(object) <- nm
         object
       }) |>
-        match.fun("environment<-")(asNamespace("stats"))
+        (`environment<-`)(asNamespace("stats"))
     Code
       construct(setNames, opts_function("as.function", environment = TRUE))
     Output
@@ -115,7 +115,7 @@
         names(object) <- nm
         ...
       }) |>
-        match.fun("environment<-")(asNamespace("stats"))
+        (`environment<-`)(asNamespace("stats"))
     Code
       construct(`+`)
     Output
@@ -126,7 +126,7 @@
       construct(f4)
     Output
       (function(x) x) |>
-        match.fun("environment<-")(.GlobalEnv) |>
+        (`environment<-`)(.GlobalEnv) |>
         structure(class = "foo")
     Code
       f5 <- structure((function(x) {
