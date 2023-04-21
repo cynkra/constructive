@@ -31,7 +31,22 @@ repair_attributes_impl <- function(x, code, ..., pipe = "base", ignore = NULL, i
   }
   if (length(remove)) attrs <- c(attrs, setNames(replicate(length(remove), NULL), remove))
   if (!length(attrs)) return(code)
+  # See ?structure, when those arguments are provided to structure() differently named attributes are created
+  special_structure_args <- c(".Dim", ".Dimnames", ".Names", ".Tsp", ".Label")
+  special_attr_nms <- intersect(names(attrs), special_structure_args)
+  special_attrs <- attrs[special_attr_nms]
+  attrs[special_attr_nms] <- NULL
   # append structure() code to repair object
   attrs_code <- construct_apply(attrs, fun = "structure", ..., pipe = pipe, one_liner = one_liner)
-  pipe(code, attrs_code, pipe, one_liner)
+  code <- pipe(code, attrs_code, pipe, one_liner)
+  for (attr_nm in special_attr_nms) {
+    attr_code <- construct_apply(
+      list(attr_nm, special_attrs[[attr_nm]]),
+      'match.fun("attr<-")',
+      ...,
+      pipe = pipe,
+      one_liner = one_liner)
+    code <- pipe(code, attr_code, pipe, one_liner)
+  }
+  code
 }
