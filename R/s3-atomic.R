@@ -49,13 +49,13 @@ construct_idiomatic.atomic <- function(x, ..., one_liner = FALSE) {
   trim <- opts$trim
   fill <- opts$fill
 
-  code <- if (opts$compress) simplify_atomic(x, ..., one_liner = one_liner)
-  if (!is.null(code)) return(code)
-
   nms <- names(x)
   attributes(x) <- NULL
   # if all names are "" we let `repair_attributes_impl()` deal with it
   names(x) <- if (!all(nms == "")) nms
+
+  code <- if (opts$compress && is.null(names(x))) simplify_atomic(x, ..., one_liner = one_liner)
+  if (!is.null(code)) return(code)
 
   l <- length(x)
   if (!is.null(trim) && trim < l) {

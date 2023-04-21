@@ -143,6 +143,10 @@
     Output
       rep(c("a", "b", "c"), c(2L, 1L, 4L))
     Code
+      construct(c(foo = "a", "a", "b", "c", "c", "c", "c"))
+    Output
+      c(foo = "a", "a", "b", "c", "c", "c", "c")
+    Code
       construct(c("a", "b", "a", "b", "a", "b", "a", "b"))
     Output
       rep(c("a", "b"), 4)
