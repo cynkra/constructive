@@ -41,7 +41,7 @@ constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
   x_stripped <- x
   class(x_stripped) <- setdiff(class(x_stripped), "rowwise_df")
   attr(x_stripped, "groups") <- NULL
-  code <- construct_raw.tbl_df(x_stripped, ...)
+  code <- construct_raw(x_stripped, ...)
   vars <- head(names(attr(x, "groups")), -1)
   rowwise_code <- construct_apply(
     vars,

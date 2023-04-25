@@ -112,11 +112,12 @@ new_constructive <- function(code, compare) {
 }
 
 construct_raw <- function(x, ...) {
-  data_name <- data_match(x, ...)
+  data_name <- perfect_match(x, data)
   if (!is.null(data_name)) return(data_name)
   UseMethod("construct_raw")
 }
 
+# FIXME: remove when proven obsolete, along with flex_match()
 data_match <- function(x, data, ...) {
   # check for perfectly matching data including attributes, no repair needed for those
   data_name <- perfect_match(x, data)
@@ -125,7 +126,7 @@ data_match <- function(x, data, ...) {
   # check for matches, disregarding attributes, these will need to be repaired
   data_name <- flex_match(x, data)
   if (!is.null(data_name)) {
-    code <- repair_attributes(x, data_name, ..., data = data)
+    code <- repair_attributes(data, data_name, ..., data = data)
     return(code)
   }
 }
