@@ -4,7 +4,10 @@
 \alias{opts_ordered}
 \title{Constructive options for class 'ordered'}
 \usage{
-opts_ordered(constructor = c("ordered", "factor", "new_ordered"), ...)
+opts_ordered(
+  constructor = c("ordered", "factor", "new_ordered", "next", "atomic"),
+  ...
+)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
@@ -25,5 +28,8 @@ be defined explicitly if they are in alphabetical order (locale dependent!)
 \item \code{"factor"} : Same as abvove but build the object using a \code{factor()} call and \code{ordered = TRUE}.
 \item \code{"new_ordered"} : Build the object using a \code{vctrs::new_ordered()}. Levels are
 always defined explicitly.
+\item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
+on the object to see in which order the methods will be tried.
+\item \code{"atomic"} : We define as an atomic vector and repair attributes
 }
 }

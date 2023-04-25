@@ -1,7 +1,53 @@
+constructors$array <- new.env()
+
+#' Constructive options for the class `AsIs`
+#'
+#' These options will be used on objects of class `AsIs`. `AsIs` objects are
+#' created with `I()` which only prepends `"AsIs"` to the class attribute.
+#'
+#' Depending on `constructor`, we construct the object as follows:
+#' * `"I"` (default): Use the `I()` function
+#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
+#'   on the object to see in which order the methods will be tried. This will
+#'   usually be the same as `"atomic"`.
+#' * `"atomic"` : We define as an atomic vector and repair attributes
+#'
+#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @inheritParams opts_AsIs
+#' @return An object of class <constructive_options/constructive_options_array>
 #' @export
-construct_idiomatic.AsIs <- function(x, ...) {
-  class(x) <- setdiff(oldClass(x), "AsIs")
-  wrap(construct_raw(x, ...), "I", new_line = FALSE)
+opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+  constructive_options("AsIs", constructor = constructor)
+}
+
+#' @export
+construct_raw.AsIs <- function(x, ...) {
+  opts <- fetch_opts("AsIs", ...)
+  if (is_corrupted_AsIs(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$AsIs[[opts$constructor]]
+  constructor(x, ...)
+}
+
+#' @export
+is_corrupted_AsIs <- function(x) {
+  oldClass(x)[[1]] != "AsIs"
+}
+
+constructors$AsIs$I <- function(x, ...) {
+  x_stripped <- x
+  cl <- oldClass(x)
+  class(x_stripped) <- setdiff(cl, "AsIs")
+  # no validation needed
+  code <- wrap(construct_raw(x_stripped, ...), "I", new_line = FALSE)
+  repair_attributes.AsIs(x, code, ...)
+}
+
+constructors$AsIs$atomic <- function(x, ...) {
+  construct_raw.atomic(x, ...)
 }
 
 #' @export

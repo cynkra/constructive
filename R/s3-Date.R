@@ -1,3 +1,5 @@
+constructors$Date <- new.env()
+
 #' Constructive options class 'Date'
 #'
 #' These options will be used on objects of class 'date'.
@@ -15,6 +17,10 @@
 #'   provided `origin`
 #' * `"as_date.numeric"` : Same as above but using `lubridate::as_date()` and use the
 #'   provided `origin`
+#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
+#'   on the object to see in which order the methods will be tried. This will
+#'   usually be the same as `"atomic"`.
+#' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the environment.
 #' @inheritParams opts_atomic
@@ -22,7 +28,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric"), ..., origin = "1970-01-01") {
+opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
@@ -31,56 +37,82 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
 }
 
 #' @export
-construct_idiomatic.Date <- function(x, ...) {
+is_corrupted.Date <- function(x) {
+  !is.double(x)
+}
+
+#' @export
+construct_raw.Date <- function(x, ...) {
   opts <- fetch_opts("Date", ...)
-  origin <- opts$origin
-  constructor <- opts$constructor
+  if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$Date[[opts$constructor]]
+  constructor(x, ..., origin = opts$origin)
+}
 
-  if (constructor == "as.Date") {
-    if (any(is.infinite(x)) && any(is.finite(x))) {
-      x_dbl <- unclass(x)
-      if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
-      code <- construct_apply(list(x_dbl, origin = origin), constructor, ..., new_line = FALSE)
-    } else {
-      code <- construct_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
-    }
-    return(code)
-  }
+is_corrupted_Date <- function(x) {
+  typeof(x) != "double"
+}
 
-  if (constructor %in% c("as_date", "date")) {
-    constructor <- paste0("lubridate::", constructor)
-    if (any(is.infinite(x)) && any(is.finite(x))) {
-      x_dbl <- unclass(x)
-      if (origin == "1970-01-01") {
-        code <- construct_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
-      } else {
-        x_dbl <- x_dbl - as.numeric(as.Date(origin))
-        code <- construct_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
-      }
-    } else {
-      code <- construct_apply(list(format(x)),  constructor, ..., new_line = FALSE)
-    }
-    return(code)
-  }
-
-  if (constructor == "as.Date.numeric") {
+constructors$Date$as.Date <- function(x, ..., origin = "1970-01-01") {
+  if (any(is.infinite(x)) && any(is.finite(x))) {
     x_dbl <- unclass(x)
     if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
     code <- construct_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
-    return(code)
+  } else {
+    code <- construct_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
   }
+  repair_attributes.Date(x, code, ...)
+}
 
-  if (constructor == "as_date.numeric") {
+constructors$Date$date <- function(x, ..., origin) {
+  if (any(is.infinite(x)) && any(is.finite(x))) {
+    return(constructors$Date$as_date(x, ..., origin = origin))
+  } else {
+    code <- construct_apply(list(format(x)),  "lubridate::date", ..., new_line = FALSE)
+  }
+  repair_attributes.Date(x, code, ...)
+}
+
+constructors$Date$as_date <- function(x, ..., origin) {
+  if (any(is.infinite(x)) && any(is.finite(x))) {
     x_dbl <- unclass(x)
-    if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
-    code <- construct_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
-    return(code)
+    if (origin == "1970-01-01") {
+      code <- construct_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
+    } else {
+      x_dbl <- x_dbl - as.numeric(as.Date(origin))
+      code <- construct_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
+    }
+  } else {
+    code <- construct_apply(list(format(x)),  "lubridate::as_date", ..., new_line = FALSE)
   }
+  repair_attributes.Date(x, code, ...)
+}
 
-  if (constructor == "new_date") {
-    code <- construct_apply(list(unclass(x)), "vctrs::new_date", ..., new_line = FALSE)
-    return(code)
+constructors$Date$as.Date.numeric <- function(x, ..., origin) {
+  x_dbl <- unclass(x)
+  if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
+  code <- construct_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
+  repair_attributes.Date(x, code, ...)
+}
+
+constructors$Date$as_date.numeric <- function(x, ..., origin) {
+  x_dbl <- unclass(x)
+  if (origin != "1970-01-01") {
+    x_dbl <- x_dbl - as.numeric(as.Date(origin))
+  code <- construct_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
+  } else {
+    code <- construct_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
   }
+  repair_attributes.Date(x, code, ...)
+}
+
+constructors$Date$new_date <- function(x, ..., origin) {
+  code <- construct_apply(list(unclass(x)), "vctrs::new_date", ..., new_line = FALSE)
+  repair_attributes.Date(x, code, ...)
+}
+
+constructors$Date$atomic <- function(x, ..., origin) {
+  construct_raw.atomic(x, ...)
 }
 
 #' @export

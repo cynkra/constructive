@@ -54,6 +54,16 @@
     Output
       lubridate::as_datetime(694310400, tz = "CET", origin = "2000-01-01")
     Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct("next"))
+    Output
+      1640995200 |>
+        structure(class = c("POSIXct", "POSIXt"), tzone = "CET")
+    Code
+      construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct("atomic"))
+    Output
+      1640995200 |>
+        structure(class = c("POSIXct", "POSIXt"), tzone = "CET")
+    Code
       construct(as.POSIXct("2022-01-01 01:00:00.1", tz = "GMT"))
     Output
       as.POSIXct("2022-01-01 01:00:00.1", tz = "GMT")

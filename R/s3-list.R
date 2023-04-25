@@ -1,3 +1,5 @@
+constructors$list <- new.env()
+
 #' Constructive options for type 'list'
 #'
 #' These options will be used on objects of type 'list'.
@@ -42,10 +44,18 @@ opts_list <- function(
 }
 
 #' @export
-construct_idiomatic.list <- function(x, ...) {
+construct_raw.list <- function(x, ...) {
   opts <- fetch_opts("list", ...)
-  trim <- opts$trim
-  fill <- opts$fill
+  if (is_corrupted_list(x)) return(NextMethod())
+  constructors$list[[opts$constructor]](x, trim = opts$trim, fill = opts$fill, ...)
+}
+
+#' @export
+is_corrupted_list <- function(x) {
+  typeof(x) != "list"
+}
+
+construct_list <- function(x, constructor, trim, fill, keep_trailing_comma, ...) {
   if (!is.null(trim)) {
     l <- length(x)
     if (l > trim) {
@@ -56,11 +66,11 @@ construct_idiomatic.list <- function(x, ...) {
         } else if (fill == "...") {
           args <- c(args, "...")
         }
-        code <- construct_apply(args, "list", ..., new_line = FALSE, language = TRUE)
+        code <- construct_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
         return(code)
       }
 
-      list_code <- construct_apply(args, "list", ..., new_line = FALSE, language = TRUE)
+      list_code <- construct_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
       if (fill == "vector") {
         null_list_code <- sprintf('vector("list", %s)', l - trim)
       } else {
@@ -71,7 +81,19 @@ construct_idiomatic.list <- function(x, ...) {
       return(code)
     }
   }
-  constructor <- opts$constructor
-  if (constructor == "list2") constructor <- "rlang::list2"
-  construct_apply(x, fun = constructor, ..., keep_trailing_comma = constructor == "rlang::list2")
+  construct_apply(x, fun = constructor, ..., keep_trailing_comma = keep_trailing_comma)
+}
+
+constructors$list$list <- function(x, trim, fill, ...) {
+  code <- construct_list(x, "list", trim, fill, keep_trailing_comma = FALSE, ...)
+  repair_attributes_impl(x, code, ...)
+}
+
+constructors$list$list2 <- function(x, trim, fill, ...) {
+  code <- construct_list(x, "rlang::list2", trim, fill, keep_trailing_comma = TRUE, ...)
+  repair_attributes.list(x, code, ...)
+}
+
+repair_attributes.list <- function(x, code, ...) {
+  repair_attributes_impl(x, code, ...)
 }

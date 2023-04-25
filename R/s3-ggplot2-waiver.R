@@ -1,6 +1,7 @@
 #' @export
-construct_idiomatic.waiver <- function(x, ...) {
-  "ggplot2::waiver()"
+construct_raw.waiver <- function(x, ...) {
+  code <- "ggplot2::waiver()"
+  repair_attributes.waiver(x, code, ...)
 }
 
 repair_attributes.waiver <- function(x, ...) {

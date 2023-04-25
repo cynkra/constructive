@@ -4,7 +4,7 @@
 \alias{opts_data.table}
 \title{Constructive options for class 'data.table'}
 \usage{
-opts_data.table(constructor = c("data.table", "list"), ...)
+opts_data.table(constructor = c("data.table", "next", "list"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
@@ -21,6 +21,8 @@ These options will be used on objects of class 'data.table'.
 Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"data.table"} (default): Wrap the column definitions in a \code{data.table()} call.
+\item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
+on the object to see in which order the methods will be tried.
 \item \code{"list"} : Use \code{list()} and treat the class as a regular attribute.
 }
 }

@@ -4,7 +4,10 @@
 \alias{opts_factor}
 \title{Constructive options for class 'factor'}
 \usage{
-opts_factor(constructor = c("factor", "as_factor", "new_factor"), ...)
+opts_factor(
+  constructor = c("factor", "as_factor", "new_factor", "next", "atomic"),
+  ...
+)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
@@ -23,9 +26,11 @@ Depending on \code{constructor}, we construct the environment as follows:
 \item \code{"factor"} (default): Build the object using a \code{factor()} call, levels won't
 be defined explicitly if they are in alphabetical order (locale dependent!)
 \item \code{"as_factor"} : Build the object using a \code{forcats::as_factor()} call whenever
-possible, levels won't be defined explicitly if they are in the order of appearance.
-back to \code{data.frame()}.
+possible, i.e. when levels are defined in order of appearance in the vector. Otherwise falls back to \code{"factor"} constructor.
 \item \code{"new_factor"} : Build the object using a \code{vctrs::new_factor()} call. Levels are
 always defined explicitly.
+\item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
+on the object to see in which order the methods will be tried.
+\item \code{"atomic"} : We define as an atomic vector and repair attributes.
 }
 }

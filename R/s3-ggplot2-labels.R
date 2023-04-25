@@ -1,6 +1,7 @@
 #' @export
-construct_idiomatic.labels <- function(x, ...) {
-  construct_apply(x, fun = "ggplot2::labs", ...)
+construct_raw.labels <- function(x, ...) {
+  code <- construct_apply(x, fun = "ggplot2::labs", ...)
+  repair_attributes.labels(x, code, ...)
 }
 
 repair_attributes.labels <- function(x, ...) {

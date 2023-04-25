@@ -107,18 +107,25 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
   issues
 }
 
-
-construct_raw <- function(x, ..., data = NULL) {
-  code <- perfect_match(x, data)
-  if (!is.null(code)) return(code)
-  idiomatic_code <- flex_match(x, data)
-  if (is.null(idiomatic_code)) {
-    idiomatic_code <- construct_idiomatic(x, ..., data = data)
-  }
-  repaired_code <- repair_attributes(x, idiomatic_code, ..., data = data)
-  repaired_code
-}
-
 new_constructive <- function(code, compare) {
   structure(list(code = code, compare = compare), class = "constructive")
+}
+
+construct_raw <- function(x, ...) {
+  data_name <- data_match(x, ...)
+  if (!is.null(data_name)) return(data_name)
+  UseMethod("construct_raw")
+}
+
+data_match <- function(x, data, ...) {
+  # check for perfectly matching data including attributes, no repair needed for those
+  data_name <- perfect_match(x, data)
+  if (!is.null(data_name)) return(data_name)
+
+  # check for matches, disregarding attributes, these will need to be repaired
+  data_name <- flex_match(x, data)
+  if (!is.null(data_name)) {
+    code <- repair_attributes(x, data_name, ..., data = data)
+    return(code)
+  }
 }

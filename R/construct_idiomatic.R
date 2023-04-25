@@ -1,22 +1,34 @@
-construct_idiomatic <- function(x, ...) {
-  UseMethod("construct_idiomatic")
-}
-
-# the default case handles all atomic modes through dput except for numeric
-# ("logical", "integer", "complex", "character" and "raw")
 #' @export
-construct_idiomatic.default <- function(x, ..., one_liner = FALSE) {
-  if (is.environment(x)) return(construct_idiomatic.environment(x, ..., one_liner = one_liner))
-  if (is.list(x))  return(construct_idiomatic.list(x, ..., one_liner = one_liner))
-  if (is.function(x))  return(construct_idiomatic.function(x, ..., one_liner = one_liner))
-  if (rlang::is_formula(x))  return(construct_idiomatic.formula(x, ..., one_liner = one_liner))
-  if (is.language(x) && !is.expression(x))  return(construct_idiomatic.language(x, ..., one_liner = one_liner))
-  if (typeof(x) == "...")  return(construct_idiomatic.dots(x, ..., one_liner = one_liner))
+construct_raw.default <- function(x, ..., one_liner = FALSE) {
+  if (is.environment(x)) return(construct_raw.environment(x, ..., one_liner = one_liner))
+  if (is.list(x))  return(construct_raw.list(x, ..., one_liner = one_liner))
+  if (is.function(x))  return(construct_raw.function(x, ..., one_liner = one_liner))
+  if (rlang::is_formula(x))  return(construct_raw.formula(x, ..., one_liner = one_liner))
+  if (is.language(x) && !is.expression(x))  return(construct_raw.language(x, ..., one_liner = one_liner))
+  if (typeof(x) == "...")  return(construct_raw.dots(x, ..., one_liner = one_liner))
   # for some reason the S3 method is not always caught the first time
-  if (typeof(x) == "externalptr")  return(construct_idiomatic.externalptr(x, ..., one_liner = one_liner))
-  construct_idiomatic.atomic(x, ..., one_liner = one_liner)
+  if (typeof(x) == "externalptr")  return(construct_raw.externalptr(x, ..., one_liner = one_liner))
+  construct_raw.atomic(x, ..., one_liner = one_liner)
 }
 
+#' construct_apply
+#'
+#' @param args Arguments to construct recursively, or code if `language = TRUE`
+#' @param fun The function name to use to build code of the form "fun(...)"
+#' @param ... options passed recursively to the further methods
+#' @param keep_trailing_comma leave a trailing comma after the last argument if
+#'   the code is multiline, some constructors allow it (e.g. `tibble::tibble()`) and it makes for nicer
+#'   diffs in version control.
+#' @param language Whether to use the args as they are or to recurse, should be renamed to `recurse` (and negated)
+#' @param implicit_names When data is provided, compress calls of the form `f(a = a)` to `f(a)`
+#' @param new_line passed to wrap to remove add a line after "fun(" and before ")", forced to
+#'   `FALSE` if `one_liner` is `TRUE`
+#' @param one_liner Whether to return a one line call.
+#'
+#' @return A character vector of code
+#'
+#' @examples
+#' construct_apply(list(a=a), "foo", data = list(a=1), template = NULL, implicit_names = TRUE)
 construct_apply <- function(args, fun = "list", ..., keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE) {
   new_line <- new_line && !one_liner
   keep_trailing_comma <- keep_trailing_comma && !one_liner

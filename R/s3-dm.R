@@ -1,9 +1,46 @@
+constructors$dm <- new.env()
+
+#' Constructive options class 'dm'
+#'
+#' These options will be used on objects of class 'dm'.
+#'
+#' Depending on `constructor`, we construct the environment as follows:
+#' * `"dm"` (default): We use `dm::dm()` and other functions from {dm} to adjust the content.
+#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
+#'   on the object to see in which order the methods will be tried.
+#' * `"list"` : Use `list()` and treat the class as a regular attribute.
+#'
+#' @param constructor String. Name of the function used to construct the environment.
+#' @inheritParams opts_atomic
+#' @param origin Origin to be used, ignored when irrelevant.
+#'
+#' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-construct_idiomatic.dm <- function(x, pipe = "base", one_liner = FALSE, ...) {
+opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+  constructive_options("dm", constructor = constructor)
+}
+#' @export
+construct_raw.dm <- function(x, ...) {
+  opts <- fetch_opts("dm", ...)
+  if (is_corrupted_dm(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$dm[[opts$constructor]]
+  constructor(x, ...)
+}
+
+is_corrupted_dm <- function(x) {
+  # TODO
+  FALSE
+}
+
+constructors$dm$dm <- function(x, ..., one_liner, pipe) {
   def <- unclass(x)$def
   named_list_of_tables <- set_names(def$data, def$table)
   code <- construct_apply(
-    named_list_of_tables, fun = "dm::dm", keep_trailing_comma = TRUE, implicit_names = TRUE, one_liner = one_liner, ...)
+    named_list_of_tables, fun = "dm::dm", keep_trailing_comma = TRUE, implicit_names = TRUE, one_liner = one_liner, pipe = pipe, ...)
 
   pk_code <- unlist(Map(
     function(table, pk_tibble) {
@@ -50,9 +87,12 @@ construct_idiomatic.dm <- function(x, pipe = "base", one_liner = FALSE, ...) {
     code <- pipe(code, color_code, pipe, one_liner)
   }
 
-  code
+  repair_attributes.dm(x, code, ..., one_liner = one_liner, pipe = pipe)
 }
 
+constructors$dm$list <- function(x, ...) {
+  construct_raw.list(x, ...)
+}
 
 #' @export
 repair_attributes.dm <- function(x, code, ..., pipe ="base") {

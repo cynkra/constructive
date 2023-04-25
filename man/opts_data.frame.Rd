@@ -4,7 +4,10 @@
 \alias{opts_data.frame}
 \title{Constructive options for class 'data.frame'}
 \usage{
-opts_data.frame(constructor = c("data.frame", "read.table", "list"), ...)
+opts_data.frame(
+  constructor = c("data.frame", "read.table", "next", "list"),
+  ...
+)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
@@ -25,6 +28,8 @@ columns are lists or data frames, we wrap the column definitions in \code{tibble
 then use \code{as.data.frame()}.
 \item \code{"read.table"} : We build the object using \code{read.table()} if possible, and fall
 back to \code{data.frame()}.
+\item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
+on the object to see in which order the methods will be tried.
 \item \code{"list"} : Use \code{list()} and treat the class as a regular attribute.
 }
 }

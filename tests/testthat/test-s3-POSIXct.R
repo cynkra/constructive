@@ -14,6 +14,8 @@ test_that("POSIXct", {
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct("as.POSIXct.numeric", origin = "2000-01-01"))
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"), opts_POSIXct("as_datetime.numeric"))
     construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct("as_datetime.numeric", origin = "2000-01-01"))
+    construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct("next"))
+    construct(as.POSIXct("2022-01-01 01:00:00", tz = "CET"), opts_POSIXct("atomic"))
     construct(as.POSIXct("2022-01-01 01:00:00.1", tz = "GMT"))
     construct(as.POSIXct(c("2022-01-01 01:00:00.1", NA), tz = "GMT"))
   })

@@ -6,7 +6,7 @@
 \usage{
 opts_POSIXct(
   constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric",
-    "as_datetime.numeric"),
+    "as_datetime.numeric", "next", "atomic"),
   ...,
   origin = "1970-01-01"
 )
@@ -32,5 +32,8 @@ character vector.
 \item \code{".POSIXct"} : Build the object using a \code{.POSIXct()} call on a numeric vector.
 \item \code{"as_datetime"} : Build the object using a \code{lubridate::as_datetime()} call on
 a character vector.
+\item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
+on the object to see in which order the methods will be tried.
+\item \code{"atomic"} : We define as an atomic vector and repair attributes.
 }
 }

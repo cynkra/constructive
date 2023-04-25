@@ -1,9 +1,52 @@
+constructors$ts <- new.env()
+
+#' Constructive options for time-series objets
+#'
+#' Depending on `constructor`, we construct the environment as follows:
+#' * `"ts"` : We use `ts()`
+#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
+#'   on the object to see in which order the methods will be tried. This will usually
+#'   be equivalent to `"atomic"`
+#' * `"atomic"` : We define as an atomic vector and repair attributes
+#'
+#' @param constructor String. Name of the function used to construct the environment.
+#' @inheritParams opts_atomic
+#' @param origin Origin to be used, ignored when irrelevant.
+#'
+#' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-construct_idiomatic.ts <- function(x, pipe, ...) {
+opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+  constructive_options("ts", constructor = constructor)
+}
+
+#' @export
+construct_raw.ts <- function(x, ...) {
+  opts <- fetch_opts("ts", ...)
+  if (is_corrupted_ts(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$ts[[opts$constructor]]
+  constructor(x, ...)
+}
+
+is_corrupted_ts <- function(x) {
+  # TODO
+  FALSE
+}
+
+constructors$ts$ts <- function(x, ...) {
+  x_stripped <- x
   tsp <- attr(x, "tsp")
-  attr(x, "tsp") <- NULL
-  class(x) <- setdiff(oldClass(x), "ts")
-  construct_apply(list(x, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", new_line = TRUE, ...)
+  attr(x_stripped, "tsp") <- NULL
+  class(x_stripped) <- setdiff(oldClass(x), "ts")
+  code <- construct_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
+  repair_attributes.ts(x, code, ...)
+}
+
+constructors$ts$atomic <- function(x, ...) {
+  construct_raw.atomic(x, ...)
 }
 
 #' @export

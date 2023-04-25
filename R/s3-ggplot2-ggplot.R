@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.ggplot <- function(x, ...) {
+construct_raw.ggplot <- function(x, ...) {
   ## ggplot call
   code <- construct_ggplot_call(x$mapping, ...)
 
@@ -25,7 +25,7 @@ construct_idiomatic.ggplot <- function(x, ...) {
   ## coord
   code <- pipe_to_coord(code, x$coordinates, ...)
 
-  code
+  repair_attributes.ggplot(x, code, ...)
 }
 
 #' @export

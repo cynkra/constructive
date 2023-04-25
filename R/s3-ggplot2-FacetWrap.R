@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.FacetWrap <- function(x, ...) {
+construct_raw.FacetWrap <- function(x, ...) {
   args <- as.list(x)
 
   scales_ind <-  unlist(x$params$free) + 1

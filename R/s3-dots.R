@@ -1,6 +1,45 @@
-# note: waldo doesn't see the difference between dots
+# maybe we should use "..." because we might have objects of class "dots"
+constructors$dots <- new.env()
 
-construct_idiomatic.dots <- function(x, ...) {
+#' Constructive options for type '...'
+#'
+#' These options will be used on objects of type '...'. These are rarely encountered
+#' in practice. By default this function is useless as nothing can be set, this
+#' is provided in case users want to extend the method with other constructors.
+#'
+#'
+#' Depending on `constructor`, we construct the environment as follows:
+#' * `"default"` : We use the construct `(function(...) environment()$...)(a = x, y)`
+#'   which we evaluate in the correct environment.
+#'
+#' @param constructor String. Name of the function used to construct the environment.
+#' @inheritParams opts_atomic
+#' @param origin Origin to be used, ignored when irrelevant.
+#'
+#' @return An object of class <constructive_options/constructive_options_environment>
+#' @export
+opts_dots <- function(constructor = c("default"), ...) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+  constructive_options("dots", constructor = constructor)
+}
+
+#' @export
+construct_raw.dots <- function(x, ...) {
+  opts <- fetch_opts("dots", ...)
+  if (is_corrupted_dots(x)) return(NextMethod())
+  constructor <- constructors$dots[[opts$constructor]]
+  constructor(x, ...)
+}
+
+#' @export
+is_corrupted_dots <- function(x) {
+  typeof(x) != "..."
+}
+
+constructors$dots$default <- function(x, ...) {
   quo_dots <- with(list(... = x), rlang::enquos(...))
   envs <- lapply(quo_dots, rlang::quo_get_env)
   unique_env <- unique(envs)
@@ -18,5 +57,13 @@ construct_idiomatic.dots <- function(x, ...) {
   quo_code[[1]] <- paste0("!!!", quo_code[[1]])
   code <- wrap(quo_code, "(function(...) environment()$...)")
   code <- wrap(code, "rlang::inject")
+
+  repair_attributes.dots(x, code, ...)
+}
+
+#' @export
+repair_attributes.dots <- function(x, code, ...) {
+  # FIXME: add a repair fun since dots can have attributes, come back after environments are done
   code
 }
+

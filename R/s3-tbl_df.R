@@ -1,3 +1,5 @@
+constructors$tbl_df <- new.env()
+
 #' Constructive options for tibbles
 #'
 #' These options will be used on objects of class 'tbl_df', also known as tibbles. .
@@ -6,6 +8,8 @@
 #' * `"tibble"` (default): Wrap the column definitions in a `tibble::tibble()` call.
 #' * `"tribble"` : We build the object using `tibble::tribble()` if possible, and fall
 #'   back to `tibble::tibble()`.
+#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
+#'   on the object to see in which order the methods will be tried.
 #' * `"list"` : Use `list()` and treat the class as a regular attribute.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
@@ -15,7 +19,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_tbl_df>
 #' @export
-opts_tbl_df <- function(constructor = c("tibble", "tribble", "list"), ..., trailing_comma = TRUE) {
+opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
@@ -25,27 +29,41 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "list"), ..., trail
 }
 
 #' @export
-construct_idiomatic.tbl_df <- function(x, ...) {
+construct_raw.tbl_df <- function(x, ...) {
   opts <- fetch_opts("tbl_df", ...)
-  if (opts$constructor == "list") {
-    return(construct_idiomatic.list(x, ...))
-  }
-  constructor <- opts$constructor
-  trailing_comma <- opts$trailing_comma
-  if (constructor == "tribble" && nrow(x)) {
-    is_unsupported_col <- function(col) {
-      is.data.frame(col) || (is.list(col) && all(lengths(col) == 1))
-    }
-    some_cols_are_unsupported <- any(sapply(x, is_unsupported_col))
-    if (!some_cols_are_unsupported) {
-      code <- construct_tribble(x, ..., trailing_comma = trailing_comma)
-      return(code)
-    }
-  }
-  construct_apply(x, fun = "tibble::tibble", ..., keep_trailing_comma = opts$trailing_comma)
+  if (is_corrupted_tbl_df(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$tbl_df[[opts$constructor]]
+  constructor(x, ..., trailing_comma = opts$trailing_comma)
 }
 
-construct_tribble <- function(x, ..., trailing_comma) {
+#' @export
+is_corrupted_tbl_df <- function(x) {
+  # FIXME: ?rownames says a tibble can have rownames but as_tibble(mtcars) removes them
+  is_corrupted_data.frame(x)
+}
+
+constructors$tbl_df$list <- function(x, ..., trailing_comma = TRUE) {
+  construct_raw.list(x, ...)
+}
+
+constructors$tbl_df$tibble <- function(x, ..., trailing_comma = TRUE) {
+  # construct idiomatic code
+  code <- construct_apply(x, fun = "tibble::tibble", ..., keep_trailing_comma = trailing_comma)
+
+  # repair
+  repair_attributes.tbl_df(x, code, ...)
+}
+
+constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
+  # fall back to tibble if no row or has df cols or list cols containing only length 1 elements
+  if (!nrow(x)) return(constructors$tbl_df$tibble(x, ...))
+  is_unsupported_col <- function(col) {
+    is.data.frame(col) || (is.list(col) && all(lengths(col) == 1))
+  }
+  some_cols_are_unsupported <- any(sapply(x, is_unsupported_col))
+  if (some_cols_are_unsupported) return(constructors$tbl_df$tibble(x, ...))
+
+  # construct idiomatic code
   code_df <- x
   code_df[] <- lapply(x, function(col) paste0(sapply(col, function(cell) paste(construct_raw(cell, ...), collapse = "")), ","))
   code_df <- rbind(paste0("~", sapply(names(x), protect), ","), as.data.frame(code_df))
@@ -55,7 +73,9 @@ construct_tribble <- function(x, ..., trailing_comma) {
     code[[length(code)]] <- sub(", *$", "", code[[length(code)]])
   }
   code <- c("tibble::tribble(", code, ")")
-  code
+
+  # repair
+  repair_attributes.tbl_df(x, code, ...)
 }
 
 #' @export
