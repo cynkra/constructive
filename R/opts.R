@@ -5,7 +5,7 @@ constructive_options <- function(class, ...) {
   )
 }
 
-fetch_opts <- function(suffix, ..., template) {
+fetch_opts <- function(suffix, ..., template = NULL) {
   class <- paste0("constructive_options_", suffix)
   opts_from_dots <- Filter(function(x) inherits(x, class) , list(...))
   if (length(opts_from_dots)) return(opts_from_dots[[1]])
