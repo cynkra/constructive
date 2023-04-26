@@ -116,10 +116,9 @@ constructors$Date$atomic <- function(x, ..., origin) {
 }
 
 #' @export
-repair_attributes.Date <- function(x, code, ..., pipe = "base") {
+repair_attributes.Date <- function(x, code, ...) {
   repair_attributes_impl(
     x, code, ...,
-    pipe = pipe,
     idiomatic_class = "Date"
   )
 }

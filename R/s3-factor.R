@@ -75,10 +75,9 @@ constructors$factor$factor <- function(x, ...) {
 }
 
 #' @export
-repair_attributes.factor <- function(x, code, ..., pipe = "base") {
+repair_attributes.factor <- function(x, code, ...) {
   repair_attributes_impl(
     x, code, ...,
-    pipe = pipe,
     ignore = "levels",
     idiomatic_class = "factor"
   )
