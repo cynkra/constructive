@@ -111,7 +111,7 @@ new_constructive <- function(code, compare) {
   structure(list(code = code, compare = compare), class = "constructive")
 }
 
-construct_raw <- function(x, ...) {
+construct_raw <- function(x, ..., data = NULL) {
   data_name <- perfect_match(x, data)
   if (!is.null(data_name)) return(data_name)
   UseMethod("construct_raw")
