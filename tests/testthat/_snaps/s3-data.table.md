@@ -1,40 +1,35 @@
 # data.table
 
     Code
-      construct(data.table::as.data.table(head(cars, 2)))
+      dt1 <- data.table::data.table(head(cars, 2))
+      construct(dt1)
     Output
       data.table::data.table(speed = c(4, 4), dist = c(2, 10))
     Code
-      construct(data.table::as.data.table(head(mtcars, 2)))
+      construct(dt1, opts_data.table(selfref = TRUE))
     Output
-      data.table::data.table(
-        mpg = c(21, 21),
-        cyl = c(6, 6),
-        disp = c(160, 160),
-        hp = c(110, 110),
-        drat = c(3.9, 3.9),
-        wt = c(2.62, 2.875),
-        qsec = c(16.46, 17.02),
-        vs = c(0, 0),
-        am = c(1, 1),
-        gear = c(4, 4),
-        carb = c(4, 4)
-      )
+      data.table::data.table(speed = c(4, 4), dist = c(2, 10)) |>
+        structure(.internal.selfref = constructive::external_pointer("0x000000000"))
     Code
-      construct(data.table::data.table(head(mtcars, 2), key = "cyl"))
+      construct(dt1, opts_data.table("next"))
     Output
-      data.table::data.table(
-        mpg = c(21, 21),
-        cyl = c(6, 6),
-        disp = c(160, 160),
-        hp = c(110, 110),
-        drat = c(3.9, 3.9),
-        wt = c(2.62, 2.875),
-        qsec = c(16.46, 17.02),
-        vs = c(0, 0),
-        am = c(1, 1),
-        gear = c(4, 4),
-        carb = c(4, 4),
-        key = "cyl"
-      )
+      data.frame(speed = c(4, 4), dist = c(2, 10)) |>
+        structure(
+          class = c("data.table", "data.frame"),
+          .internal.selfref = constructive::external_pointer("0x000000000")
+        )
+    Code
+      construct(dt1, opts_data.table("list"))
+    Output
+      list(speed = c(4, 4), dist = c(2, 10)) |>
+        structure(
+          row.names = 1:2,
+          class = c("data.table", "data.frame"),
+          .internal.selfref = constructive::external_pointer("0x000000000")
+        )
+    Code
+      dt2 <- data.table::data.table(dt1, key = "speed")
+      construct(dt2)
+    Output
+      data.table::data.table(speed = c(4, 4), dist = c(2, 10), key = "speed")
 

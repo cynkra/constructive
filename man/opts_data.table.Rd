@@ -4,12 +4,21 @@
 \alias{opts_data.table}
 \title{Constructive options for class 'data.table'}
 \usage{
-opts_data.table(constructor = c("data.table", "next", "list"), ...)
+opts_data.table(
+  constructor = c("data.table", "next", "list"),
+  ...,
+  selfref = FALSE
+)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
+
+\item{selfref}{Boolean. Whether to include the \code{.internal.selfref} attribute. It's
+probably not useful, hence the default, \code{waldo::compare()} is used to assess the output
+fidelity and doesn't check it, but if you really need to generate code that builds
+an object \code{identical()} to the input you'll need to set this to \code{TRUE}.}
 }
 \value{
 An object of class <constructive_options/constructive_options_data.table>
