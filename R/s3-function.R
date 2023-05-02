@@ -103,7 +103,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
   if (environment) {
     envir_code <- construct_apply(
       list(environment(x)),
-      'match.fun("environment<-")',
+      '(`environment<-`)',
       pipe = pipe,
       one_liner = one_liner,
       ...)
