@@ -30,7 +30,7 @@ is_syntactic <- function(x) {
 }
 
 protect <- function(name) {
-  ifelse(is_syntactic(name) | name == "", name, paste0("`", name, "`"))
+  ifelse(is_syntactic(name) | name == "", name, paste0("`", gsub("`", "\\\\`", name), "`"))
 }
 
 namespace_as_list <- function(pkg, main) {
