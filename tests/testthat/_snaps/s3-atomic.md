@@ -93,6 +93,14 @@
     Output
       "a" |>
         structure(names = "")
+    Code
+      construct(NaN)
+    Output
+      NaN
+    Code
+      construct(c(1, NaN))
+    Output
+      c(1, NaN)
 
 # other atomic
 

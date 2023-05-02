@@ -176,6 +176,9 @@ format_flex <- function(x, all_na) {
   if (formatted == "NA") {
     if (all_na) return("NA_real_") else return("NA")
   }
+  if (formatted == "NaN") {
+    return("NaN")
+  }
   if (as.numeric(formatted) == x) return(formatted)
   formatted <- format(x, digits = 22)
   if (as.numeric(formatted) == x) return(formatted)
