@@ -53,6 +53,10 @@
         Species = factor(c("setosa", "setosa"), levels = c("setosa", "versicolor", "virginica"))
       )
     Code
+      construct(data.frame(a = 1:2, b = 3:4)[2, ], opts_data.frame("read.table"))
+    Output
+      data.frame(a = 2L, b = 4L, row.names = 2L)
+    Code
       construct(as.data.frame(tibble::tibble(a = 1:2, b = list(3, 4))))
     Output
       list(a = 1:2, b = list(3, 4)) |>

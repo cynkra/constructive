@@ -52,6 +52,10 @@ constructors$data.frame$list <- function(x, ...) {
 
 constructors$data.frame$read.table <- function(x, ...) {
   # Fall back on data.frame constructor if relevant
+  rn <- attr(x, "row.names")
+  numeric_row_names_are_not_default <- is.numeric(rn) && !identical(rn, seq_len(nrow(x)))
+  if (numeric_row_names_are_not_default) return(constructors$data.frame$data.frame(x, ...))
+
   some_cols_are_not_atomic_vectors <-
     any(!vapply(x, function(x) is.atomic(x) && is.vector(x), logical(1)))
   if (some_cols_are_not_atomic_vectors) return(constructors$data.frame$data.frame(x, ...))
