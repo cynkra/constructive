@@ -24,6 +24,8 @@ test_that("formula", {
       construct(fml3)
       construct(fml3, opts_formula(environment = TRUE))
 
+      # fml4, fml5, fml6 fall back to the language method, because `~` adds
+      # a formula class to the object
       fml4 <- fml1
       class(fml4) <- "foo"
       construct(fml4)
@@ -31,6 +33,9 @@ test_that("formula", {
       fml5 <- fml1
       class(fml5) <- NULL
       construct(fml4)
+
+      fml6 <- quote(lhs ~ rhs)
+      construct(quote(lhs ~ rhs))
     })
   )
 })

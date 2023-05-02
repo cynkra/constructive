@@ -7,7 +7,7 @@
 opts_formula(
   constructor = c("~", "formula", "as.formula", "new_formula"),
   ...,
-  environment = constructor != "~"
+  environment = TRUE
 )
 }
 \arguments{
@@ -15,22 +15,18 @@ opts_formula(
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
-\item{environment}{Boolean. Whether to attempt to construct the environment,
-by default \code{FALSE} for the \code{"~"} comstructor and \code{TRUE} for the others
+\item{environment}{Boolean. Whether to attempt to construct the environment, if
+it makes a difference to construct it.
 
 Depending on \code{constructor}, we construct the formula as follows:
 \itemize{
 \item \code{"~"} (default): We construct the formula in the most common way using the \code{~}
-operator. By default this sets the formula's environment to the local environment.
-Setting \code{environment = TRUE} will be have the environment set by a \code{structure(, .Environment=)}
-call.
-\item \code{"formula"} : deparse the formula as a string and use \code{base::formula()} on top of it,
-if \code{environment = TRUE} (the default), we will attempt to construct the
-environment and provide it as the \code{env} argument.
+operator.
+\item \code{"formula"} : deparse the formula as a string and use \code{base::formula()} on top of it.
 \item \code{"as.formula"} : Same as above, but using \code{base::as.formula()}.
 \item \code{"new_formula"} : extract both sides of the formula as separate language objects
 and feed them to \code{rlang::new_formula()}, along with the reconstructed environment
-if \code{environment} is \code{TRUE} (the default)
+if relevant.
 }}
 }
 \value{

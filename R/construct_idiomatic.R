@@ -3,7 +3,6 @@ construct_raw.default <- function(x, ..., one_liner = FALSE) {
   if (is.environment(x)) return(construct_raw.environment(x, ..., one_liner = one_liner))
   if (is.list(x))  return(construct_raw.list(x, ..., one_liner = one_liner))
   if (is.function(x))  return(construct_raw.function(x, ..., one_liner = one_liner))
-  if (rlang::is_formula(x))  return(construct_raw.formula(x, ..., one_liner = one_liner))
   if (is.language(x) && !is.expression(x))  return(construct_raw.language(x, ..., one_liner = one_liner))
   if (typeof(x) == "...")  return(construct_raw.dots(x, ..., one_liner = one_liner))
   # for some reason the S3 method is not always caught the first time

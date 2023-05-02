@@ -8,16 +8,15 @@
     Code
       construct(fml1, opts_formula(constructor = "formula"))
     Output
-      formula("lhs ~ rhs", env = .GlobalEnv)
+      formula(lhs ~ rhs)
     Code
       construct(fml1, opts_formula(constructor = "new_formula"))
     Output
-      rlang::new_formula(quote(lhs), quote(rhs), env = .GlobalEnv)
+      rlang::new_formula(quote(lhs), quote(rhs))
     Code
       construct(fml1, opts_formula(environment = TRUE))
     Output
-      (lhs ~ rhs) |>
-        structure(.Environment = .GlobalEnv)
+      lhs ~ rhs
     Code
       construct(fml1, opts_formula(constructor = "formula", environment = FALSE))
     Output
@@ -34,16 +33,15 @@
     Code
       construct(fml2, opts_formula(constructor = "formula"))
     Output
-      formula("~rhs", env = .GlobalEnv)
+      formula(~rhs)
     Code
       construct(fml2, opts_formula(constructor = "new_formula"))
     Output
-      rlang::new_formula(NULL, quote(rhs), env = .GlobalEnv)
+      rlang::new_formula(NULL, quote(rhs))
     Code
       construct(fml2, opts_formula(environment = TRUE))
     Output
-      (~rhs) |>
-        structure(.Environment = .GlobalEnv)
+      ~rhs
     Code
       construct(fml2, opts_formula(constructor = "formula", environment = FALSE))
     Output
@@ -63,19 +61,24 @@
       construct(fml3, opts_formula(environment = TRUE))
     Output
       (lhs ~ rhs) |>
-        structure(.Environment = .GlobalEnv, foo = "bar")
+        structure(foo = "bar")
     Code
       fml4 <- fml1
       class(fml4) <- "foo"
       construct(fml4)
     Output
-      (lhs ~ rhs) |>
-        structure(class = "foo")
+      quote(lhs ~ rhs) |>
+        structure(class = "foo", .Environment = .GlobalEnv)
     Code
       fml5 <- fml1
       class(fml5) <- NULL
       construct(fml4)
     Output
-      (lhs ~ rhs) |>
-        structure(class = "foo")
+      quote(lhs ~ rhs) |>
+        structure(class = "foo", .Environment = .GlobalEnv)
+    Code
+      fml6 <- quote(lhs ~ rhs)
+      construct(quote(lhs ~ rhs))
+    Output
+      quote(lhs ~ rhs)
 
