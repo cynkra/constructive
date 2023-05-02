@@ -12,6 +12,8 @@ test_that("data.frame", {
     construct(transform(mtcars[1:2, 1:2], chr = c("a", "b"), int = 1:2), opts_data.frame(constructor = "read.table"))
     # read.table ignored if unsupported types, e.g. factor
     construct(head(iris,2), opts_data.frame(constructor = "read.table"))
+    # read.table ignored if row names are not default
+    construct(data.frame(a=1:2, b=3:4)[2,], opts_data.frame("read.table"))
     # handle list  and df cols
     construct(as.data.frame(tibble::tibble(a = 1:2, b = list(3, 4))))
     construct(as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4))))
@@ -34,5 +36,7 @@ test_that("data.frame", {
     construct(data.frame(a = character()))
     # use list constructor
     construct(head(cars,2), opts_data.frame("list"))
+
+
   })
 })
