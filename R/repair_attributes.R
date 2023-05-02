@@ -57,7 +57,7 @@ repair_attributes_impl <- function(x, code, ..., pipe = "base", ignore = NULL, i
   for (attr_nm in special_attr_nms) {
     attr_code <- construct_apply(
       list(attr_nm, special_attrs[[attr_nm]]),
-      'match.fun("attr<-")',
+      "(`attr<-`)",
       ...,
       pipe = pipe,
       one_liner = one_liner)
