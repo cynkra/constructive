@@ -42,13 +42,19 @@ constructors$data.table$list <- function(x, ...) {
 }
 
 constructors$data.table$data.table <- function(x, ...) {
-  code <- construct_apply(x, fun = "data.table::data.table", ...)
+  key <- attr(x, "sorted")
+  if (!is.null(key)) {
+    args <- c(x, key = key)
+  } else {
+    args <- x
+  }
+  code <- construct_apply(args, fun = "data.table::data.table", ...)
   repair_attributes.data.table(x, code, ...)
 }
 
 #' @export
 repair_attributes.data.table <- function(x, code, ..., pipe = "base") {
-  ignore <- c("row.names", ".internal.selfref")
+  ignore <- c("row.names", ".internal.selfref", "sorted")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
   repair_attributes_impl(
     x, code, ...,
