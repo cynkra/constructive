@@ -12,7 +12,7 @@
 #' @param pipe Which pipe to use, either "base" or "magrittr"
 #' @param check Boolean. Whether to check if the created code reproduces the object
 #'   using `waldo::compare()`.
-#' @param ignore_srcref,ignore_attr,ignore_function_env,ignore_formula_env Passed to `waldo::compare()`.
+#' @param compare Parameters passed to `waldo::compare()`, built with `compare_options()`.
 #' @param ... Constructive options built with the `opts_*()` family of functions. See the "Constructive options"
 #'   section below.
 #' @param one_liner Boolean. Whether to collapse the output to a single line of code.
@@ -24,7 +24,7 @@
 #'
 #' @export
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
-                      ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
+                      compare = compare_options(), one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {
 
   # reset globals
@@ -38,12 +38,7 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
     ellipsis::check_dots_unnamed(),
     abort_wrong_data(data),
     pipe <- rlang::arg_match(pipe),
-    abort_not_boolean(ignore_srcref),
-    abort_not_boolean(ignore_attr),
-    abort_not_boolean(ignore_function_env),
-    abort_not_boolean(ignore_formula_env),
     abort_not_boolean(one_liner)
-    # FIXME: check template
   )
 
   # process data into a flat named list of objects
@@ -61,7 +56,7 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
   styled_code <- try_parse(code, one_liner)
 
   # check output fidelity if relevant, signal issues and update globals$issues
-  compare <- check_round_trip(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller)
+  compare <- check_round_trip(x, styled_code, data, check, compare, caller)
 
   # build a new constructive object, leave the display work to the print method
   new_constructive(styled_code, compare)
@@ -70,7 +65,7 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
 #' @export
 #' @rdname construct
 construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
-                            ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
+                            compare = compare_options(), one_liner = FALSE,
                             template = getOption("constructive_opts_template")) {
   abort_not_env_or_named_list(x)
   if (is.environment(x)) x <- as.list.environment(x)
@@ -78,9 +73,8 @@ construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), c
   constructives <- lapply(
     x, construct,  ...,
     data = data, pipe = pipe, check = check,
-    ignore_srcref = ignore_srcref, ignore_attr = ignore_attr,
-    ignore_function_env = ignore_function_env,
-    ignore_formula_env = ignore_formula_env, one_liner = one_liner,
+    compare = compare,
+    one_liner = one_liner,
     template = template
   )
   code <- lapply(constructives, `[[`, "code")

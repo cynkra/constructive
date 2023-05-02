@@ -32,8 +32,8 @@
 #' construct_diff(x, y)
 #' }
 construct_diff <- function(
-    target, current, ..., data = NULL, pipe = c("base", "magrittr"), check = TRUE, ignore_srcref = TRUE,
-    ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE, one_liner = FALSE,
+    target, current, ..., data = NULL, pipe = c("base", "magrittr"), check = TRUE,
+    compare = compare_options(), one_liner = FALSE,
     template = getOption("constructive_opts_template"), mode = c("sidebyside", "auto", "unified", "context"), interactive = TRUE) {
   mode <- match.arg(mode)
   tar.banner <- format_call_for_diffobj_banner(substitute(target), interactive = interactive)
@@ -48,10 +48,7 @@ construct_diff <- function(
     data = data,
     pipe = pipe,
     check = check,
-    ignore_srcref = ignore_srcref,
-    ignore_attr = ignore_attr,
-    ignore_function_env = ignore_function_env,
-    ignore_formula_env = ignore_formula_env,
+    compare = compare,
     one_liner = one_liner,
     template = template
     )$code
@@ -61,10 +58,7 @@ construct_diff <- function(
     data = data,
     pipe = pipe,
     check = check,
-    ignore_srcref = ignore_srcref,
-    ignore_attr = ignore_attr,
-    ignore_function_env = ignore_function_env,
-    ignore_formula_env = ignore_formula_env,
+    compare = compare,
     one_liner = one_liner,
     template = template
   )$code

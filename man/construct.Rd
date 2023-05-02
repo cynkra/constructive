@@ -11,10 +11,7 @@ construct(
   data = NULL,
   pipe = c("base", "magrittr"),
   check = NULL,
-  ignore_srcref = TRUE,
-  ignore_attr = FALSE,
-  ignore_function_env = FALSE,
-  ignore_formula_env = FALSE,
+  compare = compare_options(),
   one_liner = FALSE,
   template = getOption("constructive_opts_template")
 )
@@ -25,10 +22,7 @@ construct_multi(
   data = NULL,
   pipe = c("base", "magrittr"),
   check = NULL,
-  ignore_srcref = TRUE,
-  ignore_attr = FALSE,
-  ignore_function_env = FALSE,
-  ignore_formula_env = FALSE,
+  compare = compare_options(),
   one_liner = FALSE,
   template = getOption("constructive_opts_template")
 )
@@ -49,7 +43,7 @@ In case of conflict, the last provided name is considered.}
 \item{check}{Boolean. Whether to check if the created code reproduces the object
 using \code{waldo::compare()}.}
 
-\item{ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env}{Passed to \code{waldo::compare()}.}
+\item{compare}{Parameters passed to \code{waldo::compare()}, built with \code{compare_options()}.}
 
 \item{one_liner}{Boolean. Whether to collapse the output to a single line of code.}
 
