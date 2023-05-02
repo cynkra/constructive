@@ -1,5 +1,31 @@
 # Functions that are called in construct, or functions called only by the former
 
+#' Options for waldo::compare
+#'
+#' Builds options that will be passed to `waldo::compare()` down the line.
+#'
+#' @inheritParams waldo::compare
+#'
+#' @return A list
+#' @export
+compare_options <- function(ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE) {
+  combine_errors(
+    abort_not_boolean(ignore_srcref),
+    abort_not_boolean(ignore_attr),
+    abort_not_boolean(ignore_function_env),
+    abort_not_boolean(ignore_formula_env)
+  )
+  structure(
+    list(
+      ignore_srcref = ignore_srcref,
+      ignore_attr = ignore_attr,
+      ignore_function_env = ignore_function_env,
+      ignore_formula_env = ignore_formula_env
+    ),
+    class = "constructive_compare_options"
+  )
+}
+
 process_data <- function(data, main = TRUE) {
   if (is.character(data) && length(data) == 1) return(namespace_as_list(data, main = main))
   if (is.environment(data)) return(as.list(data))
@@ -65,7 +91,7 @@ try_eval <- function(styled_code, data, check, caller) {
   )
 }
 
-check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_attr, ignore_function_env, ignore_formula_env, caller) {
+check_round_trip <- function(x, styled_code, data, check, compare, caller) {
   # return early if no check
   if (isFALSE(check)) return(NULL)
 
@@ -81,11 +107,11 @@ check_round_trip <- function(x, styled_code, data, check, ignore_srcref, ignore_
       evaled,
       x_arg = "original",
       y_arg = "recreated",
-      ignore_srcref = ignore_srcref,
-      ignore_attr = ignore_attr,
+      ignore_srcref = compare$ignore_srcref,
+      ignore_attr = compare$ignore_attr,
       ignore_encoding = TRUE,
-      ignore_function_env = ignore_function_env,
-      ignore_formula_env = ignore_formula_env,
+      ignore_function_env = compare$ignore_function_env,
+      ignore_formula_env = compare$ignore_formula_env,
       max_diffs = Inf
     )
 

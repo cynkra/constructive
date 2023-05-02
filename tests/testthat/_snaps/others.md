@@ -37,3 +37,23 @@
     Output
       noquote(list("a", "b"))
 
+# compare_options
+
+    Code
+      construct(evalq(x ~ y, asNamespace("stats")))
+    Output
+      (x ~ y) |>
+        structure(.Environment = asNamespace("stats"))
+    Code
+      construct(evalq(x ~ y, asNamespace("stats")), opts_formula(environment = FALSE))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      x ~ y
+    Code
+      construct(evalq(x ~ y, asNamespace("stats")), opts_formula(environment = FALSE),
+      compare = compare_options(ignore_formula_env = TRUE))
+    Output
+      x ~ y
+
