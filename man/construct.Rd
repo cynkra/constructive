@@ -73,7 +73,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_constructive_options]{opts_constructive_options}(constructor = c("opts", "next"), ...)}
   \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ...)}
-  \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ...)}
+  \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE)}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
   \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
   \item \code{\link[=opts_environment]{opts_environment}(constructor = c("env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}

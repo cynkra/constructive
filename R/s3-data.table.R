@@ -13,15 +13,19 @@ constructors$data.table <- new.env()
 #' * `"list"` : Use `list()` and treat the class as a regular attribute.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param selfref Boolean. Whether to include the `.internal.selfref` attribute. It's
+#'   probably not useful, hence the default, `waldo::compare()` is used to assess the output
+#'   fidelity and doesn't check it, but if you really need to generate code that builds
+#'   an object `identical()` to the input you'll need to set this to `TRUE`.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_data.table>
 #' @export
-opts_data.table <- function(constructor = c("data.table", "next", "list"), ...) {
+opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., selfref = FALSE) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("data.table", constructor = constructor)
+  constructive_options("data.table", constructor = constructor, selfref = selfref)
 }
 
 #' @export
@@ -29,7 +33,7 @@ construct_raw.data.table <- function(x, ...) {
   opts <- fetch_opts("data.table", ...)
   if (is_corrupted_data.table(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$data.table[[opts$constructor]]
-  constructor(x, ...)
+  constructor(x, selfref = opts$selfref, ...)
 }
 
 #' @export
@@ -41,14 +45,21 @@ constructors$data.table$list <- function(x, ...) {
   construct_raw.list(x, ...)
 }
 
-constructors$data.table$data.table <- function(x, ...) {
-  code <- construct_apply(x, fun = "data.table::data.table", ...)
-  repair_attributes.data.table(x, code, ...)
+constructors$data.table$data.table <- function(x, selfref, ...) {
+  key <- attr(x, "sorted")
+  if (!is.null(key)) {
+    args <- c(x, key = key)
+  } else {
+    args <- x
+  }
+  code <- construct_apply(args, fun = "data.table::data.table", ...)
+  repair_attributes.data.table(x, code, ..., selfref = selfref)
 }
 
 #' @export
-repair_attributes.data.table <- function(x, code, ..., pipe = "base") {
-  ignore <- c("row.names", ".internal.selfref")
+repair_attributes.data.table <- function(x, code, ..., pipe = "base", selfref = FALSE) {
+  ignore <- c("row.names", "sorted")
+  if (!selfref) ignore <- c(ignore, ".internal.selfref")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
   repair_attributes_impl(
     x, code, ...,
