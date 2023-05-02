@@ -1,6 +1,30 @@
 # Date
 
     Code
+      construct(structure(19469, class = "Date"))
+    Output
+      as.Date("2023-04-22")
+    Code
+      construct(structure(19469, class = "Date"), opts_Date("next"))
+    Output
+      19469 |>
+        structure(class = "Date")
+    Code
+      construct(structure(19469, class = "Date"), opts_Date("atomic"))
+    Output
+      19469 |>
+        structure(class = "Date")
+    Code
+      construct(structure(19469L, class = "Date"))
+    Output
+      19469L |>
+        structure(class = "Date")
+    Code
+      construct(structure("19469", class = "Date"))
+    Output
+      "19469" |>
+        structure(class = "Date")
+    Code
       construct(as.Date(.leap.seconds[1:5]))
     Output
       as.Date(c("1972-07-01", "1973-01-01", "1974-01-01", "1975-01-01", "1976-01-01"))
@@ -30,11 +54,8 @@
       as.Date(c(-10045, -9861, -9496, -9131, -8766), origin = "2000-01-01")
     Code
       construct(as.Date(.leap.seconds[1:5]), opts_Date("as_date.numeric", origin = "2000-01-01"))
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
     Output
-      lubridate::as_date(c(-10045, -9861, -9496, -9131, -8766))
+      lubridate::as_date(c(-10045, -9861, -9496, -9131, -8766), origin = "2000-01-01")
     Code
       construct(as.Date(.leap.seconds[1:10]))
     Output

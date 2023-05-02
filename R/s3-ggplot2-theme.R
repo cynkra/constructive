@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.theme <- function(x, ...) {
+construct_raw.theme <- function(x, ...) {
   args <- unclass(x)
   args$complete <- if (attr(x, "complete")) TRUE
   args$validate <- if (!attr(x, "validate")) FALSE
@@ -70,7 +70,7 @@ guess_complete_theme <- function(x, ...) {
         args$base_rect_size <- x$rect$linewidth
       }
       code <- construct_apply(args, paste0("ggplot2::", th), ...)
-      return(code)
+      return(repair_attributes.theme(x, code, ...))
     }
   }
   NULL
@@ -84,8 +84,9 @@ repair_attributes.theme <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.element_blank <- function(x, ...) {
-  "ggplot2::element_blank()"
+construct_raw.element_blank <- function(x, ...) {
+  code <- "ggplot2::element_blank()"
+  repair_attributes.element_blank(x, code, ...)
 }
 
 #' @export
@@ -94,9 +95,10 @@ repair_attributes.element_blank <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.element_grob <- function(x, ...) {
+construct_raw.element_grob <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_grob)
-  construct_apply(args, "ggplot2::element_grob", ...)
+  code <- construct_apply(args, "ggplot2::element_grob", ...)
+  repair_attributes.element_grob(x, code, ...)
 }
 
 #' @export
@@ -105,9 +107,10 @@ repair_attributes.element_grob <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.element_rect <- function(x, ...) {
+construct_raw.element_rect <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_rect)
-  construct_apply(args, "ggplot2::element_rect", ...)
+  code <- construct_apply(args, "ggplot2::element_rect", ...)
+  repair_attributes.element_rect(x, code, ...)
 }
 
 #' @export
@@ -116,9 +119,10 @@ repair_attributes.element_rect <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.element_render <- function(x, ...) {
+construct_raw.element_render <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_render)
-  construct_apply(args, "ggplot2::element_render", ...)
+  code <- construct_apply(args, "ggplot2::element_render", ...)
+  repair_attributes.element_render(x, code, ...)
 }
 
 #' @export
@@ -127,9 +131,10 @@ repair_attributes.element_render <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.element_text <- function(x, ...) {
+construct_raw.element_text <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_text)
-  construct_apply(args, "ggplot2::element_text", ...)
+  code <- construct_apply(args, "ggplot2::element_text", ...)
+  repair_attributes.element_text(x, code, ...)
 }
 
 #' @export
@@ -138,7 +143,7 @@ repair_attributes.element_text <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.element_line <- function(x, ...) {
+construct_raw.element_line <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_line)
   construct_apply(args, "ggplot2::element_line", ...)
 }
@@ -149,7 +154,7 @@ repair_attributes.element_line <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.simpleUnit <- function(x, ...) {
+construct_raw.simpleUnit <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,
@@ -158,7 +163,8 @@ construct_idiomatic.simpleUnit <- function(x, ...) {
   )
   units <- names(lkp)[match(attr(x, "unit"), lkp)]
   x <- as.vector(x)
-  construct_apply(list(x, units = units), "grid::unit", ...)
+  code <- construct_apply(list(x, units = units), "grid::unit", ...)
+  repair_attributes.simpleUnit(x, code, ...)
 }
 
 #' @export
@@ -167,7 +173,7 @@ repair_attributes.simpleUnit <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.margin <- function(x, ...) {
+construct_raw.margin <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,
@@ -176,7 +182,8 @@ construct_idiomatic.margin <- function(x, ...) {
   )
   unit <- names(lkp)[match(attr(x, "unit"), lkp)]
   x <- as.vector(x)
-  construct_apply(list(t = x[1], r = x[2], b = x[3], l = x[4], unit = unit), "ggplot2::margin", ...)
+  code <- onstruct_apply(list(t = x[1], r = x[2], b = x[3], l = x[4], unit = unit), "ggplot2::margin", ...)
+  repair_attributes.margin(x, code, ...)
 }
 
 #' @export
@@ -185,8 +192,9 @@ repair_attributes.margin <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.rel <- function(x, ...) {
-  construct_apply(list(unclass(x)), "ggplot2::rel", ...)
+construct_raw.rel <- function(x, ...) {
+  code <- construct_apply(list(unclass(x)), "ggplot2::rel", ...)
+  repair_attributes.rel(x, code, ...)
 }
 
 #' @export

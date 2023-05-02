@@ -1,17 +1,65 @@
+constructors$matrix <- new.env()
+
+#' Constructive options for matrices
+#'
+#' Matrices are atomic vectors, lists, or objects of type `"expression"` with a `"dim"`
+#' attributes of length 2.
+#'
+#' Depending on `constructor`, we construct the environment as follows:
+#' * `"matrix"` : We use `matrix()`
+#' * `"array"` : We use `array()`
+#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
+#'   on the object to see in which order the methods will be tried. This will usually
+#'   be equivalent to `"array"`
+#' * `"atomic"` : We define as an atomic vector and repair attributes
+#'
+#' @param constructor String. Name of the function used to construct the environment.
+#' @inheritParams opts_atomic
+#' @param origin Origin to be used, ignored when irrelevant.
+#'
+#' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-construct_idiomatic.matrix <- function(x, ..., pipe = "base") {
+opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), ...) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+  constructive_options("matrix", constructor = constructor)
+}
+
+#' @export
+construct_raw.matrix <- function(x, ...) {
+  opts <- fetch_opts("matrix", ...)
+  if (is_corrupted_matrix(x) || opts$constructor == "next") return(NextMethod())
+  constructors$matrix[[opts$constructor]](x, ...)
+}
+
+#' @export
+is_corrupted_matrix <- function(x) {
+  is_corrupted_array(x) || length(dim(x)) != 2
+}
+
+constructors$matrix$matrix <- function(x, ...) {
   dim <- attr(x, "dim")
   dimnames <- attr(x, "dimnames")
   dim_names_lst <- if (!is.null(dimnames)) list(dimnames = dimnames)
-  attr(x, "dim") <- NULL # for some reasons this remove dimnames too ???
-  attr(x, "dimnames") <- NULL
-  construct_apply(
-    c(list(x, nrow = dim[[1]], ncol = dim[[2]]), dim_names_lst),
-    ...,
-    fun = "matrix",
-    new_line = TRUE,
-    pipe = pipe
+  x_stripped <- x
+  attributes(x_stripped) <- NULL
+  code <- construct_apply(
+    c(list(x_stripped, nrow = dim[[1]], ncol = dim[[2]]), dim_names_lst),
+    "matrix",
+    ...
   )
+  repair_attributes.matrix(x, code, ...)
+}
+
+constructors$matrix$array <- function(x, ...) {
+  code <- constructors$array$array(x, ...)
+  repair_attributes.matrix(x, code, ...)
+}
+
+constructors$matrix$atomic <- function(x, ...) {
+  construct_raw.default(x, ...)
 }
 
 #' @export

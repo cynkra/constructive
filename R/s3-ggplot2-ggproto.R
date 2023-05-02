@@ -2,13 +2,14 @@
 # so we just construct if we find the
 
 #' @export
-construct_idiomatic.ggproto <- function(x, ggproto.ignore_draw_key = FALSE, ..., data) {
+construct_raw.ggproto <- function(x, ggproto.ignore_draw_key = FALSE, ...) {
   if (ggproto.ignore_draw_key) {
     x <- as.list(x)
     x$draw_key <- NULL
   }
-  res <- find_in_package_protos(x, ggproto.ignore_draw_key)
-  if(!is.null(res)) return(res) else construct_idiomatic.environment(x)
+  code <- find_in_package_protos(x, ggproto.ignore_draw_key)
+  if(is.null(code)) return(construct_raw.environment(x, ...))
+  repair_attributes.ggproto(x, code, ...)
 }
 
 #' @export

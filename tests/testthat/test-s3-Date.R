@@ -1,5 +1,10 @@
 test_that("Date", {
   expect_snapshot({
+    construct(structure(19469, class = "Date"))
+    construct(structure(19469, class = "Date"), opts_Date("next"))
+    construct(structure(19469, class = "Date"), opts_Date("atomic"))
+    construct(structure(19469L, class = "Date"))
+    construct(structure("19469", class = "Date"))
     # one line
     construct(as.Date(.leap.seconds[1:5]))
     construct(as.Date(.leap.seconds[1:5]), opts_Date("as_date"))

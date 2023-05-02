@@ -5,6 +5,16 @@
     Output
       tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles"))
     Code
+      construct(dplyr::band_members, opts_tbl_df("next"))
+    Output
+      data.frame(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
+        structure(class = c("tbl_df", "tbl", "data.frame"))
+    Code
+      construct(dplyr::band_members, opts_tbl_df("next"), opts_data.frame("next"))
+    Output
+      list(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
+        structure(class = c("tbl_df", "tbl", "data.frame"), row.names = 1:3)
+    Code
       construct(dplyr::band_members, opts_tbl_df(constructor = "tribble"))
     Output
       tibble::tribble(

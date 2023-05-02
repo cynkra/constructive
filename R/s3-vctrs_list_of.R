@@ -1,3 +1,5 @@
+constructors$vctrs_list_of <- new.env()
+
 #' Constructive options for class 'data.table'
 #'
 #' These options will be used on objects of class 'data.table'.
@@ -19,16 +21,29 @@ opts_vctrs_list_of <- function(constructor = c("list_of", "list"), ...) {
 }
 
 #' @export
-construct_idiomatic.vctrs_list_of <- function(x, ...) {
+construct_raw.vctrs_list_of <- function(x, ...) {
   opts <- fetch_opts("vctrs_list_of", ...)
-  if (opts$constructor == "list") {
-    return(construct_idiomatic.list(x, ...))
-  }
-  construct_apply(
+  if (is_corrupted_vctrs_list_of(x) || opts$constructor == "next") return(NextMethod())
+  constructors <- constructors$vctrs_list_of[[opts$constructor]]
+  constructors(x, ...)
+}
+
+is_corrupted_vctrs_list_of <- function(x) {
+  # TODO
+  FALSE
+}
+
+constructors$vctrs_list_of$list_of <- function(x, ...) {
+  code <- construct_apply(
     args = c(as.list(x), list(.ptype= attr(x, "ptype"))),
     fun = "vctrs::list_of",
     ...
   )
+  repair_attributes.vctrs_list_of(x, code, ...)
+}
+
+constructors$vctrs_list_of$list <- function(x, ...) {
+  construct_raw.list(x, ...)
 }
 
 #' @export

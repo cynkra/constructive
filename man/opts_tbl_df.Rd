@@ -5,7 +5,7 @@
 \title{Constructive options for tibbles}
 \usage{
 opts_tbl_df(
-  constructor = c("tibble", "tribble", "list"),
+  constructor = c("tibble", "tribble", "next", "list"),
   ...,
   trailing_comma = TRUE
 )
@@ -30,6 +30,8 @@ Depending on \code{constructor}, we construct the object as follows:
 \item \code{"tibble"} (default): Wrap the column definitions in a \code{tibble::tibble()} call.
 \item \code{"tribble"} : We build the object using \code{tibble::tribble()} if possible, and fall
 back to \code{tibble::tibble()}.
+\item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
+on the object to see in which order the methods will be tried.
 \item \code{"list"} : Use \code{list()} and treat the class as a regular attribute.
 }
 }

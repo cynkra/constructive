@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.Scale <- function(x, ...) {
+construct_raw.Scale <- function(x, ...) {
   # fetch caller and args from original call
   caller <- x$call[[1]]
   args <- as.list(x$call)[-1]
@@ -68,7 +68,7 @@ construct_idiomatic.Scale <- function(x, ...) {
   }
   if ("super" %in% names(args)) {
     # not sure if robust, but if not we'll adress in due time!
-    args$super <- paste0("ggplot2:::", rlang::expr_deparse(args$super)) # not robust if several scales :construct_idiomatic.ggproto(x$super(), ...)
+    args$super <- paste0("ggplot2:::", rlang::expr_deparse(args$super)) # not robust if several scales :construct_raw.ggproto(x$super(), ...)
   }
 
   ## build call

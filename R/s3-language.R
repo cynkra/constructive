@@ -1,15 +1,55 @@
-#' @export
-construct_idiomatic.language <- function(x, ..., one_liner = FALSE) {
-  if (identical(x, quote(expr=))) return("quote(expr=)")
-  attributes(x) <- NULL
+# FIXME: we should use the names used by .class2 and have different constructors for language, symbol (could be quote, as.name, as.symbol, and expression (not yet supported it seems)
+constructors$language <- new.env()
 
-  if (is_expression2(x)) {
-    code <- deparse_call_impl(x, one_liner = one_liner)
-    wrap(code, "quote", new_line = FALSE)
+#' Constructive options for type 'language'
+#'
+#' These options will be used on objects of type 'language'. By default this
+#' function is useless as nothing can be set, this is provided in case users want
+#' to extend the method with other constructors.
+#'
+#' Depending on `constructor`, we construct the environment as follows:
+#' * `"default"` : We use constructive's deparsing algorithnm on attributeless calls,
+#'   and use `as.call()` on other language elements when attributes need to be constructed.
+#'
+#' @param constructor String. Name of the function used to construct the environment.
+#' @inheritParams opts_atomic
+#' @param origin Origin to be used, ignored when irrelevant.
+#'
+#' @return An object of class <constructive_options/constructive_options_environment>
+#' @export
+opts_language  <- function(constructor = c("default"), ...) {
+  combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+  constructive_options("language", constructor = constructor)
+}
+
+#' @export
+construct_raw.language <- function(x, ...) {
+  opts <- fetch_opts("language", ...)
+  if (is_corrupted_language(x)) return(NextMethod())
+  constructors$language[[opts$constructor]](x, ...)
+}
+
+#' @export
+is_corrupted_language <- function(x) {
+  ! typeof(x) %in% c("language", "symbol", "expression")
+}
+
+constructors$language$default <- function(x, ..., one_liner = FALSE) {
+  if (identical(x, quote(expr=))) return("quote(expr=)")
+  x_stripped <- x
+  attributes(x_stripped) <- NULL
+
+  if (is_expression2(x_stripped)) {
+    code <- deparse_call_impl(x_stripped, one_liner = one_liner)
+    code <- wrap(code, "quote", new_line = FALSE)
   } else {
-    list_call <- construct_apply(as.list(x), ...)
-    wrap(list_call, "as.call", new_line = FALSE)
+    list_call <- construct_apply(as.list(x_stripped), "list", ...)
+    code <- wrap(list_call, "as.call", new_line = FALSE)
   }
+  repair_attributes.language(x, code, ...)
 }
 
 #' @export

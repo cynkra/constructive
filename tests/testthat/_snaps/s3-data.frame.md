@@ -55,11 +55,13 @@
     Code
       construct(as.data.frame(tibble::tibble(a = 1:2, b = list(3, 4))))
     Output
-      as.data.frame(tibble::tibble(a = 1:2, b = list(3, 4)))
+      list(a = 1:2, b = list(3, 4)) |>
+        structure(row.names = 1:2, class = "data.frame")
     Code
       construct(as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4))))
     Output
-      as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4)))
+      list(a = 1:2, b = tibble::tibble(x = 3:4)) |>
+        structure(row.names = 1:2, class = "data.frame")
     Code
       construct(data.frame(a = 1, `a a` = 2, check.names = FALSE))
     Output

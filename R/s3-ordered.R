@@ -1,3 +1,5 @@
+constructors$ordered <- new.env()
+
 #' Constructive options for class 'ordered'
 #'
 #' These options will be used on objects of class 'ordered'.
@@ -8,13 +10,16 @@
 #' * `"factor"` : Same as abvove but build the object using a `factor()` call and `ordered = TRUE`.
 #' * `"new_ordered"` : Build the object using a `vctrs::new_ordered()`. Levels are
 #'   always defined explicitly.
+#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
+#'   on the object to see in which order the methods will be tried.
+#' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
-opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered"), ...) {
+opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...) {
   combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
@@ -23,27 +28,59 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered"), ..
 }
 
 #' @export
-construct_idiomatic.ordered <- function(x, ...) {
+construct_raw.ordered <- function(x, ...) {
   opts <- fetch_opts("ordered", ...)
-  constructor <- opts$constructor
+  if (is_corrupted_ordered(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$ordered[[opts$constructor]]
+  constructor(x, ...)
+}
+
+#' @export
+is_corrupted_ordered <- function(x) {
+  # TODO
+  FALSE
+}
+
+#' @export
+constructors$ordered$ordered <- function(x, ...) {
   levs <- levels(x)
-
-  if (constructor == "new_ordered") {
-    code <- construct_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_ordered", ...)
-    return(code)
-  }
-
   args <- list(setNames(as.character(x), names(x)))
   default_levs <- sort(unique(as.character(x)))
   if (identical(default_levs, levs)) {
-    if (constructor == "factor") args <- c(args, list(ordered = TRUE))
-    code <- construct_apply(args, constructor, new_line =  constructor == "factor", ...)
+    code <- construct_apply(args, "ordered", ..., new_line = FALSE)
   } else {
     args <- c(args, list(levels = levs))
-    if (constructor == "factor") args <- c(args, list(ordered = TRUE))
-    code <- construct_apply(args, constructor, ...)
+    code <- construct_apply(args, "ordered", ...)
   }
-  code
+  repair_attributes.ordered(x, code, ...)
+}
+
+#' @export
+constructors$ordered$factor <- function(x, ...) {
+  levs <- levels(x)
+  args <- list(setNames(as.character(x), names(x)))
+  default_levs <- sort(unique(as.character(x)))
+  if (identical(default_levs, levs)) {
+    args <- c(args, list(ordered = TRUE))
+    code <- construct_apply(args, "factor", ..., new_line = FALSE)
+  } else {
+    args <- c(args, list(levels = levs, ordered = TRUE))
+    code <- construct_apply(args, "factor", ...)
+  }
+  repair_attributes.ordered(x, code, ...)
+}
+
+
+#' @export
+constructors$ordered$new_ordered <- function(x, ...) {
+  levs <- levels(x)
+  code <- construct_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_ordered", ...)
+  repair_attributes.ordered(x, code, ...)
+}
+
+#' @export
+constructors$ordered$atomic <- function(x, ...) {
+  construct_raw.atomic(x, ...)
 }
 
 #' @export

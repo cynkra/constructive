@@ -3,7 +3,7 @@
 # eval the expressions or components
 
 #' @export
-construct_idiomatic.uneval <- function(x, ...) {
+construct_raw.uneval <- function(x, ...) {
   args <- lapply(x, function(x) rlang::expr_deparse(rlang::quo_squash(x)))
   nm1 <- names(args)[1]
   # omit `x` and `y` if provided in this order
@@ -14,7 +14,8 @@ construct_idiomatic.uneval <- function(x, ...) {
       names(args)[2] <- ""
     }
   }
-  construct_apply(args, fun = "ggplot2::aes", language = TRUE, new_line = FALSE)
+  code <- construct_apply(args, fun = "ggplot2::aes", language = TRUE, new_line = FALSE)
+  repair_attributes.uneval(x, code, ...)
 }
 
 #' @export

@@ -25,12 +25,12 @@ opts_Layer <- function(constructor = c("default", "layer", "environment"), ...) 
 }
 
 #' @export
-construct_idiomatic.Layer <- function(x, ..., env) {
+construct_raw.Layer <- function(x, ..., env) {
   opts <- fetch_opts("Layer", ...)
 
   ## "environment" constructor
   if (opts$constructor == "environment") {
-    return(construct_idiomatic.environment(x, ...))
+    return(construct_raw.environment(x, ...))
   }
 
   ## "default" constructor

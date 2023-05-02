@@ -1,5 +1,5 @@
 #' @export
-construct_idiomatic.CoordCartesian <- function(x, ...) {
+construct_raw.CoordCartesian <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -12,7 +12,7 @@ construct_idiomatic.CoordCartesian <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.CoordFixed <- function(x, ...) {
+construct_raw.CoordFixed <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -26,7 +26,7 @@ construct_idiomatic.CoordFixed <- function(x, ...) {
 
 
 #' @export
-construct_idiomatic.CoordFlip <- function(x, ...) {
+construct_raw.CoordFlip <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -39,7 +39,7 @@ construct_idiomatic.CoordFlip <- function(x, ...) {
 
 
 #' @export
-construct_idiomatic.CoordMap <- function(x, ...) {
+construct_raw.CoordMap <- function(x, ...) {
   args <- c(
     list(projection = x$projection),
     if (length(x$params)) as.list(x$params) else NULL,
@@ -56,7 +56,7 @@ construct_idiomatic.CoordMap <- function(x, ...) {
 
 
 #' @export
-construct_idiomatic.CoordMunch <- function(x, ...) {
+construct_raw.CoordMunch <- function(x, ...) {
   # untested because didn't find any use case
   args <- list(
     coord = x$coordinates,
@@ -70,7 +70,7 @@ construct_idiomatic.CoordMunch <- function(x, ...) {
 
 
 #' @export
-construct_idiomatic.CoordPolar <- function(x, ...) {
+construct_raw.CoordPolar <- function(x, ...) {
   args <- list(
     theta = x$theta,
     start = x$start,
@@ -82,7 +82,7 @@ construct_idiomatic.CoordPolar <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.CoordQuickmap <- function(x, ...) {
+construct_raw.CoordQuickmap <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -94,7 +94,7 @@ construct_idiomatic.CoordQuickmap <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.CoordSf <- function(x, ...) {
+construct_raw.CoordSf <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -116,7 +116,7 @@ construct_idiomatic.CoordSf <- function(x, ...) {
 }
 
 #' @export
-construct_idiomatic.CoordTrans<- function(x, ...) {
+construct_raw.CoordTrans<- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,

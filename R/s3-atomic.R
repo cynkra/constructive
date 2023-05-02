@@ -44,7 +44,12 @@ opts_atomic <- function(..., trim = NULL, fill = c("default", "rlang", "+", "...
 }
 
 #' @export
-construct_idiomatic.atomic <- function(x, ..., one_liner = FALSE) {
+construct_raw.atomic <- function(x, ...) {
+  code <- construct_atomic(x, ...)
+  repair_attributes.default(x, code, ...)
+}
+
+construct_atomic <- function(x, ..., one_liner = FALSE) {
   opts <- fetch_opts("atomic", ...)
   trim <- opts$trim
   fill <- opts$fill
@@ -60,7 +65,7 @@ construct_idiomatic.atomic <- function(x, ..., one_liner = FALSE) {
   l <- length(x)
   if (!is.null(trim) && trim < l) {
     opts$trim <- NULL
-    code <- construct_idiomatic.atomic(x[seq_len(trim)], opts, ..., one_liner = one_liner)
+    code <- construct_atomic(x[seq_len(trim)], opts, ..., one_liner = one_liner)
     if (fill == "none" || trim == 0) return(code)
     if (trim == 1) code <- sprintf("c(%s)", code)
     replacement <- switch(

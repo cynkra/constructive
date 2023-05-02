@@ -1,3 +1,5 @@
+constructors$`function` <- new.env()
+
 #' Constructive options for functions
 #'
 #' These options will be used on functions, i.e. objects of type "closure", "special" and "builtin".
@@ -40,89 +42,108 @@ opts_function <- function(
 
 
 #' @export
-construct_idiomatic.function <- function(
+construct_raw.function <- function(
     x, ..., pipe, one_liner = FALSE) {
   if (rlang::is_primitive(x)) return(deparse(x))
   opts <- fetch_opts("function", ...)
-  trim <- opts$trim
-  constructor <- opts$constructor
-  environment <- opts$environment
-  srcref <- opts$srcref
-  x_lst <- as.list(unclass(x))
-  x_length <- length(x_lst)
-  body_lng <- x_lst[[x_length]]
+  if (is_corrupted_function(x)) return(NextMethod())
 
   # trim if relevant
+  trim <- opts$trim
   if (!is.null(trim)) {
+    x_lst <- as.list(unclass(x))
+    x_length <- length(x_lst)
+    body_lng <- x_lst[[x_length]]
     if (length(body_lng) > trim + 1) {
       x_lst[[x_length]] <- as.call(c(head(as.list(body_lng), trim + 1), quote(...)))
+      x <- as.function(x_lst, envir = environment(x))
     }
   }
 
-  if (constructor == "function") {
-    # if the srcref matches the function's body (always in non artifical cases)
-    # we might use the srcref rather than the body, so we keep the comments
+  constructor <- constructors$`function`[[opts$constructor]]
+  constructor(x, ..., trim = opts$trim, environment = opts$environment, srcref = opts$srcref)
+}
 
-    code_from_srcref <- FALSE
-    if (!one_liner && is.null(trim)) {
-      code <- code_from_srcref(x)
-      if(!is.null(code)) {
-        code_from_srcref <- TRUE
-      }
-    }
+#' @export
+is_corrupted_function<- function(x) {
+  !is.function(x)
+}
 
-    if (!code_from_srcref) {
-      fun_call <- call("function")
-      if (x_length > 1) {
-        fun_call[[2]] <- as.pairlist(x_lst[-x_length])
-      }
-      fun_call[3] <- x_lst[x_length]
-      code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
+constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner = FALSE, trim, environment, srcref) {
+  # if the srcref matches the function's body (always in non artifical cases)
+  # we might use the srcref rather than the body, so we keep the comments
 
-      if (length(code) == 2) code <- paste(code[1], code[2])
+  code_from_srcref <- FALSE
+  if (!one_liner && is.null(trim)) {
+    code <- code_from_srcref(x)
+    if(!is.null(code)) {
+      code_from_srcref <- TRUE
     }
-
-    attrs <- attributes(x)
-    if (!srcref) attrs$srcref <- NULL
-
-    if (environment || length(attrs)) {
-      code <- wrap(code, fun = "")
-    }
-    if (environment) {
-      envir_code <- construct_apply(
-        list(environment(x)),
-        "(`environment<-`)",
-        pipe = pipe,
-        one_liner = one_liner,
-        ...)
-      code <- pipe(code, envir_code, pipe, one_liner)
-    }
-  } else if (constructor == "as.function") {
-    # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
-    # so we must use regular deparse
-    fun_lst <- lapply(x_lst, deparse)
-    args <- list(construct_apply(
-      fun_lst, "alist", ..., language = TRUE, pipe = pipe, one_liner = one_liner))
-    if (environment) {
-      envir_arg <- construct_raw(environment(x), ..., pipe = pipe, one_liner = one_liner)
-      args <- c(args, list(envir = envir_arg))
-    }
-    code <- construct_apply(args, "as.function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
-  } else if (constructor == "new_function") {
-    # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
-    # so we must use regular deparse
-    fun_lst <- lapply(x_lst, deparse)
-    args <- list(
-      args = construct_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE, pipe = pipe, one_liner = one_liner),
-      body = wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
-    )
-    if (environment) {
-      envir_arg <- construct_raw(environment(x), ..., pipe = pipe, one_liner = one_liner)
-      args <- c(args, list(env = envir_arg))
-    }
-    code <- construct_apply(args, "rlang::new_function", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
   }
-  code
+
+  if (!code_from_srcref) {
+    fun_call <- call("function")
+    x_lst <- as.list(unclass(x))
+    x_length <- length(x_lst)
+    if (x_length > 1) {
+      fun_call[[2]] <- as.pairlist(x_lst[-x_length])
+    }
+    fun_call[3] <- x_lst[x_length]
+    code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
+
+    if (length(code) == 2) code <- paste(code[1], code[2])
+  }
+
+  attrs <- attributes(x)
+  if (!srcref) attrs$srcref <- NULL
+
+  if (environment || length(attrs)) {
+    code <- wrap(code, fun = "")
+  }
+  if (environment) {
+    envir_code <- construct_apply(
+      list(environment(x)),
+      'match.fun("environment<-")',
+      pipe = pipe,
+      one_liner = one_liner,
+      ...)
+    code <- pipe(code, envir_code, pipe, one_liner)
+  }
+  repair_attributes.function(x, code, ..., pipe = pipe, one_liner = one_liner)
+}
+
+constructors$`function`$as.function <- function(x, ..., trim, environment, srcref) {
+  # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
+  # so we must use regular deparse
+
+  x_lst <- as.list(unclass(x))
+  fun_lst <- lapply(x_lst, deparse)
+  args <- list(construct_apply(
+    fun_lst, "alist", ..., language = TRUE))
+  if (environment) {
+    envir_arg <- construct_raw(environment(x), ...)
+    args <- c(args, list(envir = envir_arg))
+  }
+  code <- construct_apply(args, "as.function", ..., language = TRUE)
+  repair_attributes.function(x, code, ...)
+}
+
+constructors$`function`$new_function <- function(x, ..., trim, environment, srcref) {
+  # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
+  # so we must use regular deparse
+
+  x_lst <- as.list(unclass(x))
+  fun_lst <- lapply(x_lst, deparse)
+  args <- list(
+    args = construct_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE),
+    body = wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
+  )
+  if (environment) {
+    envir_arg <- construct_raw(environment(x), ...)
+    args <- c(args, list(env = envir_arg))
+  }
+  code <- construct_apply(args, "rlang::new_function", ..., language = TRUE)
+  repair_attributes.function(x, code, ...)
 }
 
 #' @export

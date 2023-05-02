@@ -1,3 +1,18 @@
+# FIXME: find a better place for those
+# FIXME: repair_attributes should be dispatched on a prototype and attributes already present should
+# be ignored by default
+
+constructors <- new.env()
+
+is_corrupted <- function(x) {
+  UseMethod("is_corrupted")
+}
+
+#' @export
+is_corrupted.default <- function(x) {
+  FALSE
+}
+
 repair_attributes <- function(x, code, ..., pipe = "base") {
   UseMethod("repair_attributes")
 }
@@ -14,7 +29,7 @@ repair_attributes_impl <- function(x, code, ..., pipe = "base", ignore = NULL, i
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL
-  # names are already provided by construct_idiomatic except if they're ""
+  # names are already provided by construct_raw except if they're ""
   if (is.null(attrs$names) || !all(attrs$names == "")) attrs$names <- NULL
   # The `noquote` class is added at the end of the class vector so method `.noquote`
   # wouldn't be triggered

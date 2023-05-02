@@ -1,4 +1,4 @@
-# grouped_df
+# rowwise_df
 
     Code
       construct(dplyr::rowwise(head(cars, 2)))
