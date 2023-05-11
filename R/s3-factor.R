@@ -25,7 +25,7 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "ne
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("factor", constructor = constructor)
+  .cstr_options("factor", constructor = constructor)
 }
 
 #' @export

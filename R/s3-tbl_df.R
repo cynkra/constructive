@@ -25,7 +25,7 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..
     ellipsis::check_dots_empty(),
     abort_not_boolean(trailing_comma)
   )
-  constructive_options("tbl_df", constructor = constructor, trailing_comma = trailing_comma)
+  .cstr_options("tbl_df", constructor = constructor, trailing_comma = trailing_comma)
 }
 
 #' @export

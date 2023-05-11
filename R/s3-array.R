@@ -20,7 +20,7 @@ opts_array <- function(constructor = c("array", "next"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("array", constructor = constructor)
+  .cstr_options("array", constructor = constructor)
 }
 
 #' @export

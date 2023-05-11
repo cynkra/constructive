@@ -23,7 +23,7 @@ opts_dots <- function(constructor = c("default"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("dots", constructor = constructor)
+  .cstr_options("dots", constructor = constructor)
 }
 
 #' @export

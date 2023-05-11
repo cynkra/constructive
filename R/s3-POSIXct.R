@@ -25,7 +25,7 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("POSIXct", constructor = constructor, origin = origin)
+  .cstr_options("POSIXct", constructor = constructor, origin = origin)
 }
 
 #' @export

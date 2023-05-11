@@ -23,7 +23,7 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", 
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("data.frame", constructor = constructor)
+  .cstr_options("data.frame", constructor = constructor)
 }
 
 #' @export

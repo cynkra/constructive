@@ -27,7 +27,7 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
     ellipsis::check_dots_empty(),
     abort_not_boolean(environment)
   )
-  constructive_options("formula", constructor = constructor, environment = environment)
+  .cstr_options("formula", constructor = constructor, environment = environment)
 }
 
 #' @export

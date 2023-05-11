@@ -16,7 +16,7 @@ opts_pairlist <- function(constructor = c("pairlist", "pairlist2"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("pairlist", constructor = constructor)
+  .cstr_options("pairlist", constructor = constructor)
 }
 
 #' @export

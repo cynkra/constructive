@@ -66,7 +66,7 @@ opts_atomic <- function(
     abort_not_boolean(compress),
     unicode_representation <- rlang::arg_match(unicode_representation)
   )
-  constructive_options("atomic", trim = trim, fill = fill, compress = compress, unicode_representation = unicode_representation, escape = escape)
+  .cstr_options("atomic", trim = trim, fill = fill, compress = compress, unicode_representation = unicode_representation, escape = escape)
 }
 
 #' @export

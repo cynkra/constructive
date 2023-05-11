@@ -21,7 +21,7 @@ opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("AsIs", constructor = constructor)
+  .cstr_options("AsIs", constructor = constructor)
 }
 
 #' @export

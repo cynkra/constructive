@@ -82,7 +82,7 @@ opts_environment <- function(constructor = c("env", "list2env", "as.environment"
     ellipsis::check_dots_empty(),
     abort_not_boolean(recurse)
   )
-  constructive_options("environment", constructor = constructor, recurse = recurse, predefine = predefine)
+  .cstr_options("environment", constructor = constructor, recurse = recurse, predefine = predefine)
 }
 
 #' @export

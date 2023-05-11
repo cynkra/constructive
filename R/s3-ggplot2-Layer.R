@@ -21,7 +21,7 @@ opts_Layer <- function(constructor = c("default", "layer", "environment"), ...) 
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("Layer", constructor = constructor)
+  .cstr_options("Layer", constructor = constructor)
 }
 
 #' @export

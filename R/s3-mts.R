@@ -20,7 +20,7 @@ opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("mts", constructor = constructor)
+  .cstr_options("mts", constructor = constructor)
 }
 
 #' @export

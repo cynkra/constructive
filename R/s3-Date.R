@@ -33,7 +33,7 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("Date", constructor = constructor, origin = origin)
+  .cstr_options("Date", constructor = constructor, origin = origin)
 }
 
 #' @export

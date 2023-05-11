@@ -24,7 +24,7 @@ opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), .
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("matrix", constructor = constructor)
+  .cstr_options("matrix", constructor = constructor)
 }
 
 #' @export

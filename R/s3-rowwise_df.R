@@ -20,7 +20,7 @@ opts_rowwise_df <- function(constructor = c("default", "next", "list"), ..., ori
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("rowwise_df", constructor = constructor, origin = origin)
+  .cstr_options("rowwise_df", constructor = constructor, origin = origin)
 }
 
 #' @export

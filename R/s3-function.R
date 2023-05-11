@@ -37,7 +37,7 @@ opts_function <- function(
     abort_not_boolean(srcref),
     abort_not_null_or_integerish(trim)
   )
-  constructive_options("function", constructor = constructor, environment = environment, srcref = srcref, trim = trim)
+  .cstr_options("function", constructor = constructor, environment = environment, srcref = srcref, trim = trim)
 }
 
 

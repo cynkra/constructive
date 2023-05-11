@@ -22,7 +22,7 @@ opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ..., 
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("quosures", constructor = constructor, origin = origin)
+  .cstr_options("quosures", constructor = constructor, origin = origin)
 }
 
 #' @export

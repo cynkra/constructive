@@ -25,7 +25,7 @@ opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., 
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("data.table", constructor = constructor, selfref = selfref)
+  .cstr_options("data.table", constructor = constructor, selfref = selfref)
 }
 
 #' @export

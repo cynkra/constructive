@@ -22,7 +22,7 @@ opts_language  <- function(constructor = c("default"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("language", constructor = constructor)
+  .cstr_options("language", constructor = constructor)
 }
 
 #' @export

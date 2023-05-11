@@ -20,7 +20,7 @@ opts_externalptr  <- function(constructor = c("default"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("externalptr", constructor = constructor)
+  .cstr_options("externalptr", constructor = constructor)
 }
 
 #' @export

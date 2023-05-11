@@ -1,4 +1,4 @@
-constructive_options <- function(class, ...) {
+.cstr_options <- function(class, ...) {
   structure(
     class = c(paste0("constructive_options_", class), "constructive_options"),
     list(...)

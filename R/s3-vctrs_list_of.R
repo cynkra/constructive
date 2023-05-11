@@ -17,7 +17,7 @@ opts_vctrs_list_of <- function(constructor = c("list_of", "list"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("vctrs_list_of", constructor = constructor)
+  .cstr_options("vctrs_list_of", constructor = constructor)
 }
 
 #' @export

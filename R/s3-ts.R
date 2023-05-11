@@ -20,7 +20,7 @@ opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("ts", constructor = constructor)
+  .cstr_options("ts", constructor = constructor)
 }
 
 #' @export

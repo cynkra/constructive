@@ -20,7 +20,7 @@ opts_numeric_version  <- function(constructor = c("numeric_version", "next", "at
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("numeric_version", constructor = constructor)
+  .cstr_options("numeric_version", constructor = constructor)
 }
 
 #' @export
@@ -71,7 +71,7 @@ opts_package_version  <- function(constructor = c("package_version", "next", "at
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("package_version", constructor = constructor)
+  .cstr_options("package_version", constructor = constructor)
 }
 
 #' @export
@@ -122,7 +122,7 @@ opts_R_system_version  <- function(constructor = c("R_system_version", "next", "
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("R_system_version", constructor = constructor)
+  .cstr_options("R_system_version", constructor = constructor)
 }
 
 #' @export

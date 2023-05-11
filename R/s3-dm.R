@@ -21,7 +21,7 @@ opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("dm", constructor = constructor)
+  .cstr_options("dm", constructor = constructor)
 }
 #' @export
 construct_raw.dm <- function(x, ...) {

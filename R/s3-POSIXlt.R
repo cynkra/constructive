@@ -22,7 +22,7 @@ opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "atomic"), ..., o
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("POSIXlt", constructor = constructor, origin = origin)
+  .cstr_options("POSIXlt", constructor = constructor, origin = origin)
 }
 
 #' @export
