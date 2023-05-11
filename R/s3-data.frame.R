@@ -36,7 +36,7 @@ construct_raw.data.frame <- function(x, ...) {
 
 #' @export
 is_corrupted_data.frame <- function(x) {
-  if (!is.list(x)) return(TRUE)
+  if (!is.list(x) || any(sapply(unclass(x), is.null))) return(TRUE)
   attrs <- attributes(x)
   if (!all(c("names", "class", "row.names") %in% names(attrs))) return(TRUE)
   if (!is.character(attrs$names) || length(attrs$names) != length(x)) return(TRUE)

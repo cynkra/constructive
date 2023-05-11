@@ -98,4 +98,10 @@
     Output
       list(speed = c(4, 4), dist = c(2, 10)) |>
         structure(row.names = 1:2, class = "data.frame")
+    Code
+      construct(structure(list(V1 = NULL, V2 = NULL, V3 = NULL, V4 = NULL),
+      row.names = c(NA, 0L), class = "data.frame"))
+    Output
+      list(V1 = NULL, V2 = NULL, V3 = NULL, V4 = NULL) |>
+        structure(row.names = integer(0), class = "data.frame")
 

@@ -36,7 +36,12 @@ test_that("data.frame", {
     construct(data.frame(a = character()))
     # use list constructor
     construct(head(cars,2), opts_data.frame("list"))
-
+    # corrupted df
+    construct(structure(
+      list(V1 = NULL, V2 = NULL, V3 = NULL, V4 = NULL),
+      row.names = c(NA, 0L),
+      class = "data.frame"
+    ))
 
   })
 })
