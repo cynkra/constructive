@@ -43,7 +43,7 @@ is_corrupted.Date <- function(x) {
 
 #' @export
 construct_raw.Date <- function(x, ...) {
-  opts <- fetch_opts("Date", ...)
+  opts <- .cstr_fetch_opts("Date", ...)
   if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$Date[[opts$constructor]]
   constructor(x, ..., origin = opts$origin)

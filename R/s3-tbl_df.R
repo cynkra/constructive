@@ -30,7 +30,7 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..
 
 #' @export
 construct_raw.tbl_df <- function(x, ...) {
-  opts <- fetch_opts("tbl_df", ...)
+  opts <- .cstr_fetch_opts("tbl_df", ...)
   if (is_corrupted_tbl_df(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$tbl_df[[opts$constructor]]
   constructor(x, ..., trailing_comma = opts$trailing_comma)
@@ -80,7 +80,7 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
 
 #' @export
 repair_attributes.tbl_df <- function(x, code, ..., pipe = "base") {
-  opts <- fetch_opts("tbl_df", ...)
+  opts <- .cstr_fetch_opts("tbl_df", ...)
   if (opts$constructor == "list") {
     return(repair_attributes.default(x, code, ..., pipe = pipe))
   }

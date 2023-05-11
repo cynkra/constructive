@@ -29,7 +29,7 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "ne
 
 #' @export
 construct_raw.ordered <- function(x, ...) {
-  opts <- fetch_opts("ordered", ...)
+  opts <- .cstr_fetch_opts("ordered", ...)
   if (is_corrupted_ordered(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$ordered[[opts$constructor]]
   constructor(x, ...)

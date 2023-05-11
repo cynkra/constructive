@@ -30,7 +30,7 @@ opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., 
 
 #' @export
 construct_raw.data.table <- function(x, ...) {
-  opts <- fetch_opts("data.table", ...)
+  opts <- .cstr_fetch_opts("data.table", ...)
   if (is_corrupted_data.table(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$data.table[[opts$constructor]]
   constructor(x, selfref = opts$selfref, ...)

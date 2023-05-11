@@ -27,7 +27,7 @@ opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ..., 
 
 #' @export
 construct_raw.quosures <- function(x, ...) {
-  opts <- fetch_opts("quosures", ...)
+  opts <- .cstr_fetch_opts("quosures", ...)
   if (is_corrupted_quosures(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$quosures[[opts$constructor]]
   constructor(x, ...)

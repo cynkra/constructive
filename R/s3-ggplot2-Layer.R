@@ -26,7 +26,7 @@ opts_Layer <- function(constructor = c("default", "layer", "environment"), ...) 
 
 #' @export
 construct_raw.Layer <- function(x, ..., env) {
-  opts <- fetch_opts("Layer", ...)
+  opts <- .cstr_fetch_opts("Layer", ...)
 
   ## "environment" constructor
   if (opts$constructor == "environment") {

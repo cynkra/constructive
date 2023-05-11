@@ -27,7 +27,7 @@ opts_language  <- function(constructor = c("default"), ...) {
 
 #' @export
 construct_raw.language <- function(x, ...) {
-  opts <- fetch_opts("language", ...)
+  opts <- .cstr_fetch_opts("language", ...)
   if (is_corrupted_language(x)) return(NextMethod())
   constructors$language[[opts$constructor]](x, ...)
 }

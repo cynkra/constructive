@@ -25,7 +25,7 @@ opts_numeric_version  <- function(constructor = c("numeric_version", "next", "at
 
 #' @export
 construct_raw.numeric_version <- function(x, ...) {
-  opts <- fetch_opts("numeric_version", ...)
+  opts <- .cstr_fetch_opts("numeric_version", ...)
   if (is_corrupted_numeric_version(x) || opts$constructor == "next") return(NextMethod())
   constructors$numeric_version[[opts$constructor]](x, ...)
 }
@@ -76,7 +76,7 @@ opts_package_version  <- function(constructor = c("package_version", "next", "at
 
 #' @export
 construct_raw.package_version <- function(x, ...) {
-  opts <- fetch_opts("package_version", ...)
+  opts <- .cstr_fetch_opts("package_version", ...)
   if (is_corrupted_package_version(x) || opts$constructor == "next") return(NextMethod())
   constructors$package_version[[opts$constructor]](x, ...)
 }
@@ -127,7 +127,7 @@ opts_R_system_version  <- function(constructor = c("R_system_version", "next", "
 
 #' @export
 construct_raw.R_system_version <- function(x, ...) {
-  opts <- fetch_opts("R_system_version", ...)
+  opts <- .cstr_fetch_opts("R_system_version", ...)
   if (is_corrupted_R_system_version(x) || opts$constructor == "next") return(NextMethod())
   constructors$R_system_version[[opts$constructor]](x, ...)
 }

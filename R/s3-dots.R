@@ -28,7 +28,7 @@ opts_dots <- function(constructor = c("default"), ...) {
 
 #' @export
 construct_raw.dots <- function(x, ...) {
-  opts <- fetch_opts("dots", ...)
+  opts <- .cstr_fetch_opts("dots", ...)
   if (is_corrupted_dots(x)) return(NextMethod())
   constructor <- constructors$dots[[opts$constructor]]
   constructor(x, ...)

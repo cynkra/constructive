@@ -25,7 +25,7 @@ opts_array <- function(constructor = c("array", "next"), ...) {
 
 #' @export
 construct_raw.array <- function(x, ...) {
-  opts <- fetch_opts("array", ...)
+  opts <- .cstr_fetch_opts("array", ...)
   if (is_corrupted_array(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$array[[opts$constructor]]
   constructor(x, ...)

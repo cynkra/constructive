@@ -27,7 +27,7 @@ opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "atomic"), ..., o
 
 #' @export
 construct_raw.POSIXlt <- function(x, ...) {
-  opts <- fetch_opts("POSIXlt", ...)
+  opts <- .cstr_fetch_opts("POSIXlt", ...)
   if (is_corrupted_POSIXlt(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$POSIXlt[[opts$constructor]]
   constructor(x, ..., origin = opts$origin)

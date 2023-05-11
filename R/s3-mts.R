@@ -25,7 +25,7 @@ opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 
 #' @export
 construct_raw.mts <- function(x, ...) {
-  opts <- fetch_opts("mts", ...)
+  opts <- .cstr_fetch_opts("mts", ...)
   if (is_corrupted_mts(x) || opts$constructor == "next") return(NextMethod())
   constructors$mts[[opts$constructor]](x, ...)
 }

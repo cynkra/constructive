@@ -76,7 +76,7 @@ construct_raw.atomic <- function(x, ...) {
 }
 
 construct_atomic <- function(x, ..., one_liner = FALSE) {
-  opts <- fetch_opts("atomic", ...)
+  opts <- .cstr_fetch_opts("atomic", ...)
   trim <- opts$trim
   fill <- opts$fill
 

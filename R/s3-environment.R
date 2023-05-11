@@ -95,7 +95,7 @@ construct_raw.environment <- function(x, ..., pipe = "base", one_liner = FALSE) 
   # This means `asNamespace("base")` (a.k.a. `.BaseNamespaceEnv`) and
   #   `as.environment("package:base")` (a.k.a. `baseenv()`) have the same name
   #   but are different. So we implement a workaround.
-  opts <- fetch_opts("environment", ...)
+  opts <- .cstr_fetch_opts("environment", ...)
   if (is_corrupted_environment(x)) return(NextMethod())
 
   # if we can match a special env, return it directly
@@ -201,7 +201,7 @@ constructors$environment$topenv <- function(x, ..., pipe, one_liner, recurse, pr
 
 #' @export
 repair_attributes.environment <- function(x, code, ..., pipe ="base") {
-  opts <- fetch_opts("environment", ...)
+  opts <- .cstr_fetch_opts("environment", ...)
   constructor <- opts$constructor
   if (constructor == "env" ||
       grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||

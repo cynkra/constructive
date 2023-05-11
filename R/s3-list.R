@@ -45,7 +45,7 @@ opts_list <- function(
 
 #' @export
 construct_raw.list <- function(x, ...) {
-  opts <- fetch_opts("list", ...)
+  opts <- .cstr_fetch_opts("list", ...)
   if (is_corrupted_list(x)) return(NextMethod())
   constructors$list[[opts$constructor]](x, trim = opts$trim, fill = opts$fill, ...)
 }

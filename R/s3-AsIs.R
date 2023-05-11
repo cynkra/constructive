@@ -26,7 +26,7 @@ opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
 
 #' @export
 construct_raw.AsIs <- function(x, ...) {
-  opts <- fetch_opts("AsIs", ...)
+  opts <- .cstr_fetch_opts("AsIs", ...)
   if (is_corrupted_AsIs(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$AsIs[[opts$constructor]]
   constructor(x, ...)

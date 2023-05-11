@@ -25,7 +25,7 @@ opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
 
 #' @export
 construct_raw.constructive_options <- function(x, ...) {
-  opts <- fetch_opts("constructive_options", ...)
+  opts <- .cstr_fetch_opts("constructive_options", ...)
   if (is_corrupted_constructive_options(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$constructive_options[[opts$constructor]]
   constructor(x, ...)

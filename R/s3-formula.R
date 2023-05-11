@@ -32,7 +32,7 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
 
 #' @export
 construct_raw.formula <- function(x, ..., env) {
-  opts <- fetch_opts("formula", ...)
+  opts <- .cstr_fetch_opts("formula", ...)
   if (is_corrupted_formula(x)) return(NextMethod())
   constructor <- constructors$formula[[opts$constructor]]
   env_is_default = identical(attr(x, ".Environment"), env)
@@ -82,7 +82,7 @@ constructors$formula$as.formula <- function(x, ..., environment, env_is_default)
 
 #' @export
 repair_attributes.formula <- function(x, code, ..., pipe ="base", ignore_env_attr = TRUE) {
-  opts <- fetch_opts("formula", ...)
+  opts <- .cstr_fetch_opts("formula", ...)
   constructor <- opts$constructor
   ignore <- NULL
 

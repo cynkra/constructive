@@ -25,7 +25,7 @@ opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
 }
 #' @export
 construct_raw.dm <- function(x, ...) {
-  opts <- fetch_opts("dm", ...)
+  opts <- .cstr_fetch_opts("dm", ...)
   if (is_corrupted_dm(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$dm[[opts$constructor]]
   constructor(x, ...)

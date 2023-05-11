@@ -21,7 +21,7 @@ opts_pairlist <- function(constructor = c("pairlist", "pairlist2"), ...) {
 
 #' @export
 construct_raw.pairlist <- function(x, ...) {
-  opts <- fetch_opts("pairlist", ...)
+  opts <- .cstr_fetch_opts("pairlist", ...)
   if (is_corrupted_pairlist(x)) return(NextMethod())
   constructor <- constructors$pairlist[[opts$constructor]]
   constructor(x, ...)

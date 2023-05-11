@@ -25,7 +25,7 @@ opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 
 #' @export
 construct_raw.ts <- function(x, ...) {
-  opts <- fetch_opts("ts", ...)
+  opts <- .cstr_fetch_opts("ts", ...)
   if (is_corrupted_ts(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$ts[[opts$constructor]]
   constructor(x, ...)

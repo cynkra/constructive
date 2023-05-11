@@ -25,7 +25,7 @@ opts_externalptr  <- function(constructor = c("default"), ...) {
 
 #' @export
 construct_raw.externalptr <- function(x, ...) {
-  opts <- fetch_opts("externalptr", ...)
+  opts <- .cstr_fetch_opts("externalptr", ...)
   if (is_corrupted_externalptr (x)) return(NextMethod())
   constructor <- constructors$externalptr [[opts$constructor]]
   constructor(x, ...)

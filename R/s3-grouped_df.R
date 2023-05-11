@@ -25,7 +25,7 @@ opts_grouped_df <- function(constructor = c("default", "next", "list"), ..., ori
 
 #' @export
 construct_raw.grouped_df <- function(x, ...) {
-  opts <- fetch_opts("grouped_df", ...)
+  opts <- .cstr_fetch_opts("grouped_df", ...)
   if (is_corrupted_grouped_df(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$grouped_df[[opts$constructor]]
   constructor(x, ...)

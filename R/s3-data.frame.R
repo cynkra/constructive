@@ -28,7 +28,7 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", 
 
 #' @export
 construct_raw.data.frame <- function(x, ...) {
-  opts <- fetch_opts("data.frame", ...)
+  opts <- .cstr_fetch_opts("data.frame", ...)
   if (is_corrupted_data.frame(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$data.frame[[opts$constructor]]
   constructor(x, ...)

@@ -45,7 +45,7 @@ opts_function <- function(
 construct_raw.function <- function(
     x, ..., pipe, one_liner = FALSE) {
   if (rlang::is_primitive(x)) return(deparse(x))
-  opts <- fetch_opts("function", ...)
+  opts <- .cstr_fetch_opts("function", ...)
   if (is_corrupted_function(x)) return(NextMethod())
 
   # trim if relevant
@@ -148,7 +148,7 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
 
 #' @export
 repair_attributes.function <- function(x, code, ..., pipe ="base") {
-  opts <- fetch_opts("function", ...)
+  opts <- .cstr_fetch_opts("function", ...)
   srcref <- opts$srcref
   ignore <- c("name", "path")
   if (!srcref) ignore <- c(ignore, "srcref")

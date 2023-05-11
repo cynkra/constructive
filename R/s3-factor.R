@@ -30,7 +30,7 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "ne
 
 #' @export
 construct_raw.factor <- function(x, ...) {
-  opts <- fetch_opts("factor", ...)
+  opts <- .cstr_fetch_opts("factor", ...)
   if (is_corrupted_factor(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$factor[[opts$constructor]]
   constructor(x, ...)
