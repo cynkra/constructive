@@ -182,7 +182,7 @@ construct_raw.margin <- function(x, ...) {
   )
   unit <- names(lkp)[match(attr(x, "unit"), lkp)]
   x <- as.vector(x)
-  code <- onstruct_apply(list(t = x[1], r = x[2], b = x[3], l = x[4], unit = unit), "ggplot2::margin", ...)
+  code <- construct_apply(list(t = x[1], r = x[2], b = x[3], l = x[4], unit = unit), "ggplot2::margin", ...)
   repair_attributes.margin(x, code, ...)
 }
 
