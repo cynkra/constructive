@@ -42,7 +42,7 @@ constructors$AsIs$I <- function(x, ...) {
   cl <- oldClass(x)
   class(x_stripped) <- setdiff(cl, "AsIs")
   # no validation needed
-  code <- wrap(construct_raw(x_stripped, ...), "I", new_line = FALSE)
+  code <- .cstr_wrap(construct_raw(x_stripped, ...), "I", new_line = FALSE)
   repair_attributes.AsIs(x, code, ...)
 }
 

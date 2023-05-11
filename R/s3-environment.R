@@ -187,7 +187,7 @@ constructors$environment$new.env <- function(x, ..., pipe, one_liner, recurse, p
 constructors$environment$as.environment <- function(x, ..., pipe, one_liner, recurse, predefine) {
   # We need to use as.list.environment directly because as.list will only map
   # to "as.list.environment" if class was not overriden
-  code <- wrap(
+  code <- .cstr_wrap(
     construct_raw(as.list.environment(x), ...),
     "as.environment",
     new_line = FALSE

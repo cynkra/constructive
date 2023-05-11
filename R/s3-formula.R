@@ -92,10 +92,10 @@ repair_attributes.formula <- function(x, code, ..., pipe ="base", ignore_env_att
       !all(rlang::names2(attributes(x)) %in% c(".Environment", "class")) ||
       !identical(class(x), "formula")
     if (some_attrs_were_not_idiomatically_constructed) {
-      code <- wrap(code, "")
+      code <- .cstr_wrap(code, "")
     }
   } else {
-    code <- wrap(code, "")
+    code <- .cstr_wrap(code, "")
   }
 
   # if (constructor == "~") {

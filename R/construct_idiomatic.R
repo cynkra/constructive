@@ -57,5 +57,5 @@ construct_apply <- function(args, fun = "list", ..., keep_trailing_comma = FALSE
     args_chr[[length(args_chr)]] <- sub(",$", "", args_chr[[length(args_chr)]])
   }
 
-  wrap(args_chr, fun, new_line)
+  .cstr_wrap(args_chr, fun, new_line)
 }

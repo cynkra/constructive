@@ -55,8 +55,8 @@ constructors$dots$default <- function(x, ...) {
   # strip class since it's not necessary for splicing
   quo_code <- construct_raw(unclass(quo_dots), ...)
   quo_code[[1]] <- paste0("!!!", quo_code[[1]])
-  code <- wrap(quo_code, "(function(...) environment()$...)")
-  code <- wrap(code, "rlang::inject")
+  code <- .cstr_wrap(quo_code, "(function(...) environment()$...)")
+  code <- .cstr_wrap(code, "rlang::inject")
 
   repair_attributes.dots(x, code, ...)
 }

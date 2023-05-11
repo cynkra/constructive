@@ -44,10 +44,10 @@ constructors$language$default <- function(x, ..., one_liner = FALSE) {
 
   if (is_expression2(x_stripped)) {
     code <- deparse_call_impl(x_stripped, one_liner = one_liner)
-    code <- wrap(code, "quote", new_line = FALSE)
+    code <- .cstr_wrap(code, "quote", new_line = FALSE)
   } else {
     list_call <- .cstr_apply(as.list(x_stripped), "list", ...)
-    code <- wrap(list_call, "as.call", new_line = FALSE)
+    code <- .cstr_wrap(list_call, "as.call", new_line = FALSE)
   }
   repair_attributes.language(x, code, ...)
 }

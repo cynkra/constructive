@@ -45,7 +45,7 @@ construct_raw.POSIXlt <- function(x, ...) {
   from_posixct <- !is.null(gmtoff) && !all(is.na(gmtoff))
   if (from_posixct) {
     code_posixct <- construct_raw(as.POSIXct(x), ...)
-    code <- wrap(code_posixct, "as.POSIXlt", new_line = FALSE)
+    code <- .cstr_wrap(code_posixct, "as.POSIXlt", new_line = FALSE)
     return(repair_attributes.POSIXlt(x, code, ...))
   }
   tzone <- attr(x, "tzone")

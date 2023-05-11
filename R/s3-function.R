@@ -98,7 +98,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
   if (!srcref) attrs$srcref <- NULL
 
   if (environment || length(attrs)) {
-    code <- wrap(code, fun = "")
+    code <- .cstr_wrap(code, fun = "")
   }
   if (environment) {
     envir_code <- .cstr_apply(
@@ -136,7 +136,7 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
   fun_lst <- lapply(x_lst, deparse)
   args <- list(
     args = .cstr_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE),
-    body = wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
+    body = .cstr_wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
   )
   if (environment) {
     envir_arg <- construct_raw(environment(x), ...)
