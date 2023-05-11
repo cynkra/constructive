@@ -107,7 +107,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
       pipe = pipe,
       one_liner = one_liner,
       ...)
-    code <- pipe(code, envir_code, pipe, one_liner)
+    code <- .cstr_pipe(code, envir_code, pipe, one_liner)
   }
   repair_attributes.function(x, code, ..., pipe = pipe, one_liner = one_liner)
 }

@@ -49,7 +49,7 @@ constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
     ...,
     language = TRUE
   )
-  code <- pipe(
+  code <- .cstr_pipe(
     code,
     rowwise_code,
     one_liner = one_liner,

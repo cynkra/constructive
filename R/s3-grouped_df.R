@@ -51,7 +51,7 @@ constructors$grouped_df$default <- function(x, ..., one_liner, pipe) {
     pipe = pipe,
     one_liner = one_liner
   )
-  code <- pipe(
+  code <- .cstr_pipe(
     code,
     group_by_code,
     pipe = pipe,

@@ -17,7 +17,7 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
   x
 }
 
-pipe <- function(x, y, pipe, one_liner) {
+.cstr_pipe <- function(x, y, pipe, one_liner) {
   pipe_symbol <- c(base = "|>", magrittr = "%>%", plus = "+")[[pipe]]
   if (one_liner) return(paste(x, pipe_symbol, y))
   x[length(x)] <- paste(x[length(x)], pipe_symbol)

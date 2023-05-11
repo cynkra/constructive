@@ -53,7 +53,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
     USE.NAMES = FALSE))
   if (length(pk_code)) {
     pk_code <- paste(pk_code, collapse = "|>\n")
-    code <- pipe(code, pk_code, pipe, one_liner)
+    code <- .cstr_pipe(code, pk_code, pipe, one_liner)
   }
 
   fk_code <- unlist(Map(
@@ -78,13 +78,13 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
     USE.NAMES = FALSE))
   if (length(fk_code)) {
     fk_code <- paste(fk_code, collapse = "|>\n")
-    code <- pipe(code, fk_code, pipe, one_liner)
+    code <- .cstr_pipe(code, fk_code, pipe, one_liner)
   }
 
   colors <- set_names(def$table, def$display)[!is.na(def$display)]
   if (length(colors)) {
     color_code <- .cstr_apply(colors, "dm::dm_set_colors", pipe = pipe, one_liner = one_liner, ...)
-    code <- pipe(code, color_code, pipe, one_liner)
+    code <- .cstr_pipe(code, color_code, pipe, one_liner)
   }
 
   repair_attributes.dm(x, code, ..., one_liner = one_liner, pipe = pipe)

@@ -46,20 +46,20 @@ construct_ggplot_call <- function(mapping, ...) {
 pipe_from_data <- function(plot_data, code, ..., pipe, one_liner) {
   if (!length(plot_data)) return(code)
   data_code <- construct_raw(plot_data, pipe = pipe, one_liner = one_liner, ...)
-  pipe(data_code, code, pipe = pipe, one_liner = one_liner)
+  .cstr_pipe(data_code, code, pipe = pipe, one_liner = one_liner)
 }
 
 pipe_to_layers <- function(code, layers, plot_env, ..., one_liner, env) {
   if (!length(layers)) return(code)
   layer_lines <- lapply(layers, construct_raw, one_liner = one_liner, env = plot_env, ...)
-  layer_code <- Reduce(function(x, y)  pipe(x, y, pipe = "plus", one_liner = one_liner), layer_lines)
-  pipe(code, layer_code, pipe = "plus", one_liner = one_liner)
+  layer_code <- Reduce(function(x, y)  .cstr_pipe(x, y, pipe = "plus", one_liner = one_liner), layer_lines)
+  .cstr_pipe(code, layer_code, pipe = "plus", one_liner = one_liner)
 }
 
 pipe_to_facets <- function(code, facet, ..., one_liner) {
   if (inherits(facet, "FacetNull")) return(code)
   facet_code <- construct_raw(facet, one_liner = one_liner, ...)
-  pipe(code, facet_code, pipe = "plus", one_liner = one_liner)
+  .cstr_pipe(code, facet_code, pipe = "plus", one_liner = one_liner)
 }
 
 pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
@@ -101,7 +101,7 @@ pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
   if (length(labels)) {
     class(labels) <- "labels" # the class is dropped for some reason
     labs_code <- construct_raw(labels, one_liner = one_liner, ...)
-    code <- pipe(code, labs_code, pipe = "plus", one_liner = one_liner)
+    code <- .cstr_pipe(code, labs_code, pipe = "plus", one_liner = one_liner)
   }
   code
 }
@@ -109,7 +109,7 @@ pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
 pipe_to_scales <- function(code, scales, ..., one_liner) {
   if (!length(scales$scales)) return(code)
   scales_code <- construct_raw(scales, one_liner = one_liner, ...)
-  pipe(code, scales_code, pipe = "plus", one_liner = one_liner)
+  .cstr_pipe(code, scales_code, pipe = "plus", one_liner = one_liner)
 }
 
 pipe_to_theme <- function(code, theme, ..., one_liner) {
@@ -117,11 +117,11 @@ pipe_to_theme <- function(code, theme, ..., one_liner) {
   if (!length(theme) && !length(attributes(theme))) return(code)
   class(theme) <- c("theme", "gg")
   theme_code <- construct_raw(theme, one_liner = one_liner, ...)
-  pipe(code, theme_code, pipe = "plus", one_liner = one_liner)
+  .cstr_pipe(code, theme_code, pipe = "plus", one_liner = one_liner)
 }
 
 pipe_to_coord <- function(code, coord, ..., one_liner) {
   coord_code <- construct_raw(coord, one_liner = one_liner, ...)
   if (identical(coord_code, "ggplot2::coord_cartesian()")) return(code)
-  pipe(code, coord_code, pipe = "plus", one_liner = one_liner)
+  .cstr_pipe(code, coord_code, pipe = "plus", one_liner = one_liner)
 }
