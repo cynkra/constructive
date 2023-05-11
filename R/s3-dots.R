@@ -47,7 +47,7 @@ constructors$dots$default <- function(x, ...) {
     unique_env <- unique_env[[1]]
     exprs <- lapply(quo_dots, rlang::quo_get_expr)
     code_lng <- rlang::expr((function(...) environment()$...)(!!!exprs))
-    code <- deparse_call_impl(code_lng)
+    code <- .cstr_deparse(code_lng)
     env_code <- construct_raw(unique_env, ...)
     code <- .cstr_apply(list(code, envir = env_code), "evalq", language = TRUE)
     return(code)
