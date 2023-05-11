@@ -124,7 +124,7 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
   if (l == 1 && is.null(names(x))) return(format_flex(x, all_na = TRUE))
 
   args <- vapply(x, format_flex, character(1), all_na = all(is.na(x)))
-  code <- construct_apply(args, "c", ..., new_line = FALSE, language = TRUE)
+  code <- .cstr_apply(args, "c", ..., new_line = FALSE, language = TRUE)
   if (one_liner) code <- paste(code, collapse = " ")
   code
 }
@@ -145,16 +145,16 @@ simplify_atomic <- function(x, ...) {
     # rep ----------------------------------------------------------------------
     # each
     if (length(rle_[[2]]) > 1 && length(unique(rle_[[2]])) == 1 && length(rle_[[1]]) + 1 < length(x)) {
-      return(construct_apply(list(rle_[[1]], each = rle_[[2]][[1]]), "rep", ...))
+      return(.cstr_apply(list(rle_[[1]], each = rle_[[2]][[1]]), "rep", ...))
     }
     if (length(rle_[[1]]) * 2 < length(x)) {
       # this also supports rep(x, n) with scalar x and n, but not scalar n and vector x
-      return(construct_apply(rle_, "rep", ...))
+      return(.cstr_apply(rle_, "rep", ...))
     }
 
     # scalar n and vector x
     for (d in divisors(l)) {
-      if (identical(x, rep(.subset(x, 1:d), l/d))) return(construct_apply(list(.subset(x, 1:d), l/d), "rep", ...))
+      if (identical(x, rep(.subset(x, 1:d), l/d))) return(.cstr_apply(list(.subset(x, 1:d), l/d), "rep", ...))
     }
 
     # seq ----------------------------------------------------------------------
@@ -162,7 +162,7 @@ simplify_atomic <- function(x, ...) {
       d <- diff(x)
       if (length(unique(d)) == 1) {
         if (is.integer(x) && abs(d[[1]]) == 1) return(sprintf("%s:%s", x[[1]], x[[l]]))
-        return(construct_apply(list(x[[1]], x[[l]], by = d[[1]]), "seq", ...))
+        return(.cstr_apply(list(x[[1]], x[[l]], by = d[[1]]), "seq", ...))
       }
     }
   }
@@ -223,7 +223,7 @@ construct_chr <- function(x, unicode_representation, escape, one_liner, ...) {
   if (length(strings) == 1) return(strings)
   nas <- strings == "NA_character_"
   if (any(nas) && !all(nas)) strings[nas] <- "NA"
-  construct_apply(strings, "c", one_liner = one_liner, ..., language = TRUE)
+  .cstr_apply(strings, "c", one_liner = one_liner, ..., language = TRUE)
 }
 
 

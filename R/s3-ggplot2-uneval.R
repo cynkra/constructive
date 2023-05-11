@@ -14,7 +14,7 @@ construct_raw.uneval <- function(x, ...) {
       names(args)[2] <- ""
     }
   }
-  code <- construct_apply(args, fun = "ggplot2::aes", language = TRUE, new_line = FALSE)
+  code <- .cstr_apply(args, fun = "ggplot2::aes", language = TRUE, new_line = FALSE)
   repair_attributes.uneval(x, code, ...)
 }
 

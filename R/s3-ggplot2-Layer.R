@@ -55,7 +55,7 @@ construct_layer_default <- function(constructor, env, ...) {
   }
   args <- lapply(as.list(constructor)[-1], eval, env)
   args <- keep_only_non_defaults(args, caller_val)
-  construct_apply(args, caller_chr, env = env, ...)
+  .cstr_apply(args, caller_chr, env = env, ...)
 }
 
 construct_layer_layer <- function(x, ...) {
@@ -119,7 +119,7 @@ construct_layer_layer <- function(x, ...) {
   args_chr$geom <- geom
 
   ## build call ----------------------------------------------------------------
-  construct_apply(args_chr, fun = "ggplot2::layer", language = TRUE, ggproto.ignore_draw_key = ggproto.ignore_draw_key,  ...)
+  .cstr_apply(args_chr, fun = "ggplot2::layer", language = TRUE, ggproto.ignore_draw_key = ggproto.ignore_draw_key,  ...)
 }
 
 

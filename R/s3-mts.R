@@ -40,7 +40,7 @@ constructors$mts$ts <- function(x, ...) {
   tsp <- attr(x, "tsp")
   attr(x_stripped, "tsp") <- NULL
   class(x_stripped) <- setdiff(oldClass(x), c("mts", "ts"))
-  construct_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
+  .cstr_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
 }
 
 constructors$mts$atomic <- function(x, ...) {

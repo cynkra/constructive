@@ -48,7 +48,7 @@ constructors$array$array <- function(x, ...) {
   args$dim_names <- if (!is.null(dimnames)) list(dimnames = dimnames)
 
   # build code
-  code <- construct_apply(args, fun = "array", ...)
+  code <- .cstr_apply(args, fun = "array", ...)
 
   # repair
   repair_attributes.array(x, code, ...)

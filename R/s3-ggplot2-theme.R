@@ -7,7 +7,7 @@ construct_raw.theme <- function(x, ...) {
     code <- guess_complete_theme(x, ...)
     if (!is.null(x)) return(code)
   }
-  construct_apply(args, "ggplot2::theme", ...)
+  .cstr_apply(args, "ggplot2::theme", ...)
 }
 
 strip_theme <- function(x) {
@@ -69,7 +69,7 @@ guess_complete_theme <- function(x, ...) {
       if (x$rect$linewidth != x$text$size / 22) {
         args$base_rect_size <- x$rect$linewidth
       }
-      code <- construct_apply(args, paste0("ggplot2::", th), ...)
+      code <- .cstr_apply(args, paste0("ggplot2::", th), ...)
       return(repair_attributes.theme(x, code, ...))
     }
   }
@@ -97,7 +97,7 @@ repair_attributes.element_blank <- function(x, ...) {
 #' @export
 construct_raw.element_grob <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_grob)
-  code <- construct_apply(args, "ggplot2::element_grob", ...)
+  code <- .cstr_apply(args, "ggplot2::element_grob", ...)
   repair_attributes.element_grob(x, code, ...)
 }
 
@@ -109,7 +109,7 @@ repair_attributes.element_grob <- function(x, ...) {
 #' @export
 construct_raw.element_rect <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_rect)
-  code <- construct_apply(args, "ggplot2::element_rect", ...)
+  code <- .cstr_apply(args, "ggplot2::element_rect", ...)
   repair_attributes.element_rect(x, code, ...)
 }
 
@@ -121,7 +121,7 @@ repair_attributes.element_rect <- function(x, ...) {
 #' @export
 construct_raw.element_render <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_render)
-  code <- construct_apply(args, "ggplot2::element_render", ...)
+  code <- .cstr_apply(args, "ggplot2::element_render", ...)
   repair_attributes.element_render(x, code, ...)
 }
 
@@ -133,7 +133,7 @@ repair_attributes.element_render <- function(x, ...) {
 #' @export
 construct_raw.element_text <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_text)
-  code <- construct_apply(args, "ggplot2::element_text", ...)
+  code <- .cstr_apply(args, "ggplot2::element_text", ...)
   repair_attributes.element_text(x, code, ...)
 }
 
@@ -145,7 +145,7 @@ repair_attributes.element_text <- function(x, ...) {
 #' @export
 construct_raw.element_line <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_line)
-  construct_apply(args, "ggplot2::element_line", ...)
+  .cstr_apply(args, "ggplot2::element_line", ...)
 }
 
 #' @export
@@ -163,7 +163,7 @@ construct_raw.simpleUnit <- function(x, ...) {
   )
   units <- names(lkp)[match(attr(x, "unit"), lkp)]
   x <- as.vector(x)
-  code <- construct_apply(list(x, units = units), "grid::unit", ...)
+  code <- .cstr_apply(list(x, units = units), "grid::unit", ...)
   repair_attributes.simpleUnit(x, code, ...)
 }
 
@@ -182,7 +182,7 @@ construct_raw.margin <- function(x, ...) {
   )
   unit <- names(lkp)[match(attr(x, "unit"), lkp)]
   x <- as.vector(x)
-  code <- construct_apply(list(t = x[1], r = x[2], b = x[3], l = x[4], unit = unit), "ggplot2::margin", ...)
+  code <- .cstr_apply(list(t = x[1], r = x[2], b = x[3], l = x[4], unit = unit), "ggplot2::margin", ...)
   repair_attributes.margin(x, code, ...)
 }
 
@@ -193,7 +193,7 @@ repair_attributes.margin <- function(x, ...) {
 
 #' @export
 construct_raw.rel <- function(x, ...) {
-  code <- construct_apply(list(unclass(x)), "ggplot2::rel", ...)
+  code <- .cstr_apply(list(unclass(x)), "ggplot2::rel", ...)
   repair_attributes.rel(x, code, ...)
 }
 

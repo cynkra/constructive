@@ -42,9 +42,9 @@ is_corrupted_quosure <- function(x) {
 #' @export
 constructors$quosure$new_quosure <- function(x, env, ...) {
   if (identical(env, attr(x, ".Environment"))) {
-    code <- construct_apply(list(rlang::quo_squash(x)), "rlang::new_quosure", ...)
+    code <- .cstr_apply(list(rlang::quo_squash(x)), "rlang::new_quosure", ...)
   } else {
-    code <- construct_apply(list(rlang::quo_squash(x), attr(x, ".Environment")), "rlang::new_quosure", ...)
+    code <- .cstr_apply(list(rlang::quo_squash(x), attr(x, ".Environment")), "rlang::new_quosure", ...)
   }
   repair_attributes.quosure(x, code, env = env, ...)
 }

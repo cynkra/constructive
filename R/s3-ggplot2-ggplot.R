@@ -40,7 +40,7 @@ repair_attributes.ggplot <- function(x, code, pipe = "base", ...) {
 construct_ggplot_call <- function(mapping, ...) {
   if (!length(mapping)) return("ggplot2::ggplot()")
   mapping_code <- construct_raw(mapping, ...)
-  construct_apply(mapping_code, fun = "ggplot2::ggplot", language = TRUE, new_line = FALSE, ...)
+  .cstr_apply(mapping_code, fun = "ggplot2::ggplot", language = TRUE, new_line = FALSE, ...)
 }
 
 pipe_from_data <- function(plot_data, code, ..., pipe, one_liner) {

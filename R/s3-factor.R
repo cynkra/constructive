@@ -48,7 +48,7 @@ constructors$factor$atomic <- function(x, ...) {
 
 constructors$factor$new_factor <- function(x, ...) {
   levs <- levels(x)
-  code <- construct_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_factor", ...)
+  code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_factor", ...)
   repair_attributes.factor(x, code, ...)
 }
 
@@ -57,7 +57,7 @@ constructors$factor$as_factor <- function(x, ...) {
   x_chr <- as.character(x)
   if (!identical(unique(x_chr), levs)) return(constructors$factor$factor(x, ...))
   x_chr_named <- setNames(x_chr, names(x))
-  code <- construct_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
+  code <- .cstr_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
   repair_attributes.factor(x, code, ...)
 }
 
@@ -67,9 +67,9 @@ constructors$factor$factor <- function(x, ...) {
   x_chr_named <- setNames(x_chr, names(x))
   default_levs <- sort(unique(x_chr))
   if (identical(default_levs, levs)) {
-    code <- construct_apply(list(x_chr_named), "factor", new_line =  FALSE, ...)
+    code <- .cstr_apply(list(x_chr_named), "factor", new_line =  FALSE, ...)
   } else {
-    code <- construct_apply(list(x_chr_named, levels = levs), "factor", ...)
+    code <- .cstr_apply(list(x_chr_named, levels = levs), "factor", ...)
   }
   repair_attributes.factor(x, code, ...)
 }

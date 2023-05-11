@@ -47,10 +47,10 @@ constructors$ordered$ordered <- function(x, ...) {
   args <- list(setNames(as.character(x), names(x)))
   default_levs <- sort(unique(as.character(x)))
   if (identical(default_levs, levs)) {
-    code <- construct_apply(args, "ordered", ..., new_line = FALSE)
+    code <- .cstr_apply(args, "ordered", ..., new_line = FALSE)
   } else {
     args <- c(args, list(levels = levs))
-    code <- construct_apply(args, "ordered", ...)
+    code <- .cstr_apply(args, "ordered", ...)
   }
   repair_attributes.ordered(x, code, ...)
 }
@@ -62,10 +62,10 @@ constructors$ordered$factor <- function(x, ...) {
   default_levs <- sort(unique(as.character(x)))
   if (identical(default_levs, levs)) {
     args <- c(args, list(ordered = TRUE))
-    code <- construct_apply(args, "factor", ..., new_line = FALSE)
+    code <- .cstr_apply(args, "factor", ..., new_line = FALSE)
   } else {
     args <- c(args, list(levels = levs, ordered = TRUE))
-    code <- construct_apply(args, "factor", ...)
+    code <- .cstr_apply(args, "factor", ...)
   }
   repair_attributes.ordered(x, code, ...)
 }
@@ -74,7 +74,7 @@ constructors$ordered$factor <- function(x, ...) {
 #' @export
 constructors$ordered$new_ordered <- function(x, ...) {
   levs <- levels(x)
-  code <- construct_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_ordered", ...)
+  code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_ordered", ...)
   repair_attributes.ordered(x, code, ...)
 }
 

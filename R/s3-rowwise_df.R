@@ -43,7 +43,7 @@ constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
   attr(x_stripped, "groups") <- NULL
   code <- construct_raw(x_stripped, ...)
   vars <- head(names(attr(x, "groups")), -1)
-  rowwise_code <- construct_apply(
+  rowwise_code <- .cstr_apply(
     vars,
     "dplyr::rowwise",
     ...,

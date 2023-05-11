@@ -57,7 +57,7 @@ construct_raw.POSIXlt <- function(x, ...) {
   if (!is.null(tzone) && length(tzone) == 1) {
     args <- c(args, list(tz = tzone))
   }
-  code <- construct_apply(args, "as.POSIXlt", ..., new_line = TRUE)
+  code <- .cstr_apply(args, "as.POSIXlt", ..., new_line = TRUE)
   repair_attributes.POSIXlt(x, code, ...)
 }
 

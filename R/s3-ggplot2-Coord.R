@@ -8,7 +8,7 @@ construct_raw.CoordCartesian <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_cartesian)
-  construct_apply(args, "ggplot2::coord_cartesian", ...)
+  .cstr_apply(args, "ggplot2::coord_cartesian", ...)
 }
 
 #' @export
@@ -21,7 +21,7 @@ construct_raw.CoordFixed <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_fixed)
-  construct_apply(args, "ggplot2::coord_fixed", ...)
+  .cstr_apply(args, "ggplot2::coord_fixed", ...)
 }
 
 
@@ -34,7 +34,7 @@ construct_raw.CoordFlip <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_flip)
-  construct_apply(args, "ggplot2::coord_flip", ...)
+  .cstr_apply(args, "ggplot2::coord_flip", ...)
 }
 
 
@@ -51,7 +51,7 @@ construct_raw.CoordMap <- function(x, ...) {
     )
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_map)
-  construct_apply(args, "ggplot2::coord_map", ...)
+  .cstr_apply(args, "ggplot2::coord_map", ...)
 }
 
 
@@ -65,7 +65,7 @@ construct_raw.CoordMunch <- function(x, ...) {
     segment_length = x$segment_length
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_munch)
-  construct_apply(args, "ggplot2::coord_munch", ...)
+  .cstr_apply(args, "ggplot2::coord_munch", ...)
 }
 
 
@@ -78,7 +78,7 @@ construct_raw.CoordPolar <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_polar)
-  construct_apply(args, "ggplot2::coord_polar", ...)
+  .cstr_apply(args, "ggplot2::coord_polar", ...)
 }
 
 #' @export
@@ -90,7 +90,7 @@ construct_raw.CoordQuickmap <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_quickmap)
-  construct_apply(args, "ggplot2::coord_quickmap", ...)
+  .cstr_apply(args, "ggplot2::coord_quickmap", ...)
 }
 
 #' @export
@@ -112,7 +112,7 @@ construct_raw.CoordSf <- function(x, ...) {
   # handle hidden default
   if (args$label_axes == "--EN") args$label_axes <- NULL
   args <- keep_only_non_defaults(args, ggplot2::coord_sf)
-  construct_apply(args, "ggplot2::coord_sf", ...)
+  .cstr_apply(args, "ggplot2::coord_sf", ...)
 }
 
 #' @export
@@ -126,10 +126,10 @@ construct_raw.CoordTrans<- function(x, ...) {
   args <- keep_only_non_defaults(args, ggplot2::coord_trans)
   args_chr <- lapply(args, construct_raw, ...)
   xy <- list(
-    x = construct_apply(unclass(x$trans$x), "scales::trans_new", ...),
-    y = construct_apply(unclass(x$trans$y), "scales::trans_new", ...)
+    x = .cstr_apply(unclass(x$trans$x), "scales::trans_new", ...),
+    y = .cstr_apply(unclass(x$trans$y), "scales::trans_new", ...)
   )
-  construct_apply(c(args_chr, xy), "ggplot2::coord_trans", language = TRUE, ...)
+  .cstr_apply(c(args_chr, xy), "ggplot2::coord_trans", language = TRUE, ...)
 }
 
 

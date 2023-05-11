@@ -51,7 +51,7 @@ constructors$constructive_options$opts <- function(x, ...) {
       x[[constructor_pos]] <- NULL
     }
   }
-  code <- construct_apply(x, fun, ...)
+  code <- .cstr_apply(x, fun, ...)
   repair_attributes.constructive_options(x, code, ...)
 }
 

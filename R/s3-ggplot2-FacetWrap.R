@@ -12,7 +12,7 @@ construct_raw.FacetWrap <- function(x, ...) {
     function(x) rlang::expr_deparse(rlang::quo_squash(x)),
     character(1)
     ))
-  facets <- construct_apply(facets, "ggplot2::vars", language = TRUE, new_line = FALSE, ...)
+  facets <- .cstr_apply(facets, "ggplot2::vars", language = TRUE, new_line = FALSE, ...)
 
   args <- list(
     facets = NULL,
@@ -44,5 +44,5 @@ construct_raw.FacetWrap <- function(x, ...) {
   ## build call
   args <- lapply(args, construct_raw, ...)
   args$facets <- facets
-  construct_apply(args, fun = "ggplot2::facet_wrap", language = TRUE, ...)
+  .cstr_apply(args, fun = "ggplot2::facet_wrap", language = TRUE, ...)
 }

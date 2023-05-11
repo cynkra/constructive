@@ -55,27 +55,27 @@ constructors$formula$new_formula <- function(x, ..., environment, env_is_default
   rhs_code <- construct_raw(rlang::f_rhs(x), ...)
   if (environment && !env_is_default) {
     env_code <- construct_raw(environment(x), ...)
-    code <- construct_apply(list(lhs_code, rhs_code, env = env_code), "rlang::new_formula", ..., language = TRUE)
+    code <- .cstr_apply(list(lhs_code, rhs_code, env = env_code), "rlang::new_formula", ..., language = TRUE)
   } else {
-    code <- construct_apply(list(lhs_code, rhs_code), "rlang::new_formula", ..., language = TRUE)
+    code <- .cstr_apply(list(lhs_code, rhs_code), "rlang::new_formula", ..., language = TRUE)
   }
   repair_attributes.formula(x, code, ...)
 }
 
 constructors$formula$formula <- function(x, ..., environment, env_is_default) {
   if (environment && !env_is_default) {
-    code <- construct_apply(list(deparse(x), env = environment(x)), "formula", ...)
+    code <- .cstr_apply(list(deparse(x), env = environment(x)), "formula", ...)
   } else {
-    code <- construct_apply(list(deparse(x)), "formula", ..., language = TRUE)
+    code <- .cstr_apply(list(deparse(x)), "formula", ..., language = TRUE)
   }
   repair_attributes.formula(x, code, ...)
 }
 
 constructors$formula$as.formula <- function(x, ..., environment, env_is_default) {
   if (environment && !env_is_default) {
-    code <- construct_apply(list(deparse(x), env = environment(x)), "as.formula", ...)
+    code <- .cstr_apply(list(deparse(x), env = environment(x)), "as.formula", ...)
   } else {
-    code <- construct_apply(list(deparse(x)), "as.formula", ..., language = TRUE)
+    code <- .cstr_apply(list(deparse(x)), "as.formula", ..., language = TRUE)
   }
   repair_attributes.formula(x, code, ...)
 }

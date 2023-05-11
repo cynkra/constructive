@@ -101,7 +101,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
     code <- wrap(code, fun = "")
   }
   if (environment) {
-    envir_code <- construct_apply(
+    envir_code <- .cstr_apply(
       list(environment(x)),
       '(`environment<-`)',
       pipe = pipe,
@@ -118,13 +118,13 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
 
   x_lst <- as.list(unclass(x))
   fun_lst <- lapply(x_lst, deparse)
-  args <- list(construct_apply(
+  args <- list(.cstr_apply(
     fun_lst, "alist", ..., language = TRUE))
   if (environment) {
     envir_arg <- construct_raw(environment(x), ...)
     args <- c(args, list(envir = envir_arg))
   }
-  code <- construct_apply(args, "as.function", ..., language = TRUE)
+  code <- .cstr_apply(args, "as.function", ..., language = TRUE)
   repair_attributes.function(x, code, ...)
 }
 
@@ -135,14 +135,14 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
   x_lst <- as.list(unclass(x))
   fun_lst <- lapply(x_lst, deparse)
   args <- list(
-    args = construct_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE),
+    args = .cstr_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE),
     body = wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
   )
   if (environment) {
     envir_arg <- construct_raw(environment(x), ...)
     args <- c(args, list(env = envir_arg))
   }
-  code <- construct_apply(args, "rlang::new_function", ..., language = TRUE)
+  code <- .cstr_apply(args, "rlang::new_function", ..., language = TRUE)
   repair_attributes.function(x, code, ...)
 }
 

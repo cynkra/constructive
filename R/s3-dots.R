@@ -49,7 +49,7 @@ constructors$dots$default <- function(x, ...) {
     code_lng <- rlang::expr((function(...) environment()$...)(!!!exprs))
     code <- deparse_call_impl(code_lng)
     env_code <- construct_raw(unique_env, ...)
-    code <- construct_apply(list(code, envir = env_code), "evalq", language = TRUE)
+    code <- .cstr_apply(list(code, envir = env_code), "evalq", language = TRUE)
     return(code)
   }
   # strip class since it's not necessary for splicing

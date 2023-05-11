@@ -32,12 +32,12 @@ is_corrupted_pairlist <- function(x) {
 }
 
 constructors$pairlist$pairlist <- function(x, ...) {
-  code <- construct_apply(x, "pairlist", ...)
+  code <- .cstr_apply(x, "pairlist", ...)
   repair_attributes.pairlist(x, code, ...)
 }
 
 constructors$pairlist$pairlist2 <- function(x, ...) {
-  code <- construct_apply(x, "rlang::pairlist2", ...)
+  code <- .cstr_apply(x, "rlang::pairlist2", ...)
   repair_attributes.pairlist(x, code, ...)
 }
 

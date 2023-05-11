@@ -45,7 +45,7 @@ constructors$matrix$matrix <- function(x, ...) {
   dim_names_lst <- if (!is.null(dimnames)) list(dimnames = dimnames)
   x_stripped <- x
   attributes(x_stripped) <- NULL
-  code <- construct_apply(
+  code <- .cstr_apply(
     c(list(x_stripped, nrow = dim[[1]], ncol = dim[[2]]), dim_names_lst),
     "matrix",
     ...

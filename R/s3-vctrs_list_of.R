@@ -34,7 +34,7 @@ is_corrupted_vctrs_list_of <- function(x) {
 }
 
 constructors$vctrs_list_of$list_of <- function(x, ...) {
-  code <- construct_apply(
+  code <- .cstr_apply(
     args = c(as.list(x), list(.ptype= attr(x, "ptype"))),
     fun = "vctrs::list_of",
     ...

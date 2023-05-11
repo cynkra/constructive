@@ -44,13 +44,13 @@ is_corrupted_POSIXct <- function(x) {
 
 constructors$POSIXct$.POSIXct <- function(x, ..., origin) {
   args <- list(as.numeric(x), tz = attr(x, "tzone"))
-  code <- construct_apply(args, ".POSIXct", new_line = TRUE, ...)
+  code <- .cstr_apply(args, ".POSIXct", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
 constructors$POSIXct$as.POSIXct.numeric <- function(x, ..., origin) {
   args <- list(as.numeric(x) - as.numeric(as.POSIXct(origin, "GMT")), tz = attr(x, "tzone"), origin = origin)
-  code <- construct_apply(args, "as.POSIXct", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "as.POSIXct", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
@@ -63,7 +63,7 @@ constructors$POSIXct$as_datetime.numeric <- function(x, ..., origin) {
     args[[1]] <- args[[1]] - origin_dbl
     args <- c(args, list(origin = origin))
   }
-  code <- construct_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
@@ -75,7 +75,7 @@ constructors$POSIXct$as_datetime <- function(x, ..., origin) {
   x_chr[dec_lgl] <- paste0(x_chr[dec_lgl], sub("^0", "", format(split_s[dec_lgl], digits = 5)))
   args <- list(x_chr)
   if (is.null(tzone) || tzone != "UTC") args <- c(args, list(tz = tzone))
-  code <- construct_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
@@ -87,7 +87,7 @@ constructors$POSIXct$as_datetime <- function(x, ..., origin) {
   x_chr[dec_lgl] <- paste0(x_chr[dec_lgl], sub("^0", "", format(split_s[dec_lgl], digits = 5)))
   args <- list(x_chr)
   if (is.null(tzone) || tzone != "UTC") args <- c(args, list(tz = tzone))
-  code <- construct_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
@@ -103,7 +103,7 @@ constructors$POSIXct$as.POSIXct <- function(x, ..., origin) {
   if (!is.null(tzone) && tzone != "") {
     args <- c(args, list(tz = tzone))
   }
-  code <- construct_apply(args, "as.POSIXct", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "as.POSIXct", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 

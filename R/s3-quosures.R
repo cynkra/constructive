@@ -45,7 +45,7 @@ constructors$quosures$new_quosures <- function(x, ...) {
   # remove names if "" so we avoid repairing the names
   if (all(names(x) == "")) names(x_list) <- NULL
   list_code <- construct_raw.list(x_list, ...)
-  code <- construct_apply(list(list_code), "rlang::new_quosures", language = TRUE, ...)
+  code <- .cstr_apply(list(list_code), "rlang::new_quosures", language = TRUE, ...)
   repair_attributes.quosures(x, code, ...)
 }
 

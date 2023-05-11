@@ -39,7 +39,7 @@ is_corrupted_dm <- function(x) {
 constructors$dm$dm <- function(x, ..., one_liner, pipe) {
   def <- unclass(x)$def
   named_list_of_tables <- set_names(def$data, def$table)
-  code <- construct_apply(
+  code <- .cstr_apply(
     named_list_of_tables, fun = "dm::dm", keep_trailing_comma = TRUE, implicit_names = TRUE, one_liner = one_liner, pipe = pipe, ...)
 
   pk_code <- unlist(Map(
@@ -83,7 +83,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
 
   colors <- set_names(def$table, def$display)[!is.na(def$display)]
   if (length(colors)) {
-    color_code <- construct_apply(colors, "dm::dm_set_colors", pipe = pipe, one_liner = one_liner, ...)
+    color_code <- .cstr_apply(colors, "dm::dm_set_colors", pipe = pipe, one_liner = one_liner, ...)
     code <- pipe(code, color_code, pipe, one_liner)
   }
 

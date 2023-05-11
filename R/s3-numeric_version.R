@@ -36,7 +36,7 @@ is_corrupted_numeric_version <- function(x) {
 }
 
 constructors$numeric_version$numeric_version <- function(x, ...) {
-  code <- construct_apply(paste(x, collapse = "."), "numeric_version", ...)
+  code <- .cstr_apply(paste(x, collapse = "."), "numeric_version", ...)
   repair_attributes.numeric_version(x, code, ...)
 }
 
@@ -87,7 +87,7 @@ is_corrupted_package_version <- function(x) {
 }
 
 constructors$package_version$package_version <- function(x, ...) {
-  code <- construct_apply(paste(x, collapse = "."), "package_version", ...)
+  code <- .cstr_apply(paste(x, collapse = "."), "package_version", ...)
   repair_attributes.package_version(x, code, ...)
 }
 
@@ -138,7 +138,7 @@ is_corrupted_R_system_version <- function(x) {
 }
 
 constructors$R_system_version$R_system_version <- function(x, ...) {
-  code <- construct_apply(paste(x, collapse = "."), "R_system_version", ...)
+  code <- .cstr_apply(paste(x, collapse = "."), "R_system_version", ...)
   repair_attributes.R_system_version(x, code, ...)
 }
 

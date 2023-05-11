@@ -1,6 +1,6 @@
 #' @export
 construct_raw.labels <- function(x, ...) {
-  code <- construct_apply(x, fun = "ggplot2::labs", ...)
+  code <- .cstr_apply(x, fun = "ggplot2::labs", ...)
   repair_attributes.labels(x, code, ...)
 }
 

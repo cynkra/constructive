@@ -126,17 +126,17 @@ constructors$environment$env <- function(x, ..., pipe, one_liner, recurse, prede
     list(env_memory_address(x), parents = fetch_parent_names(x)),
     attributes(x)
   )
-  code <- construct_apply(args, "constructive::env", ..., pipe = pipe, one_liner = one_liner)
+  code <- .cstr_apply(args, "constructive::env", ..., pipe = pipe, one_liner = one_liner)
   repair_attributes.environment(x, code, ...)
 }
 
 constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, predefine) {
     if (!recurse) {
       if (length(names(x))) {
-        code <- construct_apply(list(as.list.environment(x), parent = topenv(x)), "list2env", ..., pipe = pipe, one_liner = one_liner)
+        code <- .cstr_apply(list(as.list.environment(x), parent = topenv(x)), "list2env", ..., pipe = pipe, one_liner = one_liner)
         return(repair_attributes.environment(x, code, ...))
       }
-      code <- construct_apply(list(parent = topenv(x)), "new.env", ..., pipe = pipe, one_liner = one_liner)
+      code <- .cstr_apply(list(parent = topenv(x)), "new.env", ..., pipe = pipe, one_liner = one_liner)
       return(repair_attributes.environment(x, code, ...))
     }
 
@@ -144,10 +144,10 @@ constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, 
     lhs_code <- construct_raw(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
     if (length(names(x))) {
       data_code <- construct_raw(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner)
-      rhs_code <- construct_apply(list(data_code, parent = place_holder), "list2env", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
+      rhs_code <- .cstr_apply(list(data_code, parent = place_holder), "list2env", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
       code <- pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
     } else {
-      rhs_code <- construct_apply(list(parent = place_holder), "new.env", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
+      rhs_code <- .cstr_apply(list(parent = place_holder), "new.env", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
       code <- pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
     }
 
@@ -159,10 +159,10 @@ constructors$environment$new_environment <- function(x, ..., pipe, one_liner, re
 
   if (!recurse) {
     if (length(names(x))) {
-      code <- construct_apply(list(as.list.environment(x), parent = topenv(x)), "rlang::new_environment", ..., pipe = pipe, one_liner = one_liner)
+      code <- .cstr_apply(list(as.list.environment(x), parent = topenv(x)), "rlang::new_environment", ..., pipe = pipe, one_liner = one_liner)
       return(repair_attributes.environment(x, code, ...))
     }
-    code <- construct_apply(list(parent = topenv(x)), "rlang::new_environment", ..., pipe = pipe, one_liner = one_liner)
+    code <- .cstr_apply(list(parent = topenv(x)), "rlang::new_environment", ..., pipe = pipe, one_liner = one_liner)
     return(repair_attributes.environment(x, code, ...))
   }
 
@@ -170,10 +170,10 @@ constructors$environment$new_environment <- function(x, ..., pipe, one_liner, re
   lhs_code <- construct_raw(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
   if (length(names(x))) {
     data_code <- construct_raw(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner)
-    rhs_code <- construct_apply(list(data_code, parent = place_holder), "rlang::new_environment", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
+    rhs_code <- .cstr_apply(list(data_code, parent = place_holder), "rlang::new_environment", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
     code <- pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
   } else {
-    rhs_code <- construct_apply(list(parent = place_holder), "rlang::new_environment", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
+    rhs_code <- .cstr_apply(list(parent = place_holder), "rlang::new_environment", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
     code <- pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
   }
   repair_attributes.environment(x, code, ..., pipe = pipe, one_liner = one_liner)

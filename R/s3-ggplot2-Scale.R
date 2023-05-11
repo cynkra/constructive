@@ -13,12 +13,12 @@ construct_raw.Scale <- function(x, ...) {
     candidate <- do.call(ggplot2::xlim, as.list(values$limits))
     xlim_call_lgl <- isTRUE(all.equal(values, as.list(candidate), ignore.environment = TRUE))
     if (xlim_call_lgl) {
-      return(construct_apply(as.list(values$limits), "ggplot2::xlim", ...))
+      return(.cstr_apply(as.list(values$limits), "ggplot2::xlim", ...))
     }
     candidate <- do.call(ggplot2::ylim, as.list(values$limits))
     ylim_call_lgl <- isTRUE(all.equal(values, as.list(candidate), ignore.environment = TRUE))
     if (ylim_call_lgl) {
-      return(construct_apply(as.list(values$limits), "ggplot2::ylim", ...))
+      return(.cstr_apply(as.list(values$limits), "ggplot2::ylim", ...))
     }
   }
   # retrieve the defaults of the function, so we can simplify the call
@@ -73,7 +73,7 @@ construct_raw.Scale <- function(x, ...) {
 
   ## build call
   fun_chr <- paste0("ggplot2::", fun_chr)
-  construct_apply(args, fun = fun_chr, language = TRUE, ...)
+  .cstr_apply(args, fun = fun_chr, language = TRUE, ...)
 }
 
 

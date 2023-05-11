@@ -43,7 +43,7 @@ constructors$grouped_df$default <- function(x, ..., one_liner, pipe) {
   attr(x_stripped, "groups") <- NULL
   code <- construct_raw(x_stripped, ...)
   grps <- head(names(attr(x, "groups")), -1)
-  group_by_code <- construct_apply(
+  group_by_code <- .cstr_apply(
     grps,
     "dplyr::group_by",
     ...,

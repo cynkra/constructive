@@ -102,7 +102,7 @@ constructors$data.frame$data.frame <- function(x, ...) {
   if (any(!is_syntactic(names(x)))) args <- c(args, list(check.names = FALSE))
 
   # build code recursively
-  code <- construct_apply(args, fun = "data.frame", ...)
+  code <- .cstr_apply(args, fun = "data.frame", ...)
 
   # repair
   repair_attributes.data.frame(x, code, ...)

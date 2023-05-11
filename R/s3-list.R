@@ -66,22 +66,22 @@ construct_list <- function(x, constructor, trim, fill, keep_trailing_comma, ...)
         } else if (fill == "...") {
           args <- c(args, "...")
         }
-        code <- construct_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
+        code <- .cstr_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
         return(code)
       }
 
-      list_code <- construct_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
+      list_code <- .cstr_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
       if (fill == "vector") {
         null_list_code <- sprintf('vector("list", %s)', l - trim)
       } else {
         # fill == "new_list
         null_list_code <- sprintf('rlang::new_list(%s)', l - trim)
       }
-      code <- construct_apply(list(list_code, null_list_code), "c", ..., new_line = FALSE, language = TRUE)
+      code <- .cstr_apply(list(list_code, null_list_code), "c", ..., new_line = FALSE, language = TRUE)
       return(code)
     }
   }
-  construct_apply(x, fun = constructor, ..., keep_trailing_comma = keep_trailing_comma)
+  .cstr_apply(x, fun = constructor, ..., keep_trailing_comma = keep_trailing_comma)
 }
 
 constructors$list$list <- function(x, trim, fill, ...) {

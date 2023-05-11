@@ -52,7 +52,7 @@ constructors$data.table$data.table <- function(x, selfref, ...) {
   } else {
     args <- x
   }
-  code <- construct_apply(args, fun = "data.table::data.table", ...)
+  code <- .cstr_apply(args, fun = "data.table::data.table", ...)
   repair_attributes.data.table(x, code, ..., selfref = selfref)
 }
 

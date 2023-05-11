@@ -57,9 +57,9 @@ constructors$Date$as.Date <- function(x, ..., origin = "1970-01-01") {
   if (any(is.infinite(x)) && any(is.finite(x))) {
     x_dbl <- unclass(x)
     if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
-    code <- construct_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
+    code <- .cstr_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
   } else {
-    code <- construct_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
+    code <- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
   }
   repair_attributes.Date(x, code, ...)
 }
@@ -68,7 +68,7 @@ constructors$Date$date <- function(x, ..., origin) {
   if (any(is.infinite(x)) && any(is.finite(x))) {
     return(constructors$Date$as_date(x, ..., origin = origin))
   } else {
-    code <- construct_apply(list(format(x)),  "lubridate::date", ..., new_line = FALSE)
+    code <- .cstr_apply(list(format(x)),  "lubridate::date", ..., new_line = FALSE)
   }
   repair_attributes.Date(x, code, ...)
 }
@@ -77,13 +77,13 @@ constructors$Date$as_date <- function(x, ..., origin) {
   if (any(is.infinite(x)) && any(is.finite(x))) {
     x_dbl <- unclass(x)
     if (origin == "1970-01-01") {
-      code <- construct_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
+      code <- .cstr_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
     } else {
       x_dbl <- x_dbl - as.numeric(as.Date(origin))
-      code <- construct_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
+      code <- .cstr_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
     }
   } else {
-    code <- construct_apply(list(format(x)),  "lubridate::as_date", ..., new_line = FALSE)
+    code <- .cstr_apply(list(format(x)),  "lubridate::as_date", ..., new_line = FALSE)
   }
   repair_attributes.Date(x, code, ...)
 }
@@ -91,7 +91,7 @@ constructors$Date$as_date <- function(x, ..., origin) {
 constructors$Date$as.Date.numeric <- function(x, ..., origin) {
   x_dbl <- unclass(x)
   if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
-  code <- construct_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
+  code <- .cstr_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
   repair_attributes.Date(x, code, ...)
 }
 
@@ -99,15 +99,15 @@ constructors$Date$as_date.numeric <- function(x, ..., origin) {
   x_dbl <- unclass(x)
   if (origin != "1970-01-01") {
     x_dbl <- x_dbl - as.numeric(as.Date(origin))
-  code <- construct_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
+  code <- .cstr_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
   } else {
-    code <- construct_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
+    code <- .cstr_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
   }
   repair_attributes.Date(x, code, ...)
 }
 
 constructors$Date$new_date <- function(x, ..., origin) {
-  code <- construct_apply(list(unclass(x)), "vctrs::new_date", ..., new_line = FALSE)
+  code <- .cstr_apply(list(unclass(x)), "vctrs::new_date", ..., new_line = FALSE)
   repair_attributes.Date(x, code, ...)
 }
 
