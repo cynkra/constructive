@@ -28,7 +28,7 @@ construct_raw.default <- function(x, ..., one_liner = FALSE) {
 #'
 #' @examples
 #' construct_apply(list(a=a), "foo", data = list(a=1), template = NULL, implicit_names = TRUE)
-construct_apply <- function(args, fun = "list", ..., keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE) {
+.cstr_apply <- function(args, fun = "list", ..., keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE) {
   new_line <- new_line && !one_liner
   keep_trailing_comma <- keep_trailing_comma && !one_liner
   if (!length(args)) return(sprintf("%s()", fun))
