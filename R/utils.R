@@ -118,7 +118,7 @@ flatten.scales <- function(gg) {
   scale.names.sorted <- sort(names(scale.aesthetics))
 
   # define a new empty scale list ggproto object
-  new.scales <- ggplot2:::scales_list()
+  new.scales <- getFromNamespace("scales_list", asNamespace("ggplot2"))
 
   # for each scale, traverse up its inheritance tree until we can't go any
   # higher without losing the function call -- i.e. any super's beyond this
