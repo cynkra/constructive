@@ -3,25 +3,15 @@
     Code
       construct(factor(month.abb, ordered = TRUE))
     Output
-      ordered(c(
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-        "Oct", "Nov", "Dec"
-      ))
+      ordered(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
     Code
       construct(factor(month.abb, ordered = TRUE))
     Output
-      ordered(c(
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-        "Oct", "Nov", "Dec"
-      ))
+      ordered(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
     Code
       construct(factor(month.abb, ordered = TRUE), opts_ordered("factor"))
     Output
-      factor(
-        c(
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-          "Oct", "Nov", "Dec"
-        ),
+      factor(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
         ordered = TRUE
       )
     Code
@@ -29,55 +19,34 @@
     Output
       vctrs::new_ordered(
         c(5L, 4L, 8L, 1L, 9L, 7L, 6L, 2L, 12L, 11L, 10L, 3L),
-        levels = c(
-          "Apr", "Aug", "Dec", "Feb", "Jan", "Jul", "Jun", "Mar", "May",
-          "Nov", "Oct", "Sep"
-        )
+        levels = c("Apr", "Aug", "Dec", "Feb", "Jan", "Jul", "Jun", "Mar", "May", "Nov", "Oct", "Sep")
       )
     Code
       construct(factor(month.abb, ordered = TRUE), opts_ordered("next"))
     Output
-      factor(c(
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-        "Oct", "Nov", "Dec"
-      )) |>
+      factor(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")) |>
         structure(class = c("ordered", "factor"))
     Code
       construct(factor(month.abb, ordered = TRUE), opts_ordered("atomic"))
     Output
       c(5L, 4L, 8L, 1L, 9L, 7L, 6L, 2L, 12L, 11L, 10L, 3L) |>
         structure(
-          levels = c(
-            "Apr", "Aug", "Dec", "Feb", "Jan", "Jul", "Jun", "Mar", "May",
-            "Nov", "Oct", "Sep"
-          ),
+          levels = c("Apr", "Aug", "Dec", "Feb", "Jan", "Jul", "Jun", "Mar", "May", "Nov", "Oct", "Sep"),
           class = c("ordered", "factor")
         )
     Code
       construct(factor(month.abb, month.abb, ordered = TRUE))
     Output
       ordered(
-        c(
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-          "Oct", "Nov", "Dec"
-        ),
-        levels = c(
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-          "Oct", "Nov", "Dec"
-        )
+        c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+        levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
       )
     Code
       construct(factor(month.abb, month.abb, ordered = TRUE), opts_ordered("factor"))
     Output
       factor(
-        c(
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-          "Oct", "Nov", "Dec"
-        ),
-        levels = c(
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-          "Oct", "Nov", "Dec"
-        ),
+        c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+        levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
         ordered = TRUE
       )
     Code
@@ -86,13 +55,13 @@
     Output
       vctrs::new_ordered(
         1:12,
-        levels = c(
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-          "Oct", "Nov", "Dec"
-        )
+        levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
       )
     Code
       construct(ordered(c(a = "foo")))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
-      ordered(c(a = "foo"))
+      ordered("foo")
 

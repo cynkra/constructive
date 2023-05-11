@@ -8,7 +8,9 @@ opts_atomic(
   ...,
   trim = NULL,
   fill = c("default", "rlang", "+", "...", "none"),
-  compress = TRUE
+  compress = TRUE,
+  unicode_representation = c("ascii", "latin", "character", "unicode"),
+  escape = FALSE
 )
 }
 \arguments{
@@ -22,6 +24,20 @@ This code will parse without failure but its evaluation might fail.}
 
 \item{compress}{Boolean. It \code{TRUE} instead of \code{c()} Use \code{seq()}, \code{rep()}, or atomic constructors \code{logical()}, \code{integer()},
 \code{numeric()}, \code{complex()}, \code{raw()} when relevant to simplify the output.}
+
+\item{unicode_representation}{By default "ascii", which means only ASCII characters
+(code point < 128) will be used to construct a string. This makes sure that
+homoglyphs (different spaces and other identically displayed unicode characters)
+are printed differently, and avoid possible unfortunate copy and paste
+auto conversion issues. "latin" is more lax and uses all latin characters
+(code point < 256). "character" shows all characters, but not emojis. Finally
+"unicode" displays all characters and emojis, which is what \code{dput()} does.}
+
+\item{escape}{Whether to escape double quotes and backslashes. If \code{FALSE} we use
+single quotes to suround strings containing double quotes, and raw strings
+for strings that contain backslashes and/or a combination of single and
+double quotes. Depending on \code{unicode_representation} \code{escape = FALSE} cannot be applied
+on all strings.}
 }
 \value{
 An object of class <constructive_options/constructive_options_atomic>
@@ -51,4 +67,10 @@ construct(iris, opts_atomic(trim = 2, fill = "rlang"))
 construct(iris, opts_atomic(trim = 2, fill = "+"))
 construct(iris, opts_atomic(trim = 2, fill = "..."))
 construct(iris, opts_atomic(trim = 2, fill = "none"))
+construct(iris, opts_atomic(trim = 2, fill = "none"))
+a <- c("a a", "a\U000000A0a", "a\U00002002a", "\U430 \U430")
+construct(foo, opts_atomic(unicode_representation = "unicode"))
+construct(foo, opts_atomic(unicode_representation = "character"))
+construct(foo, opts_atomic(unicode_representation = "latin"))
+construct(foo, opts_atomic(unicode_representation = "ascii"))
 }

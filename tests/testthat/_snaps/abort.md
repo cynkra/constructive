@@ -33,9 +33,8 @@
         `letters` must be a named list or an environment.
       i It has type 'character' and length 26:
       c(
-        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-        "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
-        "z"
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
+        "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
       )
     Code
       try(abort_not_env_or_named_list(list(1, 2)))
@@ -51,9 +50,8 @@
       Error in eval(code, test_env) : `data` has an unexpected value.
       i It has type 'character' and length 26:
       c(
-        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-        "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
-        "z"
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
+        "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
       )
     Code
       try(abort_wrong_data(list(letters)))
@@ -61,9 +59,8 @@
       Error in eval(code, test_env) : `data[[1]]` has an unexpected value
       i It has type 'character' and length 26:
       c(
-        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-        "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
-        "z"
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
+        "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
       )
     Code
       try(abort_wrong_data("unknown"))
@@ -101,9 +98,8 @@
     Output
       It has type 'character' and length 26:
       c(
-        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-        "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
-        "z"
+        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
+        "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
       )
     Code
       writeLines(describe(mean))
