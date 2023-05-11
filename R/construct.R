@@ -32,7 +32,7 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
   globals$envs <- data.frame(hash = character(), name = character())
 
   # check inputs
-  combine_errors(
+  .cstr_combine_errors(
     # force so we might fail outside of the try_fetch() when x is not properly provided
     force(x),
     ellipsis::check_dots_unnamed(),

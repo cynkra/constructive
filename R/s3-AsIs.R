@@ -17,7 +17,7 @@ constructors$array <- new.env()
 #' @return An object of class <constructive_options/constructive_options_array>
 #' @export
 opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )

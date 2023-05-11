@@ -59,7 +59,7 @@ opts_atomic <- function(
     unicode_representation = c("ascii", "latin", "character", "unicode"),
     escape = FALSE
 ) {
-  combine_errors(
+  .cstr_combine_errors(
     ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill),

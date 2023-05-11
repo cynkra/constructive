@@ -21,7 +21,7 @@ constructors$POSIXct <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )

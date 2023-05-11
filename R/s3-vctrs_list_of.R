@@ -13,7 +13,7 @@ constructors$vctrs_list_of <- new.env()
 #' @return An object of class <constructive_options/constructive_options_data.table>
 #' @export
 opts_vctrs_list_of <- function(constructor = c("list_of", "list"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )

@@ -30,7 +30,7 @@ opts_function <- function(
     environment = TRUE,
     srcref = FALSE,
     trim = NULL) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
     abort_not_boolean(environment),

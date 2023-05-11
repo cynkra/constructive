@@ -9,7 +9,7 @@
 #' @return A list
 #' @export
 compare_options <- function(ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE) {
-  combine_errors(
+  .cstr_combine_errors(
     abort_not_boolean(ignore_srcref),
     abort_not_boolean(ignore_attr),
     abort_not_boolean(ignore_function_env),

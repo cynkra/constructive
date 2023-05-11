@@ -16,7 +16,7 @@ constructors$externalptr <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_externalptr  <- function(constructor = c("default"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )

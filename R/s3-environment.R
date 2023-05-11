@@ -77,7 +77,7 @@ constructors$environment <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_environment <- function(constructor = c("env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
     abort_not_boolean(recurse)

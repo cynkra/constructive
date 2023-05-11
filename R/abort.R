@@ -1,4 +1,4 @@
-combine_errors <- function(
+.cstr_combine_errors <- function(
     ..., # unnamed expresions and named arg to forward to abort, such as `class`
     class = NULL,
     call,

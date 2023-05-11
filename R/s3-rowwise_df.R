@@ -16,7 +16,7 @@ constructors$rowwise_df <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_rowwise_df <- function(constructor = c("default", "next", "list"), ..., origin = "1970-01-01") {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
