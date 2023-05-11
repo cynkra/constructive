@@ -9,6 +9,18 @@
 #' @param fill String. Method to use to represent the trimmed elements.
 #' @param compress Boolean. It `TRUE` instead of `c()` Use `seq()`, `rep()`, or atomic constructors `logical()`, `integer()`,
 #'   `numeric()`, `complex()`, `raw()` when relevant to simplify the output.
+#' @param unicode_representation By default "ascii", which means only ASCII characters
+#'   (code point < 128) will be used to construct a string. This makes sure that
+#'   homoglyphs (different spaces and other identically displayed unicode characters)
+#'   are printed differently, and avoid possible unfortunate copy and paste
+#'   auto conversion issues. "latin" is more lax and uses all latin characters
+#'   (code point < 256). "character" shows all characters, but not emojis. Finally
+#'   "unicode" displays all characters and emojis, which is what `dput()` does.
+#' @param escape Whether to escape double quotes and backslashes. If `FALSE` we use
+#'   single quotes to suround strings containing double quotes, and raw strings
+#'   for strings that contain backslashes and/or a combination of single and
+#'   double quotes. Depending on `unicode_representation` `escape = FALSE` cannot be applied
+#'   on all strings.
 #'
 #' @details
 #'
@@ -33,14 +45,28 @@
 #' construct(iris, opts_atomic(trim = 2, fill = "+"))
 #' construct(iris, opts_atomic(trim = 2, fill = "..."))
 #' construct(iris, opts_atomic(trim = 2, fill = "none"))
-opts_atomic <- function(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE) {
+#' construct(iris, opts_atomic(trim = 2, fill = "none"))
+#' a <- c("a a", "a\U000000A0a", "a\U00002002a", "\U430 \U430")
+#' construct(foo, opts_atomic(unicode_representation = "unicode"))
+#' construct(foo, opts_atomic(unicode_representation = "character"))
+#' construct(foo, opts_atomic(unicode_representation = "latin"))
+#' construct(foo, opts_atomic(unicode_representation = "ascii"))
+opts_atomic <- function(
+    ...,
+    trim = NULL,
+    fill = c("default", "rlang", "+", "...", "none"),
+    compress = TRUE,
+    unicode_representation = c("ascii", "latin", "character", "unicode"),
+    escape = FALSE
+) {
   combine_errors(
     ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill),
-    abort_not_boolean(compress)
+    abort_not_boolean(compress),
+    unicode_representation <- rlang::arg_match(unicode_representation)
   )
-  constructive_options("atomic", trim = trim, fill = fill, compress = compress)
+  constructive_options("atomic", trim = trim, fill = fill, compress = compress, unicode_representation = unicode_representation, escape = escape)
 }
 
 #' @export
@@ -80,6 +106,10 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
     return(code)
   }
 
+  if (is.character(x)) {
+    return(construct_chr(x, opts$unicode_representation, opts$escape, one_liner = one_liner, ...))
+  }
+
   if (!is.double(x)) {
     code <- deparse(x)
     if (one_liner) code <- paste(code, collapse = " ")
@@ -89,7 +119,6 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
   # numeric
 
   # doubles need special treatment because deparse doesn't produce faithful code
-  l <- length(x)
   if (l == 0) return("numeric(0)")
   # unnamed scalars don't need c()
   if (l == 1 && is.null(names(x))) return(format_flex(x, all_na = TRUE))
@@ -186,10 +215,85 @@ format_flex <- function(x, all_na) {
   sprintf("%a", x) # nocov
 }
 
+construct_chr <- function(x, unicode_representation, escape, one_liner, ...) {
+  if (!length(x)) return("character(0)")
+  strings0 <- strings <- sapply(x, deparse, USE.NAMES = FALSE)
+  strings <- sapply(strings0, format_unicode, unicode_representation, USE.NAMES = FALSE)
+  if (!escape) strings <- unescape_relevant_strings(strings, strings0)
+  if (length(strings) == 1) return(strings)
+  nas <- strings == "NA_character_"
+  if (any(nas) && !all(nas)) strings[nas] <- "NA"
+  construct_apply(strings, "c", one_liner = one_liner, ..., language = TRUE)
+}
 
-true_rep <- function(x) {
-  formatted <- format(x, digits = 22)
-  digit <- floor(log(x, 10))
 
+format_unicode <- function(x, type = c("ascii", "latin", "character", "unicode")) {
+  type <- match.arg(type)
+  if (type == "unicode") return(x)
+  int <- utf8ToInt(x)
+  limit <- switch(
+    type,
+    ascii = 128,
+    latin = 256,
+    character = 0x1F000
+  )
+  special_chars <- int[int>=limit]
+  for (chr in special_chars) {
+    x <- gsub(intToUtf8(chr), sprintf("\\U{%X}", chr), x, fixed = TRUE)
+  }
+  x
+}
 
+unescape_relevant_strings <- function(strings, strings0) {
+  # https://stackoverflow.com/questions/42598040/
+  odd_consecutive_backslashes_pattern <-
+    r"[(?<!\\)\\(?:\\{2})*(?!\\)]"
+  has_odd_consecutive_backlashes <-
+    grepl(odd_consecutive_backslashes_pattern, strings, perl = TRUE)
+
+  # escape if it wasn't altered by previous and if deparsed code doesn't contain single backslashes
+  strings <- ifelse(
+    strings == strings0 &! has_odd_consecutive_backlashes,
+    unescape_strings(strings),
+    strings)
+}
+
+unescape_strings <- function(x) {
+  single_q <- grepl("'", x, fixed = TRUE)
+  double_q <- grepl('\\"', x, fixed = TRUE)
+  backslash <- grepl("\\\\", x, fixed = TRUE)
+
+  as_raw_string <- function(x) {
+    # remove external dbquotes
+    x <- gsub("^.", "", x)
+    x <- gsub(".$", "", x)
+    # unescape double quotes\
+    x <- gsub("\\\"", "\"", x, fixed = TRUE)
+    # unescape backslashes
+    x <-gsub("\\\\", "\\", x, fixed = TRUE)
+    # build raw string
+    x <- sprintf('r"[%s]"', x)
+    x
+  }
+
+  # as_single_q_string <- function(x) {
+  #   # remove external dbquotes
+  #   x <- gsub("^.", "", x)
+  #   x <- gsub(".$", "", x)
+  #   # unescape double quotes\
+  #   x <- gsub("\\\"", "\"", x, fixed = TRUE)
+  #   # build singleq string
+  #   x <- sprintf("'%s'", x)
+  #   x
+  # }
+
+  ifelse(
+    backslash | (single_q & double_q),
+    as_raw_string(x),
+    # ifelse(
+    #   double_q,
+    #   as_single_q_string(x),
+    x
+    # )
+  )
 }
