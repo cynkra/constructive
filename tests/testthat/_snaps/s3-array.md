@@ -4,19 +4,13 @@
       construct(as.array(month.abb))
     Output
       array(
-        c(
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-          "Oct", "Nov", "Dec"
-        ),
+        c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
         dim = 12L
       )
     Code
       construct(as.array(month.abb), opts_array("next"))
     Output
-      c(
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-        "Oct", "Nov", "Dec"
-      ) |>
+      c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec") |>
         structure(dim = 12L)
     Code
       construct(array(1:3, c(2, 4)))

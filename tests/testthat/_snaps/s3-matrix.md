@@ -14,10 +14,7 @@
         ncol = 7L,
         dimnames = list(
           c("1951", "1956", "1957", "1958", "1959", "1960", "1961"),
-          c(
-            "N.Amer", "Europe", "Asia", "S.Amer", "Oceania", "Africa",
-            "Mid.Amer"
-          )
+          c("N.Amer", "Europe", "Asia", "S.Amer", "Oceania", "Africa", "Mid.Amer")
         )
       )
     Code
