@@ -28,7 +28,7 @@ opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), .
 }
 
 #' @export
-construct_raw.matrix <- function(x, ...) {
+.cstr_construct.matrix <- function(x, ...) {
   opts <- .cstr_fetch_opts("matrix", ...)
   if (is_corrupted_matrix(x) || opts$constructor == "next") return(NextMethod())
   constructors$matrix[[opts$constructor]](x, ...)
@@ -59,7 +59,7 @@ constructors$matrix$array <- function(x, ...) {
 }
 
 constructors$matrix$atomic <- function(x, ...) {
-  construct_raw.default(x, ...)
+  .cstr_construct.default(x, ...)
 }
 
 #' @export

@@ -21,7 +21,7 @@ opts_vctrs_list_of <- function(constructor = c("list_of", "list"), ...) {
 }
 
 #' @export
-construct_raw.vctrs_list_of <- function(x, ...) {
+.cstr_construct.vctrs_list_of <- function(x, ...) {
   opts <- .cstr_fetch_opts("vctrs_list_of", ...)
   if (is_corrupted_vctrs_list_of(x) || opts$constructor == "next") return(NextMethod())
   constructors <- constructors$vctrs_list_of[[opts$constructor]]
@@ -43,7 +43,7 @@ constructors$vctrs_list_of$list_of <- function(x, ...) {
 }
 
 constructors$vctrs_list_of$list <- function(x, ...) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 #' @export

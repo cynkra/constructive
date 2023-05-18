@@ -26,7 +26,7 @@ opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ..., 
 }
 
 #' @export
-construct_raw.quosures <- function(x, ...) {
+.cstr_construct.quosures <- function(x, ...) {
   opts <- .cstr_fetch_opts("quosures", ...)
   if (is_corrupted_quosures(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$quosures[[opts$constructor]]
@@ -44,14 +44,14 @@ constructors$quosures$new_quosures <- function(x, ...) {
   x_list <- unclass(x)
   # remove names if "" so we avoid repairing the names
   if (all(names(x) == "")) names(x_list) <- NULL
-  list_code <- construct_raw.list(x_list, ...)
+  list_code <- .cstr_construct.list(x_list, ...)
   code <- .cstr_apply(list(list_code), "rlang::new_quosures", language = TRUE, ...)
   repair_attributes.quosures(x, code, ...)
 }
 
 #' @export
 constructors$quosures$list <- function(x, ...) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 #' @export

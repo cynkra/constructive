@@ -1,13 +1,13 @@
 #' @export
-construct_raw.default <- function(x, ..., one_liner = FALSE) {
-  if (is.environment(x)) return(construct_raw.environment(x, ..., one_liner = one_liner))
-  if (is.list(x))  return(construct_raw.list(x, ..., one_liner = one_liner))
-  if (is.function(x))  return(construct_raw.function(x, ..., one_liner = one_liner))
-  if (is.language(x) && !is.expression(x))  return(construct_raw.language(x, ..., one_liner = one_liner))
-  if (typeof(x) == "...")  return(construct_raw.dots(x, ..., one_liner = one_liner))
+.cstr_construct.default <- function(x, ..., one_liner = FALSE) {
+  if (is.environment(x)) return(.cstr_construct.environment(x, ..., one_liner = one_liner))
+  if (is.list(x))  return(.cstr_construct.list(x, ..., one_liner = one_liner))
+  if (is.function(x))  return(.cstr_construct.function(x, ..., one_liner = one_liner))
+  if (is.language(x) && !is.expression(x))  return(.cstr_construct.language(x, ..., one_liner = one_liner))
+  if (typeof(x) == "...")  return(.cstr_construct.dots(x, ..., one_liner = one_liner))
   # for some reason the S3 method is not always caught the first time
-  if (typeof(x) == "externalptr")  return(construct_raw.externalptr(x, ..., one_liner = one_liner))
-  construct_raw.atomic(x, ..., one_liner = one_liner)
+  if (typeof(x) == "externalptr")  return(.cstr_construct.externalptr(x, ..., one_liner = one_liner))
+  .cstr_construct.atomic(x, ..., one_liner = one_liner)
 }
 
 #' construct_apply
@@ -32,7 +32,7 @@ construct_raw.default <- function(x, ..., one_liner = FALSE) {
   new_line <- new_line && !one_liner
   keep_trailing_comma <- keep_trailing_comma && !one_liner
   if (!length(args)) return(sprintf("%s()", fun))
-  if (!language) args <- lapply(unclass(args), construct_raw, ..., one_liner = one_liner)
+  if (!language) args <- lapply(unclass(args), .cstr_construct, ..., one_liner = one_liner)
   args_chr <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
   args_chr <- unlist(args_chr)
   # if line is short enough stick all in one line

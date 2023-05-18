@@ -26,7 +26,7 @@ opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "atomic"), ..., o
 }
 
 #' @export
-construct_raw.POSIXlt <- function(x, ...) {
+.cstr_construct.POSIXlt <- function(x, ...) {
   opts <- .cstr_fetch_opts("POSIXlt", ...)
   if (is_corrupted_POSIXlt(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$POSIXlt[[opts$constructor]]
@@ -40,11 +40,11 @@ is_corrupted_POSIXlt <- function(x) {
 }
 
 #' @export
-construct_raw.POSIXlt <- function(x, ...) {
+.cstr_construct.POSIXlt <- function(x, ...) {
   gmtoff <- .subset2(x, "gmtoff")
   from_posixct <- !is.null(gmtoff) && !all(is.na(gmtoff))
   if (from_posixct) {
-    code_posixct <- construct_raw(as.POSIXct(x), ...)
+    code_posixct <- .cstr_construct(as.POSIXct(x), ...)
     code <- .cstr_wrap(code_posixct, "as.POSIXlt", new_line = FALSE)
     return(repair_attributes.POSIXlt(x, code, ...))
   }

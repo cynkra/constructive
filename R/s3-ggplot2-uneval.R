@@ -3,7 +3,7 @@
 # eval the expressions or components
 
 #' @export
-construct_raw.uneval <- function(x, ...) {
+.cstr_construct.uneval <- function(x, ...) {
   args <- lapply(x, function(x) rlang::expr_deparse(rlang::quo_squash(x)))
   nm1 <- names(args)[1]
   # omit `x` and `y` if provided in this order

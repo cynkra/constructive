@@ -64,7 +64,7 @@ env <- function(address, parents = NULL, ...) {
 
 update_predefinition <- function(envir, ...) {
   # construct parent before constructing env
-  parent_code <- construct_raw(parent.env(envir), ...)
+  parent_code <- .cstr_construct(parent.env(envir), ...)
   # if envir was already constructed (recorded in globals$env), just return its name
   hash <- format(envir)
   if (hash %in% globals$envs$hash) {
@@ -96,7 +96,7 @@ update_predefinition <- function(envir, ...) {
     } else if (!is.environment(obj)) {
       nm <- protect(nm)
       # this defines the objects as a side effect
-      obj_code <- construct_raw(obj, ...)
+      obj_code <- .cstr_construct(obj, ...)
       obj_code[[1]] <- sprintf("%s$%s <- %s", env_name, nm, obj_code[[1]])
       globals$predefinition <- c(
         globals$predefinition,
@@ -116,7 +116,7 @@ update_predefinition <- function(envir, ...) {
       )
     } else if (is.environment(obj)) {
       nm <- protect(nm)
-      sub_env_name <- construct_raw(obj, ...) # this will also print code
+      sub_env_name <- .cstr_construct(obj, ...) # this will also print code
       globals$predefinition <- c(
         globals$predefinition,
         sprintf("%s$%s <- %s", env_name, nm, sub_env_name)

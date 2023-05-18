@@ -24,7 +24,7 @@ opts_rowwise_df <- function(constructor = c("default", "next", "list"), ..., ori
 }
 
 #' @export
-construct_raw.rowwise_df <- function(x, ...) {
+.cstr_construct.rowwise_df <- function(x, ...) {
   opts <- .cstr_fetch_opts("rowwise_df", ...)
   if (is_corrupted_rowwise_df(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$rowwise_df[[opts$constructor]]
@@ -41,7 +41,7 @@ constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
   x_stripped <- x
   class(x_stripped) <- setdiff(class(x_stripped), "rowwise_df")
   attr(x_stripped, "groups") <- NULL
-  code <- construct_raw(x_stripped, ...)
+  code <- .cstr_construct(x_stripped, ...)
   vars <- head(names(attr(x, "groups")), -1)
   rowwise_code <- .cstr_apply(
     vars,
@@ -59,7 +59,7 @@ constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
 }
 
 constructors$rowwise_df$list <- function(x, ...) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 # no need for a constructor for grouped_df since it falls back on tbl_df

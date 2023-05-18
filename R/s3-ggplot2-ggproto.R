@@ -2,13 +2,13 @@
 # so we just construct if we find the
 
 #' @export
-construct_raw.ggproto <- function(x, ggproto.ignore_draw_key = FALSE, ...) {
+.cstr_construct.ggproto <- function(x, ggproto.ignore_draw_key = FALSE, ...) {
   if (ggproto.ignore_draw_key) {
     x <- as.list(x)
     x$draw_key <- NULL
   }
   code <- find_in_package_protos(x, ggproto.ignore_draw_key)
-  if(is.null(code)) return(construct_raw.environment(x, ...))
+  if(is.null(code)) return(.cstr_construct.environment(x, ...))
   repair_attributes.ggproto(x, code, ...)
 }
 

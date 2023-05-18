@@ -28,7 +28,7 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "ne
 }
 
 #' @export
-construct_raw.ordered <- function(x, ...) {
+.cstr_construct.ordered <- function(x, ...) {
   opts <- .cstr_fetch_opts("ordered", ...)
   if (is_corrupted_ordered(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$ordered[[opts$constructor]]
@@ -80,7 +80,7 @@ constructors$ordered$new_ordered <- function(x, ...) {
 
 #' @export
 constructors$ordered$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export

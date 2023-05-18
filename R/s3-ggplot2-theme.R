@@ -1,5 +1,5 @@
 #' @export
-construct_raw.theme <- function(x, ...) {
+.cstr_construct.theme <- function(x, ...) {
   args <- unclass(x)
   args$complete <- if (attr(x, "complete")) TRUE
   args$validate <- if (!attr(x, "validate")) FALSE
@@ -84,7 +84,7 @@ repair_attributes.theme <- function(x, ...) {
 }
 
 #' @export
-construct_raw.element_blank <- function(x, ...) {
+.cstr_construct.element_blank <- function(x, ...) {
   code <- "ggplot2::element_blank()"
   repair_attributes.element_blank(x, code, ...)
 }
@@ -95,7 +95,7 @@ repair_attributes.element_blank <- function(x, ...) {
 }
 
 #' @export
-construct_raw.element_grob <- function(x, ...) {
+.cstr_construct.element_grob <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_grob)
   code <- .cstr_apply(args, "ggplot2::element_grob", ...)
   repair_attributes.element_grob(x, code, ...)
@@ -107,7 +107,7 @@ repair_attributes.element_grob <- function(x, ...) {
 }
 
 #' @export
-construct_raw.element_rect <- function(x, ...) {
+.cstr_construct.element_rect <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_rect)
   code <- .cstr_apply(args, "ggplot2::element_rect", ...)
   repair_attributes.element_rect(x, code, ...)
@@ -119,7 +119,7 @@ repair_attributes.element_rect <- function(x, ...) {
 }
 
 #' @export
-construct_raw.element_render <- function(x, ...) {
+.cstr_construct.element_render <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_render)
   code <- .cstr_apply(args, "ggplot2::element_render", ...)
   repair_attributes.element_render(x, code, ...)
@@ -131,7 +131,7 @@ repair_attributes.element_render <- function(x, ...) {
 }
 
 #' @export
-construct_raw.element_text <- function(x, ...) {
+.cstr_construct.element_text <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_text)
   code <- .cstr_apply(args, "ggplot2::element_text", ...)
   repair_attributes.element_text(x, code, ...)
@@ -143,7 +143,7 @@ repair_attributes.element_text <- function(x, ...) {
 }
 
 #' @export
-construct_raw.element_line <- function(x, ...) {
+.cstr_construct.element_line <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_line)
   .cstr_apply(args, "ggplot2::element_line", ...)
 }
@@ -154,7 +154,7 @@ repair_attributes.element_line <- function(x, ...) {
 }
 
 #' @export
-construct_raw.simpleUnit <- function(x, ...) {
+.cstr_construct.simpleUnit <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,
@@ -173,7 +173,7 @@ repair_attributes.simpleUnit <- function(x, ...) {
 }
 
 #' @export
-construct_raw.margin <- function(x, ...) {
+.cstr_construct.margin <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,
@@ -192,7 +192,7 @@ repair_attributes.margin <- function(x, ...) {
 }
 
 #' @export
-construct_raw.rel <- function(x, ...) {
+.cstr_construct.rel <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "ggplot2::rel", ...)
   repair_attributes.rel(x, code, ...)
 }

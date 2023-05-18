@@ -29,7 +29,7 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "ne
 }
 
 #' @export
-construct_raw.factor <- function(x, ...) {
+.cstr_construct.factor <- function(x, ...) {
   opts <- .cstr_fetch_opts("factor", ...)
   if (is_corrupted_factor(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$factor[[opts$constructor]]
@@ -43,7 +43,7 @@ is_corrupted_factor <- function(x) {
 }
 
 constructors$factor$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 constructors$factor$new_factor <- function(x, ...) {

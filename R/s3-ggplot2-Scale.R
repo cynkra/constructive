@@ -1,5 +1,5 @@
 #' @export
-construct_raw.Scale <- function(x, ...) {
+.cstr_construct.Scale <- function(x, ...) {
   # fetch caller and args from original call
   caller <- x$call[[1]]
   args <- as.list(x$call)[-1]
@@ -47,7 +47,7 @@ construct_raw.Scale <- function(x, ...) {
   }
 
   # construct values, except for `super` and `palette` that we handle specifically after
-  args[names(values)] <- lapply(values, construct_raw, ...)
+  args[names(values)] <- lapply(values, .cstr_construct, ...)
 
   # special case waiver as it's an empty list unfortunately matched to `.data`
   # FIXME: we should probably not match empty objects, that inclused NULL and zero length objects
@@ -63,7 +63,7 @@ construct_raw.Scale <- function(x, ...) {
     } else if (identical(args$palette, quote(abs_area(max_size)))) {
       args$palette <- sprintf("scales::abs_area(%s)", environment(as.list(x)$palette)$max)
     } else {
-      args$palette <- construct_raw(as.list(x)$palette, ...)
+      args$palette <- .cstr_construct(as.list(x)$palette, ...)
     }
   }
   if ("super" %in% names(args)) {

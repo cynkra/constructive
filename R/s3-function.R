@@ -42,7 +42,7 @@ opts_function <- function(
 
 
 #' @export
-construct_raw.function <- function(
+.cstr_construct.function <- function(
     x, ..., pipe, one_liner = FALSE) {
   if (rlang::is_primitive(x)) return(deparse(x))
   opts <- .cstr_fetch_opts("function", ...)
@@ -89,7 +89,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
       fun_call[[2]] <- as.pairlist(x_lst[-x_length])
     }
     fun_call[3] <- x_lst[x_length]
-    code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
+    code <- .cstr_construct.language(fun_call, pipe = pipe, one_liner = one_liner, style = FALSE, ...)
 
     if (length(code) == 2) code <- paste(code[1], code[2])
   }
@@ -121,7 +121,7 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
   args <- list(.cstr_apply(
     fun_lst, "alist", ..., language = TRUE))
   if (environment) {
-    envir_arg <- construct_raw(environment(x), ...)
+    envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(envir = envir_arg))
   }
   code <- .cstr_apply(args, "as.function", ..., language = TRUE)
@@ -139,7 +139,7 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
     body = .cstr_wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
   )
   if (environment) {
-    envir_arg <- construct_raw(environment(x), ...)
+    envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(env = envir_arg))
   }
   code <- .cstr_apply(args, "rlang::new_function", ..., language = TRUE)

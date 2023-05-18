@@ -27,7 +27,7 @@ opts_dots <- function(constructor = c("default"), ...) {
 }
 
 #' @export
-construct_raw.dots <- function(x, ...) {
+.cstr_construct.dots <- function(x, ...) {
   opts <- .cstr_fetch_opts("dots", ...)
   if (is_corrupted_dots(x)) return(NextMethod())
   constructor <- constructors$dots[[opts$constructor]]
@@ -48,12 +48,12 @@ constructors$dots$default <- function(x, ...) {
     exprs <- lapply(quo_dots, rlang::quo_get_expr)
     code_lng <- rlang::expr((function(...) environment()$...)(!!!exprs))
     code <- .cstr_deparse(code_lng)
-    env_code <- construct_raw(unique_env, ...)
+    env_code <- .cstr_construct(unique_env, ...)
     code <- .cstr_apply(list(code, envir = env_code), "evalq", language = TRUE)
     return(code)
   }
   # strip class since it's not necessary for splicing
-  quo_code <- construct_raw(unclass(quo_dots), ...)
+  quo_code <- .cstr_construct(unclass(quo_dots), ...)
   quo_code[[1]] <- paste0("!!!", quo_code[[1]])
   code <- .cstr_wrap(quo_code, "(function(...) environment()$...)")
   code <- .cstr_wrap(code, "rlang::inject")

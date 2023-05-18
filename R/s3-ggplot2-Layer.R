@@ -25,12 +25,12 @@ opts_Layer <- function(constructor = c("default", "layer", "environment"), ...) 
 }
 
 #' @export
-construct_raw.Layer <- function(x, ..., env) {
+.cstr_construct.Layer <- function(x, ..., env) {
   opts <- .cstr_fetch_opts("Layer", ...)
 
   ## "environment" constructor
   if (opts$constructor == "environment") {
-    return(construct_raw.environment(x, ...))
+    return(.cstr_construct.environment(x, ...))
   }
 
   ## "default" constructor
@@ -51,7 +51,7 @@ construct_layer_default <- function(constructor, env, ...) {
   } else if (is.symbol(caller_lng) && isNamespace(ns) && as.character(caller_lng) %in% getNamespaceExports(ns)) {
     caller_chr <- paste0(getNamespaceName(ns), "::", as.character(caller_lng))
   } else {
-    caller_chr <- construct_raw(caller_val, env = env, ...)
+    caller_chr <- .cstr_construct(caller_val, env = env, ...)
   }
   args <- lapply(as.list(constructor)[-1], eval, env)
   args <- keep_only_non_defaults(args, caller_val)
@@ -79,7 +79,7 @@ construct_layer_layer <- function(x, ...) {
   ggproto.ignore_draw_key <- !is.null(key_glyph)
 
   # geom -----------------------------------------------------------------------
-  geom <- construct_raw(
+  geom <- .cstr_construct(
     x$geom,
     ggproto.ignore_draw_key = ggproto.ignore_draw_key,
     ...
@@ -114,7 +114,7 @@ construct_layer_layer <- function(x, ...) {
   if (isTRUE(args$inherit.aes)) args$inherit.aes <- NULL
   if (rlang::is_na(args$show.legend)) args$show.legend <- NULL
   if (is.null(key_glyph)) args$key_glyph <- NULL
-  args_chr <- lapply(args, construct_raw, ggproto.ignore_draw_key = ggproto.ignore_draw_key,...)
+  args_chr <- lapply(args, .cstr_construct, ggproto.ignore_draw_key = ggproto.ignore_draw_key,...)
   args_chr$key_glyph <- key_glyph
   args_chr$geom <- geom
 
@@ -160,5 +160,5 @@ construct_glyph <- function(draw_key) {
     }
   }
 
-  construct_raw(key_glyph)
+  .cstr_construct(key_glyph)
 }

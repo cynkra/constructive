@@ -31,7 +31,7 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
 }
 
 #' @export
-construct_raw.formula <- function(x, ..., env) {
+.cstr_construct.formula <- function(x, ..., env) {
   opts <- .cstr_fetch_opts("formula", ...)
   if (is_corrupted_formula(x)) return(NextMethod())
   constructor <- constructors$formula[[opts$constructor]]
@@ -51,10 +51,10 @@ constructors$formula$"~" <- function(x, ..., environment, env_is_default) {
 
 
 constructors$formula$new_formula <- function(x, ..., environment, env_is_default) {
-  lhs_code <- construct_raw(rlang::f_lhs(x), ...)
-  rhs_code <- construct_raw(rlang::f_rhs(x), ...)
+  lhs_code <- .cstr_construct(rlang::f_lhs(x), ...)
+  rhs_code <- .cstr_construct(rlang::f_rhs(x), ...)
   if (environment && !env_is_default) {
-    env_code <- construct_raw(environment(x), ...)
+    env_code <- .cstr_construct(environment(x), ...)
     code <- .cstr_apply(list(lhs_code, rhs_code, env = env_code), "rlang::new_formula", ..., language = TRUE)
   } else {
     code <- .cstr_apply(list(lhs_code, rhs_code), "rlang::new_formula", ..., language = TRUE)

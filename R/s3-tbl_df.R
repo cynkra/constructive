@@ -29,7 +29,7 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..
 }
 
 #' @export
-construct_raw.tbl_df <- function(x, ...) {
+.cstr_construct.tbl_df <- function(x, ...) {
   opts <- .cstr_fetch_opts("tbl_df", ...)
   if (is_corrupted_tbl_df(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$tbl_df[[opts$constructor]]
@@ -43,7 +43,7 @@ is_corrupted_tbl_df <- function(x) {
 }
 
 constructors$tbl_df$list <- function(x, ..., trailing_comma = TRUE) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 constructors$tbl_df$tibble <- function(x, ..., trailing_comma = TRUE) {
@@ -65,7 +65,7 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
 
   # construct idiomatic code
   code_df <- x
-  code_df[] <- lapply(x, function(col) paste0(sapply(col, function(cell) paste(construct_raw(cell, ...), collapse = "")), ","))
+  code_df[] <- lapply(x, function(col) paste0(sapply(col, function(cell) paste(.cstr_construct(cell, ...), collapse = "")), ","))
   code_df <- rbind(paste0("~", sapply(names(x), protect), ","), as.data.frame(code_df))
   code_df[] <- lapply(code_df, format)
   code <- do.call(paste, code_df)

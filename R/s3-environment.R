@@ -86,7 +86,7 @@ opts_environment <- function(constructor = c("env", "list2env", "as.environment"
 }
 
 #' @export
-construct_raw.environment <- function(x, ..., pipe = "base", one_liner = FALSE) {
+.cstr_construct.environment <- function(x, ..., pipe = "base", one_liner = FALSE) {
   # The name of `asNamespace("pkg")` is always "pkg" and print as `<environment: namespace:pkg>`
   # The name of `as.environment("package:pkg")` is ALMOST always "package:pkg" and prints as
   #  `<environment: package:pkg>` + attributes
@@ -141,9 +141,9 @@ constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, 
     }
 
     place_holder = c(base = "_", magrittr = ".")[pipe]
-    lhs_code <- construct_raw(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
+    lhs_code <- .cstr_construct(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
     if (length(names(x))) {
-      data_code <- construct_raw(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner)
+      data_code <- .cstr_construct(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner)
       rhs_code <- .cstr_apply(list(data_code, parent = place_holder), "list2env", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
       code <- .cstr_pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
     } else {
@@ -167,9 +167,9 @@ constructors$environment$new_environment <- function(x, ..., pipe, one_liner, re
   }
 
   place_holder = c(base = "_", magrittr = ".")[pipe]
-  lhs_code <- construct_raw(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
+  lhs_code <- .cstr_construct(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
   if (length(names(x))) {
-    data_code <- construct_raw(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner)
+    data_code <- .cstr_construct(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner)
     rhs_code <- .cstr_apply(list(data_code, parent = place_holder), "rlang::new_environment", ..., language = TRUE, pipe = pipe, one_liner = one_liner)
     code <- .cstr_pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
   } else {
@@ -188,7 +188,7 @@ constructors$environment$as.environment <- function(x, ..., pipe, one_liner, rec
   # We need to use as.list.environment directly because as.list will only map
   # to "as.list.environment" if class was not overriden
   code <- .cstr_wrap(
-    construct_raw(as.list.environment(x), ...),
+    .cstr_construct(as.list.environment(x), ...),
     "as.environment",
     new_line = FALSE
   )
@@ -196,7 +196,7 @@ constructors$environment$as.environment <- function(x, ..., pipe, one_liner, rec
 }
 
 constructors$environment$topenv <- function(x, ..., pipe, one_liner, recurse, predefine) {
-  code <- construct_raw(topenv(x), ...)
+  code <- .cstr_construct(topenv(x), ...)
 }
 
 #' @export

@@ -1,5 +1,5 @@
 #' @export
-construct_raw.CoordCartesian <- function(x, ...) {
+.cstr_construct.CoordCartesian <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -12,7 +12,7 @@ construct_raw.CoordCartesian <- function(x, ...) {
 }
 
 #' @export
-construct_raw.CoordFixed <- function(x, ...) {
+.cstr_construct.CoordFixed <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -26,7 +26,7 @@ construct_raw.CoordFixed <- function(x, ...) {
 
 
 #' @export
-construct_raw.CoordFlip <- function(x, ...) {
+.cstr_construct.CoordFlip <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -39,7 +39,7 @@ construct_raw.CoordFlip <- function(x, ...) {
 
 
 #' @export
-construct_raw.CoordMap <- function(x, ...) {
+.cstr_construct.CoordMap <- function(x, ...) {
   args <- c(
     list(projection = x$projection),
     if (length(x$params)) as.list(x$params) else NULL,
@@ -56,7 +56,7 @@ construct_raw.CoordMap <- function(x, ...) {
 
 
 #' @export
-construct_raw.CoordMunch <- function(x, ...) {
+.cstr_construct.CoordMunch <- function(x, ...) {
   # untested because didn't find any use case
   args <- list(
     coord = x$coordinates,
@@ -70,7 +70,7 @@ construct_raw.CoordMunch <- function(x, ...) {
 
 
 #' @export
-construct_raw.CoordPolar <- function(x, ...) {
+.cstr_construct.CoordPolar <- function(x, ...) {
   args <- list(
     theta = x$theta,
     start = x$start,
@@ -82,7 +82,7 @@ construct_raw.CoordPolar <- function(x, ...) {
 }
 
 #' @export
-construct_raw.CoordQuickmap <- function(x, ...) {
+.cstr_construct.CoordQuickmap <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -94,7 +94,7 @@ construct_raw.CoordQuickmap <- function(x, ...) {
 }
 
 #' @export
-construct_raw.CoordSf <- function(x, ...) {
+.cstr_construct.CoordSf <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -116,7 +116,7 @@ construct_raw.CoordSf <- function(x, ...) {
 }
 
 #' @export
-construct_raw.CoordTrans<- function(x, ...) {
+.cstr_construct.CoordTrans<- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -124,7 +124,7 @@ construct_raw.CoordTrans<- function(x, ...) {
     expand = x$expand
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_trans)
-  args_chr <- lapply(args, construct_raw, ...)
+  args_chr <- lapply(args, .cstr_construct, ...)
   xy <- list(
     x = .cstr_apply(unclass(x$trans$x), "scales::trans_new", ...),
     y = .cstr_apply(unclass(x$trans$y), "scales::trans_new", ...)

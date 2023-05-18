@@ -27,7 +27,7 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", 
 }
 
 #' @export
-construct_raw.data.frame <- function(x, ...) {
+.cstr_construct.data.frame <- function(x, ...) {
   opts <- .cstr_fetch_opts("data.frame", ...)
   if (is_corrupted_data.frame(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$data.frame[[opts$constructor]]
@@ -47,7 +47,7 @@ is_corrupted_data.frame <- function(x) {
 }
 
 constructors$data.frame$list <- function(x, ...) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 constructors$data.frame$read.table <- function(x, ...) {
@@ -90,7 +90,7 @@ constructors$data.frame$read.table <- function(x, ...) {
 constructors$data.frame$data.frame <- function(x, ...) {
   # Fall back on list constructor if relevant
   df_has_list_cols <- any(sapply(x, function(col) is.list(col) && ! inherits(col, "AsIs")))
-  if (df_has_list_cols) return(construct_raw.list(x, ...))
+  if (df_has_list_cols) return(.cstr_construct.list(x, ...))
 
   args <- x
 

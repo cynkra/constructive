@@ -24,7 +24,7 @@ opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
   .cstr_options("dm", constructor = constructor)
 }
 #' @export
-construct_raw.dm <- function(x, ...) {
+.cstr_construct.dm <- function(x, ...) {
   opts <- .cstr_fetch_opts("dm", ...)
   if (is_corrupted_dm(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$dm[[opts$constructor]]
@@ -45,7 +45,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
   pk_code <- unlist(Map(
     function(table, pk_tibble) {
       if (!nrow(pk_tibble)) return(character())
-      column_code <- construct_raw(pk_tibble$column[[1]], pipe = pipe, one_liner = one_liner, ...)
+      column_code <- .cstr_construct(pk_tibble$column[[1]], pipe = pipe, one_liner = one_liner, ...)
       paste0("dm::dm_add_pk(", protect(table), ", ", paste(column_code, collapse = "\n") , ")")
     } ,
     def$table,
@@ -63,9 +63,9 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
         paste0(
           "dm::dm_add_fk(",
           protect(table), ", ",
-          paste(construct_raw(column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ",",
+          paste(.cstr_construct(column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ",",
           protect(ref_table), ", ",
-          paste(construct_raw(ref_column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ")"
+          paste(.cstr_construct(ref_column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ")"
         )
       },
       fk_tibble$table,
@@ -91,7 +91,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
 }
 
 constructors$dm$list <- function(x, ...) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 #' @export

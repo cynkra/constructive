@@ -25,7 +25,7 @@ opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
 }
 
 #' @export
-construct_raw.AsIs <- function(x, ...) {
+.cstr_construct.AsIs <- function(x, ...) {
   opts <- .cstr_fetch_opts("AsIs", ...)
   if (is_corrupted_AsIs(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$AsIs[[opts$constructor]]
@@ -42,12 +42,12 @@ constructors$AsIs$I <- function(x, ...) {
   cl <- oldClass(x)
   class(x_stripped) <- setdiff(cl, "AsIs")
   # no validation needed
-  code <- .cstr_wrap(construct_raw(x_stripped, ...), "I", new_line = FALSE)
+  code <- .cstr_wrap(.cstr_construct(x_stripped, ...), "I", new_line = FALSE)
   repair_attributes.AsIs(x, code, ...)
 }
 
 constructors$AsIs$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export

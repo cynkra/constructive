@@ -52,7 +52,7 @@ try_construct <- function(x, ...) {
   # deal early with special case x = quote(expr=)
   if (identical(x, quote(expr=))) return("quote(expr=)")
   caller <- caller_env()
-  rlang::try_fetch(construct_raw(x, ...), error = function(e) {
+  rlang::try_fetch(.cstr_construct(x, ...), error = function(e) {
     #nocov start
     abort("{constructive} could not build the requested code.", parent = e, call = caller)
     #nocov end
@@ -137,7 +137,7 @@ new_constructive <- function(code, compare) {
   structure(list(code = code, compare = compare), class = "constructive")
 }
 
-construct_raw <- function(x, ..., data = NULL) {
+.cstr_construct <- function(x, ..., data = NULL) {
   data_name <- perfect_match(x, data)
   if (!is.null(data_name)) return(data_name)
   UseMethod("construct_raw")

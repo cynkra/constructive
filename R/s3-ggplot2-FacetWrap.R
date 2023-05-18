@@ -1,5 +1,5 @@
 #' @export
-construct_raw.FacetWrap <- function(x, ...) {
+.cstr_construct.FacetWrap <- function(x, ...) {
   args <- as.list(x)
 
   scales_ind <-  unlist(x$params$free) + 1
@@ -42,7 +42,7 @@ construct_raw.FacetWrap <- function(x, ...) {
   if (isTRUE(args$strip.position == "top")) args$strip.position <- NULL
 
   ## build call
-  args <- lapply(args, construct_raw, ...)
+  args <- lapply(args, .cstr_construct, ...)
   args$facets <- facets
   .cstr_apply(args, fun = "ggplot2::facet_wrap", language = TRUE, ...)
 }

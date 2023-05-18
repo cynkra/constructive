@@ -26,7 +26,7 @@ opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ...
 }
 
 #' @export
-construct_raw.quosure <- function(x, ...) {
+.cstr_construct.quosure <- function(x, ...) {
   opts <- .cstr_fetch_opts("quosure", ...)
   if (is_corrupted_quosure(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$quosure[[opts$constructor]]
@@ -51,7 +51,7 @@ constructors$quosure$new_quosure <- function(x, env, ...) {
 
 #' @export
 constructors$quosure$language <- function(x, ...) {
-  construct_raw.language(x, ...)
+  .cstr_construct.language(x, ...)
 }
 
 #' @export

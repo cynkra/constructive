@@ -42,7 +42,7 @@ is_corrupted.Date <- function(x) {
 }
 
 #' @export
-construct_raw.Date <- function(x, ...) {
+.cstr_construct.Date <- function(x, ...) {
   opts <- .cstr_fetch_opts("Date", ...)
   if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$Date[[opts$constructor]]
@@ -112,7 +112,7 @@ constructors$Date$new_date <- function(x, ..., origin) {
 }
 
 constructors$Date$atomic <- function(x, ..., origin) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export

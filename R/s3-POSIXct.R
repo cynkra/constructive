@@ -29,7 +29,7 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
 }
 
 #' @export
-construct_raw.POSIXct <- function(x, ...) {
+.cstr_construct.POSIXct <- function(x, ...) {
   opts <- .cstr_fetch_opts("POSIXct", ...)
   if (is_corrupted_POSIXct(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$POSIXct[[opts$constructor]]
@@ -109,7 +109,7 @@ constructors$POSIXct$as.POSIXct <- function(x, ..., origin) {
 
 #' @export
 constructors$POSIXct$atomic <- function(x, ..., origin) {
-  construct_raw.default(x, ...)
+  .cstr_construct.default(x, ...)
 }
 
 #' @export

@@ -70,7 +70,7 @@ opts_atomic <- function(
 }
 
 #' @export
-construct_raw.atomic <- function(x, ...) {
+.cstr_construct.atomic <- function(x, ...) {
   code <- construct_atomic(x, ...)
   repair_attributes.default(x, code, ...)
 }

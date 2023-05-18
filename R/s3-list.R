@@ -44,7 +44,7 @@ opts_list <- function(
 }
 
 #' @export
-construct_raw.list <- function(x, ...) {
+.cstr_construct.list <- function(x, ...) {
   opts <- .cstr_fetch_opts("list", ...)
   if (is_corrupted_list(x)) return(NextMethod())
   constructors$list[[opts$constructor]](x, trim = opts$trim, fill = opts$fill, ...)
@@ -59,7 +59,7 @@ construct_list <- function(x, constructor, trim, fill, keep_trailing_comma, ...)
   if (!is.null(trim)) {
     l <- length(x)
     if (l > trim) {
-      args <- lapply(x[seq_len(trim)], construct_raw, ...)
+      args <- lapply(x[seq_len(trim)], .cstr_construct, ...)
       if (fill %in% c("+", "...", "none")) {
         if (fill == "+") {
           args <- c(args, list(paste0("+", l - trim)))

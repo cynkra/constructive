@@ -1,5 +1,5 @@
 #' @export
-construct_raw.waiver <- function(x, ...) {
+.cstr_construct.waiver <- function(x, ...) {
   code <- "ggplot2::waiver()"
   repair_attributes.waiver(x, code, ...)
 }
