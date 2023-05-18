@@ -54,7 +54,7 @@ constructors$language$default <- function(x, ..., one_liner = FALSE) {
 
 #' @export
 repair_attributes.language <- function(x, code, ..., pipe ="base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("srcref", "srcfile", "wholeSrcref")

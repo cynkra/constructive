@@ -67,7 +67,7 @@ constructors$grouped_df$list <- function(x, ...) {
 # no need for a constructor for grouped_df since it falls back on tbl_df
 #' @export
 repair_attributes.grouped_df <- function(x, code, ..., pipe = "base", one_liner = FALSE) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("row.names", "groups"),

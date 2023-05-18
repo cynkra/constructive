@@ -117,7 +117,7 @@ constructors$Date$atomic <- function(x, ..., origin) {
 
 #' @export
 repair_attributes.Date <- function(x, code, ...) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "Date"
   )

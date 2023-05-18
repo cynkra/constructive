@@ -52,7 +52,7 @@ repair_attributes.vctrs_list_of <- function(x, code, ..., pipe = "base") {
   if (opts$constructor == "list") {
     return(repair_attributes.default(x, code, ..., pipe = pipe))
   }
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = "ptype",

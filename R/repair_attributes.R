@@ -22,10 +22,10 @@ repair_attributes.default <- function(x, code, ..., pipe = "base") {
   if (is.environment(x)) return(repair_attributes.environment(x, code, ..., pipe = pipe))
   if (rlang::is_formula(x))  return(repair_attributes.formula(x, code, ..., pipe = pipe))
   if (is.language(x) && !is.expression(x))  return(repair_attributes.language(x, code, ..., pipe = pipe))
-  repair_attributes_impl(x, code, ..., pipe = pipe)
+  .cstr_repair_attributes(x, code, ..., pipe = pipe)
 }
 
-repair_attributes_impl <- function(x, code, ..., pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE) {
+.cstr_repair_attributes <- function(x, code, ..., pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL

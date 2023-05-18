@@ -46,7 +46,7 @@ constructors$numeric_version$atomic <- function(x, ...) {
 
 #' @export
 repair_attributes.numeric_version <- function(x, code, ...) {
-  repair_attributes_impl(x, code, ..., idiomatic_class = "numeric_version")
+  .cstr_repair_attributes(x, code, ..., idiomatic_class = "numeric_version")
 }
 
 constructors$package_version <- new.env()
@@ -97,7 +97,7 @@ constructors$package_version$atomic <- function(x, ...) {
 
 #' @export
 repair_attributes.package_version <- function(x, code, ...) {
-  repair_attributes_impl(x, code, ..., idiomatic_class = c("package_version", "numeric_version"))
+  .cstr_repair_attributes(x, code, ..., idiomatic_class = c("package_version", "numeric_version"))
 }
 
 constructors$R_system_version <- new.env()
@@ -148,7 +148,7 @@ constructors$R_system_version$atomic <- function(x, ...) {
 
 #' @export
 repair_attributes.R_system_version <- function(x, code, ...) {
-  repair_attributes_impl(x, code, ..., idiomatic_class = c("R_system_version", "package_version", "numeric_version"))
+  .cstr_repair_attributes(x, code, ..., idiomatic_class = c("R_system_version", "package_version", "numeric_version"))
 }
 
 

@@ -61,7 +61,7 @@ repair_attributes.data.table <- function(x, code, ..., pipe = "base", selfref = 
   ignore <- c("row.names", "sorted")
   if (!selfref) ignore <- c(ignore, ".internal.selfref")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = ignore,

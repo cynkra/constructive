@@ -5,5 +5,5 @@
 }
 
 repair_attributes.waiver <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = "waiver", ...)
+  .cstr_repair_attributes(x, idiomatic_class = "waiver", ...)
 }

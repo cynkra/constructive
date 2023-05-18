@@ -64,7 +64,7 @@ constructors$matrix$atomic <- function(x, ...) {
 
 #' @export
 repair_attributes.matrix <- function(x, code, ..., pipe ="base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("dim", "dimnames")

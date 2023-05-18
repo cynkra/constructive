@@ -212,7 +212,7 @@ repair_attributes.environment <- function(x, code, ..., pipe ="base") {
   }
 
   pkg_env_lgl <- grepl("as.environment\\(\"[^\"]+\"\\)", code[[1]])
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c(

@@ -5,5 +5,5 @@
 }
 
 repair_attributes.labels <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = "labels", ...)
+  .cstr_repair_attributes(x, idiomatic_class = "labels", ...)
 }

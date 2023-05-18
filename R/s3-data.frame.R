@@ -112,7 +112,7 @@ constructors$data.frame$data.frame <- function(x, ...) {
 repair_attributes.data.frame <- function(x, code, ..., pipe = "base") {
   ignore <- "row.names"
   if (identical(names(x), character())) ignore <- c(ignore, "names")
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = ignore,

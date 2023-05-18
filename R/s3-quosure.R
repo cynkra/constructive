@@ -56,7 +56,7 @@ constructors$quosure$language <- function(x, ...) {
 
 #' @export
 repair_attributes.quosure <- function(x, code, ...) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     ignore = ".Environment",
     idiomatic_class = c("quosure", "formula")

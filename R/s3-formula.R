@@ -109,7 +109,7 @@ repair_attributes.formula <- function(x, code, ..., pipe ="base", ignore_env_att
   #     }
   #   }
   # }
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     idiomatic_class = "formula",

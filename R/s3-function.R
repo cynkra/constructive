@@ -152,7 +152,7 @@ repair_attributes.function <- function(x, code, ..., pipe ="base") {
   srcref <- opts$srcref
   ignore <- c("name", "path")
   if (!srcref) ignore <- c(ignore, "srcref")
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = ignore

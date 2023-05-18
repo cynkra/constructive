@@ -80,7 +80,7 @@ guess_complete_theme <- function(x, ...) {
 repair_attributes.theme <- function(x, ...) {
   ignore <- c("complete", "validate")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
-  repair_attributes_impl(x, idiomatic_class = c("theme", "gg"), ignore = ignore, ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("theme", "gg"), ignore = ignore, ...)
 }
 
 #' @export
@@ -91,7 +91,7 @@ repair_attributes.theme <- function(x, ...) {
 
 #' @export
 repair_attributes.element_blank <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_blank", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_blank", "element"), ...)
 }
 
 #' @export
@@ -103,7 +103,7 @@ repair_attributes.element_blank <- function(x, ...) {
 
 #' @export
 repair_attributes.element_grob <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_grob", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_grob", "element"), ...)
 }
 
 #' @export
@@ -115,7 +115,7 @@ repair_attributes.element_grob <- function(x, ...) {
 
 #' @export
 repair_attributes.element_rect <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_rect", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_rect", "element"), ...)
 }
 
 #' @export
@@ -127,7 +127,7 @@ repair_attributes.element_rect <- function(x, ...) {
 
 #' @export
 repair_attributes.element_render <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_render", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_render", "element"), ...)
 }
 
 #' @export
@@ -139,7 +139,7 @@ repair_attributes.element_render <- function(x, ...) {
 
 #' @export
 repair_attributes.element_text <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_text", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_text", "element"), ...)
 }
 
 #' @export
@@ -150,7 +150,7 @@ repair_attributes.element_text <- function(x, ...) {
 
 #' @export
 repair_attributes.element_line <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_line", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_line", "element"), ...)
 }
 
 #' @export
@@ -169,7 +169,7 @@ repair_attributes.element_line <- function(x, ...) {
 
 #' @export
 repair_attributes.simpleUnit <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
 }
 
 #' @export
@@ -188,7 +188,7 @@ repair_attributes.simpleUnit <- function(x, ...) {
 
 #' @export
 repair_attributes.margin <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("margin", "simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("margin", "simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
 }
 
 #' @export
@@ -199,5 +199,5 @@ repair_attributes.margin <- function(x, ...) {
 
 #' @export
 repair_attributes.rel <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = "rel", ...)
+  .cstr_repair_attributes(x, idiomatic_class = "rel", ...)
 }

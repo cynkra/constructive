@@ -76,7 +76,7 @@ constructors$factor$factor <- function(x, ...) {
 
 #' @export
 repair_attributes.factor <- function(x, code, ...) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     ignore = "levels",
     idiomatic_class = "factor"

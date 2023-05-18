@@ -63,7 +63,7 @@ is_corrupted_POSIXlt <- function(x) {
 
 #' @export
 repair_attributes.POSIXlt <- function(x, code, ..., pipe ="base") {
-  code <- repair_attributes_impl(
+  code <- .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     idiomatic_class = c("POSIXlt", "POSIXt"),

@@ -51,7 +51,7 @@ constructors$mts$atomic <- function(x, ...) {
 repair_attributes.mts <- function(x, code, ..., pipe ="base") {
   nms <- colnames(x) %||% paste("Series", seq(ncol(x)))
   if (identical(attr(x, "dimnames")[[2]], nms)) attr(x, "dimnames") <- NULL
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("tsp", "dim"),

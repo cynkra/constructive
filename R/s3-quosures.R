@@ -56,7 +56,7 @@ constructors$quosures$list <- function(x, ...) {
 
 #' @export
 repair_attributes.quosures <- function(x, code, ...) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("quosures", "list"),
     ignore = if (all(names(x) == "")) "names"

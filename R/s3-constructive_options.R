@@ -57,7 +57,7 @@ constructors$.cstr_options$opts <- function(x, ...) {
 
 #' @export
 repair_attributes.constructive_options <- function(x, code, ..., pipe = "base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = grep("^constructive_options", class(x), value = TRUE)
   )

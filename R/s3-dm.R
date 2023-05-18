@@ -96,7 +96,7 @@ constructors$dm$list <- function(x, ...) {
 
 #' @export
 repair_attributes.dm <- function(x, code, ..., pipe ="base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     idiomatic_class = "dm",

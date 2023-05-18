@@ -86,7 +86,7 @@ construct_list <- function(x, constructor, trim, fill, keep_trailing_comma, ...)
 
 constructors$list$list <- function(x, trim, fill, ...) {
   code <- construct_list(x, "list", trim, fill, keep_trailing_comma = FALSE, ...)
-  repair_attributes_impl(x, code, ...)
+  .cstr_repair_attributes(x, code, ...)
 }
 
 constructors$list$list2 <- function(x, trim, fill, ...) {
@@ -95,5 +95,5 @@ constructors$list$list2 <- function(x, trim, fill, ...) {
 }
 
 repair_attributes.list <- function(x, code, ...) {
-  repair_attributes_impl(x, code, ...)
+  .cstr_repair_attributes(x, code, ...)
 }
