@@ -73,7 +73,7 @@
 
   ## build call
   fun_chr <- paste0("ggplot2::", fun_chr)
-  .cstr_apply(args, fun = fun_chr, language = TRUE, ...)
+  .cstr_apply(args, fun = fun_chr, recurse = FALSE, ...)
 }
 
 

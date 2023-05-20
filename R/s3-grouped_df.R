@@ -47,7 +47,7 @@ constructors$grouped_df$default <- function(x, ..., one_liner, pipe) {
     grps,
     "dplyr::group_by",
     ...,
-    language = TRUE,
+    recurse = FALSE,
     pipe = pipe,
     one_liner = one_liner
   )

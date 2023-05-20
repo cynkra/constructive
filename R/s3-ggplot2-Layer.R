@@ -119,7 +119,7 @@ construct_layer_layer <- function(x, ...) {
   args_chr$geom <- geom
 
   ## build call ----------------------------------------------------------------
-  .cstr_apply(args_chr, fun = "ggplot2::layer", language = TRUE, ggproto.ignore_draw_key = ggproto.ignore_draw_key,  ...)
+  .cstr_apply(args_chr, fun = "ggplot2::layer", recurse = FALSE, ggproto.ignore_draw_key = ggproto.ignore_draw_key,  ...)
 }
 
 

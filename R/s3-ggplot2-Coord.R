@@ -129,7 +129,7 @@
     x = .cstr_apply(unclass(x$trans$x), "scales::trans_new", ...),
     y = .cstr_apply(unclass(x$trans$y), "scales::trans_new", ...)
   )
-  .cstr_apply(c(args_chr, xy), "ggplot2::coord_trans", language = TRUE, ...)
+  .cstr_apply(c(args_chr, xy), "ggplot2::coord_trans", recurse = FALSE, ...)
 }
 
 

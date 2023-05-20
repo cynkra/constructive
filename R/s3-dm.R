@@ -40,7 +40,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
   def <- unclass(x)$def
   named_list_of_tables <- set_names(def$data, def$table)
   code <- .cstr_apply(
-    named_list_of_tables, fun = "dm::dm", keep_trailing_comma = TRUE, implicit_names = TRUE, one_liner = one_liner, pipe = pipe, ...)
+    named_list_of_tables, fun = "dm::dm", trailing_comma = TRUE, implicit_names = TRUE, one_liner = one_liner, pipe = pipe, ...)
 
   pk_code <- unlist(Map(
     function(table, pk_tibble) {

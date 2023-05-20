@@ -89,7 +89,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
       fun_call[[2]] <- as.pairlist(x_lst[-x_length])
     }
     fun_call[3] <- x_lst[x_length]
-    code <- .cstr_construct.language(fun_call, pipe = pipe, one_liner = one_liner, style = FALSE, ...)
+    code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
 
     if (length(code) == 2) code <- paste(code[1], code[2])
   }
@@ -119,12 +119,12 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
   x_lst <- as.list(unclass(x))
   fun_lst <- lapply(x_lst, deparse)
   args <- list(.cstr_apply(
-    fun_lst, "alist", ..., language = TRUE))
+    fun_lst, "alist", ..., recurse = FALSE))
   if (environment) {
     envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(envir = envir_arg))
   }
-  code <- .cstr_apply(args, "as.function", ..., language = TRUE)
+  code <- .cstr_apply(args, "as.function", ..., recurse = FALSE)
   repair_attributes.function(x, code, ...)
 }
 
@@ -135,14 +135,14 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
   x_lst <- as.list(unclass(x))
   fun_lst <- lapply(x_lst, deparse)
   args <- list(
-    args = .cstr_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE),
+    args = .cstr_apply(fun_lst[-length(fun_lst)], "alist", ..., recurse = FALSE),
     body = .cstr_wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
   )
   if (environment) {
     envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(env = envir_arg))
   }
-  code <- .cstr_apply(args, "rlang::new_function", ..., language = TRUE)
+  code <- .cstr_apply(args, "rlang::new_function", ..., recurse = FALSE)
   repair_attributes.function(x, code, ...)
 }
 

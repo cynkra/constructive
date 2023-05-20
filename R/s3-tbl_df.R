@@ -48,7 +48,7 @@ constructors$tbl_df$list <- function(x, ..., trailing_comma = TRUE) {
 
 constructors$tbl_df$tibble <- function(x, ..., trailing_comma = TRUE) {
   # construct idiomatic code
-  code <- .cstr_apply(x, fun = "tibble::tibble", ..., keep_trailing_comma = trailing_comma)
+  code <- .cstr_apply(x, fun = "tibble::tibble", ..., trailing_comma = trailing_comma)
 
   # repair
   repair_attributes.tbl_df(x, code, ...)

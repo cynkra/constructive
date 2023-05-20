@@ -1,3 +1,12 @@
+#' Create constructive options
+#'
+#' Exported for custom constructor design.
+#'
+#' @param class A string. An S3 class.
+#' @param ... Options to set
+#'
+#' @return An object of class `c(paste0("constructive_options_", class), "constructive_options")`
+#' @export
 .cstr_options <- function(class, ...) {
   structure(
     class = c(paste0("constructive_options_", class), "constructive_options"),
@@ -5,13 +14,23 @@
   )
 }
 
-.cstr_fetch_opts <- function(suffix, ..., template = NULL) {
-  class <- paste0("constructive_options_", suffix)
-  opts_from_dots <- Filter(function(x) inherits(x, class) , list(...))
+
+#' Fetch constructive options
+#'
+#' Exported for custom constructor design.
+#'
+#' @param class A string. An S3 class.
+#' @param ...,template Parameters generally forwarded through the dots of the caller function
+#'
+#' @return An object of class `c(paste0("constructive_options_", class), "constructive_options")`
+#' @export
+.cstr_fetch_opts <- function(class, ..., template = NULL) {
+  options_class <- paste0("constructive_options_", class)
+  opts_from_dots <- Filter(function(x) inherits(x, options_class) , list(...))
   if (length(opts_from_dots)) return(opts_from_dots[[1]])
-  opts_from_template <- Filter(function(x) inherits(x, class) , template)
+  opts_from_template <- Filter(function(x) inherits(x, options_class) , template)
   if (length(opts_from_template)) return(opts_from_template[[1]])
-  match.fun(paste0("opts_", suffix))()
+  match.fun(paste0("opts_", class))()
 }
 
 #' @export

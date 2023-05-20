@@ -67,9 +67,7 @@ repair_attributes.POSIXlt <- function(x, code, ..., pipe ="base") {
     x, code, ...,
     pipe = pipe,
     idiomatic_class = c("POSIXlt", "POSIXt"),
-    #ignore = if (length(attr(x, "tzone")) > 1) "names" else c("names", "tzone"),
-    ignore =  "tzone",
-    remove = NULL
+    ignore =  "tzone"
   )
   code
 }

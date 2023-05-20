@@ -10,15 +10,22 @@
   .cstr_construct.atomic(x, ..., one_liner = one_liner)
 }
 
-#' construct_apply
+#' .cstr_apply
 #'
-#' @param args Arguments to construct recursively, or code if `language = TRUE`
+#' Exported for custom constructor design. If `recurse` is `TRUE` (default), we
+#' recurse to construct `args` and insert their construction code in a `fun(...)` call returned
+#' as a character vector. If `args` already contains code rather than object to
+#' construct one should set `recurse` to `FALSE`.
+#'
+#' @param args A list of arguments to construct recursively, or code if `recurse = FALSE`.
+#'   If elements are named, the arguments will be named in the generated code.
 #' @param fun The function name to use to build code of the form "fun(...)"
 #' @param ... options passed recursively to the further methods
-#' @param keep_trailing_comma leave a trailing comma after the last argument if
+#' @param trailing_comma leave a trailing comma after the last argument if
 #'   the code is multiline, some constructors allow it (e.g. `tibble::tibble()`) and it makes for nicer
 #'   diffs in version control.
-#' @param language Whether to use the args as they are or to recurse, should be renamed to `recurse` (and negated)
+#' @param recurse Whether to recursively generate the code to construct `args`. If `FALSE` arguments
+#' are expected to contain code.
 #' @param implicit_names When data is provided, compress calls of the form `f(a = a)` to `f(a)`
 #' @param new_line passed to wrap to remove add a line after "fun(" and before ")", forced to
 #'   `FALSE` if `one_liner` is `TRUE`
@@ -27,13 +34,13 @@
 #' @return A character vector of code
 #'
 #' @examples
-#' construct_apply(list(a=a), "foo", data = list(a=1), template = NULL, implicit_names = TRUE)
-.cstr_apply <- function(args, fun = "list", ..., keep_trailing_comma = FALSE, language = FALSE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE) {
+#' .cstr_apply(list(a=a), "foo", data = list(a=1), template = NULL, implicit_names = TRUE)
+.cstr_apply <- function(args, fun = "list", ..., trailing_comma = FALSE, recurse = TRUE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE) {
   new_line <- new_line && !one_liner
-  keep_trailing_comma <- keep_trailing_comma && !one_liner
+  trailing_comma <- trailing_comma && !one_liner
   if (!length(args)) return(sprintf("%s()", fun))
-  if (!language) args <- lapply(unclass(args), .cstr_construct, ..., one_liner = one_liner)
-  args_chr <- Map(name_and_append_comma, args, names2(args), implicit_names = implicit_names)
+  if (recurse) args <- lapply(unclass(args), .cstr_construct, ..., one_liner = one_liner)
+  args_chr <- Map(name_and_append_comma, unname(args), names2(args), implicit_names = implicit_names)
   args_chr <- unlist(args_chr)
   # if line is short enough stick all in one line
   # FIXME : chunk unnamed lists of single line items by lines of 80 chars ?
@@ -43,7 +50,7 @@
   if (one_liner) {
     args_chr <- paste(args_chr, collapse = " ")
     new_line <- FALSE
-    keep_trailing_comma <- FALSE
+    trailing_comma <- FALSE
   } else if (all(rlang::names2(args) == "") && all(endsWith(args_chr, ","))) {
     lines <- character()
     while(length(args_chr)) {
@@ -53,7 +60,7 @@
     }
     args_chr <- lines
   }
-  if (!keep_trailing_comma) {
+  if (!trailing_comma) {
     args_chr[[length(args_chr)]] <- sub(",$", "", args_chr[[length(args_chr)]])
   }
 

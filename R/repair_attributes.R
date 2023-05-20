@@ -25,6 +25,24 @@ repair_attributes.default <- function(x, code, ..., pipe = "base") {
   .cstr_repair_attributes(x, code, ..., pipe = pipe)
 }
 
+#' Repair attributes after idiomatic construction
+#'
+#' Exported for custom constructor design. In the general case an object might have more attributes than given by the idiomatic
+#' construction. `.cstr_repair_attributes()` sets some of those attributes and ignores
+#' others.
+#'
+#' @param x The object to construct
+#' @param code The code constructing the object before attribute reparation
+#' @param ... Forwarded to `.construct_apply()` when relevant
+#' @param ignore The attributes that shouldn't be repaired, i.e. we expect them
+#'   to be set by the constructor already in `code`
+#' @param idiomatic_class The class of the objects that the constructor produces,
+#'   if `x` is of class `idiomatic_class` there is no need to repair the class.
+#' @param remove Attributes that should be removed, should rarely be useful.
+#' @inheritParams construct
+#'
+#' @return A character vector
+#' @export
 .cstr_repair_attributes <- function(x, code, ..., pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)

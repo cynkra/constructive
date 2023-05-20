@@ -14,7 +14,7 @@
       names(args)[2] <- ""
     }
   }
-  code <- .cstr_apply(args, fun = "ggplot2::aes", language = TRUE, new_line = FALSE)
+  code <- .cstr_apply(args, fun = "ggplot2::aes", recurse = FALSE, new_line = FALSE)
   repair_attributes.uneval(x, code, ...)
 }
 

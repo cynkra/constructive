@@ -124,7 +124,7 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
   if (l == 1 && is.null(names(x))) return(format_flex(x, all_na = TRUE))
 
   args <- vapply(x, format_flex, character(1), all_na = all(is.na(x)))
-  code <- .cstr_apply(args, "c", ..., new_line = FALSE, language = TRUE)
+  code <- .cstr_apply(args, "c", ..., new_line = FALSE, recurse = FALSE)
   if (one_liner) code <- paste(code, collapse = " ")
   code
 }
@@ -223,7 +223,7 @@ construct_chr <- function(x, unicode_representation, escape, one_liner, ...) {
   if (length(strings) == 1) return(strings)
   nas <- strings == "NA_character_"
   if (any(nas) && !all(nas)) strings[nas] <- "NA"
-  .cstr_apply(strings, "c", one_liner = one_liner, ..., language = TRUE)
+  .cstr_apply(strings, "c", one_liner = one_liner, ..., recurse = FALSE)
 }
 
 

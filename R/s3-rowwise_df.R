@@ -47,7 +47,7 @@ constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
     vars,
     "dplyr::rowwise",
     ...,
-    language = TRUE
+    recurse = FALSE
   )
   code <- .cstr_pipe(
     code,

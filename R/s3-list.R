@@ -55,7 +55,7 @@ is_corrupted_list <- function(x) {
   typeof(x) != "list"
 }
 
-construct_list <- function(x, constructor, trim, fill, keep_trailing_comma, ...) {
+construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
   if (!is.null(trim)) {
     l <- length(x)
     if (l > trim) {
@@ -66,31 +66,31 @@ construct_list <- function(x, constructor, trim, fill, keep_trailing_comma, ...)
         } else if (fill == "...") {
           args <- c(args, "...")
         }
-        code <- .cstr_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
+        code <- .cstr_apply(args, constructor, ..., new_line = FALSE, recurse = FALSE, trailing_comma  = trailing_comma)
         return(code)
       }
 
-      list_code <- .cstr_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
+      list_code <- .cstr_apply(args, constructor, ..., new_line = FALSE, recurse = FALSE, trailing_comma  = trailing_comma)
       if (fill == "vector") {
         null_list_code <- sprintf('vector("list", %s)', l - trim)
       } else {
         # fill == "new_list
         null_list_code <- sprintf('rlang::new_list(%s)', l - trim)
       }
-      code <- .cstr_apply(list(list_code, null_list_code), "c", ..., new_line = FALSE, language = TRUE)
+      code <- .cstr_apply(list(list_code, null_list_code), "c", ..., new_line = FALSE, recurse = FALSE)
       return(code)
     }
   }
-  .cstr_apply(x, fun = constructor, ..., keep_trailing_comma = keep_trailing_comma)
+  .cstr_apply(x, fun = constructor, ..., trailing_comma = trailing_comma)
 }
 
 constructors$list$list <- function(x, trim, fill, ...) {
-  code <- construct_list(x, "list", trim, fill, keep_trailing_comma = FALSE, ...)
+  code <- construct_list(x, "list", trim, fill, trailing_comma = FALSE, ...)
   .cstr_repair_attributes(x, code, ...)
 }
 
 constructors$list$list2 <- function(x, trim, fill, ...) {
-  code <- construct_list(x, "rlang::list2", trim, fill, keep_trailing_comma = TRUE, ...)
+  code <- construct_list(x, "rlang::list2", trim, fill, trailing_comma = TRUE, ...)
   repair_attributes.list(x, code, ...)
 }
 

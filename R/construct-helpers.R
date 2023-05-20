@@ -137,10 +137,19 @@ new_constructive <- function(code, compare) {
   structure(list(code = code, compare = compare), class = "constructive")
 }
 
+#' Generic for object code generation
+#'
+#' Exported for custom constructor design. `.cstr_construct()` is basically a
+#' naked `construct()`, without the checks, the style, the object post processing etc...
+#'
+#' @inheritParams construct
+#'
+#' @return A character vector
+#' @export
 .cstr_construct <- function(x, ..., data = NULL) {
   data_name <- perfect_match(x, data)
   if (!is.null(data_name)) return(data_name)
-  UseMethod("construct_raw")
+  UseMethod(".cstr_construct")
 }
 
 # FIXME: remove when proven obsolete, along with flex_match()
