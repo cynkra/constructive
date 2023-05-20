@@ -30,22 +30,22 @@ opts_function <- function(
     environment = TRUE,
     srcref = FALSE,
     trim = NULL) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
     abort_not_boolean(environment),
     abort_not_boolean(srcref),
     abort_not_null_or_integerish(trim)
   )
-  constructive_options("function", constructor = constructor, environment = environment, srcref = srcref, trim = trim)
+  .cstr_options("function", constructor = constructor, environment = environment, srcref = srcref, trim = trim)
 }
 
 
 #' @export
-construct_raw.function <- function(
+.cstr_construct.function <- function(
     x, ..., pipe, one_liner = FALSE) {
   if (rlang::is_primitive(x)) return(deparse(x))
-  opts <- fetch_opts("function", ...)
+  opts <- .cstr_fetch_opts("function", ...)
   if (is_corrupted_function(x)) return(NextMethod())
 
   # trim if relevant
@@ -98,16 +98,16 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
   if (!srcref) attrs$srcref <- NULL
 
   if (environment || length(attrs)) {
-    code <- wrap(code, fun = "")
+    code <- .cstr_wrap(code, fun = "")
   }
   if (environment) {
-    envir_code <- construct_apply(
+    envir_code <- .cstr_apply(
       list(environment(x)),
       '(`environment<-`)',
       pipe = pipe,
       one_liner = one_liner,
       ...)
-    code <- pipe(code, envir_code, pipe, one_liner)
+    code <- .cstr_pipe(code, envir_code, pipe, one_liner)
   }
   repair_attributes.function(x, code, ..., pipe = pipe, one_liner = one_liner)
 }
@@ -118,13 +118,13 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
 
   x_lst <- as.list(unclass(x))
   fun_lst <- lapply(x_lst, deparse)
-  args <- list(construct_apply(
-    fun_lst, "alist", ..., language = TRUE))
+  args <- list(.cstr_apply(
+    fun_lst, "alist", ..., recurse = FALSE))
   if (environment) {
-    envir_arg <- construct_raw(environment(x), ...)
+    envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(envir = envir_arg))
   }
-  code <- construct_apply(args, "as.function", ..., language = TRUE)
+  code <- .cstr_apply(args, "as.function", ..., recurse = FALSE)
   repair_attributes.function(x, code, ...)
 }
 
@@ -135,24 +135,24 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
   x_lst <- as.list(unclass(x))
   fun_lst <- lapply(x_lst, deparse)
   args <- list(
-    args = construct_apply(fun_lst[-length(fun_lst)], "alist", ..., language = TRUE),
-    body = wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
+    args = .cstr_apply(fun_lst[-length(fun_lst)], "alist", ..., recurse = FALSE),
+    body = .cstr_wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
   )
   if (environment) {
-    envir_arg <- construct_raw(environment(x), ...)
+    envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(env = envir_arg))
   }
-  code <- construct_apply(args, "rlang::new_function", ..., language = TRUE)
+  code <- .cstr_apply(args, "rlang::new_function", ..., recurse = FALSE)
   repair_attributes.function(x, code, ...)
 }
 
 #' @export
 repair_attributes.function <- function(x, code, ..., pipe ="base") {
-  opts <- fetch_opts("function", ...)
+  opts <- .cstr_fetch_opts("function", ...)
   srcref <- opts$srcref
   ignore <- c("name", "path")
   if (!srcref) ignore <- c(ignore, "srcref")
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = ignore

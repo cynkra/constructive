@@ -16,16 +16,16 @@ constructors$mts <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("mts", constructor = constructor)
+  .cstr_options("mts", constructor = constructor)
 }
 
 #' @export
-construct_raw.mts <- function(x, ...) {
-  opts <- fetch_opts("mts", ...)
+.cstr_construct.mts <- function(x, ...) {
+  opts <- .cstr_fetch_opts("mts", ...)
   if (is_corrupted_mts(x) || opts$constructor == "next") return(NextMethod())
   constructors$mts[[opts$constructor]](x, ...)
 }
@@ -40,18 +40,18 @@ constructors$mts$ts <- function(x, ...) {
   tsp <- attr(x, "tsp")
   attr(x_stripped, "tsp") <- NULL
   class(x_stripped) <- setdiff(oldClass(x), c("mts", "ts"))
-  construct_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
+  .cstr_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
 }
 
 constructors$mts$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export
 repair_attributes.mts <- function(x, code, ..., pipe ="base") {
   nms <- colnames(x) %||% paste("Series", seq(ncol(x)))
   if (identical(attr(x, "dimnames")[[2]], nms)) attr(x, "dimnames") <- NULL
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("tsp", "dim"),

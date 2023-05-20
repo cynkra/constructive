@@ -21,16 +21,16 @@ constructors$POSIXct <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("POSIXct", constructor = constructor, origin = origin)
+  .cstr_options("POSIXct", constructor = constructor, origin = origin)
 }
 
 #' @export
-construct_raw.POSIXct <- function(x, ...) {
-  opts <- fetch_opts("POSIXct", ...)
+.cstr_construct.POSIXct <- function(x, ...) {
+  opts <- .cstr_fetch_opts("POSIXct", ...)
   if (is_corrupted_POSIXct(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$POSIXct[[opts$constructor]]
   constructor(x, ..., origin = opts$origin)
@@ -44,13 +44,13 @@ is_corrupted_POSIXct <- function(x) {
 
 constructors$POSIXct$.POSIXct <- function(x, ..., origin) {
   args <- list(as.numeric(x), tz = attr(x, "tzone"))
-  code <- construct_apply(args, ".POSIXct", new_line = TRUE, ...)
+  code <- .cstr_apply(args, ".POSIXct", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
 constructors$POSIXct$as.POSIXct.numeric <- function(x, ..., origin) {
   args <- list(as.numeric(x) - as.numeric(as.POSIXct(origin, "GMT")), tz = attr(x, "tzone"), origin = origin)
-  code <- construct_apply(args, "as.POSIXct", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "as.POSIXct", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
@@ -63,7 +63,7 @@ constructors$POSIXct$as_datetime.numeric <- function(x, ..., origin) {
     args[[1]] <- args[[1]] - origin_dbl
     args <- c(args, list(origin = origin))
   }
-  code <- construct_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
@@ -75,7 +75,7 @@ constructors$POSIXct$as_datetime <- function(x, ..., origin) {
   x_chr[dec_lgl] <- paste0(x_chr[dec_lgl], sub("^0", "", format(split_s[dec_lgl], digits = 5)))
   args <- list(x_chr)
   if (is.null(tzone) || tzone != "UTC") args <- c(args, list(tz = tzone))
-  code <- construct_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
@@ -87,7 +87,7 @@ constructors$POSIXct$as_datetime <- function(x, ..., origin) {
   x_chr[dec_lgl] <- paste0(x_chr[dec_lgl], sub("^0", "", format(split_s[dec_lgl], digits = 5)))
   args <- list(x_chr)
   if (is.null(tzone) || tzone != "UTC") args <- c(args, list(tz = tzone))
-  code <- construct_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "lubridate::as_datetime", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
@@ -103,18 +103,18 @@ constructors$POSIXct$as.POSIXct <- function(x, ..., origin) {
   if (!is.null(tzone) && tzone != "") {
     args <- c(args, list(tz = tzone))
   }
-  code <- construct_apply(args, "as.POSIXct", new_line = TRUE, ...)
+  code <- .cstr_apply(args, "as.POSIXct", new_line = TRUE, ...)
   repair_attributes.POSIXct(x, code, ...)
 }
 
 #' @export
 constructors$POSIXct$atomic <- function(x, ..., origin) {
-  construct_raw.default(x, ...)
+  .cstr_construct.default(x, ...)
 }
 
 #' @export
 repair_attributes.POSIXct <- function(x, code, ..., pipe ="base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     idiomatic_class = c("POSIXct", "POSIXt"),

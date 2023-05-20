@@ -22,17 +22,17 @@ constructors$formula <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = TRUE) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
     abort_not_boolean(environment)
   )
-  constructive_options("formula", constructor = constructor, environment = environment)
+  .cstr_options("formula", constructor = constructor, environment = environment)
 }
 
 #' @export
-construct_raw.formula <- function(x, ..., env) {
-  opts <- fetch_opts("formula", ...)
+.cstr_construct.formula <- function(x, ..., env) {
+  opts <- .cstr_fetch_opts("formula", ...)
   if (is_corrupted_formula(x)) return(NextMethod())
   constructor <- constructors$formula[[opts$constructor]]
   env_is_default = identical(attr(x, ".Environment"), env)
@@ -51,38 +51,38 @@ constructors$formula$"~" <- function(x, ..., environment, env_is_default) {
 
 
 constructors$formula$new_formula <- function(x, ..., environment, env_is_default) {
-  lhs_code <- construct_raw(rlang::f_lhs(x), ...)
-  rhs_code <- construct_raw(rlang::f_rhs(x), ...)
+  lhs_code <- .cstr_construct(rlang::f_lhs(x), ...)
+  rhs_code <- .cstr_construct(rlang::f_rhs(x), ...)
   if (environment && !env_is_default) {
-    env_code <- construct_raw(environment(x), ...)
-    code <- construct_apply(list(lhs_code, rhs_code, env = env_code), "rlang::new_formula", ..., language = TRUE)
+    env_code <- .cstr_construct(environment(x), ...)
+    code <- .cstr_apply(list(lhs_code, rhs_code, env = env_code), "rlang::new_formula", ..., recurse = FALSE)
   } else {
-    code <- construct_apply(list(lhs_code, rhs_code), "rlang::new_formula", ..., language = TRUE)
+    code <- .cstr_apply(list(lhs_code, rhs_code), "rlang::new_formula", ..., recurse = FALSE)
   }
   repair_attributes.formula(x, code, ...)
 }
 
 constructors$formula$formula <- function(x, ..., environment, env_is_default) {
   if (environment && !env_is_default) {
-    code <- construct_apply(list(deparse(x), env = environment(x)), "formula", ...)
+    code <- .cstr_apply(list(deparse(x), env = environment(x)), "formula", ...)
   } else {
-    code <- construct_apply(list(deparse(x)), "formula", ..., language = TRUE)
+    code <- .cstr_apply(list(deparse(x)), "formula", ..., recurse = FALSE)
   }
   repair_attributes.formula(x, code, ...)
 }
 
 constructors$formula$as.formula <- function(x, ..., environment, env_is_default) {
   if (environment && !env_is_default) {
-    code <- construct_apply(list(deparse(x), env = environment(x)), "as.formula", ...)
+    code <- .cstr_apply(list(deparse(x), env = environment(x)), "as.formula", ...)
   } else {
-    code <- construct_apply(list(deparse(x)), "as.formula", ..., language = TRUE)
+    code <- .cstr_apply(list(deparse(x)), "as.formula", ..., recurse = FALSE)
   }
   repair_attributes.formula(x, code, ...)
 }
 
 #' @export
 repair_attributes.formula <- function(x, code, ..., pipe ="base", ignore_env_attr = TRUE) {
-  opts <- fetch_opts("formula", ...)
+  opts <- .cstr_fetch_opts("formula", ...)
   constructor <- opts$constructor
   ignore <- NULL
 
@@ -92,10 +92,10 @@ repair_attributes.formula <- function(x, code, ..., pipe ="base", ignore_env_att
       !all(rlang::names2(attributes(x)) %in% c(".Environment", "class")) ||
       !identical(class(x), "formula")
     if (some_attrs_were_not_idiomatically_constructed) {
-      code <- wrap(code, "")
+      code <- .cstr_wrap(code, "")
     }
   } else {
-    code <- wrap(code, "")
+    code <- .cstr_wrap(code, "")
   }
 
   # if (constructor == "~") {
@@ -109,7 +109,7 @@ repair_attributes.formula <- function(x, code, ..., pipe ="base", ignore_env_att
   #     }
   #   }
   # }
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     idiomatic_class = "formula",

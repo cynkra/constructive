@@ -12,16 +12,16 @@ constructors$pairlist <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_pairlist <- function(constructor = c("pairlist", "pairlist2"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("pairlist", constructor = constructor)
+  .cstr_options("pairlist", constructor = constructor)
 }
 
 #' @export
-construct_raw.pairlist <- function(x, ...) {
-  opts <- fetch_opts("pairlist", ...)
+.cstr_construct.pairlist <- function(x, ...) {
+  opts <- .cstr_fetch_opts("pairlist", ...)
   if (is_corrupted_pairlist(x)) return(NextMethod())
   constructor <- constructors$pairlist[[opts$constructor]]
   constructor(x, ...)
@@ -32,12 +32,12 @@ is_corrupted_pairlist <- function(x) {
 }
 
 constructors$pairlist$pairlist <- function(x, ...) {
-  code <- construct_apply(x, "pairlist", ...)
+  code <- .cstr_apply(x, "pairlist", ...)
   repair_attributes.pairlist(x, code, ...)
 }
 
 constructors$pairlist$pairlist2 <- function(x, ...) {
-  code <- construct_apply(x, "rlang::pairlist2", ...)
+  code <- .cstr_apply(x, "rlang::pairlist2", ...)
   repair_attributes.pairlist(x, code, ...)
 }
 

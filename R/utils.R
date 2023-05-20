@@ -1,11 +1,22 @@
 # Functions that are used in several places, or that have a general scope
 
-wrap <- function(x, fun, new_line = FALSE) {
-  if (new_line) return(c(paste0(fun, "("), x, ")"))
-  x[1] <- paste0(fun, "(", x[1])
-  l <- length(x)
-  x[l] <- paste0(x[l], ")")
-  x
+#' Wrap argument code in function call
+#'
+#' Exported for custom constructor design. Generally called through `.cstr_apply()`.
+#'
+#' @param args A character vector containing the code of arguments.
+#' @param fun A string. The name of the function to use in the function call.
+#'   Use `fun = ""` to wrap in parentheses.
+#' @param new_line Boolean. Whether to insert a new line between `"fun("` and the closing `")"`.
+#'
+#' @return A character vector.
+#' @export
+.cstr_wrap <- function(args, fun, new_line = FALSE) {
+  if (new_line) return(c(paste0(fun, "("), args, ")"))
+  args[1] <- paste0(fun, "(", args[1])
+  l <- length(args)
+  args[l] <- paste0(args[l], ")")
+  args
 }
 
 # "c(1,2)" to "foo = c(1,2),"
@@ -17,7 +28,22 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
   x
 }
 
-pipe <- function(x, y, pipe, one_liner) {
+#' Insert a pipe between two calls
+#'
+#' Exported for custom constructor design.
+#'
+#' @param x A character vector. The code for the left hand side call.
+#' @param y A character vector. The code for the right hand side call.
+#' @param pipe A string. The pipe to use, `"plus"` is useful for ggplot code.
+#' @param one_liner A boolean. Whether to paste `x`, the pipe and `y` together
+#' on a same line (provided that `x` and `y` are strings and one liners themselves)
+#'
+#' @return A character vector
+#' @export
+#' @examples
+#' .cstr_pipe("iris", "head(2)", pipe = "base", one_liner = FALSE)
+#' .cstr_pipe("iris", "head(2)", pipe = "base", one_liner = TRUE)
+.cstr_pipe <- function(x, y, pipe, one_liner) {
   pipe_symbol <- c(base = "|>", magrittr = "%>%", plus = "+")[[pipe]]
   if (one_liner) return(paste(x, pipe_symbol, y))
   x[length(x)] <- paste(x[length(x)], pipe_symbol)

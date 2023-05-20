@@ -34,18 +34,18 @@ opts_list <- function(
     ...,
     trim = NULL,
     fill = c("vector", "new_list", "+", "...", "none")) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill)
   )
-  constructive_options("list", constructor = constructor, trim = trim, fill = fill)
+  .cstr_options("list", constructor = constructor, trim = trim, fill = fill)
 }
 
 #' @export
-construct_raw.list <- function(x, ...) {
-  opts <- fetch_opts("list", ...)
+.cstr_construct.list <- function(x, ...) {
+  opts <- .cstr_fetch_opts("list", ...)
   if (is_corrupted_list(x)) return(NextMethod())
   constructors$list[[opts$constructor]](x, trim = opts$trim, fill = opts$fill, ...)
 }
@@ -55,45 +55,45 @@ is_corrupted_list <- function(x) {
   typeof(x) != "list"
 }
 
-construct_list <- function(x, constructor, trim, fill, keep_trailing_comma, ...) {
+construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
   if (!is.null(trim)) {
     l <- length(x)
     if (l > trim) {
-      args <- lapply(x[seq_len(trim)], construct_raw, ...)
+      args <- lapply(x[seq_len(trim)], .cstr_construct, ...)
       if (fill %in% c("+", "...", "none")) {
         if (fill == "+") {
           args <- c(args, list(paste0("+", l - trim)))
         } else if (fill == "...") {
           args <- c(args, "...")
         }
-        code <- construct_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
+        code <- .cstr_apply(args, constructor, ..., new_line = FALSE, recurse = FALSE, trailing_comma  = trailing_comma)
         return(code)
       }
 
-      list_code <- construct_apply(args, constructor, ..., new_line = FALSE, language = TRUE, keep_trailing_comma  = keep_trailing_comma)
+      list_code <- .cstr_apply(args, constructor, ..., new_line = FALSE, recurse = FALSE, trailing_comma  = trailing_comma)
       if (fill == "vector") {
         null_list_code <- sprintf('vector("list", %s)', l - trim)
       } else {
         # fill == "new_list
         null_list_code <- sprintf('rlang::new_list(%s)', l - trim)
       }
-      code <- construct_apply(list(list_code, null_list_code), "c", ..., new_line = FALSE, language = TRUE)
+      code <- .cstr_apply(list(list_code, null_list_code), "c", ..., new_line = FALSE, recurse = FALSE)
       return(code)
     }
   }
-  construct_apply(x, fun = constructor, ..., keep_trailing_comma = keep_trailing_comma)
+  .cstr_apply(x, fun = constructor, ..., trailing_comma = trailing_comma)
 }
 
 constructors$list$list <- function(x, trim, fill, ...) {
-  code <- construct_list(x, "list", trim, fill, keep_trailing_comma = FALSE, ...)
-  repair_attributes_impl(x, code, ...)
+  code <- construct_list(x, "list", trim, fill, trailing_comma = FALSE, ...)
+  .cstr_repair_attributes(x, code, ...)
 }
 
 constructors$list$list2 <- function(x, trim, fill, ...) {
-  code <- construct_list(x, "rlang::list2", trim, fill, keep_trailing_comma = TRUE, ...)
+  code <- construct_list(x, "rlang::list2", trim, fill, trailing_comma = TRUE, ...)
   repair_attributes.list(x, code, ...)
 }
 
 repair_attributes.list <- function(x, code, ...) {
-  repair_attributes_impl(x, code, ...)
+  .cstr_repair_attributes(x, code, ...)
 }

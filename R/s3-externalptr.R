@@ -16,16 +16,16 @@ constructors$externalptr <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_externalptr  <- function(constructor = c("default"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("externalptr", constructor = constructor)
+  .cstr_options("externalptr", constructor = constructor)
 }
 
 #' @export
-construct_raw.externalptr <- function(x, ...) {
-  opts <- fetch_opts("externalptr", ...)
+.cstr_construct.externalptr <- function(x, ...) {
+  opts <- .cstr_fetch_opts("externalptr", ...)
   if (is_corrupted_externalptr (x)) return(NextMethod())
   constructor <- constructors$externalptr [[opts$constructor]]
   constructor(x, ...)

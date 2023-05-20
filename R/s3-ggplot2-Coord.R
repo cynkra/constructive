@@ -1,5 +1,5 @@
 #' @export
-construct_raw.CoordCartesian <- function(x, ...) {
+.cstr_construct.CoordCartesian <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -8,11 +8,11 @@ construct_raw.CoordCartesian <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_cartesian)
-  construct_apply(args, "ggplot2::coord_cartesian", ...)
+  .cstr_apply(args, "ggplot2::coord_cartesian", ...)
 }
 
 #' @export
-construct_raw.CoordFixed <- function(x, ...) {
+.cstr_construct.CoordFixed <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -21,12 +21,12 @@ construct_raw.CoordFixed <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_fixed)
-  construct_apply(args, "ggplot2::coord_fixed", ...)
+  .cstr_apply(args, "ggplot2::coord_fixed", ...)
 }
 
 
 #' @export
-construct_raw.CoordFlip <- function(x, ...) {
+.cstr_construct.CoordFlip <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -34,12 +34,12 @@ construct_raw.CoordFlip <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_flip)
-  construct_apply(args, "ggplot2::coord_flip", ...)
+  .cstr_apply(args, "ggplot2::coord_flip", ...)
 }
 
 
 #' @export
-construct_raw.CoordMap <- function(x, ...) {
+.cstr_construct.CoordMap <- function(x, ...) {
   args <- c(
     list(projection = x$projection),
     if (length(x$params)) as.list(x$params) else NULL,
@@ -51,12 +51,12 @@ construct_raw.CoordMap <- function(x, ...) {
     )
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_map)
-  construct_apply(args, "ggplot2::coord_map", ...)
+  .cstr_apply(args, "ggplot2::coord_map", ...)
 }
 
 
 #' @export
-construct_raw.CoordMunch <- function(x, ...) {
+.cstr_construct.CoordMunch <- function(x, ...) {
   # untested because didn't find any use case
   args <- list(
     coord = x$coordinates,
@@ -65,12 +65,12 @@ construct_raw.CoordMunch <- function(x, ...) {
     segment_length = x$segment_length
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_munch)
-  construct_apply(args, "ggplot2::coord_munch", ...)
+  .cstr_apply(args, "ggplot2::coord_munch", ...)
 }
 
 
 #' @export
-construct_raw.CoordPolar <- function(x, ...) {
+.cstr_construct.CoordPolar <- function(x, ...) {
   args <- list(
     theta = x$theta,
     start = x$start,
@@ -78,11 +78,11 @@ construct_raw.CoordPolar <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_polar)
-  construct_apply(args, "ggplot2::coord_polar", ...)
+  .cstr_apply(args, "ggplot2::coord_polar", ...)
 }
 
 #' @export
-construct_raw.CoordQuickmap <- function(x, ...) {
+.cstr_construct.CoordQuickmap <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -90,11 +90,11 @@ construct_raw.CoordQuickmap <- function(x, ...) {
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_quickmap)
-  construct_apply(args, "ggplot2::coord_quickmap", ...)
+  .cstr_apply(args, "ggplot2::coord_quickmap", ...)
 }
 
 #' @export
-construct_raw.CoordSf <- function(x, ...) {
+.cstr_construct.CoordSf <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -112,11 +112,11 @@ construct_raw.CoordSf <- function(x, ...) {
   # handle hidden default
   if (args$label_axes == "--EN") args$label_axes <- NULL
   args <- keep_only_non_defaults(args, ggplot2::coord_sf)
-  construct_apply(args, "ggplot2::coord_sf", ...)
+  .cstr_apply(args, "ggplot2::coord_sf", ...)
 }
 
 #' @export
-construct_raw.CoordTrans<- function(x, ...) {
+.cstr_construct.CoordTrans<- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,
@@ -124,12 +124,12 @@ construct_raw.CoordTrans<- function(x, ...) {
     expand = x$expand
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_trans)
-  args_chr <- lapply(args, construct_raw, ...)
+  args_chr <- lapply(args, .cstr_construct, ...)
   xy <- list(
-    x = construct_apply(unclass(x$trans$x), "scales::trans_new", ...),
-    y = construct_apply(unclass(x$trans$y), "scales::trans_new", ...)
+    x = .cstr_apply(unclass(x$trans$x), "scales::trans_new", ...),
+    y = .cstr_apply(unclass(x$trans$y), "scales::trans_new", ...)
   )
-  construct_apply(c(args_chr, xy), "ggplot2::coord_trans", language = TRUE, ...)
+  .cstr_apply(c(args_chr, xy), "ggplot2::coord_trans", recurse = FALSE, ...)
 }
 
 

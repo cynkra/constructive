@@ -16,16 +16,16 @@ constructors$numeric_version <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_numeric_version  <- function(constructor = c("numeric_version", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("numeric_version", constructor = constructor)
+  .cstr_options("numeric_version", constructor = constructor)
 }
 
 #' @export
-construct_raw.numeric_version <- function(x, ...) {
-  opts <- fetch_opts("numeric_version", ...)
+.cstr_construct.numeric_version <- function(x, ...) {
+  opts <- .cstr_fetch_opts("numeric_version", ...)
   if (is_corrupted_numeric_version(x) || opts$constructor == "next") return(NextMethod())
   constructors$numeric_version[[opts$constructor]](x, ...)
 }
@@ -36,17 +36,17 @@ is_corrupted_numeric_version <- function(x) {
 }
 
 constructors$numeric_version$numeric_version <- function(x, ...) {
-  code <- construct_apply(paste(x, collapse = "."), "numeric_version", ...)
+  code <- .cstr_apply(paste(x, collapse = "."), "numeric_version", ...)
   repair_attributes.numeric_version(x, code, ...)
 }
 
 constructors$numeric_version$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export
 repair_attributes.numeric_version <- function(x, code, ...) {
-  repair_attributes_impl(x, code, ..., idiomatic_class = "numeric_version")
+  .cstr_repair_attributes(x, code, ..., idiomatic_class = "numeric_version")
 }
 
 constructors$package_version <- new.env()
@@ -67,16 +67,16 @@ constructors$package_version <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_package_version  <- function(constructor = c("package_version", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("package_version", constructor = constructor)
+  .cstr_options("package_version", constructor = constructor)
 }
 
 #' @export
-construct_raw.package_version <- function(x, ...) {
-  opts <- fetch_opts("package_version", ...)
+.cstr_construct.package_version <- function(x, ...) {
+  opts <- .cstr_fetch_opts("package_version", ...)
   if (is_corrupted_package_version(x) || opts$constructor == "next") return(NextMethod())
   constructors$package_version[[opts$constructor]](x, ...)
 }
@@ -87,17 +87,17 @@ is_corrupted_package_version <- function(x) {
 }
 
 constructors$package_version$package_version <- function(x, ...) {
-  code <- construct_apply(paste(x, collapse = "."), "package_version", ...)
+  code <- .cstr_apply(paste(x, collapse = "."), "package_version", ...)
   repair_attributes.package_version(x, code, ...)
 }
 
 constructors$package_version$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export
 repair_attributes.package_version <- function(x, code, ...) {
-  repair_attributes_impl(x, code, ..., idiomatic_class = c("package_version", "numeric_version"))
+  .cstr_repair_attributes(x, code, ..., idiomatic_class = c("package_version", "numeric_version"))
 }
 
 constructors$R_system_version <- new.env()
@@ -118,16 +118,16 @@ constructors$R_system_version <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_R_system_version  <- function(constructor = c("R_system_version", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("R_system_version", constructor = constructor)
+  .cstr_options("R_system_version", constructor = constructor)
 }
 
 #' @export
-construct_raw.R_system_version <- function(x, ...) {
-  opts <- fetch_opts("R_system_version", ...)
+.cstr_construct.R_system_version <- function(x, ...) {
+  opts <- .cstr_fetch_opts("R_system_version", ...)
   if (is_corrupted_R_system_version(x) || opts$constructor == "next") return(NextMethod())
   constructors$R_system_version[[opts$constructor]](x, ...)
 }
@@ -138,17 +138,17 @@ is_corrupted_R_system_version <- function(x) {
 }
 
 constructors$R_system_version$R_system_version <- function(x, ...) {
-  code <- construct_apply(paste(x, collapse = "."), "R_system_version", ...)
+  code <- .cstr_apply(paste(x, collapse = "."), "R_system_version", ...)
   repair_attributes.R_system_version(x, code, ...)
 }
 
 constructors$R_system_version$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export
 repair_attributes.R_system_version <- function(x, code, ...) {
-  repair_attributes_impl(x, code, ..., idiomatic_class = c("R_system_version", "package_version", "numeric_version"))
+  .cstr_repair_attributes(x, code, ..., idiomatic_class = c("R_system_version", "package_version", "numeric_version"))
 }
 
 

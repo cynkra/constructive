@@ -21,16 +21,16 @@ constructors$factor <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("factor", constructor = constructor)
+  .cstr_options("factor", constructor = constructor)
 }
 
 #' @export
-construct_raw.factor <- function(x, ...) {
-  opts <- fetch_opts("factor", ...)
+.cstr_construct.factor <- function(x, ...) {
+  opts <- .cstr_fetch_opts("factor", ...)
   if (is_corrupted_factor(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$factor[[opts$constructor]]
   constructor(x, ...)
@@ -43,12 +43,12 @@ is_corrupted_factor <- function(x) {
 }
 
 constructors$factor$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 constructors$factor$new_factor <- function(x, ...) {
   levs <- levels(x)
-  code <- construct_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_factor", ...)
+  code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_factor", ...)
   repair_attributes.factor(x, code, ...)
 }
 
@@ -57,7 +57,7 @@ constructors$factor$as_factor <- function(x, ...) {
   x_chr <- as.character(x)
   if (!identical(unique(x_chr), levs)) return(constructors$factor$factor(x, ...))
   x_chr_named <- setNames(x_chr, names(x))
-  code <- construct_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
+  code <- .cstr_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
   repair_attributes.factor(x, code, ...)
 }
 
@@ -67,16 +67,16 @@ constructors$factor$factor <- function(x, ...) {
   x_chr_named <- setNames(x_chr, names(x))
   default_levs <- sort(unique(x_chr))
   if (identical(default_levs, levs)) {
-    code <- construct_apply(list(x_chr_named), "factor", new_line =  FALSE, ...)
+    code <- .cstr_apply(list(x_chr_named), "factor", new_line =  FALSE, ...)
   } else {
-    code <- construct_apply(list(x_chr_named, levels = levs), "factor", ...)
+    code <- .cstr_apply(list(x_chr_named, levels = levs), "factor", ...)
   }
   repair_attributes.factor(x, code, ...)
 }
 
 #' @export
 repair_attributes.factor <- function(x, code, ...) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     ignore = "levels",
     idiomatic_class = "factor"

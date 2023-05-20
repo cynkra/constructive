@@ -17,16 +17,16 @@ constructors$array <- new.env()
 #' @return An object of class <constructive_options/constructive_options_array>
 #' @export
 opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("AsIs", constructor = constructor)
+  .cstr_options("AsIs", constructor = constructor)
 }
 
 #' @export
-construct_raw.AsIs <- function(x, ...) {
-  opts <- fetch_opts("AsIs", ...)
+.cstr_construct.AsIs <- function(x, ...) {
+  opts <- .cstr_fetch_opts("AsIs", ...)
   if (is_corrupted_AsIs(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$AsIs[[opts$constructor]]
   constructor(x, ...)
@@ -42,12 +42,12 @@ constructors$AsIs$I <- function(x, ...) {
   cl <- oldClass(x)
   class(x_stripped) <- setdiff(cl, "AsIs")
   # no validation needed
-  code <- wrap(construct_raw(x_stripped, ...), "I", new_line = FALSE)
+  code <- .cstr_wrap(.cstr_construct(x_stripped, ...), "I", new_line = FALSE)
   repair_attributes.AsIs(x, code, ...)
 }
 
 constructors$AsIs$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export

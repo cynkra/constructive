@@ -3,7 +3,7 @@
 # eval the expressions or components
 
 #' @export
-construct_raw.uneval <- function(x, ...) {
+.cstr_construct.uneval <- function(x, ...) {
   args <- lapply(x, function(x) rlang::expr_deparse(rlang::quo_squash(x)))
   nm1 <- names(args)[1]
   # omit `x` and `y` if provided in this order
@@ -14,13 +14,13 @@ construct_raw.uneval <- function(x, ...) {
       names(args)[2] <- ""
     }
   }
-  code <- construct_apply(args, fun = "ggplot2::aes", language = TRUE, new_line = FALSE)
+  code <- .cstr_apply(args, fun = "ggplot2::aes", recurse = FALSE, new_line = FALSE)
   repair_attributes.uneval(x, code, ...)
 }
 
 #' @export
 repair_attributes.uneval <- function(x, code, pipe = "base", ...) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, pipe,
     idiomatic_class = c("uneval"),
     ...

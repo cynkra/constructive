@@ -21,16 +21,16 @@ constructors$data.table <- new.env()
 #' @return An object of class <constructive_options/constructive_options_data.table>
 #' @export
 opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., selfref = FALSE) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("data.table", constructor = constructor, selfref = selfref)
+  .cstr_options("data.table", constructor = constructor, selfref = selfref)
 }
 
 #' @export
-construct_raw.data.table <- function(x, ...) {
-  opts <- fetch_opts("data.table", ...)
+.cstr_construct.data.table <- function(x, ...) {
+  opts <- .cstr_fetch_opts("data.table", ...)
   if (is_corrupted_data.table(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$data.table[[opts$constructor]]
   constructor(x, selfref = opts$selfref, ...)
@@ -42,7 +42,7 @@ is_corrupted_data.table <- function(x) {
 }
 
 constructors$data.table$list <- function(x, ...) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 constructors$data.table$data.table <- function(x, selfref, ...) {
@@ -52,7 +52,7 @@ constructors$data.table$data.table <- function(x, selfref, ...) {
   } else {
     args <- x
   }
-  code <- construct_apply(args, fun = "data.table::data.table", ...)
+  code <- .cstr_apply(args, fun = "data.table::data.table", ...)
   repair_attributes.data.table(x, code, ..., selfref = selfref)
 }
 
@@ -61,7 +61,7 @@ repair_attributes.data.table <- function(x, code, ..., pipe = "base", selfref = 
   ignore <- c("row.names", "sorted")
   if (!selfref) ignore <- c(ignore, ".internal.selfref")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = ignore,

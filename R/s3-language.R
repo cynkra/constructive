@@ -18,16 +18,16 @@ constructors$language <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_language  <- function(constructor = c("default"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("language", constructor = constructor)
+  .cstr_options("language", constructor = constructor)
 }
 
 #' @export
-construct_raw.language <- function(x, ...) {
-  opts <- fetch_opts("language", ...)
+.cstr_construct.language <- function(x, ...) {
+  opts <- .cstr_fetch_opts("language", ...)
   if (is_corrupted_language(x)) return(NextMethod())
   constructors$language[[opts$constructor]](x, ...)
 }
@@ -43,18 +43,18 @@ constructors$language$default <- function(x, ..., one_liner = FALSE) {
   attributes(x_stripped) <- NULL
 
   if (is_expression2(x_stripped)) {
-    code <- deparse_call_impl(x_stripped, one_liner = one_liner)
-    code <- wrap(code, "quote", new_line = FALSE)
+    code <- deparse_call(x_stripped, one_liner = one_liner, style = FALSE)
+    code <- .cstr_wrap(code, "quote", new_line = FALSE)
   } else {
-    list_call <- construct_apply(as.list(x_stripped), "list", ...)
-    code <- wrap(list_call, "as.call", new_line = FALSE)
+    list_call <- .cstr_apply(as.list(x_stripped), "list", ...)
+    code <- .cstr_wrap(list_call, "as.call", new_line = FALSE)
   }
   repair_attributes.language(x, code, ...)
 }
 
 #' @export
 repair_attributes.language <- function(x, code, ..., pipe ="base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("srcref", "srcfile", "wholeSrcref")

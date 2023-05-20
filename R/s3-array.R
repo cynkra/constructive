@@ -16,16 +16,16 @@ constructors$array <- new.env()
 #' @return An object of class <constructive_options/constructive_options_array>
 #' @export
 opts_array <- function(constructor = c("array", "next"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("array", constructor = constructor)
+  .cstr_options("array", constructor = constructor)
 }
 
 #' @export
-construct_raw.array <- function(x, ...) {
-  opts <- fetch_opts("array", ...)
+.cstr_construct.array <- function(x, ...) {
+  opts <- .cstr_fetch_opts("array", ...)
   if (is_corrupted_array(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$array[[opts$constructor]]
   constructor(x, ...)
@@ -48,7 +48,7 @@ constructors$array$array <- function(x, ...) {
   args$dim_names <- if (!is.null(dimnames)) list(dimnames = dimnames)
 
   # build code
-  code <- construct_apply(args, fun = "array", ...)
+  code <- .cstr_apply(args, fun = "array", ...)
 
   # repair
   repair_attributes.array(x, code, ...)
@@ -56,7 +56,7 @@ constructors$array$array <- function(x, ...) {
 
 #' @export
 repair_attributes.array <- function(x, code, ..., pipe ="base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("dim")

@@ -22,10 +22,28 @@ repair_attributes.default <- function(x, code, ..., pipe = "base") {
   if (is.environment(x)) return(repair_attributes.environment(x, code, ..., pipe = pipe))
   if (rlang::is_formula(x))  return(repair_attributes.formula(x, code, ..., pipe = pipe))
   if (is.language(x) && !is.expression(x))  return(repair_attributes.language(x, code, ..., pipe = pipe))
-  repair_attributes_impl(x, code, ..., pipe = pipe)
+  .cstr_repair_attributes(x, code, ..., pipe = pipe)
 }
 
-repair_attributes_impl <- function(x, code, ..., pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE) {
+#' Repair attributes after idiomatic construction
+#'
+#' Exported for custom constructor design. In the general case an object might have more attributes than given by the idiomatic
+#' construction. `.cstr_repair_attributes()` sets some of those attributes and ignores
+#' others.
+#'
+#' @param x The object to construct
+#' @param code The code constructing the object before attribute reparation
+#' @param ... Forwarded to `.construct_apply()` when relevant
+#' @param ignore The attributes that shouldn't be repaired, i.e. we expect them
+#'   to be set by the constructor already in `code`
+#' @param idiomatic_class The class of the objects that the constructor produces,
+#'   if `x` is of class `idiomatic_class` there is no need to repair the class.
+#' @param remove Attributes that should be removed, should rarely be useful.
+#' @inheritParams construct
+#'
+#' @return A character vector
+#' @export
+.cstr_repair_attributes <- function(x, code, ..., pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL
@@ -36,7 +54,7 @@ repair_attributes_impl <- function(x, code, ..., pipe = "base", ignore = NULL, i
   if (inherits(x, "noquote")) {
     attrs$class <- setdiff(attrs$class, "noquote")
     if (!length(attrs$class)) attrs$class <- NULL
-    code <- wrap(code, "noquote", new_line = FALSE)
+    code <- .cstr_wrap(code, "noquote", new_line = FALSE)
   }
   if (identical(attrs$class, idiomatic_class)) {
     attrs$class <- NULL
@@ -52,16 +70,16 @@ repair_attributes_impl <- function(x, code, ..., pipe = "base", ignore = NULL, i
   special_attrs <- attrs[special_attr_nms]
   attrs[special_attr_nms] <- NULL
   # append structure() code to repair object
-  attrs_code <- construct_apply(attrs, fun = "structure", ..., pipe = pipe, one_liner = one_liner)
-  code <- pipe(code, attrs_code, pipe, one_liner)
+  attrs_code <- .cstr_apply(attrs, fun = "structure", ..., pipe = pipe, one_liner = one_liner)
+  code <- .cstr_pipe(code, attrs_code, pipe, one_liner)
   for (attr_nm in special_attr_nms) {
-    attr_code <- construct_apply(
+    attr_code <- .cstr_apply(
       list(attr_nm, special_attrs[[attr_nm]]),
       "(`attr<-`)",
       ...,
       pipe = pipe,
       one_liner = one_liner)
-    code <- pipe(code, attr_code, pipe, one_liner)
+    code <- .cstr_pipe(code, attr_code, pipe, one_liner)
   }
   code
 }

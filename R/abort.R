@@ -1,4 +1,15 @@
-combine_errors <- function(
+#' Combine errors
+#'
+#' Exported for custom constructor design. This function allows combining independent checks so information is given about
+#' all failing checks rather than the first one. All parameters except `...` are
+#' forwarded to `rlang::abort()`
+#'
+#' @param ... check expressions
+#' @inheritParams rlang::abort
+#'
+#' @return Returns `NULL` invisibly, called for side effects.
+#' @export
+.cstr_combine_errors <- function(
     ..., # unnamed expresions and named arg to forward to abort, such as `class`
     class = NULL,
     call,

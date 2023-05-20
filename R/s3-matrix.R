@@ -20,16 +20,16 @@ constructors$matrix <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("matrix", constructor = constructor)
+  .cstr_options("matrix", constructor = constructor)
 }
 
 #' @export
-construct_raw.matrix <- function(x, ...) {
-  opts <- fetch_opts("matrix", ...)
+.cstr_construct.matrix <- function(x, ...) {
+  opts <- .cstr_fetch_opts("matrix", ...)
   if (is_corrupted_matrix(x) || opts$constructor == "next") return(NextMethod())
   constructors$matrix[[opts$constructor]](x, ...)
 }
@@ -45,7 +45,7 @@ constructors$matrix$matrix <- function(x, ...) {
   dim_names_lst <- if (!is.null(dimnames)) list(dimnames = dimnames)
   x_stripped <- x
   attributes(x_stripped) <- NULL
-  code <- construct_apply(
+  code <- .cstr_apply(
     c(list(x_stripped, nrow = dim[[1]], ncol = dim[[2]]), dim_names_lst),
     "matrix",
     ...
@@ -59,12 +59,12 @@ constructors$matrix$array <- function(x, ...) {
 }
 
 constructors$matrix$atomic <- function(x, ...) {
-  construct_raw.default(x, ...)
+  .cstr_construct.default(x, ...)
 }
 
 #' @export
 repair_attributes.matrix <- function(x, code, ..., pipe ="base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("dim", "dimnames")

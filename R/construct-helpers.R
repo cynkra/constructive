@@ -9,7 +9,7 @@
 #' @return A list
 #' @export
 compare_options <- function(ignore_srcref = TRUE, ignore_attr = FALSE, ignore_function_env = FALSE, ignore_formula_env = FALSE) {
-  combine_errors(
+  .cstr_combine_errors(
     abort_not_boolean(ignore_srcref),
     abort_not_boolean(ignore_attr),
     abort_not_boolean(ignore_function_env),
@@ -52,7 +52,7 @@ try_construct <- function(x, ...) {
   # deal early with special case x = quote(expr=)
   if (identical(x, quote(expr=))) return("quote(expr=)")
   caller <- caller_env()
-  rlang::try_fetch(construct_raw(x, ...), error = function(e) {
+  rlang::try_fetch(.cstr_construct(x, ...), error = function(e) {
     #nocov start
     abort("{constructive} could not build the requested code.", parent = e, call = caller)
     #nocov end
@@ -137,10 +137,19 @@ new_constructive <- function(code, compare) {
   structure(list(code = code, compare = compare), class = "constructive")
 }
 
-construct_raw <- function(x, ..., data = NULL) {
+#' Generic for object code generation
+#'
+#' Exported for custom constructor design. `.cstr_construct()` is basically a
+#' naked `construct()`, without the checks, the style, the object post processing etc...
+#'
+#' @inheritParams construct
+#'
+#' @return A character vector
+#' @export
+.cstr_construct <- function(x, ..., data = NULL) {
   data_name <- perfect_match(x, data)
   if (!is.null(data_name)) return(data_name)
-  UseMethod("construct_raw")
+  UseMethod(".cstr_construct")
 }
 
 # FIXME: remove when proven obsolete, along with flex_match()

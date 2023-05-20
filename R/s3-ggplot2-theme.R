@@ -1,5 +1,5 @@
 #' @export
-construct_raw.theme <- function(x, ...) {
+.cstr_construct.theme <- function(x, ...) {
   args <- unclass(x)
   args$complete <- if (attr(x, "complete")) TRUE
   args$validate <- if (!attr(x, "validate")) FALSE
@@ -7,7 +7,7 @@ construct_raw.theme <- function(x, ...) {
     code <- guess_complete_theme(x, ...)
     if (!is.null(x)) return(code)
   }
-  construct_apply(args, "ggplot2::theme", ...)
+  .cstr_apply(args, "ggplot2::theme", ...)
 }
 
 strip_theme <- function(x) {
@@ -69,7 +69,7 @@ guess_complete_theme <- function(x, ...) {
       if (x$rect$linewidth != x$text$size / 22) {
         args$base_rect_size <- x$rect$linewidth
       }
-      code <- construct_apply(args, paste0("ggplot2::", th), ...)
+      code <- .cstr_apply(args, paste0("ggplot2::", th), ...)
       return(repair_attributes.theme(x, code, ...))
     }
   }
@@ -80,81 +80,81 @@ guess_complete_theme <- function(x, ...) {
 repair_attributes.theme <- function(x, ...) {
   ignore <- c("complete", "validate")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
-  repair_attributes_impl(x, idiomatic_class = c("theme", "gg"), ignore = ignore, ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("theme", "gg"), ignore = ignore, ...)
 }
 
 #' @export
-construct_raw.element_blank <- function(x, ...) {
+.cstr_construct.element_blank <- function(x, ...) {
   code <- "ggplot2::element_blank()"
   repair_attributes.element_blank(x, code, ...)
 }
 
 #' @export
 repair_attributes.element_blank <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_blank", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_blank", "element"), ...)
 }
 
 #' @export
-construct_raw.element_grob <- function(x, ...) {
+.cstr_construct.element_grob <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_grob)
-  code <- construct_apply(args, "ggplot2::element_grob", ...)
+  code <- .cstr_apply(args, "ggplot2::element_grob", ...)
   repair_attributes.element_grob(x, code, ...)
 }
 
 #' @export
 repair_attributes.element_grob <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_grob", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_grob", "element"), ...)
 }
 
 #' @export
-construct_raw.element_rect <- function(x, ...) {
+.cstr_construct.element_rect <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_rect)
-  code <- construct_apply(args, "ggplot2::element_rect", ...)
+  code <- .cstr_apply(args, "ggplot2::element_rect", ...)
   repair_attributes.element_rect(x, code, ...)
 }
 
 #' @export
 repair_attributes.element_rect <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_rect", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_rect", "element"), ...)
 }
 
 #' @export
-construct_raw.element_render <- function(x, ...) {
+.cstr_construct.element_render <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_render)
-  code <- construct_apply(args, "ggplot2::element_render", ...)
+  code <- .cstr_apply(args, "ggplot2::element_render", ...)
   repair_attributes.element_render(x, code, ...)
 }
 
 #' @export
 repair_attributes.element_render <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_render", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_render", "element"), ...)
 }
 
 #' @export
-construct_raw.element_text <- function(x, ...) {
+.cstr_construct.element_text <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_text)
-  code <- construct_apply(args, "ggplot2::element_text", ...)
+  code <- .cstr_apply(args, "ggplot2::element_text", ...)
   repair_attributes.element_text(x, code, ...)
 }
 
 #' @export
 repair_attributes.element_text <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_text", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_text", "element"), ...)
 }
 
 #' @export
-construct_raw.element_line <- function(x, ...) {
+.cstr_construct.element_line <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_line)
-  construct_apply(args, "ggplot2::element_line", ...)
+  .cstr_apply(args, "ggplot2::element_line", ...)
 }
 
 #' @export
 repair_attributes.element_line <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("element_line", "element"), ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("element_line", "element"), ...)
 }
 
 #' @export
-construct_raw.simpleUnit <- function(x, ...) {
+.cstr_construct.simpleUnit <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,
@@ -163,17 +163,17 @@ construct_raw.simpleUnit <- function(x, ...) {
   )
   units <- names(lkp)[match(attr(x, "unit"), lkp)]
   x <- as.vector(x)
-  code <- construct_apply(list(x, units = units), "grid::unit", ...)
+  code <- .cstr_apply(list(x, units = units), "grid::unit", ...)
   repair_attributes.simpleUnit(x, code, ...)
 }
 
 #' @export
 repair_attributes.simpleUnit <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
 }
 
 #' @export
-construct_raw.margin <- function(x, ...) {
+.cstr_construct.margin <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,
@@ -182,22 +182,22 @@ construct_raw.margin <- function(x, ...) {
   )
   unit <- names(lkp)[match(attr(x, "unit"), lkp)]
   x <- as.vector(x)
-  code <- construct_apply(list(t = x[1], r = x[2], b = x[3], l = x[4], unit = unit), "ggplot2::margin", ...)
+  code <- .cstr_apply(list(t = x[1], r = x[2], b = x[3], l = x[4], unit = unit), "ggplot2::margin", ...)
   repair_attributes.margin(x, code, ...)
 }
 
 #' @export
 repair_attributes.margin <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = c("margin", "simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
+  .cstr_repair_attributes(x, idiomatic_class = c("margin", "simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
 }
 
 #' @export
-construct_raw.rel <- function(x, ...) {
-  code <- construct_apply(list(unclass(x)), "ggplot2::rel", ...)
+.cstr_construct.rel <- function(x, ...) {
+  code <- .cstr_apply(list(unclass(x)), "ggplot2::rel", ...)
   repair_attributes.rel(x, code, ...)
 }
 
 #' @export
 repair_attributes.rel <- function(x, ...) {
-  repair_attributes_impl(x, idiomatic_class = "rel", ...)
+  .cstr_repair_attributes(x, idiomatic_class = "rel", ...)
 }

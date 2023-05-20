@@ -18,16 +18,16 @@ constructors$quosure <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ..., origin = "1970-01-01") {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("quosure", constructor = constructor, origin = origin)
+  .cstr_options("quosure", constructor = constructor, origin = origin)
 }
 
 #' @export
-construct_raw.quosure <- function(x, ...) {
-  opts <- fetch_opts("quosure", ...)
+.cstr_construct.quosure <- function(x, ...) {
+  opts <- .cstr_fetch_opts("quosure", ...)
   if (is_corrupted_quosure(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$quosure[[opts$constructor]]
   constructor(x, ..., origin = opts$origin)
@@ -42,21 +42,21 @@ is_corrupted_quosure <- function(x) {
 #' @export
 constructors$quosure$new_quosure <- function(x, env, ...) {
   if (identical(env, attr(x, ".Environment"))) {
-    code <- construct_apply(list(rlang::quo_squash(x)), "rlang::new_quosure", ...)
+    code <- .cstr_apply(list(rlang::quo_squash(x)), "rlang::new_quosure", ...)
   } else {
-    code <- construct_apply(list(rlang::quo_squash(x), attr(x, ".Environment")), "rlang::new_quosure", ...)
+    code <- .cstr_apply(list(rlang::quo_squash(x), attr(x, ".Environment")), "rlang::new_quosure", ...)
   }
   repair_attributes.quosure(x, code, env = env, ...)
 }
 
 #' @export
 constructors$quosure$language <- function(x, ...) {
-  construct_raw.language(x, ...)
+  .cstr_construct.language(x, ...)
 }
 
 #' @export
 repair_attributes.quosure <- function(x, code, ...) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     ignore = ".Environment",
     idiomatic_class = c("quosure", "formula")

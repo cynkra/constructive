@@ -10,7 +10,7 @@
 #' @return Returns `NULL` invisibly, called for side effects.
 #' @export
 construct_dump <- function(x, path, append = FALSE, ...) {
-  combine_errors(
+  .cstr_combine_errors(
     x,
     abort_not_string(path)
   )

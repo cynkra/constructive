@@ -16,16 +16,16 @@ constructors$rowwise_df <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_rowwise_df <- function(constructor = c("default", "next", "list"), ..., origin = "1970-01-01") {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("rowwise_df", constructor = constructor, origin = origin)
+  .cstr_options("rowwise_df", constructor = constructor, origin = origin)
 }
 
 #' @export
-construct_raw.rowwise_df <- function(x, ...) {
-  opts <- fetch_opts("rowwise_df", ...)
+.cstr_construct.rowwise_df <- function(x, ...) {
+  opts <- .cstr_fetch_opts("rowwise_df", ...)
   if (is_corrupted_rowwise_df(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$rowwise_df[[opts$constructor]]
   constructor(x, ...)
@@ -41,15 +41,15 @@ constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
   x_stripped <- x
   class(x_stripped) <- setdiff(class(x_stripped), "rowwise_df")
   attr(x_stripped, "groups") <- NULL
-  code <- construct_raw(x_stripped, ...)
+  code <- .cstr_construct(x_stripped, ...)
   vars <- head(names(attr(x, "groups")), -1)
-  rowwise_code <- construct_apply(
+  rowwise_code <- .cstr_apply(
     vars,
     "dplyr::rowwise",
     ...,
-    language = TRUE
+    recurse = FALSE
   )
-  code <- pipe(
+  code <- .cstr_pipe(
     code,
     rowwise_code,
     one_liner = one_liner,
@@ -59,13 +59,13 @@ constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
 }
 
 constructors$rowwise_df$list <- function(x, ...) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 # no need for a constructor for grouped_df since it falls back on tbl_df
 #' @export
 repair_attributes.rowwise_df <- function(x, code, ..., pipe = "base", one_liner = FALSE) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("row.names", "groups"),

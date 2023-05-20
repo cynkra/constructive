@@ -16,16 +16,16 @@ constructors$ts <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("ts", constructor = constructor)
+  .cstr_options("ts", constructor = constructor)
 }
 
 #' @export
-construct_raw.ts <- function(x, ...) {
-  opts <- fetch_opts("ts", ...)
+.cstr_construct.ts <- function(x, ...) {
+  opts <- .cstr_fetch_opts("ts", ...)
   if (is_corrupted_ts(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$ts[[opts$constructor]]
   constructor(x, ...)
@@ -41,17 +41,17 @@ constructors$ts$ts <- function(x, ...) {
   tsp <- attr(x, "tsp")
   attr(x_stripped, "tsp") <- NULL
   class(x_stripped) <- setdiff(oldClass(x), "ts")
-  code <- construct_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
+  code <- .cstr_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
   repair_attributes.ts(x, code, ...)
 }
 
 constructors$ts$atomic <- function(x, ...) {
-  construct_raw.atomic(x, ...)
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export
 repair_attributes.ts <- function(x, code, ..., pipe ="base") {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = "tsp",

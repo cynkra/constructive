@@ -19,16 +19,16 @@ constructors$dots <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_dots <- function(constructor = c("default"), ...) {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("dots", constructor = constructor)
+  .cstr_options("dots", constructor = constructor)
 }
 
 #' @export
-construct_raw.dots <- function(x, ...) {
-  opts <- fetch_opts("dots", ...)
+.cstr_construct.dots <- function(x, ...) {
+  opts <- .cstr_fetch_opts("dots", ...)
   if (is_corrupted_dots(x)) return(NextMethod())
   constructor <- constructors$dots[[opts$constructor]]
   constructor(x, ...)
@@ -47,16 +47,16 @@ constructors$dots$default <- function(x, ...) {
     unique_env <- unique_env[[1]]
     exprs <- lapply(quo_dots, rlang::quo_get_expr)
     code_lng <- rlang::expr((function(...) environment()$...)(!!!exprs))
-    code <- deparse_call_impl(code_lng)
-    env_code <- construct_raw(unique_env, ...)
-    code <- construct_apply(list(code, envir = env_code), "evalq", language = TRUE)
+    code <- deparse_call(code_lng, style = FALSE)
+    env_code <- .cstr_construct(unique_env, ...)
+    code <- .cstr_apply(list(code, envir = env_code), "evalq", recurse = FALSE)
     return(code)
   }
   # strip class since it's not necessary for splicing
-  quo_code <- construct_raw(unclass(quo_dots), ...)
+  quo_code <- .cstr_construct(unclass(quo_dots), ...)
   quo_code[[1]] <- paste0("!!!", quo_code[[1]])
-  code <- wrap(quo_code, "(function(...) environment()$...)")
-  code <- wrap(code, "rlang::inject")
+  code <- .cstr_wrap(quo_code, "(function(...) environment()$...)")
+  code <- .cstr_wrap(code, "rlang::inject")
 
   repair_attributes.dots(x, code, ...)
 }

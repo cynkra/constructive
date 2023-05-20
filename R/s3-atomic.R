@@ -59,24 +59,24 @@ opts_atomic <- function(
     unicode_representation = c("ascii", "latin", "character", "unicode"),
     escape = FALSE
 ) {
-  combine_errors(
+  .cstr_combine_errors(
     ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill),
     abort_not_boolean(compress),
     unicode_representation <- rlang::arg_match(unicode_representation)
   )
-  constructive_options("atomic", trim = trim, fill = fill, compress = compress, unicode_representation = unicode_representation, escape = escape)
+  .cstr_options("atomic", trim = trim, fill = fill, compress = compress, unicode_representation = unicode_representation, escape = escape)
 }
 
 #' @export
-construct_raw.atomic <- function(x, ...) {
+.cstr_construct.atomic <- function(x, ...) {
   code <- construct_atomic(x, ...)
   repair_attributes.default(x, code, ...)
 }
 
 construct_atomic <- function(x, ..., one_liner = FALSE) {
-  opts <- fetch_opts("atomic", ...)
+  opts <- .cstr_fetch_opts("atomic", ...)
   trim <- opts$trim
   fill <- opts$fill
 
@@ -124,7 +124,7 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
   if (l == 1 && is.null(names(x))) return(format_flex(x, all_na = TRUE))
 
   args <- vapply(x, format_flex, character(1), all_na = all(is.na(x)))
-  code <- construct_apply(args, "c", ..., new_line = FALSE, language = TRUE)
+  code <- .cstr_apply(args, "c", ..., new_line = FALSE, recurse = FALSE)
   if (one_liner) code <- paste(code, collapse = " ")
   code
 }
@@ -145,16 +145,16 @@ simplify_atomic <- function(x, ...) {
     # rep ----------------------------------------------------------------------
     # each
     if (length(rle_[[2]]) > 1 && length(unique(rle_[[2]])) == 1 && length(rle_[[1]]) + 1 < length(x)) {
-      return(construct_apply(list(rle_[[1]], each = rle_[[2]][[1]]), "rep", ...))
+      return(.cstr_apply(list(rle_[[1]], each = rle_[[2]][[1]]), "rep", ...))
     }
     if (length(rle_[[1]]) * 2 < length(x)) {
       # this also supports rep(x, n) with scalar x and n, but not scalar n and vector x
-      return(construct_apply(rle_, "rep", ...))
+      return(.cstr_apply(rle_, "rep", ...))
     }
 
     # scalar n and vector x
     for (d in divisors(l)) {
-      if (identical(x, rep(.subset(x, 1:d), l/d))) return(construct_apply(list(.subset(x, 1:d), l/d), "rep", ...))
+      if (identical(x, rep(.subset(x, 1:d), l/d))) return(.cstr_apply(list(.subset(x, 1:d), l/d), "rep", ...))
     }
 
     # seq ----------------------------------------------------------------------
@@ -162,7 +162,7 @@ simplify_atomic <- function(x, ...) {
       d <- diff(x)
       if (length(unique(d)) == 1) {
         if (is.integer(x) && abs(d[[1]]) == 1) return(sprintf("%s:%s", x[[1]], x[[l]]))
-        return(construct_apply(list(x[[1]], x[[l]], by = d[[1]]), "seq", ...))
+        return(.cstr_apply(list(x[[1]], x[[l]], by = d[[1]]), "seq", ...))
       }
     }
   }
@@ -223,7 +223,7 @@ construct_chr <- function(x, unicode_representation, escape, one_liner, ...) {
   if (length(strings) == 1) return(strings)
   nas <- strings == "NA_character_"
   if (any(nas) && !all(nas)) strings[nas] <- "NA"
-  construct_apply(strings, "c", one_liner = one_liner, ..., language = TRUE)
+  .cstr_apply(strings, "c", one_liner = one_liner, ..., recurse = FALSE)
 }
 
 

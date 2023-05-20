@@ -1,5 +1,5 @@
 #' @export
-construct_raw.Scale <- function(x, ...) {
+.cstr_construct.Scale <- function(x, ...) {
   # fetch caller and args from original call
   caller <- x$call[[1]]
   args <- as.list(x$call)[-1]
@@ -13,12 +13,12 @@ construct_raw.Scale <- function(x, ...) {
     candidate <- do.call(ggplot2::xlim, as.list(values$limits))
     xlim_call_lgl <- isTRUE(all.equal(values, as.list(candidate), ignore.environment = TRUE))
     if (xlim_call_lgl) {
-      return(construct_apply(as.list(values$limits), "ggplot2::xlim", ...))
+      return(.cstr_apply(as.list(values$limits), "ggplot2::xlim", ...))
     }
     candidate <- do.call(ggplot2::ylim, as.list(values$limits))
     ylim_call_lgl <- isTRUE(all.equal(values, as.list(candidate), ignore.environment = TRUE))
     if (ylim_call_lgl) {
-      return(construct_apply(as.list(values$limits), "ggplot2::ylim", ...))
+      return(.cstr_apply(as.list(values$limits), "ggplot2::ylim", ...))
     }
   }
   # retrieve the defaults of the function, so we can simplify the call
@@ -47,7 +47,7 @@ construct_raw.Scale <- function(x, ...) {
   }
 
   # construct values, except for `super` and `palette` that we handle specifically after
-  args[names(values)] <- lapply(values, construct_raw, ...)
+  args[names(values)] <- lapply(values, .cstr_construct, ...)
 
   # special case waiver as it's an empty list unfortunately matched to `.data`
   # FIXME: we should probably not match empty objects, that inclused NULL and zero length objects
@@ -63,7 +63,7 @@ construct_raw.Scale <- function(x, ...) {
     } else if (identical(args$palette, quote(abs_area(max_size)))) {
       args$palette <- sprintf("scales::abs_area(%s)", environment(as.list(x)$palette)$max)
     } else {
-      args$palette <- construct_raw(as.list(x)$palette, ...)
+      args$palette <- .cstr_construct(as.list(x)$palette, ...)
     }
   }
   if ("super" %in% names(args)) {
@@ -73,7 +73,7 @@ construct_raw.Scale <- function(x, ...) {
 
   ## build call
   fun_chr <- paste0("ggplot2::", fun_chr)
-  construct_apply(args, fun = fun_chr, language = TRUE, ...)
+  .cstr_apply(args, fun = fun_chr, recurse = FALSE, ...)
 }
 
 

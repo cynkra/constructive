@@ -16,16 +16,16 @@ constructors$grouped_df <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_grouped_df <- function(constructor = c("default", "next", "list"), ..., origin = "1970-01-01") {
-  combine_errors(
+  .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("grouped_df", constructor = constructor, origin = origin)
+  .cstr_options("grouped_df", constructor = constructor, origin = origin)
 }
 
 #' @export
-construct_raw.grouped_df <- function(x, ...) {
-  opts <- fetch_opts("grouped_df", ...)
+.cstr_construct.grouped_df <- function(x, ...) {
+  opts <- .cstr_fetch_opts("grouped_df", ...)
   if (is_corrupted_grouped_df(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$grouped_df[[opts$constructor]]
   constructor(x, ...)
@@ -41,17 +41,17 @@ constructors$grouped_df$default <- function(x, ..., one_liner, pipe) {
   x_stripped <- x
   class(x_stripped) <- setdiff(class(x_stripped), "grouped_df")
   attr(x_stripped, "groups") <- NULL
-  code <- construct_raw(x_stripped, ...)
+  code <- .cstr_construct(x_stripped, ...)
   grps <- head(names(attr(x, "groups")), -1)
-  group_by_code <- construct_apply(
+  group_by_code <- .cstr_apply(
     grps,
     "dplyr::group_by",
     ...,
-    language = TRUE,
+    recurse = FALSE,
     pipe = pipe,
     one_liner = one_liner
   )
-  code <- pipe(
+  code <- .cstr_pipe(
     code,
     group_by_code,
     pipe = pipe,
@@ -61,13 +61,13 @@ constructors$grouped_df$default <- function(x, ..., one_liner, pipe) {
 }
 
 constructors$grouped_df$list <- function(x, ...) {
-  construct_raw.list(x, ...)
+  .cstr_construct.list(x, ...)
 }
 
 # no need for a constructor for grouped_df since it falls back on tbl_df
 #' @export
 repair_attributes.grouped_df <- function(x, code, ..., pipe = "base", one_liner = FALSE) {
-  repair_attributes_impl(
+  .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     ignore = c("row.names", "groups"),
