@@ -13,7 +13,7 @@
 #'   semicolons
 #' @param pipe Boolean. Whether to use the base pipe to disentangle nested calls. This
 #'   works best on simple calls.
-#' @param style Boolean. Whether to use `styler::style_text()` on thr output
+#' @param style Boolean. Whether to use `styler::style_text()` on the output
 #'
 #' @return a string or a styled character vector
 #' @export

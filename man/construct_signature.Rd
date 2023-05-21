@@ -14,7 +14,7 @@ construct_signature(x, name = NULL, one_liner = FALSE, style = TRUE)
 \item{one_liner}{Boolean. Whether to collapse multi-line expressions on a single line using
 semicolons}
 
-\item{style}{Boolean. Whether to use \code{styler::style_text()} on thr output}
+\item{style}{Boolean. Whether to use \code{styler::style_text()} on the output}
 }
 \description{
 Construct a function's signature
