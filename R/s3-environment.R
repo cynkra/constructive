@@ -102,8 +102,9 @@ opts_environment <- function(constructor = c("env", "list2env", "as.environment"
   code <- construct_special_env(x)
   if (!is.null(code)) return(code)
 
+  null_parent <- is.null(parent.env(x))
   # FIXME: what does this do ?
-  if (opts$predefine) {
+  if (opts$predefine && !null_parent) {
     globals$special_envs <-  c(row.names(installed.packages()), search(), "R_EmptyEnv", "R_GlobalEnv")
     # construct only if not found
     if (!environmentName(x) %in% globals$special_envs) {
@@ -112,7 +113,15 @@ opts_environment <- function(constructor = c("env", "list2env", "as.environment"
     }
   }
 
-  constructor <- constructors$environment[[opts$constructor]]
+  if (null_parent) {
+    # according to error of `new.env(parent = NULL)` we should nopt find NULL
+    # parents anymore, yet we do. In this case we force the use of `env` as a constructor
+    # because it's the only one that can reproduce these objects.
+    constructor <- constructors$environment[["env"]]
+  } else {
+    constructor <- constructors$environment[[opts$constructor]]
+  }
+
   constructor(x, ..., pipe = pipe, one_liner = one_liner, recurse = opts$recurse, predefine = opts$predefine)
 }
 
@@ -126,6 +135,7 @@ constructors$environment$env <- function(x, ..., pipe, one_liner, recurse, prede
     list(env_memory_address(x), parents = fetch_parent_names(x)),
     attributes(x)
   )
+  if (!length(args$parents)) args$parents <- NULL
   code <- .cstr_apply(args, "constructive::env", ..., pipe = pipe, one_liner = one_liner)
   repair_attributes.environment(x, code, ...)
 }
