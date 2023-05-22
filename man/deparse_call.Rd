@@ -15,7 +15,7 @@ semicolons}
 \item{pipe}{Boolean. Whether to use the base pipe to disentangle nested calls. This
 works best on simple calls.}
 
-\item{style}{Boolean. Whether to use \code{styler::style_text()} on thr output}
+\item{style}{Boolean. Whether to use \code{styler::style_text()} on the output}
 }
 \value{
 a string or a styled character vector
