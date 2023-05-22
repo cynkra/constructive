@@ -13,7 +13,7 @@ opts_environment(
 )
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the environment, see \strong{Constructors} section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
@@ -31,18 +31,16 @@ and will create objects in the workspace.}
 An object of class <constructive_options/constructive_options_environment>
 }
 \description{
-Constructive options for type 'environment'
-}
-\details{
 Environments use reference semantics, they cannot be copied.
 An attempt to copy an environment would indeed yield a different environment and \code{identical(env, copy)} would be \code{FALSE}.\cr
-Moreover every environment (except for \code{emptyenv()}) has a
-parent and thus to copy the environment we'd have to have a way to point to
-the parent, or copy it too.\cr
+Moreover most environments have a parent (exceptions are \code{emptyenv()} and some
+rare cases where the parent is \code{NULL}) and thus to copy the environment we'd
+have to have a way to point to the parent, or copy it too. \cr
 For this reason environments are {constructive}'s cryptonite. They make some objects
 impossible to reproduce exactly. And since every function or formula has one they're hard to
-avoid \cr
-
+avoid. \cr
+}
+\details{
 In some case we can build code that points to a specific environment, namely:
 \itemize{
 \item \code{.GlobalEnv}, \code{.BaseNamespaceEnv}, \code{baseenv()} and \code{emptyenv()} are used to construct
@@ -56,12 +54,27 @@ By default For other environments we use {constructive}'s function \code{constru
 the environment from its memory address and provides as additional information
 the sequence of parents until we reach a special environment (those enumerated above).
 The advantage of this approach is that it's readable and that the object is accurately reproduced.
-Inconvenient is that it's not stable between sessions.
+The inconvenient is that it's not stable between sessions. If an environment has a \code{NULL} parent it's always constructed
+with \code{constructive::env()}, whatever the choice of the constructor.
 
 Often however we wish to be able to reproduce from scratch a similar environment,
 so that we might run the constructed code later in a new session. We offer different
 different options to do this, with different trade-offs regarding accuracy and verbosity.
+
+\{constructive\} will not signal any difference if it can reproduce an equivalent environment,
+defined as containing the same values and having a same or equivalent parent.\cr
+
+See also the \code{ignore_function_env} argument in \code{?compare_options}, which disables the check
+of environments of function.
+}
+\section{Constructors}{
+
+
 We might set the \code{constructor} argument to:
+\itemize{
+\item \code{"env"} (default): use \code{constructive::env()} to construct the environment from
+its memory adress.
+}
 \itemize{
 \item \code{"list2env"}: We construct the environment as a list then
 use \code{base::list2env()} to convert it to an environment and assign it a parent. By
@@ -83,16 +96,15 @@ contain the same variables as the original environment but the parent will be th
 \item \code{"topenv"} : we construct \code{base::topenv(x)}, see \code{?topenv}. \code{recurse} is ignored.
 This is the most accurate we can be when constructing only special environments.
 }
+}
 
-{constructive} will not signal any difference if it can reproduce an equivalent environment,
-defined as containing the same values and having a same or equivalent parent.\cr
+\section{Predefine}{
+
 
 Building environments from scratch using the above methods can be verbose and
-sometimes redundant if and environment is used several time. One last option
+sometimes redundant if and environment is used several times. One last option
 is to define the environments and their content above the object returning call,
 using placeholder names \code{..env.1..}, \code{..env.2..} etc. This is done by setting
 \code{predefine} to \code{TRUE}. \code{constructor} and \code{recurse} are ignored in that case.
-
-See also the \code{ignore_function_env} argument in \code{?construct}, which disables the check
-of environments of function.
 }
+
