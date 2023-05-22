@@ -100,7 +100,10 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
   if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
 
   # set custom method for waldo
-  rlang::local_bindings(compare_proxy.ggplot = compare_proxy_ggplot, .env = .GlobalEnv)
+  rlang::local_bindings(
+    compare_proxy.ggplot = compare_proxy_ggplot,
+    compare_proxy.weakref = compare_proxy_weakref,
+    .env = .GlobalEnv)
   issues <-
     waldo::compare(
       x,
