@@ -83,7 +83,7 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
   nms <- names(x)
   attributes(x) <- NULL
   # if all names are "" we let `repair_attributes_impl()` deal with it
-  names(x) <- if (!all(nms == "")) nms
+  names(x) <- if (!anyNA(nms) && !all(nms == "")) nms
 
   code <- if (opts$compress && is.null(names(x))) simplify_atomic(x, ..., one_liner = one_liner)
   if (!is.null(code)) return(code)
