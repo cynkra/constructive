@@ -39,6 +39,10 @@ fetch_parent_names <- function(x) {
   parents <- character()
   repeat {
     x <- parent.env(x)
+    # An environment should always have a parent but for some reason some have
+    # a NULL parent, though the error of `new.env(parent = NULL)` says the feature
+    # is defunct
+    if (is.null(x)) return(parents)
     nm <- env_name(x)
     if (nm != "") {
       return(c(parents, nm))

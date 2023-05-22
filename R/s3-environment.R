@@ -3,16 +3,16 @@ constructors$environment <- new.env()
 
 #' Constructive options for type 'environment'
 #'
-#' @details
 #' Environments use reference semantics, they cannot be copied.
 #' An attempt to copy an environment would indeed yield a different environment and `identical(env, copy)` would be `FALSE`.\cr
-#' Moreover every environment (except for `emptyenv()`) has a
-#' parent and thus to copy the environment we'd have to have a way to point to
-#' the parent, or copy it too.\cr
+#' Moreover most environments have a parent (exceptions are `emptyenv()` and some
+#' rare cases where the parent is `NULL`) and thus to copy the environment we'd
+#' have to have a way to point to the parent, or copy it too. \cr
 #' For this reason environments are {constructive}'s cryptonite. They make some objects
 #' impossible to reproduce exactly. And since every function or formula has one they're hard to
-#' avoid \cr
+#' avoid. \cr
 #'
+#' @details
 #' In some case we can build code that points to a specific environment, namely:
 #' * `.GlobalEnv`, `.BaseNamespaceEnv`, `baseenv()` and `emptyenv()` are used to construct
 #'   the global environment, the base namespace, the base package environment and the empty
@@ -24,13 +24,25 @@ constructors$environment <- new.env()
 #'   the environment from its memory address and provides as additional information
 #'   the sequence of parents until we reach a special environment (those enumerated above).
 #'   The advantage of this approach is that it's readable and that the object is accurately reproduced.
-#'   Inconvenient is that it's not stable between sessions.
+#'   The inconvenient is that it's not stable between sessions. If an environment has a `NULL` parent it's always constructed
+#'   with `constructive::env()`, whatever the choice of the constructor.
 #'
 #' Often however we wish to be able to reproduce from scratch a similar environment,
 #' so that we might run the constructed code later in a new session. We offer different
 #' different options to do this, with different trade-offs regarding accuracy and verbosity.
+#'
+#' \{constructive\} will not signal any difference if it can reproduce an equivalent environment,
+#' defined as containing the same values and having a same or equivalent parent.\cr
+#'
+#' See also the `ignore_function_env` argument in `?compare_options`, which disables the check
+#' of environments of function.
+#'
+#' @section Constructors:
+#'
 #' We might set the `constructor` argument to:
 #'
+#' - `"env"` (default): use `constructive::env()` to construct the environment from
+#'   its memory adress.
 #' * `"list2env"`: We construct the environment as a list then
 #'   use `base::list2env()` to convert it to an environment and assign it a parent. By
 #'   default we will use `base::topenv()` to construct a parent. If `recurse` is `TRUE`
@@ -51,19 +63,15 @@ constructors$environment <- new.env()
 #' * `"topenv"` : we construct `base::topenv(x)`, see `?topenv`. `recurse` is ignored.
 #'   This is the most accurate we can be when constructing only special environments.
 #'
-#' {constructive} will not signal any difference if it can reproduce an equivalent environment,
-#' defined as containing the same values and having a same or equivalent parent.\cr
+#' @section Predefine:
 #'
-#' Building environments from scratch using the above methods can be verbose and
-#' sometimes redundant if and environment is used several time. One last option
+#'  Building environments from scratch using the above methods can be verbose and
+#' sometimes redundant if and environment is used several times. One last option
 #' is to define the environments and their content above the object returning call,
 #' using placeholder names `..env.1..`, `..env.2..` etc. This is done by setting
 #' `predefine` to `TRUE`. `constructor` and `recurse` are ignored in that case.
 #'
-#' See also the `ignore_function_env` argument in `?construct`, which disables the check
-#' of environments of function.
-#'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the environment, see **Constructors** section.
 #' @inheritParams opts_atomic
 #' @param recurse Boolean. Only considered if `constructor` is `"list2env"` or `"new_environment"`. Whether to
 #'   attempt to recreate all parent environments until a known environment is found,
@@ -102,8 +110,9 @@ opts_environment <- function(constructor = c("env", "list2env", "as.environment"
   code <- construct_special_env(x)
   if (!is.null(code)) return(code)
 
+  null_parent <- is.null(parent.env(x))
   # FIXME: what does this do ?
-  if (opts$predefine) {
+  if (opts$predefine && !null_parent) {
     globals$special_envs <-  c(row.names(installed.packages()), search(), "R_EmptyEnv", "R_GlobalEnv")
     # construct only if not found
     if (!environmentName(x) %in% globals$special_envs) {
@@ -112,7 +121,15 @@ opts_environment <- function(constructor = c("env", "list2env", "as.environment"
     }
   }
 
-  constructor <- constructors$environment[[opts$constructor]]
+  if (null_parent) {
+    # according to error of `new.env(parent = NULL)` we should nopt find NULL
+    # parents anymore, yet we do. In this case we force the use of `env` as a constructor
+    # because it's the only one that can reproduce these objects.
+    constructor <- constructors$environment[["env"]]
+  } else {
+    constructor <- constructors$environment[[opts$constructor]]
+  }
+
   constructor(x, ..., pipe = pipe, one_liner = one_liner, recurse = opts$recurse, predefine = opts$predefine)
 }
 
@@ -126,6 +143,7 @@ constructors$environment$env <- function(x, ..., pipe, one_liner, recurse, prede
     list(env_memory_address(x), parents = fetch_parent_names(x)),
     attributes(x)
   )
+  if (!length(args$parents)) args$parents <- NULL
   code <- .cstr_apply(args, "constructive::env", ..., pipe = pipe, one_liner = one_liner)
   repair_attributes.environment(x, code, ...)
 }

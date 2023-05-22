@@ -230,3 +230,9 @@ snakeize <- function (x) {
   x <- gsub("([a-z])([A-Z])", "\\1_\\2", x)
   tolower(x)
 }
+
+
+compare_proxy_weakref <- function(x, path) {
+  wr <- list(key = rlang::wref_key(x), value = rlang::wref_value(x))
+  list(object = wr, path = path)
+}
