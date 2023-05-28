@@ -19,17 +19,17 @@ devtools::load_all()
 ```
 
 We detail in this vignette how {constructive} works and how
-you might define custom constructors or custom `construct_raw.?()` methods.
+you might define custom constructors or custom `.cstr_construct.*()` methods.
 
-To define new constructors you need to :
+To define new constructors in your package you need to :
 
 * Define a constructor function in your package, along with a repair function to
   fix attributes.
-* Call `constructive::register_constructors()` in your package
+* Call `constructive::register_constructors()` in your `.onLoad()` function
 
 To support a new class you additionally need to define :
 
-* `construct_raw.your_class()`
+* `.cstr_construct.your_class()`
 * `opts_your_class()`
 * `is_corrupted_your_class()`
 
@@ -43,31 +43,30 @@ for the possible API breaking changes in the future.
 
 ## Recursion system
 
-* `construct()` wraps `construct_raw()`. 
-* `construct_raw()` builds code recursively, without checking input or output validity, 
+* `.cstr_construct()` builds code recursively, without checking input or output validity, 
   without handling errors, and without formatting.
-* `construct()` does this extra work.
-* `construct_raw()` is a generic and many methods are implemented in the package, for
-  instance `construct(iris)` will call `construct_raw.data.frame()` which down the line
-  will call `construct_raw.numeric()` and `construct_raw.factor()` to construct its columns.
-* Additionally, before dispatching, `construct_raw()` attempts to match its data input
+* `construct()` wraps `.cstr_construct()` and does this extra work.
+* `.cstr_construct()` is a generic and many methods are implemented in the package, for
+  instance `construct(iris)` will call `.cstr_construct.data.frame()` which down the line
+  will call `.cstr_construct.atomic()` and `.cstr_construct.factor()` to construct its columns.
+* Additionally, before dispatching, `.cstr_construct()` attempts to match its data input
   to a list of objects provided to the `data` argument.
 
-## `construct_raw.?()` methods
+## `.cstr_construct.?()` methods
 
-`construct_raw.?()` methods typically have this form:
+`.cstr_construct.?()` methods typically have this form:
 
 ```{r}
-construct_raw.Date <- function(x, ...) {
-  opts <- fetch_opts("Date", ...)
+.cstr_construct.Date <- function(x, ...) {
+  opts <- .cstr_fetch_opts("Date", ...)
   if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$Date[[opts$constructor]]
   constructor(x, ..., origin = opts$origin)
 }
 ```
 
-* `fetch_opts()` gathers options provided to `construct()` through the `opts_*()` function
-  introduced in the next section, or fall back to a default value if none were provided.
+* `.cstr_fetch_opts()` gathers options provided to `construct()` through the `opts_*()` function
+  introduced in the next section, or falls back to a default value if none were provided.
 * If the object is corrupted or if the user decided to bypass the current method by
   choosing "next" as a constructor for this class, we return `NextMethod()` to
   forward all our inputs to a lower level constructor.
@@ -78,7 +77,7 @@ construct_raw.Date <- function(x, ...) {
 
 When implementing a new method you'll need to define and export the corresponding
 `opts_?()` function. It provides to the user a way to choose a constructor and 
-object retrieved by `fetch_opts()` in the `construct_raw()` method.
+object retrieved by `.cstr_fetch_opts()` in the `.cstr_construct()` method.
 
 It always has this form:
 
@@ -95,12 +94,12 @@ opts_Date <- function(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  constructive_options("Date", constructor = constructor, origin = origin)
+  .cstr_options("Date", constructor = constructor, origin = origin)
 }
 ```
 
 * The class is present in the name of the `opts_?()` function and as the first
-  argument of `constructive_options()`.
+  argument of `.cstr_options()`.
 * A character vector of constructors is provided, starting with the default constructor
  and ending with `"next"` and the constructor for the corresponding internal type.
 * Additional arguments passed to the constructors might be added, as we did here with
@@ -109,14 +108,15 @@ opts_Date <- function(
 The following code illustrates how the information is retrieved.
 
 ```{r}
-# fetch_opts() takes a class and the dots and retrieves the relevant options
+# .cstr_fetch_opts() takes a class and the dots and retrieves the relevant options
 # if none were provided it falls back on the default value for the relevant opts_?() function
 test <- function(...) {
-  fetch_opts("Date", ...)
+  .cstr_fetch_opts("Date", ...)
 }
 test(opts_Date("as_date"), opts_data.frame("read.table"))
 test()
 ```
+
 ## `is_corrupted_?()` function
 
 `is_corrupted_?()` checks if `x` has the right internal type and attributes,
@@ -125,13 +125,13 @@ of a given class.
 
 If an object is corrupted for a given class we cannot use constructors for this
 class, so we move on to a lower level constructor by calling `NextMethod()` in
-`construct_raw()`.
+`.cstr_construct()`.
 
 This is important so that `{constructive}` doesn't choke on corrupted objects but
 instead helps us understand them.
 
 For instance in the following example `x` prints like a date but it's corrupted,
-a date should not be built on top of characters and this project cannot be built
+a date should not be built on top of characters and this object cannot be built
 with `as.Date()` or other idiomatic date constructors.
 
 ```{r, error = TRUE}
@@ -148,7 +148,7 @@ is_corrupted.Date <- function(x) {
 }
 ```
 
-And as a consequence the next method, `construct_raw.default()` will be called
+And as a consequence the next method, `.cstr_construct.default()` will be called
 through `NextMethod()` and will handle the object using an atomic vector constructor:
 
 ```{r}
@@ -160,7 +160,7 @@ construct(x)
 {constructive} exports a `constructors` environment object, itself containing
 environments named like classes, the latter contain the constructor functions.
 
-It is retrieved in the `construct_raw()` method by:
+It is retrieved in the `.cstr_construct()` method by:
 
 ```{r, eval = FALSE}
 constructor <- constructors$Date[[opts$constructor]]
@@ -172,9 +172,10 @@ For instance the default constructor for "Date" is :
 constructors$Date$as.Date
 ```
 
-A constructor's role is to apply a constructor and to recurse to construct its inputs,
-this is done by using `construct_apply()` once these output have been prepared. In
-the case above we have 2 logical paths because dates can be infinite but date vectors
+A function call is made of a function and its arguments. A constructor sets the
+function and constructs its arguments recursively. 
+This is done with the help of `construct_apply()` once these output have been prepared.
+In the case above we have 2 logical paths because dates can be infinite but date vectors
 containing infinite elements cannot be represented by `as.Date(<character>)`, our
 preferred choice.
 
@@ -184,14 +185,15 @@ y <- structure(c(12345, Inf), class = "Date")
 constructors$Date$as.Date(x)
 constructors$Date$as.Date(y)
 ```
+
 It's important to consider corner cases when defining a constructor,
 if some cases can't be handled by the constructor we should fall back to another
-constructor or to another `construct_raw()` method.
+constructor or to another `.cstr_construct()` method.
 
 For instance `constructors$data.frame$read.table()` falls back on 
 `constructors$data.frame$data.frame()`  when the input contains non atomic columns,
 which cannot be represented in a table input, and `constructors$data.frame$data.frame()`
-itself falls back on `construct_raw.list()` when the data frame contains list columns not defined using `I()`, since `data.frame()` cannot produce such objects.
+itself falls back on `.cstr_construct.list()` when the data frame contains list columns not defined using `I()`, since `data.frame()` cannot produce such objects.
 
 Constructors should always end by a call to a repairing function.
 
@@ -208,7 +210,7 @@ x
 constructors$Date$as.Date(x)
 ```
 
-Repairing functions are generally wrappers around `repair_attributes_impl()`,
+Repairing functions are generally wrappers around `.cstr_repair_attributes()`,
 a function that essentially sets attributes with exceptions :
 
 * It doesn't set names, as they are provided by the constructors
@@ -218,7 +220,7 @@ a function that essentially sets attributes with exceptions :
 * It doesn't set attributes that we choose to ignore because they are set by the
   constructor.
 
-`repair_attributes_impl()` does a bit more but we don't need to dive deeper in this vignette.
+`.cstr_repair_attributes()` does a bit more but we don't need to dive deeper in this vignette.
 
 
 ```{r}
@@ -229,7 +231,7 @@ repair_attributes.factor
 
 ## Register a new class
 
-Registering a new class is done just by defining a `construct_raw.?()` method.
+Registering a new class is done just by defining a `.cstr_construct.?()` method.
 
 ## Register new constructors
 

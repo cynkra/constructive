@@ -63,44 +63,44 @@ Constructive options provide a way to customize the output of `construct()`.
 We can provide calls to `opts_*()` functions to the `...` argument. Each of these functions targets a specific type or class and is documented on its own page.
 
 \itemize{
-  \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next", "atomic"), ...)}
-  \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "environment"), ...)}
-  \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "atomic"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "atomic"), ...)}
-  \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
-  \item \code{\link[=opts_array]{opts_array}(constructor = c("array", "next"), ...)}
-  \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)}
-  \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}(constructor = c("setClass"), ...)}
-  \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}(constructor = c("prototype"), ...)}
-  \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}
-  \item \code{\link[=opts_constructive_options]{opts_constructive_options}(constructor = c("opts", "next"), ...)}
-  \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ...)}
-  \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE)}
-  \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
-  \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
-  \item \code{\link[=opts_environment]{opts_environment}(constructor = c("env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
-  \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
-  \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...)}
-  \item \code{\link[=opts_formula]{opts_formula}(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = TRUE)}
-  \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
-  \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
-  \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
-  \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "next", "atomic"), ...)}
-  \item \code{\link[=opts_mts]{opts_mts}(constructor = c("ts", "next", "atomic"), ...)}
-  \item \code{\link[=opts_numeric_version]{opts_numeric_version}(constructor = c("numeric_version", "next", "atomic"), ...)}
-  \item \code{\link[=opts_ordered]{opts_ordered}(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...)}
-  \item \code{\link[=opts_package_version]{opts_package_version}(constructor = c("package_version", "next", "atomic"), ...)}
-  \item \code{\link[=opts_pairlist]{opts_pairlist}(constructor = c("pairlist", "pairlist2"), ...)}
-  \item \code{\link[=opts_quosure]{opts_quosure}(constructor = c("new_quosure", "next", "language"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_quosures]{opts_quosures}(constructor = c("new_quosures", "next", "list"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE)}
-  \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
-  \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}(constructor = c("list_of", "list"), ...)}
-  \item \code{\link[=opts_weakref]{opts_weakref}(constructor = c("new_weakref"), ...)}
+  \item \code{\link[=opts_array]{opts_array}([39mconstructor = [36mc[39m[34m([39m[33m"array"[39m, [33m"next"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_AsIs]{opts_AsIs}([39mconstructor = [36mc[39m[34m([39m[33m"I"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_atomic]{opts_atomic}([39m..., trim = [34m[1mNULL[22m[39m, fill = [36mc[39m[34m([39m[33m"default"[39m, [33m"rlang"[39m, [33m"+"[39m, [33m"..."[39m, [33m"none"[39m[34m)[39m, compress = [34mTRUE[39m, unicode_representation = [36mc[39m[34m([39m[33m"ascii"[39m, [33m"latin"[39m, [33m"character"[39m, [33m"unicode"[39m[34m)[39m, escape = [34mFALSE[39m[33m)[39m}
+  \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}([39mconstructor = [36mc[39m[34m([39m[33m"setClass"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}([39mconstructor = [36mc[39m[34m([39m[33m"prototype"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}([39mconstructor = [36mc[39m[34m([39m[33m"getClassDef"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_constructive_options]{opts_constructive_options}([39mconstructor = [36mc[39m[34m([39m[33m"opts"[39m, [33m"next"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_data.frame]{opts_data.frame}([39mconstructor = [36mc[39m[34m([39m[33m"data.frame"[39m, [33m"read.table"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_data.table]{opts_data.table}([39mconstructor = [36mc[39m[34m([39m[33m"data.table"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., selfref = [34mFALSE[39m[33m)[39m}
+  \item \code{\link[=opts_Date]{opts_Date}([39mconstructor = [36mc[39m[34m([39m[33m"as.Date"[39m, [33m"as_date"[39m, [33m"date"[39m, [33m"new_date"[39m, [33m"as.Date.numeric"[39m, [33m"as_date.numeric"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_dm]{opts_dm}([39mconstructor = [36mc[39m[34m([39m[33m"dm"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_dots]{opts_dots}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_environment]{opts_environment}([39mconstructor = [36mc[39m[34m([39m[33m"env"[39m, [33m"list2env"[39m, [33m"as.environment"[39m, [33m"new.env"[39m, [33m"topenv"[39m, [33m"new_environment"[39m[34m)[39m, ..., recurse = [34mFALSE[39m, predefine = [34mFALSE[39m[33m)[39m}
+  \item \code{\link[=opts_externalptr]{opts_externalptr}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_factor]{opts_factor}([39mconstructor = [36mc[39m[34m([39m[33m"factor"[39m, [33m"as_factor"[39m, [33m"new_factor"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_formula]{opts_formula}([39mconstructor = [36mc[39m[34m([39m[33m"~"[39m, [33m"formula"[39m, [33m"as.formula"[39m, [33m"new_formula"[39m[34m)[39m, ..., environment = [34mTRUE[39m[33m)[39m}
+  \item \code{\link[=opts_function]{opts_function}([39mconstructor = [36mc[39m[34m([39m[33m"function"[39m, [33m"as.function"[39m, [33m"new_function"[39m[34m)[39m, ..., environment = [34mTRUE[39m, srcref = [34mFALSE[39m, trim = [34m[1mNULL[22m[39m[33m)[39m}
+  \item \code{\link[=opts_grouped_df]{opts_grouped_df}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_language]{opts_language}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_Layer]{opts_Layer}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m, [33m"layer"[39m, [33m"environment"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_list]{opts_list}([39mconstructor = [36mc[39m[34m([39m[33m"list"[39m, [33m"list2"[39m[34m)[39m, ..., trim = [34m[1mNULL[22m[39m, fill = [36mc[39m[34m([39m[33m"vector"[39m, [33m"new_list"[39m, [33m"+"[39m, [33m"..."[39m, [33m"none"[39m[34m)[39m[33m)[39m}
+  \item \code{\link[=opts_matrix]{opts_matrix}([39mconstructor = [36mc[39m[34m([39m[33m"matrix"[39m, [33m"array"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_mts]{opts_mts}([39mconstructor = [36mc[39m[34m([39m[33m"ts"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_numeric_version]{opts_numeric_version}([39mconstructor = [36mc[39m[34m([39m[33m"numeric_version"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_ordered]{opts_ordered}([39mconstructor = [36mc[39m[34m([39m[33m"ordered"[39m, [33m"factor"[39m, [33m"new_ordered"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_package_version]{opts_package_version}([39mconstructor = [36mc[39m[34m([39m[33m"package_version"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_pairlist]{opts_pairlist}([39mconstructor = [36mc[39m[34m([39m[33m"pairlist"[39m, [33m"pairlist2"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_POSIXct]{opts_POSIXct}([39mconstructor = [36mc[39m[34m([39m[33m"as.POSIXct"[39m, [33m".POSIXct"[39m, [33m"as_datetime"[39m, [33m"as.POSIXct.numeric"[39m, [33m"as_datetime.numeric"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}([39mconstructor = [36mc[39m[34m([39m[33m"as.POSIXlt"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_quosure]{opts_quosure}([39mconstructor = [36mc[39m[34m([39m[33m"new_quosure"[39m, [33m"next"[39m, [33m"language"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_quosures]{opts_quosures}([39mconstructor = [36mc[39m[34m([39m[33m"new_quosures"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_R_system_version]{opts_R_system_version}([39mconstructor = [36mc[39m[34m([39m[33m"R_system_version"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_S4]{opts_S4}([39mconstructor = [36mc[39m[34m([39m[33m"new"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_tbl_df]{opts_tbl_df}([39mconstructor = [36mc[39m[34m([39m[33m"tibble"[39m, [33m"tribble"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., trailing_comma = [34mTRUE[39m[33m)[39m}
+  \item \code{\link[=opts_ts]{opts_ts}([39mconstructor = [36mc[39m[34m([39m[33m"ts"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}([39mconstructor = [36mc[39m[34m([39m[33m"list_of"[39m, [33m"list"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_weakref]{opts_weakref}([39mconstructor = [36mc[39m[34m([39m[33m"new_weakref"[39m[34m)[39m, ...[33m)[39m}
 }
 }
 
