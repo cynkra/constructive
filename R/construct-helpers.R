@@ -85,7 +85,8 @@ try_eval <- function(styled_code, data, check, caller) {
         print(styled_code)
         abort(msg, parent = e, call = caller)
       }
-      rlang::inform(c("!" = msg))
+      # not sure if `e$message` can have length > 1 but playing safe
+      rlang::inform(c("!" = msg, "!" = paste("Due to error:", paste(e$message, collapse = "\n"))))
       #nocov end
     }
   )
