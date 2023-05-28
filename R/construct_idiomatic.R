@@ -7,6 +7,7 @@
   if (typeof(x) == "...")  return(.cstr_construct.dots(x, ..., one_liner = one_liner))
   # for some reason the S3 method is not always caught the first time
   if (typeof(x) == "externalptr")  return(.cstr_construct.externalptr(x, ..., one_liner = one_liner))
+  if (typeof(x) == "S4")  return(.cstr_construct.S4(x, ..., one_liner = one_liner))
   .cstr_construct.atomic(x, ..., one_liner = one_liner)
 }
 
