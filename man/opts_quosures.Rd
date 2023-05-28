@@ -14,8 +14,6 @@ opts_quosures(
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
-
-\item{origin}{Origin to be used, ignored when irrelevant.}
 }
 \value{
 An object of class <constructive_options/constructive_options_factor>

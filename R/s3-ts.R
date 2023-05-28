@@ -11,7 +11,6 @@ constructors$ts <- new.env()
 #'
 #' @param constructor String. Name of the function used to construct the environment.
 #' @inheritParams opts_atomic
-#' @param origin Origin to be used, ignored when irrelevant.
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
