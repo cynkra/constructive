@@ -39,6 +39,8 @@ respectively not display any call or hard-code a code to display.
 
 For more information about error calls, see \ifelse{html}{\link[rlang:topic-error-call]{Including function calls in error messages}}{\link[rlang:topic-error-call]{Including function calls in error messages}}.}
 
+\item{header}{An optional header to precede the errors}
+
 \item{body, footer}{Additional bullets.}
 
 \item{trace}{A \code{trace} object created by \code{\link[rlang:trace_back]{trace_back()}}.}

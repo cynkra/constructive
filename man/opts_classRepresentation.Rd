@@ -8,6 +8,8 @@ opts_classRepresentation(constructor = c("getClassDef"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object.}
+
+\item{...}{Should not be used. Forces passing arguments by name.}
 }
 \value{
 An object of class <constructive_options/constructive_options_classRepresentation>

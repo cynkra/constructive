@@ -9,6 +9,7 @@ globals$ggpackages <- "ggplot2"
 #' @import rlang
 #' @importFrom utils capture.output installed.packages head tail getFromNamespace
 #' @importFrom stats setNames
+#' @importFrom methods getSlots
 #' @useDynLib
 NULL
 

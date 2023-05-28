@@ -1,7 +1,7 @@
-# multiplication works
+# Scale
 
     Code
-      construct(scale_alpha())
+      construct(ggplot2::scale_alpha())
     Condition
       Warning in `.Call()`:
       converting NULL pointer to R NULL

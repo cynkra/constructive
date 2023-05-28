@@ -5,6 +5,7 @@ constructors$classRepresentation <- new.env()
 #' These options will be used on objects of class 'classRepresentation'.
 #'
 #' @param constructor String. Name of the function used to construct the object.
+#' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_classRepresentation>
 #' @export
 opts_classRepresentation <- function(constructor = c("getClassDef"), ...) {

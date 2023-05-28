@@ -13,7 +13,7 @@ constructors$array <- new.env()
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
-#' @inheritParams opts_AsIs
+#' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_array>
 #' @export
 opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {

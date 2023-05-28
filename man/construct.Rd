@@ -80,7 +80,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_factor]{opts_factor}([39mconstructor = [36mc[39m[34m([39m[33m"factor"[39m, [33m"as_factor"[39m, [33m"new_factor"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
   \item \code{\link[=opts_formula]{opts_formula}([39mconstructor = [36mc[39m[34m([39m[33m"~"[39m, [33m"formula"[39m, [33m"as.formula"[39m, [33m"new_formula"[39m[34m)[39m, ..., environment = [34mTRUE[39m[33m)[39m}
   \item \code{\link[=opts_function]{opts_function}([39mconstructor = [36mc[39m[34m([39m[33m"function"[39m, [33m"as.function"[39m, [33m"new_function"[39m[34m)[39m, ..., environment = [34mTRUE[39m, srcref = [34mFALSE[39m, trim = [34m[1mNULL[22m[39m[33m)[39m}
-  \item \code{\link[=opts_grouped_df]{opts_grouped_df}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_grouped_df]{opts_grouped_df}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ...[33m)[39m}
   \item \code{\link[=opts_language]{opts_language}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m[34m)[39m, ...[33m)[39m}
   \item \code{\link[=opts_Layer]{opts_Layer}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m, [33m"layer"[39m, [33m"environment"[39m[34m)[39m, ...[33m)[39m}
   \item \code{\link[=opts_list]{opts_list}([39mconstructor = [36mc[39m[34m([39m[33m"list"[39m, [33m"list2"[39m[34m)[39m, ..., trim = [34m[1mNULL[22m[39m, fill = [36mc[39m[34m([39m[33m"vector"[39m, [33m"new_list"[39m, [33m"+"[39m, [33m"..."[39m, [33m"none"[39m[34m)[39m[33m)[39m}
@@ -92,10 +92,10 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_pairlist]{opts_pairlist}([39mconstructor = [36mc[39m[34m([39m[33m"pairlist"[39m, [33m"pairlist2"[39m[34m)[39m, ...[33m)[39m}
   \item \code{\link[=opts_POSIXct]{opts_POSIXct}([39mconstructor = [36mc[39m[34m([39m[33m"as.POSIXct"[39m, [33m".POSIXct"[39m, [33m"as_datetime"[39m, [33m"as.POSIXct.numeric"[39m, [33m"as_datetime.numeric"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
   \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}([39mconstructor = [36mc[39m[34m([39m[33m"as.POSIXlt"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
-  \item \code{\link[=opts_quosure]{opts_quosure}([39mconstructor = [36mc[39m[34m([39m[33m"new_quosure"[39m, [33m"next"[39m, [33m"language"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
-  \item \code{\link[=opts_quosures]{opts_quosures}([39mconstructor = [36mc[39m[34m([39m[33m"new_quosures"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_quosure]{opts_quosure}([39mconstructor = [36mc[39m[34m([39m[33m"new_quosure"[39m, [33m"next"[39m, [33m"language"[39m[34m)[39m, ...[33m)[39m}
+  \item \code{\link[=opts_quosures]{opts_quosures}([39mconstructor = [36mc[39m[34m([39m[33m"new_quosures"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ...[33m)[39m}
   \item \code{\link[=opts_R_system_version]{opts_R_system_version}([39mconstructor = [36mc[39m[34m([39m[33m"R_system_version"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}
-  \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., origin = [33m"1970-01-01"[39m[33m)[39m}
+  \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}([39mconstructor = [36mc[39m[34m([39m[33m"default"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ...[33m)[39m}
   \item \code{\link[=opts_S4]{opts_S4}([39mconstructor = [36mc[39m[34m([39m[33m"new"[39m[34m)[39m, ...[33m)[39m}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}([39mconstructor = [36mc[39m[34m([39m[33m"tibble"[39m, [33m"tribble"[39m, [33m"next"[39m, [33m"list"[39m[34m)[39m, ..., trailing_comma = [34mTRUE[39m[33m)[39m}
   \item \code{\link[=opts_ts]{opts_ts}([39mconstructor = [36mc[39m[34m([39m[33m"ts"[39m, [33m"next"[39m, [33m"atomic"[39m[34m)[39m, ...[33m)[39m}

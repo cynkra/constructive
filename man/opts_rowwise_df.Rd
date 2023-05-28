@@ -4,11 +4,7 @@
 \alias{opts_rowwise_df}
 \title{Constructive options for class 'rowwise_df'}
 \usage{
-opts_rowwise_df(
-  constructor = c("default", "next", "list"),
-  ...,
-  origin = "1970-01-01"
-)
+opts_rowwise_df(constructor = c("default", "next", "list"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}

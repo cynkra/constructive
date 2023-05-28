@@ -3,7 +3,7 @@ test_that("s4", {
     track <- setClass("track", slots = c(x="numeric", y="numeric"))
     construct(track)
 
-    t1 <- track(x = 1:3, y = 1:3 + rnorm(3))
+    t1 <- track(x = 1:3, y = 4:6)
     construct(t1)
 
     trackCurve <- setClass("trackCurve",  slots = c(smooth = "numeric"), contains = "track")

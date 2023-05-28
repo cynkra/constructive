@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-devtools::load_all()
+library(constructive)
 ```
 
 We detail in this vignette how {constructive} works and how
@@ -224,9 +224,9 @@ a function that essentially sets attributes with exceptions :
 
 
 ```{r}
-repair_attributes.Date
+constructive:::repair_attributes.Date
 
-repair_attributes.factor
+constructive:::repair_attributes.factor
 ```
 
 ## Register a new class

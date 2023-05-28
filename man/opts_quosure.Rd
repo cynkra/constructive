@@ -4,11 +4,7 @@
 \alias{opts_quosure}
 \title{Constructive options for class 'quosure'}
 \usage{
-opts_quosure(
-  constructor = c("new_quosure", "next", "language"),
-  ...,
-  origin = "1970-01-01"
-)
+opts_quosure(constructor = c("new_quosure", "next", "language"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}

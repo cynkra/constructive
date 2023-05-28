@@ -1,9 +1,11 @@
 register_constructors <- function(class, ...) {
+  unlock_binding <- unlockBinding
+  lock_binding <- lockBinding
   if (!requireNamespace("constructive")) return(invisible(NULL))
   constructors <- list(...)
   nms <- names(constructors)
   ns <- asNamespace("constructive")
-  "unlockBinding"("constructors", ns)
+  unlock_binding("constructors", ns)
   if (exists(class, ns$constructors)) {
     opts_fun_name <- paste0("opts_", class)
     old_constructors <- eval(formals(ns[[opts_fun_name]])[[1]])
@@ -18,14 +20,14 @@ register_constructors <- function(class, ...) {
         old_constructors[seq(next_pos, length(old_constructors))]
       )
     }
-    "unlockBinding"(opts_fun_name, env = ns)
+    unlock_binding(opts_fun_name, env = ns)
     formals(ns[[opts_fun_name]])[[1]] <- new_constructors
-    lockBinding(opts_fun_name, env = ns)
+    lock_binding(opts_fun_name, env = ns)
     if ("package:constructive" %in% search()) {
       pkg_env <- as.environment("package:constructive")
-      "unlockBinding"(opts_fun_name, env = pkg_env)
+      unlock_binding(opts_fun_name, env = pkg_env)
       formals(pkg_env[[opts_fun_name]])[[1]] <- new_constructors
-      lockBinding(opts_fun_name, env = pkg_env)
+      lock_binding(opts_fun_name, env = pkg_env)
     }
   } else {
     ns$constructors[[class]] <- new.env()
@@ -38,6 +40,6 @@ register_constructors <- function(class, ...) {
     }
     ns$constructors[[class]][[nms[[i]]]] <- constructors[[i]]
   }
-  lockBinding("constructors", ns)
+  lock_binding("constructors", ns)
   invisible(NULL)
 }

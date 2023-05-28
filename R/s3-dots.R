@@ -33,7 +33,6 @@ opts_dots <- function(constructor = c("default"), ...) {
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_dots <- function(x) {
   typeof(x) != "..."
 }

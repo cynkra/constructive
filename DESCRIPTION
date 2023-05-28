@@ -16,7 +16,8 @@ Imports:
     rlang (>= 1.0.0),
     roxygen2,
     styler,
-    waldo
+    waldo,
+    methods
 Suggests: 
     dm,
     pixarfilms,
@@ -30,7 +31,9 @@ Suggests:
     lubridate,
     forcats,
     knitr,
-    rmarkdown
+    rmarkdown,
+    sf,
+    scales
 URL: https://github.com/cynkra/constructive,
     https://cynkra.github.io/constructive
 BugReports: https://github.com/cynkra/constructive/issues

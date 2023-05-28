@@ -47,5 +47,11 @@ as a character vector. If \code{args} already contains code rather than object t
 construct one should set \code{recurse} to \code{FALSE}.
 }
 \examples{
-.cstr_apply(list(a=a), "foo", data = list(a=1), template = NULL, implicit_names = TRUE)
+a <- 1
+.cstr_apply(list(a=a), "foo")
+.cstr_apply(list(a=a), "foo", data = list(a=1))
+.cstr_apply(list(a=a), "foo", data = list(a=1), implicit_names = TRUE)
+.cstr_apply(list(b=a), "foo", data = list(a=1), implicit_names = TRUE)
+.cstr_apply(list(a="c(1,2)"), "foo")
+.cstr_apply(list(a="c(1,2)"), "foo", recurse = FALSE)
 }

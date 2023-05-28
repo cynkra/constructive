@@ -32,10 +32,17 @@
 #'   `FALSE` if `one_liner` is `TRUE`
 #' @param one_liner Whether to return a one line call.
 #'
+#' @export
 #' @return A character vector of code
 #'
 #' @examples
-#' .cstr_apply(list(a=a), "foo", data = list(a=1), template = NULL, implicit_names = TRUE)
+#' a <- 1
+#' .cstr_apply(list(a=a), "foo")
+#' .cstr_apply(list(a=a), "foo", data = list(a=1))
+#' .cstr_apply(list(a=a), "foo", data = list(a=1), implicit_names = TRUE)
+#' .cstr_apply(list(b=a), "foo", data = list(a=1), implicit_names = TRUE)
+#' .cstr_apply(list(a="c(1,2)"), "foo")
+#' .cstr_apply(list(a="c(1,2)"), "foo", recurse = FALSE)
 .cstr_apply <- function(args, fun = "list", ..., trailing_comma = FALSE, recurse = TRUE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE) {
   new_line <- new_line && !one_liner
   trailing_comma <- trailing_comma && !one_liner

@@ -12,7 +12,7 @@ constructors$.cstr_options <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
-#' @inheritParams opts_AsIs
+#' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_array>
 #' @export
 opts_constructive_options <- function(constructor = c("opts", "next"), ...) {

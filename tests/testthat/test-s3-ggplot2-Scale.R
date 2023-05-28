@@ -1,5 +1,5 @@
-test_that("multiplication works", {
+test_that("Scale", {
   expect_snapshot(
-    construct(scale_alpha())
+    construct(ggplot2::scale_alpha())
   )
 })

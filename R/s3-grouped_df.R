@@ -14,12 +14,12 @@ constructors$grouped_df <- new.env()
 #'
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
-opts_grouped_df <- function(constructor = c("default", "next", "list"), ..., origin = "1970-01-01") {
+opts_grouped_df <- function(constructor = c("default", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     ellipsis::check_dots_empty()
   )
-  .cstr_options("grouped_df", constructor = constructor, origin = origin)
+  .cstr_options("grouped_df", constructor = constructor)
 }
 
 #' @export

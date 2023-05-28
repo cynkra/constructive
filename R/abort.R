@@ -5,6 +5,7 @@
 #' forwarded to `rlang::abort()`
 #'
 #' @param ... check expressions
+#' @param header An optional header to precede the errors
 #' @inheritParams rlang::abort
 #'
 #' @return Returns `NULL` invisibly, called for side effects.

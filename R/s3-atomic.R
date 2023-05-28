@@ -40,17 +40,17 @@
 #' @return An object of class <constructive_options/constructive_options_atomic>
 #' @export
 #' @examples
-#' construct(iris, opts_atomic(trim = 2)) # fill = "default"
-#' construct(iris, opts_atomic(trim = 2, fill = "rlang"))
-#' construct(iris, opts_atomic(trim = 2, fill = "+"))
-#' construct(iris, opts_atomic(trim = 2, fill = "..."))
-#' construct(iris, opts_atomic(trim = 2, fill = "none"))
-#' construct(iris, opts_atomic(trim = 2, fill = "none"))
-#' a <- c("a a", "a\U000000A0a", "a\U00002002a", "\U430 \U430")
-#' construct(foo, opts_atomic(unicode_representation = "unicode"))
-#' construct(foo, opts_atomic(unicode_representation = "character"))
-#' construct(foo, opts_atomic(unicode_representation = "latin"))
-#' construct(foo, opts_atomic(unicode_representation = "ascii"))
+#' construct(iris, opts_atomic(trim = 2), check = FALSE) # fill = "default"
+#' construct(iris, opts_atomic(trim = 2, fill = "rlang"), check = FALSE)
+#' construct(iris, opts_atomic(trim = 2, fill = "+"), check = FALSE)
+#' construct(iris, opts_atomic(trim = 2, fill = "..."), check = FALSE)
+#' construct(iris, opts_atomic(trim = 2, fill = "none"), check = FALSE)
+#' construct(iris, opts_atomic(trim = 2, fill = "none"), check = FALSE)
+#' x <- c("a a", "a\U000000A0a", "a\U00002002a", "\U430 \U430")
+#' construct(x, opts_atomic(unicode_representation = "unicode"))
+#' construct(x, opts_atomic(unicode_representation = "character"))
+#' construct(x, opts_atomic(unicode_representation = "latin"))
+#' construct(x, opts_atomic(unicode_representation = "ascii"))
 opts_atomic <- function(
     ...,
     trim = NULL,

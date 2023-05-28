@@ -5,6 +5,7 @@ constructors$classGeneratorFunction <- new.env()
 #' These options will be used on objects of class 'classGeneratorFunction'.
 #'
 #' @param constructor String. Name of the function used to construct the object.
+#' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_classGeneratorFunction>
 #' @export
 opts_classGeneratorFunction <- function(constructor = c("setClass"), ...) {
