@@ -143,7 +143,7 @@ x + 1
 We have defined : 
 
 ```{r}
-is_corrupted.Date <- function(x) {
+is_corrupted_Date <- function(x) {
   !is.double(x)
 }
 ```
