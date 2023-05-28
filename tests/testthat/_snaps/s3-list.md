@@ -77,6 +77,7 @@
       construct(x2, opts_list(trim = 2, fill = "..."))
     Message
       ! The code built by {constructive} could not be evaluated.
+      ! Due to error: '...' used in an incorrect context
     Output
       list("a", "b", ...)
 

@@ -59,6 +59,7 @@
       construct(c(1, 2, 3), opts_atomic(trim = 1, fill = "..."))
     Message
       ! The code built by {constructive} could not be evaluated.
+      ! Due to error: '...' used in an incorrect context
     Output
       c(1, ...)
     Code
@@ -133,6 +134,7 @@
       construct(letters, opts_atomic(trim = 1, fill = "..."))
     Message
       ! The code built by {constructive} could not be evaluated.
+      ! Due to error: '...' used in an incorrect context
     Output
       c("a", ...)
     Code

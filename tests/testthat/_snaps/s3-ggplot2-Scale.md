@@ -7,6 +7,7 @@
       converting NULL pointer to R NULL
     Message
       ! The code built by {constructive} could not be evaluated.
+      ! Due to error: use of NULL environment is defunct
     Output
       ggplot2::continuous_scale(
         aesthetics = "alpha",
