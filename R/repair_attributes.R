@@ -4,15 +4,6 @@
 
 constructors <- new.env()
 
-is_corrupted <- function(x) {
-  UseMethod("is_corrupted")
-}
-
-#' @export
-is_corrupted.default <- function(x) {
-  FALSE
-}
-
 repair_attributes <- function(x, code, ..., pipe = "base") {
   UseMethod("repair_attributes")
 }

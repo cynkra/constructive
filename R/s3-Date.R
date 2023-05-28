@@ -37,11 +37,6 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
 }
 
 #' @export
-is_corrupted.Date <- function(x) {
-  !is.double(x)
-}
-
-#' @export
 .cstr_construct.Date <- function(x, ...) {
   opts <- .cstr_fetch_opts("Date", ...)
   if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
