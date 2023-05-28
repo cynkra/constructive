@@ -60,7 +60,7 @@ builds the code to reproduce objects stored in a named list or environment.
 }
 \section{Constructive options}{
 Constructive options provide a way to customize the output of `construct()`.
-We can provide calls to `opts_*()` functions to the `...` argument. Each of these functions targets a specific element type and is documented on its own page.
+We can provide calls to `opts_*()` functions to the `...` argument. Each of these functions targets a specific type or class and is documented on its own page.
 
 \itemize{
   \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next", "atomic"), ...)}

@@ -31,7 +31,7 @@ format.rd_section_enumerateOptFunctions <- function(...) {
     "\\section{Constructive options}{\n",
     "Constructive options provide a way to customize the output of `construct()`.\n",
     "We can provide calls to `opts_*()` functions to the `...` argument. Each of ",
-    "these functions targets a specific element type and is documented on its own page.\n\n",
+    "these functions targets a specific type or class and is documented on its own page.\n\n",
     "\\itemize{\n",
     paste0("  \\item ", signatures_formatted, "\n", collapse = ""),
     "}\n",
