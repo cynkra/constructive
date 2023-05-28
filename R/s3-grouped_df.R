@@ -30,7 +30,6 @@ opts_grouped_df <- function(constructor = c("default", "next", "list"), ..., ori
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_grouped_df <- function(x) {
   # TODO
   FALSE

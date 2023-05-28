@@ -36,7 +36,6 @@ opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., 
   constructor(x, selfref = opts$selfref, ...)
 }
 
-#' @export
 is_corrupted_data.table <- function(x) {
   is_corrupted_data.frame(x)
 }

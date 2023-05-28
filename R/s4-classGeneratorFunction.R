@@ -23,7 +23,6 @@ opts_classGeneratorFunction <- function(constructor = c("setClass"), ...) {
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_classGeneratorFunction <- function(x) {
   # FIXME
   !isS4(x)

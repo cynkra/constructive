@@ -32,7 +32,6 @@ opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_AsIs <- function(x) {
   oldClass(x)[[1]] != "AsIs"
 }

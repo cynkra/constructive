@@ -133,7 +133,6 @@ opts_environment <- function(constructor = c("env", "list2env", "as.environment"
   constructor(x, ..., pipe = pipe, one_liner = one_liner, recurse = opts$recurse, predefine = opts$predefine)
 }
 
-#' @export
 is_corrupted_environment <- function(x) {
   !is.environment(x)
 }

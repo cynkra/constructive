@@ -36,7 +36,6 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "ne
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_factor <- function(x) {
   # FIXME
   typeof(x) != "integer"

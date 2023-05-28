@@ -36,7 +36,6 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
   constructor(x, ..., origin = opts$origin)
 }
 
-#' @export
 is_corrupted_POSIXct <- function(x) {
   # TODO
   FALSE

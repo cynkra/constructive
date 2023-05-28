@@ -33,7 +33,6 @@ opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), .
   constructors$matrix[[opts$constructor]](x, ...)
 }
 
-#' @export
 is_corrupted_matrix <- function(x) {
   is_corrupted_array(x) || length(dim(x)) != 2
 }

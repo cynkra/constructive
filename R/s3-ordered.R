@@ -35,7 +35,6 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "ne
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_ordered <- function(x) {
   # TODO
   FALSE

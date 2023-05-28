@@ -30,7 +30,6 @@ opts_rowwise_df <- function(constructor = c("default", "next", "list"), ..., ori
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_rowwise_df <- function(x) {
   # TODO
   FALSE

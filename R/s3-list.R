@@ -50,7 +50,6 @@ opts_list <- function(
   constructors$list[[opts$constructor]](x, trim = opts$trim, fill = opts$fill, ...)
 }
 
-#' @export
 is_corrupted_list <- function(x) {
   typeof(x) != "list"
 }

@@ -64,7 +64,6 @@ opts_function <- function(
   constructor(x, ..., trim = opts$trim, environment = opts$environment, srcref = opts$srcref)
 }
 
-#' @export
 is_corrupted_function<- function(x) {
   !is.function(x)
 }

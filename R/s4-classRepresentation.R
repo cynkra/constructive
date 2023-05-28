@@ -23,7 +23,6 @@ opts_classRepresentation <- function(constructor = c("getClassDef"), ...) {
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_classRepresentation <- function(x) {
   # FIXME
   !isS4(x)

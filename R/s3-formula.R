@@ -39,7 +39,6 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
   constructor(x, ..., environment = opts$environment, env = env, env_is_default = env_is_default)
 }
 
-#' @export
 is_corrupted_formula <- function(x) {
   !is.call(x) || !identical(.subset2(x, 1), quote(`~`))
 }

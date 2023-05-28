@@ -32,7 +32,6 @@ opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ..., 
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_quosures <- function(x) {
   # TODO
   FALSE

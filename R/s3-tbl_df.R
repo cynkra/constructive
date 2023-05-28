@@ -36,7 +36,6 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..
   constructor(x, ..., trailing_comma = opts$trailing_comma)
 }
 
-#' @export
 is_corrupted_tbl_df <- function(x) {
   # FIXME: ?rownames says a tibble can have rownames but as_tibble(mtcars) removes them
   is_corrupted_data.frame(x)

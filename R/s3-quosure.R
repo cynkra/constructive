@@ -32,7 +32,6 @@ opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ...
   constructor(x, ..., origin = opts$origin)
 }
 
-#' @export
 is_corrupted_quosure <- function(x) {
   # TODO
   FALSE

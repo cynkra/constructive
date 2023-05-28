@@ -23,7 +23,6 @@ opts_classPrototypeDef <- function(constructor = c("prototype"), ...) {
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_classPrototypeDef <- function(x) {
   # FIXME
   !isS4(x)

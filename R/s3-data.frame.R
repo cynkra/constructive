@@ -34,7 +34,6 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", 
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_data.frame <- function(x) {
   if (!is.list(x) || any(sapply(unclass(x), is.null))) return(TRUE)
   attrs <- attributes(x)

@@ -31,7 +31,6 @@ opts_array <- function(constructor = c("array", "next"), ...) {
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_array <- function(x) {
   !("dim" %in% names(attributes(x)) && (is.atomic(x) || is.list(x) || is.expression(x)))
 }

@@ -31,7 +31,6 @@ opts_language  <- function(constructor = c("default"), ...) {
   constructors$language[[opts$constructor]](x, ...)
 }
 
-#' @export
 is_corrupted_language <- function(x) {
   ! typeof(x) %in% c("language", "symbol", "expression")
 }

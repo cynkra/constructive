@@ -30,7 +30,6 @@ opts_externalptr  <- function(constructor = c("default"), ...) {
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_externalptr <- function(x) {
   typeof(x) != "externalptr"
 }

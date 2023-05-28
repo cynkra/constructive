@@ -25,7 +25,6 @@ opts_S4 <- function(constructor = c("new"), ...) {
   constructor(x, ...)
 }
 
-#' @export
 is_corrupted_S4 <- function(x) {
   !isS4(x)
 }

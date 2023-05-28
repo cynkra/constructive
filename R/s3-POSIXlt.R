@@ -33,7 +33,6 @@ opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "atomic"), ..., o
   constructor(x, ..., origin = opts$origin)
 }
 
-#' @export
 is_corrupted_POSIXlt <- function(x) {
   # TODO
   FALSE
