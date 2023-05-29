@@ -165,9 +165,8 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
       args <- paste(vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent, pipe = pipe), collapse = "; ")
       return(sprintf("{%s}", args))
     }
-    sep <- paste0("\n", strrep(" ", indent))
     args <- vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent + 2, pipe = pipe)
-    args <- paste0( strrep(" ", indent + 2), args)
+    args <- paste0(strrep(" ", indent + 2), args)
     args <- paste(args, collapse = "\n")
     return(sprintf("{\n%s\n%s}", args, strrep(" ", indent)))
   }
