@@ -8,7 +8,7 @@ constructors$language <- new.env()
 #' to extend the method with other constructors.
 #'
 #' Depending on `constructor`, we construct the environment as follows:
-#' * `"default"` : We use constructive's deparsing algorithnm on attributeless calls,
+#' * `"default"` : We use constructive's deparsing algorithm on attributeless calls,
 #'   and use `as.call()` on other language elements when attributes need to be constructed.
 #'
 #' @param constructor String. Name of the function used to construct the environment.

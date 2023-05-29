@@ -2,7 +2,7 @@
 % Please edit documentation in R/register_constructors.R
 \name{.cstr_register_constructors}
 \alias{.cstr_register_constructors}
-\title{Registor constructors}
+\title{Register constructors}
 \usage{
 .cstr_register_constructors(class, ...)
 }

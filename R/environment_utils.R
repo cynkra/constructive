@@ -58,7 +58,7 @@ fetch_parent_names <- function(x) {
 #'  are not processed and only used to display additional information. If used on
 #'  an improper memory address the output might be erratic or the session might crash.
 #'
-#' @param address Memory adress of the environment
+#' @param address Memory address of the environment
 #' @param parents,... ignored
 #' @export
 env <- function(address, parents = NULL, ...) {

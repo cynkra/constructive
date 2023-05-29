@@ -1,5 +1,5 @@
 
-#' Registor constructors
+#' Register constructors
 #'
 #' Use this function to register a custom constructor. See vignette for more information.
 #'

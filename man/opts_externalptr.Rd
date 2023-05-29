@@ -2,7 +2,7 @@
 % Please edit documentation in R/s3-externalptr.R
 \name{opts_externalptr}
 \alias{opts_externalptr}
-\title{Constructive options fofr type 'externalptr'}
+\title{Constructive options for type 'externalptr'}
 \usage{
 opts_externalptr(constructor = c("default"), ...)
 }

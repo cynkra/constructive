@@ -27,7 +27,7 @@
   fun_defaults <- Filter(function(x) !identical(x, quote(expr=)), fun_defaults)
   fun_defaults <- lapply(fun_defaults, eval, asNamespace("ggplot2"))
   if ("trans" %in% names(args) && is.character(fun_defaults$trans)) {
-    # might be non robust, adress in time
+    # might be non robust, address in time
     fun_defaults$trans <- getFromNamespace(paste0(fun_defaults$trans, "_trans"), "scales")()
   }
   args_are_defaults <- mapply(identical, fun_defaults, values[names(fun_defaults)], ignore.environment = TRUE)
@@ -67,7 +67,7 @@
     }
   }
   if ("super" %in% names(args)) {
-    # not sure if robust, but if not we'll adress in due time!
+    # not sure if robust, but if not we'll address in due time!
     args$super <- paste0("ggplot2:::", rlang::expr_deparse(args$super)) # not robust if several scales :construct_raw.ggproto(x$super(), ...)
   }
 

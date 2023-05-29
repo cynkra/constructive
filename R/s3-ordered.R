@@ -7,7 +7,7 @@ constructors$ordered <- new.env()
 #' Depending on `constructor`, we construct the environment as follows:
 #' * `"ordered"` (default): Build the object using a `ordered()` call, levels won't
 #'   be defined explicitly if they are in alphabetical order (locale dependent!)
-#' * `"factor"` : Same as abvove but build the object using a `factor()` call and `ordered = TRUE`.
+#' * `"factor"` : Same as above but build the object using a `factor()` call and `ordered = TRUE`.
 #' * `"new_ordered"` : Build the object using a `vctrs::new_ordered()`. Levels are
 #'   always defined explicitly.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`

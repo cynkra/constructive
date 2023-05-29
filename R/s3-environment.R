@@ -42,7 +42,7 @@ constructors$environment <- new.env()
 #' We might set the `constructor` argument to:
 #'
 #' - `"env"` (default): use `constructive::env()` to construct the environment from
-#'   its memory adress.
+#'   its memory address.
 #' * `"list2env"`: We construct the environment as a list then
 #'   use `base::list2env()` to convert it to an environment and assign it a parent. By
 #'   default we will use `base::topenv()` to construct a parent. If `recurse` is `TRUE`

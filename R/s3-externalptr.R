@@ -1,6 +1,6 @@
 constructors$externalptr <- new.env()
 
-#' Constructive options fofr type 'externalptr'
+#' Constructive options for type 'externalptr'
 #'
 #' These options will be used on objects of type 'externalptr'. By default this
 #' function is useless as nothing can be set, this is provided in case users wan

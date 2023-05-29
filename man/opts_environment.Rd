@@ -73,7 +73,7 @@ of environments of function.
 We might set the \code{constructor} argument to:
 \itemize{
 \item \code{"env"} (default): use \code{constructive::env()} to construct the environment from
-its memory adress.
+its memory address.
 }
 \itemize{
 \item \code{"list2env"}: We construct the environment as a list then

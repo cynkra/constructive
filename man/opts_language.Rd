@@ -22,7 +22,7 @@ to extend the method with other constructors.
 \details{
 Depending on \code{constructor}, we construct the environment as follows:
 \itemize{
-\item \code{"default"} : We use constructive's deparsing algorithnm on attributeless calls,
+\item \code{"default"} : We use constructive's deparsing algorithm on attributeless calls,
 and use \code{as.call()} on other language elements when attributes need to be constructed.
 }
 }

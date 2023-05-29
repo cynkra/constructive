@@ -7,7 +7,7 @@
 env(address, parents = NULL, ...)
 }
 \arguments{
-\item{address}{Memory adress of the environment}
+\item{address}{Memory address of the environment}
 
 \item{parents, ...}{ignored}
 }
