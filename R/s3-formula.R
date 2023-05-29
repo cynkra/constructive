@@ -81,7 +81,6 @@ constructors$formula$as.formula <- function(x, ..., environment, env_is_default)
 
 repair_attributes_formula <- function(x, code, ..., pipe ="base", ignore_env_attr = TRUE) {
   opts <- .cstr_fetch_opts("formula", ...)
-  constructor <- opts$constructor
   ignore <- NULL
 
   if (ignore_env_attr) {
@@ -96,17 +95,6 @@ repair_attributes_formula <- function(x, code, ..., pipe ="base", ignore_env_att
     code <- .cstr_wrap(code, "")
   }
 
-  # if (constructor == "~") {
-  #   if (opts$environment) {
-  #     ignore <- NULL # don't ignore the .Environment attr, we need to set it up
-  #     code <- wrap(code, "")
-  #   } else {
-  #     additional_args <- setdiff(rlang::names2(attributes(x)), c(".Environment", "class"))
-  #     if (length(additional_args) || !identical(class(x), "formula")) {
-  #       code <- wrap(code, "")
-  #     }
-  #   }
-  # }
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

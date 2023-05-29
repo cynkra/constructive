@@ -46,7 +46,6 @@ constructors$S4$new <- function(x, env, ...) {
     attrs <- attributes(x)[nms]
     args <- c(list(cl), attrs)
   }
-  key <- attr(x, "sorted")
   code <- .cstr_apply(args, fun = "new", env = env, ...)
   repair_attributes_S4(x, code, env = env, ...)
 }

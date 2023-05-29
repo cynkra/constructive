@@ -172,8 +172,6 @@ constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, 
 }
 
 constructors$environment$new_environment <- function(x, ..., pipe, one_liner, recurse, predefine) {
-  constructor <-  "rlang::new_environment"
-
   if (!recurse) {
     if (length(names(x))) {
       code <- .cstr_apply(list(as.list.environment(x), parent = topenv(x)), "rlang::new_environment", ..., pipe = pipe, one_liner = one_liner)
@@ -214,6 +212,7 @@ constructors$environment$as.environment <- function(x, ..., pipe, one_liner, rec
 
 constructors$environment$topenv <- function(x, ..., pipe, one_liner, recurse, predefine) {
   code <- .cstr_construct(topenv(x), ...)
+  code
 }
 
 repair_attributes_environment <- function(x, code, ..., pipe ="base") {
