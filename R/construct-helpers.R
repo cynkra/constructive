@@ -155,17 +155,3 @@ new_constructive <- function(code, compare) {
   if (!is.null(data_name)) return(data_name)
   UseMethod(".cstr_construct")
 }
-
-# FIXME: remove when proven obsolete, along with flex_match()
-data_match <- function(x, data, ...) {
-  # check for perfectly matching data including attributes, no repair needed for those
-  data_name <- perfect_match(x, data)
-  if (!is.null(data_name)) return(data_name)
-
-  # check for matches, disregarding attributes, these will need to be repaired
-  data_name <- flex_match(x, data)
-  if (!is.null(data_name)) {
-    code <- repair_attributes(data, data_name, ..., data = data)
-    return(code)
-  }
-}
