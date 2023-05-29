@@ -9,3 +9,4 @@
 ^ignored
 .gcov$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
