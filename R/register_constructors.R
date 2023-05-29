@@ -15,7 +15,7 @@ register_constructors <- function(class, ...) {
       new_constructors <- c(old_constructors, nms_new)
     } else {
       new_constructors <- c(
-        old_constructors[seq_len(next_pos-1)],
+        old_constructors[seq_len(next_pos - 1)],
         nms_new,
         old_constructors[seq(next_pos, length(old_constructors))]
       )
