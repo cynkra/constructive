@@ -48,6 +48,13 @@ for the possible API breaking changes in the future.
   will call `.cstr_construct.atomic()` and `.cstr_construct.factor()` to construct its columns.
 * Additionally, before dispatching, `.cstr_construct()` attempts to match its data input
   to a list of objects provided to the `data` argument.
+  
+```{r}
+.cstr_construct
+.cstr_construct(letters)
+construct(letters)
+```
+
 
 ## `.cstr_construct.?()` methods
 
@@ -76,7 +83,7 @@ When implementing a new method you'll need to define and export the correspondin
 `opts_?()` function. It provides to the user a way to choose a constructor and 
 object retrieved by `.cstr_fetch_opts()` in the `.cstr_construct()` method.
 
-It always has this form:
+It should always have this form:
 
 ```{r}
 opts_Date <- function(
@@ -88,7 +95,7 @@ opts_Date <- function(
     origin = "1970-01-01"
   ) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- .cstr_match_constructor(constructor),
     ellipsis::check_dots_empty()
   )
   .cstr_options("Date", constructor = constructor, origin = origin)
