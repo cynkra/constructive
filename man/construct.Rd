@@ -58,6 +58,12 @@ An object of class 'constructive'.
 \code{construct()} builds the code to reproduce one object, \code{construct_multi()}
 builds the code to reproduce objects stored in a named list or environment.
 }
+\examples{
+construct(head(cars))
+construct(head(cars), opts_data.frame("read.table"))
+construct(iris$Species)
+construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
+}
 \section{Constructive options}{
 Constructive options provide a way to customize the output of `construct()`.
 We can provide calls to `opts_*()` functions to the `...` argument. Each of these functions targets a specific type or class and is documented on its own page.
