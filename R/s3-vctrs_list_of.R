@@ -14,7 +14,7 @@ constructors$vctrs_list_of <- new.env()
 #' @export
 opts_vctrs_list_of <- function(constructor = c("list_of", "list"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "vctrs_list_of"),
+    constructor <- .cstr_match_constructor(constructor, "vctrs_list_of"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("vctrs_list_of", constructor = constructor)

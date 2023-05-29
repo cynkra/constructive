@@ -18,7 +18,7 @@ constructors$POSIXlt <- new.env()
 #' @export
 opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "list"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "POSIXlt"),
+    constructor <- .cstr_match_constructor(constructor, "POSIXlt"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("POSIXlt", constructor = constructor)

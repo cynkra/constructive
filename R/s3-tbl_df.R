@@ -21,14 +21,14 @@ constructors$tbl_df <- new.env()
 #' @export
 opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "tbl_df"),
+    constructor <- .cstr_match_constructor(constructor, "tbl_df"),
     ellipsis::check_dots_empty(),
     abort_not_boolean(trailing_comma)
   )
   .cstr_options("tbl_df", constructor = constructor, trailing_comma = trailing_comma)
 }
 
-match_constructor <- function(constructor, class) {
+.cstr_match_constructor <- function(constructor, class) {
   constructor <- constructor[[1]]
   choices <- ls(constructors[[class]], all.names = TRUE)
   internal_types <- c( # note: "..." replaced by "dots"

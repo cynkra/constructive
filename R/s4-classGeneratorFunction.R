@@ -10,7 +10,7 @@ constructors$classGeneratorFunction <- new.env()
 #' @export
 opts_classGeneratorFunction <- function(constructor = c("setClass"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "classGeneratorFunction"),
+    constructor <- .cstr_match_constructor(constructor, "classGeneratorFunction"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("classGeneratorFunction", constructor = constructor)

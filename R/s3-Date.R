@@ -29,7 +29,7 @@ constructors$Date <- new.env()
 #' @export
 opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "Date"),
+    constructor <- .cstr_match_constructor(constructor, "Date"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("Date", constructor = constructor, origin = origin)

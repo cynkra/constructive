@@ -20,7 +20,7 @@ constructors$matrix <- new.env()
 #' @export
 opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "matrix"),
+    constructor <- .cstr_match_constructor(constructor, "matrix"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("matrix", constructor = constructor)

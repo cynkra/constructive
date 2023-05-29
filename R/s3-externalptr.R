@@ -16,7 +16,7 @@ constructors$externalptr <- new.env()
 #' @export
 opts_externalptr  <- function(constructor = c("default"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "externalptr"),
+    constructor <- .cstr_match_constructor(constructor, "externalptr"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("externalptr", constructor = constructor)

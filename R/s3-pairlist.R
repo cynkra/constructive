@@ -13,7 +13,7 @@ constructors$pairlist <- new.env()
 #' @export
 opts_pairlist <- function(constructor = c("pairlist", "pairlist2"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "pairlist"),
+    constructor <- .cstr_match_constructor(constructor, "pairlist"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("pairlist", constructor = constructor)

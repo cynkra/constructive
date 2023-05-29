@@ -17,7 +17,7 @@ constructors$constructive_options <- new.env()
 #' @export
 opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "constructive_options"),
+    constructor <- .cstr_match_constructor(constructor, "constructive_options"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("constructive_options", constructor = constructor)

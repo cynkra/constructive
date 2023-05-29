@@ -17,7 +17,7 @@ constructors$array <- new.env()
 #' @export
 opts_array <- function(constructor = c("array", "next"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "array"),
+    constructor <- .cstr_match_constructor(constructor, "array"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("array", constructor = constructor)

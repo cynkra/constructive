@@ -22,7 +22,7 @@ constructors$factor <- new.env()
 #' @export
 opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...) {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "factor"),
+    constructor <- .cstr_match_constructor(constructor, "factor"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("factor", constructor = constructor)

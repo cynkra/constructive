@@ -22,7 +22,7 @@ constructors$POSIXct <- new.env()
 #' @export
 opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
   .cstr_combine_errors(
-    constructor <- match_constructor(constructor, "POSIXct"),
+    constructor <- .cstr_match_constructor(constructor, "POSIXct"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("POSIXct", constructor = constructor, origin = origin)
