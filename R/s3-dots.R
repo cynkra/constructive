@@ -63,4 +63,3 @@ repair_attributes_dots <- function(x, code, ...) {
   # FIXME: add a repair fun since dots can have attributes, come back after environments are done
   code
 }
-

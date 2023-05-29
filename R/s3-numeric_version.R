@@ -144,5 +144,3 @@ constructors$R_system_version$atomic <- function(x, ...) {
 repair_attributes_R_system_version <- function(x, code, ...) {
   .cstr_repair_attributes(x, code, ..., idiomatic_class = c("R_system_version", "package_version", "numeric_version"))
 }
-
-

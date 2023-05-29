@@ -42,4 +42,3 @@ constructors$externalptr$default <- function(x, ...) {
 repair_attributes_externalptr <- function(x, code, ...) {
   code
 }
-

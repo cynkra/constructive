@@ -131,5 +131,3 @@
   )
   .cstr_apply(c(args_chr, xy), "ggplot2::coord_trans", recurse = FALSE, ...)
 }
-
-

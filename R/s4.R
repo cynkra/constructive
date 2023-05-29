@@ -58,6 +58,3 @@ repair_attributes_S4 <- function(x, code, ..., pipe = "base", selfref = FALSE) {
     idiomatic_class = class(x)
   )
 }
-
-
-

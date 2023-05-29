@@ -70,4 +70,3 @@ repair_attributes_rowwise_df <- function(x, code, ..., pipe = "base", one_liner 
     one_liner = one_liner
   )
 }
-
