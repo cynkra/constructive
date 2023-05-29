@@ -10,7 +10,7 @@ constructors$classPrototypeDef <- new.env()
 #' @export
 opts_classPrototypeDef <- function(constructor = c("prototype"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- match_constructor(constructor, "classPrototypeDef"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("classPrototypeDef", constructor = constructor)

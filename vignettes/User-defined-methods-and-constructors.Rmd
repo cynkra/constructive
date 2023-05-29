@@ -21,22 +21,19 @@ library(constructive)
 We detail in this vignette how {constructive} works and how
 you might define custom constructors or custom `.cstr_construct.*()` methods.
 
-To define new constructors in your package you need to :
+This documents provides the general theory here but you are encouraged to look at examples.
 
-* Define a constructor function in your package, along with a repair function to
-  fix attributes.
-* Call `constructive::register_constructors()` in your `.onLoad()` function
+In particular the package {constructive.examples} accessible at https://www.github.com/cynkra/constructive.example
+contains 2 examples, support a new class ("qr"), or implement a new constructor for
+an already supported class ("tbl_df). This package might be used as a template.
 
-To support a new class you additionally need to define :
+The scripts starting with "s3-" and "s4-" in the {constructive} package provide
+many more examples in a similar but slightly different shape, those 2
+resources along with the explanations in this document should get you started.
+Don't hesitate to open issues if things are unclear.
 
-* `.cstr_construct.your_class()`
-* `opts_your_class()`
-* `is_corrupted_your_class()`
-
-We provide the general theory here but you are encouraged to look at examples.
-All the scripts starting with "s3-" in this package contain everything necessary
-to support a given class using various constructors and it is probable that the
-class you want to support shares similarities with one that is already supported.
+The next 5 sections describe the inner logic of the package, the last 2 sections
+explain how to support a new class and/or define your own constructors.
 
 The package is young and subject to breaking changes, so we apologize in advance
 for the possible API breaking changes in the future.
@@ -66,7 +63,7 @@ for the possible API breaking changes in the future.
 ```
 
 * `.cstr_fetch_opts()` gathers options provided to `construct()` through the `opts_*()` function
-  introduced in the next section, or falls back to a default value if none were provided.
+  (see next section), or falls back to a default value if none were provided.
 * If the object is corrupted or if the user decided to bypass the current method by
   choosing "next" as a constructor for this class, we return `NextMethod()` to
   forward all our inputs to a lower level constructor.
@@ -101,7 +98,7 @@ opts_Date <- function(
 * The class is present in the name of the `opts_?()` function and as the first
   argument of `.cstr_options()`.
 * A character vector of constructors is provided, starting with the default constructor
- and ending with `"next"` and the constructor for the corresponding internal type.
+* A "next" value is mandatory except for internal types.
 * Additional arguments passed to the constructors might be added, as we did here with
   `origin`
  
@@ -174,7 +171,7 @@ constructors$Date$as.Date
 
 A function call is made of a function and its arguments. A constructor sets the
 function and constructs its arguments recursively. 
-This is done with the help of `construct_apply()` once these output have been prepared.
+This is done with the help of `.cstr_apply()` once these output have been prepared.
 In the case above we have 2 logical paths because dates can be infinite but date vectors
 containing infinite elements cannot be represented by `as.Date(<character>)`, our
 preferred choice.
@@ -195,30 +192,32 @@ For instance `constructors$data.frame$read.table()` falls back on
 which cannot be represented in a table input, and `constructors$data.frame$data.frame()`
 itself falls back on `.cstr_construct.list()` when the data frame contains list columns not defined using `I()`, since `data.frame()` cannot produce such objects.
 
-Constructors should always end by a call to a repairing function.
+That last line of the function does the attribute reparation.
 
-## Repairing functions
+## Attribute reparation
 
-Repairing functions adjust the attributes of an object after idiomatic constructors such as `as.Date()` have defined their data and canonical attributes.
+Constructors should always end by a call to `.cstr_repair_attributes()` or a function
+that wraps it.
+
+These are needed to adjust the attributes of an object after idiomatic constructors such as `as.Date()` have defined their data and canonical attributes.
 
 ```{r}
 x <- structure(c(12345, 20000), class = "Date", some_attr = 42)
 # attributes are not visible due to "Date"'s printing method
 x
 
-# but thanks to the repairing function, constructive retrieves them
+# but constructive retrieves them
 constructors$Date$as.Date(x)
 ```
 
-Repairing functions are generally wrappers around `.cstr_repair_attributes()`,
-a function that essentially sets attributes with exceptions :
+`.cstr_repair_attributes()` essentially sets attributes with exceptions :
 
-* It doesn't set names, as they are provided by the constructors
+* It doesn't set names, these should be handled by the constructors
 * It doesn't set the class explicitly if it's identical to the idiomatic class, i.e. the
   class returned by the constructor before the repair call, and provided through the
   `idiomatic_class` argument
 * It doesn't set attributes that we choose to ignore because they are set by the
-  constructor.
+  constructor (e.g. row names for data frames or levels for factors)
 
 `.cstr_repair_attributes()` does a bit more but we don't need to dive deeper in this vignette.
 
@@ -231,14 +230,15 @@ constructive:::repair_attributes_factor
 
 ## Register a new class
 
-Registering a new class is done just by defining a `.cstr_construct.?()` method.
+Registering a new class is done by defining and registering a `.cstr_construct.?()` method.
+In a package you might register the method with {roxygen2} by using the "@export tag" 
 
 ## Register new constructors
 
 You should not attempt to modify manually the `constructors` object of the {constructive} package, instead you should :
 
 * Define an unexported constructor function 
-* Call `register_constructor(class_name, constructor_function)` 
+* Call `.cstr_register_constructors(class_name, constructor_name = constructor_function, ...)` 
 
 Do the latter in `.onload()` if the new constructor is to be part of a package,
 for instance.
@@ -247,7 +247,7 @@ for instance.
 ```{r, eval = FALSE}
 # in zzz.R
 .onLoad <- function(libname, pkgname) {
-  register_constructors(
+  .cstr_register_constructors(
     class_name, 
     constructor_name1 = constructor1, 
     constructor_name2 = constructor2

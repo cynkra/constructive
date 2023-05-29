@@ -31,7 +31,7 @@ opts_function <- function(
     srcref = FALSE,
     trim = NULL) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- match_constructor(constructor, "function"),
     ellipsis::check_dots_empty(),
     abort_not_boolean(environment),
     abort_not_boolean(srcref),

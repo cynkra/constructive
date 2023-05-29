@@ -23,7 +23,7 @@ constructors$formula <- new.env()
 #' @export
 opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = TRUE) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- match_constructor(constructor, "formula"),
     ellipsis::check_dots_empty(),
     abort_not_boolean(environment)
   )

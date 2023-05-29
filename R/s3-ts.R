@@ -16,7 +16,7 @@ constructors$ts <- new.env()
 #' @export
 opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- match_constructor(constructor, "ts"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("ts", constructor = constructor)

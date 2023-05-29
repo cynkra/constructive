@@ -23,8 +23,7 @@ Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"I"} (default): Use the \code{I()} function
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
-on the object to see in which order the methods will be tried. This will
-usually be the same as \code{"atomic"}.
+on the object to see in which order the methods will be tried.
 \item \code{"atomic"} : We define as an atomic vector and repair attributes
 }
 }

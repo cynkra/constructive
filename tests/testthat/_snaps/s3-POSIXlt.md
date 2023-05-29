@@ -7,11 +7,33 @@
     Code
       construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))
     Output
-      as.POSIXlt(c("1972-07-01", "1973-01-01", "1974-01-01", "1975-01-01"), tz = "GMT")
+      list(
+        sec = numeric(4),
+        min = integer(4),
+        hour = integer(4),
+        mday = rep(1L, 4L),
+        mon = c(6L, 0L, 0L, 0L),
+        year = 72:75,
+        wday = c(6L, 1L, 2L, 3L),
+        yday = c(182L, 0L, 0L, 0L),
+        isdst = integer(4)
+      ) |>
+        structure(class = c("POSIXlt", "POSIXt"), tzone = "GMT")
     Code
-      construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("atomic"))
+      construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("list"))
     Output
-      as.POSIXlt(c("1972-07-01", "1973-01-01", "1974-01-01", "1975-01-01"), tz = "GMT")
+      list(
+        sec = numeric(4),
+        min = integer(4),
+        hour = integer(4),
+        mday = rep(1L, 4L),
+        mon = c(6L, 0L, 0L, 0L),
+        year = 72:75,
+        wday = c(6L, 1L, 2L, 3L),
+        yday = c(182L, 0L, 0L, 0L),
+        isdst = integer(4)
+      ) |>
+        structure(class = c("POSIXlt", "POSIXt"), tzone = "GMT")
     Code
       construct(as.POSIXlt(.leap.seconds[1:4]))
     Output

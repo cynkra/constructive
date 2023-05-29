@@ -21,7 +21,7 @@ constructors$ordered <- new.env()
 #' @export
 opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- match_constructor(constructor, "ordered"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("ordered", constructor = constructor)

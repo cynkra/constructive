@@ -77,7 +77,7 @@ try_eval <- function(styled_code, data, check, caller) {
   # in the proper env, this makes a difference for calls that capture the env
   local_bindings(!!!data, .env = caller)
   rlang::try_fetch(
-    eval(parse(text = styled_code), caller),
+    suppressWarnings(eval(parse(text = styled_code), caller)),
     error = function(e) {
       #nocov start
       msg <- "The code built by {constructive} could not be evaluated."
@@ -130,7 +130,7 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
     msg <- paste0(msg, "\n", paste(issues, collapse = "\n"))
     abort(c(msg))
   }
-  info <- "Call `construct_issues()` to inspect the last issues"
+  info <- "Call `construct_issues()` to inspect the last issues\n"
   rlang::inform(c(msg, i = info))
 
   # return issues

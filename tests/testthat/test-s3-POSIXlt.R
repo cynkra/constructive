@@ -5,7 +5,7 @@ test_that("POSIXlt", {
     # ordered
     construct(as.POSIXlt(.leap.seconds[1:4]))
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))
-    construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("atomic"))
+    construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("list"))
     construct(as.POSIXlt(.leap.seconds[1:4]))
     construct(as.POSIXlt(sys_time_1970))
     construct(as.POSIXlt("2022-01-01 01:00:00", tz = "UTC"))

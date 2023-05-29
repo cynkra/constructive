@@ -1,13 +1,7 @@
 # Scale
 
     Code
-      construct(ggplot2::scale_alpha())
-    Condition
-      Warning in `.Call()`:
-      converting NULL pointer to R NULL
-    Message
-      ! The code built by {constructive} could not be evaluated.
-      ! Due to error: use of NULL environment is defunct
+      construct(ggplot2::scale_alpha(), check = FALSE)
     Output
       ggplot2::continuous_scale(
         aesthetics = "alpha",

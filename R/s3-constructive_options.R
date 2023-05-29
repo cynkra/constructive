@@ -1,6 +1,6 @@
 # FIXME: do we really need to support this class ?
 
-constructors$.cstr_options <- new.env()
+constructors$constructive_options <- new.env()
 
 #' Constructive options for the class `constructive_options`
 #'
@@ -17,7 +17,7 @@ constructors$.cstr_options <- new.env()
 #' @export
 opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- match_constructor(constructor, "constructive_options"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("constructive_options", constructor = constructor)
@@ -27,7 +27,7 @@ opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
 .cstr_construct.constructive_options <- function(x, ...) {
   opts <- .cstr_fetch_opts("constructive_options", ...)
   if (is_corrupted_constructive_options(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$.cstr_options[[opts$constructor]]
+  constructor <- constructors$constructive_options[[opts$constructor]]
   constructor(x, ...)
 }
 
@@ -36,7 +36,7 @@ is_corrupted_constructive_options <- function(x) {
   FALSE
 }
 
-constructors$.cstr_options$opts <- function(x, ...) {
+constructors$constructive_options$opts <- function(x, ...) {
   pattern <- "^constructive_options_(.*)$"
   suffix <- sub(pattern, "\\1", grep(pattern, class(x), value = TRUE))
   # FIXME: there should be 1 and only 1, else it's a corrupted object

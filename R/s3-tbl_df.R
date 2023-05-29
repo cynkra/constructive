@@ -21,11 +21,25 @@ constructors$tbl_df <- new.env()
 #' @export
 opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- match_constructor(constructor, "tbl_df"),
     ellipsis::check_dots_empty(),
     abort_not_boolean(trailing_comma)
   )
   .cstr_options("tbl_df", constructor = constructor, trailing_comma = trailing_comma)
+}
+
+match_constructor <- function(constructor, class) {
+  constructor <- constructor[[1]]
+  choices <- ls(constructors[[class]], all.names = TRUE)
+  internal_types <- c( # note: "..." replaced by "dots"
+    "logical", "integer", "double", "complex", "character", "raw", "list", "NULL",
+    "closure", "special", "builtin", "environment", "S4", "symbol", "pairlist",
+    "promise", "language", "char", "any", "expression", "externalptr",
+    "bytecode",  "weakref", "dots"
+  )
+  if (!class %in% internal_types) choices <- c(choices, "next")
+  rlang::arg_match(constructor, choices)
+  constructor
 }
 
 #' @export
@@ -78,16 +92,10 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
 }
 
 repair_attributes_tbl_df <- function(x, code, ..., pipe = "base") {
-  opts <- .cstr_fetch_opts("tbl_df", ...)
-  if (opts$constructor == "list") {
-    return(repair_attributes_list(x, code, ..., pipe = pipe))
-  }
-  ignore <- "row.names"
-  if (identical(names(x), character())) ignore <- c(ignore, "names")
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
-    ignore = ignore,
+    ignore = "row.names",
     idiomatic_class = c("tbl_df", "tbl", "data.frame")
   )
 }

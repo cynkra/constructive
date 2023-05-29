@@ -43,13 +43,7 @@
 ---
 
     Code
-      construct(ggplot2::coord_trans(x = "log10", y = "log10"))
-    Condition
-      Warning in `.Call()`:
-      converting NULL pointer to R NULL
-    Message
-      ! The code built by {constructive} could not be evaluated.
-      ! Due to error: use of NULL environment is defunct
+      construct(ggplot2::coord_trans(x = "log10", y = "log10"), check = FALSE)
     Output
       ggplot2::coord_trans(
         x = scales::trans_new(
@@ -187,13 +181,7 @@
       )
     Code
       construct(ggplot2::coord_trans(x = scales::exp_trans(10), y = scales::exp_trans(
-        10)))
-    Condition
-      Warning in `.Call()`:
-      converting NULL pointer to R NULL
-    Message
-      ! The code built by {constructive} could not be evaluated.
-      ! Due to error: use of NULL environment is defunct
+        10)), check = FALSE)
     Output
       ggplot2::coord_trans(
         x = scales::trans_new(
