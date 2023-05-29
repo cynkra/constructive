@@ -120,14 +120,6 @@ collapse <- function (x, sep = ",", width = 80, last = " and ", quote = "") {
 
 scrub_ggplot <- function(x) {
   x <- flatten.scales(x)
-  # This works to scrub the calls from the layers but since we cannot reliably
-  # scrub calls from scales (due to self nested environment madness) we're better off
-  # staying consistent
-  # for (i in seq_along(x$layers)) {
-  #   x$layers[[i]] <- env_clone(x$layers[[i]])
-  #   x$layers[[i]]$constructor <- NULL
-  #   x$layers[[i]]$super <- NULL
-  # }
   x
 }
 
@@ -153,13 +145,10 @@ flatten.scales <- function(gg) {
   # inheritances created during cloning of scales within this ggplot object.
   # add that scale to the new scale list.
   for(i in seq_along(scale.names.sorted)) {
-    #print(scale.names.sorted[i])
     scale.to.add <- orig.scales$get_scales(scale.names.sorted[[i]])
     while("super" %in% names(scale.to.add)) {
-      #print("!")
       scale.to.add1 <- scale.to.add$super()
       if(!is.null(scale.to.add1$call)) {
-        #scale.to.add1$call <- NULL # try
         scale.to.add <- scale.to.add1
       } else {
         break

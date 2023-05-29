@@ -276,24 +276,9 @@ unescape_strings <- function(x) {
     x
   }
 
-  # as_single_q_string <- function(x) {
-  #   # remove external dbquotes
-  #   x <- gsub("^.", "", x)
-  #   x <- gsub(".$", "", x)
-  #   # unescape double quotes\
-  #   x <- gsub("\\\"", "\"", x, fixed = TRUE)
-  #   # build singleq string
-  #   x <- sprintf("'%s'", x)
-  #   x
-  # }
-
   ifelse(
     backslash | (single_q & double_q),
     as_raw_string(x),
-    # ifelse(
-    #   double_q,
-    #   as_single_q_string(x),
     x
-    # )
   )
 }
