@@ -114,7 +114,7 @@ construct_layer_layer <- function(x, ...) {
   if (isTRUE(args$inherit.aes)) args$inherit.aes <- NULL
   if (rlang::is_na(args$show.legend)) args$show.legend <- NULL
   if (is.null(key_glyph)) args$key_glyph <- NULL
-  args_chr <- lapply(args, .cstr_construct, ggproto.ignore_draw_key = ggproto.ignore_draw_key,...)
+  args_chr <- lapply(args, .cstr_construct, ggproto.ignore_draw_key = ggproto.ignore_draw_key, ...)
   args_chr$key_glyph <- key_glyph
   args_chr$geom <- geom
 

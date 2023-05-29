@@ -30,17 +30,20 @@
     Output
       read.table(header = TRUE, text = "
       speed dist
-      4.    2.
-      4.    10.
+         4.   2.
+         4.  10.
       ")
     Code
       construct(transform(mtcars[1:2, 1:2], chr = c("a", "b"), int = 1:2),
       opts_data.frame(constructor = "read.table"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
     Output
       read.table(header = TRUE, text = "
                       mpg cyl chr int
-      'Mazda RX4'     21. 6.  a   1
-      'Mazda RX4 Wag' 21. 6.  b   2
+          'Mazda RX4' 21.  6. 'a'  1L
+      'Mazda RX4 Wag' 21.  6. 'b'  2L
       ")
     Code
       construct(head(iris, 2), opts_data.frame(constructor = "read.table"))
@@ -104,4 +107,12 @@
     Output
       list(V1 = NULL, V2 = NULL, V3 = NULL, V4 = NULL) |>
         structure(row.names = integer(0), class = "data.frame")
+    Code
+      construct(data.frame(a = "two words"), constructive::opts_data.frame(
+        "read.table"))
+    Output
+      read.table(header = TRUE, text = "
+                a
+      'two words'
+      ")
 

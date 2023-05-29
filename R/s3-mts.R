@@ -46,8 +46,8 @@ constructors$mts$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-repair_attributes_mts <- function(x, code, ..., pipe ="base") {
-  nms <- colnames(x) %||% paste("Series", seq(ncol(x)))
+repair_attributes_mts <- function(x, code, ..., pipe = "base") {
+  nms <- colnames(x) %||% paste("Series", seq_len(ncol(x)))
   if (identical(attr(x, "dimnames")[[2]], nms)) attr(x, "dimnames") <- NULL
   .cstr_repair_attributes(
     x, code, ...,

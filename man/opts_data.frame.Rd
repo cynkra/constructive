@@ -26,7 +26,7 @@ Depending on \code{constructor}, we construct the object as follows:
 \item \code{"data.frame"} (default): Wrap the column definitions in a \code{data.frame()} call. If some
 columns are lists or data frames, we wrap the column definitions in \code{tibble::tibble()}.
 then use \code{as.data.frame()}.
-\item \code{"read.table"} : We build the object using \code{read.table()} if possible, and fall
+\item \code{"read.table"} : We build the object using \code{read.table()} if possible, or fall
 back to \code{data.frame()}.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.

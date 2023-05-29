@@ -129,7 +129,6 @@ abort_wrong_data <- function(x) {
     abort(c(msg, i = info), call = parent.frame())
   }
   nms <- names2(x)
-  unnamed_objs <- x[nms == ""]
   for (i in seq_along(x)) {
     if (nms[[i]] != "") next
     if (is.character(x[[i]])) {

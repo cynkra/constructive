@@ -8,7 +8,7 @@
     x$draw_key <- NULL
   }
   code <- find_in_package_protos(x, ggproto.ignore_draw_key)
-  if(is.null(code)) return(.cstr_construct.environment(x, ...))
+  if (is.null(code)) return(.cstr_construct.environment(x, ...))
   repair_attributes_ggproto(x, code, ...)
 }
 
@@ -25,10 +25,10 @@ find_in_package_protos <- function(x, ggproto.ignore_draw_key) {
         proto <- as.list(proto)
         proto$draw_key <- NULL
       }
-      if(identical(x, proto, ignore.environment = TRUE)) {
+      if (identical(x, proto, ignore.environment = TRUE)) {
         if (pkg == "ggplot2") {
           # FIXME: not good enough GeomContourFixed -> countour_fixed ?
-          return(sprintf('"%s"', sub( "^[^_]+_", "", snakeize(nm))))
+          return(sprintf('"%s"', sub("^[^_]+_", "", snakeize(nm))))
         }
         return(paste0(pkg, ":::", nm))
       }

@@ -46,7 +46,7 @@ constructors$.cstr_options$opts <- function(x, ...) {
   constructor_pos <- which("constructor" == rlang::names2(x))
   if (length(constructor_pos)) {
     names(x)[[constructor_pos]] <- ""
-    if (x[[constructor_pos]] == as.list(eval(parse(text=fun)))$constructor[[2]]) {
+    if (x[[constructor_pos]] == as.list(eval(parse(text = fun)))$constructor[[2]]) {
       x[[constructor_pos]] <- NULL
     }
   }

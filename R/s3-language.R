@@ -50,7 +50,7 @@ constructors$language$default <- function(x, ..., one_liner = FALSE) {
   repair_attributes_language(x, code, ...)
 }
 
-repair_attributes_language <- function(x, code, ..., pipe ="base") {
+repair_attributes_language <- function(x, code, ..., pipe = "base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
@@ -63,9 +63,9 @@ is_expression2 <- function(x) {
     names(attributes(x)),
     c("srcref", "srcfile", "wholeSrcref")
   )
-  if(length(non_srcref_attr_nms)) return(FALSE)
+  if (length(non_srcref_attr_nms)) return(FALSE)
   if (rlang::is_syntactic_literal(x) || rlang::is_symbol(x)) return(TRUE)
-  if(!rlang::is_call(x)) return(FALSE)
+  if (!rlang::is_call(x)) return(FALSE)
   if (is_regular_function_definition(x)) return(TRUE)
   all(vapply(x, is_expression2, logical(1)))
 }

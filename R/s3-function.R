@@ -64,7 +64,7 @@ opts_function <- function(
   constructor(x, ..., trim = opts$trim, environment = opts$environment, srcref = opts$srcref)
 }
 
-is_corrupted_function<- function(x) {
+is_corrupted_function <- function(x) {
   !is.function(x)
 }
 
@@ -75,7 +75,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
   code_from_srcref <- FALSE
   if (!one_liner && is.null(trim)) {
     code <- code_from_srcref(x)
-    if(!is.null(code)) {
+    if (!is.null(code)) {
       code_from_srcref <- TRUE
     }
   }
@@ -102,7 +102,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
   if (environment) {
     envir_code <- .cstr_apply(
       list(environment(x)),
-      '(`environment<-`)',
+      "(`environment<-`)",
       pipe = pipe,
       one_liner = one_liner,
       ...)
@@ -145,7 +145,7 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
   repair_attributes_function(x, code, ...)
 }
 
-repair_attributes_function <- function(x, code, ..., pipe ="base") {
+repair_attributes_function <- function(x, code, ..., pipe = "base") {
   opts <- .cstr_fetch_opts("function", ...)
   srcref <- opts$srcref
   ignore <- c("name", "path")
@@ -164,7 +164,7 @@ code_from_srcref <- function(x) {
   if (is.null(srcref)) return(NULL)
   srcref_chr <- as.character(srcref)
   # srcref might have been manipulated and not parseable -> try
-  parsed <- try(parse(text=srcref_chr)[[1]], silent = TRUE)
+  parsed <- try(parse(text = srcref_chr)[[1]], silent = TRUE)
   if (
     inherits(parsed, "try-error") ||
     # don't bother trying to eval if it's not a function call

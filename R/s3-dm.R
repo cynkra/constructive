@@ -45,7 +45,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
     function(table, pk_tibble) {
       if (!nrow(pk_tibble)) return(character())
       column_code <- .cstr_construct(pk_tibble$column[[1]], pipe = pipe, one_liner = one_liner, ...)
-      paste0("dm::dm_add_pk(", protect(table), ", ", paste(column_code, collapse = "\n") , ")")
+      paste0("dm::dm_add_pk(", protect(table), ", ", paste(column_code, collapse = "\n"), ")")
     } ,
     def$table,
     def$pks,
@@ -93,11 +93,11 @@ constructors$dm$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-repair_attributes_dm <- function(x, code, ..., pipe ="base") {
+repair_attributes_dm <- function(x, code, ..., pipe = "base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     idiomatic_class = "dm",
-    ignore = c("version")
+    ignore = "version"
   )
 }

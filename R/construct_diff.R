@@ -69,7 +69,7 @@ construct_diff <- function(
     mode = mode,
     tar.banner = tar.banner,
     cur.banner = cur.banner,
-    pager=list(file.path=f),
+    pager = list(file.path = f),
     interactive = interactive
   )
 }

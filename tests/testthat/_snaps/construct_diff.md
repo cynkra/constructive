@@ -51,8 +51,8 @@
       <   a = read.table(header = TRUE, text   >   a = data.frame(                    
       : = "                                    ~                                      
       < speed dist                             >     Sepal.Length = 5.1,              
-      < 4.    2.                               >     Sepal.Width = 3.5,               
-      < 4.    10.                              >     Petal.Length = 1.4,              
+      <    4.   2.                             >     Sepal.Width = 3.5,               
+      <    4.  10.                             >     Petal.Length = 1.4,              
       < "),                                    >     Petal.Width = 0.2,               
       ~                                        >     Species = factor("setosa", levels
       ~                                        :  = c("setosa", "versicolor", "virgini
