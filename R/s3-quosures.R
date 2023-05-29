@@ -44,7 +44,7 @@ constructors$quosures$new_quosures <- function(x, ...) {
   if (all(names(x) == "")) names(x_list) <- NULL
   list_code <- .cstr_construct.list(x_list, ...)
   code <- .cstr_apply(list(list_code), "rlang::new_quosures", recurse = FALSE, ...)
-  repair_attributes.quosures(x, code, ...)
+  repair_attributes_quosures(x, code, ...)
 }
 
 #' @export
@@ -52,8 +52,7 @@ constructors$quosures$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-#' @export
-repair_attributes.quosures <- function(x, code, ...) {
+repair_attributes_quosures <- function(x, code, ...) {
   .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("quosures", "list"),

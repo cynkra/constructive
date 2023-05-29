@@ -108,7 +108,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
       ...)
     code <- .cstr_pipe(code, envir_code, pipe, one_liner)
   }
-  repair_attributes.function(x, code, ..., pipe = pipe, one_liner = one_liner)
+  repair_attributes_function(x, code, ..., pipe = pipe, one_liner = one_liner)
 }
 
 constructors$`function`$as.function <- function(x, ..., trim, environment, srcref) {
@@ -124,7 +124,7 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
     args <- c(args, list(envir = envir_arg))
   }
   code <- .cstr_apply(args, "as.function", ..., recurse = FALSE)
-  repair_attributes.function(x, code, ...)
+  repair_attributes_function(x, code, ...)
 }
 
 constructors$`function`$new_function <- function(x, ..., trim, environment, srcref) {
@@ -142,11 +142,10 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
     args <- c(args, list(env = envir_arg))
   }
   code <- .cstr_apply(args, "rlang::new_function", ..., recurse = FALSE)
-  repair_attributes.function(x, code, ...)
+  repair_attributes_function(x, code, ...)
 }
 
-#' @export
-repair_attributes.function <- function(x, code, ..., pipe ="base") {
+repair_attributes_function <- function(x, code, ..., pipe ="base") {
   opts <- .cstr_fetch_opts("function", ...)
   srcref <- opts$srcref
   ignore <- c("name", "path")

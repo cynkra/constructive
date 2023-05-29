@@ -81,7 +81,7 @@ update_predefinition <- function(envir, ...) {
   # initialize with new.env(), repairing attributes
   code <- sprintf("new.env(parent = %s)", parent_code)
   # hack: we use  opts_environment(predefine = FALSE) to switch on attribute reparation just there
-  code <- repair_attributes.environment(envir, code, opts_environment(predefine = FALSE), ...)
+  code <- repair_attributes_environment(envir, code, opts_environment(predefine = FALSE), ...)
   code[[1]] <- sprintf("%s <- %s", env_name, code[[1]])
   # update predefinitions with envir definition
   globals$predefinition <- c(

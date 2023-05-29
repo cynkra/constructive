@@ -39,18 +39,17 @@ constructors$vctrs_list_of$list_of <- function(x, ...) {
     fun = "vctrs::list_of",
     ...
   )
-  repair_attributes.vctrs_list_of(x, code, ...)
+  repair_attributes_vctrs_list_of(x, code, ...)
 }
 
 constructors$vctrs_list_of$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-#' @export
-repair_attributes.vctrs_list_of <- function(x, code, ..., pipe = "base") {
+repair_attributes_vctrs_list_of <- function(x, code, ..., pipe = "base") {
   opts <- .cstr_fetch_opts("vctrs_list_of", ...)
   if (opts$constructor == "list") {
-    return(repair_attributes.default(x, code, ..., pipe = pipe))
+    return(repair_attributes_list(x, code, ..., pipe = pipe))
   }
   .cstr_repair_attributes(
     x, code, ...,

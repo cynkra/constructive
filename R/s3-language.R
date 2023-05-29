@@ -47,11 +47,10 @@ constructors$language$default <- function(x, ..., one_liner = FALSE) {
     list_call <- .cstr_apply(as.list(x_stripped), "list", ...)
     code <- .cstr_wrap(list_call, "as.call", new_line = FALSE)
   }
-  repair_attributes.language(x, code, ...)
+  repair_attributes_language(x, code, ...)
 }
 
-#' @export
-repair_attributes.language <- function(x, code, ..., pipe ="base") {
+repair_attributes_language <- function(x, code, ..., pipe ="base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

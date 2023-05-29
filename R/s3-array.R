@@ -50,11 +50,10 @@ constructors$array$array <- function(x, ...) {
   code <- .cstr_apply(args, fun = "array", ...)
 
   # repair
-  repair_attributes.array(x, code, ...)
+  repair_attributes_array(x, code, ...)
 }
 
-#' @export
-repair_attributes.array <- function(x, code, ..., pipe ="base") {
+repair_attributes_array <- function(x, code, ..., pipe ="base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

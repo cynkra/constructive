@@ -36,5 +36,5 @@ constructors$classPrototypeDef$prototype <- function(x, env, ...) {
   attributes(object)[slots] <- NULL
   args <-
   code <- .cstr_apply(c(list(object), attrs), fun = "prototype", env = env, ...)
-  repair_attributes.S4(x, code, env = env, ...)
+  repair_attributes_S4(x, code, env = env, ...)
 }

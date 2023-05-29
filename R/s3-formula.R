@@ -45,7 +45,7 @@ is_corrupted_formula <- function(x) {
 
 constructors$formula$"~" <- function(x, ..., environment, env_is_default) {
   code <- deparse(x)
-  repair_attributes.formula(x, code, ..., ignore_env_attr = env_is_default || !environment)
+  repair_attributes_formula(x, code, ..., ignore_env_attr = env_is_default || !environment)
 }
 
 
@@ -58,7 +58,7 @@ constructors$formula$new_formula <- function(x, ..., environment, env_is_default
   } else {
     code <- .cstr_apply(list(lhs_code, rhs_code), "rlang::new_formula", ..., recurse = FALSE)
   }
-  repair_attributes.formula(x, code, ...)
+  repair_attributes_formula(x, code, ...)
 }
 
 constructors$formula$formula <- function(x, ..., environment, env_is_default) {
@@ -67,7 +67,7 @@ constructors$formula$formula <- function(x, ..., environment, env_is_default) {
   } else {
     code <- .cstr_apply(list(deparse(x)), "formula", ..., recurse = FALSE)
   }
-  repair_attributes.formula(x, code, ...)
+  repair_attributes_formula(x, code, ...)
 }
 
 constructors$formula$as.formula <- function(x, ..., environment, env_is_default) {
@@ -76,11 +76,10 @@ constructors$formula$as.formula <- function(x, ..., environment, env_is_default)
   } else {
     code <- .cstr_apply(list(deparse(x)), "as.formula", ..., recurse = FALSE)
   }
-  repair_attributes.formula(x, code, ...)
+  repair_attributes_formula(x, code, ...)
 }
 
-#' @export
-repair_attributes.formula <- function(x, code, ..., pipe ="base", ignore_env_attr = TRUE) {
+repair_attributes_formula <- function(x, code, ..., pipe ="base", ignore_env_attr = TRUE) {
   opts <- .cstr_fetch_opts("formula", ...)
   constructor <- opts$constructor
   ignore <- NULL

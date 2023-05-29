@@ -90,9 +90,9 @@ constructors$list$list <- function(x, trim, fill, ...) {
 
 constructors$list$list2 <- function(x, trim, fill, ...) {
   code <- construct_list(x, "rlang::list2", trim, fill, trailing_comma = TRUE, ...)
-  repair_attributes.list(x, code, ...)
+  repair_attributes_list(x, code, ...)
 }
 
-repair_attributes.list <- function(x, code, ...) {
+repair_attributes_list <- function(x, code, ...) {
   .cstr_repair_attributes(x, code, ...)
 }

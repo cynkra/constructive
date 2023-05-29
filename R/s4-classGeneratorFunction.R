@@ -41,5 +41,5 @@ constructors$classGeneratorFunction$setClass <- function(x, env, ...) {
   cl_code <- .cstr_construct(cl, env = env, ...)
 
   code <- .cstr_apply(list(cl_code, repr_code), fun = "setClass", recurse = FALSE, env = env, ...)
-  repair_attributes.S4(x, code, env = env, ...)
+  repair_attributes_S4(x, code, env = env, ...)
 }

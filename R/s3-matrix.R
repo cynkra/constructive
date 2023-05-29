@@ -48,20 +48,19 @@ constructors$matrix$matrix <- function(x, ...) {
     "matrix",
     ...
   )
-  repair_attributes.matrix(x, code, ...)
+  repair_attributes_matrix(x, code, ...)
 }
 
 constructors$matrix$array <- function(x, ...) {
   code <- constructors$array$array(x, ...)
-  repair_attributes.matrix(x, code, ...)
+  repair_attributes_matrix(x, code, ...)
 }
 
 constructors$matrix$atomic <- function(x, ...) {
   .cstr_construct.default(x, ...)
 }
 
-#' @export
-repair_attributes.matrix <- function(x, code, ..., pipe ="base") {
+repair_attributes_matrix <- function(x, code, ..., pipe ="base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

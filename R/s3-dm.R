@@ -86,15 +86,14 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
     code <- .cstr_pipe(code, color_code, pipe, one_liner)
   }
 
-  repair_attributes.dm(x, code, ..., one_liner = one_liner, pipe = pipe)
+  repair_attributes_dm(x, code, ..., one_liner = one_liner, pipe = pipe)
 }
 
 constructors$dm$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-#' @export
-repair_attributes.dm <- function(x, code, ..., pipe ="base") {
+repair_attributes_dm <- function(x, code, ..., pipe ="base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

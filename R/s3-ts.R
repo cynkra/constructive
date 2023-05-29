@@ -41,15 +41,14 @@ constructors$ts$ts <- function(x, ...) {
   attr(x_stripped, "tsp") <- NULL
   class(x_stripped) <- setdiff(oldClass(x), "ts")
   code <- .cstr_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
-  repair_attributes.ts(x, code, ...)
+  repair_attributes_ts(x, code, ...)
 }
 
 constructors$ts$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-#' @export
-repair_attributes.ts <- function(x, code, ..., pipe ="base") {
+repair_attributes_ts <- function(x, code, ..., pipe ="base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

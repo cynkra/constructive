@@ -48,7 +48,7 @@ constructors$factor$atomic <- function(x, ...) {
 constructors$factor$new_factor <- function(x, ...) {
   levs <- levels(x)
   code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_factor", ...)
-  repair_attributes.factor(x, code, ...)
+  repair_attributes_factor(x, code, ...)
 }
 
 constructors$factor$as_factor <- function(x, ...) {
@@ -57,7 +57,7 @@ constructors$factor$as_factor <- function(x, ...) {
   if (!identical(unique(x_chr), levs)) return(constructors$factor$factor(x, ...))
   x_chr_named <- setNames(x_chr, names(x))
   code <- .cstr_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
-  repair_attributes.factor(x, code, ...)
+  repair_attributes_factor(x, code, ...)
 }
 
 constructors$factor$factor <- function(x, ...) {
@@ -70,11 +70,10 @@ constructors$factor$factor <- function(x, ...) {
   } else {
     code <- .cstr_apply(list(x_chr_named, levels = levs), "factor", ...)
   }
-  repair_attributes.factor(x, code, ...)
+  repair_attributes_factor(x, code, ...)
 }
 
-#' @export
-repair_attributes.factor <- function(x, code, ...) {
+repair_attributes_factor <- function(x, code, ...) {
   .cstr_repair_attributes(
     x, code, ...,
     ignore = "levels",

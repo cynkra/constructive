@@ -44,7 +44,7 @@ constructors$quosure$new_quosure <- function(x, env, ...) {
   } else {
     code <- .cstr_apply(list(rlang::quo_squash(x), attr(x, ".Environment")), "rlang::new_quosure", ...)
   }
-  repair_attributes.quosure(x, code, env = env, ...)
+  repair_attributes_quosure(x, code, env = env, ...)
 }
 
 #' @export
@@ -52,8 +52,7 @@ constructors$quosure$language <- function(x, ...) {
   .cstr_construct.language(x, ...)
 }
 
-#' @export
-repair_attributes.quosure <- function(x, code, ...) {
+repair_attributes_quosure <- function(x, code, ...) {
   .cstr_repair_attributes(
     x, code, ...,
     ignore = ".Environment",

@@ -55,16 +55,14 @@ constructors$grouped_df$default <- function(x, ..., one_liner, pipe) {
     pipe = pipe,
     one_liner = one_liner
   )
-  repair_attributes.grouped_df(x, code, ..., one_liner = one_liner, pipe = pipe)
+  repair_attributes_grouped_df(x, code, ..., one_liner = one_liner, pipe = pipe)
 }
 
 constructors$grouped_df$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-# no need for a constructor for grouped_df since it falls back on tbl_df
-#' @export
-repair_attributes.grouped_df <- function(x, code, ..., pipe = "base", one_liner = FALSE) {
+repair_attributes_grouped_df <- function(x, code, ..., pipe = "base", one_liner = FALSE) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

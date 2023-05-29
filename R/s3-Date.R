@@ -56,7 +56,7 @@ constructors$Date$as.Date <- function(x, ..., origin = "1970-01-01") {
   } else {
     code <- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
   }
-  repair_attributes.Date(x, code, ...)
+  repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$date <- function(x, ..., origin) {
@@ -65,7 +65,7 @@ constructors$Date$date <- function(x, ..., origin) {
   } else {
     code <- .cstr_apply(list(format(x)),  "lubridate::date", ..., new_line = FALSE)
   }
-  repair_attributes.Date(x, code, ...)
+  repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$as_date <- function(x, ..., origin) {
@@ -80,14 +80,14 @@ constructors$Date$as_date <- function(x, ..., origin) {
   } else {
     code <- .cstr_apply(list(format(x)),  "lubridate::as_date", ..., new_line = FALSE)
   }
-  repair_attributes.Date(x, code, ...)
+  repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$as.Date.numeric <- function(x, ..., origin) {
   x_dbl <- unclass(x)
   if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
   code <- .cstr_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
-  repair_attributes.Date(x, code, ...)
+  repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$as_date.numeric <- function(x, ..., origin) {
@@ -98,20 +98,19 @@ constructors$Date$as_date.numeric <- function(x, ..., origin) {
   } else {
     code <- .cstr_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
   }
-  repair_attributes.Date(x, code, ...)
+  repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$new_date <- function(x, ..., origin) {
   code <- .cstr_apply(list(unclass(x)), "vctrs::new_date", ..., new_line = FALSE)
-  repair_attributes.Date(x, code, ...)
+  repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$atomic <- function(x, ..., origin) {
   .cstr_construct.atomic(x, ...)
 }
 
-#' @export
-repair_attributes.Date <- function(x, code, ...) {
+repair_attributes_Date <- function(x, code, ...) {
   .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "Date"
