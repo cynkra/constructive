@@ -26,6 +26,7 @@
 #' @examples
 #' construct(head(cars))
 #' construct(head(cars), opts_data.frame("read.table"))
+#' construct(head(cars), opts_data.frame("next"))
 #' construct(iris$Species)
 #' construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,

@@ -61,6 +61,7 @@ builds the code to reproduce objects stored in a named list or environment.
 \examples{
 construct(head(cars))
 construct(head(cars), opts_data.frame("read.table"))
+construct(head(cars), opts_data.frame("next"))
 construct(iris$Species)
 construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
 }

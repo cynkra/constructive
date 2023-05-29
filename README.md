@@ -17,7 +17,13 @@ Some use cases are:
 
 ## Installation
 
-Install with:
+Install it from [cynkra R-universe](https://cynkra.r-universe.dev):
+
+``` r
+install.packages('constructive', repos = c('https://cynkra.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Or install with:
 
     remotes::install_github("cynkra/constructive")
 
@@ -110,6 +116,7 @@ construct(band_members, opts_tbl_df("tribble"))
 #>   "John", "Beatles",
 #>   "Paul", "Beatles",
 #> )
+
 construct(iris, opts_atomic(trim = 2))
 #> {constructive} couldn't create code that reproduces perfectly the input
 #> ℹ Call `construct_issues()` to inspect the last issues
@@ -118,23 +125,37 @@ construct(iris, opts_atomic(trim = 2))
 #>   Sepal.Width = c(3.5, 3, numeric(148)),
 #>   Petal.Length = c(1.4, 1.4, numeric(148)),
 #>   Petal.Width = c(0.2, 0.2, numeric(148)),
-#>   Species = factor(c("setosa", "setosa", character(148)))
+#>   Species = factor(rep(c("setosa", "versicolor", character(1)), each = 50L))
 #> )
 ```
 
 These functions have their own documentation page and are referenced in
 `?construct`.
 
+For every class that doesn’t refer to an internal type a “next”
+constructor is available, so we can conveniently explor objects using
+lower level constructors.
+
+``` r
+construct(band_members, opts_tbl_df("next"))
+#> data.frame(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
+#>   structure(class = c("tbl_df", "tbl", "data.frame"))
+
+construct(band_members, opts_tbl_df("next"), opts_data.frame("next"))
+#> list(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
+#>   structure(class = c("tbl_df", "tbl", "data.frame"), row.names = 1:3)
+```
+
 ## Other functions
 
-- `construct_diff()` highlights the differences in the code used to
-  produce 2 objects
-- `construct_multi()` constructs several objects from a named list
-- `construct_dump()` is similar to `base::dump()`, it’s a wrapper around
-  `construct_multi()` that writes to a file.
 - `construct_issues()` is used without arguments to check what were the
   issues encountered with the last reconstructed object, it can also be
-  provided a specific constructive object
+  provided a specific constructive object.
+- `construct_diff()` highlights the differences in the code used to
+  produce 2 objects.
+- `construct_multi()` constructs several objects from a named list,
+- `construct_dump()` is similar to `base::dump()`, it’s a wrapper around
+  `construct_multi()` that writes to a file.
 - `construct_signature()` constructs a function signature such as the
   one we see in the “usage” section of a function’s help file. outputs
   the code produced  
@@ -166,7 +187,7 @@ purpose.
 e1 <- new.env(parent = .GlobalEnv)
 e1$x <- 1
 construct(e1)
-#> constructive::env("0x12a0e47b8", parents = "global")
+#> constructive::env("0x115ddc6d8", parents = "global")
 ```
 
 `constructive::env()` fetches the environment from its memory address.
