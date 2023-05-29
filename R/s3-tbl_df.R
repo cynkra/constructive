@@ -28,20 +28,6 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..
   .cstr_options("tbl_df", constructor = constructor, trailing_comma = trailing_comma)
 }
 
-.cstr_match_constructor <- function(constructor, class) {
-  constructor <- constructor[[1]]
-  choices <- ls(constructors[[class]], all.names = TRUE)
-  internal_types <- c( # note: "..." replaced by "dots"
-    "logical", "integer", "double", "complex", "character", "raw", "list", "NULL",
-    "closure", "special", "builtin", "environment", "S4", "symbol", "pairlist",
-    "promise", "language", "char", "any", "expression", "externalptr",
-    "bytecode",  "weakref", "dots"
-  )
-  if (!class %in% internal_types) choices <- c(choices, "next")
-  rlang::arg_match(constructor, choices)
-  constructor
-}
-
 #' @export
 .cstr_construct.tbl_df <- function(x, ...) {
   opts <- .cstr_fetch_opts("tbl_df", ...)
