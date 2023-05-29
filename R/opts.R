@@ -26,9 +26,9 @@
 #' @export
 .cstr_fetch_opts <- function(class, ..., template = NULL) {
   options_class <- paste0("constructive_options_", class)
-  opts_from_dots <- Filter(function(x) inherits(x, options_class) , list(...))
+  opts_from_dots <- Filter(function(x) inherits(x, options_class), list(...))
   if (length(opts_from_dots)) return(opts_from_dots[[1]])
-  opts_from_template <- Filter(function(x) inherits(x, options_class) , template)
+  opts_from_template <- Filter(function(x) inherits(x, options_class), template)
   if (length(opts_from_template)) return(opts_from_template[[1]])
   match.fun(paste0("opts_", class))()
 }

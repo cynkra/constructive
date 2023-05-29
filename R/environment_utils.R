@@ -89,7 +89,7 @@ update_predefinition <- function(envir, ...) {
     code
   )
   # build non environment objects of envir above
-  for(nm in names(envir)) {
+  for (nm in names(envir)) {
     obj <- envir[[nm]]
     if (missing(obj)) {
       obj_code <- sprintf("%s$%s <- quote(expr=)", env_name, nm)
@@ -110,7 +110,7 @@ update_predefinition <- function(envir, ...) {
   }
 
   # build environment objects of envir above
-  for(nm in names(envir)) {
+  for (nm in names(envir)) {
     obj <- envir[[nm]]
     if (missing(obj)) {
       obj_code <- sprintf("%s$%s <- quote(expr=)", env_name, nm)
