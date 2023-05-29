@@ -12,13 +12,6 @@ repair_attributes <- function(x, code, ..., pipe = "base") {
   UseMethod("repair_attributes")
 }
 
-repair_attributes_default <- function(x, code, ..., pipe = "base") {
-  if (is.environment(x)) return(repair_attributes_environment(x, code, ..., pipe = pipe))
-  if (rlang::is_formula(x))  return(repair_attributes_formula(x, code, ..., pipe = pipe))
-  if (is.language(x) && !is.expression(x))  return(repair_attributes_language(x, code, ..., pipe = pipe))
-  .cstr_repair_attributes(x, code, ..., pipe = pipe)
-}
-
 #' Repair attributes after idiomatic construction
 #'
 #' Exported for custom constructor design. In the general case an object might have more attributes than given by the idiomatic

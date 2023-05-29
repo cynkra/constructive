@@ -80,7 +80,7 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
 repair_attributes_tbl_df <- function(x, code, ..., pipe = "base") {
   opts <- .cstr_fetch_opts("tbl_df", ...)
   if (opts$constructor == "list") {
-    return(repair_attributes_default(x, code, ..., pipe = pipe))
+    return(repair_attributes_list(x, code, ..., pipe = pipe))
   }
   ignore <- "row.names"
   if (identical(names(x), character())) ignore <- c(ignore, "names")
