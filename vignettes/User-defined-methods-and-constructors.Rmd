@@ -23,7 +23,7 @@ you might define custom constructors or custom `.cstr_construct.*()` methods.
 
 This documents provides the general theory here but you are encouraged to look at examples.
 
-In particular the package {constructive.examples} accessible at https://www.github.com/cynkra/constructive.example
+In particular the package {constructive.examples} accessible at https://github.com/cynkra/constructive.example/
 contains 2 examples, support a new class ("qr"), or implement a new constructor for
 an already supported class ("tbl_df). This package might be used as a template.
 
