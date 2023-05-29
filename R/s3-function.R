@@ -75,7 +75,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
   code_from_srcref <- FALSE
   if (!one_liner && is.null(trim)) {
     code <- code_from_srcref(x)
-    if(!is.null(code)) {
+    if (!is.null(code)) {
       code_from_srcref <- TRUE
     }
   }
@@ -102,7 +102,7 @@ constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner 
   if (environment) {
     envir_code <- .cstr_apply(
       list(environment(x)),
-      '(`environment<-`)',
+      "(`environment<-`)",
       pipe = pipe,
       one_liner = one_liner,
       ...)

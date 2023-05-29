@@ -63,9 +63,9 @@ is_expression2 <- function(x) {
     names(attributes(x)),
     c("srcref", "srcfile", "wholeSrcref")
   )
-  if(length(non_srcref_attr_nms)) return(FALSE)
+  if (length(non_srcref_attr_nms)) return(FALSE)
   if (rlang::is_syntactic_literal(x) || rlang::is_symbol(x)) return(TRUE)
-  if(!rlang::is_call(x)) return(FALSE)
+  if (!rlang::is_call(x)) return(FALSE)
   if (is_regular_function_definition(x)) return(TRUE)
   all(vapply(x, is_expression2, logical(1)))
 }

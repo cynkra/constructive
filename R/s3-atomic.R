@@ -170,9 +170,9 @@ simplify_atomic <- function(x, ...) {
 }
 
 # divisors except self and 1
-divisors <- function(x){
+divisors <- function(x) {
   y <- setdiff(seq_len(x / 2), 1)
-  y[ x %% y == 0 ]
+  y[x %% y == 0]
 }
 
 # A rle without checks that treats NAs like a regular values and return an unnamed list

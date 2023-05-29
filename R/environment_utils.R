@@ -1,7 +1,7 @@
 
 construct_special_env <- function(x) {
-  if (identical(x, baseenv())) return('baseenv()')
-  if (identical(x, emptyenv())) return('emptyenv()')
+  if (identical(x, baseenv())) return("baseenv()")
+  if (identical(x, emptyenv())) return("emptyenv()")
   if (identical(x, .GlobalEnv)) return(".GlobalEnv")
   if (identical(x, .BaseNamespaceEnv)) return(".BaseNamespaceEnv")
   # testing on name is not enough but we use it to identify candidated

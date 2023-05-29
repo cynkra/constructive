@@ -74,7 +74,7 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
         null_list_code <- sprintf('vector("list", %s)', l - trim)
       } else {
         # fill == "new_list
-        null_list_code <- sprintf('rlang::new_list(%s)', l - trim)
+        null_list_code <- sprintf("rlang::new_list(%s)", l - trim)
       }
       code <- .cstr_apply(list(list_code, null_list_code), "c", ..., new_line = FALSE, recurse = FALSE)
       return(code)

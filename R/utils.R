@@ -144,11 +144,11 @@ flatten.scales <- function(gg) {
   # inherits from ScaleContinuous, which in turn inherits from Scale), not
   # inheritances created during cloning of scales within this ggplot object.
   # add that scale to the new scale list.
-  for(i in seq_along(scale.names.sorted)) {
+  for (i in seq_along(scale.names.sorted)) {
     scale.to.add <- orig.scales$get_scales(scale.names.sorted[[i]])
-    while("super" %in% names(scale.to.add)) {
+    while ("super" %in% names(scale.to.add)) {
       scale.to.add1 <- scale.to.add$super()
-      if(!is.null(scale.to.add1$call)) {
+      if (!is.null(scale.to.add1$call)) {
         scale.to.add <- scale.to.add1
       } else {
         break
@@ -174,10 +174,10 @@ trans_order <- function(x) {
 
   scale_i_reversed <- function(scale) {
     i <- 0
-    while("super" %in% names(scale)) {
+    while ("super" %in% names(scale)) {
       i <- i + 1
       scale <- scale$super()
-      if(is.null(scale$call)) break
+      if (is.null(scale$call)) break
     }
     i
   }
@@ -197,10 +197,10 @@ compare_proxy_ggplot <- function(x, path) {
 equivalent_ggplot <- function(x, y) {
   x_tbl <- suppressWarnings(ggplot2::ggplot_gtable(ggplot2::ggplot_build(x)))
   y_tbl <- suppressWarnings(ggplot2::ggplot_gtable(ggplot2::ggplot_build(y)))
-  x_unlisted <- gsub( "\\d+", "XXX", unlist(x_tbl))
-  y_unlisted <- gsub( "\\d+", "XXX", unlist(y_tbl))
-  names(x_unlisted) <- gsub( "\\d+", "XXX", names(x_tbl))
-  names(y_unlisted) <- gsub( "\\d+", "XXX", names(y_tbl))
+  x_unlisted <- gsub("\\d+", "XXX", unlist(x_tbl))
+  y_unlisted <- gsub("\\d+", "XXX", unlist(y_tbl))
+  names(x_unlisted) <- gsub("\\d+", "XXX", names(x_tbl))
+  names(y_unlisted) <- gsub("\\d+", "XXX", names(y_tbl))
   identical(x_unlisted, y_unlisted)
 }
 
