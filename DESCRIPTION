@@ -12,7 +12,6 @@ Imports:
     cli,
     diffobj,
     ellipsis,
-    ggplot2,
     rlang (>= 1.0.0),
     roxygen2,
     styler,
@@ -33,6 +32,7 @@ Suggests:
     knitr,
     rmarkdown,
     sf,
+    ggplot2,
     scales
 URL: https://github.com/cynkra/constructive,
     https://cynkra.github.io/constructive
