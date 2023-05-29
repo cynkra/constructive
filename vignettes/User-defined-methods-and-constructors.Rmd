@@ -85,7 +85,7 @@ object retrieved by `.cstr_fetch_opts()` in the `.cstr_construct()` method.
 
 It should always have this form:
 
-```{r}
+```{r, eval=FALSE}
 opts_Date <- function(
     constructor = c(
       "as.Date", "as_date", "date", "new_date",  "as.Date.numeric", 
