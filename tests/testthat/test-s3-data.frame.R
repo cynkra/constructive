@@ -42,6 +42,9 @@ test_that("data.frame", {
       row.names = c(NA, 0L),
       class = "data.frame"
     ))
-
+    construct(data.frame(a = "two words"), constructive::opts_data.frame("read.table"))
   })
 })
+
+# -------------------------------------------------------------------------
+

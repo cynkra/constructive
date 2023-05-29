@@ -8,7 +8,7 @@ constructors$data.frame <- new.env()
 #' * `"data.frame"` (default): Wrap the column definitions in a `data.frame()` call. If some
 #'   columns are lists or data frames, we wrap the column definitions in `tibble::tibble()`.
 #'   then use `as.data.frame()`.
-#' * `"read.table"` : We build the object using `read.table()` if possible, and fall
+#' * `"read.table"` : We build the object using `read.table()` if possible, or fall
 #'   back to `data.frame()`.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
@@ -51,6 +51,8 @@ constructors$data.frame$list <- function(x, ...) {
 
 constructors$data.frame$read.table <- function(x, ...) {
   # Fall back on data.frame constructor if relevant
+  if (!nrow(x)) return(constructors$data.frame$data.frame(x, ...))
+
   rn <- attr(x, "row.names")
   numeric_row_names_are_not_default <- is.numeric(rn) && !identical(rn, seq_len(nrow(x)))
   if (numeric_row_names_are_not_default) return(constructors$data.frame$data.frame(x, ...))
@@ -59,17 +61,24 @@ constructors$data.frame$read.table <- function(x, ...) {
     any(!vapply(x, function(x) is.atomic(x) && is.vector(x), logical(1)))
   if (some_cols_are_not_atomic_vectors) return(constructors$data.frame$data.frame(x, ...))
 
-  some_cols_are_char_containing_nums <-
-    any(vapply(x, function(x) is.character(x) && !any(is.na(suppressWarnings(as.numeric(x)))), logical(1)))
-  if (some_cols_are_char_containing_nums) return(constructors$data.frame$data.frame(x, ...))
+  some_cols_are_problematic_char <-
+    any(vapply(x, FUN.VALUE = logical(1), FUN = function(x) {
+      is.character(x) &&
+        !any(is.na(suppressWarnings(as.numeric(x)))) &&
+        !grepl("[\"']", x)
+    }))
+  if (some_cols_are_problematic_char) return(constructors$data.frame$data.frame(x, ...))
 
   # fill a data frame with deparsed values
   code_df <- x
-  code_df[] <- lapply(x, as.character)
+  code_df[] <- lapply(x, function(x) {
+    if (is.character(x)) sprintf("'%s'", x) else sapply(x, .cstr_construct)
+  })
   dbl_cols <- sapply(x, is.double)
 
   # make sure double values will be read as double by adding a dot at the end of integerish values
-  code_df[dbl_cols] <- lapply(code_df[dbl_cols], function(col) sub("^(\\d+)$", "\\1.", col))
+  # and align them
+  code_df[dbl_cols] <- lapply(code_df[dbl_cols], function(col) align_numerics(sub("^(\\d+)$", "\\1.", col)))
 
   # include headers and row names in the table
   code_df <- rbind(names(x), code_df)
@@ -77,7 +86,7 @@ constructors$data.frame$read.table <- function(x, ...) {
   if (is.character(attr(x, "row.names"))) {
     code_df <- cbind(c("", sprintf("'%s'", rownames(x))), code_df)
   }
-  code_df[] <- lapply(code_df, format)
+  code_df[] <- lapply(code_df, format, justify = "right")
 
   # collapse table into code
   code <- c("read.table(header = TRUE, text = \"", do.call(paste, code_df), "\")")
@@ -85,6 +94,15 @@ constructors$data.frame$read.table <- function(x, ...) {
   # repair
   repair_attributes_data.frame(x, code, ...)
 }
+
+align_numerics <- function(x) {
+  dot_pos <- unlist(gregexpr(".", x, fixed = TRUE))
+  dot_pos[dot_pos == -1] <- NA
+  digits <- nchar(x) - dot_pos
+  digits[is.na(digits)] <- 0
+  paste0(x, strrep(" ", max(digits) - digits))
+}
+
 
 constructors$data.frame$data.frame <- function(x, ...) {
   # Fall back on list constructor if relevant
