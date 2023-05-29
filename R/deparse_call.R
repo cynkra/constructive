@@ -71,7 +71,7 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     return(code)
   }
 
-  if (caller == "if" & length(call) %in% 3:4) {
+  if (caller == "if" && length(call) %in% 3:4) {
     cond <- deparse_call_impl(call[[2]], one_liner, indent)
     yes <- deparse_call_impl(call[[3]], one_liner, indent)
     if (length(call) == 3) {
@@ -82,20 +82,20 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     }
   }
 
-  if (caller == "while" & length(call) == 3) {
+  if (caller == "while" && length(call) == 3) {
     cond <- deparse_call_impl(call[[2]], one_liner, indent)
     expr <- deparse_call_impl(call[[3]], one_liner, indent)
     return(sprintf("while (%s) %s", cond, expr))
   }
 
-  if (caller == "for" & length(call) == 4) {
+  if (caller == "for" && length(call) == 4) {
     i <- deparse_call_impl(call[[2]], one_liner, indent)
     seq <- deparse_call_impl(call[[3]], one_liner, indent)
     expr <- deparse_call_impl(call[[4]], one_liner, indent)
     return(sprintf("for (%s in %s) %s", i, seq, expr))
   }
 
-  if (caller == "repeat" & length(call) == 2) {
+  if (caller == "repeat" && length(call) == 2) {
     expr <- deparse_call_impl(call[[2]], one_liner, indent)
     return(sprintf("repeat %s", expr))
   }
