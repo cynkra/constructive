@@ -98,6 +98,6 @@ repair_attributes_dm <- function(x, code, ..., pipe ="base") {
     x, code, ...,
     pipe = pipe,
     idiomatic_class = "dm",
-    ignore = c("version")
+    ignore = "version"
   )
 }

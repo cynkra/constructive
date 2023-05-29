@@ -57,6 +57,6 @@ repair_attributes_array <- function(x, code, ..., pipe = "base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
-    ignore = c("dim")
+    ignore = "dim"
   )
 }

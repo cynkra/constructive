@@ -114,6 +114,6 @@ repair_attributes_data.frame <- function(x, code, ..., pipe = "base") {
     x, code, ...,
     pipe = pipe,
     ignore = ignore,
-    idiomatic_class = c("data.frame")
+    idiomatic_class = "data.frame"
   )
 }
