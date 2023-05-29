@@ -13,5 +13,3 @@
 #' * `.cstr_combine_errors`
 #' @name custom-constructors
 NULL
-
-

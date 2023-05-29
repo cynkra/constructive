@@ -61,7 +61,7 @@
     trailing_comma <- FALSE
   } else if (all(rlang::names2(args) == "") && all(endsWith(args_chr, ","))) {
     lines <- character()
-    while(length(args_chr)) {
+    while (length(args_chr)) {
       ind <- union(1, which(cumsum(nchar(args_chr) + 1) < 80))
       lines[[length(lines) + 1]] <- paste(args_chr[ind], collapse = " ")
       args_chr <- args_chr[-ind]

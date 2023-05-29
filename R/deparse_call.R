@@ -41,7 +41,7 @@ deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE) {
 }
 
 deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE, check_syntactic = TRUE) {
-  if(is.symbol(call)) {
+  if (is.symbol(call)) {
     code <- as.character(call)
     if (check_syntactic && code != "" && !is_syntactic(code)) {
       code <- sprintf("`%s`", code)
@@ -100,15 +100,15 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     return(sprintf("repeat %s", expr))
   }
 
-  if(is_unary(caller) && length(call) == 2) {
+  if (is_unary(caller) && length(call) == 2) {
     return(sprintf("%s%s", caller, deparse_call_impl(call[[2]], one_liner, indent)))
   }
 
-  if(is_infix_wide(caller) && length(call) == 3) {
+  if (is_infix_wide(caller) && length(call) == 3) {
     # cancel the pipe where it doesn't belong
-    pipe <- pipe && caller %in% c("~", "<-", "<<-", "=" ,"?", ":=")
+    pipe <- pipe && caller %in% c("~", "<-", "<<-", "=", "?", ":=")
     code <- sprintf(
-      "%s %s %s" ,
+      "%s %s %s",
       deparse_call_impl(call[[2]], one_liner, indent, pipe),
       caller,
       deparse_call_impl(call[[3]], one_liner, indent, pipe)
@@ -122,21 +122,21 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     (is.symbol(call[[2]]) || is.character(call[[2]])) &&
     (is.symbol(call[[3]]) || is.character(call[[3]]))
   ) {
-    code <- sprintf("%s%s%s" , deparse_call_impl(call[[2]]), caller, deparse_call_impl(call[[3]]))
+    code <- sprintf("%s%s%s", deparse_call_impl(call[[2]]), caller, deparse_call_impl(call[[3]]))
     return(code)
   }
 
   if (caller %in% c("@", "$") && length(call) == 3) {
     if (is.symbol(call[[3]])) {
-      return(sprintf("%s%s%s" , deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
+      return(sprintf("%s%s%s", deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
     }
     if (is.character(call[[3]])) {
-      return(sprintf('%s%s"%s"' , deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
+      return(sprintf('%s%s"%s"', deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
     }
   }
 
   if (caller %in% c("^", ":") && length(call) == 3) {
-    return(sprintf("%s%s%s" , deparse_call_impl(call[[2]], one_liner, indent), caller, deparse_call_impl(call[[3]], one_liner, indent)))
+    return(sprintf("%s%s%s", deparse_call_impl(call[[2]], one_liner, indent), caller, deparse_call_impl(call[[3]], one_liner, indent)))
   }
 
   if (caller == "[" && length(call) > 1) {
@@ -157,7 +157,7 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
 
   if (caller == "{" && length(call) > 1) {
     # tunneling
-    if (rlang::is_call(call[[2]], "{") && is.symbol(call[[c(2,2)]])) {
+    if (rlang::is_call(call[[2]], "{") && is.symbol(call[[c(2, 2)]])) {
       return(sprintf("{{ %s }}", as.character(call[[c(2, 2)]])))
     }
 
@@ -198,7 +198,7 @@ is_unary <- function(x) {
 }
 
 is_infix_wide <- function(x) {
-  x %in% c("+", "-", "*", "/", "<", ">", "<=", ">=", "==", "!=", "&", "&&", "|", "||", "~", "<-", "<<-", "=" ,"?", ":=") || grepl("^%.*%$", x)
+  x %in% c("+", "-", "*", "/", "<", ">", "<=", ">=", "==", "!=", "&", "&&", "|", "||", "~", "<-", "<<-", "=", "?", ":=") || grepl("^%.*%$", x)
 }
 
 is_infix_narrow <- function(x) {
