@@ -157,7 +157,7 @@ constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, 
       return(repair_attributes_environment(x, code, ...))
     }
 
-    place_holder = c(base = "_", magrittr = ".")[pipe]
+    place_holder <- c(base = "_", magrittr = ".")[pipe]
     lhs_code <- .cstr_construct(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
     if (length(names(x))) {
       data_code <- .cstr_construct(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner)
@@ -181,7 +181,7 @@ constructors$environment$new_environment <- function(x, ..., pipe, one_liner, re
     return(repair_attributes_environment(x, code, ...))
   }
 
-  place_holder = c(base = "_", magrittr = ".")[pipe]
+  place_holder <- c(base = "_", magrittr = ".")[pipe]
   lhs_code <- .cstr_construct(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
   if (length(names(x))) {
     data_code <- .cstr_construct(as.list.environment(x), ..., pipe = pipe, one_liner = one_liner)

@@ -35,7 +35,7 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
   opts <- .cstr_fetch_opts("formula", ...)
   if (is_corrupted_formula(x)) return(NextMethod())
   constructor <- constructors$formula[[opts$constructor]]
-  env_is_default = identical(attr(x, ".Environment"), env)
+  env_is_default <- identical(attr(x, ".Environment"), env)
   constructor(x, ..., environment = opts$environment, env = env, env_is_default = env_is_default)
 }
 
