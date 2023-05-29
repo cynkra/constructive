@@ -36,15 +36,14 @@ is_corrupted_numeric_version <- function(x) {
 
 constructors$numeric_version$numeric_version <- function(x, ...) {
   code <- .cstr_apply(paste(x, collapse = "."), "numeric_version", ...)
-  repair_attributes.numeric_version(x, code, ...)
+  repair_attributes_numeric_version(x, code, ...)
 }
 
 constructors$numeric_version$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-#' @export
-repair_attributes.numeric_version <- function(x, code, ...) {
+repair_attributes_numeric_version <- function(x, code, ...) {
   .cstr_repair_attributes(x, code, ..., idiomatic_class = "numeric_version")
 }
 
@@ -86,15 +85,14 @@ is_corrupted_package_version <- function(x) {
 
 constructors$package_version$package_version <- function(x, ...) {
   code <- .cstr_apply(paste(x, collapse = "."), "package_version", ...)
-  repair_attributes.package_version(x, code, ...)
+  repair_attributes_package_version(x, code, ...)
 }
 
 constructors$package_version$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-#' @export
-repair_attributes.package_version <- function(x, code, ...) {
+repair_attributes_package_version <- function(x, code, ...) {
   .cstr_repair_attributes(x, code, ..., idiomatic_class = c("package_version", "numeric_version"))
 }
 
@@ -136,15 +134,14 @@ is_corrupted_R_system_version <- function(x) {
 
 constructors$R_system_version$R_system_version <- function(x, ...) {
   code <- .cstr_apply(paste(x, collapse = "."), "R_system_version", ...)
-  repair_attributes.R_system_version(x, code, ...)
+  repair_attributes_R_system_version(x, code, ...)
 }
 
 constructors$R_system_version$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-#' @export
-repair_attributes.R_system_version <- function(x, code, ...) {
+repair_attributes_R_system_version <- function(x, code, ...) {
   .cstr_repair_attributes(x, code, ..., idiomatic_class = c("R_system_version", "package_version", "numeric_version"))
 }
 

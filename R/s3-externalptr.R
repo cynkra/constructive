@@ -36,11 +36,10 @@ is_corrupted_externalptr <- function(x) {
 
 constructors$externalptr$default <- function(x, ...) {
   code <- sprintf('constructive::external_pointer("%s")', external_pointer_address(x))
-  repair_attributes.externalptr(x, code, ...)
+  repair_attributes_externalptr(x, code, ...)
 }
 
-#' @export
-repair_attributes.externalptr <- function(x, code, ...) {
+repair_attributes_externalptr <- function(x, code, ...) {
   code
 }
 

@@ -25,11 +25,10 @@
   ## coord
   code <- pipe_to_coord(code, x$coordinates, ...)
 
-  repair_attributes.ggplot(x, code, ...)
+  repair_attributes_ggplot(x, code, ...)
 }
 
-#' @export
-repair_attributes.ggplot <- function(x, code, pipe = "base", ...) {
+repair_attributes_ggplot <- function(x, code, pipe = "base", ...) {
   .cstr_repair_attributes(
     x, code, pipe,
     idiomatic_class = c("gg", "ggplot"),

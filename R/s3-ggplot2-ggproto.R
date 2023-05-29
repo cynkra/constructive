@@ -9,11 +9,10 @@
   }
   code <- find_in_package_protos(x, ggproto.ignore_draw_key)
   if(is.null(code)) return(.cstr_construct.environment(x, ...))
-  repair_attributes.ggproto(x, code, ...)
+  repair_attributes_ggproto(x, code, ...)
 }
 
-#' @export
-repair_attributes.ggproto <- function(x, code, pipe = "base", ...) {
+repair_attributes_ggproto <- function(x, code, pipe = "base", ...) {
   code
 }
 

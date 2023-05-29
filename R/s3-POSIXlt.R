@@ -45,7 +45,7 @@ is_corrupted_POSIXlt <- function(x) {
   if (from_posixct) {
     code_posixct <- .cstr_construct(as.POSIXct(x), ...)
     code <- .cstr_wrap(code_posixct, "as.POSIXlt", new_line = FALSE)
-    return(repair_attributes.POSIXlt(x, code, ...))
+    return(repair_attributes_POSIXlt(x, code, ...))
   }
   tzone <- attr(x, "tzone")
   x_chr <- format(x)
@@ -57,11 +57,10 @@ is_corrupted_POSIXlt <- function(x) {
     args <- c(args, list(tz = tzone))
   }
   code <- .cstr_apply(args, "as.POSIXlt", ..., new_line = TRUE)
-  repair_attributes.POSIXlt(x, code, ...)
+  repair_attributes_POSIXlt(x, code, ...)
 }
 
-#' @export
-repair_attributes.POSIXlt <- function(x, code, ..., pipe ="base") {
+repair_attributes_POSIXlt <- function(x, code, ..., pipe ="base") {
   code <- .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

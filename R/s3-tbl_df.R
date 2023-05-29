@@ -50,7 +50,7 @@ constructors$tbl_df$tibble <- function(x, ..., trailing_comma = TRUE) {
   code <- .cstr_apply(x, fun = "tibble::tibble", ..., trailing_comma = trailing_comma)
 
   # repair
-  repair_attributes.tbl_df(x, code, ...)
+  repair_attributes_tbl_df(x, code, ...)
 }
 
 constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
@@ -74,14 +74,13 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
   code <- c("tibble::tribble(", code, ")")
 
   # repair
-  repair_attributes.tbl_df(x, code, ...)
+  repair_attributes_tbl_df(x, code, ...)
 }
 
-#' @export
-repair_attributes.tbl_df <- function(x, code, ..., pipe = "base") {
+repair_attributes_tbl_df <- function(x, code, ..., pipe = "base") {
   opts <- .cstr_fetch_opts("tbl_df", ...)
   if (opts$constructor == "list") {
-    return(repair_attributes.default(x, code, ..., pipe = pipe))
+    return(repair_attributes_default(x, code, ..., pipe = pipe))
   }
   ignore <- "row.names"
   if (identical(names(x), character())) ignore <- c(ignore, "names")

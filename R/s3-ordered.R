@@ -51,7 +51,7 @@ constructors$ordered$ordered <- function(x, ...) {
     args <- c(args, list(levels = levs))
     code <- .cstr_apply(args, "ordered", ...)
   }
-  repair_attributes.ordered(x, code, ...)
+  repair_attributes_ordered(x, code, ...)
 }
 
 #' @export
@@ -66,7 +66,7 @@ constructors$ordered$factor <- function(x, ...) {
     args <- c(args, list(levels = levs, ordered = TRUE))
     code <- .cstr_apply(args, "factor", ...)
   }
-  repair_attributes.ordered(x, code, ...)
+  repair_attributes_ordered(x, code, ...)
 }
 
 
@@ -74,7 +74,7 @@ constructors$ordered$factor <- function(x, ...) {
 constructors$ordered$new_ordered <- function(x, ...) {
   levs <- levels(x)
   code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_ordered", ...)
-  repair_attributes.ordered(x, code, ...)
+  repair_attributes_ordered(x, code, ...)
 }
 
 #' @export
@@ -82,8 +82,7 @@ constructors$ordered$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-#' @export
-repair_attributes.ordered <- function(x, code, ..., pipe = "base") {
+repair_attributes_ordered <- function(x, code, ..., pipe = "base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

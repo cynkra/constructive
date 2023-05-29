@@ -35,11 +35,10 @@ constructors$weakref$new_weakref <- function(x, ...) {
   # assigned this way so no element is added if NULL
   args$value <- rlang::wref_value(x)
   code <- .cstr_apply(args, "rlang::new_weakref", ...)
-  repair_attributes.weakref(x, code, ...)
+  repair_attributes_weakref(x, code, ...)
 }
 
-#' @export
-repair_attributes.weakref <- function(x, code, ...) {
+repair_attributes_weakref <- function(x, code, ...) {
   # FIXME do these need any reparation ?
   code
 }

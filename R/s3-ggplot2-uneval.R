@@ -15,11 +15,10 @@
     }
   }
   code <- .cstr_apply(args, fun = "ggplot2::aes", recurse = FALSE, new_line = FALSE)
-  repair_attributes.uneval(x, code, ...)
+  repair_attributes_uneval(x, code, ...)
 }
 
-#' @export
-repair_attributes.uneval <- function(x, code, pipe = "base", ...) {
+repair_attributes_uneval <- function(x, code, pipe = "base", ...) {
   .cstr_repair_attributes(
     x, code, pipe,
     idiomatic_class = c("uneval"),

@@ -35,5 +35,5 @@ constructors$classRepresentation$getClassDef <- function(x, env, ...) {
   attr(cl, "package") <- NULL
   pkg <- x@package
   code <- .cstr_apply(list(cl, package = pkg), fun = "getClassDef", env = env, ...)
-  repair_attributes.S4(x, code, env = env, ...)
+  repair_attributes_S4(x, code, env = env, ...)
 }

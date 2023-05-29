@@ -42,15 +42,14 @@ constructors$AsIs$I <- function(x, ...) {
   class(x_stripped) <- setdiff(cl, "AsIs")
   # no validation needed
   code <- .cstr_wrap(.cstr_construct(x_stripped, ...), "I", new_line = FALSE)
-  repair_attributes.AsIs(x, code, ...)
+  repair_attributes_AsIs(x, code, ...)
 }
 
 constructors$AsIs$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-#' @export
-repair_attributes.AsIs <- function(x, code, ...) {
+repair_attributes_AsIs <- function(x, code, ...) {
   # no reparation needed, this will be dealt with in `I()`'s arg
   code
 }

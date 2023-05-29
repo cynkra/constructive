@@ -83,7 +83,7 @@ constructors$data.frame$read.table <- function(x, ...) {
   code <- c("read.table(header = TRUE, text = \"", do.call(paste, code_df), "\")")
 
   # repair
-  repair_attributes.data.frame(x, code, ...)
+  repair_attributes_data.frame(x, code, ...)
 }
 
 constructors$data.frame$data.frame <- function(x, ...) {
@@ -104,11 +104,10 @@ constructors$data.frame$data.frame <- function(x, ...) {
   code <- .cstr_apply(args, fun = "data.frame", ...)
 
   # repair
-  repair_attributes.data.frame(x, code, ...)
+  repair_attributes_data.frame(x, code, ...)
 }
 
-#' @export
-repair_attributes.data.frame <- function(x, code, ..., pipe = "base") {
+repair_attributes_data.frame <- function(x, code, ..., pipe = "base") {
   ignore <- "row.names"
   if (identical(names(x), character())) ignore <- c(ignore, "names")
   .cstr_repair_attributes(

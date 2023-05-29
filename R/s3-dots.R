@@ -56,11 +56,10 @@ constructors$dots$default <- function(x, ...) {
   code <- .cstr_wrap(quo_code, "(function(...) environment()$...)")
   code <- .cstr_wrap(code, "rlang::inject")
 
-  repair_attributes.dots(x, code, ...)
+  repair_attributes_dots(x, code, ...)
 }
 
-#' @export
-repair_attributes.dots <- function(x, code, ...) {
+repair_attributes_dots <- function(x, code, ...) {
   # FIXME: add a repair fun since dots can have attributes, come back after environments are done
   code
 }
