@@ -50,7 +50,7 @@ constructors$language$default <- function(x, ..., one_liner = FALSE) {
   repair_attributes_language(x, code, ...)
 }
 
-repair_attributes_language <- function(x, code, ..., pipe ="base") {
+repair_attributes_language <- function(x, code, ..., pipe = "base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

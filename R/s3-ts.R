@@ -48,7 +48,7 @@ constructors$ts$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-repair_attributes_ts <- function(x, code, ..., pipe ="base") {
+repair_attributes_ts <- function(x, code, ..., pipe = "base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

@@ -154,7 +154,7 @@ simplify_atomic <- function(x, ...) {
 
     # scalar n and vector x
     for (d in divisors(l)) {
-      if (identical(x, rep(.subset(x, 1:d), l/d))) return(.cstr_apply(list(.subset(x, 1:d), l/d), "rep", ...))
+      if (identical(x, rep(.subset(x, 1:d), l / d))) return(.cstr_apply(list(.subset(x, 1:d), l / d), "rep", ...))
     }
 
     # seq ----------------------------------------------------------------------
@@ -171,8 +171,8 @@ simplify_atomic <- function(x, ...) {
 
 # divisors except self and 1
 divisors <- function(x){
-  y <- setdiff(seq_len(x/2), 1)
-  y[ x%%y == 0 ]
+  y <- setdiff(seq_len(x / 2), 1)
+  y[ x %% y == 0 ]
 }
 
 # A rle without checks that treats NAs like a regular values and return an unnamed list
@@ -237,7 +237,7 @@ format_unicode <- function(x, type = c("ascii", "latin", "character", "unicode")
     latin = 256,
     character = 0x1F000
   )
-  special_chars <- int[int>=limit]
+  special_chars <- int[int >= limit]
   for (chr in special_chars) {
     x <- gsub(intToUtf8(chr), sprintf("\\U{%X}", chr), x, fixed = TRUE)
   }
@@ -253,7 +253,7 @@ unescape_relevant_strings <- function(strings, strings0) {
 
   # escape if it wasn't altered by previous and if deparsed code doesn't contain single backslashes
   strings <- ifelse(
-    strings == strings0 &! has_odd_consecutive_backlashes,
+    strings == strings0 & !has_odd_consecutive_backlashes,
     unescape_strings(strings),
     strings)
 }
@@ -270,7 +270,7 @@ unescape_strings <- function(x) {
     # unescape double quotes\
     x <- gsub("\\\"", "\"", x, fixed = TRUE)
     # unescape backslashes
-    x <-gsub("\\\\", "\\", x, fixed = TRUE)
+    x <- gsub("\\\\", "\\", x, fixed = TRUE)
     # build raw string
     x <- sprintf('r"[%s]"', x)
     x

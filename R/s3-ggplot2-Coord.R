@@ -103,7 +103,7 @@
     default_crs = x$default_crs,
     datum = x$datum,
     label_graticule = if (length(x$label_graticule)) x$label_graticule else ggplot2::waiver(),
-    label_axes = paste(x$label_axes, collapse =""),
+    label_axes = paste(x$label_axes, collapse = ""),
     lims_method = x$lims_method,
     ndiscr = x$ndiscr,
     #default = x$default, # triggers message on definition, but no effect on what's printed
@@ -116,7 +116,7 @@
 }
 
 #' @export
-.cstr_construct.CoordTrans<- function(x, ...) {
+.cstr_construct.CoordTrans <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,

@@ -69,10 +69,10 @@ pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
   # if x and y are not found first it means they were not provided, and we should remove them
   # we cannot just remove them if they're NULL
   if (names(labels)[1] == "x") {
-    if (names(labels)[2]!= "y") labels[["y"]] <- NULL
+    if (names(labels)[2] != "y") labels[["y"]] <- NULL
   } else {
     labels[["x"]] <- NULL
-    if (names(labels)[1]!= "y") labels[["y"]] <- NULL
+    if (names(labels)[1] != "y") labels[["y"]] <- NULL
   }
   mappings <- unlist(c(mapping, lapply(layers, function(x) x$mapping)))
   mappings <- mappings[unique(names(mappings))]

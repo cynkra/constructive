@@ -93,7 +93,7 @@ constructors$dm$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-repair_attributes_dm <- function(x, code, ..., pipe ="base") {
+repair_attributes_dm <- function(x, code, ..., pipe = "base") {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

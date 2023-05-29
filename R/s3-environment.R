@@ -215,7 +215,7 @@ constructors$environment$topenv <- function(x, ..., pipe, one_liner, recurse, pr
   code
 }
 
-repair_attributes_environment <- function(x, code, ..., pipe ="base") {
+repair_attributes_environment <- function(x, code, ..., pipe = "base") {
   opts <- .cstr_fetch_opts("environment", ...)
   constructor <- opts$constructor
   if (constructor == "env" ||
