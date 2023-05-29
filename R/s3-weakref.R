@@ -12,7 +12,7 @@ constructors$weakref <- new.env()
 #' @export
 opts_weakref <- function(constructor = c("new_weakref"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- .cstr_match_constructor(constructor, "weakref"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("weakref", constructor = constructor)

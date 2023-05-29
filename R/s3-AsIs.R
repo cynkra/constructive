@@ -8,8 +8,7 @@ constructors$array <- new.env()
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"I"` (default): Use the `I()` function
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
-#'   on the object to see in which order the methods will be tried. This will
-#'   usually be the same as `"atomic"`.
+#'   on the object to see in which order the methods will be tried.
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
@@ -18,7 +17,7 @@ constructors$array <- new.env()
 #' @export
 opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- .cstr_match_constructor(constructor, "AsIs"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("AsIs", constructor = constructor)

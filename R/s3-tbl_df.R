@@ -21,7 +21,7 @@ constructors$tbl_df <- new.env()
 #' @export
 opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- .cstr_match_constructor(constructor, "tbl_df"),
     ellipsis::check_dots_empty(),
     abort_not_boolean(trailing_comma)
   )
@@ -78,16 +78,10 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
 }
 
 repair_attributes_tbl_df <- function(x, code, ..., pipe = "base") {
-  opts <- .cstr_fetch_opts("tbl_df", ...)
-  if (opts$constructor == "list") {
-    return(repair_attributes_list(x, code, ..., pipe = pipe))
-  }
-  ignore <- "row.names"
-  if (identical(names(x), character())) ignore <- c(ignore, "names")
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
-    ignore = ignore,
+    ignore = "row.names",
     idiomatic_class = c("tbl_df", "tbl", "data.frame")
   )
 }

@@ -20,7 +20,7 @@ constructors$data.frame <- new.env()
 #' @export
 opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", "list"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- .cstr_match_constructor(constructor, "data.frame"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("data.frame", constructor = constructor)

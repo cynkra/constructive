@@ -23,6 +23,11 @@
 #' @enumerateOptFunctions
 #'
 #' @export
+#' @examples
+#' construct(head(cars))
+#' construct(head(cars), opts_data.frame("read.table"))
+#' construct(iris$Species)
+#' construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
 construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
                       compare = compare_options(), one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {

@@ -9,20 +9,19 @@ constructors$POSIXlt <- new.env()
 #' character vector.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
-#' * `"atomic"` : We define as an atomic vector and repair attributes.
+#' * `"list"` : We define as a list and repair attributes.
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
 #' @inheritParams opts_atomic
-#' @param origin Origin to be used, ignored when irrelevant.
 #'
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
-opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "atomic"), ..., origin = "1970-01-01") {
+opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "list"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- .cstr_match_constructor(constructor, "POSIXlt"),
     ellipsis::check_dots_empty()
   )
-  .cstr_options("POSIXlt", constructor = constructor, origin = origin)
+  .cstr_options("POSIXlt", constructor = constructor)
 }
 
 #' @export
@@ -30,7 +29,7 @@ opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "atomic"), ..., o
   opts <- .cstr_fetch_opts("POSIXlt", ...)
   if (is_corrupted_POSIXlt(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$POSIXlt[[opts$constructor]]
-  constructor(x, ..., origin = opts$origin)
+  constructor(x, ...)
 }
 
 is_corrupted_POSIXlt <- function(x) {
@@ -38,8 +37,7 @@ is_corrupted_POSIXlt <- function(x) {
   FALSE
 }
 
-#' @export
-.cstr_construct.POSIXlt <- function(x, ...) {
+constructors$POSIXlt$as.POSIXlt <- function(x, ...) {
   gmtoff <- .subset2(x, "gmtoff")
   from_posixct <- !is.null(gmtoff) && !all(is.na(gmtoff))
   if (from_posixct) {
@@ -57,6 +55,11 @@ is_corrupted_POSIXlt <- function(x) {
     args <- c(args, list(tz = tzone))
   }
   code <- .cstr_apply(args, "as.POSIXlt", ..., new_line = TRUE)
+  repair_attributes_POSIXlt(x, code, ...)
+}
+
+constructors$POSIXlt$list <- function(x, ...) {
+  code <- .cstr_construct.list(x, ...)
   repair_attributes_POSIXlt(x, code, ...)
 }
 

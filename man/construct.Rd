@@ -58,6 +58,12 @@ An object of class 'constructive'.
 \code{construct()} builds the code to reproduce one object, \code{construct_multi()}
 builds the code to reproduce objects stored in a named list or environment.
 }
+\examples{
+construct(head(cars))
+construct(head(cars), opts_data.frame("read.table"))
+construct(iris$Species)
+construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
+}
 \section{Constructive options}{
 Constructive options provide a way to customize the output of `construct()`.
 We can provide calls to `opts_*()` functions to the `...` argument. Each of these functions targets a specific type or class and is documented on its own page.
@@ -67,7 +73,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "environment"), ...)}
   \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "atomic"), ..., origin = "1970-01-01")}
+  \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "list"), ...)}
   \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "atomic"), ...)}
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
   \item \code{\link[=opts_array]{opts_array}(constructor = c("array", "next"), ...)}

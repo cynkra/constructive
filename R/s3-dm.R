@@ -17,7 +17,7 @@ constructors$dm <- new.env()
 #' @export
 opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- .cstr_match_constructor(constructor, "dm"),
     ellipsis::check_dots_empty()
   )
   .cstr_options("dm", constructor = constructor)

@@ -35,7 +35,7 @@ opts_list <- function(
     trim = NULL,
     fill = c("vector", "new_list", "+", "...", "none")) {
   .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
+    constructor <- .cstr_match_constructor(constructor, "list"),
     ellipsis::check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill)
