@@ -34,7 +34,7 @@ SEXP external_pointer_address(SEXP s) {
     error("external_pointer_address() expects an input of type 'externalptr'");
   }
   char* buf[20];
-  sprintf((char*) buf, "%p", R_ExternalPtrAddr(s));
+  snprintf((char*) buf, 20, "%p", R_ExternalPtrAddr(s));
   return Rf_mkString((char*) buf);
 }
 
