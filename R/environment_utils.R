@@ -61,7 +61,7 @@ fetch_parent_names <- function(x) {
 #' @param address Memory address of the environment
 #' @param parents,... ignored
 #' @export
-env <- function(address, parents = NULL, ...) {
+.env <- function(address, parents = NULL, ...) {
   force(parents) # to avoid notes
   env_impl(address)
 }

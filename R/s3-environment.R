@@ -20,12 +20,12 @@ constructors$environment <- new.env()
 #' * Namespaces are constructed using `asNamespace("pkg")`
 #' * Package environments are constructed using `as.environment("package:pkg")`
 #'
-#' By default For other environments we use {constructive}'s function `constructive::env()`, it fetches
+#' By default For other environments we use {constructive}'s function `constructive::.env()`, it fetches
 #'   the environment from its memory address and provides as additional information
 #'   the sequence of parents until we reach a special environment (those enumerated above).
 #'   The advantage of this approach is that it's readable and that the object is accurately reproduced.
 #'   The inconvenient is that it's not stable between sessions. If an environment has a `NULL` parent it's always constructed
-#'   with `constructive::env()`, whatever the choice of the constructor.
+#'   with `constructive::.env()`, whatever the choice of the constructor.
 #'
 #' Often however we wish to be able to reproduce from scratch a similar environment,
 #' so that we might run the constructed code later in a new session. We offer different
@@ -41,7 +41,7 @@ constructors$environment <- new.env()
 #'
 #' We might set the `constructor` argument to:
 #'
-#' - `"env"` (default): use `constructive::env()` to construct the environment from
+#' - `".env"` (default): use `constructive::.env()` to construct the environment from
 #'   its memory address.
 #' * `"list2env"`: We construct the environment as a list then
 #'   use `base::list2env()` to convert it to an environment and assign it a parent. By
@@ -84,7 +84,7 @@ constructors$environment <- new.env()
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_environment <- function(constructor = c("env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
+opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "environment"),
     ellipsis::check_dots_empty(),
@@ -137,13 +137,13 @@ is_corrupted_environment <- function(x) {
   !is.environment(x)
 }
 
-constructors$environment$env <- function(x, ..., pipe, one_liner, recurse, predefine) {
+constructors$environment$.env <- function(x, ..., pipe, one_liner, recurse, predefine) {
   args <- c(
     list(env_memory_address(x), parents = fetch_parent_names(x)),
     attributes(x)
   )
   if (!length(args$parents)) args$parents <- NULL
-  code <- .cstr_apply(args, "constructive::env", ..., pipe = pipe, one_liner = one_liner)
+  code <- .cstr_apply(args, "constructive::.env", ..., pipe = pipe, one_liner = one_liner)
   repair_attributes_environment(x, code, ...)
 }
 

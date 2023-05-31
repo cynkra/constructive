@@ -5,7 +5,7 @@
 \title{Constructive options for type 'environment'}
 \usage{
 opts_environment(
-  constructor = c("env", "list2env", "as.environment", "new.env", "topenv",
+  constructor = c(".env", "list2env", "as.environment", "new.env", "topenv",
     "new_environment"),
   ...,
   recurse = FALSE,
@@ -50,12 +50,12 @@ environment
 \item Package environments are constructed using \code{as.environment("package:pkg")}
 }
 
-By default For other environments we use {constructive}'s function \code{constructive::env()}, it fetches
+By default For other environments we use {constructive}'s function \code{constructive::.env()}, it fetches
 the environment from its memory address and provides as additional information
 the sequence of parents until we reach a special environment (those enumerated above).
 The advantage of this approach is that it's readable and that the object is accurately reproduced.
 The inconvenient is that it's not stable between sessions. If an environment has a \code{NULL} parent it's always constructed
-with \code{constructive::env()}, whatever the choice of the constructor.
+with \code{constructive::.env()}, whatever the choice of the constructor.
 
 Often however we wish to be able to reproduce from scratch a similar environment,
 so that we might run the constructed code later in a new session. We offer different

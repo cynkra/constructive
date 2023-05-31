@@ -9,5 +9,5 @@
       i Call `construct_issues()` to inspect the last issues
     Output
       data.frame(a = 1) |>
-        structure(.internal.selfref = constructive::external_pointer("0x000000000"))
+        structure(.internal.selfref = constructive::.xptr("0x000000000"))
 

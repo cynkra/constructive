@@ -180,17 +180,17 @@ construct(environment(setNames))
 #> asNamespace("stats")
 ```
 
-When it’s not possible we use `constructive::env()` function for this
+When it’s not possible we use `constructive::.env()` function for this
 purpose.
 
 ``` r
 e1 <- new.env(parent = .GlobalEnv)
 e1$x <- 1
 construct(e1)
-#> constructive::env("0x115ddc6d8", parents = "global")
+#> constructive::.env("0x1211bd9e0", parents = "global")
 ```
 
-`constructive::env()` fetches the environment from its memory address.
+`constructive::.env()` fetches the environment from its memory address.
 The `parents` argument doesn’t do anything, it provides as additional
 information the sequence of parents until we reach a special
 environment.
@@ -208,6 +208,5 @@ construct(e1, opts_environment("list2env"))
 #> list2env(list(x = 1), parent = .GlobalEnv)
 ```
 
-`constructive::external_pointer()` is the counterpart of
-`constructive::env()` to construct `"externalptr"` objects from a memory
-address.
+`constructive::.xptr()` is the counterpart of `constructive::.env()` to
+construct `"externalptr"` objects from a memory address.

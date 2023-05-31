@@ -20,11 +20,12 @@
     Output
       mpg_99 |>
         ggplot2::ggplot(ggplot2::aes(displ, hwy)) +
-        constructive::env(
+        constructive::.env(
           "0x000000000",
           parents = "empty",
           class = c("LayerInstance", "Layer", "ggproto", "gg")
-        )
+        ) |>
+        structure(class = c("LayerInstance", "Layer", "ggproto", "gg"))
     Code
       p1 <- base_99 + scale_x_continuous(limits = c(1, 7))
       construct(p1, data = lst(mpg_99), check = FALSE)
