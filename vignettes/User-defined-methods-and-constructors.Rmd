@@ -1,8 +1,8 @@
 ---
-title: "Extending {constructive}"
+title: "Extending constructive"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Extending-constructive}
+  %\VignetteIndexEntry{Extending constructive}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -34,7 +34,8 @@ Suggests:
     sf,
     ggplot2,
     scales
-URL: https://github.com/cynkra/constructive
+URL: https://github.com/cynkra/constructive,
+    https://cynkra.github.io/constructive/
 BugReports: https://github.com/cynkra/constructive/issues
 Config/testthat/edition: 3
 VignetteBuilder: knitr

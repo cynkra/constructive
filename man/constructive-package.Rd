@@ -12,7 +12,6 @@ Prints code that can be used to recreate R objects. In a sense it is similar to 
 Useful links:
 \itemize{
   \item \url{https://github.com/cynkra/constructive}
-  \item \url{https://cynkra.github.io/constructive}
   \item Report bugs at \url{https://github.com/cynkra/constructive/issues}
 }
 
