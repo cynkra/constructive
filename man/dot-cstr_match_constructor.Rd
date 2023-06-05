@@ -7,9 +7,14 @@
 .cstr_match_constructor(constructor, class)
 }
 \arguments{
-\item{constructor}{a String}
+\item{constructor}{a String (or character vector but only the first item will
+be considered)}
 
 \item{class}{A string}
+}
+\value{
+A string, the first value of \code{constructor} if it is the name of a n existing
+constructor or "next".
 }
 \description{
 Fails if the chosen constructor doesn't exist.

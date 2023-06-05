@@ -53,8 +53,7 @@ Returns \code{NULL} invisibly, called for side effects
 Display diff of object definitions
 }
 \examples{
-\dontrun{
-# some object print the same though they're differemt
+# some object print the same though they're different
 # `construct_diff()` shows how they differ :
 df1 <- data.frame(a=1, b = "x")
 df2 <- data.frame(a=1L, b = "x", stringsAsFactors = TRUE)
@@ -76,5 +75,4 @@ construct_diff(df1, df2)
 x <- list(a = list(b = list(c = list(structure(1, e = 1)))))
 y <- list(a = list(b = list(c = list(structure(1, e = "a")))))
 construct_diff(x, y)
-}
 }

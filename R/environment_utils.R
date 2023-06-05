@@ -8,7 +8,7 @@ construct_special_env <- function(x) {
   name <- environmentName(x)
   # handle {testthat} corner case
   if (identical(Sys.getenv("TESTTHAT"), "true") && name == "constructive") return('asNamespace("constructive")')
-  if (name %in% row.names(installed.packages()) && identical(x, asNamespace(name))) return(sprintf('asNamespace("%s")', name))
+  if (name != "" && rlang::is_installed(name) && identical(x, asNamespace(name))) return(sprintf('asNamespace("%s")', name))
   if (name %in% search() && identical(x, as.environment(name))) return(sprintf('as.environment("%s")', name))
 }
 
@@ -60,6 +60,7 @@ fetch_parent_names <- function(x) {
 #'
 #' @param address Memory address of the environment
 #' @param parents,... ignored
+#' @return The environment that the memory address points to.
 #' @export
 .env <- function(address, parents = NULL, ...) {
   force(parents) # to avoid notes

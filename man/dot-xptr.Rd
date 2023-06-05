@@ -9,6 +9,9 @@
 \arguments{
 \item{address}{Memory address}
 }
+\value{
+The external pointer (type "externalptr") that the memory address points to.
+}
 \description{
 Base R doesn't provide utilities to build or manipulate external pointers
 (objects of type "externalptr"), so we provide our own. Be warned that

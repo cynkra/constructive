@@ -5,6 +5,7 @@
 #'
 #' @param class A string
 #' @param ... named constructors
+#' @return Returns `NULL` invisibly, called for side effects.
 #' @export
 .cstr_register_constructors <- function(class, ...) {
   dots <- list(...)

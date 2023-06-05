@@ -160,8 +160,11 @@ new_constructive <- function(code, compare) {
 #'
 #' Fails if the chosen constructor doesn't exist.
 #'
-#' @param constructor a String
+#' @param constructor a String (or character vector but only the first item will
+#'   be considered)
 #' @param class A string
+#' @return A string, the first value of `constructor` if it is the name of a n existing
+#' constructor or "next".
 #' @export
 .cstr_match_constructor <- function(constructor, class) {
   constructor <- constructor[[1]]

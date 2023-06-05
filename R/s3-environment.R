@@ -113,9 +113,10 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
   null_parent <- is.null(parent.env(x))
   # FIXME: what does this do ?
   if (opts$predefine && !null_parent) {
-    globals$special_envs <-  c(row.names(installed.packages()), search(), "R_EmptyEnv", "R_GlobalEnv")
+    special_envs <-  c(search(), "R_EmptyEnv", "R_GlobalEnv")
+    nm <- environmentName(x)
     # construct only if not found
-    if (!environmentName(x) %in% globals$special_envs) {
+    if (!(nm != "" && rlang::is_installed(nm)) && ! nm %in% globals$special_envs) {
       code <- update_predefinition(envir = x, ..., pipe = pipe, one_liner = one_liner)
       return(code)
     }

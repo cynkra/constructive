@@ -11,6 +11,9 @@
 
 \item{...}{named constructors}
 }
+\value{
+Returns \code{NULL} invisibly, called for side effects.
+}
 \description{
 Use this function to register a custom constructor. See vignette for more information.
 }

@@ -8,6 +8,7 @@ NULL
 #' objects defined with `.xptr()` are not stable across sessions,
 #' however this is the best we can
 #' @param address Memory address
+#' @return The external pointer (type "externalptr") that the memory address points to.
 #' @export
 .xptr <- function(address) {
   .Call("external_pointer", PACKAGE = "constructive", address)

@@ -11,6 +11,9 @@
 
 \item{parents, ...}{ignored}
 }
+\value{
+The environment that the memory address points to.
+}
 \description{
 This is designed to be used in constructed output. The \code{parents} and \code{...} arguments
 are not processed and only used to display additional information. If used on
