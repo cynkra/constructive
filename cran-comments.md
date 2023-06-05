@@ -16,7 +16,7 @@ Added requested \value to construct_signature.Rd, dot-cstr_match_constructor.Rd,
 (e.g. because of missing additional software, missing API keys, ...) by 
 the user [...]
 
-Removed `\dontrun{}`, example run quickly enough
+Replaced `\dontrun{}` by `\donttest{}` as suggested.
 
 > In construct_diff.Rd in the commented codelines you write 'differemt' 
 instead of 'different'.

@@ -7,6 +7,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # some object print the same though they're different
 #' # `construct_diff()` shows how they differ :
 #' df1 <- data.frame(a=1, b = "x")
@@ -29,6 +30,7 @@
 #' x <- list(a = list(b = list(c = list(structure(1, e = 1)))))
 #' y <- list(a = list(b = list(c = list(structure(1, e = "a")))))
 #' construct_diff(x, y)
+#' }
 construct_diff <- function(
     target, current, ..., data = NULL, pipe = c("base", "magrittr"), check = TRUE,
     compare = compare_options(), one_liner = FALSE,
