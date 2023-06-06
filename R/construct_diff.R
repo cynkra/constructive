@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # some object print the same though they're different
 #' # `construct_diff()` shows how they differ :
 #' df1 <- data.frame(a=1, b = "x")

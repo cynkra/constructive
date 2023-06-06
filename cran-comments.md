@@ -16,7 +16,14 @@ Added requested \value to construct_signature.Rd, dot-cstr_match_constructor.Rd,
 (e.g. because of missing additional software, missing API keys, ...) by 
 the user [...]
 
-Replaced `\dontrun{}` by `\donttest{}` as suggested.
+In my case I believe this is justify, if I use `donttest` or  I unprotect my example I get:
+
+LaTeX errors found:
+  ! LaTeX Error: Unicode character ^^[ (U+001B)
+                 not set up for use with LaTeX.
+                 
+I used `\dontrun{}` because `construct_diff()` uses the viewer several times and running `example(construct_diff)`
+doesn't make sense.
 
 > In construct_diff.Rd in the commented codelines you write 'differemt' 
 instead of 'different'.
