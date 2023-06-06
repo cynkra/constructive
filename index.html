@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Display idiomatic code to construct most R objects.">
+<meta name="description" content="Prints code that can be used to recreate R objects. In a sense it is similar to base::dput() or base::deparse() but constructive strives to use idiomatic constructors.">
 <title>Display Idiomatic Code to Construct Most R Objects • constructive</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Display Idiomatic Code to Construct Most R Objects">
-<meta property="og:description" content="Display idiomatic code to construct most R objects.">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Display Idiomatic Code to Construct Most R Objects">
+<meta property="og:description" content="Prints code that can be used to recreate R objects. In a sense it is similar to base::dput() or base::deparse() but constructive strives to use idiomatic constructors.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">constructive</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,12 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/User-defined-methods-and-constructors.html">Extending constructive</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="news/index.html">Changelog</a>
@@ -63,7 +69,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="constructive">constructive<a class="anchor" aria-label="anchor" href="#constructive"></a>
 </h1></div>
-<p>{constructive} prints code that can be used to recreate R objects. In a sense it is similar to <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">base::dput()</a></code> or <code><a href="https://rdrr.io/r/base/deparse.html" class="external-link">base::deparse()</a></code> but {constructive} strives to use “natural” constructors (<code>factor</code> for factors, <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code> for dates, <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> for data frames etc), in order to get output readable by humans.</p>
+<p>{constructive} prints code that can be used to recreate R objects. In a sense it is similar to <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">base::dput()</a></code> or <code><a href="https://rdrr.io/r/base/deparse.html" class="external-link">base::deparse()</a></code> but {constructive} strives to use idiomatic constructors (<code>factor</code> for factors, <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code> for dates, <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> for data frames etc), in order to get output readable by humans.</p>
 <p>Some use cases are:</p>
 <ul>
 <li>Snapshot tests</li>
@@ -74,15 +80,18 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"cynkra/constructive"</span>)</span></code></pre></div>
+<p>Install it from <a href="https://cynkra.r-universe.dev" class="external-link">cynkra R-universe</a>:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'constructive'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://cynkra.r-universe.dev'</span>, <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Or install with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"cynkra/constructive"</span>)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="comparison-with-dput">Comparison with <code>dput()</code>
 <a class="anchor" aria-label="anchor" href="#comparison-with-dput"></a>
 </h2>
 <p>A few examples compared to their <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> output.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cynkra/constructive" class="external-link">constructive</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
@@ -97,7 +106,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; structure(list(Sepal.Length = c(5.1, 4.9), Sepal.Width = c(3.5, </span></span>
 <span><span class="co">#&gt; 3), Petal.Length = c(1.4, 1.4), Petal.Width = c(0.2, 0.2), Species = structure(c(1L, </span></span>
-<span><span class="co">#&gt; 1L), .Label = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")</span></span>
+<span><span class="co">#&gt; 1L), levels = c("setosa", "versicolor", "virginica"), class = "factor")), row.names = 1:2, class = "data.frame")</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">.leap.seconds</span><span class="op">)</span></span>
 <span><span class="co">#&gt; as.POSIXct(</span></span>
@@ -136,140 +145,94 @@
 <span><span class="co">#&gt; tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |&gt;</span></span>
 <span><span class="co">#&gt;   dplyr::group_by(band)</span></span></code></pre></div>
 <p>We can provide to the <code>data</code> argument a named list, an environment, a package where to look for data, or an unnamed list of such items, so we don’t print more than necessary, for instance improving the previous example:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">grouped_band_members</span>, data <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; band_members |&gt;</span></span>
 <span><span class="co">#&gt;   dplyr::group_by(band)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="customize-output-with-constructive-options">customize output with constructive options<a class="anchor" aria-label="anchor" href="#customize-output-with-constructive-options"></a>
+<h2 id="customize-the-output-using-constructive-options">Customize the output using constructive options<a class="anchor" aria-label="anchor" href="#customize-the-output-using-constructive-options"></a>
 </h2>
-<p>Many classes or types can be represented in various ways, for instance a tibble might be constructed using <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> or using <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tibble::tribble()</a></code>.</p>
-<p>The <code>opts_*()</code> family of functions is used for this purpose. These functions are used to provide unnamed arguments to <code><a href="reference/construct.html">construct()</a></code>, for instance :</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>Some objects can be constructed in several ways, for instance a tibble might be constructed using <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> or using <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tibble::tribble()</a></code>.</p>
+<p>The <code>opts_*()</code> family of functions provides ways to tweak the output code, this includes setting the constructor (e.g. setting <code>"tribble" rather than the default "tibble") is used for this purpose. Use these functions</code>construct()<code>'s</code>…`, for instance :</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="fu"><a href="reference/opts_tbl_df.html">opts_tbl_df</a></span><span class="op">(</span><span class="st">"tribble"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tibble::tribble(</span></span>
 <span><span class="co">#&gt;   ~name,  ~band,</span></span>
 <span><span class="co">#&gt;   "Mick", "Stones",</span></span>
 <span><span class="co">#&gt;   "John", "Beatles",</span></span>
 <span><span class="co">#&gt;   "Paul", "Beatles",</span></span>
-<span><span class="co">#&gt; )</span></span></code></pre></div>
-<p>These functions have their own documentation page and are referenced in <code><a href="reference/construct.html">?construct</a></code>.</p>
-<p>In particular <code><a href="reference/opts_list.html">opts_list()</a></code>, <code><a href="reference/opts_atomic.html">opts_atomic()</a></code> and <code><a href="reference/opts_function.html">opts_function()</a></code> have a <code>trim</code> argument that might be used to show a terser output. In this case obviously the output does not faithfully reproduces the input, and in some cases it is not even possible to evaluate it.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="fu"><a href="reference/opts_list.html">opts_list</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="reference/opts_atomic.html">opts_atomic</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; {constructive} couldn't create code that reproduces perfectly the input</span></span>
-<span><span class="co">#&gt; ℹ Call `construct_issues()` to inspect the last issues</span></span>
-<span><span class="co">#&gt; tibble::tibble(</span></span>
-<span><span class="co">#&gt;   name = c("Luke Skywalker", character(86)),</span></span>
-<span><span class="co">#&gt;   height = c(172L, numeric(86)),</span></span>
-<span><span class="co">#&gt;   mass = c(77, numeric(86)),</span></span>
-<span><span class="co">#&gt;   hair_color = c("blond", character(86)),</span></span>
-<span><span class="co">#&gt;   skin_color = c("fair", character(86)),</span></span>
-<span><span class="co">#&gt;   eye_color = c("blue", character(86)),</span></span>
-<span><span class="co">#&gt;   birth_year = c(19, numeric(86)),</span></span>
-<span><span class="co">#&gt;   sex = c("male", character(86)),</span></span>
-<span><span class="co">#&gt;   gender = c("masculine", character(86)),</span></span>
-<span><span class="co">#&gt;   homeworld = c("Tatooine", character(86)),</span></span>
-<span><span class="co">#&gt;   species = c("Human", character(86)),</span></span>
-<span><span class="co">#&gt;   films = c(list(c("The Empire Strikes Back", character(4))), vector("list", 86)),</span></span>
-<span><span class="co">#&gt;   vehicles = c(list(c("Snowspeeder", character(1))), vector("list", 86)),</span></span>
-<span><span class="co">#&gt;   starships = c(list(c("X-wing", character(1))), vector("list", 86)),</span></span>
 <span><span class="co">#&gt; )</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="fu"><a href="reference/opts_list.html">opts_list</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">1</span>, fill <span class="op">=</span> <span class="st">"..."</span><span class="op">)</span>, <span class="fu"><a href="reference/opts_atomic.html">opts_atomic</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">1</span>, fill <span class="op">=</span> <span class="st">"..."</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ! The code built by {constructive} could not be evaluated.</span></span>
-<span><span class="co">#&gt; tibble::tibble(</span></span>
-<span><span class="co">#&gt;   name = c("Luke Skywalker", ...),</span></span>
-<span><span class="co">#&gt;   height = c(172L, ...),</span></span>
-<span><span class="co">#&gt;   mass = c(77, ...),</span></span>
-<span><span class="co">#&gt;   hair_color = c("blond", ...),</span></span>
-<span><span class="co">#&gt;   skin_color = c("fair", ...),</span></span>
-<span><span class="co">#&gt;   eye_color = c("blue", ...),</span></span>
-<span><span class="co">#&gt;   birth_year = c(19, ...),</span></span>
-<span><span class="co">#&gt;   sex = c("male", ...),</span></span>
-<span><span class="co">#&gt;   gender = c("masculine", ...),</span></span>
-<span><span class="co">#&gt;   homeworld = c("Tatooine", ...),</span></span>
-<span><span class="co">#&gt;   species = c("Human", ...),</span></span>
-<span><span class="co">#&gt;   films = list(c("The Empire Strikes Back", ...), ...),</span></span>
-<span><span class="co">#&gt;   vehicles = list(c("Snowspeeder", ...), ...),</span></span>
-<span><span class="co">#&gt;   starships = list(c("X-wing", ...), ...),</span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="reference/opts_atomic.html">opts_atomic</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; {constructive} couldn't create code that reproduces perfectly the input</span></span>
+<span><span class="co">#&gt; ℹ Call `construct_issues()` to inspect the last issues</span></span>
+<span><span class="co">#&gt; data.frame(</span></span>
+<span><span class="co">#&gt;   Sepal.Length = c(5.1, 4.9, numeric(148)),</span></span>
+<span><span class="co">#&gt;   Sepal.Width = c(3.5, 3, numeric(148)),</span></span>
+<span><span class="co">#&gt;   Petal.Length = c(1.4, 1.4, numeric(148)),</span></span>
+<span><span class="co">#&gt;   Petal.Width = c(0.2, 0.2, numeric(148)),</span></span>
+<span><span class="co">#&gt;   Species = factor(rep(c("setosa", "versicolor", character(1)), each = 50L))</span></span>
 <span><span class="co">#&gt; )</span></span></code></pre></div>
+<p>These functions have their own documentation page and are referenced in <code><a href="reference/construct.html">?construct</a></code>.</p>
+<p>For every class that doesn’t refer to an internal type a “next” constructor is available, so we can conveniently explor objects using lower level constructors.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="fu"><a href="reference/opts_tbl_df.html">opts_tbl_df</a></span><span class="op">(</span><span class="st">"next"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; data.frame(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |&gt;</span></span>
+<span><span class="co">#&gt;   structure(class = c("tbl_df", "tbl", "data.frame"))</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="fu"><a href="reference/opts_tbl_df.html">opts_tbl_df</a></span><span class="op">(</span><span class="st">"next"</span><span class="op">)</span>, <span class="fu"><a href="reference/opts_data.frame.html">opts_data.frame</a></span><span class="op">(</span><span class="st">"next"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; list(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |&gt;</span></span>
+<span><span class="co">#&gt;   structure(class = c("tbl_df", "tbl", "data.frame"), row.names = 1:3)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="environments">Environments<a class="anchor" aria-label="anchor" href="#environments"></a>
+<h2 id="other-functions">Other functions<a class="anchor" aria-label="anchor" href="#other-functions"></a>
 </h2>
-<p>Some special environments can be reproduced perfectly:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<ul>
+<li>
+<code><a href="reference/construct_issues.html">construct_issues()</a></code> is used without arguments to check what were the issues encountered with the last reconstructed object, it can also be provided a specific constructive object.</li>
+<li>
+<code><a href="reference/construct_diff.html">construct_diff()</a></code> highlights the differences in the code used to produce 2 objects.</li>
+<li>
+<code><a href="reference/construct.html">construct_multi()</a></code> constructs several objects from a named list,</li>
+<li>
+<code><a href="reference/construct_dump.html">construct_dump()</a></code> is similar to <code><a href="https://rdrr.io/r/base/dump.html" class="external-link">base::dump()</a></code>, it’s a wrapper around <code><a href="reference/construct.html">construct_multi()</a></code> that writes to a file.</li>
+<li>
+<code><a href="reference/construct_signature.html">construct_signature()</a></code> constructs a function signature such as the one we see in the “usage” section of a function’s help file. outputs the code produced<br>
+</li>
+<li>
+<code><a href="reference/deparse_call.html">deparse_call()</a></code> is an alternative to <code><a href="https://rdrr.io/r/base/deparse.html" class="external-link">base::deparse()</a></code> and <code><a href="https://rlang.r-lib.org/reference/expr_print.html" class="external-link">rlang::expr_deparse()</a></code> that handles additional corner cases and fails when encountering tokens other than symbols and syntactic literals .</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="note-about-environments">Note about environments<a class="anchor" aria-label="anchor" href="#note-about-environments"></a>
+</h2>
+<p>Environments use reference semantics, they cannot be copied. An attempt to copy an environment would indeed yield a different environment and <code>identical(env, copy)</code> would be <code>FALSE</code> (read more about it in <code><a href="reference/opts_environment.html">?opts_environment</a></code>).</p>
+<p>In some case we can build code that points to a specific environment, for instance:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; .GlobalEnv</span></span>
-<span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">setNames</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; asNamespace("stats")</span></span></code></pre></div>
-<p>In general however, because environments use reference semantics, they cannot be copied. An attempt to copy an environment would indeed yield a different environment and <code>identical(env, copy)</code> would be <code>FALSE</code> (read more about it in <code><a href="reference/opts_environment.html">?opts_environment</a></code>).</p>
-<p>In practice however 2 environments containing the same values and having the same parent will be equivalent. When {constructive} can reproduce those, it won’t complain about any difference.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>When it’s not possible we use <code><a href="reference/dot-env.html">constructive::.env()</a></code> function for this purpose.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span>parent <span class="op">=</span> <span class="va">.GlobalEnv</span><span class="op">)</span></span>
 <span><span class="va">e1</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; list2env(list(x = 1), parent = .GlobalEnv)</span></span></code></pre></div>
-<p>However in the general case we’d have to construct all parents too and it might get verbose, by default {constructive} doesn’t go all the way.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">e2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span>parent <span class="op">=</span> <span class="va">e1</span><span class="op">)</span></span>
-<span><span class="va">e2</span><span class="op">$</span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
-<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; {constructive} couldn't create code that reproduces perfectly the input</span></span>
-<span><span class="co">#&gt; ℹ Call `construct_issues()` to inspect the last issues</span></span>
-<span><span class="co">#&gt; list2env(list(y = 2), parent = .GlobalEnv)</span></span></code></pre></div>
-<p>However if we set <code>recurse</code> to <code>TRUE</code> we’ll get an equivalent environment :</p>
+<span><span class="co">#&gt; constructive::.env("0x1211bd9e0", parents = "global")</span></span></code></pre></div>
+<p><code><a href="reference/dot-env.html">constructive::.env()</a></code> fetches the environment from its memory address. The <code>parents</code> argument doesn’t do anything, it provides as additional information the sequence of parents until we reach a special environment.</p>
+<p>This strategy is convenient because it always works, but it’s not reproducible between sessions as the memory address is not stable. Moreover it doesn’t tell us anything about the environment’s content.</p>
+<p>Depending on what compromise you’re ready to make, you might use different constructions in <code><a href="reference/opts_environment.html">opts_environment()</a></code>. For the case above, choosing <code>"list2env"</code> works well :</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e2</span>, <span class="fu"><a href="reference/opts_environment.html">opts_environment</a></span><span class="op">(</span>recurse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, pipe <span class="op">=</span> <span class="st">"magrittr"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; .GlobalEnv %&gt;%</span></span>
-<span><span class="co">#&gt;   list2env(list(x = 1), parent = .) %&gt;%</span></span>
-<span><span class="co">#&gt;   list2env(list(y = 2), parent = .)</span></span></code></pre></div>
-<p>See <code><a href="reference/opts_environment.html">?opts_environment</a></code> for more.</p>
-</div>
-<div class="section level2">
-<h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
-</h2>
-<p>Functions have en environment, which is not set by default. We might set it explicitly, or we might also not check for equivalence of function environments.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">setNames</span><span class="op">)</span></span>
-<span><span class="co">#&gt; {constructive} couldn't create code that reproduces perfectly the input</span></span>
-<span><span class="co">#&gt; ℹ Call `construct_issues()` to inspect the last issues</span></span>
-<span><span class="co">#&gt; function(object = nm, nm) {</span></span>
-<span><span class="co">#&gt;   names(object) &lt;- nm</span></span>
-<span><span class="co">#&gt;   object</span></span>
-<span><span class="co">#&gt; }</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">setNames</span>, <span class="fu"><a href="reference/opts_function.html">opts_function</a></span><span class="op">(</span>environment <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; (function(object = nm, nm) {</span></span>
-<span><span class="co">#&gt;   names(object) &lt;- nm</span></span>
-<span><span class="co">#&gt;   object</span></span>
-<span><span class="co">#&gt; }) |&gt;</span></span>
-<span><span class="co">#&gt;   match.fun("environment&lt;-")(asNamespace("stats"))</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">setNames</span>, ignore_function_env <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; function(object = nm, nm) {</span></span>
-<span><span class="co">#&gt;   names(object) &lt;- nm</span></span>
-<span><span class="co">#&gt;   object</span></span>
-<span><span class="co">#&gt; }</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="construct_diff">construct_diff<a class="anchor" aria-label="anchor" href="#construct_diff"></a>
-</h2>
-<p><code><a href="reference/construct_diff.html">construct_diff()</a></code> highlights the differences in the code used to produce 2 objects.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/construct_diff.html">construct_diff</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cars</span>,<span class="fl">2</span><span class="op">)</span>, b <span class="op">=</span> <span class="st">"aaaaaaaaaaaaaaaaaaaa"</span>, c <span class="op">=</span> <span class="st">"Foo"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span>,<span class="fl">1</span><span class="op">)</span>, b <span class="op">=</span> <span class="st">"aaaaaaaaaaaaaaaaaaaa"</span>, c <span class="op">=</span> <span class="st">"foo"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<!-- ![](man/figures/construct_diff.png) -->
+<code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e1</span>, <span class="fu"><a href="reference/opts_environment.html">opts_environment</a></span><span class="op">(</span><span class="st">"list2env"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; list2env(list(x = 1), parent = .GlobalEnv)</span></span></code></pre></div>
+<p><code><a href="reference/dot-xptr.html">constructive::.xptr()</a></code> is the counterpart of <code><a href="reference/dot-env.html">constructive::.env()</a></code> to construct <code>"externalptr"</code> objects from a memory address.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=constructive" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/cynkra/constructive/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/cynkra/constructive/issues" class="external-link">Report a bug</a></li>
 </ul>
@@ -279,7 +242,7 @@
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small>GPL (&gt;= 3)</small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
@@ -311,7 +274,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
     </footer>
