@@ -1,35 +1,54 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/master/examples
-# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+# Also included in R-CMD-check.yaml, this workflow only listens to pushes to branches
+# that start with "docs*"
 on:
   push:
-    branches: [main, master]
-  release:
-    types: [published]
+    branches:
+      - "docs*"
+      - "cran-*"
   workflow_dispatch:
 
 name: pkgdown
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.head_ref || github.sha }}-${{ github.base_ref || '' }}
+  cancel-in-progress: true
+
 jobs:
   pkgdown:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    name: "pkgdown"
+
+    # Begin custom: services
+    # End custom: services
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: r-lib/actions/setup-pandoc@v1
-
-      - uses: r-lib/actions/setup-r@v1
+      - uses: ./.github/workflows/rate-limit
         with:
-          use-public-rspm: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: r-lib/actions/setup-r-dependencies@v1
+      - uses: ./.github/workflows/git-identity
+        if: github.event_name == 'push'
+
+      - uses: ./.github/workflows/custom/before-install
+        if: hashFiles('.github/workflows/custom/before-install/action.yml') != ''
+
+      - uses: ./.github/workflows/install
         with:
-          extra-packages: pkgdown
+          token: ${{ secrets.GITHUB_TOKEN }}
+          install-r: false
+          cache-version: pkgdown-1
           needs: website
+          extra-packages: r-lib/pkgdown local::.
 
-      - name: Deploy package
-        run: |
-          git config --local user.name "$GITHUB_ACTOR"
-          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
+      - uses: ./.github/workflows/custom/after-install
+        if: hashFiles('.github/workflows/custom/after-install/action.yml') != ''
+
+      - uses: ./.github/workflows/pkgdown-build
+        if: github.event_name != 'push'
+
+      - uses: ./.github/workflows/pkgdown-deploy
+        if: github.event_name == 'push'
