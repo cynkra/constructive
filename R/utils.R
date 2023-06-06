@@ -225,3 +225,21 @@ compare_proxy_weakref <- function(x, path) {
   wr <- list(key = rlang::wref_key(x), value = rlang::wref_value(x))
   list(object = wr, path = path)
 }
+
+# expr is like `R < "4.3" && dplyr >= "1.0.0"`
+# evaluate in env where R and package names are versions
+with_versions <- function(expr, lib.loc = NULL) {
+  expr <- substitute(expr)
+  vars <- setdiff(all.vars(expr), "R")
+  versions <- suppressWarnings(
+    lapply(vars, packageDescription, lib.loc = lib.loc, fields = "Version")
+  )
+  # dismiss vars that aren't packages
+  keep <- !is.na(versions)
+  versions <- versions[keep]
+  versions <- lapply(versions, as.package_version)
+  names(versions) <- vars[keep]
+  R <- R.Version()
+  R <- as.package_version(sprintf("%s.%s", R$major, R$minor))
+  eval(expr, envir = c(list(R = R), versions), enclos = parent.frame())
+}
