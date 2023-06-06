@@ -33,7 +33,9 @@ Suggests:
     rmarkdown,
     sf,
     ggplot2,
-    scales
+    scales,
+    DiagrammeR,
+    DiagrammeRsvg
 URL: https://github.com/cynkra/constructive,
     https://cynkra.github.io/constructive/
 BugReports: https://github.com/cynkra/constructive/issues
