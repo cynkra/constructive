@@ -74,7 +74,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), c
                             compare = compare_options(), one_liner = FALSE,
                             template = getOption("constructive_opts_template")) {
   abort_not_env_or_named_list(x)
-  if (is.environment(x)) x <- as.list.environment(x)
+  if (is.environment(x)) x <- env2list(x, all.names = TRUE)
   data <- process_data(data)
   constructives <- lapply(
     x, construct,  ...,

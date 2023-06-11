@@ -80,12 +80,12 @@ perfect_match <- function(needle, haystack) {
 
 flex_match <- function(needle, haystack) {
   # ignore attributes of needle and its environment-ness
-  if (is.environment(needle)) needle <- as.list.environment(needle)
+  if (is.environment(needle)) needle <- env2list(needle)
   attributes(needle) <- attributes(needle)["names"]
   # like identical but ignoring attributes of haystack elements and their environment-ness
   identical2 <- function(x, needle) {
     # as.list() doesn't work on environments with a S3 class excluding "environment"
-    if (is.environment(x)) x <- as.list.environment(x)
+    if (is.environment(x)) x <- env2list(x)
     attributes(x) <- attributes(x)["names"]
     identical(x, needle)
   }

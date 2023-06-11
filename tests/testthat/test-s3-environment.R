@@ -21,6 +21,7 @@ test_that("environment", {
     e1$x <- 1
     e2 <- new.env(parent = e1)
     e2$y <- 2
+    e2$.z <- 3
     construct(e2, opts_environment(constructor = "list2env")) # constructor = "list2env", recurse = FALSE
     construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
     construct(e2, opts_environment(constructor = "new_environment"))

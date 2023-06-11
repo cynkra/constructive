@@ -54,31 +54,32 @@
       e1$x <- 1
       e2 <- new.env(parent = e1)
       e2$y <- 2
+      e2$.z <- 3
       construct(e2, opts_environment(constructor = "list2env"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      list2env(list(y = 2), parent = .GlobalEnv)
+      list2env(list(.z = 3, y = 2), parent = .GlobalEnv)
     Code
       construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
     Output
       .GlobalEnv |>
         list2env(list(x = 1), parent = _) |>
-        list2env(list(y = 2), parent = _)
+        list2env(list(.z = 3, y = 2), parent = _)
     Code
       construct(e2, opts_environment(constructor = "new_environment"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      rlang::new_environment(list(y = 2), parent = .GlobalEnv)
+      rlang::new_environment(list(.z = 3, y = 2), parent = .GlobalEnv)
     Code
       construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
     Output
       .GlobalEnv |>
         rlang::new_environment(list(x = 1), parent = _) |>
-        rlang::new_environment(list(y = 2), parent = _)
+        rlang::new_environment(list(.z = 3, y = 2), parent = _)
     Code
       construct(e2, opts_environment(constructor = "new.env"))
     Message
@@ -99,7 +100,7 @@
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      as.environment(list(y = 2))
+      as.environment(list(.z = 3, y = 2))
     Code
       construct(tidyselect::peek_vars, opts_environment(predefine = TRUE),
       opts_function(environment = TRUE))
