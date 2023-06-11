@@ -19,7 +19,19 @@
       construct(dots2, opts_environment("list2env"))
     Output
       rlang::inject((function(...) environment()$...)(!!!list(
-        y = rlang::new_quosure(quote(y), list2env(list(y = 1), parent = asNamespace("constructive"))),
+        y = rlang::new_quosure(
+          quote(y),
+          list2env(
+            list(
+              ... = evalq(
+                (function(...) environment()$...)(x = x),
+                envir = new.env(parent = asNamespace("constructive"))
+              ),
+              y = 1
+            ),
+            parent = asNamespace("constructive")
+          )
+        ),
         x = rlang::new_quosure(quote(x), new.env(parent = asNamespace("constructive")))
       )))
 
