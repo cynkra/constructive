@@ -201,8 +201,8 @@ constructors$environment$new.env <- function(x, ..., pipe, one_liner, recurse, p
 }
 
 constructors$environment$as.environment <- function(x, ..., pipe, one_liner, recurse, predefine) {
-  # We need to use env2list directly because as.list will only map
-  # to "env2list" if class was not overriden
+  # We need to use as.list.environment() (via env2list()) because as.list() will only map
+  # to as.list.environment() if class was not overriden
   code <- .cstr_wrap(
     .cstr_construct(env2list(x), ...),
     "as.environment",
