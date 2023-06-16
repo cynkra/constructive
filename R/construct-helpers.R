@@ -61,7 +61,7 @@ try_construct <- function(x, ...) {
 
 try_parse <- function(code, one_liner) {
   caller <- caller_env()
-  scope <- if (one_liner) "indention" else "line_breaks"
+  scope <- "none"
   # "vertical" class needs one string per line of code
   # https://github.com/cynkra/constructive/pull/199#issuecomment-1625482890
   code <- split_by_line(code)

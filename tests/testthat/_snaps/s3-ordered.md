@@ -3,11 +3,15 @@
     Code
       construct(factor(month.abb, ordered = TRUE))
     Output
-      ordered(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+      ordered(
+        c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+      )
     Code
       construct(factor(month.abb, ordered = TRUE))
     Output
-      ordered(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+      ordered(
+        c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+      )
     Code
       construct(factor(month.abb, ordered = TRUE), opts_ordered("factor"))
     Output

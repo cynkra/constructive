@@ -124,7 +124,7 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
   if (l == 1 && is.null(names(x))) return(format_flex(x, all_na = TRUE))
 
   args <- vapply(x, format_flex, character(1), all_na = all(is.na(x)))
-  code <- .cstr_apply(args, "c", ..., new_line = FALSE, recurse = FALSE)
+  code <- .cstr_apply(args, "c", ..., recurse = FALSE)
   if (one_liner) code <- paste(code, collapse = " ")
   code
 }
