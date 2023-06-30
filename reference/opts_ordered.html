@@ -81,10 +81,10 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Depending on <code>constructor</code>, we construct the environment as follows:</p><ul><li><p><code>"ordered"</code> (default): Build the object using a <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered()</a></code> call, levels won't
+    <p>Depending on <code>constructor</code>, we construct the environment as follows:</p><ul><li><p><code>"ordered"</code> (default): Build the object using <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered()</a></code>, levels won't
 be defined explicitly if they are in alphabetical order (locale dependent!)</p></li>
-<li><p><code>"factor"</code> : Same as above but build the object using a <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code> call and <code>ordered = TRUE</code>.</p></li>
-<li><p><code>"new_ordered"</code> : Build the object using a <code><a href="https://vctrs.r-lib.org/reference/new_factor.html" class="external-link">vctrs::new_ordered()</a></code>. Levels are
+<li><p><code>"factor"</code> : Same as above but build the object using <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code> and <code>ordered = TRUE</code>.</p></li>
+<li><p><code>"new_ordered"</code> : Build the object using <code><a href="https://vctrs.r-lib.org/reference/new_factor.html" class="external-link">vctrs::new_ordered()</a></code>. Levels are
 always defined explicitly.</p></li>
 <li><p><code>"next"</code> : Use the constructor for the next supported class. Call <code><a href="https://rdrr.io/r/base/class.html" class="external-link">.class2()</a></code>
 on the object to see in which order the methods will be tried.</p></li>
