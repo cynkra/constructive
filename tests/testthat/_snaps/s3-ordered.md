@@ -11,7 +11,8 @@
     Code
       construct(factor(month.abb, ordered = TRUE), opts_ordered("factor"))
     Output
-      factor(c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+      factor(
+        c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
         ordered = TRUE
       )
     Code
@@ -56,6 +57,14 @@
       vctrs::new_ordered(
         1:12,
         levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+      )
+    Code
+      construct(factor(month.abb, levels = c(month.abb, NA), ordered = TRUE, exclude = NULL))
+    Output
+      ordered(
+        c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+        levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", NA),
+        exclude = NULL
       )
     Code
       construct(ordered(c(a = "foo")))

@@ -23,11 +23,11 @@ These options will be used on objects of class 'factor'.
 \details{
 Depending on \code{constructor}, we construct the environment as follows:
 \itemize{
-\item \code{"factor"} (default): Build the object using a \code{factor()} call, levels won't
+\item \code{"factor"} (default): Build the object using \code{factor()}, levels won't
 be defined explicitly if they are in alphabetical order (locale dependent!)
-\item \code{"as_factor"} : Build the object using a \code{forcats::as_factor()} call whenever
+\item \code{"as_factor"} : Build the object using \code{forcats::as_factor()} whenever
 possible, i.e. when levels are defined in order of appearance in the vector. Otherwise falls back to \code{"factor"} constructor.
-\item \code{"new_factor"} : Build the object using a \code{vctrs::new_factor()} call. Levels are
+\item \code{"new_factor"} : Build the object using \code{vctrs::new_factor()}. Levels are
 always defined explicitly.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.
