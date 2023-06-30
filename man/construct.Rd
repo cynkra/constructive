@@ -70,8 +70,14 @@ Constructive options provide a way to customize the output of `construct()`.
 We can provide calls to `opts_*()` functions to the `...` argument. Each of these functions targets a specific type or class and is documented on its own page.
 
 \itemize{
-  \item \code{\link[=opts_array]{opts_array}(constructor = c("array", "next"), ...)}
   \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next", "atomic"), ...)}
+  \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
+  \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "environment"), ...)}
+  \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
+  \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "list"), ...)}
+  \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "atomic"), ...)}
+  \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
+  \item \code{\link[=opts_array]{opts_array}(constructor = c("array", "next"), ...)}
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)}
   \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}(constructor = c("setClass"), ...)}
   \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}(constructor = c("prototype"), ...)}
@@ -79,7 +85,6 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_constructive_options]{opts_constructive_options}(constructor = c("opts", "next"), ...)}
   \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ...)}
   \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE)}
-  \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
   \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
   \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
@@ -89,7 +94,6 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
-  \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "environment"), ...)}
   \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
   \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "next", "atomic"), ...)}
   \item \code{\link[=opts_mts]{opts_mts}(constructor = c("ts", "next", "atomic"), ...)}
@@ -97,13 +101,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ordered]{opts_ordered}(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...)}
   \item \code{\link[=opts_package_version]{opts_package_version}(constructor = c("package_version", "next", "atomic"), ...)}
   \item \code{\link[=opts_pairlist]{opts_pairlist}(constructor = c("pairlist", "pairlist2"), ...)}
-  \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
-  \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "list"), ...)}
   \item \code{\link[=opts_quosure]{opts_quosure}(constructor = c("new_quosure", "next", "language"), ...)}
   \item \code{\link[=opts_quosures]{opts_quosures}(constructor = c("new_quosures", "next", "list"), ...)}
-  \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "atomic"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
-  \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE)}
   \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}(constructor = c("list_of", "list"), ...)}

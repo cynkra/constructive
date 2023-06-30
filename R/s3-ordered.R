@@ -5,10 +5,10 @@ constructors$ordered <- new.env()
 #' These options will be used on objects of class 'ordered'.
 #'
 #' Depending on `constructor`, we construct the environment as follows:
-#' * `"ordered"` (default): Build the object using a `ordered()` call, levels won't
+#' * `"ordered"` (default): Build the object using `ordered()`, levels won't
 #'   be defined explicitly if they are in alphabetical order (locale dependent!)
-#' * `"factor"` : Same as above but build the object using a `factor()` call and `ordered = TRUE`.
-#' * `"new_ordered"` : Build the object using a `vctrs::new_ordered()`. Levels are
+#' * `"factor"` : Same as above but build the object using `factor()` and `ordered = TRUE`.
+#' * `"new_ordered"` : Build the object using `vctrs::new_ordered()`. Levels are
 #'   always defined explicitly.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
@@ -45,10 +45,11 @@ constructors$ordered$ordered <- function(x, ...) {
   levs <- levels(x)
   args <- list(setNames(as.character(x), names(x)))
   default_levs <- sort(unique(as.character(x)))
-  if (identical(default_levs, levs)) {
-    code <- .cstr_apply(args, "ordered", ..., new_line = FALSE)
+  if (!identical(default_levs, levs)) args$levels <- levs
+  if (NA %in% levs) args["exclude"] <- list(NULL)
+  if (length(args) == 1) {
+    code <- .cstr_apply(args, "ordered", new_line =  FALSE, ...)
   } else {
-    args <- c(args, list(levels = levs))
     code <- .cstr_apply(args, "ordered", ...)
   }
   repair_attributes_ordered(x, code, ...)
@@ -59,13 +60,10 @@ constructors$ordered$factor <- function(x, ...) {
   levs <- levels(x)
   args <- list(setNames(as.character(x), names(x)))
   default_levs <- sort(unique(as.character(x)))
-  if (identical(default_levs, levs)) {
-    args <- c(args, list(ordered = TRUE))
-    code <- .cstr_apply(args, "factor", ..., new_line = FALSE)
-  } else {
-    args <- c(args, list(levels = levs, ordered = TRUE))
-    code <- .cstr_apply(args, "factor", ...)
-  }
+  if (!identical(default_levs, levs)) args$levels <- levs
+  if (NA %in% levs) args["exclude"] <- list(NULL)
+  args$ordered <- TRUE
+  code <- .cstr_apply(args, "factor", ...)
   repair_attributes_ordered(x, code, ...)
 }
 

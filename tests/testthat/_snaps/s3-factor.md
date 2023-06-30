@@ -50,6 +50,14 @@
         levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
       )
     Code
+      construct(factor(month.abb, levels = c(month.abb, NA), exclude = NULL))
+    Output
+      factor(
+        c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+        levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", NA),
+        exclude = NULL
+      )
+    Code
       construct(factor(c(a = "foo")))
     Message
       {constructive} couldn't create code that reproduces perfectly the input

@@ -23,10 +23,10 @@ These options will be used on objects of class 'ordered'.
 \details{
 Depending on \code{constructor}, we construct the environment as follows:
 \itemize{
-\item \code{"ordered"} (default): Build the object using a \code{ordered()} call, levels won't
+\item \code{"ordered"} (default): Build the object using \code{ordered()}, levels won't
 be defined explicitly if they are in alphabetical order (locale dependent!)
-\item \code{"factor"} : Same as above but build the object using a \code{factor()} call and \code{ordered = TRUE}.
-\item \code{"new_ordered"} : Build the object using a \code{vctrs::new_ordered()}. Levels are
+\item \code{"factor"} : Same as above but build the object using \code{factor()} and \code{ordered = TRUE}.
+\item \code{"new_ordered"} : Build the object using \code{vctrs::new_ordered()}. Levels are
 always defined explicitly.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.

@@ -5,11 +5,11 @@ constructors$factor <- new.env()
 #' These options will be used on objects of class 'factor'.
 #'
 #' Depending on `constructor`, we construct the environment as follows:
-#' * `"factor"` (default): Build the object using a `factor()` call, levels won't
+#' * `"factor"` (default): Build the object using `factor()`, levels won't
 #'   be defined explicitly if they are in alphabetical order (locale dependent!)
-#' * `"as_factor"` : Build the object using a `forcats::as_factor()` call whenever
+#' * `"as_factor"` : Build the object using `forcats::as_factor()` whenever
 #'   possible, i.e. when levels are defined in order of appearance in the vector. Otherwise falls back to `"factor"` constructor.
-#' * `"new_factor"` : Build the object using a `vctrs::new_factor()` call. Levels are
+#' * `"new_factor"` : Build the object using `vctrs::new_factor()`. Levels are
 #'   always defined explicitly.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
@@ -54,7 +54,7 @@ constructors$factor$new_factor <- function(x, ...) {
 constructors$factor$as_factor <- function(x, ...) {
   levs <- levels(x)
   x_chr <- as.character(x)
-  if (!identical(unique(x_chr), levs)) return(constructors$factor$factor(x, ...))
+  if (!identical(unique(x_chr), levs) || NA %in% levs) return(constructors$factor$factor(x, ...))
   x_chr_named <- setNames(x_chr, names(x))
   code <- .cstr_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
   repair_attributes_factor(x, code, ...)
@@ -65,10 +65,15 @@ constructors$factor$factor <- function(x, ...) {
   x_chr <- as.character(x)
   x_chr_named <- setNames(x_chr, names(x))
   default_levs <- sort(unique(x_chr))
-  if (identical(default_levs, levs)) {
-    code <- .cstr_apply(list(x_chr_named), "factor", new_line =  FALSE, ...)
+  args <- list(x_chr_named)
+  if (!identical(default_levs, levs)) args$levels <- levs
+  if (NA %in% levs) args["exclude"] <- list(NULL)
+
+
+  if (length(args) == 1) {
+    code <- .cstr_apply(args, "factor", new_line =  FALSE, ...)
   } else {
-    code <- .cstr_apply(list(x_chr_named, levels = levs), "factor", ...)
+    code <- .cstr_apply(args, "factor", ...)
   }
   repair_attributes_factor(x, code, ...)
 }
