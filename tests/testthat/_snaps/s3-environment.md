@@ -111,18 +111,26 @@
         if (!missing(...)) {
           check_dots_empty()
         }
+      
         x <- vars_env[[what]]
+      
         if (is_null(x)) {
           if (is_null(fn)) {
             fn <- "Selection helpers"
           } else {
             fn <- glue::glue("`{fn}()`")
           }
+      
+          # Please keep in sync with faq.R.
           cli::cli_abort(
-            c("{fn} must be used within a *selecting* function.", i = "See {peek_vars_link()} for details."),
+            c(
+              "{fn} must be used within a *selecting* function.",
+              i = "See {peek_vars_link()} for details."
+            ),
             call = NULL
           )
         }
+      
         x
       }) |>
         (`environment<-`)(..env.1..)
