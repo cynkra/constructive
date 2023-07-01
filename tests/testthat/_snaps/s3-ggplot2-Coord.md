@@ -57,18 +57,23 @@
             if (any(!is.finite(raw_rng))) {
               return(numeric())
             }
+      
             rng <- log(raw_rng, base = base)
             min <- floor(rng[1])
             max <- ceiling(rng[2])
+      
             if (max == min) {
               return(base^min)
             }
+      
             by <- floor((max - min) / n) + 1
             breaks <- base^seq(min, max, by = by)
             relevant_breaks <- base^rng[1] <= breaks & breaks <= base^rng[2]
             if (sum(relevant_breaks) >= (n - 2)) {
               return(breaks)
             }
+      
+            # the easy solution to get more breaks is to decrease 'by'
             while (by > 1) {
               by <- by - 1
               breaks <- base^seq(min, max, by = by)
@@ -85,7 +90,10 @@
             if (length(b) < 2) {
               return()
             }
+      
             bd <- diff(b)[1]
+      
+            # Allow minor breaks to extend outside major breaks towards limits
             if (!reverse) {
               if (min(limits) < min(b)) b <- c(b[1] - bd, b)
               if (max(limits) > max(b)) b <- c(b, b[length(b)] + bd)
@@ -93,10 +101,14 @@
               if (max(limits) > max(b)) b <- c(b[1] - bd, b)
               if (min(limits) < min(b)) b <- c(b, b[length(b)] + bd)
             }
+      
+            # Find minor breaks between major breaks
             seq_between <- function(a, b) {
               seq(a, b, length.out = n + 1)[-(n + 1)]
             }
             breaks <- unlist(Map(seq_between, b[-length(b)], b[-1]))
+      
+            # Add the final break back
             breaks <- c(breaks, b[length(b)])
             breaks
           }) |>
@@ -106,7 +118,10 @@
               return(names(x))
             }
             ret <- format(x, ..., trim = TRUE, justify = "left")
+      
+            # format.character() renders NA as "NA"
             ret[is.na(x)] <- NA
+      
             ret
           }) |>
             (`environment<-`)(constructive::.env("0x000000000", parents = "namespace:scales")),
@@ -123,18 +138,23 @@
             if (any(!is.finite(raw_rng))) {
               return(numeric())
             }
+      
             rng <- log(raw_rng, base = base)
             min <- floor(rng[1])
             max <- ceiling(rng[2])
+      
             if (max == min) {
               return(base^min)
             }
+      
             by <- floor((max - min) / n) + 1
             breaks <- base^seq(min, max, by = by)
             relevant_breaks <- base^rng[1] <= breaks & breaks <= base^rng[2]
             if (sum(relevant_breaks) >= (n - 2)) {
               return(breaks)
             }
+      
+            # the easy solution to get more breaks is to decrease 'by'
             while (by > 1) {
               by <- by - 1
               breaks <- base^seq(min, max, by = by)
@@ -151,7 +171,10 @@
             if (length(b) < 2) {
               return()
             }
+      
             bd <- diff(b)[1]
+      
+            # Allow minor breaks to extend outside major breaks towards limits
             if (!reverse) {
               if (min(limits) < min(b)) b <- c(b[1] - bd, b)
               if (max(limits) > max(b)) b <- c(b, b[length(b)] + bd)
@@ -159,10 +182,14 @@
               if (max(limits) > max(b)) b <- c(b[1] - bd, b)
               if (min(limits) < min(b)) b <- c(b, b[length(b)] + bd)
             }
+      
+            # Find minor breaks between major breaks
             seq_between <- function(a, b) {
               seq(a, b, length.out = n + 1)[-(n + 1)]
             }
             breaks <- unlist(Map(seq_between, b[-length(b)], b[-1]))
+      
+            # Add the final break back
             breaks <- c(breaks, b[length(b)])
             breaks
           }) |>
@@ -172,7 +199,10 @@
               return(names(x))
             }
             ret <- format(x, ..., trim = TRUE, justify = "left")
+      
+            # format.character() renders NA as "NA"
             ret[is.na(x)] <- NA
+      
             ret
           }) |>
             (`environment<-`)(constructive::.env("0x000000000", parents = "namespace:scales")),
@@ -195,6 +225,7 @@
             if (length(x) == 0) {
               return(numeric())
             }
+      
             rng <- range(x)
             labeling::extended(rng[1], rng[2], n, ...)
           }) |>
@@ -204,7 +235,10 @@
             if (length(b) < 2) {
               return()
             }
+      
             bd <- diff(b)[1]
+      
+            # Allow minor breaks to extend outside major breaks towards limits
             if (!reverse) {
               if (min(limits) < min(b)) b <- c(b[1] - bd, b)
               if (max(limits) > max(b)) b <- c(b, b[length(b)] + bd)
@@ -212,10 +246,14 @@
               if (max(limits) > max(b)) b <- c(b[1] - bd, b)
               if (min(limits) < min(b)) b <- c(b, b[length(b)] + bd)
             }
+      
+            # Find minor breaks between major breaks
             seq_between <- function(a, b) {
               seq(a, b, length.out = n + 1)[-(n + 1)]
             }
             breaks <- unlist(Map(seq_between, b[-length(b)], b[-1]))
+      
+            # Add the final break back
             breaks <- c(breaks, b[length(b)])
             breaks
           }) |>
@@ -225,7 +263,10 @@
               return(names(x))
             }
             ret <- format(x, ..., trim = TRUE, justify = "left")
+      
+            # format.character() renders NA as "NA"
             ret[is.na(x)] <- NA
+      
             ret
           }) |>
             (`environment<-`)(constructive::.env("0x000000000", parents = "namespace:scales")),
@@ -242,6 +283,7 @@
             if (length(x) == 0) {
               return(numeric())
             }
+      
             rng <- range(x)
             labeling::extended(rng[1], rng[2], n, ...)
           }) |>
@@ -251,7 +293,10 @@
             if (length(b) < 2) {
               return()
             }
+      
             bd <- diff(b)[1]
+      
+            # Allow minor breaks to extend outside major breaks towards limits
             if (!reverse) {
               if (min(limits) < min(b)) b <- c(b[1] - bd, b)
               if (max(limits) > max(b)) b <- c(b, b[length(b)] + bd)
@@ -259,10 +304,14 @@
               if (max(limits) > max(b)) b <- c(b[1] - bd, b)
               if (min(limits) < min(b)) b <- c(b, b[length(b)] + bd)
             }
+      
+            # Find minor breaks between major breaks
             seq_between <- function(a, b) {
               seq(a, b, length.out = n + 1)[-(n + 1)]
             }
             breaks <- unlist(Map(seq_between, b[-length(b)], b[-1]))
+      
+            # Add the final break back
             breaks <- c(breaks, b[length(b)])
             breaks
           }) |>
@@ -272,7 +321,10 @@
               return(names(x))
             }
             ret <- format(x, ..., trim = TRUE, justify = "left")
+      
+            # format.character() renders NA as "NA"
             ret[is.na(x)] <- NA
+      
             ret
           }) |>
             (`environment<-`)(constructive::.env("0x000000000", parents = "namespace:scales")),
@@ -320,17 +372,4 @@
       construct(ggplot2::coord_polar("y", start = pi / 3))
     Output
       ggplot2::coord_polar(theta = "y", start = 1.047197551196597631318)
-
-# CoordSf
-
-    Code
-      construct(ggplot2::coord_sf(default_crs = sf::st_crs(4326)))
-    Output
-      ggplot2::coord_sf(
-        default_crs = list(
-          input = "EPSG:4326",
-          wkt = "GEOGCRS[\"WGS 84\",\n    ENSEMBLE[\"World Geodetic System 1984 ensemble\",\n        MEMBER[\"World Geodetic System 1984 (Transit)\"],\n        MEMBER[\"World Geodetic System 1984 (G730)\"],\n        MEMBER[\"World Geodetic System 1984 (G873)\"],\n        MEMBER[\"World Geodetic System 1984 (G1150)\"],\n        MEMBER[\"World Geodetic System 1984 (G1674)\"],\n        MEMBER[\"World Geodetic System 1984 (G1762)\"],\n        MEMBER[\"World Geodetic System 1984 (G2139)\"],\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]],\n        ENSEMBLEACCURACY[2.0]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    USAGE[\n        SCOPE[\"Horizontal component of 3D system.\"],\n        AREA[\"World.\"],\n        BBOX[-90,-180,90,180]],\n    ID[\"EPSG\",4326]]"
-        ) |>
-          structure(class = "crs")
-      )
 
