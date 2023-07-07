@@ -22,7 +22,8 @@
 
 \item{...}{Forwarded to \code{.construct_apply()} when relevant}
 
-\item{pipe}{Which pipe to use, either "base" or "magrittr"}
+\item{pipe}{Which pipe to use, either \code{"base"} or \code{"magrittr"}.
+Defaults to \code{"base"} for R >= 4.2, otherwise to \code{"magrittr"}.}
 
 \item{ignore}{The attributes that shouldn't be repaired, i.e. we expect them
 to be set by the constructor already in \code{code}}

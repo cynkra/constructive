@@ -9,7 +9,7 @@ construct(
   x,
   ...,
   data = NULL,
-  pipe = c("base", "magrittr"),
+  pipe = NULL,
   check = NULL,
   compare = compare_options(),
   one_liner = FALSE,
@@ -20,7 +20,7 @@ construct_multi(
   x,
   ...,
   data = NULL,
-  pipe = c("base", "magrittr"),
+  pipe = NULL,
   check = NULL,
   compare = compare_options(),
   one_liner = FALSE,
@@ -38,7 +38,8 @@ deparsing them further). Can also contain unnamed nested lists, environments, or
 package names, in the latter case package exports and datasets will be considered.
 In case of conflict, the last provided name is considered.}
 
-\item{pipe}{Which pipe to use, either "base" or "magrittr"}
+\item{pipe}{Which pipe to use, either \code{"base"} or \code{"magrittr"}.
+Defaults to \code{"base"} for R >= 4.2, otherwise to \code{"magrittr"}.}
 
 \item{check}{Boolean. Whether to check if the created code reproduces the object
 using \code{waldo::compare()}.}
