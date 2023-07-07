@@ -251,7 +251,7 @@ format_unicode <- function(x, type = c("ascii", "latin", "character", "unicode")
 unescape_relevant_strings <- function(strings, strings0) {
   # https://stackoverflow.com/questions/42598040/
   odd_consecutive_backslashes_pattern <-
-    r"[(?<!\\)\\(?:\\{2})*(?!\\)]"
+    "(?<!\\\\)\\\\(?:\\\\{2})*(?!\\\\)" # r"[(?<!\\)\\(?:\\{2})*(?!\\)]"
   has_odd_consecutive_backlashes <-
     grepl(odd_consecutive_backslashes_pattern, strings, perl = TRUE)
 
