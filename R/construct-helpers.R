@@ -61,18 +61,22 @@ try_construct <- function(x, ...) {
 
 try_parse <- function(code, one_liner) {
   caller <- caller_env()
-  scope <- "none"
-  # "vertical" class needs one string per line of code
-  # https://github.com/cynkra/constructive/pull/199#issuecomment-1625482890
-  code <- split_by_line(code)
   rlang::try_fetch(
-    styler::style_text(code, scope = scope),
+    rlang::parse_expr(paste0("{\n", paste(code, collapse = "\n"), "\n}\n")),
     error = function(e) {
       #nocov start
       abort("The code built by {constructive} could not be parsed.", parent = e, call = caller)
       #nocov end
     }
   )
+
+  # "vertical" class needs one string per line of code
+  # https://github.com/cynkra/constructive/pull/199#issuecomment-1625482890
+  code <- split_by_line(code)
+
+  # For "vertical" class
+  requireNamespace("styler", quietly = TRUE)
+  structure(code, class = "vertical")
 }
 
 try_eval <- function(styled_code, data, check, caller) {
