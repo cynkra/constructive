@@ -44,6 +44,15 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
 #' .cstr_pipe("iris", "head(2)", pipe = "base", one_liner = FALSE)
 #' .cstr_pipe("iris", "head(2)", pipe = "base", one_liner = TRUE)
 .cstr_pipe <- function(x, y, pipe, one_liner) {
+  if (is.null(pipe)) {
+    if (getRversion() >= "4.2") {
+      pipe <- "base"
+    } else {
+      pipe <- "magrittr"
+    }
+  } else if (pipe != "plus") {
+    pipe <- rlang::arg_match(pipe, c("base", "magrittr"))
+  }
   pipe_symbol <- c(base = "|>", magrittr = "%>%", plus = "+")[[pipe]]
   if (one_liner) return(paste(x, pipe_symbol, y))
   x[length(x)] <- paste(x[length(x)], pipe_symbol)

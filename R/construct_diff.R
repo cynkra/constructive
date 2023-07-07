@@ -32,7 +32,7 @@
 #' construct_diff(x, y)
 #' }
 construct_diff <- function(
-    target, current, ..., data = NULL, pipe = c("base", "magrittr"), check = TRUE,
+    target, current, ..., data = NULL, pipe = NULL, check = TRUE,
     compare = compare_options(), one_liner = FALSE,
     template = getOption("constructive_opts_template"), mode = c("sidebyside", "auto", "unified", "context"), interactive = TRUE) {
   mode <- match.arg(mode)

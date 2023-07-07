@@ -149,6 +149,16 @@ constructors$environment$.env <- function(x, ..., pipe, one_liner, recurse, pred
 }
 
 constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, predefine) {
+  if (is.null(pipe)) {
+    if (getRversion() >= "4.2") {
+      pipe <- "base"
+    } else {
+      pipe <- "magrittr"
+    }
+  } else {
+    pipe <- rlang::arg_match(pipe, c("base", "magrittr"))
+  }
+
     if (!recurse) {
       if (length(names(x))) {
         code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "list2env", ..., pipe = pipe, one_liner = one_liner)
@@ -158,7 +168,7 @@ constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, 
       return(repair_attributes_environment(x, code, ...))
     }
 
-    place_holder <- c(base = "_", magrittr = ".")[pipe]
+    place_holder <- c(base = "_", magrittr = ".")[[pipe]]
     lhs_code <- .cstr_construct(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
     if (length(names(x))) {
       data_code <- .cstr_construct(env2list(x), ..., pipe = pipe, one_liner = one_liner)
@@ -173,6 +183,16 @@ constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, 
 }
 
 constructors$environment$new_environment <- function(x, ..., pipe, one_liner, recurse, predefine) {
+  if (is.null(pipe)) {
+    if (getRversion() >= "4.2") {
+      pipe <- "base"
+    } else {
+      pipe <- "magrittr"
+    }
+  } else {
+    pipe <- rlang::arg_match(pipe, c("base", "magrittr"))
+  }
+
   if (!recurse) {
     if (length(names(x))) {
       code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "rlang::new_environment", ..., pipe = pipe, one_liner = one_liner)
@@ -182,7 +202,7 @@ constructors$environment$new_environment <- function(x, ..., pipe, one_liner, re
     return(repair_attributes_environment(x, code, ...))
   }
 
-  place_holder <- c(base = "_", magrittr = ".")[pipe]
+  place_holder <- c(base = "_", magrittr = ".")[[pipe]]
   lhs_code <- .cstr_construct(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
   if (length(names(x))) {
     data_code <- .cstr_construct(env2list(x), ..., pipe = pipe, one_liner = one_liner)
