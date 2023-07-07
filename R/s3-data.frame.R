@@ -89,7 +89,10 @@ constructors$data.frame$read.table <- function(x, ...) {
   code_df[] <- lapply(code_df, format, justify = "right")
 
   # collapse table into code
-  code <- c("read.table(header = TRUE, text = \"", do.call(paste, code_df), "\")")
+  code <- paste(
+    c("read.table(header = TRUE, text = \"", do.call(paste, code_df), "\")"),
+    collapse = "\n"
+  )
 
   # repair
   repair_attributes_data.frame(x, code, ...)
