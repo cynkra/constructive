@@ -35,6 +35,7 @@ deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE) {
     })
   if (style) {
     scope <- if (one_liner) "indention" else "line_breaks"
+  code <- unlist(strsplit(code, "\n", fixed = TRUE), recursive = FALSE)
     code <- styler::style_text(code, scope = scope)
   }
   code

@@ -62,6 +62,7 @@ try_construct <- function(x, ...) {
 try_parse <- function(code, one_liner) {
   caller <- caller_env()
   scope <- if (one_liner) "indention" else "line_breaks"
+  code <- unlist(strsplit(code, "\n", fixed = TRUE), recursive = FALSE)
   rlang::try_fetch(
     styler::style_text(code, scope = scope),
     error = function(e) {
