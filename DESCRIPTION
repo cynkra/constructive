@@ -37,7 +37,8 @@ Suggests:
     testthat (>= 3.0.0),
     tibble,
     tidyselect,
-    vctrs
+    vctrs,
+    withr
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

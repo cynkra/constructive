@@ -41,7 +41,7 @@
     Code
       construct(as.POSIXlt(sys_time_1970))
     Output
-      as.POSIXlt(as.POSIXct("1970-01-01 01:00:00"))
+      as.POSIXlt("1970-01-01", tz = "UTC")
     Code
       construct(as.POSIXlt("2022-01-01 01:00:00", tz = "UTC"))
     Output
