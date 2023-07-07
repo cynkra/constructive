@@ -62,24 +62,12 @@
     Output
       list2env(list(.z = 3, y = 2), parent = .GlobalEnv)
     Code
-      construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
-    Output
-      .GlobalEnv |>
-        list2env(list(x = 1), parent = _) |>
-        list2env(list(.z = 3, y = 2), parent = _)
-    Code
       construct(e2, opts_environment(constructor = "new_environment"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
       rlang::new_environment(list(.z = 3, y = 2), parent = .GlobalEnv)
-    Code
-      construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
-    Output
-      .GlobalEnv |>
-        rlang::new_environment(list(x = 1), parent = _) |>
-        rlang::new_environment(list(.z = 3, y = 2), parent = _)
     Code
       construct(e2, opts_environment(constructor = "new.env"))
     Message
@@ -138,4 +126,19 @@
       ..env.1..$f <- ..env.1..
       (~a) |>
         structure(.Environment = ..env.1..)
+
+---
+
+    Code
+      construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
+    Output
+      .GlobalEnv |>
+        list2env(list(x = 1), parent = _) |>
+        list2env(list(.z = 3, y = 2), parent = _)
+    Code
+      construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
+    Output
+      .GlobalEnv |>
+        rlang::new_environment(list(x = 1), parent = _) |>
+        rlang::new_environment(list(.z = 3, y = 2), parent = _)
 
