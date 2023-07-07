@@ -12,7 +12,13 @@
 #' @return A character vector.
 #' @export
 .cstr_wrap <- function(args, fun, new_line = FALSE) {
-  if (new_line) return(c(paste0(fun, "("), args, ")"))
+  if (new_line) {
+    return(c(
+      paste0(fun, "("),
+      indent(args),
+      ")"
+    ))
+  }
   args[1] <- paste0(fun, "(", args[1])
   l <- length(args)
   args[l] <- paste0(args[l], ")")
