@@ -2,7 +2,7 @@ test_that("POSIXct", {
   skip_if(with_versions(R >= "4.3"))
   sys_time_1970 <- Sys.time()
   sys_time_1970[[1]] <- 0
-  expect_snapshot({
+  expect_pipe_snapshot({
     # ordered
     construct(.leap.seconds[1:4])
     construct(sys_time_1970)

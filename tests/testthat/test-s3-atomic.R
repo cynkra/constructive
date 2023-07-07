@@ -1,5 +1,5 @@
 test_that("numeric", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     # by default no scientific notation
     construct(10000)
     # by default scientific notation

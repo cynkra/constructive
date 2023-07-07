@@ -8,7 +8,7 @@ test_that("language", {
 })
 
 test_that("complex language", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     x <- quote(a(1)(2))
     attr(x[[1]], "foo") <- "bar"
     construct(x)
@@ -18,4 +18,3 @@ test_that("complex language", {
     construct(y)
   })
 })
-

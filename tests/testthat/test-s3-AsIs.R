@@ -1,5 +1,5 @@
 test_that("AsIs", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(I(month.abb))
     construct(I(month.abb), opts_AsIs("next"))
     construct(I(month.abb), opts_AsIs("atomic"))
