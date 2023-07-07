@@ -35,9 +35,9 @@ test_that("function", {
     # testthat seems to remove srcrefs so we build it artificially
     f5 <- (function(x) {
       x
-    }) |>
+    }) %>%
       structure(
-        srcref = c(1L, 8L, 4L, 1L, 8L, 1L, 1L, 4L) |>
+        srcref = c(1L, 8L, 4L, 1L, 8L, 1L, 1L, 4L) %>%
           structure(
             srcfile = list2env(
               list(
@@ -46,7 +46,7 @@ test_that("function", {
                 filename = ""
               ),
               parent = .GlobalEnv
-            ) |>
+            ) %>%
               structure(class = c("srcfilecopy", "srcfile")),
             class = "srcref"
           )
