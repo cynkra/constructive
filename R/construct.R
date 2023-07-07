@@ -9,7 +9,8 @@
 #'   deparsing them further). Can also contain unnamed nested lists, environments, or
 #'   package names, in the latter case package exports and datasets will be considered.
 #'   In case of conflict, the last provided name is considered.
-#' @param pipe Which pipe to use, either "base" or "magrittr"
+#' @param pipe Which pipe to use, either `"base"` or `"magrittr"`.
+#'   Defaults to `"base"` for R >= 4.2, otherwise to `"magrittr"`.
 #' @param check Boolean. Whether to check if the created code reproduces the object
 #'   using `waldo::compare()`.
 #' @param compare Parameters passed to `waldo::compare()`, built with `compare_options()`.
@@ -29,7 +30,7 @@
 #' construct(head(cars), opts_data.frame("next"))
 #' construct(iris$Species)
 #' construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
-construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
+construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
                       compare = compare_options(), one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {
 
@@ -43,7 +44,6 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
     force(x),
     ellipsis::check_dots_unnamed(),
     abort_wrong_data(data),
-    pipe <- rlang::arg_match(pipe),
     abort_not_boolean(one_liner)
   )
 
@@ -70,7 +70,7 @@ construct <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check =
 
 #' @export
 #' @rdname construct
-construct_multi <- function(x, ..., data = NULL, pipe = c("base", "magrittr"), check = NULL,
+construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
                             compare = compare_options(), one_liner = FALSE,
                             template = getOption("constructive_opts_template")) {
   abort_not_env_or_named_list(x)
