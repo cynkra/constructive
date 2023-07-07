@@ -209,9 +209,13 @@ format_flex <- function(x, all_na) {
     return("NaN")
   }
   if (as.numeric(formatted) == x) return(formatted)
-  formatted <- format(x, digits = 22)
-  if (as.numeric(formatted) == x) return(formatted)
+  # FIXME: Increase digits only for those array elements that don't match
+  for (digits in 16:22) {
+    formatted <- format(x, digits = digits)
+    if (as.numeric(formatted) == x) return(formatted)
+  }
   # remove from coverage since system dependent
+  # (similarly to .deparseOpts("hexNumeric"))
   sprintf("%a", x) # nocov
 }
 

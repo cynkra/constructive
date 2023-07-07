@@ -41,7 +41,7 @@
         structure(
           dim = c(3L, 3L),
           dimnames = list(NULL, c("Series 1", "Series 2", "Series 3")),
-          tsp = c(1961, 0x1.ea4aaaaaaaaabp+10, 12),
+          tsp = c(1961, 1961.1666666666667, 12),
           class = c("mts", "ts", "matrix")
         )
 
