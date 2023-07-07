@@ -62,7 +62,7 @@
 <span>  <span class="va">current</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  pipe <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"base"</span>, <span class="st">"magrittr"</span><span class="op">)</span>,</span>
+<span>  pipe <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  compare <span class="op">=</span> <span class="fu"><a href="compare_options.html">compare_options</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -95,7 +95,8 @@ In case of conflict, the last provided name is considered.</p></dd>
 
 
 <dt>pipe</dt>
-<dd><p>Which pipe to use, either "base" or "magrittr"</p></dd>
+<dd><p>Which pipe to use, either <code>"base"</code> or <code>"magrittr"</code>.
+Defaults to <code>"base"</code> for R &gt;= 4.2, otherwise to <code>"magrittr"</code>.</p></dd>
 
 
 <dt>check</dt>
