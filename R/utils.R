@@ -281,3 +281,9 @@ indent <- function(x) {
   if (length(x) == 0) return(x)
   paste0("  ", x)
 }
+
+split_by_line <- function(x) {
+  with_newline <- paste0(x, "\n")
+  split <- strsplit(with_newline, "\n", fixed = TRUE)
+  unlist(split, recursive = FALSE)
+}
