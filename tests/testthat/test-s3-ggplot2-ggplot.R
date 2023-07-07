@@ -1,5 +1,5 @@
 test_that("ggplot", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     library(dplyr, warn = FALSE)
     library(ggplot2, warn = FALSE)
     mpg_99 <- mpg %>% filter(year == 1999)

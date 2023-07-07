@@ -7,7 +7,7 @@
     Code
       construct(sys_time_1970)
     Output
-      as.POSIXct("1970-01-01 01:00:00") |>
+      as.POSIXct("1970-01-01") |>
         structure(tzone = NULL)
     Code
       construct(as.POSIXct("2022-01-01 01:00:00", tz = "UTC"))

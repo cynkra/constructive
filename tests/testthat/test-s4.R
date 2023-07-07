@@ -1,5 +1,5 @@
 test_that("s4", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     track <- setClass("track", slots = c(x="numeric", y="numeric"))
     construct(track)
 

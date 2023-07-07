@@ -1,5 +1,5 @@
 test_that("data.table", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     dt1 <- data.table::data.table(head(cars,2))
     construct(dt1)
     construct(dt1, opts_data.table(selfref = TRUE))

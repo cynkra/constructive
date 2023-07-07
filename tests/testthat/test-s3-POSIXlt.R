@@ -1,8 +1,9 @@
 test_that("POSIXlt", {
   skip_if(with_versions(R >= "4.3"))
+  withr::local_timezone("UTC")
   sys_time_1970 <- Sys.time()
   sys_time_1970[[1]] <- 0
-  expect_snapshot({
+  expect_pipe_snapshot({
     # ordered
     construct(as.POSIXlt(.leap.seconds[1:4]))
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))

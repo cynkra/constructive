@@ -1,5 +1,5 @@
 test_that("environment", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     # handle special cases
     construct(globalenv())
     construct(baseenv())
@@ -23,9 +23,7 @@ test_that("environment", {
     e2$y <- 2
     e2$.z <- 3
     construct(e2, opts_environment(constructor = "list2env")) # constructor = "list2env", recurse = FALSE
-    construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
     construct(e2, opts_environment(constructor = "new_environment"))
-    construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
     construct(e2, opts_environment(constructor = "new.env"))
     construct(e2, opts_environment(constructor = "topenv"))
     construct(e2, opts_environment(constructor = "as.environment"))
@@ -37,5 +35,10 @@ test_that("environment", {
     foo <- evalq(~a, e)
     construct(foo, opts_environment(predefine = TRUE), opts_formula(environment = TRUE))
     }, .GlobalEnv)
+  })
+  skip_if(with_versions(R < "4.2"))
+  expect_snapshot({
+    construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
+    construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
   })
 })

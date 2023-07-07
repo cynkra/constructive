@@ -1,5 +1,5 @@
 test_that("array", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(as.array(month.abb))
     construct(as.array(month.abb), opts_array("next"))
     construct(array(1:3, c(2,4)))

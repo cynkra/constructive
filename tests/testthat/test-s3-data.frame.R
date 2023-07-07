@@ -1,5 +1,5 @@
 test_that("data.frame", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     # one line, implicit row names
     construct(head(cars,2))
     # multiline, with row names

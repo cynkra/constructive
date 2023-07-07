@@ -319,7 +319,7 @@
     Code
       construct(ggplot2::coord_polar("y", start = pi / 3))
     Output
-      ggplot2::coord_polar(theta = "y", start = 1.047197551196597631318)
+      ggplot2::coord_polar(theta = "y", start = 1.0471975511965976)
 
 # CoordSf
 
