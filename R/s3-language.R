@@ -36,7 +36,7 @@ is_corrupted_language <- function(x) {
 }
 
 constructors$language$default <- function(x, ..., one_liner = FALSE) {
-  if (identical(x, quote(expr=))) return("quote(expr=)")
+  if (identical(x, quote(expr=))) return("quote(expr = )")
   x_stripped <- x
   attributes(x_stripped) <- NULL
 

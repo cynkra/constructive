@@ -93,7 +93,7 @@ update_predefinition <- function(envir, ...) {
   for (nm in names(envir)) {
     obj <- envir[[nm]]
     if (missing(obj)) {
-      obj_code <- sprintf("%s$%s <- quote(expr=)", env_name, nm)
+      obj_code <- sprintf("%s$%s <- quote(expr = )", env_name, nm)
       globals$predefinition <- c(
         globals$predefinition,
         obj_code
@@ -114,7 +114,7 @@ update_predefinition <- function(envir, ...) {
   for (nm in names(envir)) {
     obj <- envir[[nm]]
     if (missing(obj)) {
-      obj_code <- sprintf("%s$%s <- quote(expr=)", env_name, nm)
+      obj_code <- sprintf("%s$%s <- quote(expr = )", env_name, nm)
       globals$predefinition <- c(
         globals$predefinition,
         obj_code
