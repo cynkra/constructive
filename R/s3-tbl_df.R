@@ -71,7 +71,11 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
   if (!trailing_comma) {
     code[[length(code)]] <- sub(", *$", "", code[[length(code)]])
   }
-  code <- c("tibble::tribble(", code, ")")
+  code <- c(
+    "tibble::tribble(",
+    indent(code),
+    ")"
+  )
 
   # repair
   repair_attributes_tbl_df(x, code, ...)
