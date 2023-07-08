@@ -90,6 +90,36 @@
     Output
       as.environment(list(.z = 3, y = 2))
     Code
+      evalq({
+        e <- new.env()
+        e$f <- e
+        foo <- evalq(~a, e)
+        construct(foo, opts_environment(predefine = TRUE), opts_formula(environment = TRUE))
+      }, .GlobalEnv)
+    Output
+      ..env.1.. <- new.env(parent = .GlobalEnv)
+      ..env.1..$f <- ..env.1..
+      (~a) |>
+        structure(.Environment = ..env.1..)
+
+---
+
+    Code
+      construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
+    Output
+      .GlobalEnv |>
+        list2env(list(x = 1), parent = _) |>
+        list2env(list(.z = 3, y = 2), parent = _)
+    Code
+      construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
+    Output
+      .GlobalEnv |>
+        rlang::new_environment(list(x = 1), parent = _) |>
+        rlang::new_environment(list(.z = 3, y = 2), parent = _)
+
+---
+
+    Code
       construct(constructive::construct, opts_environment(predefine = TRUE),
       opts_function(environment = TRUE))
     Output
@@ -130,31 +160,4 @@
         new_constructive(styled_code, compare)
       }) |>
         (`environment<-`)(asNamespace("constructive"))
-    Code
-      evalq({
-        e <- new.env()
-        e$f <- e
-        foo <- evalq(~a, e)
-        construct(foo, opts_environment(predefine = TRUE), opts_formula(environment = TRUE))
-      }, .GlobalEnv)
-    Output
-      ..env.1.. <- new.env(parent = .GlobalEnv)
-      ..env.1..$f <- ..env.1..
-      (~a) |>
-        structure(.Environment = ..env.1..)
-
----
-
-    Code
-      construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
-    Output
-      .GlobalEnv |>
-        list2env(list(x = 1), parent = _) |>
-        list2env(list(.z = 3, y = 2), parent = _)
-    Code
-      construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
-    Output
-      .GlobalEnv |>
-        rlang::new_environment(list(x = 1), parent = _) |>
-        rlang::new_environment(list(.z = 3, y = 2), parent = _)
 

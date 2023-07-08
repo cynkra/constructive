@@ -27,7 +27,6 @@ test_that("environment", {
     construct(e2, opts_environment(constructor = "new.env"))
     construct(e2, opts_environment(constructor = "topenv"))
     construct(e2, opts_environment(constructor = "as.environment"))
-    construct(constructive::construct, opts_environment(predefine = TRUE), opts_function(environment = TRUE))
     # circularity
     evalq({
     e <- new.env()
@@ -40,5 +39,10 @@ test_that("environment", {
   expect_snapshot({
     construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
     construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
+  })
+
+  skip_if(identical(Sys.getenv("R_COVR"), "true"))
+  expect_snapshot({
+    construct(constructive::construct, opts_environment(predefine = TRUE), opts_function(environment = TRUE))
   })
 })
