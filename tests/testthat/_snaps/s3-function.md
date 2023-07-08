@@ -129,12 +129,12 @@
         (`environment<-`)(.GlobalEnv) |>
         structure(class = "foo")
     Code
-      f5 <- structure((function(x) {
+      f5 <- (function(x) {
         x
-      }), srcref = structure(c(1L, 8L, 4L, 1L, 8L, 1L, 1L, 4L), srcfile = structure(
-        list2env(list(fixedNewlines = TRUE, lines = c("foo <- function(x) {",
-          "  # foo", "  x", "}", ""), filename = ""), parent = .GlobalEnv), class = c(
-          "srcfilecopy", "srcfile")), class = "srcref"))
+      }) %>% structure(srcref = c(1L, 8L, 4L, 1L, 8L, 1L, 1L, 4L) %>% structure(
+        srcfile = list2env(list(fixedNewlines = TRUE, lines = c(
+          "foo <- function(x) {", "  # foo", "  x", "}", ""), filename = ""), parent = .GlobalEnv) %>%
+          structure(class = c("srcfilecopy", "srcfile")), class = "srcref"))
       construct(f5, opts_function(environment = FALSE))
     Output
       function(x) {
