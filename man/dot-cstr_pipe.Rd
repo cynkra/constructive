@@ -23,6 +23,6 @@ A character vector
 Exported for custom constructor design.
 }
 \examples{
-.cstr_pipe("iris", "head(2)", pipe = "base", one_liner = FALSE)
-.cstr_pipe("iris", "head(2)", pipe = "base", one_liner = TRUE)
+.cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = FALSE)
+.cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = TRUE)
 }
