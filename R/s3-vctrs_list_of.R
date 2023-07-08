@@ -46,7 +46,7 @@ constructors$vctrs_list_of$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-repair_attributes_vctrs_list_of <- function(x, code, ..., pipe = "base") {
+repair_attributes_vctrs_list_of <- function(x, code, ..., pipe = NULL) {
   opts <- .cstr_fetch_opts("vctrs_list_of", ...)
   if (opts$constructor == "list") {
     return(repair_attributes_list(x, code, ..., pipe = pipe))

@@ -28,7 +28,7 @@
   repair_attributes_ggplot(x, code, ...)
 }
 
-repair_attributes_ggplot <- function(x, code, pipe = "base", ...) {
+repair_attributes_ggplot <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
     x, code, pipe,
     idiomatic_class = c("gg", "ggplot"),

@@ -55,7 +55,7 @@ constructors$data.table$data.table <- function(x, selfref, ...) {
   repair_attributes_data.table(x, code, ..., selfref = selfref)
 }
 
-repair_attributes_data.table <- function(x, code, ..., pipe = "base", selfref = FALSE) {
+repair_attributes_data.table <- function(x, code, ..., pipe = NULL, selfref = FALSE) {
   ignore <- c("row.names", "sorted")
   if (!selfref) ignore <- c(ignore, ".internal.selfref")
   if (identical(names(x), character())) ignore <- c(ignore, "names")

@@ -53,7 +53,7 @@ constructors$array$array <- function(x, ...) {
   repair_attributes_array(x, code, ...)
 }
 
-repair_attributes_array <- function(x, code, ..., pipe = "base") {
+repair_attributes_array <- function(x, code, ..., pipe = NULL) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

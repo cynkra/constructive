@@ -68,7 +68,7 @@ is_corrupted_function <- function(x) {
   !is.function(x)
 }
 
-constructors$`function`$`function` <- function(x, ..., pipe = "base", one_liner = FALSE, trim, environment, srcref) {
+constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = FALSE, trim, environment, srcref) {
   # if the srcref matches the function's body (always in non artifical cases)
   # we might use the srcref rather than the body, so we keep the comments
 
@@ -145,7 +145,7 @@ constructors$`function`$new_function <- function(x, ..., trim, environment, srcr
   repair_attributes_function(x, code, ...)
 }
 
-repair_attributes_function <- function(x, code, ..., pipe = "base") {
+repair_attributes_function <- function(x, code, ..., pipe = NULL) {
   opts <- .cstr_fetch_opts("function", ...)
   srcref <- opts$srcref
   ignore <- c("name", "path")

@@ -94,7 +94,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
 }
 
 #' @export
-.cstr_construct.environment <- function(x, ..., pipe = "base", one_liner = FALSE) {
+.cstr_construct.environment <- function(x, ..., pipe = NULL, one_liner = FALSE) {
   # The name of `asNamespace("pkg")` is always "pkg" and print as `<environment: namespace:pkg>`
   # The name of `as.environment("package:pkg")` is ALMOST always "package:pkg" and prints as
   #  `<environment: package:pkg>` + attributes
@@ -168,14 +168,14 @@ constructors$environment$list2env <- function(x, ..., pipe, one_liner, recurse, 
       return(repair_attributes_environment(x, code, ...))
     }
 
-    place_holder <- c(base = "_", magrittr = ".")[[pipe]]
+    placeholder <- get_pipe_placeholder(pipe)
     lhs_code <- .cstr_construct(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
     if (length(names(x))) {
       data_code <- .cstr_construct(env2list(x), ..., pipe = pipe, one_liner = one_liner)
-      rhs_code <- .cstr_apply(list(data_code, parent = place_holder), "list2env", ..., recurse = FALSE, pipe = pipe, one_liner = one_liner)
+      rhs_code <- .cstr_apply(list(data_code, parent = placeholder), "list2env", ..., recurse = FALSE, pipe = pipe, one_liner = one_liner)
       code <- .cstr_pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
     } else {
-      rhs_code <- .cstr_apply(list(parent = place_holder), "new.env", ..., recurse = FALSE, pipe = pipe, one_liner = one_liner)
+      rhs_code <- .cstr_apply(list(parent = placeholder), "new.env", ..., recurse = FALSE, pipe = pipe, one_liner = one_liner)
       code <- .cstr_pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
     }
 
@@ -202,14 +202,14 @@ constructors$environment$new_environment <- function(x, ..., pipe, one_liner, re
     return(repair_attributes_environment(x, code, ...))
   }
 
-  place_holder <- c(base = "_", magrittr = ".")[[pipe]]
+  placeholder <- get_pipe_placeholder(pipe)
   lhs_code <- .cstr_construct(parent.env(x), ..., pipe = pipe, one_liner = one_liner)
   if (length(names(x))) {
     data_code <- .cstr_construct(env2list(x), ..., pipe = pipe, one_liner = one_liner)
-    rhs_code <- .cstr_apply(list(data_code, parent = place_holder), "rlang::new_environment", ..., recurse = FALSE, pipe = pipe, one_liner = one_liner)
+    rhs_code <- .cstr_apply(list(data_code, parent = placeholder), "rlang::new_environment", ..., recurse = FALSE, pipe = pipe, one_liner = one_liner)
     code <- .cstr_pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
   } else {
-    rhs_code <- .cstr_apply(list(parent = place_holder), "rlang::new_environment", ..., recurse = FALSE, pipe = pipe, one_liner = one_liner)
+    rhs_code <- .cstr_apply(list(parent = placeholder), "rlang::new_environment", ..., recurse = FALSE, pipe = pipe, one_liner = one_liner)
     code <- .cstr_pipe(lhs_code, rhs_code, pipe = pipe, one_liner = one_liner)
   }
   repair_attributes_environment(x, code, ..., pipe = pipe, one_liner = one_liner)
@@ -236,7 +236,7 @@ constructors$environment$topenv <- function(x, ..., pipe, one_liner, recurse, pr
   code
 }
 
-repair_attributes_environment <- function(x, code, ..., pipe = "base") {
+repair_attributes_environment <- function(x, code, ..., pipe = NULL) {
   opts <- .cstr_fetch_opts("environment", ...)
   constructor <- opts$constructor
   if (constructor == "env" ||

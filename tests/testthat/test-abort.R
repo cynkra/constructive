@@ -1,5 +1,5 @@
 test_that("abort", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     foo <- function(x = c("a", "b"), y, z, ...) {
       .cstr_combine_errors(
         x <- rlang::arg_match(x),
@@ -24,7 +24,7 @@ test_that("abort", {
 })
 
 test_that("describe", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     writeLines(describe(letters))
     writeLines(describe(mean))
   })

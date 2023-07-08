@@ -1,5 +1,5 @@
 test_that("Scale", {
-  expect_snapshot(
+  expect_pipe_snapshot(
     construct(ggplot2::scale_alpha(), check = FALSE)
   )
 })

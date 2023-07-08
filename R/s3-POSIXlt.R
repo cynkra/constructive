@@ -63,7 +63,7 @@ constructors$POSIXlt$list <- function(x, ...) {
   repair_attributes_POSIXlt(x, code, ...)
 }
 
-repair_attributes_POSIXlt <- function(x, code, ..., pipe = "base") {
+repair_attributes_POSIXlt <- function(x, code, ..., pipe = NULL) {
   code <- .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

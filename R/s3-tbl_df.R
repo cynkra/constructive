@@ -77,7 +77,7 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
   repair_attributes_tbl_df(x, code, ...)
 }
 
-repair_attributes_tbl_df <- function(x, code, ..., pipe = "base") {
+repair_attributes_tbl_df <- function(x, code, ..., pipe = NULL) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

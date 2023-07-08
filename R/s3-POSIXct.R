@@ -111,7 +111,7 @@ constructors$POSIXct$atomic <- function(x, ..., origin) {
   .cstr_construct.default(x, ...)
 }
 
-repair_attributes_POSIXct <- function(x, code, ..., pipe = "base") {
+repair_attributes_POSIXct <- function(x, code, ..., pipe = NULL) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

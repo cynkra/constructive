@@ -8,7 +8,7 @@
 #' @export
 constructors <- new.env()
 
-repair_attributes <- function(x, code, ..., pipe = "base") {
+repair_attributes <- function(x, code, ..., pipe = NULL) {
   UseMethod("repair_attributes")
 }
 
@@ -30,7 +30,7 @@ repair_attributes <- function(x, code, ..., pipe = "base") {
 #'
 #' @return A character vector
 #' @export
-.cstr_repair_attributes <- function(x, code, ..., pipe = "base", ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE) {
+.cstr_repair_attributes <- function(x, code, ..., pipe = NULL, ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL

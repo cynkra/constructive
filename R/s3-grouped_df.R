@@ -62,7 +62,7 @@ constructors$grouped_df$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-repair_attributes_grouped_df <- function(x, code, ..., pipe = "base", one_liner = FALSE) {
+repair_attributes_grouped_df <- function(x, code, ..., pipe = NULL, one_liner = FALSE) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

@@ -50,7 +50,7 @@ constructors$S4$new <- function(x, env, ...) {
   repair_attributes_S4(x, code, env = env, ...)
 }
 
-repair_attributes_S4 <- function(x, code, ..., pipe = "base", selfref = FALSE) {
+repair_attributes_S4 <- function(x, code, ..., pipe = NULL, selfref = FALSE) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

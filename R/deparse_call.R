@@ -181,7 +181,13 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     other_args <- paste(rlang::names2(other_args), "=", other_args)
     other_args <- sub("^ = ", "", other_args)
     if (!is.call(call[[2]]) || endsWith(arg1, ")") || endsWith(arg1, "}")) {
-    return(sprintf("%s |> %s(%s)", arg1, caller, paste(other_args, collapse = ", ")))
+      return(sprintf(
+        "%s %s %s(%s)",
+        arg1,
+        get_pipe_symbol(NULL),
+        caller,
+        paste(other_args, collapse = ", ")
+      ))
     }
   }
   args <- deparse_named_args_to_string(call[-1], one_liner = one_liner, indent = indent)

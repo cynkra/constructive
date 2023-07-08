@@ -1,5 +1,5 @@
 test_that("function", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     f1 <- as.function(alist(x=, x), .GlobalEnv)
     f2 <- as.function(alist(x=, {x}), .GlobalEnv)
 
@@ -51,7 +51,7 @@ test_that("function", {
             class = "srcref"
           )
       )
-    construct(f5, opts_function(environment = FALSE))
+    construct(f5, opts_function(environment = FALSE), pipe = "magrittr")
 
     # function without body and without srcref
     f6 <- function() NULL

@@ -135,7 +135,7 @@
         srcfile = list2env(list(fixedNewlines = TRUE, lines = c(
           "foo <- function(x) {", "  # foo", "  x", "}", ""), filename = ""), parent = .GlobalEnv) %>%
           structure(class = c("srcfilecopy", "srcfile")), class = "srcref"))
-      construct(f5, opts_function(environment = FALSE))
+      construct(f5, opts_function(environment = FALSE), pipe = "magrittr")
     Output
       function(x) {
         # foo

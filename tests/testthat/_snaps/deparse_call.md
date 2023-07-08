@@ -137,26 +137,6 @@
     Output
       [1] "{1; 2}"
     Code
-      deparse_call(quote({{ x }}), style = FALSE)
-    Output
-      [1] "{{ x }}"
-    Code
-      deparse_call(quote({
-        {
-          1
-        }
-      }), style = FALSE)
-    Output
-      [1] "{\n  {\n    1\n  }\n}"
-    Code
-      deparse_call(quote({
-        {
-          1
-        }
-      }), one_liner = TRUE, style = FALSE)
-    Output
-      [1] "{{1}}"
-    Code
       deparse_call(call("non-syntactic", 1), style = FALSE)
     Output
       [1] "`non-syntactic`(1)"
@@ -277,4 +257,27 @@
       deparse_call(quote(list(`a + b` = a + b)))
     Output
       list(`a + b` = a + b)
+
+---
+
+    Code
+      deparse_call(quote({{ x }}), style = FALSE)
+    Output
+      [1] "{{ x }}"
+    Code
+      deparse_call(quote({
+        {
+          1
+        }
+      }), style = FALSE)
+    Output
+      [1] "{\n  {\n    1\n  }\n}"
+    Code
+      deparse_call(quote({
+        {
+          1
+        }
+      }), one_liner = TRUE, style = FALSE)
+    Output
+      [1] "{{1}}"
 
