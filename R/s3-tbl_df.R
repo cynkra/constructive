@@ -71,6 +71,7 @@ constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE) {
   if (!trailing_comma) {
     code[[length(code)]] <- sub(", *$", "", code[[length(code)]])
   }
+  code <- sub(" +$", "", code)
   code <- c(
     "tibble::tribble(",
     indent(code),

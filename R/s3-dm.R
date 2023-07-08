@@ -41,7 +41,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
   code <- .cstr_apply(
     named_list_of_tables, fun = "dm::dm", trailing_comma = TRUE, implicit_names = TRUE, one_liner = one_liner, pipe = pipe, ...)
 
-  pipe_collapse <- paste0(get_pipe_symbol(pipe), "\n  ")
+  pipe_collapse <- paste0(" ", get_pipe_symbol(pipe), "\n  ")
 
   pk_code <- unlist(Map(
     function(table, pk_tibble) {
@@ -64,7 +64,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
         paste0(
           "dm::dm_add_fk(",
           protect(table), ", ",
-          paste(.cstr_construct(column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ",",
+          paste(.cstr_construct(column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ", ",
           protect(ref_table), ", ",
           paste(.cstr_construct(ref_column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ")"
         )
