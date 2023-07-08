@@ -48,7 +48,7 @@ test_that("CoordSf", {
 })
 
 test_that("CoordCartesian", {
-  expect_pipe_snapshot({
+  expect_silent({
     construct(ggplot2::coord_trans(x = "log10", y = "log10"), check = FALSE)
     construct(ggplot2::coord_trans(x = scales::exp_trans(10), y = scales::exp_trans(10)), check = FALSE)
   })

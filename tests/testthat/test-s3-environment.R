@@ -27,7 +27,7 @@ test_that("environment", {
     construct(e2, opts_environment(constructor = "new.env"))
     construct(e2, opts_environment(constructor = "topenv"))
     construct(e2, opts_environment(constructor = "as.environment"))
-    construct(tidyselect::peek_vars, opts_environment(predefine = TRUE), opts_function(environment = TRUE))
+    construct(constructive::construct, opts_environment(predefine = TRUE), opts_function(environment = TRUE))
     # circularity
     evalq({
     e <- new.env()
