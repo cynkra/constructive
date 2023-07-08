@@ -124,8 +124,9 @@
       opts_function(environment = TRUE))
     Output
       (function(x, ..., data = NULL, pipe = NULL, check = NULL,
-                compare = compare_options(), one_liner = FALSE,
-                template = getOption("constructive_opts_template")) {
+                            compare = compare_options(), one_liner = FALSE,
+                            template = getOption("constructive_opts_template")) {
+      
         # reset globals
         globals$predefinition <- character()
         globals$envs <- data.frame(hash = character(), name = character())

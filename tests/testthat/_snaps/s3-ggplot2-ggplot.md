@@ -24,7 +24,7 @@
           parents = "empty",
           class = c("LayerInstance", "Layer", "ggproto", "gg")
         ) |>
-        structure(class = c("LayerInstance", "Layer", "ggproto", "gg"))
+          structure(class = c("LayerInstance", "Layer", "ggproto", "gg"))
     Code
       p1 <- base_99 + ggplot2::scale_x_continuous(limits = c(1, 7))
       construct(p1, data = tibble::lst(mpg_99), check = FALSE)
@@ -44,16 +44,16 @@
         ggplot2::facet_wrap(
           facets = ggplot2::vars(manufacturer),
           labeller = (function(labels, multi_line = TRUE) {
-            labels <- lapply(labels, as.character)
-            if (multi_line) {
-              labels
-            } else {
-              collapse_labels_lines(labels)
-            }
-          }) |>
+        labels <- lapply(labels, as.character)
+        if (multi_line) {
+          labels
+        } else {
+          collapse_labels_lines(labels)
+        }
+      }) |>
             (`environment<-`)(asNamespace("ggplot2")) |>
             structure(class = c("function", "labeller"))
         ) +
         ggplot2::xlim(1, 7) +
-        ggplot2::ylim(10, 45)
+          ggplot2::ylim(10, 45)
 

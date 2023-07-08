@@ -50,7 +50,7 @@
         alist(
           x = ,
           {
-            x
+              x
           }
         ),
         envir = .GlobalEnv
@@ -72,7 +72,7 @@
       rlang::new_function(
         args = alist(x = ),
         body = quote({
-          x
+            x
         }),
         env = .GlobalEnv
       )
@@ -99,8 +99,8 @@
           object = nm,
           nm = ,
           {
-            names(object) <- nm
-            object
+              names(object) <- nm
+              object
           }
         ),
         envir = asNamespace("stats")
