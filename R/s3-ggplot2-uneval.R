@@ -18,7 +18,7 @@
   repair_attributes_uneval(x, code, ...)
 }
 
-repair_attributes_uneval <- function(x, code, pipe = "base", ...) {
+repair_attributes_uneval <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
     x, code, pipe,
     idiomatic_class = "uneval",

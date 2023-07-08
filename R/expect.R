@@ -1,7 +1,8 @@
 expect_pipe_snapshot <- function(code) {
-  rlang::inject(testthat::expect_snapshot({{ code }}, transform = function(x) {
-    x <- gsub("%>%", "|>", x, fixed = TRUE)
-    x <- gsub("= [.]([,)])", "= _\\1", x)
-    x
-  }))
+  transform <- function(out) {
+    out <- gsub("%>%", "|>", out, fixed = TRUE)
+    out <- gsub("= [.]([,)])", "= _\\1", out)
+    out
+  }
+  rlang::inject(testthat::expect_snapshot({{ code }}, transform = transform))
 }

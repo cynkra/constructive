@@ -60,7 +60,7 @@ constructors$matrix$atomic <- function(x, ...) {
   .cstr_construct.default(x, ...)
 }
 
-repair_attributes_matrix <- function(x, code, ..., pipe = "base") {
+repair_attributes_matrix <- function(x, code, ..., pipe = NULL) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

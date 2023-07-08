@@ -80,7 +80,7 @@ constructors$ordered$atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-repair_attributes_ordered <- function(x, code, ..., pipe = "base") {
+repair_attributes_ordered <- function(x, code, ..., pipe = NULL) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

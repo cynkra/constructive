@@ -79,7 +79,7 @@ constructors$formula$as.formula <- function(x, ..., environment, env_is_default)
   repair_attributes_formula(x, code, ...)
 }
 
-repair_attributes_formula <- function(x, code, ..., pipe = "base", ignore_env_attr = TRUE) {
+repair_attributes_formula <- function(x, code, ..., pipe = NULL, ignore_env_attr = TRUE) {
   opts <- .cstr_fetch_opts("formula", ...)
   ignore <- NULL
 

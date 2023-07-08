@@ -41,8 +41,8 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
 #' @return A character vector
 #' @export
 #' @examples
-#' .cstr_pipe("iris", "head(2)", pipe = "base", one_liner = FALSE)
-#' .cstr_pipe("iris", "head(2)", pipe = "base", one_liner = TRUE)
+#' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = FALSE)
+#' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = TRUE)
 .cstr_pipe <- function(x, y, pipe, one_liner) {
   if (is.null(pipe)) {
     if (getRversion() >= "4.2") {
@@ -53,10 +53,34 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
   } else if (pipe != "plus") {
     pipe <- rlang::arg_match(pipe, c("base", "magrittr"))
   }
-  pipe_symbol <- c(base = "|>", magrittr = "%>%", plus = "+")[[pipe]]
+  pipe_symbol <- get_pipe_symbol(pipe)
   if (one_liner) return(paste(x, pipe_symbol, y))
   x[length(x)] <- paste(x[length(x)], pipe_symbol)
   c(x, y)
+}
+
+arg_match_pipe <- function(pipe, allow_plus = FALSE) {
+  if (is.null(pipe)) {
+    if (getRversion() >= "4.2") {
+      pipe <- "base"
+    } else {
+      pipe <- "magrittr"
+    }
+  } else if (!allow_plus || pipe != "plus") {
+    pipe <- rlang::arg_match(pipe, c("base", "magrittr"))
+  }
+
+  pipe
+}
+
+get_pipe_symbol <- function(pipe) {
+  pipe <- arg_match_pipe(pipe, allow_plus = TRUE)
+  c(base = "|>", magrittr = "%>%", plus = "+")[[pipe]]
+}
+
+get_pipe_placeholder <- function(pipe) {
+  pipe <- arg_match_pipe(pipe)
+  c(base = "_", magrittr = ".")[[pipe]]
 }
 
 

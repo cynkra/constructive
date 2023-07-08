@@ -41,6 +41,8 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
   code <- .cstr_apply(
     named_list_of_tables, fun = "dm::dm", trailing_comma = TRUE, implicit_names = TRUE, one_liner = one_liner, pipe = pipe, ...)
 
+  pipe_collapse <- paste0(get_pipe_symbol(pipe), "\n  ")
+
   pk_code <- unlist(Map(
     function(table, pk_tibble) {
       if (!nrow(pk_tibble)) return(character())
@@ -51,7 +53,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
     def$pks,
     USE.NAMES = FALSE))
   if (length(pk_code)) {
-    pk_code <- paste(pk_code, collapse = "|>\n")
+    pk_code <- paste(pk_code, collapse = pipe_collapse)
     code <- .cstr_pipe(code, pk_code, pipe, one_liner)
   }
 
@@ -76,7 +78,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
     def$fks,
     USE.NAMES = FALSE))
   if (length(fk_code)) {
-    fk_code <- paste(fk_code, collapse = "|>\n")
+    fk_code <- paste(fk_code, collapse = pipe_collapse)
     code <- .cstr_pipe(code, fk_code, pipe, one_liner)
   }
 
@@ -93,7 +95,7 @@ constructors$dm$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-repair_attributes_dm <- function(x, code, ..., pipe = "base") {
+repair_attributes_dm <- function(x, code, ..., pipe = NULL) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

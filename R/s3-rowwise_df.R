@@ -61,7 +61,7 @@ constructors$rowwise_df$list <- function(x, ...) {
 }
 
 # no need for a constructor for grouped_df since it falls back on tbl_df
-repair_attributes_rowwise_df <- function(x, code, ..., pipe = "base", one_liner = FALSE) {
+repair_attributes_rowwise_df <- function(x, code, ..., pipe = NULL, one_liner = FALSE) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,

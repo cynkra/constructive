@@ -8,7 +8,7 @@
   x,
   code,
   ...,
-  pipe = "base",
+  pipe = NULL,
   ignore = NULL,
   idiomatic_class = NULL,
   remove = NULL,

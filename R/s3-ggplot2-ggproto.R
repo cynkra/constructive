@@ -12,7 +12,7 @@
   repair_attributes_ggproto(x, code, ...)
 }
 
-repair_attributes_ggproto <- function(x, code, pipe = "base", ...) {
+repair_attributes_ggproto <- function(x, code, pipe = NULL, ...) {
   code
 }
 
