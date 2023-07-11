@@ -59,7 +59,7 @@
     Code
       deparse_call(call("$", "a", 1), style = FALSE)
     Output
-      [1] "`$`(\"a\", 1)"
+      [1] "\"a\"$\"1\""
     Code
       deparse_call(call("$", 1, "b"), style = FALSE)
     Output
