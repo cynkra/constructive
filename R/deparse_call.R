@@ -35,6 +35,9 @@ deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE) {
     })
   if (style) {
     scope <- if (one_liner) "indention" else "line_breaks"
+    # "vertical" class needs one string per line of code
+    # https://github.com/cynkra/constructive/pull/199#issuecomment-1625482890
+    code <- split_by_line(code)
     code <- styler::style_text(code, scope = scope)
   }
   code

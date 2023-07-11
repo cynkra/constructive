@@ -14,3 +14,14 @@ test_that("data", {
     construct(list(mean, cars), data = list(asNamespace("base"), "datasets"))
   })
 })
+
+test_that("split_by_line()", {
+  expect_equal(split_by_line(""), "")
+  expect_equal(split_by_line("a"), "a")
+  expect_equal(split_by_line("a\n"), c("a", ""))
+  expect_equal(split_by_line("a\nb"), c("a", "b"))
+  expect_equal(split_by_line("a\nb\n"), c("a", "b", ""))
+  expect_equal(split_by_line(c("a", "b")), c("a", "b"))
+  expect_equal(split_by_line(c("a\n", "b")), c("a", "", "b"))
+  expect_equal(split_by_line(c("a", "b\n")), c("a", "b", ""))
+})

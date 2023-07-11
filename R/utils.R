@@ -12,7 +12,13 @@
 #' @return A character vector.
 #' @export
 .cstr_wrap <- function(args, fun, new_line = FALSE) {
-  if (new_line) return(c(paste0(fun, "("), args, ")"))
+  if (new_line) {
+    return(c(
+      paste0(fun, "("),
+      indent(args),
+      ")"
+    ))
+  }
   args[1] <- paste0(fun, "(", args[1])
   l <- length(args)
   args[l] <- paste0(args[l], ")")
@@ -56,7 +62,7 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
   pipe_symbol <- get_pipe_symbol(pipe)
   if (one_liner) return(paste(x, pipe_symbol, y))
   x[length(x)] <- paste(x[length(x)], pipe_symbol)
-  c(x, y)
+  c(x, indent(y))
 }
 
 arg_match_pipe <- function(pipe, allow_plus = FALSE) {
@@ -275,4 +281,15 @@ with_versions <- function(expr, lib.loc = NULL) {
   R <- R.Version()
   R <- as.package_version(sprintf("%s.%s", R$major, R$minor))
   eval(expr, envir = c(list(R = R), versions), enclos = parent.frame())
+}
+
+indent <- function(x) {
+  if (length(x) == 0) return(x)
+  paste0("  ", x)
+}
+
+split_by_line <- function(x) {
+  with_newline <- paste0(x, "\n")
+  split <- strsplit(with_newline, "\n", fixed = TRUE)
+  unlist(split, recursive = FALSE)
 }
