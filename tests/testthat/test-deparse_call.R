@@ -65,7 +65,11 @@ test_that("deparse_call()", {
     # looks odd, but that's on {styler} : https://github.com/r-lib/styler/issues/1029
     deparse_call(quote(a[[bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=1, c]]))
 
-    # function with non syntactioc formal names
+    # Multiline calls
+    deparse_call(quote(a(b(c12345678901234567890123456789012345678901234567890123456789012345678901234567890))))
+    deparse_call(quote(a({c12345678901234567890123456789012345678901234567890123456789012345678901234567890}, b)))
+
+    # function with non syntactic formal names
     deparse_call(quote(function(`_x`) `_x`))
 
     # non-syntactig argument name

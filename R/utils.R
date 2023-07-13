@@ -283,9 +283,9 @@ with_versions <- function(expr, lib.loc = NULL) {
   eval(expr, envir = c(list(R = R), versions), enclos = parent.frame())
 }
 
-indent <- function(x) {
+indent <- function(x, depth = 1) {
   if (length(x) == 0) return(x)
-  paste0("  ", x)
+  paste0(paste0(rep("  ", depth), collapse = ""), x)
 }
 
 split_by_line <- function(x) {

@@ -168,10 +168,9 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
       args <- paste(vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent, pipe = pipe), collapse = "; ")
       return(sprintf("{%s}", args))
     }
-    args <- vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent + 2, pipe = pipe)
-    args <- paste0(strrep(" ", indent + 2), args)
-    args <- paste(args, collapse = "\n")
-    return(sprintf("{\n%s\n%s}", args, strrep(" ", indent)))
+    args <- vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent + 1, pipe = pipe)
+    args <- paste(indent(args, depth = indent + 1), collapse = "\n")
+    return(sprintf("{\n%s\n%s}", args, indent("", depth = indent)))
   }
 
   if (is.symbol(caller_lng)) {
@@ -213,16 +212,15 @@ is_infix_narrow <- function(x) {
   x %in% c("::", ":::", "$", "@", "^", ":")
 }
 
-# FIXME: better handling of indent, doesn't impact if we style
 deparse_named_args_to_string <- function(args, one_liner, indent) {
   if (length(args) == 0) {
     return("")
   }
-  args <- vapply(args, deparse_call_impl, character(1), one_liner = one_liner, indent = indent)
+  args <- vapply(args, deparse_call_impl, character(1), one_liner = one_liner, indent = indent + 1)
   args <- paste(protect(rlang::names2(args)), "=", args)
   args <- sub("^ = ", "", args)
   # FIXME: the 80 is a bit arbitrary, since we don't account for indent and length of caller
   if (one_liner || max(nchar(args)) < 80) return(paste(args, collapse = ", "))
-  args <- paste(args, collapse = ",\n")
-  paste0("\n", args, "\n")
+  args <- paste(indent(args, depth = indent + 1), collapse = ",\n")
+  paste0("\n", args, "\n", indent("", depth = indent))
 }
