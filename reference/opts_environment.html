@@ -71,7 +71,7 @@ An attempt to copy an environment would indeed yield a different environment and
 Moreover most environments have a parent (exceptions are <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">emptyenv()</a></code> and some
 rare cases where the parent is <code>NULL</code>) and thus to copy the environment we'd
 have to have a way to point to the parent, or copy it too. <br>
-For this reason environments are constructive's cryptonite. They make some objects
+For this reason environments are <span class="pkg">constructive</span>'s cryptonite. They make some objects
 impossible to reproduce exactly. And since every function or formula has one they're hard to
 avoid. <br></p>
     </div>
@@ -124,7 +124,7 @@ the global environment, the base namespace, the base package environment and the
 environment</p></li>
 <li><p>Namespaces are constructed using <code>asNamespace("pkg")</code></p></li>
 <li><p>Package environments are constructed using <code>as.environment("package:pkg")</code></p></li>
-</ul><p>By default For other environments we use constructive's function <code><a href="dot-env.html">constructive::.env()</a></code>, it fetches
+</ul><p>By default For other environments we use <span class="pkg">constructive</span>'s function <code><a href="dot-env.html">constructive::.env()</a></code>, it fetches
 the environment from its memory address and provides as additional information
 the sequence of parents until we reach a special environment (those enumerated above).
 The advantage of this approach is that it's readable and that the object is accurately reproduced.
