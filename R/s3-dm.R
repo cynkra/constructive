@@ -5,7 +5,7 @@ constructors$dm <- new.env()
 #' These options will be used on objects of class 'dm'.
 #'
 #' Depending on `constructor`, we construct the environment as follows:
-#' * `"dm"` (default): We use `dm::dm()` and other functions from {dm} to adjust the content.
+#' * `"dm"` (default): We use `dm::dm()` and other functions from \pkg{dm} to adjust the content.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #' * `"list"` : Use `list()` and treat the class as a regular attribute.

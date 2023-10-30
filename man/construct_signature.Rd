@@ -17,7 +17,7 @@ semicolons}
 \item{style}{Boolean. Whether to use \code{styler::style_text()} on the output}
 }
 \value{
-A character vector with the class "vertical" (for nice printing with {styler})
+A character vector with the class "vertical" (for nice printing with \pkg{styler})
 }
 \description{
 Construct a function's signature

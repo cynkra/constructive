@@ -5,7 +5,7 @@
 #' @inheritParams deparse_call
 #'
 #' @export
-#' @return A character vector with the class "vertical" (for nice printing with {styler})
+#' @return A character vector with the class "vertical" (for nice printing with \pkg{styler})
 #' @examples
 #' construct_signature(lm)
 construct_signature <- function(x, name = NULL, one_liner = FALSE, style = TRUE) {

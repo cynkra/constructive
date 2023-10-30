@@ -19,5 +19,5 @@ construct_dump(x, path, append = FALSE, ...)
 Returns \code{NULL} invisibly, called for side effects.
 }
 \description{
-An alternative to \code{base::dump()} using code built with {constructive}
+An alternative to \code{base::dump()} using code built with \pkg{constructive}.
 }

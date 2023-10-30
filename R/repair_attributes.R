@@ -4,7 +4,7 @@
 
 #' constructors
 #'
-#' A nested environment containing constructor functions for the package {constructive}
+#' A nested environment containing constructor functions for the package \pkg{constructive}
 #' @export
 constructors <- new.env()
 

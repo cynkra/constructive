@@ -20,7 +20,7 @@ These options will be used on objects of class 'dm'.
 \details{
 Depending on \code{constructor}, we construct the environment as follows:
 \itemize{
-\item \code{"dm"} (default): We use \code{dm::dm()} and other functions from {dm} to adjust the content.
+\item \code{"dm"} (default): We use \code{dm::dm()} and other functions from \pkg{dm} to adjust the content.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.
 \item \code{"list"} : Use \code{list()} and treat the class as a regular attribute.

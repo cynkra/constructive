@@ -1,6 +1,6 @@
 #' Dump Constructed Code to a File
 #'
-#' An alternative to `base::dump()` using code built with {constructive}
+#' An alternative to `base::dump()` using code built with \pkg{constructive}.
 #'
 #' @param x A named list or an environment.
 #' @param path File or connection to write to.

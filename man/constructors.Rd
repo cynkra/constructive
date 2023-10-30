@@ -11,6 +11,6 @@ An object of class \code{environment} of length 36.
 constructors
 }
 \description{
-A nested environment containing constructor functions for the package {constructive}
+A nested environment containing constructor functions for the package \pkg{constructive}
 }
 \keyword{datasets}

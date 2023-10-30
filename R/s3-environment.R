@@ -8,7 +8,7 @@ constructors$environment <- new.env()
 #' Moreover most environments have a parent (exceptions are `emptyenv()` and some
 #' rare cases where the parent is `NULL`) and thus to copy the environment we'd
 #' have to have a way to point to the parent, or copy it too. \cr
-#' For this reason environments are {constructive}'s cryptonite. They make some objects
+#' For this reason environments are \pkg{constructive}'s cryptonite. They make some objects
 #' impossible to reproduce exactly. And since every function or formula has one they're hard to
 #' avoid. \cr
 #'
@@ -20,7 +20,7 @@ constructors$environment <- new.env()
 #' * Namespaces are constructed using `asNamespace("pkg")`
 #' * Package environments are constructed using `as.environment("package:pkg")`
 #'
-#' By default For other environments we use {constructive}'s function `constructive::.env()`, it fetches
+#' By default For other environments we use \pkg{constructive}'s function `constructive::.env()`, it fetches
 #'   the environment from its memory address and provides as additional information
 #'   the sequence of parents until we reach a special environment (those enumerated above).
 #'   The advantage of this approach is that it's readable and that the object is accurately reproduced.
