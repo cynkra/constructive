@@ -4,7 +4,7 @@ constructors$weakref <- new.env()
 #'
 #' These options will be used on objects of type `weakref`. `weakref` objects
 #' are rarely encountered and there is no base R function to create them. However
-#' {rlang} has a `new_weakref` function that we can use.
+#' \pkg{rlang} has a `new_weakref` function that we can use.
 #'
 #' @param constructor String. Name of the constructor.
 #' @inheritParams opts_atomic

@@ -17,5 +17,5 @@ An object of class <constructive_options/constructive_options_array>
 \description{
 These options will be used on objects of type \code{weakref}. \code{weakref} objects
 are rarely encountered and there is no base R function to create them. However
-{rlang} has a \code{new_weakref} function that we can use.
+\pkg{rlang} has a \code{new_weakref} function that we can use.
 }
