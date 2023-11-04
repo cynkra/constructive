@@ -10,3 +10,5 @@ colon_colon <- `::`
     }
   )
 }
+
+local_options(styler.colored_print.vertical = FALSE, .frame = testthat::teardown_env())
