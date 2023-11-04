@@ -1,4 +1,6 @@
 test_that("abort", {
+  skip_if_not_installed("prettycode")
+
   expect_pipe_snapshot({
     foo <- function(x = c("a", "b"), y, z, ...) {
       .cstr_combine_errors(
@@ -24,6 +26,8 @@ test_that("abort", {
 })
 
 test_that("describe", {
+  skip_if_not_installed("prettycode")
+
   expect_pipe_snapshot({
     writeLines(describe(letters))
     writeLines(describe(mean))
