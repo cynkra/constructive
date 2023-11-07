@@ -87,7 +87,7 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
     color_code <- .cstr_apply(colors, "dm::dm_set_colors", pipe = pipe, one_liner = one_liner, ...)
     code <- .cstr_pipe(code, color_code, pipe, one_liner)
   }
-
+  code <- split_by_line(code)
   repair_attributes_dm(x, code, ..., one_liner = one_liner, pipe = pipe)
 }
 

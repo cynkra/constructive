@@ -69,11 +69,6 @@ try_parse <- function(code, one_liner) {
       #nocov end
     }
   )
-
-  # "vertical" class needs one string per line of code
-  # https://github.com/cynkra/constructive/pull/199#issuecomment-1625482890
-  code <- split_by_line(code)
-
   # For "vertical" class
   requireNamespace("styler", quietly = TRUE)
   structure(code, class = "vertical")
