@@ -13,7 +13,9 @@
 
 \item{pipe}{A string. The pipe to use, \code{"plus"} is useful for ggplot code.}
 
-\item{one_liner}{A boolean. Whether to paste \code{x}, the pipe and \code{y} together
+\item{one_liner}{A boolean. Whether to paste \code{x}, the pipe and \code{y} together}
+
+\item{indent}{A boolean. Whether to indent \code{y}
 on a same line (provided that \code{x} and \code{y} are strings and one liners themselves)}
 }
 \value{

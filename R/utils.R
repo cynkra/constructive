@@ -42,6 +42,7 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
 #' @param y A character vector. The code for the right hand side call.
 #' @param pipe A string. The pipe to use, `"plus"` is useful for ggplot code.
 #' @param one_liner A boolean. Whether to paste `x`, the pipe and `y` together
+#' @param indent A boolean. Whether to indent `y`
 #' on a same line (provided that `x` and `y` are strings and one liners themselves)
 #'
 #' @return A character vector
