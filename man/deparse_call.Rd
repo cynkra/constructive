@@ -35,10 +35,6 @@ printing if \code{style} is \code{TRUE}
 This is an alternative to \code{base::deparse()} and \code{rlang::expr_deparse()} that
 handles additional corner cases and fails when encountering tokens other than
 symbols and syntactic literals where cited alternatives would produce non syntactic code.\cr\cr
-Moreover it will produce a one liner if \code{one_liner = TRUE} and
-will attempt to use the base pipe on nested calls if \code{pipe = TRUE}.\cr\cr
-By default the output is styled with \pkg{styler}, if style is set to \code{FALSE} a regular
-string is returned, using \code{"\\n"} for new lines.
 }
 \examples{
 expr <- quote(foo(bar({this; that}, 1)))
