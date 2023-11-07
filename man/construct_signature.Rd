@@ -14,7 +14,8 @@ construct_signature(x, name = NULL, one_liner = FALSE, style = TRUE)
 \item{one_liner}{Boolean. Whether to collapse multi-line expressions on a single line using
 semicolons}
 
-\item{style}{Boolean. Whether to use \code{styler::style_text()} on the output}
+\item{style}{Boolean. Whether to give a class "constructive_code" on the output
+for pretty printing.}
 }
 \value{
 A character vector with the class "vertical" (for nice printing with \pkg{styler})

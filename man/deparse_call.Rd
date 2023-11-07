@@ -4,7 +4,13 @@
 \alias{deparse_call}
 \title{Deparse a language object}
 \usage{
-deparse_call(call, one_liner = FALSE, pipe = FALSE, style = TRUE)
+deparse_call(
+  call,
+  one_liner = FALSE,
+  pipe = FALSE,
+  style = TRUE,
+  collapse = !style
+)
 }
 \arguments{
 \item{call}{A call}
@@ -15,10 +21,15 @@ semicolons}
 \item{pipe}{Boolean. Whether to use the base pipe to disentangle nested calls. This
 works best on simple calls.}
 
-\item{style}{Boolean. Whether to use \code{styler::style_text()} on the output}
+\item{style}{Boolean. Whether to give a class "constructive_code" on the output
+for pretty printing.}
+
+\item{collapse}{Boolean. Whether to collapse the output to a single string,
+won't be directly visible if \code{style} is \code{TRUE}}
 }
 \value{
-a string or a styled character vector
+a string or a character vector, with a class "constructive_code" for pretty
+printing if \code{style} is \code{TRUE}
 }
 \description{
 This is an alternative to \code{base::deparse()} and \code{rlang::expr_deparse()} that

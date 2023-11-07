@@ -47,7 +47,7 @@ construct_layer_default <- function(constructor, env, ...) {
   caller_val <- eval(caller_lng, env)
   ns <-  topenv(environment(caller_val)) # the most likely namespace
   if (isNamespace(ns) && rlang::is_call(constructor, ns = getNamespaceName(ns))) {
-    caller_chr <- deparse_call(caller_lng)
+    caller_chr <- deparse_call(caller_lng, style = FALSE, collapse = FALSE)
   } else if (is.symbol(caller_lng) && isNamespace(ns) && as.character(caller_lng) %in% getNamespaceExports(ns)) {
     caller_chr <- paste0(getNamespaceName(ns), "::", as.character(caller_lng))
   } else {

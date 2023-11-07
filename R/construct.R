@@ -105,3 +105,26 @@ print.constructive <- function(x, ...) {
   print(x$code)
   invisible(x)
 }
+
+# this is  styler:::print.vertical with small tweaks:
+# * different default for `colored`
+# * fail rather than warn if colored is TRUE and not installed
+# * returns input invisibly
+
+#' @export
+print.constructive_code <- function(x, ..., colored = rlang::is_installed("prettycode"), style = prettycode::default_style()) {
+  if (colored) {
+    if (is_installed("prettycode")) {
+      x <- prettycode::highlight(x, style = style)
+    } else {
+      abort(paste("Could not use `colored = TRUE`, as the package prettycode is not",
+                          "installed. Please install it if you want to see colored output"))
+    }
+  }
+  cat(x, sep = "\n")
+  invisible(x)
+}
+
+as_constructive_code <- function(x) {
+  structure(x, class = "constructive_code")
+}

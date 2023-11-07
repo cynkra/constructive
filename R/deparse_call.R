@@ -13,9 +13,13 @@
 #'   semicolons
 #' @param pipe Boolean. Whether to use the base pipe to disentangle nested calls. This
 #'   works best on simple calls.
-#' @param style Boolean. Whether to use `styler::style_text()` on the output
+#' @param style Boolean. Whether to give a class "constructive_code" on the output
+#'   for pretty printing.
+#' @param collapse Boolean. Whether to collapse the output to a single string,
+#'   won't be directly visible if `style` is `TRUE`
 #'
-#' @return a string or a styled character vector
+#' @return a string or a character vector, with a class "constructive_code" for pretty
+#'   printing if `style` is `TRUE`
 #' @export
 #'
 #' @examples
@@ -27,18 +31,17 @@
 #' # some corner cases are handled better than in base R
 #' deparse(call("$", 1, 1)) # returns non syntactic output
 #' deparse_call(call("$", 1, 1))
-deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE) {
+deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE, collapse = !style) {
   code <- rlang::try_fetch(
     deparse_call_impl(call, one_liner, 0, pipe),
     error = function(cnd) {
       abort("`call` must only be made of symbols and syntactic literals", parent = cnd)
     })
-  if (style) {
-    scope <- "none"
-    # "vertical" class needs one string per line of code
-    # https://github.com/cynkra/constructive/pull/199#issuecomment-1625482890
+  if (!collapse) {
     code <- split_by_line(code)
-    code <- styler::style_text(code, scope = scope)
+  }
+  if (style) {
+    code <- as_constructive_code(code)
   }
   code
 }

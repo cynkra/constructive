@@ -44,13 +44,13 @@
         ggplot2::facet_wrap(
           facets = ggplot2::vars(manufacturer),
           labeller = (function(labels, multi_line = TRUE) {
-        labels <- lapply(labels, as.character)
-        if (multi_line) {
-          labels
-        } else {
-          collapse_labels_lines(labels)
-        }
-      }) |>
+            labels <- lapply(labels, as.character)
+            if (multi_line) {
+              labels
+            } else {
+              collapse_labels_lines(labels)
+            }
+          }) |>
             (`environment<-`)(asNamespace("ggplot2")) |>
             structure(class = c("function", "labeller"))
         ) +
