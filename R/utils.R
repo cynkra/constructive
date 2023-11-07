@@ -49,7 +49,7 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
 #' @examples
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = FALSE)
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = TRUE)
-.cstr_pipe <- function(x, y, pipe, one_liner) {
+.cstr_pipe <- function(x, y, pipe, one_liner, indent = TRUE) {
   if (is.null(pipe)) {
     if (getRversion() >= "4.2") {
       pipe <- "base"
@@ -62,7 +62,11 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
   pipe_symbol <- get_pipe_symbol(pipe)
   if (one_liner) return(paste(x, pipe_symbol, y))
   x[length(x)] <- paste(x[length(x)], pipe_symbol)
-  c(x, indent(y))
+  if (indent) {
+    c(x, indent(y))
+  } else {
+    c(x, y)
+  }
 }
 
 arg_match_pipe <- function(pipe, allow_plus = FALSE) {

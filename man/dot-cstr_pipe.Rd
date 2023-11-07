@@ -4,7 +4,7 @@
 \alias{.cstr_pipe}
 \title{Insert a pipe between two calls}
 \usage{
-.cstr_pipe(x, y, pipe, one_liner)
+.cstr_pipe(x, y, pipe, one_liner, indent = TRUE)
 }
 \arguments{
 \item{x}{A character vector. The code for the left hand side call.}

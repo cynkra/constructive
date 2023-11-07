@@ -55,5 +55,5 @@
             structure(class = c("function", "labeller"))
         ) +
         ggplot2::xlim(1, 7) +
-          ggplot2::ylim(10, 45)
+        ggplot2::ylim(10, 45)
 
