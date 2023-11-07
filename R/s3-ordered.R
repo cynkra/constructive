@@ -47,7 +47,11 @@ constructors$ordered$ordered <- function(x, ...) {
   default_levs <- sort(unique(as.character(x)))
   if (!identical(default_levs, levs)) args$levels <- levs
   if (NA %in% levs) args["exclude"] <- list(NULL)
-  code <- .cstr_apply(args, "ordered", ...)
+  if (length(args) == 1) {
+    code <- .cstr_apply(args, "ordered", new_line =  FALSE, ...)
+  } else {
+    code <- .cstr_apply(args, "ordered", ...)
+  }
   repair_attributes_ordered(x, code, ...)
 }
 
