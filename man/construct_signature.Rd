@@ -18,7 +18,8 @@ semicolons}
 for pretty printing.}
 }
 \value{
-A character vector with the class "vertical" (for nice printing with \pkg{styler})
+a string or a character vector, with a class "constructive_code" for pretty
+printing if \code{style} is \code{TRUE}
 }
 \description{
 Construct a function's signature

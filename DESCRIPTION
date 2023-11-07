@@ -17,7 +17,6 @@ Imports:
     methods,
     rlang (>= 1.0.0),
     roxygen2,
-    styler,
     waldo
 Suggests: 
     data.table,

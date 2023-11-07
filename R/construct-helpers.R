@@ -69,9 +69,8 @@ try_parse <- function(code, one_liner) {
       #nocov end
     }
   )
-  # For "vertical" class
-  requireNamespace("styler", quietly = TRUE)
-  structure(code, class = "vertical")
+  code <- as_constructive_code(code)
+  code
 }
 
 try_eval <- function(styled_code, data, check, caller) {

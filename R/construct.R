@@ -96,8 +96,8 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
   code <- unlist(code)
   Encoding(code) <- "UTF-8"
   if (is.null(code)) code <- character(0)
-  class(code) <- "vertical"
-  new_constructive(unname(code), issues)
+  code <- as_constructive_code(unname(code))
+  new_constructive(code, issues)
 }
 
 #' @export
