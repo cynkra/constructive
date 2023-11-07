@@ -15,6 +15,7 @@ Imports:
     diffobj,
     ellipsis,
     methods,
+    prettycode,
     rlang (>= 1.0.0),
     roxygen2,
     waldo
@@ -29,7 +30,6 @@ Suggests:
     knitr,
     lubridate,
     pixarfilms,
-    prettycode,
     rmarkdown,
     scales,
     sf,
