@@ -62,6 +62,8 @@
       args$palette <- "identity"
     } else if (identical(args$palette, quote(abs_area(max_size)))) {
       args$palette <- sprintf("scales::abs_area(%s)", environment(as.list(x)$palette)$max)
+    } else if (identical(args$palette, quote(rescale_pal(range)))) {
+      args$palette <- "scales::rescale_pal(range)"
     } else {
       args$palette <- .cstr_construct(as.list(x)$palette, ...)
     }
