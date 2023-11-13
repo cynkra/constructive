@@ -46,7 +46,7 @@ test_that("CoordSf", {
   opts <- options(constructive_pretty = FALSE)
   on.exit(options(opts))
   expect_snapshot({
-    construct(ggplot2::coord_sf(default_crs = sf::st_crs(4326)))
+    construct(ggplot2::coord_sf(default_crs = sf::st_crs(4326)), data = list(crs = sf::st_crs(4326)))
   })
 })
 
