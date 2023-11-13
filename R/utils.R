@@ -306,3 +306,10 @@ defaults_arg_values <- function(fun, pkg) {
   defaults_lng <- Filter(function(x) !identical(x, quote(expr=)), args_lng)
   lapply(defaults_lng, eval, asNamespace(pkg))
 }
+
+highlight_if_prettycode_installed <- function(x, style = NULL) {
+  if (is_installed("prettycode")) {
+    return(prettycode::highlight(x, style = style %||% prettycode::default_style()))
+  }
+  x
+}
