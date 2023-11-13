@@ -129,6 +129,10 @@
     Output
       [1] "`(`()"
     Code
+      deparse_call(call("{"), style = FALSE)
+    Output
+      [1] "{ }"
+    Code
       deparse_call(call("{", 1, 2), style = FALSE)
     Output
       [1] "{\n  1\n  2\n}"

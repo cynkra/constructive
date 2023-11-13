@@ -157,7 +157,10 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     return(sprintf("(%s)", deparse_call_impl(call[[2]], one_liner, indent, pipe)))
   }
 
-  if (caller == "{" && length(call) > 1) {
+  if (caller == "{") {
+    if (length(call) == 1) {
+      return("{ }")
+    }
     # tunneling
     if (rlang::is_call(call[[2]], "{") && is.symbol(call[[c(2, 2)]])) {
       return(sprintf("{{ %s }}", as.character(call[[c(2, 2)]])))
