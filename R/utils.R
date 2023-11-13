@@ -305,3 +305,4 @@ defaults_arg_values <- function(fun, pkg) {
   args_lng <- head(as.list(getFromNamespace(fun, pkg)), -1)
   defaults_lng <- Filter(function(x) !identical(x, quote(expr=)), args_lng)
   lapply(defaults_lng, eval, asNamespace(pkg))
+}
