@@ -308,7 +308,7 @@ defaults_arg_values <- function(fun, pkg) {
 }
 
 highlight_if_prettycode_installed <- function(x, style = NULL) {
-  if (is_installed("prettycode")) {
+  if (is_installed("prettycode") && !isFALSE(getOption("constructive_pretty"))) {
     return(prettycode::highlight(x, style = style %||% prettycode::default_style()))
   }
   x
