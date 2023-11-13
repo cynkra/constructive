@@ -57,7 +57,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.cstr_pipe</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">pipe</span>, <span class="va">one_liner</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.cstr_pipe</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">pipe</span>, <span class="va">one_liner</span>, indent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -75,7 +75,11 @@
 
 
 <dt>one_liner</dt>
-<dd><p>A boolean. Whether to paste <code>x</code>, the pipe and <code>y</code> together
+<dd><p>A boolean. Whether to paste <code>x</code>, the pipe and <code>y</code> together</p></dd>
+
+
+<dt>indent</dt>
+<dd><p>A boolean. Whether to indent <code>y</code>
 on a same line (provided that <code>x</code> and <code>y</code> are strings and one liners themselves)</p></dd>
 
 </dl></div>
