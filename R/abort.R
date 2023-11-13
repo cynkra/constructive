@@ -59,13 +59,14 @@
 describe <- function(x) {
   type <- typeof(x)
   code <- construct(x, check = FALSE)$code
-  pretty_code <- paste(prettycode::highlight(code), collapse = "\n")
+  code <- highlight_if_prettycode_installed(code)
+  code <- paste(code, collapse = "\n")
   if (type %in% c("logical", "integer", "double", "complex", "character", "raw", "list")) {
     info <- sprintf("It has type '%s' and length %s:\n", typeof(x), length(x))
   } else {
     info <- sprintf("It has type '%s':\n", typeof(x))
   }
-  paste0(info, pretty_code)
+  paste0(info, code)
 }
 
 abort_not_boolean <- function(x) {

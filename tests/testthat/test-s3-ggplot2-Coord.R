@@ -41,9 +41,8 @@ test_that("CoordPolar", {
 })
 
 test_that("CoordSf", {
-  skip_if_not_installed("prettycode", "1.1.0.9000")
   expect_snapshot({
-    construct(ggplot2::coord_sf(default_crs = sf::st_crs(4326)))
+    construct(ggplot2::coord_sf(default_crs = sf::st_crs(4326)), data = list(crs = sf::st_crs(4326)))
   })
 })
 
