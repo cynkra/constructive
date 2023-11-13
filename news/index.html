@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">constructive</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,20 @@
       <small>Source: <a href="https://github.com/cynkra/constructive/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="constructive-020">constructive 0.2.0<a class="anchor" aria-label="anchor" href="#constructive-020"></a></h2><p class="text-muted">CRAN release: 2023-11-13</p>
+<ul><li>We don’t use {styler} anymore, performance is sensibly enhanced as a consequence.</li>
+<li>The package works without having {prettycode} installed, but uses it if it’s installed</li>
+<li>We default to using the magrittr pipe <code>%&gt;%</code> for R versions that don’t support <code>|&gt;</code>
+</li>
+<li>
+<code>NA</code> levels are supported for the classes “factor” and “ordered”</li>
+<li>Environment construction includes variables prefixed with a dot</li>
+<li>When we don’t attach the package, we don’t need to use <code>constructive::</code> in the <code>...</code> before <code>opts_*</code> functions, for instance we can call <code>constructive::construct(cars, opts_data.frame("read.table"))</code>.</li>
+<li>
+<code>quote({})</code> is now constructed as <code>"{ }"</code> rather than <code>"`{`()"</code>
+</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="constructive-010">constructive 0.1.0<a class="anchor" aria-label="anchor" href="#constructive-010"></a></h2><p class="text-muted">CRAN release: 2023-06-06</p>
 <ul><li>First CRAN release</li>
