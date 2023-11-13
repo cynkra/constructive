@@ -61,7 +61,12 @@
     } else if (identical(args$palette, quote(abs_area(max_size)))) {
       args$palette <- sprintf("scales::abs_area(%s)", environment(as.list(x)$palette)$max)
     } else if (identical(args$palette, quote(rescale_pal(range)))) {
-      args$palette <- "scales::rescale_pal(range)"
+      range_val <- environment(as.list(x)$palette)$range
+      if (identical(range_val, defaults_arg_values("rescale_pal", "scales")$range)) {
+        args$palette <- "scales::rescale_pal()"
+      } else {
+        args$palette <- .cstr_apply(list(range_val), "scales::rescale_pal")
+      }
     } else {
       args$palette <- .cstr_construct(as.list(x)$palette, ...)
     }
