@@ -72,7 +72,7 @@
       rlang::new_function(
         args = alist(x = ),
         body = quote({
-          x
+            x
         }),
         env = .GlobalEnv
       )

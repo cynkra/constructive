@@ -41,7 +41,7 @@ constructors$language$default <- function(x, ..., one_liner = FALSE) {
   attributes(x_stripped) <- NULL
 
   if (is_expression2(x_stripped)) {
-    code <- deparse_call(x_stripped, one_liner = one_liner, style = FALSE)
+    code <- deparse_call(x_stripped, one_liner = one_liner, style = FALSE, collapse = FALSE)
     code <- .cstr_wrap(code, "quote", new_line = FALSE)
   } else {
     list_call <- .cstr_apply(as.list(x_stripped), "list", ...)

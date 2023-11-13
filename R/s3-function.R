@@ -88,8 +88,13 @@ constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = 
       fun_call[[2]] <- as.pairlist(x_lst[-x_length])
     }
     fun_call[3] <- x_lst[x_length]
-    code <- deparse_call(fun_call, pipe = FALSE, one_liner = one_liner, style = FALSE)
-
+    code <- deparse_call(
+      fun_call,
+      pipe = FALSE,
+      one_liner = one_liner,
+      style = FALSE,
+      collapse = FALSE
+    )
     if (length(code) == 2) code <- paste(code[1], code[2])
   }
 
@@ -116,7 +121,7 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
   # so we must use regular deparse
 
   x_lst <- as.list(unclass(x))
-  fun_lst <- lapply(x_lst, deparse)
+  fun_lst <- lapply(x_lst, deparse_call, style = FALSE, collapse = FALSE)
   args <- list(.cstr_apply(
     fun_lst, "alist", ..., recurse = FALSE))
   if (environment) {

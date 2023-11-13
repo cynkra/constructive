@@ -15,9 +15,9 @@ Imports:
     diffobj,
     ellipsis,
     methods,
+    prettycode,
     rlang (>= 1.0.0),
     roxygen2,
-    styler,
     waldo
 Suggests: 
     data.table,
@@ -30,7 +30,6 @@ Suggests:
     knitr,
     lubridate,
     pixarfilms,
-    prettycode,
     rmarkdown,
     scales,
     sf,

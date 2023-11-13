@@ -4,7 +4,13 @@
 \alias{deparse_call}
 \title{Deparse a language object}
 \usage{
-deparse_call(call, one_liner = FALSE, pipe = FALSE, style = TRUE)
+deparse_call(
+  call,
+  one_liner = FALSE,
+  pipe = FALSE,
+  style = TRUE,
+  collapse = !style
+)
 }
 \arguments{
 \item{call}{A call}
@@ -15,19 +21,20 @@ semicolons}
 \item{pipe}{Boolean. Whether to use the base pipe to disentangle nested calls. This
 works best on simple calls.}
 
-\item{style}{Boolean. Whether to use \code{styler::style_text()} on the output}
+\item{style}{Boolean. Whether to give a class "constructive_code" on the output
+for pretty printing.}
+
+\item{collapse}{Boolean. Whether to collapse the output to a single string,
+won't be directly visible if \code{style} is \code{TRUE}}
 }
 \value{
-a string or a styled character vector
+a string or a character vector, with a class "constructive_code" for pretty
+printing if \code{style} is \code{TRUE}
 }
 \description{
 This is an alternative to \code{base::deparse()} and \code{rlang::expr_deparse()} that
 handles additional corner cases and fails when encountering tokens other than
 symbols and syntactic literals where cited alternatives would produce non syntactic code.\cr\cr
-Moreover it will produce a one liner if \code{one_liner = TRUE} and
-will attempt to use the base pipe on nested calls if \code{pipe = TRUE}.\cr\cr
-By default the output is styled with \pkg{styler}, if style is set to \code{FALSE} a regular
-string is returned, using \code{"\\n"} for new lines.
 }
 \examples{
 expr <- quote(foo(bar({this; that}, 1)))

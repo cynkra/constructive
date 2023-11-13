@@ -42,6 +42,7 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
 #' @param y A character vector. The code for the right hand side call.
 #' @param pipe A string. The pipe to use, `"plus"` is useful for ggplot code.
 #' @param one_liner A boolean. Whether to paste `x`, the pipe and `y` together
+#' @param indent A boolean. Whether to indent `y`
 #' on a same line (provided that `x` and `y` are strings and one liners themselves)
 #'
 #' @return A character vector
@@ -49,7 +50,7 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
 #' @examples
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = FALSE)
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = TRUE)
-.cstr_pipe <- function(x, y, pipe, one_liner) {
+.cstr_pipe <- function(x, y, pipe, one_liner, indent = TRUE) {
   if (is.null(pipe)) {
     if (getRversion() >= "4.2") {
       pipe <- "base"
@@ -62,7 +63,11 @@ name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
   pipe_symbol <- get_pipe_symbol(pipe)
   if (one_liner) return(paste(x, pipe_symbol, y))
   x[length(x)] <- paste(x[length(x)], pipe_symbol)
-  c(x, indent(y))
+  if (indent) {
+    c(x, indent(y))
+  } else {
+    c(x, y)
+  }
 }
 
 arg_match_pipe <- function(pipe, allow_plus = FALSE) {
@@ -292,4 +297,12 @@ split_by_line <- function(x) {
   with_newline <- paste0(x, "\n")
   split <- strsplit(with_newline, "\n", fixed = TRUE)
   unlist(split, recursive = FALSE)
+}
+
+# evaluate default values in the function's namespace
+# fun, pkg: strings
+defaults_arg_values <- function(fun, pkg) {
+  args_lng <- head(as.list(getFromNamespace(fun, pkg)), -1)
+  defaults_lng <- Filter(function(x) !identical(x, quote(expr=)), args_lng)
+  lapply(defaults_lng, eval, asNamespace(pkg))
 }
