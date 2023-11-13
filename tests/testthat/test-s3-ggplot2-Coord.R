@@ -41,10 +41,6 @@ test_that("CoordPolar", {
 })
 
 test_that("CoordSf", {
-  # FIXME: CRAN version of pretty code doesn't support long strings
-  #   This workaround won't be needed after next release
-  opts <- options(constructive_pretty = FALSE)
-  on.exit(options(opts))
   expect_snapshot({
     construct(ggplot2::coord_sf(default_crs = sf::st_crs(4326)), data = list(crs = sf::st_crs(4326)))
   })
