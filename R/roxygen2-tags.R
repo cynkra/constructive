@@ -18,8 +18,7 @@ format.rd_section_enumerateOptFunctions <- function(...) {
   fun_nms <- ls(asNamespace("constructive"), pattern = "^opts_")
   fun_nms <- fun_nms[order(tolower(fun_nms))]
   funs <- mget(fun_nms, asNamespace("constructive"))
-  signatures <- mapply(construct_signature, funs, fun_nms, USE.NAMES = FALSE, MoreArgs = list(one_liner = TRUE))
-  signatures <- highlight_if_prettycode_installed(signatures)
+  signatures <- mapply(construct_signature, funs, fun_nms, USE.NAMES = FALSE, MoreArgs = list(one_liner = TRUE, style = FALSE))
   signatures <- gsub("^[^(]+(.*)", "\\1", signatures)
   signatures_formatted <- sprintf(
     "\\code{\\link[=%s]{%s}%s}",
