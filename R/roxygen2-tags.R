@@ -19,7 +19,7 @@ format.rd_section_enumerateOptFunctions <- function(...) {
   fun_nms <- fun_nms[order(tolower(fun_nms))]
   funs <- mget(fun_nms, asNamespace("constructive"))
   signatures <- mapply(construct_signature, funs, fun_nms, USE.NAMES = FALSE, MoreArgs = list(one_liner = TRUE))
-  signatures <- prettycode::highlight(signatures)
+  signatures <- highlight_if_prettycode_installed(signatures)
   signatures <- gsub("^[^(]+(.*)", "\\1", signatures)
   signatures_formatted <- sprintf(
     "\\code{\\link[=%s]{%s}%s}",
