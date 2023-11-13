@@ -1,3 +1,15 @@
+# constructive 0.2.0
+
+* We don't use {styler} anymore, performance is sensibly enhanced as
+a consequence.
+* The package works without having {prettycode} installed, but uses it if it's installed
+* We default to using the magrittr pipe `%>%` for R versions that don't support `|>`
+* `NA` levels are supported for the classes "factor" and "ordered"
+* Environment construction includes variables prefixed with a dot
+* When we don't attach the package, we don't need to use `constructive::` in the
+  `...` before `opts_*` functions, for instance we can call `constructive::construct(cars, opts_data.frame("read.table"))`.
+* `quote({})` is now constructed as `"{ }"` rather than ``"`{`()"``
+
 # constructive 0.1.0
 
 * First CRAN release

@@ -1,6 +1,6 @@
 Package: constructive
 Title: Display Idiomatic Code to Construct Most R Objects
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person("Antoine", "Fabri", , "antoine.fabri@gmail.com", role = c("aut", "cre"))
 Description: Prints code that can be used to recreate R objects. In a
