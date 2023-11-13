@@ -23,9 +23,7 @@
   }
   # retrieve the defaults of the function, so we can simplify the call
   # and remove arguments that are repeating the defaults
-  fun_defaults <- head(as.list(getFromNamespace(fun_chr, "ggplot2")), -1)
-  fun_defaults <- Filter(function(x) !identical(x, quote(expr=)), fun_defaults)
-  fun_defaults <- lapply(fun_defaults, eval, asNamespace("ggplot2"))
+  fun_defaults <- defaults_arg_values(fun_chr, "ggplot2")
   if ("trans" %in% names(args) && is.character(fun_defaults$trans)) {
     # might be non robust, address in time
     fun_defaults$trans <- getFromNamespace(paste0(fun_defaults$trans, "_trans"), "scales")()

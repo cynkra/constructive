@@ -298,3 +298,10 @@ split_by_line <- function(x) {
   split <- strsplit(with_newline, "\n", fixed = TRUE)
   unlist(split, recursive = FALSE)
 }
+
+# evaluate default values in the function's namespace
+# fun, pkg: strings
+defaults_arg_values <- function(fun, pkg) {
+  args_lng <- head(as.list(getFromNamespace(fun, pkg)), -1)
+  defaults_lng <- Filter(function(x) !identical(x, quote(expr=)), args_lng)
+  lapply(defaults_lng, eval, asNamespace(pkg))
