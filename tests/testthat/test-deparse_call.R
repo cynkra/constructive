@@ -32,6 +32,7 @@ test_that("deparse_call()", {
     deparse_call(call("(", 1, 2), style = FALSE)
     deparse_call(call("(", 1), style = FALSE)
     deparse_call(call("("), style = FALSE)
+    deparse_call(call("{"), style = FALSE)
     deparse_call(call("{", 1, 2), style = FALSE)
     deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
     deparse_call(call("non-syntactic", 1), style = FALSE)
