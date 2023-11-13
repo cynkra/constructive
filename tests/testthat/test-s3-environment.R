@@ -43,6 +43,6 @@ test_that("environment", {
 
   skip_if(identical(Sys.getenv("R_COVR"), "true"))
   expect_snapshot({
-    construct(constructive::construct, opts_environment(predefine = TRUE), opts_function(environment = TRUE))
+    construct(constructive::.cstr_construct, opts_environment(predefine = TRUE), opts_function(environment = TRUE))
   })
 })
