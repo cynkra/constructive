@@ -22,9 +22,6 @@ test_that("construct_multi", {
     construct_multi(list(letters, .leap.seconds)),
     "named"
   )
-
-  skip_if_not_installed("prettycode")
-
   expect_error(
     construct_multi(letters),
     "named"
