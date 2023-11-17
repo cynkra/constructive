@@ -13,11 +13,12 @@ permanently you can edit your \code{.RProfile} (\code{usethis::edit_r_profile()}
 }
 \details{
 \itemize{
-\item Set \code{options(constructive_construct_to_clipboard = TRUE)} to copy the output
-to the clipboard when printing a "constructive" object (e.g. when calling
-\code{construct()} without assignment).
-\item Set \code{options(constructive_print = FALSE)} not to print constructive objects to
-the console at all (this probably only makes sense with
+\item Set \verb{options(constructive_print = <character>)} where \verb{<character>} is a vector
+of strings among \code{"console"}, \code{"clipboard"} and \code{"reprex"}. The default
+behavior is "console". If you use \code{"clipboard"}, with or without \code{"reprex"},
+the clipboard will contain only the code. If you use \code{"reprex"} without
+\code{"clipboard"} the clipboard will still be used to receive the reprex,
+can be tweaked with \code{options(reprex.clipboard = FALSE)}
 \code{options(constructive_construct_to_clipboard = TRUE)})
 \item Set \verb{options(constructive_opts_template = <list>)} to set default constructive options,
 see documentation of the \code{template} arg in \code{?construct}
