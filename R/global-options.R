@@ -9,7 +9,6 @@
 #'     the clipboard will contain only the code. If you use `"reprex"` without
 #'     `"clipboard"` the clipboard will still be used to receive the reprex,
 #'     can be tweaked with `options(reprex.clipboard = FALSE)`
-#'     `options(constructive_construct_to_clipboard = TRUE)`)
 #' * Set `options(constructive_opts_template = <list>)` to set default constructive options,
 #'     see documentation of the `template` arg in `?construct`
 #' * Set `options(constructive_pretty = FALSE)` to disable pretty printinh using
