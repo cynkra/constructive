@@ -102,7 +102,12 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
 
 #' @export
 print.constructive <- function(x, ...) {
-  print(x$code)
+  if (getOption("constructive_construct_to_clipboard", default = FALSE) && is_installed("clipr")) {
+    clipr::write_clip(paste(x$code, collapse = "\n"), "character")
+  }
+  if (getOption("constructive_print", default = TRUE)) {
+    print(x$code)
+  }
   invisible(x)
 }
 
