@@ -1,5 +1,10 @@
 # constructive (development version)
 
+* Set `options(constructive_construct_to_clipboard = TRUE)` to copy the output
+to the clipboard when printing a "constructive" object (e.g. when calling `construct()` without assignment).
+* Set `options(constructive_print = FALSE)` not to print constructive objects to
+the console at all (this probably only makes sense with `options(constructive_construct_to_clipboard = TRUE)`)
+
 # constructive 0.2.0
 
 * We don't use {styler} anymore, performance is sensibly enhanced as
