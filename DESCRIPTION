@@ -2,7 +2,14 @@ Package: constructive
 Title: Display Idiomatic Code to Construct Most R Objects
 Version: 0.2.0.9000
 Authors@R: 
-    person("Antoine", "Fabri", , "antoine.fabri@gmail.com", role = c("aut", "cre"))
+    c(person(given = "Antoine",
+             family = "Fabri",
+             role = c("aut", "cre")),
+      person(given = "Kirill",
+       family = "Müller",
+       role = "ctb",
+       email = "kirill@cynkra.com",
+       comment = c(ORCID = "0000-0002-1416-3412")))
 Description: Prints code that can be used to recreate R objects. In a
     sense it is similar to 'base::dput()' or 'base::deparse()' but
     'constructive' strives to use idiomatic constructors.
