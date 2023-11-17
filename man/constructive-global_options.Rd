@@ -19,7 +19,6 @@ behavior is "console". If you use \code{"clipboard"}, with or without \code{"rep
 the clipboard will contain only the code. If you use \code{"reprex"} without
 \code{"clipboard"} the clipboard will still be used to receive the reprex,
 can be tweaked with \code{options(reprex.clipboard = FALSE)}
-\code{options(constructive_construct_to_clipboard = TRUE)})
 \item Set \verb{options(constructive_opts_template = <list>)} to set default constructive options,
 see documentation of the \code{template} arg in \code{?construct}
 \item Set \code{options(constructive_pretty = FALSE)} to disable pretty printinh using
