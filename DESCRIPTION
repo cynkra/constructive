@@ -27,6 +27,7 @@ Imports:
     roxygen2,
     waldo
 Suggests: 
+    clipr,
     data.table,
     DiagrammeR,
     DiagrammeRsvg,
@@ -38,6 +39,7 @@ Suggests:
     lubridate,
     pixarfilms,
     prettycode,
+    reprex,
     rmarkdown,
     scales,
     sf,
