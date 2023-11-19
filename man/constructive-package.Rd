@@ -20,5 +20,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Antoine Fabri \email{antoine.fabri@gmail.com}
 
+Other contributors:
+\itemize{
+  \item Kirill Müller \email{kirill@cynkra.com} (\href{https://orcid.org/0000-0002-1416-3412}{ORCID}) [contributor]
+}
+
 }
 \keyword{internal}
