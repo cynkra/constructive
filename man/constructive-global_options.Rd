@@ -5,7 +5,7 @@
 \alias{constructive_opts_template}
 \alias{constructive_construct_to_clipboard}
 \alias{constructive_pretty}
-\alias{constructive_print}
+\alias{constructive_print_mode}
 \title{Global Options}
 \description{
 Set these options to tweak {constructive}'s global behavior, to set them
@@ -13,12 +13,16 @@ permanently you can edit your \code{.RProfile} (\code{usethis::edit_r_profile()}
 }
 \details{
 \itemize{
-\item Set \verb{options(constructive_print = <character>)} where \verb{<character>} is a vector
-of strings among \code{"console"}, \code{"clipboard"} and \code{"reprex"}. The default
-behavior is "console". If you use \code{"clipboard"}, with or without \code{"reprex"},
-the clipboard will contain only the code. If you use \code{"reprex"} without
-\code{"clipboard"} the clipboard will still be used to receive the reprex,
-can be tweaked with \code{options(reprex.clipboard = FALSE)}
+\item Set \verb{options(constructive_print_mode = <character>)} where \verb{<character>} is a vector
+of strings among the following :
+\itemize{
+\item \code{"console"} : The default behavior, the code is printed in the console
+\item \code{"script"} : The code is copied to a new R script
+\item \code{"reprex"} : The code is shown in the viewer as a reprex,
+the reprex (not only the code!) is also copied to the clipboard
+\item \code{"clipboard"} : The constructed code is copied to the clipboard, if combined
+with \code{"reprex"} this takes precedence
+}
 \item Set \verb{options(constructive_opts_template = <list>)} to set default constructive options,
 see documentation of the \code{template} arg in \code{?construct}
 \item Set \code{options(constructive_pretty = FALSE)} to disable pretty printinh using

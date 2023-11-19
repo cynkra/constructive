@@ -102,7 +102,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
 
 #' @export
 print.constructive <- function(x, ...) {
-  print_opts <- getOption("constructive_print", default = "console")
+  print_opts <- getOption("constructive_print_mode", default = "console")
   if ("console" %in% print_opts) {
     print(x$code)
   }
