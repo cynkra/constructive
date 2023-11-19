@@ -113,6 +113,9 @@ print.constructive <- function(x, ...) {
   if ("clipboard" %in% print_opts && is_installed("clipr")) {
     clipr::write_clip(paste(x$code, collapse = "\n"), "character")
   }
+  if ("script" %in% print_opts && is_installed("rstudioapi")) {
+    rstudioapi::documentNew(x$code, "r")
+  }
   invisible(x)
 }
 
