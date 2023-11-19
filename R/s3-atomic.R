@@ -159,8 +159,9 @@ simplify_atomic <- function(x, ...) {
 
     # seq ----------------------------------------------------------------------
     if (is.numeric(x) && l > 3 && !anyNA(x)) {
-      d <- diff(x)
-      if (length(unique(d)) == 1) {
+      # diff returns NA when span of difference exceeds .
+      d <- suppressWarnings(diff(x))
+      if (!anyNA(d) && length(unique(d)) == 1) {
         if (is.integer(x) && abs(d[[1]]) == 1) return(sprintf("%s:%s", x[[1]], x[[l]]))
         return(.cstr_apply(list(x[[1]], x[[l]], by = d[[1]]), "seq", ...))
       }

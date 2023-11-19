@@ -55,5 +55,6 @@ test_that("simplify atomic", {
     construct(c(2, 4, 6, 8, 2, 4, 6, 8))
     construct(as.integer(c(2, 4, 6, 8, 2, 4, 6, 8)))
     construct(c("a", "a", "b", "c", "c", "c", "c"), opts_atomic(compress = FALSE))
+    construct(c(0L, 0L, -1L, .Machine$integer.max))
   })
 })
