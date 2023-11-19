@@ -183,4 +183,8 @@
       construct(c("a", "a", "b", "c", "c", "c", "c"), opts_atomic(compress = FALSE))
     Output
       c("a", "a", "b", "c", "c", "c", "c")
+    Code
+      construct(c(0L, 0L, -1L, .Machine$integer.max))
+    Output
+      c(0L, 0L, -1L, 2147483647L)
 
