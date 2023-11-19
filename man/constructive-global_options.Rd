@@ -3,7 +3,6 @@
 \name{constructive-global_options}
 \alias{constructive-global_options}
 \alias{constructive_opts_template}
-\alias{constructive_construct_to_clipboard}
 \alias{constructive_pretty}
 \alias{constructive_print_mode}
 \title{Global Options}
@@ -13,7 +12,8 @@ permanently you can edit your \code{.RProfile} (\code{usethis::edit_r_profile()}
 }
 \details{
 \itemize{
-\item Set \verb{options(constructive_print_mode = <character>)} where \verb{<character>} is a vector
+\item Set \verb{options(constructive_print_mode = <character>)} to change the default
+value of the \code{print_mode} arument, of \code{print.constructive}, where \verb{<character>} is a vector
 of strings among the following :
 \itemize{
 \item \code{"console"} : The default behavior, the code is printed in the console

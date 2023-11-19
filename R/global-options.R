@@ -3,7 +3,8 @@
 #' Set these options to tweak {constructive}'s global behavior, to set them
 #' permanently you can edit your `.RProfile` (`usethis::edit_r_profile()` might help).
 #'
-#' * Set `options(constructive_print_mode = <character>)` where `<character>` is a vector
+#' * Set `options(constructive_print_mode = <character>)` to change the default
+#'   value of the `print_mode` arument, of `print.constructive`, where `<character>` is a vector
 #'     of strings among the following :
 #'     * `"console"` : The default behavior, the code is printed in the console
 #'     * `"script"` : The code is copied to a new R script
@@ -17,6 +18,5 @@
 #'     {prettycode}
 #'
 #' @name constructive-global_options
-#' @aliases constructive_opts_template constructive_construct_to_clipboard
-#'   constructive_pretty constructive_print_mode
+#' @aliases constructive_opts_template constructive_pretty constructive_print_mode
 NULL
