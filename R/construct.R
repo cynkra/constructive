@@ -94,7 +94,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
     constructives <- list()
     for (nm in names(x)) {
       if (is_promise(as.symbol(nm), x)) {
-        code <- promise_code(as.symbol(nm), x)
+        code <- do.call(substitute, list(as.name(nm), x))
         env <- promise_env(as.symbol(nm), x)
         code <- .cstr_apply(
           list(

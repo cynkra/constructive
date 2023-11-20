@@ -4,13 +4,10 @@
 \alias{construct_reprex}
 \title{construct_reprex}
 \usage{
-construct_reprex(n = 0, include_call = TRUE, ...)
+construct_reprex(n = 0, ...)
 }
 \arguments{
 \item{n}{The number of steps to go up on the call stack}
-
-\item{include_call}{Whether to include the call to the function that created the next
-frame, ignored for \code{n == 0}}
 
 \item{...}{Forwarded to \code{construct_multi()}}
 }
@@ -18,15 +15,26 @@ frame, ignored for \code{n == 0}}
 Returns return \code{NULL} invisibly, called for side-effects.
 }
 \description{
-\code{construct_reprex()} creates a reprex that constructs the local environment,
+\code{construct_reprex()} constructs all objects of the local environment,
 or a caller environment \code{n} steps above. If \code{n > 0} the function call
-is included by default.
+is also included in a comment.
 }
 \details{
+\code{construct_reprex()} doesn't call the {reprex} package but it shares
+the purpose of making it easier to reproduce an output, hence the name.
+If you want to it to look more like a \code{reprex::reprex} consider \code{options(constructive_print_mode = "reprex")}.
+See \code{?constructive_print_mode} for more.
+
 \code{construct_reprex()} wraps \code{construct_multi()} and is thus able to construct
 unevaluated arguments using \code{delayedAssign()}. This means we can construct
 reprexes for functions that use Non Standard Evaluation.
 
 A useful trick is to use \code{construct_reprex()} with \code{options(error = recover)}
 to be able to reproduce an error.
+
+\code{construct_reprex()} might fail to reproduce the output of functions that refer
+to environments other than their caller environment. We believe these are
+very rare and that the simplicity is worth the rounded corners, but if you
+encounter these limitations please do open a ticket on our issue tracker
+at \verb{https://github.com/cynkra/constructive/} and we might expand the feature.
 }

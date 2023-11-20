@@ -10,7 +10,6 @@ test_that("construct_reprex", {
     inner1(a, c)
     inner2(a, c)
     inner3(a, c)
-    inner4(a, c)
   }
 
   inner1 <- function(x, y) {
@@ -34,14 +33,6 @@ test_that("construct_reprex", {
     x <- x + 1
     z <- 3
     reprex <- construct_reprex(2)
-    print(reprex)
-  }
-
-  inner4 <- function(x, y) {
-    writeLines("\n# 4 ------------------------------------------------------\n")
-    x <- x + 1
-    z <- 3
-    reprex <- construct_reprex(2, include_call = FALSE)
     print(reprex)
   }
 
