@@ -15,7 +15,7 @@ NULL
 }
 
 external_pointer_address <- function(s) {
-  if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x000000000")
+  if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x123456789")
   .Call("external_pointer_address", PACKAGE = "constructive", s)
 }
 
