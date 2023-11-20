@@ -7,7 +7,7 @@
 \alias{constructive_print_mode}
 \title{Global Options}
 \description{
-Set these options to tweak {constructive}'s global behavior, to set them
+Set these options to tweak \{constructive\}'s global behavior, to set them
 permanently you can edit your \code{.RProfile} (\code{usethis::edit_r_profile()} might help).
 }
 \details{
@@ -26,6 +26,6 @@ with \code{"reprex"} this takes precedence
 \item Set \verb{options(constructive_opts_template = <list>)} to set default constructive options,
 see documentation of the \code{template} arg in \code{?construct}
 \item Set \code{options(constructive_pretty = FALSE)} to disable pretty printinh using
-{prettycode}
+\{prettycode\}
 }
 }
