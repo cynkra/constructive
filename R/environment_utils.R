@@ -13,7 +13,7 @@ construct_special_env <- function(x) {
 }
 
 env_memory_address <- function(x, by_name = FALSE) {
-  if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x000000000")
+  if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x123456789")
   if (by_name) rlang::env_label(x) else rlang::obj_address(x)
 }
 
