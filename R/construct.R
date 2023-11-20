@@ -101,10 +101,36 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
 }
 
 #' @export
-print.constructive <- function(x, ...) {
-  print(x$code)
+print.constructive <- function(
+    x,
+    print_mode = getOption("constructive_print_mode", default = "console"),
+    ...) {
+  print_mode <- arg_match(
+    print_mode,
+    values = c("console", "script", "reprex", "clipboard"),
+    multiple = TRUE
+  )
+
+  if ("console" %in% print_mode) {
+    print(x$code)
+  }
+  if ("reprex" %in% print_mode) {
+    check_installed("reprex")
+    reprex_code <- c("reprex::reprex({", x$code, "})")
+    eval.parent(parse(text = reprex_code))
+  }
+  if ("clipboard" %in% print_mode) {
+    check_installed("clipr")
+    clipr::write_clip(paste(x$code, collapse = "\n"), "character")
+  }
+  if ("script" %in% print_mode) {
+    check_installed("rstudioapi")
+    rstudioapi::documentNew(x$code, "r")
+  }
   invisible(x)
 }
+
+
 
 # this is  styler:::print.vertical with small tweaks:
 # * different default for `colored`
