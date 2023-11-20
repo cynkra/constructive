@@ -44,3 +44,24 @@
       )
       
 
+---
+
+    Code
+      a <- 1
+      foo <- (function(x, y) {
+        force(x)
+        construct_multi(environment())
+      })
+      foo(a, a)
+    Output
+      x <- 1
+      
+      delayedAssign(
+        "y",
+        value = a,
+        eval.env = constructive::.env(
+          "0x123456789",
+          parents = c("0x123456789", "0x123456789", "namespace:constructive")
+        )
+      )
+
