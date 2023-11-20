@@ -41,6 +41,7 @@ Suggests:
     prettycode,
     reprex,
     rmarkdown,
+    rstudioapi,
     scales,
     sf,
     testthat (>= 3.0.0),
