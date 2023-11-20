@@ -1,6 +1,6 @@
 #' Global Options
 #'
-#' Set these options to tweak {constructive}'s global behavior, to set them
+#' Set these options to tweak \{constructive\}'s global behavior, to set them
 #' permanently you can edit your `.RProfile` (`usethis::edit_r_profile()` might help).
 #'
 #' * Set `options(constructive_print_mode = <character>)` to change the default
@@ -15,7 +15,7 @@
 #' * Set `options(constructive_opts_template = <list>)` to set default constructive options,
 #'     see documentation of the `template` arg in `?construct`
 #' * Set `options(constructive_pretty = FALSE)` to disable pretty printinh using
-#'     {prettycode}
+#'     \{prettycode\}
 #'
 #' @name constructive-global_options
 #' @aliases constructive_opts_template constructive_pretty constructive_print_mode
