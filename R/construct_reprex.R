@@ -8,7 +8,7 @@
 #'
 #' @details
 #'
-#' `construct_reprex()` doesn't call the {reprex} package but it shares
+#' `construct_reprex()` doesn't call the \{reprex\} package but it shares
 #'  the purpose of making it easier to reproduce an output, hence the name.
 #'  If you want to it to look more like a `reprex::reprex` consider `options(constructive_print_mode = "reprex")`.
 #'  See `?constructive_print_mode` for more.
