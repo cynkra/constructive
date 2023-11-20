@@ -38,7 +38,7 @@ test_that("construct_reprex", {
   }
 
   inner4 <- function(x, y) {
-    writeLines("\n# 3 ------------------------------------------------------\n")
+    writeLines("\n# 4 ------------------------------------------------------\n")
     x <- x + 1
     z <- 3
     reprex <- construct_reprex(2, include_call = FALSE)
