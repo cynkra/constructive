@@ -64,7 +64,15 @@ fetch_parent_names <- function(x) {
 #' @export
 .env <- function(address, parents = NULL, ...) {
   force(parents) # to avoid notes
-  env_impl(address)
+  env <- env_impl(address)
+  if (is.null(env)) {
+    msg <- sprintf("No environment was found at the memory address '%s'", address)
+    info1 <- "It's likely that {constructive} was called in a different session to generate this code."
+    info2 <- "The environment might also have been garbage collected."
+    info3 <- "See `?opts_environment` for various alternatives to construct environment with persistent definitions."
+    abort(c(msg, i = info1, i = info2, i = info3))
+  }
+  env
 }
 
 update_predefinition <- function(envir, ...) {
