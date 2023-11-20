@@ -19,7 +19,9 @@ of strings among the following :
 \item \code{"console"} : The default behavior, the code is printed in the console
 \item \code{"script"} : The code is copied to a new R script
 \item \code{"reprex"} : The code is shown in the viewer as a reprex,
-the reprex (not only the code!) is also copied to the clipboard
+the reprex (not only the code!) is also copied to the clipboard. Note that
+if the construction fails the reprex will too, and it might happen often
+when constructing environments since {reprex} opens a new session.
 \item \code{"clipboard"} : The constructed code is copied to the clipboard, if combined
 with \code{"reprex"} this takes precedence
 }
