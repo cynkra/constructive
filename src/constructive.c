@@ -47,5 +47,7 @@ SEXP objectFromAddress(SEXP a) {
       (sscanf(CHAR(a), "%" SCNxPTR, &p) != 1))
     error("'a' is not a formatted unsigned hexadecimal integer");
 
-  return (SEXP) p;
+  SEXP result = (SEXP) p;
+  if (TYPEOF(result) != ENVSXP) return R_NilValue;
+  return result;
 }
