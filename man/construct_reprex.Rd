@@ -23,6 +23,10 @@ or a caller environment \code{n} steps above. If \code{n > 0} the function call
 is included by default.
 }
 \details{
+\code{construct_reprex()} wraps \code{construct_multi()} and is thus able to construct
+unevaluated arguments using \code{delayedAssign()}. This means we can construct
+reprexes for functions that use Non Standard Evaluation.
+
 A useful trick is to use \code{construct_reprex()} with \code{options(error = recover)}
 to be able to reproduce an error.
 }

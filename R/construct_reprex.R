@@ -8,6 +8,10 @@
 #'
 #' @details
 #'
+#' `construct_reprex()` wraps `construct_multi()` and is thus able to construct
+#' unevaluated arguments using `delayedAssign()`. This means we can construct
+#' reprexes for functions that use Non Standard Evaluation.
+#'
 #' A useful trick is to use `construct_reprex()` with `options(error = recover)`
 #' to be able to reproduce an error.
 #'
