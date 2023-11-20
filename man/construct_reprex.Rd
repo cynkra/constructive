@@ -20,7 +20,7 @@ or a caller environment \code{n} steps above. If \code{n > 0} the function call
 is also included in a comment.
 }
 \details{
-\code{construct_reprex()} doesn't call the {reprex} package but it shares
+\code{construct_reprex()} doesn't call the \{reprex\} package but it shares
 the purpose of making it easier to reproduce an output, hence the name.
 If you want to it to look more like a \code{reprex::reprex} consider \code{options(constructive_print_mode = "reprex")}.
 See \code{?constructive_print_mode} for more.
