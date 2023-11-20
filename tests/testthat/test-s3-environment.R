@@ -35,6 +35,10 @@ test_that("environment", {
     construct(foo, opts_environment(predefine = TRUE), opts_formula(environment = TRUE))
     }, .GlobalEnv)
   })
+
+  # FIXME: fails on CI, because of segfault, why ?
+  # expect_error(constructive::.env("0x123456789"), "No environment was found")
+
   skip_if(with_versions(R < "4.2"))
   expect_snapshot({
     construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
