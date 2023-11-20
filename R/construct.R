@@ -3,6 +3,12 @@
 #' `construct()` builds the code to reproduce one object, `construct_multi()`
 #' builds the code to reproduce objects stored in a named list or environment.
 #'
+#' `construct_multi()` recognizes promises, this means that for instance
+#'   `construct_multi(environment())` can be called in a
+#'  function and will construct unevaluated arguments using `delayedAssign()`.
+#'  Note however that `construct_multi(environment())` is equivalent to `construct_reprex()`
+#'  called without argument and the latter is preferred.
+#'
 #' @param x An object, for `construct_multi()` a named list or an environment.
 #'
 #' @param data Named list or environment of objects we want to detect and mention by name (as opposed to

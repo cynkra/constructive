@@ -59,6 +59,13 @@ An object of class 'constructive'.
 \code{construct()} builds the code to reproduce one object, \code{construct_multi()}
 builds the code to reproduce objects stored in a named list or environment.
 }
+\details{
+\code{construct_multi()} recognizes promises, this means that for instance
+\code{construct_multi(environment())} can be called in a
+function and will construct unevaluated arguments using \code{delayedAssign()}.
+Note however that \code{construct_multi(environment())} is equivalent to \code{construct_reprex()}
+called without argument and the latter is preferred.
+}
 \examples{
 construct(head(cars))
 construct(head(cars), opts_data.frame("read.table"))
