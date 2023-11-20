@@ -2,34 +2,27 @@
 % Please edit documentation in R/construct_reprex.R
 \name{construct_reprex}
 \alias{construct_reprex}
-\alias{setup_reprex}
 \title{construct_reprex}
 \usage{
-construct_reprex(...)
-
-setup_reprex(fun, ...)
+construct_reprex(n = 0, include_call = TRUE, ...)
 }
 \arguments{
-\item{...}{Forwarded to \code{construct_multi()}}
+\item{n}{The number of steps to go up on the call stack}
 
-\item{fun}{A function}
+\item{include_call}{Whether to include the call to the function that created the next
+frame, ignored for \code{n == 0}}
+
+\item{...}{Forwarded to \code{construct_multi()}}
 }
 \value{
-Both functions are called for side-effects and return \code{NULL} invisibly.
+Returns return \code{NULL} invisibly, called for side-effects.
 }
 \description{
-\itemize{
-\item \code{construct_reprex()} creates a reprex that constructs the parent environment
-and last call on the stack. Y
-\item \code{setup_reprex()} sets up a function \code{fun} so it will call \code{construct_reprex()}
-with the same additional arguments next time \code{fun} is called.
-}
+\code{construct_reprex()} creates a reprex that constructs the local environment,
+or a caller environment \code{n} steps above. If \code{n > 0} the function call
+is included by default.
 }
 \details{
-You might use \code{construct_reprex()} with \code{options(error = recover)}
-to create a reprex at the chosen frame in the call stack.
-
-Note the \code{construct_reprex()} doesn't look at the local environment, if you
-want to reproduce the local environment when debugging you might use \code{construct_multi(environment())}
-instead.
+A useful trick is to use \code{construct_reprex()} with \code{options(error = recover)}
+to be able to reproduce an error.
 }

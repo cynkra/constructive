@@ -2,46 +2,47 @@
 #'
 #' @description
 #'
-#' * `construct_reprex()` creates a reprex that constructs the parent environment
-#' and last call on the stack. Y
-#' * `setup_reprex()` sets up a function `fun` so it will call `construct_reprex()`
-#' with the same additional arguments next time `fun` is called.
+#' `construct_reprex()` creates a reprex that constructs the local environment,
+#'   or a caller environment `n` steps above. If `n > 0` the function call
+#'   is included by default.
 #'
 #' @details
 #'
-#' You might use `construct_reprex()` with `options(error = recover)`
-#' to create a reprex at the chosen frame in the call stack.
+#' A useful trick is to use `construct_reprex()` with `options(error = recover)`
+#' to be able to reproduce an error.
 #'
-#' Note the `construct_reprex()` doesn't look at the local environment, if you
-#' want to reproduce the local environment when debugging you might use `construct_multi(environment())`
-#' instead.
-#'
-#' @param fun A function
+#' @param n The number of steps to go up on the call stack
+#' @param include_call Whether to include the call to the function that created the next
+#'   frame, ignored for `n == 0`
 #' @param ... Forwarded to `construct_multi()`
 #'
-#' @return Both functions are called for side-effects and return `NULL` invisibly.
+#' @return Returns return `NULL` invisibly, called for side-effects.
 #' @export
-construct_reprex <- function(...) {
-  caller_env <- parent.frame(2)
-  call <- sys.call(-1)
-  fun <- sys.function(-1)
+construct_reprex <- function(n = 0, include_call = TRUE, ...) {
+  stopifnot(n >= 0)
+  caller_env <- parent.frame(1 + n)
+  if (n == 0) {
+    return(construct_multi(caller_env, ...))
+  }
 
-  on.exit({
-    if (!is.null(attr(fun, "constructive_modified_from"))) {
-      fun_chr <- sub("^.*?::(.*)$", "\\1", paste(deparse(call[[1]]), collapse = ""))
-      ns <- topenv(environment(fun))
-      assignInNamespace(fun_chr, attr(fun, "constructive_modified_from"), ns)
-    }
-  })
+  call <- sys.call(-n)
+  fun <- sys.function(-n)
 
   # output ---------------------------------------------------------------------
   if (length(names(caller_env))) {
     constructed <- construct_multi(caller_env, ...)
-    constructed$code <- as_constructive_code(
-      c(constructed$code, deparse_call(call, style = FALSE))
-    )
+    if (include_call) {
+      constructed$code <- as_constructive_code(
+        c(constructed$code, deparse_call(call, style = FALSE))
+      )
+    }
   } else {
-    constructed <- new_constructive(code = deparse_call(call), compare = NULL)
+    if (include_call) {
+      code <- deparse_call(call)
+    } else {
+      code <- ""
+    }
+    constructed <- new_constructive(code, compare = NULL)
   }
   constructed
 }
