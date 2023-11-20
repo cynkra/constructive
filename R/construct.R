@@ -114,14 +114,17 @@ print.constructive <- function(
   if ("console" %in% print_mode) {
     print(x$code)
   }
-  if ("reprex" %in% print_mode && is_installed("reprex")) {
+  if ("reprex" %in% print_mode) {
+    check_installed("reprex")
     reprex_code <- c("reprex::reprex({", x$code, "})")
     eval.parent(parse(text = reprex_code))
   }
-  if ("clipboard" %in% print_mode && is_installed("clipr")) {
+  if ("clipboard" %in% print_mode) {
+    check_installed("clipr")
     clipr::write_clip(paste(x$code, collapse = "\n"), "character")
   }
-  if ("script" %in% print_mode && is_installed("rstudioapi")) {
+  if ("script" %in% print_mode) {
+    check_installed("rstudioapi")
     rstudioapi::documentNew(x$code, "r")
   }
   invisible(x)
