@@ -67,7 +67,9 @@ value of the <code>print_mode</code> arument, of <code>print.constructive</code>
 of strings among the following :</p><ul><li><p><code>"console"</code> : The default behavior, the code is printed in the console</p></li>
 <li><p><code>"script"</code> : The code is copied to a new R script</p></li>
 <li><p><code>"reprex"</code> : The code is shown in the viewer as a reprex,
-the reprex (not only the code!) is also copied to the clipboard</p></li>
+the reprex (not only the code!) is also copied to the clipboard. Note that
+if the construction fails the reprex will too, and it might happen often
+when constructing environments since reprex opens a new session.</p></li>
 <li><p><code>"clipboard"</code> : The constructed code is copied to the clipboard, if combined
 with <code>"reprex"</code> this takes precedence</p></li>
 </ul></li>

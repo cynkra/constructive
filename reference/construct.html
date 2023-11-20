@@ -132,6 +132,14 @@ behavior for <code>{constructive}</code>.</p></dd>
 <p>An object of class 'constructive'.</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>construct_multi()</code> recognizes promises, this means that for instance
+<code>construct_multi(environment())</code> can be called in a
+function and will construct unevaluated arguments using <code><a href="https://rdrr.io/r/base/delayedAssign.html" class="external-link">delayedAssign()</a></code>.
+Note however that <code>construct_multi(environment())</code> is equivalent to <code><a href="construct_reprex.html">construct_reprex()</a></code>
+called without argument and the latter is preferred.</p>
+    </div>
+    <div class="section level2">
     <h2 id="constructive-options">Constructive options<a class="anchor" aria-label="anchor" href="#constructive-options"></a></h2>
     <p>Constructive options provide a way to customize the output of `construct()`.
 We can provide calls to `opts_*()` functions to the `...` argument. Each of these functions targets a specific type or class and is documented on its own page.</p>
