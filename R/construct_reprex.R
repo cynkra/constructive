@@ -2,9 +2,11 @@
 #'
 #' @description
 #'
-#' `construct_reprex()` constructs all objects of the local environment,
+#' * `construct_reprex()` constructs all objects of the local environment,
 #'   or a caller environment `n` steps above. If `n > 0` the function call
 #'   is also included in a comment.
+#' * `setup_reprex()` sets up a function `fun` so it will call `construct_reprex()`
+#'   with the same additional arguments next time `fun` is called.
 #'
 #' @details
 #'
@@ -26,10 +28,11 @@
 #' encounter these limitations please do open a ticket on our issue tracker
 #' at `https://github.com/cynkra/constructive/` and we might expand the feature.
 #'
+#' @param fun A function
 #' @param n The number of steps to go up on the call stack
 #' @param ... Forwarded to `construct_multi()`
 #'
-#' @return Returns return `NULL` invisibly, called for side-effects.
+#' @return Both functions are called for side-effects and return `NULL` invisibly.
 #' @export
 construct_reprex <- function(n = 0, ...) {
   stopifnot(n >= 0)
@@ -40,6 +43,14 @@ construct_reprex <- function(n = 0, ...) {
 
   call <- sys.call(-n)
   fun <- sys.function(-n)
+
+  on.exit({
+    if (!is.null(attr(fun, "constructive_modified_from"))) {
+      fun_chr <- sub("^.*?::(.*)$", "\\1", paste(deparse(call[[1]]), collapse = ""))
+      ns <- topenv(environment(fun))
+      assignInNamespace(fun_chr, attr(fun, "constructive_modified_from"), ns)
+    }
+  })
 
   # output ---------------------------------------------------------------------
   if (length(names(caller_env))) {

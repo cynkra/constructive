@@ -1,4 +1,5 @@
 #' @export
+#' @rdname construct_reprex
 setup_reprex <- function(fun, ...) {
   fun_lng <- substitute(fun)
   env <- environment(fun)
@@ -14,10 +15,6 @@ setup_reprex <- function(fun, ...) {
     fun_chr <- as.character(fun_lng)
   }
   ns <- topenv(environment(fun))
-  # if (bindingIsLocked(fun_chr, ns)) {
-  #   unlockBinding(fun_chr, ns)
-  # }
-
   body_ <- as.list(body(fun))
 
   if (identical(body_[[1]], quote(`{`))) {
