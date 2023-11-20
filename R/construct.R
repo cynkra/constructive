@@ -123,7 +123,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
   code <-  Map(
     code, names(code),
     f = function(x, y) {
-      if (startsWith(x, "delayedAssign(")) return(x)
+      if (startsWith(x[[1]], "delayedAssign(")) return(x)
       x[[1]] <- paste(protect(y), "<-", x[[1]])
       c(x, "")
     })
