@@ -26,4 +26,14 @@ test_that("construct_multi", {
     construct_multi(letters),
     "named"
   )
+
+  expect_snapshot({
+    a <- 1
+    foo <- function(x, y) {
+      force(x)
+      construct_multi(environment())
+    }
+
+    foo(a, a)
+  })
 })
