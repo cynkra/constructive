@@ -21,7 +21,7 @@ of strings among the following :
 \item \code{"reprex"} : The code is shown in the viewer as a reprex,
 the reprex (not only the code!) is also copied to the clipboard. Note that
 if the construction fails the reprex will too, and it might happen often
-when constructing environments since {reprex} opens a new session.
+when constructing environments since \pkg{reprex} opens a new session.
 \item \code{"clipboard"} : The constructed code is copied to the clipboard, if combined
 with \code{"reprex"} this takes precedence
 }
