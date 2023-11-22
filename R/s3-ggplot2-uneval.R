@@ -3,7 +3,39 @@
 # eval the expressions or components
 
 #' @export
+opts_uneval <- function(constructor = c("aes", "next", "list"), ...) {
+  .cstr_combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+  .cstr_options("uneval", constructor = constructor)
+}
+
+#' @export
 .cstr_construct.uneval <- function(x, ...) {
+  opts <- .cstr_fetch_opts("uneval", ...)
+  if (is_corrupted_uneval(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$uneval[[opts$constructor]]
+  constructor(x, ...)
+}
+
+is_corrupted_uneval <- function(x) {
+  # TODO
+  FALSE
+}
+
+#' @export
+constructors$uneval$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
+}
+
+#' @export
+constructors$uneval$aes <- function(x, ...) {
+  if (!length(x)) {
+    return(
+      repair_attributes_uneval(x, "ggplot2::aes()", ...)
+    )
+  }
   args <- lapply(x, function(x) rlang::expr_deparse(rlang::quo_squash(x)))
   nm1 <- names(args)[1]
   # omit `x` and `y` if provided in this order
