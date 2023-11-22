@@ -2,7 +2,7 @@ constructors$ggplot <- new.env()
 
 #' Constructive options for class 'ggplot'
 #'
-#' These options will be used on objects of class 'data.table'.
+#' These options will be used on objects of class 'ggplot'.
 #'
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"ggplot"` (default): Use `ggplot2::ggplot()`
@@ -12,14 +12,14 @@ constructors$ggplot <- new.env()
 #'
 #' @param constructor String. Name of the function used to construct the environment, see Details section.
 #' @inheritParams opts_atomic
-#' @return An object of class <constructive_options/constructive_options_data.table>
+#' @return An object of class <constructive_options/constructive_options_ggplot>
 #' @export
-opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ..., selfref = FALSE) {
+opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "ggplot"),
     ellipsis::check_dots_empty()
   )
-  .cstr_options("data.table", constructor = constructor, selfref = selfref)
+  .cstr_options("ggplot", constructor = constructor)
 }
 
 #' @export
