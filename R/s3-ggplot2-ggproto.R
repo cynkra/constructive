@@ -28,7 +28,7 @@ constructors$ggproto$environment <- function(x, ...) {
 }
 
 #' @export
-constructors$ggproto$default <- function(x, ggproto.ignore_draw_key = FALSE, ...) {
+constructors$ggproto$default <- function(x, ..., ggproto.ignore_draw_key = FALSE) {
   if (ggproto.ignore_draw_key) {
     x <- as.list(x)
     x$draw_key <- NULL
