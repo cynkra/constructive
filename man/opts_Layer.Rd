@@ -4,7 +4,7 @@
 \alias{opts_Layer}
 \title{Constructive options for class 'Layer' (ggplot2)}
 \usage{
-opts_Layer(constructor = c("default", "layer", "environment"), ...)
+opts_Layer(constructor = c("default", "layer", "next", "environment"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see Details section.}
