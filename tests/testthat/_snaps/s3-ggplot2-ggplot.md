@@ -23,8 +23,7 @@
           "0x123456789",
           parents = "empty",
           class = c("LayerInstance", "Layer", "ggproto", "gg")
-        ) |>
-          structure(class = c("LayerInstance", "Layer", "ggproto", "gg"))
+        )
     Code
       p1 <- base_99 + ggplot2::scale_x_continuous(limits = c(1, 7))
       construct(p1, data = tibble::lst(mpg_99), check = FALSE)
