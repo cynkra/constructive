@@ -1,33 +1,33 @@
-constructors$scalesList <- new.env()
+constructors$ScalesList <- new.env()
 
 #' @export
-opts_scalesList <- function(constructor = c("scalesList", "next", "list"), ...) {
+opts_ScalesList <- function(constructor = c("ScalesList", "next", "list"), ...) {
   .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "scalesList"),
+    constructor <- .cstr_match_constructor(constructor, "ScalesList"),
     ellipsis::check_dots_empty()
   )
-  .cstr_options("scalesList", constructor = constructor)
+  .cstr_options("ScalesList", constructor = constructor)
 }
 
 #' @export
-.cstr_construct.scalesList <- function(x, ...) {
-  opts <- .cstr_fetch_opts("scalesList", ...)
-  if (is_corrupted_scalesList(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$scalesList[[opts$constructor]]
+.cstr_construct.ScalesList <- function(x, ...) {
+  opts <- .cstr_fetch_opts("ScalesList", ...)
+  if (is_corrupted_ScalesList(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$ScalesList[[opts$constructor]]
   constructor(x, ...)
 }
 
-is_corrupted_scalesList <- function(x) {
+is_corrupted_ScalesList <- function(x) {
   # TODO
   FALSE
 }
 
-constructors$scalesList$environment <- function(x, ...) {
+constructors$ScalesList$environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$scalesList$scalesList <- function(x, ..., one_liner) {
+constructors$ScalesList$ScalesList <- function(x, ..., one_liner) {
   # FIXME: appropriate constructors
   if (!length(x$scales)) return(NextMethod(x))
   scales_chr <- lapply(x$scales, .cstr_construct,  one_liner = one_liner, ...)
