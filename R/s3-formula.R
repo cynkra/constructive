@@ -24,7 +24,7 @@ constructors$formula <- new.env()
 opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = TRUE) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "formula"),
-    ellipsis::check_dots_empty(),
+    check_dots_empty(),
     abort_not_boolean(environment)
   )
   .cstr_options("formula", constructor = constructor, environment = environment)

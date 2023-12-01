@@ -21,7 +21,7 @@ constructors$data.frame <- new.env()
 opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "data.frame"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("data.frame", constructor = constructor)
 }

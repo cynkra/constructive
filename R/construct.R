@@ -48,7 +48,7 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
   .cstr_combine_errors(
     # force so we might fail outside of the try_fetch() when x is not properly provided
     force(x),
-    ellipsis::check_dots_unnamed(),
+    check_dots_unnamed(),
     abort_wrong_data(data),
     abort_not_boolean(one_liner)
   )

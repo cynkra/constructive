@@ -32,7 +32,7 @@ opts_function <- function(
     trim = NULL) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "function"),
-    ellipsis::check_dots_empty(),
+    check_dots_empty(),
     abort_not_boolean(environment),
     abort_not_boolean(srcref),
     abort_not_null_or_integerish(trim)

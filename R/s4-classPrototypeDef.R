@@ -11,7 +11,7 @@ constructors$classPrototypeDef <- new.env()
 opts_classPrototypeDef <- function(constructor = c("prototype"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "classPrototypeDef"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("classPrototypeDef", constructor = constructor)
 }

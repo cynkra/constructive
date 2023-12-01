@@ -17,7 +17,7 @@ constructors$grouped_df <- new.env()
 opts_grouped_df <- function(constructor = c("default", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "grouped_df"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("grouped_df", constructor = constructor)
 }

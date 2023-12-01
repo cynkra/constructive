@@ -19,7 +19,7 @@ constructors$quosure <- new.env()
 opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "quosure"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("quosure", constructor = constructor)
 }

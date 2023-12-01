@@ -17,7 +17,7 @@ constructors$ts <- new.env()
 opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "ts"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("ts", constructor = constructor)
 }

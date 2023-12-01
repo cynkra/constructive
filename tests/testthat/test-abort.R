@@ -5,7 +5,7 @@ test_that("abort", {
         x <- rlang::arg_match(x),
         abort_not_boolean(y),
         abort_not_null_or_integerish(z),
-        ellipsis::check_dots_empty()
+        rlang::check_dots_empty()
       )
     }
     err <- try(foo("z","z","z","z"), silent = TRUE)

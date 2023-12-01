@@ -21,7 +21,6 @@ BugReports: https://github.com/cynkra/constructive/issues
 Imports: 
     cli,
     diffobj,
-    ellipsis,
     methods,
     rlang (>= 1.0.0),
     roxygen2,

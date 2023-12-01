@@ -18,7 +18,7 @@ constructors$dm <- new.env()
 opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "dm"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("dm", constructor = constructor)
 }
