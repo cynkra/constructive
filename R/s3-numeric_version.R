@@ -17,7 +17,7 @@ constructors$numeric_version <- new.env()
 opts_numeric_version  <- function(constructor = c("numeric_version", "next", "atomic"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "numeric_version"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("numeric_version", constructor = constructor)
 }
@@ -66,7 +66,7 @@ constructors$package_version <- new.env()
 opts_package_version  <- function(constructor = c("package_version", "next", "atomic"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "package_version"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("package_version", constructor = constructor)
 }
@@ -115,7 +115,7 @@ constructors$R_system_version <- new.env()
 opts_R_system_version  <- function(constructor = c("R_system_version", "next", "atomic"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "R_system_version"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("R_system_version", constructor = constructor)
 }

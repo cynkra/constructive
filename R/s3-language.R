@@ -19,7 +19,7 @@ constructors$language <- new.env()
 opts_language  <- function(constructor = c("default"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "language"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("language", constructor = constructor)
 }

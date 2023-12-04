@@ -14,7 +14,7 @@ constructors$pairlist <- new.env()
 opts_pairlist <- function(constructor = c("pairlist", "pairlist2"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "pairlist"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("pairlist", constructor = constructor)
 }

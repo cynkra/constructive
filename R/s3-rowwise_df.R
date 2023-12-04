@@ -17,7 +17,7 @@ constructors$rowwise_df <- new.env()
 opts_rowwise_df <- function(constructor = c("default", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "rowwise_df"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("rowwise_df", constructor = constructor)
 }

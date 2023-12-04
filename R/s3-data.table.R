@@ -23,7 +23,7 @@ constructors$data.table <- new.env()
 opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., selfref = FALSE) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "data.table"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("data.table", constructor = constructor, selfref = selfref)
 }

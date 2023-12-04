@@ -60,7 +60,7 @@ opts_atomic <- function(
     escape = FALSE
 ) {
   .cstr_combine_errors(
-    ellipsis::check_dots_empty(),
+    check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill),
     abort_not_boolean(compress),

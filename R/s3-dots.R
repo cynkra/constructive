@@ -20,7 +20,7 @@ constructors$dots <- new.env()
 opts_dots <- function(constructor = c("default"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "dots"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("dots", constructor = constructor)
 }

@@ -22,7 +22,7 @@ constructors$ordered <- new.env()
 opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "ordered"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("ordered", constructor = constructor)
 }

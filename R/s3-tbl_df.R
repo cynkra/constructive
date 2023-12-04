@@ -22,7 +22,7 @@ constructors$tbl_df <- new.env()
 opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "tbl_df"),
-    ellipsis::check_dots_empty(),
+    check_dots_empty(),
     abort_not_boolean(trailing_comma)
   )
   .cstr_options("tbl_df", constructor = constructor, trailing_comma = trailing_comma)

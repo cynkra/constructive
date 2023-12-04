@@ -17,7 +17,7 @@ constructors$mts <- new.env()
 opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "mts"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("mts", constructor = constructor)
 }

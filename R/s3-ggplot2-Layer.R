@@ -19,7 +19,7 @@
 opts_Layer <- function(constructor = c("default", "layer", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("Layer", constructor = constructor)
 }
