@@ -2,7 +2,7 @@ constructors$tbl_df <- new.env()
 
 #' Constructive options for tibbles
 #'
-#' These options will be used on objects of class 'tbl_df', also known as tibbles. .
+#' These options will be used on objects of class 'tbl_df', also known as tibbles.
 #'
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"tibble"` (default): Wrap the column definitions in a `tibble::tibble()` call.
