@@ -3,7 +3,7 @@ pkgdown: 2.0.7.9000
 pkgdown_sha: 13d8d621105a3a527a05e46c6c805a6564c39791
 articles:
   User-defined-methods-and-constructors: User-defined-methods-and-constructors.html
-last_built: 2023-12-04T12:40Z
+last_built: 2023-12-04T12:45Z
 urls:
   reference: https://cynkra.github.io/constructive/reference
   article: https://cynkra.github.io/constructive/articles
