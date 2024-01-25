@@ -11,7 +11,7 @@
     Code
       construct(ggplot2::theme_bw(base_size = 22, base_line_size = 0.5))
     Output
-      ggplot2::theme_bw(base_size = 22, base_line_size = 0.5)
+      
     Code
       construct(ggplot2::theme_bw(base_size = 11, base_line_size = 1))
     Output
@@ -19,7 +19,7 @@
     Code
       construct(ggplot2::theme_bw(base_size = 22, base_line_size = 1))
     Output
-      ggplot2::theme_bw(base_size = 22)
+      
     Code
       construct(ggplot2::theme())
     Output
