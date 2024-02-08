@@ -23,7 +23,6 @@ Imports:
     diffobj,
     methods,
     rlang (>= 1.0.0),
-    roxygen2,
     waldo
 Suggests: 
     clipr,
@@ -40,6 +39,7 @@ Suggests:
     prettycode,
     reprex,
     rmarkdown,
+    roxygen2,
     rstudioapi,
     scales,
     sf,
