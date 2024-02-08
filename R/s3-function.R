@@ -121,9 +121,20 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
   # so we must use regular deparse
 
   x_lst <- as.list(unclass(x))
-  fun_lst <- lapply(x_lst, deparse_call, style = FALSE, collapse = FALSE)
-  args <- list(.cstr_apply(
-    fun_lst, "alist", ..., recurse = FALSE))
+
+  body_is_a_proper_expression <-
+    is_expression2(x_lst[[length(x_lst)]])
+
+  if (body_is_a_proper_expression) {
+    fun_lst <- lapply(x_lst, deparse_call, style = FALSE, collapse = FALSE)
+    args <- list(.cstr_apply(
+      fun_lst, "alist", ..., recurse = FALSE))
+  } else {
+    fun_lst <- lapply(x_lst, .cstr_construct.language, style = FALSE, collapse = FALSE)
+    args <- list(.cstr_apply(
+      fun_lst, "list", ..., recurse = FALSE))
+  }
+
   if (environment) {
     envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(envir = envir_arg))
@@ -133,15 +144,13 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
 }
 
 constructors$`function`$new_function <- function(x, ..., trim, environment, srcref) {
-  # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
-  # so we must use regular deparse
-
   x_lst <- as.list(unclass(x))
-  fun_lst <- lapply(x_lst, deparse)
-  args <- list(
-    args = .cstr_apply(fun_lst[-length(fun_lst)], "alist", ..., recurse = FALSE),
-    body = .cstr_wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
-  )
+
+  args <- lapply(x_lst[-length(x_lst)], deparse_call)
+  args <- .cstr_apply(args, "alist", ..., recurse = FALSE)
+  body <- .cstr_construct.language(x_lst[[length(x_lst)]])
+
+  args <- list(args = args, body = body)
   if (environment) {
     envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(env = envir_arg))
