@@ -9,7 +9,9 @@ constructors$`function` <- new.env()
 #'   definition. This won't set the environment by default, unless `environment`
 #'   is set to `TRUE`. If a srcref is available, if this srcref matches the function's
 #'   definition, and if `trim` is left `NULL`, the code is returned from using the srcref,
-#'   so comments will be shown in the output of `construct()`.
+#'   so comments will be shown in the output of `construct()`. In the rare case
+#'   where the ast body of the function contains non syntactic nodes this constructor
+#'   cannot be used and falls back to the `"as.function"` constructor.
 #' * `"as.function"` : Build the object using a `as.function()` call.
 #'   back to `data.frame()`.
 #' * `"new_function"` : Build the object using a `rlang::new_function()` call.
@@ -72,6 +74,25 @@ constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = 
   # if the srcref matches the function's body (always in non artifical cases)
   # we might use the srcref rather than the body, so we keep the comments
 
+  x_lst <- as.list(unclass(x))
+  x_length <- length(x_lst)
+  body_is_a_proper_expression <-
+    is_expression2(x_lst[[x_length]])
+
+  if (!body_is_a_proper_expression) {
+    # fall back on `as.function()` constructor
+    res <- constructors$`function`$as.function(
+      x,
+      ...,
+      pipe = pipe,
+      one_liner = one_liner,
+      trim = trim,
+      environment = environment,
+      srcref = srcref
+    )
+    return(res)
+  }
+
   code_from_srcref <- FALSE
   if (!one_liner && is.null(trim)) {
     code <- code_from_srcref(x)
@@ -82,8 +103,6 @@ constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = 
 
   if (!code_from_srcref) {
     fun_call <- call("function")
-    x_lst <- as.list(unclass(x))
-    x_length <- length(x_lst)
     if (x_length > 1) {
       fun_call[[2]] <- as.pairlist(x_lst[-x_length])
     }
@@ -121,9 +140,20 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
   # so we must use regular deparse
 
   x_lst <- as.list(unclass(x))
-  fun_lst <- lapply(x_lst, deparse_call, style = FALSE, collapse = FALSE)
-  args <- list(.cstr_apply(
-    fun_lst, "alist", ..., recurse = FALSE))
+
+  body_is_a_proper_expression <-
+    is_expression2(x_lst[[length(x_lst)]])
+
+  if (body_is_a_proper_expression) {
+    fun_lst <- lapply(x_lst, deparse_call, style = FALSE, collapse = FALSE)
+    args <- list(.cstr_apply(
+      fun_lst, "alist", ..., recurse = FALSE))
+  } else {
+    fun_lst <- lapply(x_lst, .cstr_construct.language, style = FALSE, collapse = FALSE)
+    args <- list(.cstr_apply(
+      fun_lst, "list", ..., recurse = FALSE))
+  }
+
   if (environment) {
     envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(envir = envir_arg))
@@ -133,15 +163,13 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
 }
 
 constructors$`function`$new_function <- function(x, ..., trim, environment, srcref) {
-  # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
-  # so we must use regular deparse
-
   x_lst <- as.list(unclass(x))
-  fun_lst <- lapply(x_lst, deparse)
-  args <- list(
-    args = .cstr_apply(fun_lst[-length(fun_lst)], "alist", ..., recurse = FALSE),
-    body = .cstr_wrap(fun_lst[[length(fun_lst)]], "quote", new_line = FALSE)
-  )
+
+  args <- lapply(x_lst[-length(x_lst)], deparse_call)
+  args <- .cstr_apply(args, "alist", ..., recurse = FALSE)
+  body <- .cstr_construct.language(x_lst[[length(x_lst)]])
+
+  args <- list(args = args, body = body)
   if (environment) {
     envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(env = envir_arg))
