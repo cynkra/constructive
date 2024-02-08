@@ -31,4 +31,13 @@ test_that("list", {
     construct(x2, opts_list(trim = 2, fill = "none"))
     construct(x2, opts_list(trim = 2, fill = "..."))
   })
+
+  corrupted_list <- structure(list(1), class = c("corrupted"))
+  length.corrupted <- function(x) stop()
+  `[.corrupted` <- function(...) stop()
+  `[[.corrupted` <- function(...) stop()
+  expect_error(length(corrupted_list))
+  expect_snapshot({
+    construct(corrupted_list)
+  })
 })
