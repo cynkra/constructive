@@ -37,7 +37,7 @@ test_that("list", {
   `[.corrupted` <- function(...) stop()
   `[[.corrupted` <- function(...) stop()
   expect_error(length(corrupted_list))
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(corrupted_list)
   })
 })
