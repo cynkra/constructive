@@ -9,7 +9,9 @@ constructors$`function` <- new.env()
 #'   definition. This won't set the environment by default, unless `environment`
 #'   is set to `TRUE`. If a srcref is available, if this srcref matches the function's
 #'   definition, and if `trim` is left `NULL`, the code is returned from using the srcref,
-#'   so comments will be shown in the output of `construct()`.
+#'   so comments will be shown in the output of `construct()`. In the rare case
+#'   where the ast body of the function contains non syntactic nodes this constructor
+#'   cannot be used and falls back to the `"as.function"` constructor.
 #' * `"as.function"` : Build the object using a `as.function()` call.
 #'   back to `data.frame()`.
 #' * `"new_function"` : Build the object using a `rlang::new_function()` call.
