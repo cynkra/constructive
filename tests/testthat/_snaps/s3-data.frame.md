@@ -34,6 +34,11 @@
          4.  10.
       ")
     Code
+      construct(head(cars, 2), opts_data.frame(constructor = "read.table"),
+      one_liner = TRUE)
+    Output
+      read.table(header = TRUE, text = "\nspeed dist\n   4.   2.\n   4.  10.\n")
+    Code
       construct(transform(mtcars[1:2, 1:2], chr = c("a", "b"), int = 1:2),
       opts_data.frame(constructor = "read.table"))
     Message

@@ -49,17 +49,23 @@ constructors$data.frame$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-constructors$data.frame$read.table <- function(x, ...) {
+constructors$data.frame$read.table <- function(x, one_liner, ...) {
   # Fall back on data.frame constructor if relevant
-  if (!nrow(x)) return(constructors$data.frame$data.frame(x, ...))
+  if (!nrow(x)) {
+    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+  }
 
   rn <- attr(x, "row.names")
   numeric_row_names_are_not_default <- is.numeric(rn) && !identical(rn, seq_len(nrow(x)))
-  if (numeric_row_names_are_not_default) return(constructors$data.frame$data.frame(x, ...))
+  if (numeric_row_names_are_not_default) {
+    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+  }
 
   some_cols_are_not_atomic_vectors <-
     any(!vapply(x, function(x) is.atomic(x) && is.vector(x), logical(1)))
-  if (some_cols_are_not_atomic_vectors) return(constructors$data.frame$data.frame(x, ...))
+  if (some_cols_are_not_atomic_vectors) {
+    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+  }
 
   some_cols_are_problematic_char <-
     any(vapply(x, FUN.VALUE = logical(1), FUN = function(x) {
@@ -67,7 +73,9 @@ constructors$data.frame$read.table <- function(x, ...) {
         !any(is.na(suppressWarnings(as.numeric(x)))) &&
         !grepl("[\"']", x)
     }))
-  if (some_cols_are_problematic_char) return(constructors$data.frame$data.frame(x, ...))
+  if (some_cols_are_problematic_char) {
+    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+  }
 
   # fill a data frame with deparsed values
   code_df <- x
@@ -91,11 +99,11 @@ constructors$data.frame$read.table <- function(x, ...) {
   # collapse table into code
   code <- paste(
     c("read.table(header = TRUE, text = \"", do.call(paste, code_df), "\")"),
-    collapse = "\n"
+    collapse = if (one_liner) "\\n" else "\n"
   )
 
   # repair
-  repair_attributes_data.frame(x, code, ...)
+  repair_attributes_data.frame(x, code, one_liner = one_liner, ...)
 }
 
 align_numerics <- function(x) {
