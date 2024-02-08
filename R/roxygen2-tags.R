@@ -1,14 +1,10 @@
 # nocov start
 
-#' @export
-#' @importFrom roxygen2 roxy_tag_parse
 roxy_tag_parse.roxy_tag_enumerateOptFunctions <- function(x) {
   x$raw <- "."
   roxygen2::tag_markdown(x)
 }
 
-#' @export
-#' @importFrom roxygen2 roxy_tag_rd
 roxy_tag_rd.roxy_tag_enumerateOptFunctions <- function(x, base_path, env) {
   roxygen2::rd_section("enumerateOptFunctions", x$val)
 }
