@@ -46,8 +46,11 @@
 .cstr_apply <- function(args, fun = "list", ..., trailing_comma = FALSE, recurse = TRUE, implicit_names = FALSE, new_line = TRUE, one_liner = FALSE) {
   new_line <- new_line && !one_liner
   trailing_comma <- trailing_comma && !one_liner
+  # so we make sure we use the right methods for length, [, [[
+  # and lapply iterates properly at the low level
+  args <- unclass(args)
   if (!length(args)) return(sprintf("%s()", fun))
-  if (recurse) args <- lapply(unclass(args), .cstr_construct, ..., one_liner = one_liner)
+  if (recurse) args <- lapply(args, .cstr_construct, ..., one_liner = one_liner)
   args_chr <- Map(name_and_append_comma, unname(args), names2(args), implicit_names = implicit_names)
   args_chr <- unlist(args_chr)
   # if line is short enough stick all in one line

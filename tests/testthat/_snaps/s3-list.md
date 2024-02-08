@@ -81,3 +81,11 @@
     Output
       list("a", "b", ...)
 
+---
+
+    Code
+      construct(corrupted_list)
+    Output
+      list(1) |>
+        structure(class = "corrupted")
+
