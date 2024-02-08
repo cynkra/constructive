@@ -4,6 +4,8 @@
   caller <- x$call[[1]]
   args <- as.list(x$call)[-1]
   fun_chr <- rlang::expr_deparse(caller)
+  # the caller might be in the form pkg::fun
+  fun_val <- eval(caller, asNamespace("ggplot2"))
 
   # fetch the actual values from the object
   values <- as.list(x)
@@ -23,13 +25,24 @@
   }
   # retrieve the defaults of the function, so we can simplify the call
   # and remove arguments that are repeating the defaults
-  fun_defaults <- defaults_arg_values(fun_chr, "ggplot2")
-  if ("trans" %in% names(args) && is.character(fun_defaults$trans)) {
-    # might be non robust, address in time
-    fun_defaults$trans <- getFromNamespace(paste0(fun_defaults$trans, "_trans"), "scales")()
+  fun_defaults <- defaults_arg_values(fun_val, "ggplot2")
+  if (length(fun_defaults)) {
+    if ("trans" %in% names(args) && is.character(fun_defaults$trans)) {
+      # might be non robust, address in time
+      fun_defaults$trans <- getFromNamespace(paste0(fun_defaults$trans, "_trans"), "scales")()
+    }
+    args_are_defaults <- mapply(identical, fun_defaults, values[names(fun_defaults)], ignore.environment = TRUE)
+    args[names(args_are_defaults)[args_are_defaults]] <- NULL
   }
-  args_are_defaults <- mapply(identical, fun_defaults, values[names(fun_defaults)], ignore.environment = TRUE)
-  args[names(args_are_defaults)[args_are_defaults]] <- NULL
+
+  # for some reason `values` is not stored in a field of the ggproto object
+  # we can fetch it from `palette`
+  if (
+    !"values" %in% names(values) && # to be safe, might always be TRUE
+    "values" %in% names(args)
+  ) {
+    values$values <- environment(environment(x$palette)$palette)$values
+  }
 
   # fetch values from ggproto object except special values
   values <- values[setdiff(names(args), c("super", "palette"))]
@@ -62,7 +75,7 @@
       args$palette <- sprintf("scales::abs_area(%s)", environment(as.list(x)$palette)$max)
     } else if (identical(args$palette, quote(rescale_pal(range)))) {
       range_val <- environment(as.list(x)$palette)$range
-      if (identical(range_val, defaults_arg_values("rescale_pal", "scales")$range)) {
+      if (identical(range_val, defaults_arg_values(scales::rescale_pal, "scales")$range)) {
         args$palette <- "scales::rescale_pal()"
       } else {
         args$palette <- .cstr_apply(list(range_val), "scales::rescale_pal")
@@ -77,6 +90,7 @@
   }
 
   ## build call
-  fun_chr <- paste0("ggplot2::", fun_chr)
+  if (!startsWith(fun_chr, "ggplot2::")) fun_chr <- paste0("ggplot2::", fun_chr)
   .cstr_apply(args, fun = fun_chr, recurse = FALSE, ...)
 }
+
