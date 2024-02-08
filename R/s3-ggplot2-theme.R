@@ -40,6 +40,7 @@ strip_theme <- function(x) {
   x$strip.text$margin <- NULL
   x$strip.switch.pad.grid <- NULL
   x$strip.switch.pad.wrap <- NULL
+  x$legend.key.spacing <- NULL
   x
 }
 
