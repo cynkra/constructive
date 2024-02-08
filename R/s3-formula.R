@@ -21,7 +21,7 @@ constructors$formula <- new.env()
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = TRUE) {
+opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "formula"),
     check_dots_empty(),
@@ -33,7 +33,7 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
 #' @export
 .cstr_construct.formula <- function(x, ..., env) {
   opts <- .cstr_fetch_opts("formula", ...)
-  if (is_corrupted_formula(x)) return(NextMethod())
+  if (is_corrupted_formula(x) || opts$constructor == "next") return(NextMethod())
   constructor <- constructors$formula[[opts$constructor]]
   env_is_default <- identical(attr(x, ".Environment"), env)
   constructor(x, ..., environment = opts$environment, env = env, env_is_default = env_is_default)

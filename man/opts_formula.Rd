@@ -5,7 +5,7 @@
 \title{Constructive options for formulas}
 \usage{
 opts_formula(
-  constructor = c("~", "formula", "as.formula", "new_formula"),
+  constructor = c("~", "formula", "as.formula", "new_formula", "next"),
   ...,
   environment = TRUE
 )
