@@ -57,6 +57,11 @@ test_that("function", {
     f6 <- function() NULL
     attr(f6, "srcref") <- NULL
     construct(f6, opts_function(environment = FALSE))
+
+    f7 <- f2
+    body(f7) <- structure(body(f7), some_attr = "hello")
+    construct(f7, opts_function(environment = FALSE))
+
   })
 })
 
