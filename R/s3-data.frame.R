@@ -42,6 +42,16 @@ is_corrupted_data.frame <- function(x) {
   elements_and_row_names_all_have_same_length <-
     length(unique(vapply(c(list(attrs$row.names), x), NROW, integer(1)))) == 1
   if (!elements_and_row_names_all_have_same_length) return(TRUE)
+
+  # this might not really be corruption but data.frame() and read.table()
+  # can't create columns that don't have a as.data.frame method
+  # so we fall back on the next class constructor for those
+  methods_ <- gsub("^as.data.frame.(.*)?\\*?$", "\\1", methods("as.data.frame"))
+  has_method <- function(x) {
+    any(class(x) %in% methods_)
+  }
+  if (!all(sapply(x, has_method))) return(TRUE)
+
   FALSE
 }
 
