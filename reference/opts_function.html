@@ -102,7 +102,9 @@ reproduce the input, but it will parse and evaluate without failure.</p></dd>
 definition. This won't set the environment by default, unless <code>environment</code>
 is set to <code>TRUE</code>. If a srcref is available, if this srcref matches the function's
 definition, and if <code>trim</code> is left <code>NULL</code>, the code is returned from using the srcref,
-so comments will be shown in the output of <code><a href="construct.html">construct()</a></code>.</p></li>
+so comments will be shown in the output of <code><a href="construct.html">construct()</a></code>. In the rare case
+where the ast body of the function contains non syntactic nodes this constructor
+cannot be used and falls back to the <code>"as.function"</code> constructor.</p></li>
 <li><p><code>"as.function"</code> : Build the object using a <code><a href="https://rdrr.io/r/base/as.function.html" class="external-link">as.function()</a></code> call.
 back to <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>.</p></li>
 <li><p><code>"new_function"</code> : Build the object using a <code><a href="https://rlang.r-lib.org/reference/new_function.html" class="external-link">rlang::new_function()</a></code> call.</p></li>
