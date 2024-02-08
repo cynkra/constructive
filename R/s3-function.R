@@ -72,6 +72,25 @@ constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = 
   # if the srcref matches the function's body (always in non artifical cases)
   # we might use the srcref rather than the body, so we keep the comments
 
+  x_lst <- as.list(unclass(x))
+  x_length <- length(x_lst)
+  body_is_a_proper_expression <-
+    is_expression2(x_lst[[x_length]])
+
+  if (!body_is_a_proper_expression) {
+    # fall back on `as.function()` constructor
+    res <- constructors$`function`$as.function(
+      x,
+      ...,
+      pipe = pipe,
+      one_liner = one_liner,
+      trim = trim,
+      environment = environment,
+      srcref = srcref
+    )
+    return(res)
+  }
+
   code_from_srcref <- FALSE
   if (!one_liner && is.null(trim)) {
     code <- code_from_srcref(x)
@@ -82,8 +101,6 @@ constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = 
 
   if (!code_from_srcref) {
     fun_call <- call("function")
-    x_lst <- as.list(unclass(x))
-    x_length <- length(x_lst)
     if (x_length > 1) {
       fun_call[[2]] <- as.pairlist(x_lst[-x_length])
     }
