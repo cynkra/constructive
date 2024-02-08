@@ -248,6 +248,15 @@ equivalent_ggplot <- function(x, y) {
   identical(x_unlisted, y_unlisted)
 }
 
+expect_faithful_ggplot_construction <- function(p, ...) {
+  tt <- Sys.getenv("TESTTHAT")
+  Sys.setenv(TESTTHAT = "false")
+  on.exit(Sys.setenv(TESTTHAT = tt))
+  code <- construct(p, check = FALSE, ...)$code
+  reconstructed <- eval(parse(text = code))
+  testthat::expect_true(equivalent_ggplot(p, reconstructed))
+}
+
 keep_only_non_defaults <- function(x, f) {
   fmls <- Filter(function(x) !identical(x, quote(expr=)), formals(f))
   default_values <- lapply(fmls, eval, environment(f))
