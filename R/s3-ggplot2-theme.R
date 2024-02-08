@@ -5,7 +5,7 @@
   args$validate <- if (!attr(x, "validate")) FALSE
   if (attr(x, "complete")) {
     code <- guess_complete_theme(x, ...)
-    if (!is.null(x)) return(code)
+    if (!is.null(code)) return(code)
   }
   .cstr_apply(args, "ggplot2::theme", ...)
 }
