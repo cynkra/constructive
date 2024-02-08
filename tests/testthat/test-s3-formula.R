@@ -36,6 +36,7 @@ test_that("formula", {
 
       fml6 <- quote(lhs ~ rhs)
       construct(quote(lhs ~ rhs))
+      construct(fml1, opts_formula("next"))
     })
   )
 })

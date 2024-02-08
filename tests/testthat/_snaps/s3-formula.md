@@ -81,4 +81,9 @@
       construct(quote(lhs ~ rhs))
     Output
       quote(lhs ~ rhs)
+    Code
+      construct(fml1, opts_formula("next"))
+    Output
+      quote(lhs ~ rhs) |>
+        structure(class = "formula", .Environment = .GlobalEnv)
 
