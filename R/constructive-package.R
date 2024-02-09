@@ -10,6 +10,7 @@ globals$ggpackages <- "ggplot2"
 #' @importFrom utils capture.output head tail getFromNamespace packageDescription
 #' @importFrom stats setNames
 #' @importFrom methods getSlots
+#' @importFrom grDevices pdf
 #' @useDynLib
 NULL
 
