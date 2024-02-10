@@ -1,10 +1,9 @@
 test_that("CoordCartesian", {
-  expect_snapshot({
-    construct(ggplot2::scale_x_continuous(limits = c(325, 500)))
-    construct(ggplot2::coord_cartesian(xlim = c(325, 500)))
-    construct(ggplot2::coord_cartesian(xlim = c(325, 500), expand = FALSE))
-    construct(ggplot2::coord_cartesian(expand = FALSE))
-  })
+  expect_faithful_ggplot_construction(ggplot2::ggplot() + ggplot2::scale_x_continuous(limits = c(325, 500)))
+  expect_faithful_ggplot_construction(ggplot2::ggplot() + ggplot2::coord_cartesian(xlim = c(325, 500)))
+  expect_faithful_ggplot_construction(ggplot2::ggplot() + ggplot2::coord_cartesian(xlim = c(325, 500)))
+  expect_faithful_ggplot_construction(ggplot2::ggplot() + ggplot2::coord_cartesian(xlim = c(325, 500), expand = FALSE))
+  expect_faithful_ggplot_construction(ggplot2::ggplot() + ggplot2::coord_cartesian(expand = FALSE))
 })
 
 test_that("CoordFixed", {
@@ -22,7 +21,7 @@ test_that("CoordFlip", {
   })
 })
 
-test_that("CoordCartesian", {
+test_that("CoordMap", {
   expect_snapshot({
     construct(ggplot2::coord_map())
     construct(ggplot2::coord_map("azequalarea", orientation = c(-36.92, 174.6, 0)))

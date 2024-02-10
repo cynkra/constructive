@@ -64,6 +64,7 @@ pipe_to_facets <- function(code, facet, ..., one_liner) {
 pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
   # discard default labels  tagged as "fallback"
   labels <- Filter(function(x) !isTRUE(attr(x, "fallback")), labels)
+  if (!length(labels)) return(code)
   # FIXME: some tests around labels to make sure they behave ok, need to try some
   # ggtitle and some combinations of NULL and waiver() inputs for x,y and others
   # if x and y are not found first it means they were not provided, and we should remove them

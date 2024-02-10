@@ -7,9 +7,11 @@ globals$ggpackages <- "ggplot2"
 "_PACKAGE"
 
 #' @import rlang
-#' @importFrom utils capture.output head tail getFromNamespace packageDescription
+#' @importFrom utils capture.output head tail getFromNamespace
+#'   packageDescription methods
 #' @importFrom stats setNames
 #' @importFrom methods getSlots
+#' @importFrom grDevices pdf dev.off
 #' @useDynLib
 NULL
 
