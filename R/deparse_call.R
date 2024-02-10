@@ -43,6 +43,19 @@ deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE, co
 }
 
 deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE, check_syntactic = TRUE) {
+  # helper to avoid forwarding all args all the time
+  rec <- function(call, ...) {
+    # override defaults
+    if (...length()) list2env(list(...), environment())
+    deparse_call_impl(
+      call,
+      one_liner,
+      indent,
+      pipe,
+      check_syntactic
+      )
+  }
+
   if (is.symbol(call)) {
     code <- as.character(call)
     if (check_syntactic && code != "" && !is_syntactic(code)) {
@@ -60,50 +73,50 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     abort(msg)
   }
   caller_lng <- call[[1]]
-  caller <- deparse_call_impl(caller_lng, check_syntactic = FALSE)
+  caller <- rec(caller_lng, check_syntactic = FALSE)
 
   if (caller == "function") {
     # no need to check more, already done by is_expression2
-    pair_list_args <- sapply(call[[2]], deparse_call_impl)
+    pair_list_args <- sapply(call[[2]], rec)
     pair_list_code <- paste(protect(names(pair_list_args)), "=", pair_list_args)
     pair_list_code <- sub(" = $", "", pair_list_code)
     pair_list_code <- paste(pair_list_code, collapse = ", ")
-    body_code <- deparse_call_impl(call[[3]], one_liner, indent, pipe)
+    body_code <- rec(call[[3]])
     code <- sprintf("function(%s) %s", pair_list_code, body_code)
     return(code)
   }
 
   if (caller == "if" && length(call) %in% 3:4) {
-    cond <- deparse_call_impl(call[[2]], one_liner, indent)
-    yes <- deparse_call_impl(call[[3]], one_liner, indent)
+    cond <- rec(call[[2]])
+    yes <- rec(call[[3]])
     if (length(call) == 3) {
       return(sprintf("if (%s) %s", cond, yes))
     } else if (length(call) == 4) {
-      no <- deparse_call_impl(call[[4]], one_liner, indent)
+      no <- rec(call[[4]])
       return(sprintf("if (%s) %s else %s", cond, yes, no))
     }
   }
 
   if (caller == "while" && length(call) == 3) {
-    cond <- deparse_call_impl(call[[2]], one_liner, indent)
-    expr <- deparse_call_impl(call[[3]], one_liner, indent)
+    cond <- rec(call[[2]])
+    expr <- rec(call[[3]])
     return(sprintf("while (%s) %s", cond, expr))
   }
 
   if (caller == "for" && length(call) == 4) {
-    i <- deparse_call_impl(call[[2]], one_liner, indent)
-    seq <- deparse_call_impl(call[[3]], one_liner, indent)
-    expr <- deparse_call_impl(call[[4]], one_liner, indent)
+    i <- rec(call[[2]])
+    seq <- rec(call[[3]])
+    expr <- rec(call[[4]])
     return(sprintf("for (%s in %s) %s", i, seq, expr))
   }
 
   if (caller == "repeat" && length(call) == 2) {
-    expr <- deparse_call_impl(call[[2]], one_liner, indent)
+    expr <- rec(call[[2]])
     return(sprintf("repeat %s", expr))
   }
 
   if (is_unary(caller) && length(call) == 2) {
-    return(sprintf("%s%s", caller, deparse_call_impl(call[[2]], one_liner, indent)))
+    return(sprintf("%s%s", caller, rec(call[[2]])))
   }
 
   if (is_infix_wide(caller) && length(call) == 3) {
@@ -111,9 +124,9 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     pipe <- pipe && caller %in% c("~", "<-", "<<-", "=", "?", ":=")
     code <- sprintf(
       "%s %s %s",
-      deparse_call_impl(call[[2]], one_liner, indent, pipe),
+      rec(call[[2]]),
       caller,
-      deparse_call_impl(call[[3]], one_liner, indent, pipe)
+      rec(call[[3]])
     )
     return(code)
   }
@@ -124,37 +137,37 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     (is.symbol(call[[2]]) || is.character(call[[2]])) &&
     (is.symbol(call[[3]]) || is.character(call[[3]]))
   ) {
-    code <- sprintf("%s%s%s", deparse_call_impl(call[[2]]), caller, deparse_call_impl(call[[3]]))
+    code <- sprintf("%s%s%s", rec(call[[2]]), caller, rec(call[[3]]))
     return(code)
   }
 
   if (caller %in% c("@", "$") && length(call) == 3) {
     if (is.symbol(call[[3]])) {
-      return(sprintf("%s%s%s", deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
+      return(sprintf("%s%s%s", rec(call[[2]]), caller, as.character(call[[3]])))
     }
     if (is.character(call[[3]])) {
-      return(sprintf('%s%s"%s"', deparse_call_impl(call[[2]], one_liner, indent), caller, as.character(call[[3]])))
+      return(sprintf('%s%s"%s"', rec(call[[2]]), caller, call[[3]]))
     }
   }
 
   if (caller %in% c("^", ":") && length(call) == 3) {
-    return(sprintf("%s%s%s", deparse_call_impl(call[[2]], one_liner, indent), caller, deparse_call_impl(call[[3]], one_liner, indent)))
+    return(sprintf("%s%s%s", rec(call[[2]]), caller, rec(call[[3]])))
   }
 
   if (caller == "[" && length(call) > 1) {
-    arg1 <- deparse_call_impl(call[[2]])
+    arg1 <- rec(call[[2]])
     other_args <- deparse_named_args_to_string(call[-(1:2)], one_liner = one_liner, indent = indent)
     return(sprintf("%s[%s]", arg1, other_args))
   }
 
   if (caller == "[[" && length(call) > 1) {
-    arg1 <- deparse_call_impl(call[[2]])
+    arg1 <- rec(call[[2]])
     other_args <- deparse_named_args_to_string(call[-(1:2)], one_liner = one_liner, indent = indent)
     return(sprintf("%s[[%s]]", arg1, other_args))
   }
 
   if (caller == "(" && length(call) == 2) {
-    return(sprintf("(%s)", deparse_call_impl(call[[2]], one_liner, indent, pipe)))
+    return(sprintf("(%s)", rec(call[[2]])))
   }
 
   if (caller == "{") {
@@ -167,10 +180,10 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
     }
 
     if (one_liner) {
-      args <- paste(vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent, pipe = pipe), collapse = "; ")
+      args <- paste(vapply(call[-1], rec, character(1)), collapse = "; ")
       return(sprintf("{%s}", args))
     }
-    args <- vapply(call[-1], deparse_call_impl, character(1), one_liner = one_liner, indent = indent + 1, pipe = pipe)
+    args <- vapply(call[-1], rec, character(1), indent = indent + 1)
     args <- paste(indent(args, depth = indent + 1), collapse = "\n")
     return(sprintf("{\n%s\n%s}", args, indent("", depth = indent)))
   }
@@ -180,8 +193,8 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
   }
 
   if (pipe && length(call) > 1 && rlang::names2(call)[[2]] == "") {
-    arg1 <- deparse_call_impl(call[[2]], one_liner, indent, pipe)
-    other_args <- vapply(call[-(1:2)], deparse_call_impl, character(1), one_liner = one_liner, indent = indent)
+    arg1 <- rec(call[[2]])
+    other_args <- vapply(call[-(1:2)], rec, character(1))
     other_args <- paste(rlang::names2(other_args), "=", other_args)
     other_args <- sub("^ = ", "", other_args)
     if (!is.call(call[[2]]) || endsWith(arg1, ")") || endsWith(arg1, "}")) {
