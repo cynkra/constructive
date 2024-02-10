@@ -188,3 +188,51 @@
     Output
       c(0L, 0L, -1L, 2147483647L)
 
+# character
+
+    Code
+      construct("'hello'")
+    Output
+      "'hello'"
+    Code
+      construct("\"hello\"")
+    Output
+      '"hello"'
+    Code
+      construct("'\"hello\"'", check = FALSE)
+    Output
+      r"['"hello"']"
+    Code
+      construct("'\"hello\"'", check = FALSE)
+    Output
+      r"['"hello"']"
+    Code
+      construct("\\", check = FALSE)
+    Output
+      r"[\]"
+    Code
+      construct("\\\\", check = FALSE)
+    Output
+      r"[\\]"
+    Code
+      construct("\n\\")
+    Output
+      "\n\\"
+    Code
+      construct("ü", opts_atomic(unicode_representation = "latin"))
+    Output
+      "ü"
+    Code
+      construct("ü", check = FALSE)
+    Output
+      "\U{FC}"
+    Code
+      construct("ü\\", opts_atomic(unicode_representation = "latin", escape = FALSE),
+      check = FALSE)
+    Output
+      r"[ü\]"
+    Code
+      construct("ü\\", opts_atomic(escape = FALSE))
+    Output
+      "\U{FC}\\"
+
