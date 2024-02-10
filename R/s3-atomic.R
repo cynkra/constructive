@@ -222,9 +222,7 @@ format_flex <- function(x, all_na) {
 
 construct_chr <- function(x, unicode_representation, escape, one_liner, ...) {
   if (!length(x)) return("character(0)")
-  strings0 <- strings <- sapply(x, deparse, USE.NAMES = FALSE)
-  strings <- sapply(strings0, format_unicode, unicode_representation, USE.NAMES = FALSE)
-  if (!escape) strings <- unescape_relevant_strings(strings, strings0)
+  strings <- deparse_chr(x, unicode_representation, escape)
   if (length(strings) == 1) return(strings)
   nas <- strings == "NA_character_"
   if (any(nas) && !all(nas)) strings[nas] <- "NA"
@@ -249,41 +247,74 @@ format_unicode <- function(x, type = c("ascii", "latin", "character", "unicode")
   x
 }
 
-unescape_relevant_strings <- function(strings, strings0) {
-  # https://stackoverflow.com/questions/42598040/
-  odd_consecutive_backslashes_pattern <-
-    "(?<!\\\\)\\\\(?:\\\\{2})*(?!\\\\)" # r"[(?<!\\)\\(?:\\{2})*(?!\\)]"
-  has_odd_consecutive_backlashes <-
-    grepl(odd_consecutive_backslashes_pattern, strings, perl = TRUE)
+deparse_chr <- function(x, unicode_representation, escape) {
+  x_deparsed <- sapply(x, deparse, USE.NAMES = FALSE)
+  # replace special characters by \U{} where relevant
+  x_deparsed_formatted <- sapply(x_deparsed, format_unicode, unicode_representation, USE.NAMES = FALSE)
 
-  # escape if it wasn't altered by previous and if deparsed code doesn't contain single backslashes
-  strings <- ifelse(
-    strings == strings0 & !has_odd_consecutive_backlashes,
-    unescape_strings(strings),
-    strings)
+  # not escaping means using surrounding single quotes and/or raw strings
+  # where we have special characters
+  if (escape) return(x_deparsed_formatted)
+
+  x_no_backslash <- gsub("\\", "", x, fixed = TRUE)
+  x_no_backslash_no_dbq <- gsub('"', "", x_no_backslash)
+  x_no_backslash_no_dbq_deparsed <- sapply(x_no_backslash_no_dbq, deparse)
+  x_no_backslash_no_dbq_deparsed_formatted <-
+    sapply(x_no_backslash_no_dbq_deparsed, format_unicode, unicode_representation, USE.NAMES = FALSE)
+
+  uses_special_backlashes <-
+    grepl("\\", x_no_backslash_no_dbq_deparsed_formatted, fixed = TRUE)
+  uses_regular_backslashes <-
+    grepl("\\", x, fixed = TRUE)
+  uses_sq <- grepl("'", x, fixed = TRUE)
+  uses_dbq <- grepl('"', x, fixed = TRUE)
+
+  # if we find double quotes in the string but no single quote
+  # we should unescape the double quote and use single quotes instead
+  surround_with_single_quotes <- uses_dbq & !uses_sq
+  use_raw_strings <- (uses_regular_backslashes & !uses_special_backlashes) | (uses_sq & uses_dbq)
+
+  x_deparsed_formatted_sq <- ifelse(
+    surround_with_single_quotes,
+    switch_surrounding_quotes(x_deparsed_formatted),
+    x_deparsed_formatted
+  )
+
+  x_deparsed_formatted_sq_rs <- ifelse(
+    use_raw_strings,
+    as_raw_string(x_deparsed_formatted_sq, surround_with_single_quotes),
+    x_deparsed_formatted_sq
+  )
+
+  names(x_deparsed_formatted_sq_rs) <- names(x)
+
+  x_deparsed_formatted_sq_rs
 }
 
-unescape_strings <- function(x) {
-  single_q <- grepl("'", x, fixed = TRUE)
-  double_q <- grepl('\\"', x, fixed = TRUE)
-  backslash <- grepl("\\\\", x, fixed = TRUE)
+switch_surrounding_quotes <- function(x) {
+  x <- gsub('^"', "", x)
+  x <- gsub('"$', "", x)
+  x <- gsub('\\"', '"', x, fixed = TRUE)
+  sprintf("'%s'", x)
+}
 
-  as_raw_string <- function(x) {
-    # remove external dbquotes
-    x <- gsub("^.", "", x)
-    x <- gsub(".$", "", x)
-    # unescape double quotes\
-    x <- gsub("\\\"", "\"", x, fixed = TRUE)
-    # unescape backslashes
-    x <- gsub("\\\\", "\\", x, fixed = TRUE)
-    # build raw string
-    x <- sprintf('r"[%s]"', x)
-    x
-  }
-
-  ifelse(
-    backslash | (single_q & double_q),
-    as_raw_string(x),
-    x
+as_raw_string <- function(x, surround_with_single_quotes) {
+  # remove external dbquotes
+  x <- gsub("^.", "", x)
+  x <- gsub(".$", "", x)
+  # unescape double quotes\
+  x <- ifelse(
+    surround_with_single_quotes,
+    x,
+    gsub("\\\"", "\"", x, fixed = TRUE)
   )
+  # unescape backslashes
+  x <- gsub("\\\\", "\\", x, fixed = TRUE)
+  # build raw string
+  x <- ifelse(
+    surround_with_single_quotes,
+    sprintf("r'[%s]'", x),
+    sprintf('r"[%s]"', x)
+  )
+  x
 }
