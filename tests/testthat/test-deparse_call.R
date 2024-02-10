@@ -81,5 +81,9 @@ test_that("deparse_call()", {
     deparse_call(quote({{x}}), style = FALSE) # proper tunnel
     deparse_call(quote({{1}}), style = FALSE) # not a symbol
     deparse_call(quote({{1}}), one_liner = TRUE, style = FALSE)
+    deparse_call('"')
+    deparse_call('"', escape = TRUE)
+    deparse_call("ü")
+    deparse_call("ü", unicode_representation = "latin")
   })
 })

@@ -304,4 +304,20 @@
       }), one_liner = TRUE, style = FALSE)
     Output
       [1] "{{1}}"
+    Code
+      deparse_call("\"")
+    Output
+      '"'
+    Code
+      deparse_call("\"", escape = TRUE)
+    Output
+      "\""
+    Code
+      deparse_call("ü")
+    Output
+      "\U{FC}"
+    Code
+      deparse_call("ü", unicode_representation = "latin")
+    Output
+      "ü"
 
