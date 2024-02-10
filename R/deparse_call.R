@@ -27,9 +27,26 @@
 #' # some corner cases are handled better than in base R
 #' deparse(call("$", 1, 1)) # returns non syntactic output
 #' deparse_call(call("$", 1, 1))
-deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE, collapse = !style) {
+deparse_call <- function(
+    call,
+    one_liner = FALSE,
+    pipe = FALSE,
+    style = TRUE,
+    collapse = !style,
+    unicode_representation = c("ascii", "latin", "character", "unicode"),
+    escape = FALSE) {
+
+  .cstr_combine_errors(
+    abort_not_boolean(one_liner),
+    abort_not_boolean(pipe),
+    abort_not_boolean(style),
+    abort_not_boolean(collapse),
+    { unicode_representation <- rlang::arg_match(unicode_representation) },
+    abort_not_boolean(escape)
+  )
+
   code <- rlang::try_fetch(
-    deparse_call_impl(call, one_liner, 0, pipe),
+    deparse_call_impl(call, one_liner, 0, pipe, check_syntactic = TRUE, unicode_representation, escape),
     error = function(cnd) {
       abort("`call` must only be made of symbols and syntactic literals", parent = cnd)
     })
@@ -42,7 +59,15 @@ deparse_call <- function(call, one_liner = FALSE, pipe = FALSE, style = TRUE, co
   code
 }
 
-deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE, check_syntactic = TRUE) {
+deparse_call_impl <- function(
+    call,
+    one_liner = FALSE,
+    indent = 0,
+    pipe = FALSE,
+    check_syntactic = TRUE,
+    unicode_representation = "ascii",
+    escape = FALSE) {
+
   # helper to avoid forwarding all args all the time
   rec <- function(call, ...) {
     # override defaults
@@ -52,7 +77,9 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
       one_liner,
       indent,
       pipe,
-      check_syntactic
+      check_syntactic,
+      unicode_representation,
+      escape
       )
   }
 
@@ -65,7 +92,8 @@ deparse_call_impl <- function(call, one_liner = FALSE, indent = 0, pipe = FALSE,
   }
   # artificial cases where caller is NULL, a numeric etc
   if (rlang::is_syntactic_literal(call)) {
-    return(.cstr_construct(call, template = NULL, data = NULL))
+    opts <- opts_atomic(unicode_representation = unicode_representation, escape = escape)
+    return(.cstr_construct(call, template = NULL, data = NULL, opts))
   }
   if (!is.call(call)) {
     code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
