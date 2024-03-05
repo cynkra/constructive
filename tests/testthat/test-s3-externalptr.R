@@ -3,5 +3,8 @@ test_that("externalptr", {
     dt <- data.table::data.table(a = 1)
     class(dt) <- "data.frame"
     construct(dt)
+
+    classed_ptr <- structure(attr(dt, ".internal.selfref"), class = "foo")
+    construct(classed_ptr)
   })
 })
