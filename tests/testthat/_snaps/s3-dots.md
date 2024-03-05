@@ -14,7 +14,7 @@
       evalq(
         (function(...) environment()$...)(a = x, y),
         envir = new.env(parent = asNamespace("constructive"))
-      ) |>
+      ) %>%
         structure(class = "foo")
     Code
       f <- (function(...) {
