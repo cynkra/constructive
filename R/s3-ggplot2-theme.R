@@ -28,6 +28,7 @@ strip_theme <- function(x) {
   x$axis.text.x.top$margin <- NULL
   x$axis.text.y$margin <- NULL
   x$axis.text.y.right$margin <- NULL
+  x$axis.text.r$margin <- NULL
   x$axis.ticks.length <- NULL
   x$legend.margin <- NULL
   x$legend.spacing <- NULL
