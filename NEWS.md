@@ -1,4 +1,4 @@
-# constructive (development version)
+# constructive 0.3.0
 
 * A new debugging tool, the `construct_reprex()` function, is introduced. 
   It can be called in any function and will construct all variables and arguments
