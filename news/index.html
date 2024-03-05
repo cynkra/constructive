@@ -52,8 +52,27 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="constructive-development-version">constructive (development version)<a class="anchor" aria-label="anchor" href="#constructive-development-version"></a></h2>
-<ul><li>Set <code>options(constructive_print = &lt;character&gt;)</code> where <code>&lt;character&gt;</code> is a vector of strings among <code>"console"</code>, <code>"clipboard"</code> and <code>"reprex"</code>. The default behavior is “console”. If you use <code>"clipboard"</code>, with or without <code>"reprex"</code>, the clipboard will contain only the code. If you use <code>"reprex"</code> without <code>"clipboard"</code> the clipboard will still be used to receive the reprex, can be tweaked with <code>options(reprex.clipboard = FALSE)</code>
+<ul><li>A new debugging tool, the <code><a href="../reference/construct_reprex.html">construct_reprex()</a></code> function, is introduced. It can be called in any function and will construct all variables and arguments where it’s called.</li>
+<li>
+<code><a href="../reference/construct.html">construct_multi()</a></code> now constructs promises, in practice this is useful so we can construct the evaluation environment of a function, including the uneavaluated and potentially NSE args of a function</li>
+<li>Set <code>options(constructive_print_mode = &lt;character&gt;)</code> where <code>&lt;character&gt;</code> is a vector of strings among <code>"console"</code>, <code>script</code>, <code>"clipboard"</code> and <code>"reprex"</code>. The default behavior is “console”. See `<code>?</code>constructive-global_options`</li>
+<li>
+<code>opts_atomic(escape = FALSE)</code> (the default) now correctly uses surrounding single quotes for strings that contain double quotes and no single quotes.</li>
+<li>
+<code><a href="../reference/deparse_call.html">deparse_call()</a></code> is more robusts and gains the arguments <code>escape</code> and <code>unicode_representation</code> that were already present in <code><a href="../reference/opts_atomic.html">opts_atomic()</a></code>
 </li>
+<li>The ggplot object generation supports the internal changes of ggplot2 3.5.0, and the resulting construction is nicer.</li>
+<li>Data frames can be reconstructed when their columns don’t have a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> method</li>
+<li>The “read.table” constructor for data frames supports the <code>one_liner</code> argument</li>
+<li>roxygen2 is Suggested (not Imported anymore), the ellipsis dependency is removed</li>
+<li>formulas have a “next” constructor, useful to see what formulas are at a low level</li>
+<li>classes with S3 methods for <code>length</code>, <code>[</code>, <code>[[</code> etc are handled better</li>
+<li>
+<code><a href="../reference/dot-env.html">.env()</a></code> doesn’t crash anymore when provided a wrong or obsolete memory address</li>
+<li>Integer vectors are constructed properly when they feature consecutive elements differing by more than <code>.Machine$integer.max</code>
+</li>
+<li>Classed objects of types “…” and “externalptr” and are constructed properly</li>
+<li>S4 construction uses the <code>slot</code> argument rather than the <code>representation</code> arg</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="constructive-020">constructive 0.2.0<a class="anchor" aria-label="anchor" href="#constructive-020"></a></h2><p class="text-muted">CRAN release: 2023-11-13</p>
