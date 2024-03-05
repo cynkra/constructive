@@ -39,7 +39,7 @@
           vjust = 0.5,
           angle = 0,
           lineheight = 0.9,
-          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           debug = FALSE,
           inherit.blank = TRUE
@@ -49,13 +49,13 @@
         axis.title = NULL,
         axis.title.x = ggplot2::element_text(
           vjust = 1,
-          margin = ggplot2::margin(t = 5.5, r = 0, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 5.5, r = 0, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.title.x.top = ggplot2::element_text(
           vjust = 0,
-          margin = ggplot2::margin(t = 0, r = 0, b = 5.5, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 5.5, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -63,7 +63,7 @@
         axis.title.y = ggplot2::element_text(
           vjust = 1,
           angle = 90,
-          margin = ggplot2::margin(t = 0, r = 5.5, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 5.5, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -71,41 +71,41 @@
         axis.title.y.right = ggplot2::element_text(
           vjust = 1,
           angle = -90,
-          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 5.5, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 5.5, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text = ggplot2::element_text(colour = "grey30", size = ggplot2::rel(0.8), inherit.blank = TRUE),
         axis.text.x = ggplot2::element_text(
           vjust = 1,
-          margin = ggplot2::margin(t = 4.4, r = 0, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 4.4, r = 0, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text.x.top = ggplot2::element_text(
           vjust = 0,
-          margin = ggplot2::margin(t = 0, r = 0, b = 4.4, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 4.4, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text.x.bottom = NULL,
         axis.text.y = ggplot2::element_text(
           hjust = 1,
-          margin = ggplot2::margin(t = 0, r = 4.4, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 4.4, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text.y.left = NULL,
         axis.text.y.right = ggplot2::element_text(
           hjust = 0,
-          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 4.4, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 4.4, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text.theta = NULL,
         axis.text.r = ggplot2::element_text(
           hjust = 0.5,
-          margin = ggplot2::margin(t = 0, r = 4.4, b = 0, l = 4.4, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 4.4, b = 0, l = 4.4, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -124,7 +124,7 @@
         axis.minor.ticks.y.right = NULL,
         axis.minor.ticks.theta = NULL,
         axis.minor.ticks.r = NULL,
-        axis.ticks.length = grid::unit(5.5, units = "points") |>
+        axis.ticks.length = grid::unit(5.5, units = "points") %>%
           structure(class = NULL),
         axis.ticks.length.x = NULL,
         axis.ticks.length.x.top = NULL,
@@ -153,18 +153,18 @@
         axis.line.theta = NULL,
         axis.line.r = NULL,
         legend.background = ggplot2::element_rect(colour = NA, inherit.blank = TRUE),
-        legend.margin = ggplot2::margin(t = 11, r = 11, b = 11, l = 11, unit = "points") |>
+        legend.margin = ggplot2::margin(t = 11, r = 11, b = 11, l = 11, unit = "points") %>%
           structure(class = NULL),
-        legend.spacing = grid::unit(22, units = "points") |>
+        legend.spacing = grid::unit(22, units = "points") %>%
           structure(class = NULL),
         legend.spacing.x = NULL,
         legend.spacing.y = NULL,
         legend.key = NULL,
-        legend.key.size = grid::unit(1.2, units = "lines") |>
+        legend.key.size = grid::unit(1.2, units = "lines") %>%
           structure(class = NULL),
         legend.key.height = NULL,
         legend.key.width = NULL,
-        legend.key.spacing = grid::unit(11, units = "points") |>
+        legend.key.spacing = grid::unit(11, units = "points") %>%
           structure(class = NULL),
         legend.key.spacing.x = NULL,
         legend.key.spacing.y = NULL,
@@ -189,14 +189,14 @@
         legend.location = NULL,
         legend.box = NULL,
         legend.box.just = NULL,
-        legend.box.margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "cm") |>
+        legend.box.margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "cm") %>%
           structure(class = NULL),
         legend.box.background = ggplot2::element_blank(),
-        legend.box.spacing = grid::unit(22, units = "points") |>
+        legend.box.spacing = grid::unit(22, units = "points") %>%
           structure(class = NULL),
         panel.background = ggplot2::element_rect(fill = "white", colour = NA, inherit.blank = TRUE),
         panel.border = ggplot2::element_rect(fill = NA, colour = "grey20", inherit.blank = TRUE),
-        panel.spacing = grid::unit(11, units = "points") |>
+        panel.spacing = grid::unit(11, units = "points") %>%
           structure(class = NULL),
         panel.spacing.x = NULL,
         panel.spacing.y = NULL,
@@ -213,7 +213,7 @@
           size = ggplot2::rel(1.2),
           hjust = 0,
           vjust = 1,
-          margin = ggplot2::margin(t = 0, r = 0, b = 11, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 11, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -221,7 +221,7 @@
         plot.subtitle = ggplot2::element_text(
           hjust = 0,
           vjust = 1,
-          margin = ggplot2::margin(t = 0, r = 0, b = 11, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 11, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -229,7 +229,7 @@
           size = ggplot2::rel(0.8),
           hjust = 1,
           vjust = 1,
-          margin = ggplot2::margin(t = 11, r = 0, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 11, r = 0, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -237,7 +237,7 @@
         plot.tag = ggplot2::element_text(size = ggplot2::rel(1.2), hjust = 0.5, vjust = 0.5, inherit.blank = TRUE),
         plot.tag.position = "topleft",
         plot.tag.location = NULL,
-        plot.margin = ggplot2::margin(t = 11, r = 11, b = 11, l = 11, unit = "points") |>
+        plot.margin = ggplot2::margin(t = 11, r = 11, b = 11, l = 11, unit = "points") %>%
           structure(class = NULL),
         strip.background = ggplot2::element_rect(fill = "grey85", colour = "grey20", inherit.blank = TRUE),
         strip.background.x = NULL,
@@ -247,7 +247,7 @@
         strip.text = ggplot2::element_text(
           colour = "grey10",
           size = ggplot2::rel(0.8),
-          margin = ggplot2::margin(t = 8.8, r = 8.8, b = 8.8, l = 8.8, unit = "points") |>
+          margin = ggplot2::margin(t = 8.8, r = 8.8, b = 8.8, l = 8.8, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -257,9 +257,9 @@
         strip.text.y = ggplot2::element_text(angle = -90, inherit.blank = TRUE),
         strip.text.y.left = ggplot2::element_text(angle = 90, inherit.blank = TRUE),
         strip.text.y.right = NULL,
-        strip.switch.pad.grid = grid::unit(5.5, units = "points") |>
+        strip.switch.pad.grid = grid::unit(5.5, units = "points") %>%
           structure(class = NULL),
-        strip.switch.pad.wrap = grid::unit(5.5, units = "points") |>
+        strip.switch.pad.wrap = grid::unit(5.5, units = "points") %>%
           structure(class = NULL),
         complete = TRUE
       )
@@ -298,7 +298,7 @@
           vjust = 0.5,
           angle = 0,
           lineheight = 0.9,
-          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           debug = FALSE,
           inherit.blank = TRUE
@@ -308,13 +308,13 @@
         axis.title = NULL,
         axis.title.x = ggplot2::element_text(
           vjust = 1,
-          margin = ggplot2::margin(t = 5.5, r = 0, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 5.5, r = 0, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.title.x.top = ggplot2::element_text(
           vjust = 0,
-          margin = ggplot2::margin(t = 0, r = 0, b = 5.5, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 5.5, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -322,7 +322,7 @@
         axis.title.y = ggplot2::element_text(
           vjust = 1,
           angle = 90,
-          margin = ggplot2::margin(t = 0, r = 5.5, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 5.5, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -330,41 +330,41 @@
         axis.title.y.right = ggplot2::element_text(
           vjust = 1,
           angle = -90,
-          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 5.5, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 5.5, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text = ggplot2::element_text(colour = "grey30", size = ggplot2::rel(0.8), inherit.blank = TRUE),
         axis.text.x = ggplot2::element_text(
           vjust = 1,
-          margin = ggplot2::margin(t = 4.4, r = 0, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 4.4, r = 0, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text.x.top = ggplot2::element_text(
           vjust = 0,
-          margin = ggplot2::margin(t = 0, r = 0, b = 4.4, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 4.4, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text.x.bottom = NULL,
         axis.text.y = ggplot2::element_text(
           hjust = 1,
-          margin = ggplot2::margin(t = 0, r = 4.4, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 4.4, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text.y.left = NULL,
         axis.text.y.right = ggplot2::element_text(
           hjust = 0,
-          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 4.4, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 4.4, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
         axis.text.theta = NULL,
         axis.text.r = ggplot2::element_text(
           hjust = 0.5,
-          margin = ggplot2::margin(t = 0, r = 4.4, b = 0, l = 4.4, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 4.4, b = 0, l = 4.4, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -383,7 +383,7 @@
         axis.minor.ticks.y.right = NULL,
         axis.minor.ticks.theta = NULL,
         axis.minor.ticks.r = NULL,
-        axis.ticks.length = grid::unit(5.5, units = "points") |>
+        axis.ticks.length = grid::unit(5.5, units = "points") %>%
           structure(class = NULL),
         axis.ticks.length.x = NULL,
         axis.ticks.length.x.top = NULL,
@@ -412,18 +412,18 @@
         axis.line.theta = NULL,
         axis.line.r = NULL,
         legend.background = ggplot2::element_rect(colour = NA, inherit.blank = TRUE),
-        legend.margin = ggplot2::margin(t = 11, r = 11, b = 11, l = 11, unit = "points") |>
+        legend.margin = ggplot2::margin(t = 11, r = 11, b = 11, l = 11, unit = "points") %>%
           structure(class = NULL),
-        legend.spacing = grid::unit(22, units = "points") |>
+        legend.spacing = grid::unit(22, units = "points") %>%
           structure(class = NULL),
         legend.spacing.x = NULL,
         legend.spacing.y = NULL,
         legend.key = NULL,
-        legend.key.size = grid::unit(1.2, units = "lines") |>
+        legend.key.size = grid::unit(1.2, units = "lines") %>%
           structure(class = NULL),
         legend.key.height = NULL,
         legend.key.width = NULL,
-        legend.key.spacing = grid::unit(11, units = "points") |>
+        legend.key.spacing = grid::unit(11, units = "points") %>%
           structure(class = NULL),
         legend.key.spacing.x = NULL,
         legend.key.spacing.y = NULL,
@@ -448,14 +448,14 @@
         legend.location = NULL,
         legend.box = NULL,
         legend.box.just = NULL,
-        legend.box.margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "cm") |>
+        legend.box.margin = ggplot2::margin(t = 0, r = 0, b = 0, l = 0, unit = "cm") %>%
           structure(class = NULL),
         legend.box.background = ggplot2::element_blank(),
-        legend.box.spacing = grid::unit(22, units = "points") |>
+        legend.box.spacing = grid::unit(22, units = "points") %>%
           structure(class = NULL),
         panel.background = ggplot2::element_rect(fill = "white", colour = NA, inherit.blank = TRUE),
         panel.border = ggplot2::element_rect(fill = NA, colour = "grey20", inherit.blank = TRUE),
-        panel.spacing = grid::unit(11, units = "points") |>
+        panel.spacing = grid::unit(11, units = "points") %>%
           structure(class = NULL),
         panel.spacing.x = NULL,
         panel.spacing.y = NULL,
@@ -472,7 +472,7 @@
           size = ggplot2::rel(1.2),
           hjust = 0,
           vjust = 1,
-          margin = ggplot2::margin(t = 0, r = 0, b = 11, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 11, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -480,7 +480,7 @@
         plot.subtitle = ggplot2::element_text(
           hjust = 0,
           vjust = 1,
-          margin = ggplot2::margin(t = 0, r = 0, b = 11, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 0, r = 0, b = 11, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -488,7 +488,7 @@
           size = ggplot2::rel(0.8),
           hjust = 1,
           vjust = 1,
-          margin = ggplot2::margin(t = 11, r = 0, b = 0, l = 0, unit = "points") |>
+          margin = ggplot2::margin(t = 11, r = 0, b = 0, l = 0, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -496,7 +496,7 @@
         plot.tag = ggplot2::element_text(size = ggplot2::rel(1.2), hjust = 0.5, vjust = 0.5, inherit.blank = TRUE),
         plot.tag.position = "topleft",
         plot.tag.location = NULL,
-        plot.margin = ggplot2::margin(t = 11, r = 11, b = 11, l = 11, unit = "points") |>
+        plot.margin = ggplot2::margin(t = 11, r = 11, b = 11, l = 11, unit = "points") %>%
           structure(class = NULL),
         strip.background = ggplot2::element_rect(fill = "grey85", colour = "grey20", inherit.blank = TRUE),
         strip.background.x = NULL,
@@ -506,7 +506,7 @@
         strip.text = ggplot2::element_text(
           colour = "grey10",
           size = ggplot2::rel(0.8),
-          margin = ggplot2::margin(t = 8.8, r = 8.8, b = 8.8, l = 8.8, unit = "points") |>
+          margin = ggplot2::margin(t = 8.8, r = 8.8, b = 8.8, l = 8.8, unit = "points") %>%
             structure(class = NULL),
           inherit.blank = TRUE
         ),
@@ -516,9 +516,9 @@
         strip.text.y = ggplot2::element_text(angle = -90, inherit.blank = TRUE),
         strip.text.y.left = ggplot2::element_text(angle = 90, inherit.blank = TRUE),
         strip.text.y.right = NULL,
-        strip.switch.pad.grid = grid::unit(5.5, units = "points") |>
+        strip.switch.pad.grid = grid::unit(5.5, units = "points") %>%
           structure(class = NULL),
-        strip.switch.pad.wrap = grid::unit(5.5, units = "points") |>
+        strip.switch.pad.wrap = grid::unit(5.5, units = "points") %>%
           structure(class = NULL),
         complete = TRUE
       )
