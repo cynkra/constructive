@@ -6,15 +6,15 @@ constructors$numeric_version <- new.env()
 #' * `"numeric_version"` : We use `numeric_version()`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried. This will usually
-#'   be equivalent to `"array"`
-#' * `"atomic"` : We define as an atomic vector and repair attributes
+#'   be equivalent to `"list"`
+#' * `"list"` : We define as a list and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the environment.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_numeric_version  <- function(constructor = c("numeric_version", "next", "atomic"), ...) {
+opts_numeric_version  <- function(constructor = c("numeric_version", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "numeric_version"),
     check_dots_empty()
@@ -39,8 +39,8 @@ constructors$numeric_version$numeric_version <- function(x, ...) {
   repair_attributes_numeric_version(x, code, ...)
 }
 
-constructors$numeric_version$atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+constructors$numeric_version$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
 
 repair_attributes_numeric_version <- function(x, code, ...) {
@@ -56,14 +56,14 @@ constructors$package_version <- new.env()
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried. This will usually
 #'   be equivalent to `"array"`
-#' * `"atomic"` : We define as an atomic vector and repair attributes
+#' * `"list"` : We define as a list and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the environment.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_package_version  <- function(constructor = c("package_version", "next", "atomic"), ...) {
+opts_package_version  <- function(constructor = c("package_version", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "package_version"),
     check_dots_empty()
@@ -88,8 +88,8 @@ constructors$package_version$package_version <- function(x, ...) {
   repair_attributes_package_version(x, code, ...)
 }
 
-constructors$package_version$atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+constructors$package_version$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
 
 repair_attributes_package_version <- function(x, code, ...) {
@@ -104,15 +104,15 @@ constructors$R_system_version <- new.env()
 #' * `"R_system_version"` : We use `R_system_version()`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried. This will usually
-#'   be equivalent to `"array"`
-#' * `"atomic"` : We define as an atomic vector and repair attributes
+#'   be equivalent to `"list"`
+#' * `"list"` : We define as a list and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the environment.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_R_system_version  <- function(constructor = c("R_system_version", "next", "atomic"), ...) {
+opts_R_system_version  <- function(constructor = c("R_system_version", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "R_system_version"),
     check_dots_empty()
@@ -137,8 +137,8 @@ constructors$R_system_version$R_system_version <- function(x, ...) {
   repair_attributes_R_system_version(x, code, ...)
 }
 
-constructors$R_system_version$atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+constructors$R_system_version$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
 
 repair_attributes_R_system_version <- function(x, code, ...) {
