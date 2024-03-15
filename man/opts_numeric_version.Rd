@@ -4,7 +4,7 @@
 \alias{opts_numeric_version}
 \title{Constructive options for numeric_version}
 \usage{
-opts_numeric_version(constructor = c("numeric_version", "next", "atomic"), ...)
+opts_numeric_version(constructor = c("numeric_version", "next", "list"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment.}
@@ -20,7 +20,7 @@ Depending on \code{constructor}, we construct the environment as follows:
 \item \code{"numeric_version"} : We use \code{numeric_version()}
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried. This will usually
-be equivalent to \code{"array"}
-\item \code{"atomic"} : We define as an atomic vector and repair attributes
+be equivalent to \code{"list"}
+\item \code{"list"} : We define as a list and repair attributes
 }
 }

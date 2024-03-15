@@ -12,7 +12,9 @@
   recurse = TRUE,
   implicit_names = FALSE,
   new_line = TRUE,
-  one_liner = FALSE
+  one_liner = FALSE,
+  unicode_representation = c("ascii", "latin", "character", "unicode"),
+  escape = FALSE
 )
 }
 \arguments{
