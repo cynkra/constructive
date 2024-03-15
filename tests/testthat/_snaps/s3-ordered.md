@@ -68,9 +68,6 @@
       )
     Code
       construct(ordered(c(a = "foo")))
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
     Output
-      ordered("foo")
+      ordered(c(a = "foo"))
 

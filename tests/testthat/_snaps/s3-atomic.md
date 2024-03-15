@@ -102,6 +102,10 @@
       construct(c(1, NaN))
     Output
       c(1, NaN)
+    Code
+      construct(c(а = 1))
+    Output
+      c("\U{430}" = 1)
 
 # other atomic
 
@@ -235,4 +239,8 @@
       construct("ü\\", opts_atomic(escape = FALSE))
     Output
       "\U{FC}\\"
+    Code
+      construct(c(а = "a"))
+    Output
+      c("\U{430}" = "a")
 

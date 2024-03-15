@@ -9,18 +9,8 @@
 #' @param fill String. Method to use to represent the trimmed elements.
 #' @param compress Boolean. It `TRUE` instead of `c()` Use `seq()`, `rep()`, or atomic constructors `logical()`, `integer()`,
 #'   `numeric()`, `complex()`, `raw()` when relevant to simplify the output.
-#' @param unicode_representation By default "ascii", which means only ASCII characters
-#'   (code point < 128) will be used to construct a string. This makes sure that
-#'   homoglyphs (different spaces and other identically displayed unicode characters)
-#'   are printed differently, and avoid possible unfortunate copy and paste
-#'   auto conversion issues. "latin" is more lax and uses all latin characters
-#'   (code point < 256). "character" shows all characters, but not emojis. Finally
-#'   "unicode" displays all characters and emojis, which is what `dput()` does.
-#' @param escape Whether to escape double quotes and backslashes. If `FALSE` we use
-#'   single quotes to suround strings containing double quotes, and raw strings
-#'   for strings that contain backslashes and/or a combination of single and
-#'   double quotes. Depending on `unicode_representation` `escape = FALSE` cannot be applied
-#'   on all strings.
+#' @param unicode_representation,escape Deprecated, kept for compatibility with older versions.
+#' Overrides the arguments of `construct()`
 #'
 #' @details
 #'
@@ -56,8 +46,8 @@ opts_atomic <- function(
     trim = NULL,
     fill = c("default", "rlang", "+", "...", "none"),
     compress = TRUE,
-    unicode_representation = c("ascii", "latin", "character", "unicode"),
-    escape = FALSE
+    unicode_representation = c("default", "ascii", "latin", "character", "unicode"),
+    escape = NULL
 ) {
   .cstr_combine_errors(
     check_dots_empty(),
@@ -75,20 +65,36 @@ opts_atomic <- function(
   .cstr_repair_attributes(x, code, ...)
 }
 
-construct_atomic <- function(x, ..., one_liner = FALSE) {
+construct_atomic <- function(x, ..., one_liner = FALSE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
+  if(is.null(x)) return("NULL")
+  nms <- names(x)
+  attributes(x) <- NULL
+  l <- length(x)
+  if (l == 0) return(deparse(x))
+
+  # We might deprecate this feature, `unicode_representation` and `escape` were
+  # provided through opts_atomic() but are now provided at the top level so they
+  # apply on names too. The behavior set by opts_atomic() now overrided the
+  # top level behavior for compatibility
   opts <- .cstr_fetch_opts("atomic", ...)
+  unicode_representation <- if (opts$unicode_representation == "default") {
+    match.arg(unicode_representation)
+  } else {
+    opts$unicode_representation
+  }
+  escape <- opts$escape %||% escape
+
   trim <- opts$trim
   fill <- opts$fill
 
-  nms <- names(x)
-  attributes(x) <- NULL
+
   # if all names are "" we let `repair_attributes_impl()` deal with it
   names(x) <- if (!anyNA(nms) && !all(nms == "")) nms
 
   code <- if (opts$compress && is.null(names(x))) simplify_atomic(x, ..., one_liner = one_liner)
   if (!is.null(code)) return(code)
 
-  l <- length(x)
+
   if (!is.null(trim) && trim < l) {
     opts$trim <- NULL
     code <- construct_atomic(x[seq_len(trim)], opts, ..., one_liner = one_liner)
@@ -107,11 +113,23 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
   }
 
   if (is.character(x)) {
-    return(construct_chr(x, opts$unicode_representation, opts$escape, one_liner = one_liner, ...))
+    return(construct_chr(x, unicode_representation, escape = escape, one_liner = one_liner, ...))
   }
 
   if (!is.double(x)) {
-    code <- deparse(x)
+    code <- sapply(x, deparse)
+    if (!all(is.na(x))) {
+      code[is.na(x)] <- "NA"
+    }
+    if (l == 1 && is.null(names(x))) return(code)
+    code <- .cstr_apply(
+      code,
+      "c",
+      ...,
+      recurse = FALSE,
+      unicode_representation = unicode_representation,
+      escape = escape
+    )
     if (one_liner) code <- paste(code, collapse = " ")
     return(code)
   }
@@ -119,12 +137,18 @@ construct_atomic <- function(x, ..., one_liner = FALSE) {
   # numeric
 
   # doubles need special treatment because deparse doesn't produce faithful code
-  if (l == 0) return("numeric(0)")
   # unnamed scalars don't need c()
   if (l == 1 && is.null(names(x))) return(format_flex(x, all_na = TRUE))
 
   args <- vapply(x, format_flex, character(1), all_na = all(is.na(x)))
-  code <- .cstr_apply(args, "c", ..., recurse = FALSE)
+  code <- .cstr_apply(
+    args,
+    "c",
+    ...,
+    recurse = FALSE,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
   if (one_liner) code <- paste(code, collapse = " ")
   code
 }
@@ -158,11 +182,20 @@ simplify_atomic <- function(x, ...) {
     }
 
     # seq ----------------------------------------------------------------------
-    if (is.numeric(x) && l > 3 && !anyNA(x)) {
-      # diff returns NA when span of difference exceeds .
+    if (is.integer(x) && l >=2 && !anyNA(x)) {
+      # diff returns NA when span of difference exceeds .Machine$integer.max
       d <- suppressWarnings(diff(x))
       if (!anyNA(d) && length(unique(d)) == 1) {
-        if (is.integer(x) && abs(d[[1]]) == 1) return(sprintf("%s:%s", x[[1]], x[[l]]))
+        if (abs(d[[1]]) == 1) return(sprintf("%s:%s", x[[1]], x[[l]]))
+        if (l > 3) return(.cstr_apply(list(x[[1]], x[[l]], by = d[[1]]), "seq", ...))
+        return(NULL)
+      }
+    }
+
+    if (is.numeric(x) && l > 3 && !anyNA(x)) {
+      # diff returns NA when span of difference exceeds .Machine$integer.max
+      d <- suppressWarnings(diff(x))
+      if (!anyNA(d) && length(unique(d)) == 1) {
         return(.cstr_apply(list(x[[1]], x[[l]], by = d[[1]]), "seq", ...))
       }
     }
@@ -223,10 +256,18 @@ format_flex <- function(x, all_na) {
 construct_chr <- function(x, unicode_representation, escape, one_liner, ...) {
   if (!length(x)) return("character(0)")
   strings <- deparse_chr(x, unicode_representation, escape)
-  if (length(strings) == 1) return(strings)
+  if (length(strings) == 1 && is.null(names(x))) return(strings)
   nas <- strings == "NA_character_"
   if (any(nas) && !all(nas)) strings[nas] <- "NA"
-  .cstr_apply(strings, "c", one_liner = one_liner, ..., recurse = FALSE)
+  .cstr_apply(
+    strings,
+    "c",
+    one_liner = one_liner,
+    ...,
+    recurse = FALSE,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
 }
 
 

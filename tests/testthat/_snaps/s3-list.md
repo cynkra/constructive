@@ -80,6 +80,10 @@
       ! Due to error: '...' used in an incorrect context
     Output
       list("a", "b", ...)
+    Code
+      construct(list(а = 1))
+    Output
+      list("\U{430}" = 1)
 
 ---
 
