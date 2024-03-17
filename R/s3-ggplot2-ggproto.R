@@ -7,7 +7,7 @@ constructors$ggproto <- new.env()
 opts_ggproto <- function(constructor = c("default", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("ggproto", constructor = constructor)
 }

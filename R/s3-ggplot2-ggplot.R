@@ -17,7 +17,7 @@ constructors$ggplot <- new.env()
 opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "ggplot"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("ggplot", constructor = constructor)
 }

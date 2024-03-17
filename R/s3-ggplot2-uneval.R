@@ -7,7 +7,7 @@
 opts_uneval <- function(constructor = c("aes", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("uneval", constructor = constructor)
 }

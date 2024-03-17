@@ -5,7 +5,7 @@ constructors$CoordFlip <- new.env()
 opts_CoordFlip <- function(constructor = c("coord_flip", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("CoordFlip", constructor = constructor)
 }

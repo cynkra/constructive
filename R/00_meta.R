@@ -13,7 +13,7 @@ new_constructive_opts_function <- function(class, constructors, ...) {
     alist(constructor = .(CONSTRUCTOR), ... =, ..(DOTS), {
       .cstr_combine_errors(
         constructor <- .cstr_match_constructor(constructor, .(CLASS)),
-        ellipsis::check_dots_empty()
+        check_dots_empty()
       )
       .cstr_options(.(CLASS), constructor = constructor, ..(FORWARDED_DOTS))
     }),

@@ -5,7 +5,7 @@ constructors$ScalesList <- new.env()
 opts_ScalesList <- function(constructor = c("ScalesList", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "ScalesList"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("ScalesList", constructor = constructor)
 }

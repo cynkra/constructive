@@ -5,7 +5,7 @@ constructors$CoordPolar <- new.env()
 opts_CoordPolar <- function(constructor = c("coord_polar", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("CoordPolar", constructor = constructor)
 }

@@ -5,7 +5,7 @@ constructors$CoordCartesian <- new.env()
 opts_CoordCartesian <- function(constructor = c("coord_cartesian", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("CoordCartesian", constructor = constructor)
 }

@@ -5,7 +5,7 @@ constructors$CoordQuickmap <- new.env()
 opts_CoordQuickmap <- function(constructor = c("coord_quickmap", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("CoordQuickmap", constructor = constructor)
 }

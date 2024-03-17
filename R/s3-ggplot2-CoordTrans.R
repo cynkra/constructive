@@ -5,7 +5,7 @@ constructors$CoordTrans <- new.env()
 opts_CoordTrans <- function(constructor = c("coord_trans", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("CoordTrans", constructor = constructor)
 }
