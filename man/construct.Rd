@@ -136,7 +136,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
   \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "next", "environment"), ...)}
   \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
-  \item \code{\link[=opts_margin]{opts_margin}(constructor = "margin", ...)}
+  \item \code{\link[=opts_margin]{opts_margin}(constructor = c("margin", "next", "atomic"), ...)}
   \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "next", "atomic"), ...)}
   \item \code{\link[=opts_mts]{opts_mts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_numeric_version]{opts_numeric_version}(constructor = c("numeric_version", "next", "list"), ...)}
@@ -148,7 +148,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_quosure]{opts_quosure}(constructor = c("new_quosure", "next", "language"), ...)}
   \item \code{\link[=opts_quosures]{opts_quosures}(constructor = c("new_quosures", "next", "list"), ...)}
   \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "list"), ...)}
-  \item \code{\link[=opts_rel]{opts_rel}(constructor = "rel", ...)}
+  \item \code{\link[=opts_rel]{opts_rel}(constructor = c("rel", "next", "atomic"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
   \item \code{\link[=opts_Scale]{opts_Scale}(constructor = c("default", "next", "environment"), ...)}

@@ -2,14 +2,19 @@ constructors$rel <- new.env()
 
 #' @export
 #' @rdname other-opts
-opts_rel <- new_constructive_opts_function("rel", "rel")
+opts_rel <- new_constructive_opts_function("rel", c("rel", "next", "atomic"))
 
 #' @export
-.cstr_construct.rel <- new_constructive_method("rel", "rel")
+.cstr_construct.rel <- new_constructive_method("rel", c("rel", "next", "atomic"))
 
 is_corrupted_rel <- function(x) {
   # TODO
   FALSE
+}
+
+#' @export
+constructors$rel$atomic <- function(x, ...) {
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export

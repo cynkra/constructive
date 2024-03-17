@@ -90,9 +90,9 @@ opts_ggproto(constructor = c("default", "next", "environment"), ...)
 
 opts_labels(constructor = c("labs", "next", "list"), ...)
 
-opts_margin(constructor = "margin", ...)
+opts_margin(constructor = c("margin", "next", "atomic"), ...)
 
-opts_rel(constructor = "rel", ...)
+opts_rel(constructor = c("rel", "next", "atomic"), ...)
 
 opts_simpleUnit(constructor = c("unit", "next", "atomic"), ...)
 
