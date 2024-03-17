@@ -166,6 +166,9 @@
     <loc>https://cynkra.github.io/constructive/reference/opts_function.html</loc>
   </url>
   <url>
+    <loc>https://cynkra.github.io/constructive/reference/opts_ggplot.html</loc>
+  </url>
+  <url>
     <loc>https://cynkra.github.io/constructive/reference/opts_grouped_df.html</loc>
   </url>
   <url>
@@ -212,5 +215,8 @@
   </url>
   <url>
     <loc>https://cynkra.github.io/constructive/reference/opts_weakref.html</loc>
+  </url>
+  <url>
+    <loc>https://cynkra.github.io/constructive/reference/other-opts.html</loc>
   </url>
 </urlset>

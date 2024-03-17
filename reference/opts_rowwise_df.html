@@ -63,7 +63,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>constructor</dt>
-<dd><p>String. Name of the function used to construct the environment, see Details section.</p></dd>
+<dd><p>String. Name of the function used to construct the object, see Details section.</p></dd>
 
 
 <dt>...</dt>
@@ -74,11 +74,11 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>An object of class &lt;constructive_options/constructive_options_factor&gt;</p>
+<p>An object of class &lt;constructive_options/constructive_options_rowwise_df&gt;</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Depending on <code>constructor</code>, we construct the environment as follows:</p><ul><li><p><code>"next"</code> : Use the constructor for the next supported class. Call <code><a href="https://rdrr.io/r/base/class.html" class="external-link">.class2()</a></code>
+    <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"next"</code> : Use the constructor for the next supported class. Call <code><a href="https://rdrr.io/r/base/class.html" class="external-link">.class2()</a></code>
 on the object to see in which order the methods will be tried.</p></li>
 <li><p><code>"list"</code> : We define as an list object and repair attributes.</p></li>
 </ul></div>

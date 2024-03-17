@@ -69,7 +69,7 @@ is provided in case users want to extend the method with other constructors.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>constructor</dt>
-<dd><p>String. Name of the function used to construct the environment.</p></dd>
+<dd><p>String. Name of the function used to construct the object.</p></dd>
 
 
 <dt>...</dt>
@@ -80,11 +80,11 @@ is provided in case users want to extend the method with other constructors.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>An object of class &lt;constructive_options/constructive_options_environment&gt;</p>
+<p>An object of class &lt;constructive_options/constructive_options_dots&gt;</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Depending on <code>constructor</code>, we construct the environment as follows:</p><ul><li><p><code>"default"</code> : We use the construct <code>(function(...) environment()$...)(a = x, y)</code>
+    <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"default"</code> : We use the construct <code>(function(...) environment()$...)(a = x, y)</code>
 which we evaluate in the correct environment.</p></li>
 </ul></div>
 

@@ -68,7 +68,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>constructor</dt>
-<dd><p>String. Name of the function used to construct the environment, see Details section.</p></dd>
+<dd><p>String. Name of the function used to construct the object, see Details section.</p></dd>
 
 
 <dt>...</dt>
@@ -83,11 +83,11 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>An object of class &lt;constructive_options/constructive_options_factor&gt;</p>
+<p>An object of class &lt;constructive_options/constructive_options_POSIXct&gt;</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Depending on <code>constructor</code>, we construct the environment as follows:</p><ul><li><p><code>"as.POSIXct"</code> (default): Build the object using a <code><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct()</a></code> call on a
+    <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"as.POSIXct"</code> (default): Build the object using a <code><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct()</a></code> call on a
 character vector.</p></li>
 <li><p><code>".POSIXct"</code> : Build the object using a <code><a href="https://rdrr.io/r/base/base-internal.html" class="external-link">.POSIXct()</a></code> call on a numeric vector.</p></li>
 <li><p><code>"as_datetime"</code> : Build the object using a <code><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">lubridate::as_datetime()</a></code> call on

@@ -68,7 +68,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>constructor</dt>
-<dd><p>String. Name of the function used to construct the environment, see Details section.</p></dd>
+<dd><p>String. Name of the function used to construct the object, see Details section.</p></dd>
 
 
 <dt>...</dt>
@@ -93,7 +93,7 @@ This code will parse without failure but its evaluation might fail.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Depending on <code>constructor</code>, we construct the environment as follows:</p><ul><li><p><code>"list"</code> (default): Build the object by calling <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</p></li>
+    <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"list"</code> (default): Build the object by calling <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>.</p></li>
 <li><p><code>"list2"</code>: Build the object by calling <code><a href="https://rlang.r-lib.org/reference/list2.html" class="external-link">rlang::list2()</a></code>, the only difference with
 the above is that we keep a trailing comma when the list is not trimmed and the call
 spans several lines.</p></li>

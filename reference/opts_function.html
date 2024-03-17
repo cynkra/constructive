@@ -69,7 +69,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>constructor</dt>
-<dd><p>String. Name of the function used to construct the environment, see Details section.</p></dd>
+<dd><p>String. Name of the function used to construct the object, see Details section.</p></dd>
 
 
 <dt>...</dt>
@@ -98,7 +98,7 @@ reproduce the input, but it will parse and evaluate without failure.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Depending on <code>constructor</code>, we construct the environment as follows:</p><ul><li><p><code>"function"</code> (default): Build the object using a standard <code>function() {}</code>
+    <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"function"</code> (default): Build the object using a standard <code>function() {}</code>
 definition. This won't set the environment by default, unless <code>environment</code>
 is set to <code>TRUE</code>. If a srcref is available, if this srcref matches the function's
 definition, and if <code>trim</code> is left <code>NULL</code>, the code is returned from using the srcref,

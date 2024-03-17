@@ -66,7 +66,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>constructor</dt>
-<dd><p>String. Name of the function used to construct the environment, see Details section.</p></dd>
+<dd><p>String. Name of the function used to construct the object, see Details section.</p></dd>
 
 
 <dt>...</dt>
@@ -77,11 +77,11 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>An object of class &lt;constructive_options/constructive_options_factor&gt;</p>
+<p>An object of class &lt;constructive_options/constructive_options_ordered&gt;</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Depending on <code>constructor</code>, we construct the environment as follows:</p><ul><li><p><code>"ordered"</code> (default): Build the object using <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered()</a></code>, levels won't
+    <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"ordered"</code> (default): Build the object using <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered()</a></code>, levels won't
 be defined explicitly if they are in alphabetical order (locale dependent!)</p></li>
 <li><p><code>"factor"</code> : Same as above but build the object using <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code> and <code>ordered = TRUE</code>.</p></li>
 <li><p><code>"new_ordered"</code> : Build the object using <code><a href="https://vctrs.r-lib.org/reference/new_factor.html" class="external-link">vctrs::new_ordered()</a></code>. Levels are
