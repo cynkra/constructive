@@ -1,5 +1,37 @@
 #' @export
+opts_FacetWrap <- function(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...) {
+  .cstr_combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    ellipsis::check_dots_empty()
+  )
+  .cstr_options("FacetWrap", constructor = constructor)
+}
+
+#' @export
 .cstr_construct.FacetWrap <- function(x, ...) {
+  opts <- .cstr_fetch_opts("FacetWrap", ...)
+  if (is_corrupted_FacetWrap(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$FacetWrap[[opts$constructor]]
+  constructor(x, ...)
+}
+
+is_corrupted_FacetWrap <- function(x) {
+  # TODO
+  FALSE
+}
+
+#' @export
+constructors$FacetWrap$environment <- function(x, ...) {
+  .cstr_construct.environment(x, ...)
+}
+
+#' @export
+constructors$FacetWrap$ggproto <- function(x, ...) {
+  .cstr_construct.ggproto(x, ...)
+}
+
+#' @export
+constructors$FacetWrap$facet_wrap <- function(x, ...) {
   args <- as.list(x)
 
   scales_ind <-  unlist(x$params$free) + 1
@@ -34,7 +66,7 @@
   if (is.null(args$ncol)) args$ncol <- NULL
   if (isTRUE(args$scales == "fixed")) args$scales <- NULL
   if (isTRUE(args$shrink)) args$shrink <- NULL
-  if (identical(args$labeller, quote(label_value)) || identical(args$labeller, "label_value")) args$labeller <- NULL
+  if (identical(args$labeller, getFromNamespace("label_value", "ggplot2")) || identical(args$labeller, "label_value")) args$labeller <- NULL
   if (isTRUE(args$as.table)) args$as.table <- NULL
   if (is.null(args$switch)) args$switch <- NULL
   if (isTRUE(args$drop)) args$drop <- NULL
@@ -44,5 +76,10 @@
   ## build call
   args <- lapply(args, .cstr_construct, ...)
   args$facets <- facets
-  .cstr_apply(args, fun = "ggplot2::facet_wrap", recurse = FALSE, ...)
+  code <- .cstr_apply(args, fun = "ggplot2::facet_wrap", recurse = FALSE, ...)
+  repair_attributes_FacetWrap(x, code, ...)
+}
+
+repair_attributes_FacetWrap <- function(x, code, pipe = NULL, ...) {
+  code
 }

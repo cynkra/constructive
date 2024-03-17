@@ -1,3 +1,5 @@
+# FIXME: would be nice to construct using the ggproto() function
+
 constructors$ggproto <- new.env()
 
 #' @export
