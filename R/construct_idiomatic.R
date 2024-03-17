@@ -31,6 +31,7 @@
 #' @param new_line passed to wrap to remove add a line after "fun(" and before ")", forced to
 #'   `FALSE` if `one_liner` is `TRUE`
 #' @param one_liner Whether to return a one line call.
+#' @inheritParams construct
 #'
 #' @export
 #' @return A character vector of code
