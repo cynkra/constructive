@@ -4,7 +4,7 @@ constructors$`function` <- new.env()
 #'
 #' These options will be used on functions, i.e. objects of type "closure", "special" and "builtin".
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"function"` (default): Build the object using a standard `function() {}`
 #'   definition. This won't set the environment by default, unless `environment`
 #'   is set to `TRUE`. If a srcref is available, if this srcref matches the function's
@@ -16,7 +16,7 @@ constructors$`function` <- new.env()
 #'   back to `data.frame()`.
 #' * `"new_function"` : Build the object using a `rlang::new_function()` call.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @param environment Boolean. Whether to reconstruct the function's environment.
 #' @param srcref Boolean. Whether to attempt to reconstruct the function's srcref.

@@ -1,8 +1,37 @@
-# ggproto() is probably to messy to be able to use it as a reverse constructor,
-# so we just construct if we find the
+# FIXME: would be nice to construct using the ggproto() function
+
+constructors$ggproto <- new.env()
 
 #' @export
-.cstr_construct.ggproto <- function(x, ggproto.ignore_draw_key = FALSE, ...) {
+#' @rdname other-opts
+opts_ggproto <- function(constructor = c("default", "next", "environment"), ...) {
+  .cstr_combine_errors(
+    constructor <- rlang::arg_match(constructor),
+    check_dots_empty()
+  )
+  .cstr_options("ggproto", constructor = constructor)
+}
+
+#' @export
+.cstr_construct.ggproto <- function(x, ...) {
+  opts <- .cstr_fetch_opts("ggproto", ...)
+  if (is_corrupted_ggproto(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$ggproto[[opts$constructor]]
+  constructor(x, ...)
+}
+
+is_corrupted_ggproto <- function(x) {
+  # TODO
+  FALSE
+}
+
+#' @export
+constructors$ggproto$environment <- function(x, ...) {
+  .cstr_construct.environment(x, ...)
+}
+
+#' @export
+constructors$ggproto$default <- function(x, ..., ggproto.ignore_draw_key = FALSE) {
   if (ggproto.ignore_draw_key) {
     x <- as.list(x)
     x$draw_key <- NULL

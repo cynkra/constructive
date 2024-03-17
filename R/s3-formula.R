@@ -5,7 +5,7 @@ constructors$formula <- new.env()
 #' These options will be used on formulas, defined as calls to `~`, regardless
 #' of their `"class"` attribute.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @param environment Boolean. Whether to attempt to construct the environment, if
 #'   it makes a difference to construct it.
@@ -19,7 +19,7 @@ constructors$formula <- new.env()
 #'   and feed them to `rlang::new_formula()`, along with the reconstructed environment
 #'   if relevant.
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_formula>
 #' @export
 opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE) {
   .cstr_combine_errors(

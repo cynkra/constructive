@@ -11,9 +11,9 @@ constructors$constructive_options <- new.env()
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
-#' @return An object of class <constructive_options/constructive_options_array>
+#' @return An object of class <constructive_options/constructive_options_constructive_options>
 #' @export
 opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
   .cstr_combine_errors(
@@ -44,6 +44,7 @@ constructors$constructive_options$opts <- function(x, ...) {
   fun <- paste0("constructive::opts_", suffix)
   # don't name the constructor arg, and don't provide if it's the default
   constructor_pos <- which("constructor" == rlang::names2(x))
+  x_bkp <- x
   if (length(constructor_pos)) {
     names(x)[[constructor_pos]] <- ""
     if (x[[constructor_pos]] == as.list(eval(parse(text = fun)))$constructor[[2]]) {
@@ -51,7 +52,7 @@ constructors$constructive_options$opts <- function(x, ...) {
     }
   }
   code <- .cstr_apply(x, fun, ...)
-  repair_attributes_constructive_options(x, code, ...)
+  repair_attributes_constructive_options(x_bkp, code, ...)
 }
 
 repair_attributes_constructive_options <- function(x, code, ..., pipe = NULL) {

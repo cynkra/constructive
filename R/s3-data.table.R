@@ -12,7 +12,7 @@ constructors$data.table <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"list"` : Use `list()` and treat the class as a regular attribute.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @param selfref Boolean. Whether to include the `.internal.selfref` attribute. It's
 #'   probably not useful, hence the default, `waldo::compare()` is used to assess the output
 #'   fidelity and doesn't check it, but if you really need to generate code that builds

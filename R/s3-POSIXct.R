@@ -4,7 +4,7 @@ constructors$POSIXct <- new.env()
 #'
 #' These options will be used on objects of class 'POSIXct'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"as.POSIXct"` (default): Build the object using a `as.POSIXct()` call on a
 #' character vector.
 #' * `".POSIXct"` : Build the object using a `.POSIXct()` call on a numeric vector.
@@ -14,11 +14,11 @@ constructors$POSIXct <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"atomic"` : We define as an atomic vector and repair attributes.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @param origin Origin to be used, ignored when irrelevant.
 #'
-#' @return An object of class <constructive_options/constructive_options_factor>
+#' @return An object of class <constructive_options/constructive_options_POSIXct>
 #' @export
 opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
   .cstr_combine_errors(

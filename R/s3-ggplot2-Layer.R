@@ -1,3 +1,5 @@
+constructors$Layer <- new.env()
+
 #' Constructive options for class 'Layer' (ggplot2)
 #'
 #' These options will be used on objects of class 'Layer'.
@@ -12,11 +14,11 @@
 #'  The latter constructor is the only one that reproduces the object exactly
 #'  since Layers are environments and environments can't be exactly copied (see `?opts_environment`)
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_Layer>
 #' @export
-opts_Layer <- function(constructor = c("default", "layer", "environment"), ...) {
+opts_Layer <- function(constructor = c("default", "layer", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     check_dots_empty()
@@ -25,24 +27,24 @@ opts_Layer <- function(constructor = c("default", "layer", "environment"), ...) 
 }
 
 #' @export
-.cstr_construct.Layer <- function(x, ..., env) {
+.cstr_construct.Layer <- function(x, ...) {
   opts <- .cstr_fetch_opts("Layer", ...)
-
-  ## "environment" constructor
-  if (opts$constructor == "environment") {
-    return(.cstr_construct.environment(x, ...))
-  }
-
-  ## "default" constructor
-  if (opts$constructor == "default" && !is.null(x$constructor)) {
-    return(construct_layer_default(x$constructor, env, ...))
-  }
-
-  ## "layer" constructor (and fallback from "default")
-  construct_layer_layer(x, ...)
+  if (is_corrupted_Layer(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$Layer[[opts$constructor]]
+  constructor(x, ...)
 }
 
-construct_layer_default <- function(
+is_corrupted_Layer <- function(x) {
+  # TODO
+  FALSE
+}
+
+#' @export
+constructors$Layer$environment <- function(x, ..., env) {
+  .cstr_construct.environment(x, ...)
+}
+
+constructors$Layer$default <- function(
     constructor,
     env,
     ...,
@@ -82,7 +84,7 @@ construct_layer_default <- function(
   )
 }
 
-construct_layer_layer <- function(x, ...) {
+constructors$Layer$layer <- function(x, ...) {
   # reconstruct the parameters from layer()
   # layer(
   #   geom = NULL, stat = NULL, data = NULL, mapping = NULL, position = NULL,

@@ -7,12 +7,12 @@
 opts_AsIs(constructor = c("I", "next", "atomic"), ...)
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 }
 \value{
-An object of class <constructive_options/constructive_options_array>
+An object of class <constructive_options/constructive_options_AsIs>
 }
 \description{
 These options will be used on objects of class \code{AsIs}. \code{AsIs} objects are

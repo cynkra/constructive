@@ -103,20 +103,40 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}(constructor = c("prototype"), ...)}
   \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}
   \item \code{\link[=opts_constructive_options]{opts_constructive_options}(constructor = c("opts", "next"), ...)}
+  \item \code{\link[=opts_CoordCartesian]{opts_CoordCartesian}(constructor = c("coord_cartesian", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordFixed]{opts_CoordFixed}(constructor = c("coord_fixed", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordFlip]{opts_CoordFlip}(constructor = c("coord_flip", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordMap]{opts_CoordMap}(constructor = c("coord_map", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordMunch]{opts_CoordMunch}(constructor = c("coord_munch", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordPolar]{opts_CoordPolar}(constructor = c("coord_polar", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordQuickmap]{opts_CoordQuickmap}(constructor = c("coord_quickmap", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordSf]{opts_CoordSf}(constructor = c("coord_sf", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordTrans]{opts_CoordTrans}(constructor = c("coord_trans", "next", "environment"), ...)}
   \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ...)}
   \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE)}
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
   \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
+  \item \code{\link[=opts_element_blank]{opts_element_blank}(constructor = c("element_blank", "next", "list"), ...)}
+  \item \code{\link[=opts_element_grob]{opts_element_grob}(constructor = c("element_grob", "next", "list"), ...)}
+  \item \code{\link[=opts_element_line]{opts_element_line}(constructor = c("element_line", "next", "list"), ...)}
+  \item \code{\link[=opts_element_rect]{opts_element_rect}(constructor = c("element_rect", "next", "list"), ...)}
+  \item \code{\link[=opts_element_render]{opts_element_render}(constructor = c("element_render", "next", "list"), ...)}
+  \item \code{\link[=opts_element_text]{opts_element_text}(constructor = c("element_text", "next", "list"), ...)}
   \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
+  \item \code{\link[=opts_FacetWrap]{opts_FacetWrap}(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...)}
   \item \code{\link[=opts_formula]{opts_formula}(constructor = c("~", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)}
   \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
+  \item \code{\link[=opts_ggplot]{opts_ggplot}(constructor = c("ggplot", "next", "list"), ...)}
+  \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
+  \item \code{\link[=opts_labels]{opts_labels}(constructor = c("labs", "next", "list"), ...)}
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
-  \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "environment"), ...)}
+  \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "next", "environment"), ...)}
   \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
+  \item \code{\link[=opts_margin]{opts_margin}(constructor = c("margin", "next", "atomic"), ...)}
   \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "next", "atomic"), ...)}
   \item \code{\link[=opts_mts]{opts_mts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_numeric_version]{opts_numeric_version}(constructor = c("numeric_version", "next", "list"), ...)}
@@ -128,11 +148,18 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_quosure]{opts_quosure}(constructor = c("new_quosure", "next", "language"), ...)}
   \item \code{\link[=opts_quosures]{opts_quosures}(constructor = c("new_quosures", "next", "list"), ...)}
   \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "list"), ...)}
+  \item \code{\link[=opts_rel]{opts_rel}(constructor = c("rel", "next", "atomic"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
+  \item \code{\link[=opts_Scale]{opts_Scale}(constructor = c("default", "next", "environment"), ...)}
+  \item \code{\link[=opts_ScalesList]{opts_ScalesList}(constructor = c("ScalesList", "next", "list"), ...)}
+  \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = c("unit", "next", "atomic"), ...)}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE)}
+  \item \code{\link[=opts_theme]{opts_theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
-  \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}(constructor = c("list_of", "list"), ...)}
+  \item \code{\link[=opts_uneval]{opts_uneval}(constructor = c("aes", "next", "list"), ...)}
+  \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}(constructor = c("list_of", "next", "list"), ...)}
+  \item \code{\link[=opts_waiver]{opts_waiver}(constructor = c("waiver", "next", "list"), ...)}
   \item \code{\link[=opts_weakref]{opts_weakref}(constructor = c("new_weakref"), ...)}
 }
 }

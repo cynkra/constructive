@@ -3,10 +3,10 @@ constructors$S4 <- new.env()
 #' Constructive options for class 'S4'
 #'
 #' These options will be used on objects of class 'S4'. Note that the support
-#' for S4 is very experimental so might easily beak. Please report issues if it
+#' for S4 is very experimental so might easily break. Please report issues if it
 #' does.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_S4>
 #' @export

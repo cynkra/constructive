@@ -8,14 +8,14 @@ constructors$dots <- new.env()
 #' is provided in case users want to extend the method with other constructors.
 #'
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"default"` : We use the construct `(function(...) environment()$...)(a = x, y)`
 #'   which we evaluate in the correct environment.
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_dots>
 #' @export
 opts_dots <- function(constructor = c("default"), ...) {
   .cstr_combine_errors(

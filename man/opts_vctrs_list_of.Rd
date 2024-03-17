@@ -4,15 +4,15 @@
 \alias{opts_vctrs_list_of}
 \title{Constructive options for class 'data.table'}
 \usage{
-opts_vctrs_list_of(constructor = c("list_of", "list"), ...)
+opts_vctrs_list_of(constructor = c("list_of", "next", "list"), ...)
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 }
 \value{
-An object of class <constructive_options/constructive_options_data.table>
+An object of class <constructive_options/constructive_options_vctrs_list_of>
 }
 \description{
 These options will be used on objects of class 'data.table'.

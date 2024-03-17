@@ -4,17 +4,17 @@ constructors$quosure <- new.env()
 #'
 #' These options will be used on objects of class 'quosure'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"new_quosure"` (default): Build the object using a `new_quosure()` call on a
 #' character vector.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #' * `"language"` : We define as an language object and repair attributes.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_factor>
+#' @return An object of class <constructive_options/constructive_options_quosure>
 #' @export
 opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ...) {
   .cstr_combine_errors(

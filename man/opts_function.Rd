@@ -13,7 +13,7 @@ opts_function(
 )
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
@@ -32,7 +32,7 @@ An object of class <constructive_options/constructive_options_function>
 These options will be used on functions, i.e. objects of type "closure", "special" and "builtin".
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"function"} (default): Build the object using a standard \code{function() {}}
 definition. This won't set the environment by default, unless \code{environment}

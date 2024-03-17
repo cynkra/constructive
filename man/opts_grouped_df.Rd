@@ -7,7 +7,7 @@
 opts_grouped_df(constructor = c("default", "next", "list"), ...)
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 }
@@ -18,7 +18,7 @@ An object of class <constructive_options/constructive_options_factor>
 These options will be used on objects of class 'grouped_df'.
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.

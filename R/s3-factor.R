@@ -4,7 +4,7 @@ constructors$factor <- new.env()
 #'
 #' These options will be used on objects of class 'factor'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"factor"` (default): Build the object using `factor()`, levels won't
 #'   be defined explicitly if they are in alphabetical order (locale dependent!)
 #' * `"as_factor"` : Build the object using `forcats::as_factor()` whenever
@@ -15,7 +15,7 @@ constructors$factor <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"atomic"` : We define as an atomic vector and repair attributes.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_factor>

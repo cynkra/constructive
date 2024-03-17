@@ -11,7 +11,7 @@ opts_formula(
 )
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
@@ -30,7 +30,7 @@ if relevant.
 }}
 }
 \value{
-An object of class <constructive_options/constructive_options_environment>
+An object of class <constructive_options/constructive_options_formula>
 }
 \description{
 These options will be used on formulas, defined as calls to \code{~}, regardless

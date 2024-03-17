@@ -17,4 +17,8 @@
       construct(opts_Date(origin = "2020-01-01"))
     Output
       constructive::opts_Date(origin = "2020-01-01")
+    Code
+      construct(opts_data.frame("read.table"))
+    Output
+      constructive::opts_data.frame("read.table")
 

@@ -8,11 +8,11 @@ constructors$vctrs_list_of <- new.env()
 #' * `"list_of"` (default): Wrap the column definitions in a `list_of()` call.
 #' * `"list"` : Use `list()` and treat the class as a regular attribute.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
-#' @return An object of class <constructive_options/constructive_options_data.table>
+#' @return An object of class <constructive_options/constructive_options_vctrs_list_of>
 #' @export
-opts_vctrs_list_of <- function(constructor = c("list_of", "list"), ...) {
+opts_vctrs_list_of <- function(constructor = c("list_of", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "vctrs_list_of"),
     check_dots_empty()

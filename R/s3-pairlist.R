@@ -2,14 +2,14 @@ constructors$pairlist <- new.env()
 
 #' Constructive options for pairlists
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"pairlist"` (default): Build the object using a `pairlist()` call.
 #' * `"pairlist2"` : Build the object using a `rlang::pairlist2()` call.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_factor>
+#' @return An object of class <constructive_options/constructive_options_pairlist>
 #' @export
 opts_pairlist <- function(constructor = c("pairlist", "pairlist2"), ...) {
   .cstr_combine_errors(

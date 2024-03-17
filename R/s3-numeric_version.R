@@ -2,17 +2,17 @@ constructors$numeric_version <- new.env()
 
 #' Constructive options for numeric_version
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"numeric_version"` : We use `numeric_version()`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried. This will usually
 #'   be equivalent to `"list"`
 #' * `"list"` : We define as a list and repair attributes
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_numeric_version>
 #' @export
 opts_numeric_version  <- function(constructor = c("numeric_version", "next", "list"), ...) {
   .cstr_combine_errors(
@@ -51,17 +51,17 @@ constructors$package_version <- new.env()
 
 #' Constructive options for package_version
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"package_version"` : We use `package_version()`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried. This will usually
 #'   be equivalent to `"array"`
 #' * `"list"` : We define as a list and repair attributes
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_package_version>
 #' @export
 opts_package_version  <- function(constructor = c("package_version", "next", "list"), ...) {
   .cstr_combine_errors(
@@ -100,17 +100,17 @@ constructors$R_system_version <- new.env()
 
 #' Constructive options for R_system_version
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"R_system_version"` : We use `R_system_version()`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried. This will usually
 #'   be equivalent to `"list"`
 #' * `"list"` : We define as a list and repair attributes
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_R_system_version>
 #' @export
 opts_R_system_version  <- function(constructor = c("R_system_version", "next", "list"), ...) {
   .cstr_combine_errors(

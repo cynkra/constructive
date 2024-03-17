@@ -6,13 +6,13 @@ constructors$externalptr <- new.env()
 #' function is useless as nothing can be set, this is provided in case users wan
 #' to extend the method with other constructors.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"default"` : We use a special function from the constructive
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_externalptr>
 #' @export
 opts_externalptr  <- function(constructor = c("default"), ...) {
   .cstr_combine_errors(

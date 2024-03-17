@@ -1,5 +1,45 @@
+constructors$ggplot <- new.env()
+
+#' Constructive options for class 'ggplot'
+#'
+#' These options will be used on objects of class 'ggplot'.
+#'
+#' Depending on `constructor`, we construct the object as follows:
+#' * `"ggplot"` (default): Use `ggplot2::ggplot()`
+#' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
+#'   on the object to see in which order the methods will be tried.
+#' * `"list"` : Use `list()` and treat the class as a regular attribute.
+#'
+#' @param constructor String. Name of the function used to construct the object, see Details section.
+#' @inheritParams opts_atomic
+#' @return An object of class <constructive_options/constructive_options_ggplot>
+#' @export
+opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
+  .cstr_combine_errors(
+    constructor <- .cstr_match_constructor(constructor, "ggplot"),
+    check_dots_empty()
+  )
+  .cstr_options("ggplot", constructor = constructor)
+}
+
 #' @export
 .cstr_construct.ggplot <- function(x, ...) {
+  opts <- .cstr_fetch_opts("ggplot", ...)
+  if (is_corrupted_ggplot(x) || opts$constructor == "next") return(NextMethod())
+  constructor <- constructors$ggplot[[opts$constructor]]
+  constructor(x, ...)
+}
+
+is_corrupted_ggplot <- function(x) {
+  # TODO
+  FALSE
+}
+
+constructors$ggplot$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
+}
+
+constructors$ggplot$ggplot <- function(x, ...) {
   ## ggplot call
   code <- construct_ggplot_call(x$mapping, ...)
 

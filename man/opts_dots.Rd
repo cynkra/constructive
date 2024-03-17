@@ -7,12 +7,12 @@
 opts_dots(constructor = c("default"), ...)
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment.}
+\item{constructor}{String. Name of the function used to construct the object.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 }
 \value{
-An object of class <constructive_options/constructive_options_environment>
+An object of class <constructive_options/constructive_options_dots>
 }
 \description{
 These options will be used on objects of type '...'. These are rarely encountered
@@ -20,7 +20,7 @@ in practice. By default this function is useless as nothing can be set, this
 is provided in case users want to extend the method with other constructors.
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"default"} : We use the construct \code{(function(...) environment()$...)(a = x, y)}
 which we evaluate in the correct environment.
