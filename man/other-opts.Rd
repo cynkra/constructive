@@ -8,9 +8,9 @@
 %   R/s3-ggplot2-ScalesList.R, R/s3-ggplot2-element_blank.R,
 %   R/s3-ggplot2-element_grob.R, R/s3-ggplot2-element_line.R,
 %   R/s3-ggplot2-element_rect.R, R/s3-ggplot2-element_render.R,
-%   R/s3-ggplot2-element_text.R, R/s3-ggplot2-ggproto.R, R/s3-ggplot2-margin.R,
-%   R/s3-ggplot2-rel.R, R/s3-ggplot2-simpleUnit.R, R/s3-ggplot2-theme.R,
-%   R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R
+%   R/s3-ggplot2-element_text.R, R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R,
+%   R/s3-ggplot2-margin.R, R/s3-ggplot2-rel.R, R/s3-ggplot2-simpleUnit.R,
+%   R/s3-ggplot2-theme.R, R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R
 \name{other-opts}
 \alias{other-opts}
 \alias{opts_CoordCartesian}
@@ -31,6 +31,7 @@
 \alias{opts_element_render}
 \alias{opts_element_text}
 \alias{opts_ggproto}
+\alias{opts_labels}
 \alias{opts_margin}
 \alias{opts_rel}
 \alias{opts_simpleUnit}
@@ -83,6 +84,8 @@ opts_element_render(constructor = "element_render", ...)
 opts_element_text(constructor = "element_text", ...)
 
 opts_ggproto(constructor = c("default", "next", "environment"), ...)
+
+opts_labels(constructor = c("labs", "next", "list"), ...)
 
 opts_margin(constructor = "margin", ...)
 
