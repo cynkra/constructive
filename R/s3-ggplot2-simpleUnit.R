@@ -2,14 +2,19 @@ constructors$simpleUnit <- new.env()
 
 #' @export
 #' @rdname other-opts
-opts_simpleUnit <- new_constructive_opts_function("simpleUnit", "unit")
+opts_simpleUnit <- new_constructive_opts_function("simpleUnit", c("unit", "next", "atomic"))
 
 #' @export
-.cstr_construct.simpleUnit <- new_constructive_method("simpleUnit", "unit")
+.cstr_construct.simpleUnit <- new_constructive_method("simpleUnit", c("unit", "next", "atomic"))
 
 is_corrupted_simpleUnit <- function(x) {
   # TODO
   FALSE
+}
+
+#' @export
+constructors$simpleUnit$atomic <- function(x, ...) {
+  .cstr_construct.atomic(x, ...)
 }
 
 #' @export
@@ -21,8 +26,7 @@ constructors$simpleUnit$unit <- function(x, ...) {
     mystrwidth = 105L, mystrheight = 106L
   )
   units <- names(lkp)[match(attr(x, "unit"), lkp)]
-  x <- as.vector(x)
-  code <- .cstr_apply(list(x, units = units), "grid::unit", ...)
+  code <- .cstr_apply(list(as.vector(x), units = units), "grid::unit", ...)
   repair_attributes_simpleUnit(x, code, ...)
 }
 

@@ -94,7 +94,7 @@ opts_margin(constructor = "margin", ...)
 
 opts_rel(constructor = "rel", ...)
 
-opts_simpleUnit(constructor = "simpleUnit", ...)
+opts_simpleUnit(constructor = c("unit", "next", "atomic"), ...)
 
 opts_theme(constructor = "theme", ...)
 
