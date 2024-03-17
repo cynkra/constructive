@@ -151,6 +151,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_rel]{opts_rel}(constructor = "rel", ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
+  \item \code{\link[=opts_Scale]{opts_Scale}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_ScalesList]{opts_ScalesList}(constructor = c("ScalesList", "next", "list"), ...)}
   \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = "simpleUnit", ...)}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE)}

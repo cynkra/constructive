@@ -1,5 +1,24 @@
+constructors$Scale <- new.env()
+
 #' @export
-.cstr_construct.Scale <- function(x, ...) {
+#' @rdname other-opts
+opts_Scale <- new_constructive_opts_function("Scale", c("default", "next", "environment"))
+
+#' @export
+.cstr_construct.Scale <- new_constructive_method("Scale", c("default", "next", "environment"))
+
+is_corrupted_Scale <- function(x) {
+  # TODO
+  FALSE
+}
+
+#' @export
+constructors$Scale$environment <- function(x, ...) {
+  .cstr_construct.environment(x, ...)
+}
+
+#' @export
+constructors$Scale$default <- function(x, ...) {
   # fetch caller and args from original call
   caller <- x$call[[1]]
   args <- as.list(x$call)[-1]
@@ -94,3 +113,6 @@
   .cstr_apply(args, fun = fun_chr, recurse = FALSE, ...)
 }
 
+repair_attributes_Scale <- function(x, code, ...) {
+  code
+}

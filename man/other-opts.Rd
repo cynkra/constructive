@@ -4,7 +4,7 @@
 %   R/s3-ggplot2-CoordFlip.R, R/s3-ggplot2-CoordMap.R,
 %   R/s3-ggplot2-CoordMunch.R, R/s3-ggplot2-CoordPolar.R,
 %   R/s3-ggplot2-CoordQuickMap.R, R/s3-ggplot2-CoordSf.R,
-%   R/s3-ggplot2-CoordTrans.R, R/s3-ggplot2-FacetWrap.R,
+%   R/s3-ggplot2-CoordTrans.R, R/s3-ggplot2-FacetWrap.R, R/s3-ggplot2-Scale.R,
 %   R/s3-ggplot2-ScalesList.R, R/s3-ggplot2-element_blank.R,
 %   R/s3-ggplot2-element_grob.R, R/s3-ggplot2-element_line.R,
 %   R/s3-ggplot2-element_rect.R, R/s3-ggplot2-element_render.R,
@@ -23,6 +23,7 @@
 \alias{opts_CoordSf}
 \alias{opts_CoordTrans}
 \alias{opts_FacetWrap}
+\alias{opts_Scale}
 \alias{opts_ScalesList}
 \alias{opts_element_blank}
 \alias{opts_element_grob}
@@ -68,6 +69,8 @@ opts_FacetWrap(
   constructor = c("facet_wrap", "ggproto", "next", "environment"),
   ...
 )
+
+opts_Scale(constructor = c("default", "next", "environment"), ...)
 
 opts_ScalesList(constructor = c("ScalesList", "next", "list"), ...)
 
