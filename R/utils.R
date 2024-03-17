@@ -26,9 +26,20 @@
 }
 
 # "c(1,2)" to "foo = c(1,2),"
-name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
+name_and_append_comma <- function(
+    x,
+    nm,
+    implicit_names = FALSE,
+    unicode_representation = c("ascii", "latin", "character", "unicode"),
+    escape = FALSE) {
+  unicode_representation <- match.arg(unicode_representation)
   if (nm != "" && (!implicit_names || !identical(nm, x))) {
-    x[1] <- paste(protect(nm), "=", x[1])
+    nm_uni <- format_unicode(nm, unicode_representation)
+    # FIXME: not DRY, would require refactoring deparse_chr() as a composition
+    #.  of format_unicode() and another function that we'd use here
+    # FIXME: should the escape arg be a top level arg too ?
+    nm <- if (nm == nm_uni) protect(nm) else deparse_chr(nm, unicode_representation, escape)
+    x[1] <- paste(nm, "=", x[1])
   }
   x[length(x)] <- paste0(x[length(x)], ",")
   x

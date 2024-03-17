@@ -29,6 +29,7 @@ test_that("numeric", {
     construct(structure("a", names = ""))
     construct(NaN)
     construct(c(1, NaN))
+    construct(c("\U{430}" = 1))
   })
 })
 
@@ -73,5 +74,6 @@ test_that("character", {
     construct("ü", check = FALSE)
     construct("ü\\", opts_atomic(unicode_representation = "latin", escape = FALSE), check = FALSE)
     construct("ü\\", opts_atomic(escape = FALSE))
+    construct(c("\U{430}" = "a"))
   })
 })

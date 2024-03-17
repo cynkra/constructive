@@ -1,5 +1,12 @@
 # constructive (development version)
 
+* `construct()` and `construct_multi()` gain the arguments `unicode_representation` 
+  and `escape` previously used by `opts_atomic()` and these are now not only 
+  applied on strings but also on element names and variable names.
+* Named vectors of length 1 are constructed properly
+* In `opts_numeric_version()`, `opts_package_version()` and `opts_R_system_version()`
+the incorrectly named "atomic" constructor is replaced by a "list" constructor
+
 # constructive 0.3.0
 
 * A new debugging tool, the `construct_reprex()` function, is introduced. 

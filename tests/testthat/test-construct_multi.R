@@ -31,6 +31,7 @@ test_that("construct_multi", {
     a <- 1
     foo <- function(x, y) {
       force(x)
+      "\U{430}" <- 2 # cyrillic "a"
       construct_multi(environment())
     }
 

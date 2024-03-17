@@ -12,7 +12,9 @@
   recurse = TRUE,
   implicit_names = FALSE,
   new_line = TRUE,
-  one_liner = FALSE
+  one_liner = FALSE,
+  unicode_representation = c("ascii", "latin", "character", "unicode"),
+  escape = FALSE
 )
 }
 \arguments{
@@ -36,6 +38,20 @@ are expected to contain code.}
 \code{FALSE} if \code{one_liner} is \code{TRUE}}
 
 \item{one_liner}{Whether to return a one line call.}
+
+\item{unicode_representation}{By default "ascii", which means only ASCII characters
+(code point < 128) will be used to construct strings and variable names. This makes sure that
+homoglyphs (different spaces and other identically displayed unicode characters)
+are printed differently, and avoid possible unfortunate copy and paste
+auto conversion issues. "latin" is more lax and uses all latin characters
+(code point < 256). "character" shows all characters, but not emojis. Finally
+"unicode" displays all characters and emojis, which is what \code{dput()} does.}
+
+\item{escape}{Whether to escape double quotes and backslashes. If \code{FALSE} we use
+single quotes to surround strings (including variable and element names)
+containing double quotes, and raw strings for strings that contain backslashes
+and/or a combination of single and double quotes. Depending on
+\code{unicode_representation} \code{escape = FALSE} cannot be applied on all strings.}
 }
 \value{
 A character vector of code

@@ -50,10 +50,13 @@
       a <- 1
       foo <- (function(x, y) {
         force(x)
+        "а" <- 2
         construct_multi(environment())
       })
       foo(a, a)
     Output
+      "\U{430}" <- 2
+      
       x <- 1
       
       delayedAssign(

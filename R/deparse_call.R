@@ -13,7 +13,7 @@
 #'   for pretty printing.
 #' @param collapse Boolean. Whether to collapse the output to a single string,
 #'   won't be directly visible if `style` is `TRUE`
-#' @inheritParams opts_atomic
+#' @inheritParams construct
 #'
 #' @return a string or a character vector, with a class "constructive_code" for pretty
 #'   printing if `style` is `TRUE`

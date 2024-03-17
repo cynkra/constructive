@@ -70,7 +70,16 @@ is_corrupted_function <- function(x) {
   !is.function(x)
 }
 
-constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = FALSE, trim, environment, srcref) {
+constructors$`function`$`function` <- function(
+    x,
+    ...,
+    pipe = NULL,
+    one_liner = FALSE,
+    trim,
+    environment,
+    srcref,
+    unicode_representation,
+    escape) {
   # if the srcref matches the function's body (always in non artifical cases)
   # we might use the srcref rather than the body, so we keep the comments
 
@@ -88,7 +97,9 @@ constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = 
       one_liner = one_liner,
       trim = trim,
       environment = environment,
-      srcref = srcref
+      srcref = srcref,
+      unicode_representation = unicode_representation,
+      escape = escape
     )
     return(res)
   }
@@ -112,7 +123,9 @@ constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = 
       pipe = FALSE,
       one_liner = one_liner,
       style = FALSE,
-      collapse = FALSE
+      collapse = FALSE,
+      unicode_representation = unicode_representation,
+      escape = escape
     )
     if (length(code) == 2) code <- paste(code[1], code[2])
   }
@@ -129,13 +142,31 @@ constructors$`function`$`function` <- function(x, ..., pipe = NULL, one_liner = 
       "(`environment<-`)",
       pipe = pipe,
       one_liner = one_liner,
+      unicode_representation = unicode_representation,
+      escape = escape,
       ...)
     code <- .cstr_pipe(code, envir_code, pipe, one_liner)
   }
-  repair_attributes_function(x, code, ..., pipe = pipe, one_liner = one_liner)
+  repair_attributes_function(
+    x,
+    code,
+    ...,
+    unicode_representation = unicode_representation,
+    escape = escape,
+    pipe = pipe,
+    one_liner = one_liner
+  )
 }
 
-constructors$`function`$as.function <- function(x, ..., trim, environment, srcref) {
+constructors$`function`$as.function <- function(
+    x,
+    ...,
+    trim,
+    environment,
+    srcref,
+    unicode_representation,
+    escape
+  ) {
   # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
   # so we must use regular deparse
 
@@ -145,37 +176,116 @@ constructors$`function`$as.function <- function(x, ..., trim, environment, srcre
     is_expression2(x_lst[[length(x_lst)]])
 
   if (body_is_a_proper_expression) {
-    fun_lst <- lapply(x_lst, deparse_call, style = FALSE, collapse = FALSE)
+    fun_lst <- lapply(
+      x_lst,
+      deparse_call,
+      style = FALSE,
+      collapse = FALSE,
+      unicode_representation = unicode_representation,
+      escape = escape
+    )
     args <- list(.cstr_apply(
-      fun_lst, "alist", ..., recurse = FALSE))
+      fun_lst,
+      "alist",
+      ...,
+      recurse = FALSE,
+      unicode_representation = unicode_representation,
+      escape = escape))
   } else {
-    fun_lst <- lapply(x_lst, .cstr_construct.language, style = FALSE, collapse = FALSE)
+    fun_lst <- lapply(
+      x_lst,
+      .cstr_construct.language,
+      unicode_representation = unicode_representation,
+      escape = escape,
+      ...)
     args <- list(.cstr_apply(
-      fun_lst, "list", ..., recurse = FALSE))
+      fun_lst,
+      "list",
+      ...,
+      recurse = FALSE,
+      unicode_representation = unicode_representation,
+      escape = escape
+    ))
   }
 
   if (environment) {
     envir_arg <- .cstr_construct(environment(x), ...)
     args <- c(args, list(envir = envir_arg))
   }
-  code <- .cstr_apply(args, "as.function", ..., recurse = FALSE)
-  repair_attributes_function(x, code, ...)
+  code <- .cstr_apply(
+    args,
+    "as.function",
+    ...,
+    recurse = FALSE,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
+  repair_attributes_function(
+    x,
+    code,
+    ...,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
 }
 
-constructors$`function`$new_function <- function(x, ..., trim, environment, srcref) {
+constructors$`function`$new_function <- function(
+    x,
+    ...,
+    trim,
+    environment,
+    srcref,
+    unicode_representation,
+    escape
+    ) {
   x_lst <- as.list(unclass(x))
 
-  args <- lapply(x_lst[-length(x_lst)], deparse_call)
-  args <- .cstr_apply(args, "alist", ..., recurse = FALSE)
-  body <- .cstr_construct.language(x_lst[[length(x_lst)]])
+  args <- lapply(
+    x_lst[-length(x_lst)],
+    deparse_call,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
+  args <- .cstr_apply(
+    args,
+    "alist",
+    ...,
+    recurse = FALSE,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
+  body <- .cstr_construct.language(
+    x_lst[[length(x_lst)]],
+    ...,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
 
   args <- list(args = args, body = body)
   if (environment) {
-    envir_arg <- .cstr_construct(environment(x), ...)
+    envir_arg <- .cstr_construct(
+      environment(x),
+      ...,
+      unicode_representation = unicode_representation,
+      escape = escape
+    )
     args <- c(args, list(env = envir_arg))
   }
-  code <- .cstr_apply(args, "rlang::new_function", ..., recurse = FALSE)
-  repair_attributes_function(x, code, ...)
+  code <- .cstr_apply(
+    args,
+    "rlang::new_function",
+    ...,
+    recurse = FALSE,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
+  repair_attributes_function(
+    x,
+    code,
+    ...,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
 }
 
 repair_attributes_function <- function(x, code, ..., pipe = NULL) {
