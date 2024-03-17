@@ -1,6 +1,7 @@
 constructors$CoordFlip <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_CoordFlip <- function(constructor = c("coord_flip", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),

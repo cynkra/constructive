@@ -1,6 +1,7 @@
 constructors$simpleUnit <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_simpleUnit <- new_constructive_opts_function("simpleUnit", "simpleUnit")
 
 #' @export

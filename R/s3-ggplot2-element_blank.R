@@ -1,6 +1,7 @@
 constructors$element_blank <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_element_blank <- new_constructive_opts_function("element_blank", "element_blank")
 
 #' @export

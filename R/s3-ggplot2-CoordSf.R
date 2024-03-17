@@ -1,6 +1,7 @@
 constructors$CoordSf <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_CoordSf <- function(constructor = c("coord_sf", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),

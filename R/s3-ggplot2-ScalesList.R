@@ -1,6 +1,7 @@
 constructors$ScalesList <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_ScalesList <- function(constructor = c("ScalesList", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "ScalesList"),

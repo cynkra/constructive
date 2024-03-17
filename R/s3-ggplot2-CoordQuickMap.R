@@ -1,6 +1,7 @@
 constructors$CoordQuickmap <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_CoordQuickmap <- function(constructor = c("coord_quickmap", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),

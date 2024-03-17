@@ -1,6 +1,7 @@
 constructors$margin <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_margin <- new_constructive_opts_function("margin", "margin")
 
 #' @export

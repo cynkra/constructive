@@ -1,6 +1,7 @@
 constructors$element_grob <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_element_grob <- new_constructive_opts_function("element_grob", "element_grob")
 
 #' @export

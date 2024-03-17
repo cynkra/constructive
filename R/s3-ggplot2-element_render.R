@@ -1,6 +1,7 @@
 constructors$element_render <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_element_render <- new_constructive_opts_function("element_render", "element_render")
 
 #' @export

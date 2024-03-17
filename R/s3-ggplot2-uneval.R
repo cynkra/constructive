@@ -3,6 +3,7 @@
 # eval the expressions or components
 
 #' @export
+#' @rdname other-opts
 opts_uneval <- function(constructor = c("aes", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),

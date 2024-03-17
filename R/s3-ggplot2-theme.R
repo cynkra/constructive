@@ -1,6 +1,7 @@
 constructors$theme <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_theme <- new_constructive_opts_function("theme", "theme")
 
 #' @export

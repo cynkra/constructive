@@ -1,6 +1,7 @@
 constructors$CoordFixed <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_CoordFixed <- function(constructor = c("coord_fixed", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),

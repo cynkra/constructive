@@ -1,6 +1,7 @@
 constructors$rel <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_rel <- new_constructive_opts_function("rel", "rel")
 
 #' @export

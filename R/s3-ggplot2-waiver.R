@@ -1,6 +1,7 @@
 constructors$waiver <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_waiver <- function(constructor = c("waiver", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),

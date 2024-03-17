@@ -1,6 +1,7 @@
 constructors$CoordPolar <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_CoordPolar <- function(constructor = c("coord_polar", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),

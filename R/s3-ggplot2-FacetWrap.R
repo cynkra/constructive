@@ -1,4 +1,5 @@
 #' @export
+#' @rdname other-opts
 opts_FacetWrap <- function(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),

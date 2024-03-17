@@ -1,6 +1,7 @@
 constructors$element_rect <- new.env()
 
 #' @export
+#' @rdname other-opts
 opts_element_rect <- new_constructive_opts_function("element_rect", "element_rect")
 
 #' @export
