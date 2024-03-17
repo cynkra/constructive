@@ -11,7 +11,7 @@ constructors$classGeneratorFunction <- new.env()
 opts_classGeneratorFunction <- function(constructor = c("setClass"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "classGeneratorFunction"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("classGeneratorFunction", constructor = constructor)
 }
@@ -37,9 +37,6 @@ constructors$classGeneratorFunction$setClass <- function(x, env, ...) {
     (identical(env, .GlobalEnv) && attr(cl, "package") == ".GlobalEnv")) {
     attr(cl, "package") <- NULL
   }
-  repr_code <- .cstr_apply(as.list(getSlots(cl)), fun = "representation", env = env, ...)
-  cl_code <- .cstr_construct(cl, env = env, ...)
-
-  code <- .cstr_apply(list(cl_code, repr_code), fun = "setClass", recurse = FALSE, env = env, ...)
+  code <- .cstr_apply(list(cl, slots = getSlots(cl)), fun = "setClass", env = env, ...)
   repair_attributes_S4(x, code, env = env, ...)
 }

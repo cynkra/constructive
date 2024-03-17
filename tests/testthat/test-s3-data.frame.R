@@ -8,6 +8,8 @@ test_that("data.frame", {
     construct(tail(cars,2))
     # read.table on num, no row names
     construct(head(cars,2), opts_data.frame(constructor = "read.table"))
+    # read.table on num, no row names, one_liner
+    construct(head(cars,2), opts_data.frame(constructor = "read.table"), one_liner = TRUE)
     # read.table on num
     construct(transform(mtcars[1:2, 1:2], chr = c("a", "b"), int = 1:2), opts_data.frame(constructor = "read.table"))
     # read.table ignored if unsupported types, e.g. factor

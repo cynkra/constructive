@@ -4,7 +4,7 @@
 \alias{opts_package_version}
 \title{Constructive options for package_version}
 \usage{
-opts_package_version(constructor = c("package_version", "next", "atomic"), ...)
+opts_package_version(constructor = c("package_version", "next", "list"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment.}
@@ -21,6 +21,6 @@ Depending on \code{constructor}, we construct the environment as follows:
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried. This will usually
 be equivalent to \code{"array"}
-\item \code{"atomic"} : We define as an atomic vector and repair attributes
+\item \code{"list"} : We define as a list and repair attributes
 }
 }

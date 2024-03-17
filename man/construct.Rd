@@ -11,6 +11,8 @@ construct(
   data = NULL,
   pipe = NULL,
   check = NULL,
+  unicode_representation = c("ascii", "latin", "character", "unicode"),
+  escape = FALSE,
   compare = compare_options(),
   one_liner = FALSE,
   template = getOption("constructive_opts_template")
@@ -22,6 +24,8 @@ construct_multi(
   data = NULL,
   pipe = NULL,
   check = NULL,
+  unicode_representation = c("ascii", "latin", "character", "unicode"),
+  escape = FALSE,
   compare = compare_options(),
   one_liner = FALSE,
   template = getOption("constructive_opts_template")
@@ -43,6 +47,20 @@ Defaults to \code{"base"} for R >= 4.2, otherwise to \code{"magrittr"}.}
 
 \item{check}{Boolean. Whether to check if the created code reproduces the object
 using \code{waldo::compare()}.}
+
+\item{unicode_representation}{By default "ascii", which means only ASCII characters
+(code point < 128) will be used to construct strings and variable names. This makes sure that
+homoglyphs (different spaces and other identically displayed unicode characters)
+are printed differently, and avoid possible unfortunate copy and paste
+auto conversion issues. "latin" is more lax and uses all latin characters
+(code point < 256). "character" shows all characters, but not emojis. Finally
+"unicode" displays all characters and emojis, which is what \code{dput()} does.}
+
+\item{escape}{Whether to escape double quotes and backslashes. If \code{FALSE} we use
+single quotes to surround strings (including variable and element names)
+containing double quotes, and raw strings for strings that contain backslashes
+and/or a combination of single and double quotes. Depending on
+\code{unicode_representation} \code{escape = FALSE} cannot be applied on all strings.}
 
 \item{compare}{Parameters passed to \code{waldo::compare()}, built with \code{compare_options()}.}
 
@@ -80,7 +98,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 \itemize{
   \item \code{\link[=opts_array]{opts_array}(constructor = c("array", "next"), ...)}
   \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next", "atomic"), ...)}
-  \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)}
+  \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("default", "ascii", "latin", "character", "unicode"), escape = NULL)}
   \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}(constructor = c("setClass"), ...)}
   \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}(constructor = c("prototype"), ...)}
   \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}
@@ -93,7 +111,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
   \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...)}
-  \item \code{\link[=opts_formula]{opts_formula}(constructor = c("~", "formula", "as.formula", "new_formula"), ..., environment = TRUE)}
+  \item \code{\link[=opts_formula]{opts_formula}(constructor = c("~", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)}
   \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
@@ -101,15 +119,15 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
   \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "next", "atomic"), ...)}
   \item \code{\link[=opts_mts]{opts_mts}(constructor = c("ts", "next", "atomic"), ...)}
-  \item \code{\link[=opts_numeric_version]{opts_numeric_version}(constructor = c("numeric_version", "next", "atomic"), ...)}
+  \item \code{\link[=opts_numeric_version]{opts_numeric_version}(constructor = c("numeric_version", "next", "list"), ...)}
   \item \code{\link[=opts_ordered]{opts_ordered}(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...)}
-  \item \code{\link[=opts_package_version]{opts_package_version}(constructor = c("package_version", "next", "atomic"), ...)}
+  \item \code{\link[=opts_package_version]{opts_package_version}(constructor = c("package_version", "next", "list"), ...)}
   \item \code{\link[=opts_pairlist]{opts_pairlist}(constructor = c("pairlist", "pairlist2"), ...)}
   \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "list"), ...)}
   \item \code{\link[=opts_quosure]{opts_quosure}(constructor = c("new_quosure", "next", "language"), ...)}
   \item \code{\link[=opts_quosures]{opts_quosures}(constructor = c("new_quosures", "next", "list"), ...)}
-  \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "atomic"), ...)}
+  \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "list"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE)}

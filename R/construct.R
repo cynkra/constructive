@@ -19,6 +19,18 @@
 #'   Defaults to `"base"` for R >= 4.2, otherwise to `"magrittr"`.
 #' @param check Boolean. Whether to check if the created code reproduces the object
 #'   using `waldo::compare()`.
+#' @param unicode_representation By default "ascii", which means only ASCII characters
+#'   (code point < 128) will be used to construct strings and variable names. This makes sure that
+#'   homoglyphs (different spaces and other identically displayed unicode characters)
+#'   are printed differently, and avoid possible unfortunate copy and paste
+#'   auto conversion issues. "latin" is more lax and uses all latin characters
+#'   (code point < 256). "character" shows all characters, but not emojis. Finally
+#'   "unicode" displays all characters and emojis, which is what `dput()` does.
+#' @param escape Whether to escape double quotes and backslashes. If `FALSE` we use
+#'   single quotes to surround strings (including variable and element names)
+#'   containing double quotes, and raw strings for strings that contain backslashes
+#'   and/or a combination of single and double quotes. Depending on
+#'   `unicode_representation` `escape = FALSE` cannot be applied on all strings.
 #' @param compare Parameters passed to `waldo::compare()`, built with `compare_options()`.
 #' @param ... Constructive options built with the `opts_*()` family of functions. See the "Constructive options"
 #'   section below.
@@ -37,6 +49,8 @@
 #' construct(iris$Species)
 #' construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
 construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
+                      unicode_representation = c("ascii", "latin", "character", "unicode"),
+                      escape = FALSE,
                       compare = compare_options(), one_liner = FALSE,
                       template = getOption("constructive_opts_template")) {
 
@@ -48,7 +62,7 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
   .cstr_combine_errors(
     # force so we might fail outside of the try_fetch() when x is not properly provided
     force(x),
-    ellipsis::check_dots_unnamed(),
+    check_dots_unnamed(),
     abort_wrong_data(data),
     abort_not_boolean(one_liner)
   )
@@ -58,7 +72,17 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
 
   # build code that produces the object, prepend with predefinitions if relevant
   caller <- caller_env()
-  code <- try_construct(x, template = template, ..., data = data, pipe = pipe, one_liner = one_liner, env = caller)
+  code <- try_construct(
+    x,
+    template = template,
+    ...,
+    data = data,
+    pipe = pipe,
+    unicode_representation = unicode_representation,
+    escape = escape,
+    one_liner = one_liner,
+    env = caller
+  )
   code <- c(globals$predefinition, code)
 
   # for https://github.com/cynkra/constructive/issues/101
@@ -77,15 +101,20 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
 #' @export
 #' @rdname construct
 construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
+                            unicode_representation = c("ascii", "latin", "character", "unicode"),
+                            escape = FALSE,
                             compare = compare_options(), one_liner = FALSE,
                             template = getOption("constructive_opts_template")) {
   abort_not_env_or_named_list(x)
   data <- process_data(data)
+  unicode_representation <- match.arg(unicode_representation)
 
   if (is.list(x)) {
     constructives <- lapply(
       x, construct,  ...,
       data = data, pipe = pipe, check = check,
+      unicode_representation = unicode_representation,
+      escape = escape,
       compare = compare,
       one_liner = one_liner,
       template = template
@@ -99,7 +128,11 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
         code <- .cstr_apply(
           list(
             .cstr_construct(nm),
-            value = deparse_call(code, style = FALSE),
+            value = deparse_call(
+              code,
+              style = FALSE,
+              unicode_representation = unicode_representation,
+              escape = escape),
             eval.env = .cstr_construct(env)
           ),
           "delayedAssign",
@@ -111,7 +144,11 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
         constructives[[nm]] <- construct(
           x[[nm]],
           ...,
-          data = data, pipe = pipe, check = check,
+          data = data,
+          pipe = pipe,
+          check = check,
+          unicode_representation = unicode_representation,
+          escape = escape,
           compare = compare,
           one_liner = one_liner,
           template = template
@@ -130,7 +167,11 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
     code, names(code),
     f = function(x, y) {
       if (startsWith(x[[1]], "delayedAssign(")) return(x)
-      x[[1]] <- paste(protect(y), "<-", x[[1]])
+
+      y_uni <- format_unicode(y, unicode_representation)
+      # FIXME: see name_and_append_comma()
+      y <- if (y == y_uni) protect(y) else deparse_chr(y, unicode_representation, escape)
+      x[[1]] <- paste(y, "<-", x[[1]])
       c(x, "")
     })
   code <- unlist(code)

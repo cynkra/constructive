@@ -38,7 +38,9 @@ Depending on \code{constructor}, we construct the environment as follows:
 definition. This won't set the environment by default, unless \code{environment}
 is set to \code{TRUE}. If a srcref is available, if this srcref matches the function's
 definition, and if \code{trim} is left \code{NULL}, the code is returned from using the srcref,
-so comments will be shown in the output of \code{construct()}.
+so comments will be shown in the output of \code{construct()}. In the rare case
+where the ast body of the function contains non syntactic nodes this constructor
+cannot be used and falls back to the \code{"as.function"} constructor.
 \item \code{"as.function"} : Build the object using a \code{as.function()} call.
 back to \code{data.frame()}.
 \item \code{"new_function"} : Build the object using a \code{rlang::new_function()} call.

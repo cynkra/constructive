@@ -22,7 +22,7 @@ calls}
 An object of class <constructive_options/constructive_options_tbl_df>
 }
 \description{
-These options will be used on objects of class 'tbl_df', also known as tibbles. .
+These options will be used on objects of class 'tbl_df', also known as tibbles.
 }
 \details{
 Depending on \code{constructor}, we construct the object as follows:

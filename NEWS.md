@@ -1,11 +1,41 @@
 # constructive (development version)
 
-* Set `options(constructive_print = <character>)` where `<character>` is a vector
-    of strings among `"console"`, `"clipboard"` and `"reprex"`. The default
-    behavior is "console". If you use `"clipboard"`, with or without `"reprex"`,
-    the clipboard will contain only the code. If you use `"reprex"` without
-    `"clipboard"` the clipboard will still be used to receive the reprex,
-    can be tweaked with `options(reprex.clipboard = FALSE)`
+* `construct()` and `construct_multi()` gain the arguments `unicode_representation` 
+  and `escape` previously used by `opts_atomic()` and these are now not only 
+  applied on strings but also on element names and variable names.
+* Named vectors of length 1 are constructed properly
+* In `opts_numeric_version()`, `opts_package_version()` and `opts_R_system_version()`
+the incorrectly named "atomic" constructor is replaced by a "list" constructor
+
+# constructive 0.3.0
+
+* A new debugging tool, the `construct_reprex()` function, is introduced. 
+  It can be called in any function and will construct all variables and arguments
+  where it's called.
+* `construct_multi()` now constructs promises, in practice this is useful so
+  we can construct the evaluation environment of a function, including the uneavaluated
+  and potentially NSE args of a function
+* Set `options(constructive_print_mode = <character>)` where `<character>` is a vector
+    of strings among `"console"`, `script`, `"clipboard"` and `"reprex"`. The default
+    behavior is "console". See `` ?`constructive-global_options`
+* `opts_atomic(escape = FALSE)` (the default) now correctly uses surrounding single quotes
+  for strings that contain double quotes and no single quotes.
+* `deparse_call()` is more robusts and gains the arguments `escape` and `unicode_representation`
+  that were already present in `opts_atomic()`
+* The ggplot object generation supports the internal changes of ggplot2 3.5.0,
+  and the resulting construction is nicer.
+* Data frames can be reconstructed when their columns don't have a `data.frame()`
+  method
+* The "read.table" constructor for data frames supports the `one_liner` argument
+* roxygen2 is Suggested (not Imported anymore), the ellipsis dependency is removed
+* formulas have a "next" constructor, useful to see what formulas are at a low
+  level
+* classes with S3 methods for `length`, `[`, `[[` etc are handled better
+* `.env()` doesn't crash anymore when provided a wrong or obsolete memory address
+* Integer vectors are constructed properly when they feature consecutive elements
+  differing by more than `.Machine$integer.max` 
+* Classed objects of types "..." and "externalptr" and are constructed properly
+* S4 construction uses the `slot` argument rather than the `representation` arg
 
 # constructive 0.2.0
 

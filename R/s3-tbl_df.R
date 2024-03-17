@@ -2,7 +2,7 @@ constructors$tbl_df <- new.env()
 
 #' Constructive options for tibbles
 #'
-#' These options will be used on objects of class 'tbl_df', also known as tibbles. .
+#' These options will be used on objects of class 'tbl_df', also known as tibbles.
 #'
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"tibble"` (default): Wrap the column definitions in a `tibble::tibble()` call.
@@ -22,7 +22,7 @@ constructors$tbl_df <- new.env()
 opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "tbl_df"),
-    ellipsis::check_dots_empty(),
+    check_dots_empty(),
     abort_not_boolean(trailing_comma)
   )
   .cstr_options("tbl_df", constructor = constructor, trailing_comma = trailing_comma)

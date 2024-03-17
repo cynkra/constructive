@@ -21,7 +21,7 @@ constructors$data.frame <- new.env()
 opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "data.frame"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("data.frame", constructor = constructor)
 }
@@ -42,6 +42,16 @@ is_corrupted_data.frame <- function(x) {
   elements_and_row_names_all_have_same_length <-
     length(unique(vapply(c(list(attrs$row.names), x), NROW, integer(1)))) == 1
   if (!elements_and_row_names_all_have_same_length) return(TRUE)
+
+  # this might not really be corruption but data.frame() and read.table()
+  # can't create columns that don't have a as.data.frame method
+  # so we fall back on the next class constructor for those
+  methods_ <- gsub("^as.data.frame.(.*)?\\*?$", "\\1", methods("as.data.frame"))
+  has_method <- function(x) {
+    any(class(x) %in% methods_)
+  }
+  if (!all(sapply(x, has_method))) return(TRUE)
+
   FALSE
 }
 
@@ -49,17 +59,23 @@ constructors$data.frame$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-constructors$data.frame$read.table <- function(x, ...) {
+constructors$data.frame$read.table <- function(x, one_liner, ...) {
   # Fall back on data.frame constructor if relevant
-  if (!nrow(x)) return(constructors$data.frame$data.frame(x, ...))
+  if (!nrow(x)) {
+    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+  }
 
   rn <- attr(x, "row.names")
   numeric_row_names_are_not_default <- is.numeric(rn) && !identical(rn, seq_len(nrow(x)))
-  if (numeric_row_names_are_not_default) return(constructors$data.frame$data.frame(x, ...))
+  if (numeric_row_names_are_not_default) {
+    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+  }
 
   some_cols_are_not_atomic_vectors <-
     any(!vapply(x, function(x) is.atomic(x) && is.vector(x), logical(1)))
-  if (some_cols_are_not_atomic_vectors) return(constructors$data.frame$data.frame(x, ...))
+  if (some_cols_are_not_atomic_vectors) {
+    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+  }
 
   some_cols_are_problematic_char <-
     any(vapply(x, FUN.VALUE = logical(1), FUN = function(x) {
@@ -67,7 +83,9 @@ constructors$data.frame$read.table <- function(x, ...) {
         !any(is.na(suppressWarnings(as.numeric(x)))) &&
         !grepl("[\"']", x)
     }))
-  if (some_cols_are_problematic_char) return(constructors$data.frame$data.frame(x, ...))
+  if (some_cols_are_problematic_char) {
+    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+  }
 
   # fill a data frame with deparsed values
   code_df <- x
@@ -91,11 +109,11 @@ constructors$data.frame$read.table <- function(x, ...) {
   # collapse table into code
   code <- paste(
     c("read.table(header = TRUE, text = \"", do.call(paste, code_df), "\")"),
-    collapse = "\n"
+    collapse = if (one_liner) "\\n" else "\n"
   )
 
   # repair
-  repair_attributes_data.frame(x, code, ...)
+  repair_attributes_data.frame(x, code, one_liner = one_liner, ...)
 }
 
 align_numerics <- function(x) {

@@ -72,7 +72,7 @@
       rlang::new_function(
         args = alist(x = ),
         body = quote({
-            x
+          x
         }),
         env = .GlobalEnv
       )
@@ -147,4 +147,21 @@
       construct(f6, opts_function(environment = FALSE))
     Output
       function() NULL
+    Code
+      f7 <- f2
+      body(f7) <- structure(body(f7), some_attr = "hello")
+      construct(f7, opts_function(environment = FALSE))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      as.function(
+        list(
+          x = quote(expr = ),
+          quote({
+            x
+          }) |>
+            structure(some_attr = "hello")
+        )
+      )
 

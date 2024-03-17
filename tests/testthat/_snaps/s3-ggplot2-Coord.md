@@ -1,45 +1,3 @@
-# CoordCartesian
-
-    Code
-      construct(ggplot2::scale_x_continuous(limits = c(325, 500)))
-    Output
-      ggplot2::xlim(325, 500)
-    Code
-      construct(ggplot2::coord_cartesian(xlim = c(325, 500)))
-    Output
-      ggplot2::coord_cartesian(xlim = c(325, 500))
-    Code
-      construct(ggplot2::coord_cartesian(xlim = c(325, 500), expand = FALSE))
-    Output
-      ggplot2::coord_cartesian(xlim = c(325, 500), expand = FALSE)
-    Code
-      construct(ggplot2::coord_cartesian(expand = FALSE))
-    Output
-      ggplot2::coord_cartesian(expand = FALSE)
-
----
-
-    Code
-      construct(ggplot2::coord_map())
-    Output
-      ggplot2::coord_map()
-    Code
-      construct(ggplot2::coord_map("azequalarea", orientation = c(-36.92, 174.6, 0)))
-    Output
-      ggplot2::coord_map(projection = "azequalarea", orientation = c(-36.92, 174.6, 0))
-    Code
-      construct(ggplot2::coord_quickmap())
-    Output
-      ggplot2::coord_quickmap()
-    Code
-      construct(ggplot2::coord_map("gilbert"))
-    Output
-      ggplot2::coord_map(projection = "gilbert")
-    Code
-      construct(ggplot2::coord_map("conic", lat0 = 30))
-    Output
-      ggplot2::coord_map(projection = "conic", lat0 = 30)
-
 # CoordFixed
 
     Code
@@ -65,6 +23,29 @@
       construct(ggplot2::coord_flip())
     Output
       ggplot2::coord_flip()
+
+# CoordMap
+
+    Code
+      construct(ggplot2::coord_map())
+    Output
+      ggplot2::coord_map()
+    Code
+      construct(ggplot2::coord_map("azequalarea", orientation = c(-36.92, 174.6, 0)))
+    Output
+      ggplot2::coord_map(projection = "azequalarea", orientation = c(-36.92, 174.6, 0))
+    Code
+      construct(ggplot2::coord_quickmap())
+    Output
+      ggplot2::coord_quickmap()
+    Code
+      construct(ggplot2::coord_map("gilbert"))
+    Output
+      ggplot2::coord_map(projection = "gilbert")
+    Code
+      construct(ggplot2::coord_map("conic", lat0 = 30))
+    Output
+      ggplot2::coord_map(projection = "conic", lat0 = 30)
 
 # CoordPolar
 

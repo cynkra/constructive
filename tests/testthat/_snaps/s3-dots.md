@@ -9,6 +9,14 @@
         envir = new.env(parent = asNamespace("constructive"))
       )
     Code
+      construct(structure(dots1, class = "foo"), opts_environment("list2env"))
+    Output
+      evalq(
+        (function(...) environment()$...)(a = x, y),
+        envir = new.env(parent = asNamespace("constructive"))
+      ) |>
+        structure(class = "foo")
+    Code
       f <- (function(...) {
         y <- 1
         g(y = y, ...)

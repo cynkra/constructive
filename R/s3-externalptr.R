@@ -17,7 +17,7 @@ constructors$externalptr <- new.env()
 opts_externalptr  <- function(constructor = c("default"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "externalptr"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("externalptr", constructor = constructor)
 }
@@ -40,5 +40,5 @@ constructors$externalptr$default <- function(x, ...) {
 }
 
 repair_attributes_externalptr <- function(x, code, ...) {
-  code
+  .cstr_repair_attributes(x, code, ...)
 }

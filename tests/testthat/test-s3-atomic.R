@@ -29,6 +29,7 @@ test_that("numeric", {
     construct(structure("a", names = ""))
     construct(NaN)
     construct(c(1, NaN))
+    construct(c("\U{430}" = 1))
   })
 })
 
@@ -56,5 +57,23 @@ test_that("simplify atomic", {
     construct(as.integer(c(2, 4, 6, 8, 2, 4, 6, 8)))
     construct(c("a", "a", "b", "c", "c", "c", "c"), opts_atomic(compress = FALSE))
     construct(c(0L, 0L, -1L, .Machine$integer.max))
+  })
+})
+
+test_that("character", {
+  # check = FALSE for raw strings to pass tests on older R versions
+  expect_snapshot({
+    construct("'hello'")
+    construct('"hello"')
+    construct("'\"hello\"'", check = FALSE)
+    construct("'\"hello\"'", check = FALSE)
+    construct("\\", check = FALSE)
+    construct("\\\\", check = FALSE)
+    construct("\n\\")
+    construct("ü", opts_atomic(unicode_representation = "latin"))
+    construct("ü", check = FALSE)
+    construct("ü\\", opts_atomic(unicode_representation = "latin", escape = FALSE), check = FALSE)
+    construct("ü\\", opts_atomic(escape = FALSE))
+    construct(c("\U{430}" = "a"))
   })
 })

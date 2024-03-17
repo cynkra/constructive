@@ -11,7 +11,7 @@ constructors$classRepresentation <- new.env()
 opts_classRepresentation <- function(constructor = c("getClassDef"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "classRepresentation"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("classRepresentation", constructor = constructor)
 }

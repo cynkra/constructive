@@ -13,7 +13,7 @@ constructors$weakref <- new.env()
 opts_weakref <- function(constructor = c("new_weakref"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "weakref"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("weakref", constructor = constructor)
 }

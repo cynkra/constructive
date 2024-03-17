@@ -20,7 +20,7 @@ constructors$dots <- new.env()
 opts_dots <- function(constructor = c("default"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "dots"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("dots", constructor = constructor)
 }
@@ -37,7 +37,7 @@ is_corrupted_dots <- function(x) {
   typeof(x) != "..."
 }
 
-constructors$dots$default <- function(x, ...) {
+constructors$dots$default <- function(x, ..., unicode_representation, escape) {
   quo_dots <- with(list(... = x), rlang::enquos(...))
   envs <- lapply(quo_dots, rlang::quo_get_env)
   unique_env <- unique(envs)
@@ -45,21 +45,48 @@ constructors$dots$default <- function(x, ...) {
     unique_env <- unique_env[[1]]
     exprs <- lapply(quo_dots, rlang::quo_get_expr)
     code_lng <- rlang::expr((function(...) environment()$...)(!!!exprs))
-    code <- deparse_call(code_lng, style = FALSE, collapse = FALSE)
-    env_code <- .cstr_construct(unique_env, ...)
+    code <- deparse_call(
+      code_lng,
+      style = FALSE,
+      collapse = FALSE,
+      unicode_representation = unicode_representation,
+      escape = escape
+    )
+    env_code <- .cstr_construct(
+      unique_env,
+      ...,
+      unicode_representation = unicode_representation,
+      escape = escape
+    )
     code <- .cstr_apply(list(code, envir = env_code), "evalq", recurse = FALSE)
-    return(code)
+    return(repair_attributes_dots(
+      x,
+      code,
+      ...,
+      unicode_representation = unicode_representation,
+      escape = escape
+    ))
   }
   # strip class since it's not necessary for splicing
-  quo_code <- .cstr_construct(unclass(quo_dots), ...)
+  quo_code <- .cstr_construct(
+    unclass(quo_dots),
+    ...,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
   quo_code[[1]] <- paste0("!!!", quo_code[[1]])
   code <- .cstr_wrap(quo_code, "(function(...) environment()$...)")
   code <- .cstr_wrap(code, "rlang::inject")
 
-  repair_attributes_dots(x, code, ...)
+  repair_attributes_dots(
+    x,
+    code,
+    ...,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
 }
 
 repair_attributes_dots <- function(x, code, ...) {
-  # FIXME: add a repair fun since dots can have attributes, come back after environments are done
-  code
+  .cstr_repair_attributes(x, code, ...)
 }

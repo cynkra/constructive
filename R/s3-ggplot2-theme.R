@@ -18,7 +18,7 @@ constructors$theme$theme <- function(x, ...) {
   args$validate <- if (!attr(x, "validate")) FALSE
   if (attr(x, "complete")) {
     code <- guess_complete_theme(x, ...)
-    if (!is.null(x)) return(code)
+    if (!is.null(code)) return(code)
   }
   .cstr_apply(args, "ggplot2::theme", ...)
 }
@@ -45,6 +45,7 @@ strip_theme <- function(x) {
   x$axis.text.x.top$margin <- NULL
   x$axis.text.y$margin <- NULL
   x$axis.text.y.right$margin <- NULL
+  x$axis.text.r$margin <- NULL
   x$axis.ticks.length <- NULL
   x$legend.margin <- NULL
   x$legend.spacing <- NULL
@@ -57,6 +58,7 @@ strip_theme <- function(x) {
   x$strip.text$margin <- NULL
   x$strip.switch.pad.grid <- NULL
   x$strip.switch.pad.wrap <- NULL
+  x$legend.key.spacing <- NULL
   x
 }
 

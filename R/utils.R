@@ -26,9 +26,20 @@
 }
 
 # "c(1,2)" to "foo = c(1,2),"
-name_and_append_comma <- function(x, nm, implicit_names = FALSE) {
+name_and_append_comma <- function(
+    x,
+    nm,
+    implicit_names = FALSE,
+    unicode_representation = c("ascii", "latin", "character", "unicode"),
+    escape = FALSE) {
+  unicode_representation <- match.arg(unicode_representation)
   if (nm != "" && (!implicit_names || !identical(nm, x))) {
-    x[1] <- paste(protect(nm), "=", x[1])
+    nm_uni <- format_unicode(nm, unicode_representation)
+    # FIXME: not DRY, would require refactoring deparse_chr() as a composition
+    #.  of format_unicode() and another function that we'd use here
+    # FIXME: should the escape arg be a top level arg too ?
+    nm <- if (nm == nm_uni) protect(nm) else deparse_chr(nm, unicode_representation, escape)
+    x[1] <- paste(nm, "=", x[1])
   }
   x[length(x)] <- paste0(x[length(x)], ",")
   x
@@ -239,13 +250,28 @@ compare_proxy_ggplot <- function(x, path) {
 }
 
 equivalent_ggplot <- function(x, y) {
+  # ggplot_table triggers a blank plot that can't be silenced so we divert it
+  # not sure if pdf() is the most efficient
+  pdf(tempfile(fileext = ".pdf"))
   x_tbl <- suppressWarnings(ggplot2::ggplot_gtable(ggplot2::ggplot_build(x)))
   y_tbl <- suppressWarnings(ggplot2::ggplot_gtable(ggplot2::ggplot_build(y)))
+  dev.off()
+  # we could probably do a better index equivalency check than just scrubbing
+  # them off, but I haven't figured out how it works
   x_unlisted <- gsub("\\d+", "XXX", unlist(x_tbl))
   y_unlisted <- gsub("\\d+", "XXX", unlist(y_tbl))
   names(x_unlisted) <- gsub("\\d+", "XXX", names(x_tbl))
   names(y_unlisted) <- gsub("\\d+", "XXX", names(y_tbl))
   identical(x_unlisted, y_unlisted)
+}
+
+expect_faithful_ggplot_construction <- function(p, ...) {
+  tt <- Sys.getenv("TESTTHAT")
+  Sys.setenv(TESTTHAT = "false")
+  on.exit(Sys.setenv(TESTTHAT = tt))
+  code <- construct(p, check = FALSE, ...)$code
+  reconstructed <- eval(parse(text = code))
+  testthat::expect_true(equivalent_ggplot(p, reconstructed))
 }
 
 keep_only_non_defaults <- function(x, f) {
@@ -301,8 +327,8 @@ split_by_line <- function(x) {
 
 # evaluate default values in the function's namespace
 # fun, pkg: strings
-defaults_arg_values <- function(fun, pkg) {
-  args_lng <- head(as.list(getFromNamespace(fun, pkg)), -1)
+defaults_arg_values <- function(fun_val, pkg) {
+  args_lng <- head(as.list(fun_val), -1)
   defaults_lng <- Filter(function(x) !identical(x, quote(expr=)), args_lng)
   lapply(defaults_lng, eval, asNamespace(pkg))
 }

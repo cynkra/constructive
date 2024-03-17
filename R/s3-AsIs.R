@@ -18,7 +18,7 @@ constructors$array <- new.env()
 opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "AsIs"),
-    ellipsis::check_dots_empty()
+    check_dots_empty()
   )
   .cstr_options("AsIs", constructor = constructor)
 }

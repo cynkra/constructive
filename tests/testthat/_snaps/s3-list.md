@@ -80,4 +80,16 @@
       ! Due to error: '...' used in an incorrect context
     Output
       list("a", "b", ...)
+    Code
+      construct(list(а = 1))
+    Output
+      list("\U{430}" = 1)
+
+---
+
+    Code
+      construct(corrupted_list)
+    Output
+      list(1) |>
+        structure(class = "corrupted")
 

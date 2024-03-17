@@ -11,7 +11,7 @@
 #'     * `"reprex"` : The code is shown in the viewer as a reprex,
 #'     the reprex (not only the code!) is also copied to the clipboard. Note that
 #'     if the construction fails the reprex will too, and it might happen often
-#'     when constructing environments since {reprex} opens a new session.
+#'     when constructing environments since \pkg{reprex} opens a new session.
 #'     * `"clipboard"` : The constructed code is copied to the clipboard, if combined
 #'     with `"reprex"` this takes precedence
 #' * Set `options(constructive_opts_template = <list>)` to set default constructive options,

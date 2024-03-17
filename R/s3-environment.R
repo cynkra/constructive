@@ -87,7 +87,7 @@ constructors$environment <- new.env()
 opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "environment"),
-    ellipsis::check_dots_empty(),
+    check_dots_empty(),
     abort_not_boolean(recurse)
   )
   .cstr_options("environment", constructor = constructor, recurse = recurse, predefine = predefine)
