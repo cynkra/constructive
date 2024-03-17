@@ -2,14 +2,19 @@ constructors$element_render <- new.env()
 
 #' @export
 #' @rdname other-opts
-opts_element_render <- new_constructive_opts_function("element_render", "element_render")
+opts_element_render <- new_constructive_opts_function("element_render", c("element_render", "next", "list"))
 
 #' @export
-.cstr_construct.element_render <- new_constructive_method("element_render", "element_render")
+.cstr_construct.element_render <- new_constructive_method("element_render", c("element_render", "next", "list"))
 
 is_corrupted_element_render <- function(x) {
   # TODO
   FALSE
+}
+
+#' @export
+constructors$element_render$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
 
 #' @export

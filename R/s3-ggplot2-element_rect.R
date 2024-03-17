@@ -2,14 +2,19 @@ constructors$element_rect <- new.env()
 
 #' @export
 #' @rdname other-opts
-opts_element_rect <- new_constructive_opts_function("element_rect", "element_rect")
+opts_element_rect <- new_constructive_opts_function("element_rect", c("element_rect", "next", "list"))
 
 #' @export
-.cstr_construct.element_rect <- new_constructive_method("element_rect", "element_rect")
+.cstr_construct.element_rect <- new_constructive_method("element_rect", c("element_rect", "next", "list"))
 
 is_corrupted_element_rect <- function(x) {
   # TODO
   FALSE
+}
+
+#' @export
+constructors$element_rect$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
 
 #' @export

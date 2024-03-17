@@ -74,17 +74,17 @@ opts_Scale(constructor = c("default", "next", "environment"), ...)
 
 opts_ScalesList(constructor = c("ScalesList", "next", "list"), ...)
 
-opts_element_blank(constructor = "element_blank", ...)
+opts_element_blank(constructor = c("element_blank", "next", "list"), ...)
 
-opts_element_grob(constructor = "element_grob", ...)
+opts_element_grob(constructor = c("element_grob", "next", "list"), ...)
 
-opts_element_line(constructor = "element_line", ...)
+opts_element_line(constructor = c("element_line", "next", "list"), ...)
 
-opts_element_rect(constructor = "element_rect", ...)
+opts_element_rect(constructor = c("element_rect", "next", "list"), ...)
 
-opts_element_render(constructor = "element_render", ...)
+opts_element_render(constructor = c("element_render", "next", "list"), ...)
 
-opts_element_text(constructor = "element_text", ...)
+opts_element_text(constructor = c("element_text", "next", "list"), ...)
 
 opts_ggproto(constructor = c("default", "next", "environment"), ...)
 

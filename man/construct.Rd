@@ -117,12 +117,12 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
   \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
-  \item \code{\link[=opts_element_blank]{opts_element_blank}(constructor = "element_blank", ...)}
-  \item \code{\link[=opts_element_grob]{opts_element_grob}(constructor = "element_grob", ...)}
-  \item \code{\link[=opts_element_line]{opts_element_line}(constructor = "element_line", ...)}
-  \item \code{\link[=opts_element_rect]{opts_element_rect}(constructor = "element_rect", ...)}
-  \item \code{\link[=opts_element_render]{opts_element_render}(constructor = "element_render", ...)}
-  \item \code{\link[=opts_element_text]{opts_element_text}(constructor = "element_text", ...)}
+  \item \code{\link[=opts_element_blank]{opts_element_blank}(constructor = c("element_blank", "next", "list"), ...)}
+  \item \code{\link[=opts_element_grob]{opts_element_grob}(constructor = c("element_grob", "next", "list"), ...)}
+  \item \code{\link[=opts_element_line]{opts_element_line}(constructor = c("element_line", "next", "list"), ...)}
+  \item \code{\link[=opts_element_rect]{opts_element_rect}(constructor = c("element_rect", "next", "list"), ...)}
+  \item \code{\link[=opts_element_render]{opts_element_render}(constructor = c("element_render", "next", "list"), ...)}
+  \item \code{\link[=opts_element_text]{opts_element_text}(constructor = c("element_text", "next", "list"), ...)}
   \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
   \item \code{\link[=opts_FacetWrap]{opts_FacetWrap}(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)}

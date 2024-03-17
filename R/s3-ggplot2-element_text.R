@@ -2,14 +2,19 @@ constructors$element_text <- new.env()
 
 #' @export
 #' @rdname other-opts
-opts_element_text <- new_constructive_opts_function("element_text", "element_text")
+opts_element_text <- new_constructive_opts_function("element_text", c("element_text", "next", "list"))
 
 #' @export
-.cstr_construct.element_text <- new_constructive_method("element_text", "element_text")
+.cstr_construct.element_text <- new_constructive_method("element_text", c("element_text", "next", "list"))
 
 is_corrupted_element_text <- function(x) {
   # TODO
   FALSE
+}
+
+#' @export
+constructors$element_text$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
 
 #' @export

@@ -2,14 +2,19 @@ constructors$element_grob <- new.env()
 
 #' @export
 #' @rdname other-opts
-opts_element_grob <- new_constructive_opts_function("element_grob", "element_grob")
+opts_element_grob <- new_constructive_opts_function("element_grob", c("element_grob", "next", "list"))
 
 #' @export
-.cstr_construct.element_grob <- new_constructive_method("element_grob", "element_grob")
+.cstr_construct.element_grob <- new_constructive_method("element_grob", c("element_grob", "next", "list"))
 
 is_corrupted_element_grob <- function(x) {
   # TODO
   FALSE
+}
+
+#' @export
+constructors$element_grob$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
 
 #' @export
