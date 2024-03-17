@@ -2,17 +2,17 @@ constructors$ts <- new.env()
 
 #' Constructive options for time-series objets
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"ts"` : We use `ts()`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried. This will usually
 #'   be equivalent to `"atomic"`
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_ts>
 #' @export
 opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
   .cstr_combine_errors(

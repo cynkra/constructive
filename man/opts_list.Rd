@@ -12,7 +12,7 @@ opts_list(
 )
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
@@ -29,7 +29,7 @@ An object of class <constructive_options/constructive_options_list>
 These options will be used on objects of type 'list'.
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"list"} (default): Build the object by calling \code{list()}.
 \item \code{"list2"}: Build the object by calling \code{rlang::list2()}, the only difference with

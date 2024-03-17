@@ -4,16 +4,16 @@ constructors$dm <- new.env()
 #'
 #' These options will be used on objects of class 'dm'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"dm"` (default): We use `dm::dm()` and other functions from \pkg{dm} to adjust the content.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #' * `"list"` : Use `list()` and treat the class as a regular attribute.
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_dm>
 #' @export
 opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
   .cstr_combine_errors(

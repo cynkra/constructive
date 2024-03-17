@@ -4,12 +4,12 @@ constructors$grouped_df <- new.env()
 #'
 #' These options will be used on objects of class 'grouped_df'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #' * `"list"` : We define as an list object and repair attributes.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_factor>

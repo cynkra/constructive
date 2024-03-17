@@ -10,7 +10,7 @@ constructors$ggplot <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"list"` : Use `list()` and treat the class as a regular attribute.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_ggplot>
 #' @export

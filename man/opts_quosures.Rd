@@ -7,18 +7,18 @@
 opts_quosures(constructor = c("new_quosures", "next", "list"), ...)
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 }
 \value{
-An object of class <constructive_options/constructive_options_factor>
+An object of class <constructive_options/constructive_options_quosures>
 }
 \description{
 These options will be used on objects of class 'quosures'.
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"as_quosures"} (default): Build the object using a \code{as_quosures()} call on a
 character vector.

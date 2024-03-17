@@ -11,9 +11,9 @@ constructors$array <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
-#' @return An object of class <constructive_options/constructive_options_array>
+#' @return An object of class <constructive_options/constructive_options_AsIs>
 #' @export
 opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
   .cstr_combine_errors(

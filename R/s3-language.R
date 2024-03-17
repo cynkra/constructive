@@ -7,14 +7,14 @@ constructors$language <- new.env()
 #' function is useless as nothing can be set, this is provided in case users want
 #' to extend the method with other constructors.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"default"` : We use constructive's deparsing algorithm on attributeless calls,
 #'   and use `as.call()` on other language elements when attributes need to be constructed.
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_language>
 #' @export
 opts_language  <- function(constructor = c("default"), ...) {
   .cstr_combine_errors(

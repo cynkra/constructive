@@ -11,9 +11,9 @@ constructors$constructive_options <- new.env()
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
-#' @return An object of class <constructive_options/constructive_options_array>
+#' @return An object of class <constructive_options/constructive_options_constructive_options>
 #' @export
 opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
   .cstr_combine_errors(

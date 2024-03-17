@@ -4,7 +4,7 @@ constructors$ordered <- new.env()
 #'
 #' These options will be used on objects of class 'ordered'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"ordered"` (default): Build the object using `ordered()`, levels won't
 #'   be defined explicitly if they are in alphabetical order (locale dependent!)
 #' * `"factor"` : Same as above but build the object using `factor()` and `ordered = TRUE`.
@@ -14,10 +14,10 @@ constructors$ordered <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_factor>
+#' @return An object of class <constructive_options/constructive_options_ordered>
 #' @export
 opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...) {
   .cstr_combine_errors(

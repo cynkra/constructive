@@ -4,7 +4,7 @@ constructors$list <- new.env()
 #'
 #' These options will be used on objects of type 'list'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"list"` (default): Build the object by calling `list()`.
 #' * `"list2"`: Build the object by calling `rlang::list2()`, the only difference with
 #'   the above is that we keep a trailing comma when the list is not trimmed and the call
@@ -20,7 +20,7 @@ constructors$list <- new.env()
 #' When `trim` is used the output is parsable but might not be possible to evaluate,
 #' especially with `fill = "..."`. In that case you might want to set `check = FALSE`
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @param trim `NULL` or integerish. Maximum of elements showed before it's trimmed.
 #' Note that it will necessarily produce code that doesn't reproduce the input.

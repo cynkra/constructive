@@ -7,18 +7,18 @@
 opts_dm(constructor = c("dm", "next", "list"), ...)
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment.}
+\item{constructor}{String. Name of the function used to construct the object.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 }
 \value{
-An object of class <constructive_options/constructive_options_environment>
+An object of class <constructive_options/constructive_options_dm>
 }
 \description{
 These options will be used on objects of class 'dm'.
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"dm"} (default): We use \code{dm::dm()} and other functions from \pkg{dm} to adjust the content.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}

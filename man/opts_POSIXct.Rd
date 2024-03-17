@@ -12,20 +12,20 @@ opts_POSIXct(
 )
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
 \item{origin}{Origin to be used, ignored when irrelevant.}
 }
 \value{
-An object of class <constructive_options/constructive_options_factor>
+An object of class <constructive_options/constructive_options_POSIXct>
 }
 \description{
 These options will be used on objects of class 'POSIXct'.
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"as.POSIXct"} (default): Build the object using a \code{as.POSIXct()} call on a
 character vector.

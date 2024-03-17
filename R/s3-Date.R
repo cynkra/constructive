@@ -4,7 +4,7 @@ constructors$Date <- new.env()
 #'
 #' These options will be used on objects of class 'date'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"as.Date"` (default): We wrap a character vector with `as.Date()`, if the date
 #'   is infinite it cannot be converted to character and we wrap a numeric vector and
 #'   provide an `origin` argument.
@@ -21,11 +21,11 @@ constructors$Date <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #' @param origin Origin to be used, ignored when irrelevant.
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_Date>
 #' @export
 opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
   .cstr_combine_errors(

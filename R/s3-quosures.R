@@ -4,17 +4,17 @@ constructors$quosures <- new.env()
 #'
 #' These options will be used on objects of class 'quosures'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"as_quosures"` (default): Build the object using a `as_quosures()` call on a
 #' character vector.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #' * `"list"` : We define as an list object and repair attributes.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_factor>
+#' @return An object of class <constructive_options/constructive_options_quosures>
 #' @export
 opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ...) {
   .cstr_combine_errors(

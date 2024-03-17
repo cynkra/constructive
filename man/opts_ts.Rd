@@ -7,15 +7,15 @@
 opts_ts(constructor = c("ts", "next", "atomic"), ...)
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment.}
+\item{constructor}{String. Name of the function used to construct the object.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 }
 \value{
-An object of class <constructive_options/constructive_options_environment>
+An object of class <constructive_options/constructive_options_ts>
 }
 \description{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"ts"} : We use \code{ts()}
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}

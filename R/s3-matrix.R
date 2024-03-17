@@ -5,7 +5,7 @@ constructors$matrix <- new.env()
 #' Matrices are atomic vectors, lists, or objects of type `"expression"` with a `"dim"`
 #' attributes of length 2.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"matrix"` : We use `matrix()`
 #' * `"array"` : We use `array()`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
@@ -13,10 +13,10 @@ constructors$matrix <- new.env()
 #'   be equivalent to `"array"`
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
-#' @param constructor String. Name of the function used to construct the environment.
+#' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_environment>
+#' @return An object of class <constructive_options/constructive_options_matrix>
 #' @export
 opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), ...) {
   .cstr_combine_errors(

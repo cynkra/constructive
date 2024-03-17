@@ -10,18 +10,18 @@ opts_ordered(
 )
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see Details section.}
+\item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 }
 \value{
-An object of class <constructive_options/constructive_options_factor>
+An object of class <constructive_options/constructive_options_ordered>
 }
 \description{
 These options will be used on objects of class 'ordered'.
 }
 \details{
-Depending on \code{constructor}, we construct the environment as follows:
+Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"ordered"} (default): Build the object using \code{ordered()}, levels won't
 be defined explicitly if they are in alphabetical order (locale dependent!)

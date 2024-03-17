@@ -14,7 +14,7 @@ constructors$Layer <- new.env()
 #'  The latter constructor is the only one that reproduces the object exactly
 #'  since Layers are environments and environments can't be exactly copied (see `?opts_environment`)
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_Layer>
 #' @export

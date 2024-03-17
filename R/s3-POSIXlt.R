@@ -4,17 +4,17 @@ constructors$POSIXlt <- new.env()
 #'
 #' These options will be used on objects of class 'POSIXlt'.
 #'
-#' Depending on `constructor`, we construct the environment as follows:
+#' Depending on `constructor`, we construct the object as follows:
 #' * `"as.POSIXlt"` (default): Build the object using a `as.POSIXlt()` call on a
 #' character vector.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #' * `"list"` : We define as a list and repair attributes.
 #'
-#' @param constructor String. Name of the function used to construct the environment, see Details section.
+#' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
-#' @return An object of class <constructive_options/constructive_options_factor>
+#' @return An object of class <constructive_options/constructive_options_POSIXlt>
 #' @export
 opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "list"), ...) {
   .cstr_combine_errors(
