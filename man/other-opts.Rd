@@ -96,7 +96,7 @@ opts_rel(constructor = c("rel", "next", "atomic"), ...)
 
 opts_simpleUnit(constructor = c("unit", "next", "atomic"), ...)
 
-opts_theme(constructor = "theme", ...)
+opts_theme(constructor = c("theme", "next", "list"), ...)
 
 opts_uneval(constructor = c("aes", "next", "list"), ...)
 

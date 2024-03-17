@@ -12,7 +12,7 @@ constructors$vctrs_list_of <- new.env()
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_vctrs_list_of>
 #' @export
-opts_vctrs_list_of <- function(constructor = c("list_of", "list"), ...) {
+opts_vctrs_list_of <- function(constructor = c("list_of", "next", "list"), ...) {
   .cstr_combine_errors(
     constructor <- .cstr_match_constructor(constructor, "vctrs_list_of"),
     check_dots_empty()

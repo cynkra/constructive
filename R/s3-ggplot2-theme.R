@@ -2,14 +2,19 @@ constructors$theme <- new.env()
 
 #' @export
 #' @rdname other-opts
-opts_theme <- new_constructive_opts_function("theme", "theme")
+opts_theme <- new_constructive_opts_function("theme", c("theme", "next", "list"))
 
 #' @export
-.cstr_construct.theme <- new_constructive_method("theme", "theme")
+.cstr_construct.theme <- new_constructive_method("theme", c("theme", "next", "list"))
 
 is_corrupted_theme <- function(x) {
   # TODO
   FALSE
+}
+
+#' @export
+constructors$theme$list <- function(x, ...) {
+  .cstr_construct.list(x, ...)
 }
 
 #' @export

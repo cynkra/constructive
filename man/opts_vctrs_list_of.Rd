@@ -4,7 +4,7 @@
 \alias{opts_vctrs_list_of}
 \title{Constructive options for class 'data.table'}
 \usage{
-opts_vctrs_list_of(constructor = c("list_of", "list"), ...)
+opts_vctrs_list_of(constructor = c("list_of", "next", "list"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
