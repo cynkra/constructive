@@ -16,6 +16,6 @@ An object of class <constructive_options/constructive_options_S4>
 }
 \description{
 These options will be used on objects of class 'S4'. Note that the support
-for S4 is very experimental so might easily beak. Please report issues if it
+for S4 is very experimental so might easily break. Please report issues if it
 does.
 }
