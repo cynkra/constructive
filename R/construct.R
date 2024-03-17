@@ -128,7 +128,11 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
         code <- .cstr_apply(
           list(
             .cstr_construct(nm),
-            value = deparse_call(code, style = FALSE),
+            value = deparse_call(
+              code,
+              style = FALSE,
+              unicode_representation = unicode_representation,
+              escape = escape),
             eval.env = .cstr_construct(env)
           ),
           "delayedAssign",
@@ -140,7 +144,11 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
         constructives[[nm]] <- construct(
           x[[nm]],
           ...,
-          data = data, pipe = pipe, check = check,
+          data = data,
+          pipe = pipe,
+          check = check,
+          unicode_representation = unicode_representation,
+          escape = escape,
           compare = compare,
           one_liner = one_liner,
           template = template

@@ -42,20 +42,44 @@ opts_Layer <- function(constructor = c("default", "layer", "environment"), ...) 
   construct_layer_layer(x, ...)
 }
 
-construct_layer_default <- function(constructor, env, ...) {
+construct_layer_default <- function(
+    constructor,
+    env,
+    ...,
+    unicode_representation,
+    escape) {
   caller_lng <- constructor[[1]]
   caller_val <- eval(caller_lng, env)
   ns <-  topenv(environment(caller_val)) # the most likely namespace
   if (isNamespace(ns) && rlang::is_call(constructor, ns = getNamespaceName(ns))) {
-    caller_chr <- deparse_call(caller_lng, style = FALSE, collapse = FALSE)
+    caller_chr <- deparse_call(
+      caller_lng,
+      style = FALSE,
+      collapse = FALSE,
+      unicode_representation = unicode_representation,
+      escape = escape
+    )
   } else if (is.symbol(caller_lng) && isNamespace(ns) && as.character(caller_lng) %in% getNamespaceExports(ns)) {
     caller_chr <- paste0(getNamespaceName(ns), "::", as.character(caller_lng))
   } else {
-    caller_chr <- .cstr_construct(caller_val, env = env, ...)
+    caller_chr <- .cstr_construct(
+      caller_val,
+      env = env,
+      ...,
+      unicode_representation = unicode_representation,
+      escape = escape
+      )
   }
   args <- lapply(as.list(constructor)[-1], eval, env)
   args <- keep_only_non_defaults(args, caller_val)
-  .cstr_apply(args, caller_chr, env = env, ...)
+  .cstr_apply(
+    args,
+    caller_chr,
+    env = env,
+    ...,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
 }
 
 construct_layer_layer <- function(x, ...) {
