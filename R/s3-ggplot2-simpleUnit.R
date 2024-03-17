@@ -2,10 +2,10 @@ constructors$simpleUnit <- new.env()
 
 #' @export
 #' @rdname other-opts
-opts_simpleUnit <- new_constructive_opts_function("simpleUnit", "simpleUnit")
+opts_simpleUnit <- new_constructive_opts_function("simpleUnit", "unit")
 
 #' @export
-.cstr_construct.simpleUnit <- new_constructive_method("simpleUnit", "simpleUnit")
+.cstr_construct.simpleUnit <- new_constructive_method("simpleUnit", "unit")
 
 is_corrupted_simpleUnit <- function(x) {
   # TODO
@@ -13,7 +13,7 @@ is_corrupted_simpleUnit <- function(x) {
 }
 
 #' @export
-constructors$simpleUnit$simpleUnit <- function(x, ...) {
+constructors$simpleUnit$unit <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,
