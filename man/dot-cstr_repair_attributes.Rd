@@ -12,7 +12,8 @@
   ignore = NULL,
   idiomatic_class = NULL,
   remove = NULL,
-  one_liner = FALSE
+  one_liner = FALSE,
+  flag_s4 = TRUE
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ if \code{x} is of class \code{idiomatic_class} there is no need to repair the cl
 \item{remove}{Attributes that should be removed, should rarely be useful.}
 
 \item{one_liner}{Boolean. Whether to collapse the output to a single line of code.}
+
+\item{flag_s4}{use \code{asS4()} on the code of S4 objects, set to \code{FALSE} when
+a constructor that produces S4 objects was used.}
 }
 \value{
 A character vector
