@@ -71,7 +71,8 @@ others.</p>
 <span>  ignore <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  idiomatic_class <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  remove <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  flag_s4 <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,6 +111,11 @@ if <code>x</code> is of class <code>idiomatic_class</code> there is no need to r
 
 <dt>one_liner</dt>
 <dd><p>Boolean. Whether to collapse the output to a single line of code.</p></dd>
+
+
+<dt>flag_s4</dt>
+<dd><p>use <code><a href="https://rdrr.io/r/base/isS4.html" class="external-link">asS4()</a></code> on the code of S4 objects, set to <code>FALSE</code> when
+a constructor that produces S4 objects was used.</p></dd>
 
 </dl></div>
     <div class="section level2">
