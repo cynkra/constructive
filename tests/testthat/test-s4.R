@@ -14,5 +14,9 @@ test_that("s4", {
 
     construct(prototype(1, a = 2))
     construct(getClass("numeric"))
+
+    track0 <- track
+    attr(track0, "class") <- NULL
+    construct(track0)
   })
 })
