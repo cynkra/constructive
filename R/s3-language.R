@@ -45,11 +45,9 @@ constructors$language$default <- function(
   attributes(x_stripped) <- NULL
 
   if (is_expression2(x_stripped)) {
-    code <- deparse_call(
+    code <- deparse_call0(
       x_stripped,
       one_liner = list(...)$one_liner,
-      style = FALSE,
-      collapse = FALSE,
       unicode_representation = unicode_representation,
       escape = escape
     )

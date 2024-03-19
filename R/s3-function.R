@@ -113,12 +113,9 @@ constructors$`function`$`function` <- function(
       fun_call[[2]] <- as.pairlist(x_lst[-x_length])
     }
     fun_call[3] <- x_lst[x_length]
-    code <- deparse_call(
+    code <- deparse_call0(
       fun_call,
-      pipe = FALSE,
       one_liner = list(...)$one_liner,
-      style = FALSE,
-      collapse = FALSE,
       unicode_representation = unicode_representation,
       escape = escape
     )
@@ -169,9 +166,7 @@ constructors$`function`$as.function <- function(
   if (body_is_a_proper_expression) {
     fun_lst <- lapply(
       x_lst,
-      deparse_call,
-      style = FALSE,
-      collapse = FALSE,
+      deparse_call0,
       unicode_representation = unicode_representation,
       escape = escape
     )
@@ -233,7 +228,7 @@ constructors$`function`$new_function <- function(
 
   args <- lapply(
     x_lst[-length(x_lst)],
-    deparse_call,
+    deparse_call0,
     unicode_representation = unicode_representation,
     escape = escape
   )

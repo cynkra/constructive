@@ -45,10 +45,8 @@ constructors$dots$default <- function(x, ..., unicode_representation, escape) {
     unique_env <- unique_env[[1]]
     exprs <- lapply(quo_dots, rlang::quo_get_expr)
     code_lng <- rlang::expr((function(...) environment()$...)(!!!exprs))
-    code <- deparse_call(
+    code <- deparse_call0(
       code_lng,
-      style = FALSE,
-      collapse = FALSE,
       unicode_representation = unicode_representation,
       escape = escape
     )

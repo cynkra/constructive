@@ -54,10 +54,8 @@ constructors$Layer$default <- function(
   caller_val <- eval(caller_lng, env)
   ns <-  topenv(environment(caller_val)) # the most likely namespace
   if (isNamespace(ns) && rlang::is_call(constructor, ns = getNamespaceName(ns))) {
-    caller_chr <- deparse_call(
+    caller_chr <- deparse_call0(
       caller_lng,
-      style = FALSE,
-      collapse = FALSE,
       unicode_representation = unicode_representation,
       escape = escape
     )
