@@ -64,7 +64,9 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
     force(x),
     check_dots_unnamed(),
     abort_wrong_data(data),
-    abort_not_boolean(one_liner)
+    abort_not_boolean(one_liner),
+    abort_not_boolean(escape),
+    { unicode_representation <- rlang::arg_match(unicode_representation) }
   )
 
   # process data into a flat named list of objects
