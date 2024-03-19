@@ -39,8 +39,7 @@ constructors$language$default <- function(
     x,
     ...,
     unicode_representation,
-    escape,
-    one_liner = FALSE) {
+    escape) {
   if (identical(x, quote(expr=))) return("quote(expr = )")
   x_stripped <- x
   attributes(x_stripped) <- NULL
@@ -48,7 +47,7 @@ constructors$language$default <- function(
   if (is_expression2(x_stripped)) {
     code <- deparse_call(
       x_stripped,
-      one_liner = one_liner,
+      one_liner = list(...)$one_liner,
       style = FALSE,
       collapse = FALSE,
       unicode_representation = unicode_representation,
@@ -60,7 +59,8 @@ constructors$language$default <- function(
       as.list(x_stripped),
       "list",
       unicode_representation = unicode_representation,
-      escape = escape
+      escape = escape,
+      ...
     )
     code <- .cstr_wrap(list_call, "as.call", new_line = FALSE)
   }

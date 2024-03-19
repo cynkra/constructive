@@ -44,8 +44,7 @@ opts_function <- function(
 
 
 #' @export
-.cstr_construct.function <- function(
-    x, ..., pipe, one_liner = FALSE) {
+.cstr_construct.function <- function(x, ...) {
   if (rlang::is_primitive(x)) return(deparse(x))
   opts <- .cstr_fetch_opts("function", ...)
   if (is_corrupted_function(x)) return(NextMethod())
@@ -73,8 +72,6 @@ is_corrupted_function <- function(x) {
 constructors$`function`$`function` <- function(
     x,
     ...,
-    pipe = NULL,
-    one_liner = FALSE,
     trim,
     environment,
     srcref,
@@ -93,8 +90,6 @@ constructors$`function`$`function` <- function(
     res <- constructors$`function`$as.function(
       x,
       ...,
-      pipe = pipe,
-      one_liner = one_liner,
       trim = trim,
       environment = environment,
       srcref = srcref,
@@ -105,7 +100,7 @@ constructors$`function`$`function` <- function(
   }
 
   code_from_srcref <- FALSE
-  if (!one_liner && is.null(trim)) {
+  if (!list(...)$one_liner && is.null(trim)) {
     code <- code_from_srcref(x)
     if (!is.null(code)) {
       code_from_srcref <- TRUE
@@ -121,7 +116,7 @@ constructors$`function`$`function` <- function(
     code <- deparse_call(
       fun_call,
       pipe = FALSE,
-      one_liner = one_liner,
+      one_liner = list(...)$one_liner,
       style = FALSE,
       collapse = FALSE,
       unicode_representation = unicode_representation,
@@ -140,21 +135,17 @@ constructors$`function`$`function` <- function(
     envir_code <- .cstr_apply(
       list(environment(x)),
       "(`environment<-`)",
-      pipe = pipe,
-      one_liner = one_liner,
       unicode_representation = unicode_representation,
       escape = escape,
       ...)
-    code <- .cstr_pipe(code, envir_code, pipe, one_liner)
+    code <- .cstr_pipe(code, envir_code, ...)
   }
   repair_attributes_function(
     x,
     code,
     ...,
     unicode_representation = unicode_representation,
-    escape = escape,
-    pipe = pipe,
-    one_liner = one_liner
+    escape = escape
   )
 }
 
