@@ -55,13 +55,15 @@ name_and_append_comma <- function(
 #' @param one_liner A boolean. Whether to paste `x`, the pipe and `y` together
 #' @param indent A boolean. Whether to indent `y`
 #' on a same line (provided that `x` and `y` are strings and one liners themselves)
+#' @param ... Implemented to collect unused arguments forwarded by the dots of the
+#'   caller environment.
 #'
 #' @return A character vector
 #' @export
 #' @examples
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = FALSE)
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = TRUE)
-.cstr_pipe <- function(x, y, pipe, one_liner, indent = TRUE) {
+.cstr_pipe <- function(x, y, ..., pipe = NULL, one_liner = FALSE, indent = TRUE) {
   if (is.null(pipe)) {
     if (getRversion() >= "4.2") {
       pipe <- "base"
