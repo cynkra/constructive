@@ -35,46 +35,24 @@ is_corrupted_language <- function(x) {
   ! typeof(x) %in% c("language", "symbol", "expression")
 }
 
-constructors$language$default <- function(
-    x,
-    ...,
-    unicode_representation,
-    escape) {
+constructors$language$default <- function(x, ...) {
   if (identical(x, quote(expr=))) return("quote(expr = )")
   x_stripped <- x
   attributes(x_stripped) <- NULL
 
   if (is_expression2(x_stripped)) {
-    code <- deparse_call0(
-      x_stripped,
-      one_liner = list(...)$one_liner,
-      unicode_representation = unicode_representation,
-      escape = escape
-    )
+    code <- deparse_call0(x_stripped, ...)
     code <- .cstr_wrap(code, "quote", new_line = FALSE)
   } else {
-    list_call <- .cstr_apply(
-      as.list(x_stripped),
-      "list",
-      unicode_representation = unicode_representation,
-      escape = escape,
-      ...
-    )
+    list_call <- .cstr_apply(as.list(x_stripped), "list", ...)
     code <- .cstr_wrap(list_call, "as.call", new_line = FALSE)
   }
-  repair_attributes_language(
-    x,
-    code,
-    ...,
-    unicode_representation = unicode_representation,
-    escape = escape
-  )
+  repair_attributes_language(x, code, ...)
 }
 
-repair_attributes_language <- function(x, code, ..., pipe = NULL) {
+repair_attributes_language <- function(x, code, ...) {
   .cstr_repair_attributes(
     x, code, ...,
-    pipe = pipe,
     ignore = c("srcref", "srcfile", "wholeSrcref")
   )
 }
