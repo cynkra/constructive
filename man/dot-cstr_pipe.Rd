@@ -4,12 +4,15 @@
 \alias{.cstr_pipe}
 \title{Insert a pipe between two calls}
 \usage{
-.cstr_pipe(x, y, pipe, one_liner, indent = TRUE)
+.cstr_pipe(x, y, ..., pipe = NULL, one_liner = FALSE, indent = TRUE)
 }
 \arguments{
 \item{x}{A character vector. The code for the left hand side call.}
 
 \item{y}{A character vector. The code for the right hand side call.}
+
+\item{...}{Implemented to collect unused arguments forwarded by the dots of the
+caller environment.}
 
 \item{pipe}{A string. The pipe to use, \code{"plus"} is useful for ggplot code.}
 

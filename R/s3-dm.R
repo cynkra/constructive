@@ -35,26 +35,32 @@ is_corrupted_dm <- function(x) {
   FALSE
 }
 
-constructors$dm$dm <- function(x, ..., one_liner, pipe) {
+constructors$dm$dm <- function(x, ...) {
   def <- unclass(x)$def
   named_list_of_tables <- set_names(def$data, def$table)
   code <- .cstr_apply(
-    named_list_of_tables, fun = "dm::dm", trailing_comma = TRUE, implicit_names = TRUE, one_liner = one_liner, pipe = pipe, ...)
+    named_list_of_tables,
+    fun = "dm::dm",
+    trailing_comma = TRUE,
+    implicit_names = TRUE,
+    ...
+    )
 
-  pipe_collapse <- paste0(" ", get_pipe_symbol(pipe), "\n  ")
 
   pk_code <- unlist(Map(
     function(table, pk_tibble) {
       if (!nrow(pk_tibble)) return(character())
-      column_code <- .cstr_construct(pk_tibble$column[[1]], pipe = pipe, one_liner = one_liner, ...)
+      column_code <- .cstr_construct(pk_tibble$column[[1]], ...)
       paste0("dm::dm_add_pk(", protect(table), ", ", paste(column_code, collapse = "\n"), ")")
     } ,
     def$table,
     def$pks,
     USE.NAMES = FALSE))
   if (length(pk_code)) {
+    # FIXME: not compatible with one liners
+    pipe_collapse <- paste0(" ", get_pipe_symbol(list(...)$pipe), "\n  ")
     pk_code <- paste(pk_code, collapse = pipe_collapse)
-    code <- .cstr_pipe(code, pk_code, pipe, one_liner)
+    code <- .cstr_pipe(code, pk_code, ...)
   }
 
   fk_code <- unlist(Map(
@@ -64,9 +70,9 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
         paste0(
           "dm::dm_add_fk(",
           protect(table), ", ",
-          paste(.cstr_construct(column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ", ",
+          paste(.cstr_construct(column, ...), collapse = "\n"), ", ",
           protect(ref_table), ", ",
-          paste(.cstr_construct(ref_column, pipe = pipe, one_liner = one_liner, ...), collapse = "\n"), ")"
+          paste(.cstr_construct(ref_column, ...), collapse = "\n"), ")"
         )
       },
       fk_tibble$table,
@@ -79,26 +85,25 @@ constructors$dm$dm <- function(x, ..., one_liner, pipe) {
     USE.NAMES = FALSE))
   if (length(fk_code)) {
     fk_code <- paste(fk_code, collapse = pipe_collapse)
-    code <- .cstr_pipe(code, fk_code, pipe, one_liner)
+    code <- .cstr_pipe(code, fk_code, ...)
   }
 
   colors <- set_names(def$table, def$display)[!is.na(def$display)]
   if (length(colors)) {
-    color_code <- .cstr_apply(colors, "dm::dm_set_colors", pipe = pipe, one_liner = one_liner, ...)
-    code <- .cstr_pipe(code, color_code, pipe, one_liner)
+    color_code <- .cstr_apply(colors, "dm::dm_set_colors", ...)
+    code <- .cstr_pipe(code, color_code, ...)
   }
   code <- split_by_line(code)
-  repair_attributes_dm(x, code, ..., one_liner = one_liner, pipe = pipe)
+  repair_attributes_dm(x, code, ...)
 }
 
 constructors$dm$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-repair_attributes_dm <- function(x, code, ..., pipe = NULL) {
+repair_attributes_dm <- function(x, code, ...) {
   .cstr_repair_attributes(
     x, code, ...,
-    pipe = pipe,
     idiomatic_class = "dm",
     ignore = "version"
   )

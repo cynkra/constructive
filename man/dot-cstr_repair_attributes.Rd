@@ -8,11 +8,9 @@
   x,
   code,
   ...,
-  pipe = NULL,
   ignore = NULL,
   idiomatic_class = NULL,
   remove = NULL,
-  one_liner = FALSE,
   flag_s4 = TRUE
 )
 }
@@ -23,9 +21,6 @@
 
 \item{...}{Forwarded to \code{.construct_apply()} when relevant}
 
-\item{pipe}{Which pipe to use, either \code{"base"} or \code{"magrittr"}.
-Defaults to \code{"base"} for R >= 4.2, otherwise to \code{"magrittr"}.}
-
 \item{ignore}{The attributes that shouldn't be repaired, i.e. we expect them
 to be set by the constructor already in \code{code}}
 
@@ -33,8 +28,6 @@ to be set by the constructor already in \code{code}}
 if \code{x} is of class \code{idiomatic_class} there is no need to repair the class.}
 
 \item{remove}{Attributes that should be removed, should rarely be useful.}
-
-\item{one_liner}{Boolean. Whether to collapse the output to a single line of code.}
 
 \item{flag_s4}{use \code{asS4()} on the code of S4 objects, set to \code{FALSE} when
 a constructor that produces S4 objects was used.}

@@ -32,7 +32,7 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
 #'
 #' @return A character vector
 #' @export
-.cstr_repair_attributes <- function(x, code, ..., pipe = NULL, ignore = NULL, idiomatic_class = NULL, remove = NULL, one_liner = FALSE, flag_s4 = TRUE) {
+.cstr_repair_attributes <- function(x, code, ..., ignore = NULL, idiomatic_class = NULL, remove = NULL, flag_s4 = TRUE) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL
@@ -59,20 +59,19 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
     special_attrs <- attrs[special_attr_nms]
     attrs[special_attr_nms] <- NULL
     # append structure() code to repair object
-    attrs_code <- .cstr_apply(attrs, fun = "structure", ..., pipe = pipe, one_liner = one_liner)
-    code <- .cstr_pipe(code, attrs_code, pipe, one_liner)
+    attrs_code <- .cstr_apply(attrs, fun = "structure", ...)
+    code <- .cstr_pipe(code, attrs_code, ...)
     for (attr_nm in special_attr_nms) {
       attr_code <- .cstr_apply(
         list(attr_nm, special_attrs[[attr_nm]]),
         "(`attr<-`)",
-        ...,
-        pipe = pipe,
-        one_liner = one_liner)
-      code <- .cstr_pipe(code, attr_code, pipe, one_liner)
+        ...
+      )
+      code <- .cstr_pipe(code, attr_code, ...)
     }
   }
   if (isS4(x) && flag_s4) {
-    code <- .cstr_pipe(code, "asS4()", pipe, one_liner)
+    code <- .cstr_pipe(code, "asS4()", pipe, ...)
   }
   code
 }

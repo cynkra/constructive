@@ -60,6 +60,22 @@ deparse_call <- function(
   code
 }
 
+# a dot absorbing stripped down version of deparse_call() to be used internally
+deparse_call0 <- function(
+    call,
+    one_liner = FALSE,
+    unicode_representation = c("ascii", "latin", "character", "unicode"),
+    escape = FALSE,
+    ...) {
+  code <- deparse_call_impl(
+    call,
+    one_liner = one_liner,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
+  split_by_line(code)
+}
+
 deparse_call_impl <- function(
     call,
     one_liner = FALSE,

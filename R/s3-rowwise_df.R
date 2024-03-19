@@ -35,24 +35,14 @@ is_corrupted_rowwise_df <- function(x) {
   FALSE
 }
 
-constructors$rowwise_df$default <- function(x, ..., one_liner, pipe) {
+constructors$rowwise_df$default <- function(x, ...) {
   x_stripped <- x
   class(x_stripped) <- setdiff(class(x_stripped), "rowwise_df")
   attr(x_stripped, "groups") <- NULL
   code <- .cstr_construct(x_stripped, ...)
   vars <- head(names(attr(x, "groups")), -1)
-  rowwise_code <- .cstr_apply(
-    vars,
-    "dplyr::rowwise",
-    ...,
-    recurse = FALSE
-  )
-  code <- .cstr_pipe(
-    code,
-    rowwise_code,
-    one_liner = one_liner,
-    pipe = pipe
-  )
+  rowwise_code <- .cstr_apply(vars, "dplyr::rowwise", ..., recurse = FALSE)
+  code <- .cstr_pipe(code, rowwise_code, ...)
   repair_attributes_rowwise_df(x, code, ...)
 }
 
@@ -61,12 +51,10 @@ constructors$rowwise_df$list <- function(x, ...) {
 }
 
 # no need for a constructor for grouped_df since it falls back on tbl_df
-repair_attributes_rowwise_df <- function(x, code, ..., pipe = NULL, one_liner = FALSE) {
+repair_attributes_rowwise_df <- function(x, code, ...) {
   .cstr_repair_attributes(
     x, code, ...,
-    pipe = pipe,
     ignore = c("row.names", "groups"),
-    idiomatic_class = c("rowwise_df", "tbl_df", "tbl", "data.frame"),
-    one_liner = one_liner
+    idiomatic_class = c("rowwise_df", "tbl_df", "tbl", "data.frame")
   )
 }
