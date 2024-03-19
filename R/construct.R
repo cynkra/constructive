@@ -170,7 +170,11 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
 
       y_uni <- format_unicode(y, unicode_representation)
       # FIXME: see name_and_append_comma()
-      y <- if (y == y_uni) protect(y) else deparse_chr(y, unicode_representation, escape)
+      y <- if (y == y_uni) protect(y) else deparse_chr(
+        y,
+        unicode_representation = unicode_representation,
+        escape = escape
+        )
       x[[1]] <- paste(y, "<-", x[[1]])
       c(x, "")
     })

@@ -255,7 +255,11 @@ format_flex <- function(x, all_na) {
 
 construct_chr <- function(x, unicode_representation, escape, ...) {
   if (!length(x)) return("character(0)")
-  strings <- deparse_chr(x, unicode_representation, escape)
+  strings <- deparse_chr(
+    x,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
   if (length(strings) == 1 && is.null(names(x))) return(strings)
   nas <- strings == "NA_character_"
   if (any(nas) && !all(nas)) strings[nas] <- "NA"

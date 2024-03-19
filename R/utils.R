@@ -38,7 +38,11 @@ name_and_append_comma <- function(
     # FIXME: not DRY, would require refactoring deparse_chr() as a composition
     #.  of format_unicode() and another function that we'd use here
     # FIXME: should the escape arg be a top level arg too ?
-    nm <- if (nm == nm_uni) protect(nm) else deparse_chr(nm, unicode_representation, escape)
+    nm <- if (nm == nm_uni) protect(nm) else deparse_chr(
+      nm,
+      unicode_representation = unicode_representation,
+      escape = escape
+    )
     x[1] <- paste(nm, "=", x[1])
   }
   x[length(x)] <- paste0(x[length(x)], ",")
