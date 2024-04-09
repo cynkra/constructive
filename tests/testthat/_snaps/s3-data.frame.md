@@ -68,12 +68,12 @@
       construct(as.data.frame(tibble::tibble(a = 1:2, b = list(3, 4))))
     Output
       list(a = 1:2, b = list(3, 4)) |>
-        structure(row.names = 1:2, class = "data.frame")
+        structure(row.names = c(NA, -2L), class = "data.frame")
     Code
       construct(as.data.frame(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4))))
     Output
       list(a = 1:2, b = tibble::tibble(x = 3:4)) |>
-        structure(row.names = 1:2, class = "data.frame")
+        structure(row.names = c(NA, -2L), class = "data.frame")
     Code
       construct(data.frame(a = 1, `a a` = 2, check.names = FALSE))
     Output
@@ -105,13 +105,13 @@
       construct(head(cars, 2), opts_data.frame("list"))
     Output
       list(speed = c(4, 4), dist = c(2, 10)) |>
-        structure(row.names = 1:2, class = "data.frame")
+        structure(row.names = c(NA, -2L), class = "data.frame")
     Code
       construct(structure(list(V1 = NULL, V2 = NULL, V3 = NULL, V4 = NULL),
       row.names = c(NA, 0L), class = "data.frame"))
     Output
       list(V1 = NULL, V2 = NULL, V3 = NULL, V4 = NULL) |>
-        structure(row.names = integer(0), class = "data.frame")
+        structure(row.names = c(NA, 0L), class = "data.frame")
     Code
       construct(data.frame(a = "two words"), constructive::opts_data.frame(
         "read.table"))

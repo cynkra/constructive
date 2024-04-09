@@ -13,7 +13,7 @@
       construct(dplyr::band_members, opts_tbl_df("next"), opts_data.frame("next"))
     Output
       list(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
-        structure(class = c("tbl_df", "tbl", "data.frame"), row.names = 1:3)
+        structure(class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, -3L))
     Code
       construct(dplyr::band_members, opts_tbl_df(constructor = "tribble"))
     Output
