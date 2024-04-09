@@ -10,6 +10,9 @@ the incorrectly named "atomic" constructor is replaced by a "list" constructor
 * The class "integer64" is supported, it was important because we can't recreate
   NAs or negative integer64 objects using base R only.
 * We now lock environments and bindings when relevant.
+* We can construct objects with a ".Data" attribute
+* The default "row.names" attribute is built with the `c(NA, -<nrow>)` form,
+  as in `dput()`, this solves some rare corner cases.
 
 # constructive 0.3.0
 

@@ -23,7 +23,7 @@
     Output
       list(speed = c(4, 4), dist = c(2, 10)) |>
         structure(
-          row.names = 1:2,
+          row.names = c(NA, -2L),
           class = c("data.table", "data.frame"),
           .internal.selfref = constructive::.xptr("0x123456789")
         )
