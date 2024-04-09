@@ -59,6 +59,8 @@
 <li>In <code><a href="../reference/opts_numeric_version.html">opts_numeric_version()</a></code>, <code><a href="../reference/opts_package_version.html">opts_package_version()</a></code> and <code><a href="../reference/opts_R_system_version.html">opts_R_system_version()</a></code> the incorrectly named “atomic” constructor is replaced by a “list” constructor</li>
 <li>The class “integer64” is supported, it was important because we can’t recreate NAs or negative integer64 objects using base R only.</li>
 <li>We now lock environments and bindings when relevant.</li>
+<li>We can construct objects with a “.Data” attribute</li>
+<li>The default “row.names” attribute is built with the <code>c(NA, -&lt;nrow&gt;)</code> form, as in <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code>, this solves some rare corner cases.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="constructive-030">constructive 0.3.0<a class="anchor" aria-label="anchor" href="#constructive-030"></a></h2><p class="text-muted">CRAN release: 2024-03-05</p>
