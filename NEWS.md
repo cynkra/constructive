@@ -9,6 +9,7 @@
 the incorrectly named "atomic" constructor is replaced by a "list" constructor
 * The class "integer64" is supported, it was important because we can't recreate
   NAs or negative integer64 objects using base R only.
+* We now lock environments and bindings when relevant.
 
 # constructive 0.3.0
 

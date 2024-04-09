@@ -143,6 +143,7 @@ constructors$environment$.env <- function(x, ..., recurse, predefine) {
     list(env_memory_address(x), parents = fetch_parent_names(x)),
     attributes(x)
   )
+  if (environmentIsLocked(x)) args <- c(args, locked = TRUE)
   if (!length(args$parents)) args$parents <- NULL
   code <- .cstr_apply(args, "constructive::.env", ...)
   repair_attributes_environment(x, code, ...)
@@ -152,9 +153,11 @@ constructors$environment$list2env <- function(x, ..., recurse, predefine) {
     if (!recurse) {
       if (length(names(x))) {
         code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "list2env", ...)
+        code <- apply_env_locks(x, code)
         return(repair_attributes_environment(x, code, ...))
       }
       code <- .cstr_apply(list(parent = topenv(x)), "new.env", ...)
+      code <- apply_env_locks(x, code)
       return(repair_attributes_environment(x, code, ...))
     }
 
@@ -168,7 +171,7 @@ constructors$environment$list2env <- function(x, ..., recurse, predefine) {
       rhs_code <- .cstr_apply(list(parent = placeholder), "new.env", ..., recurse = FALSE)
       code <- .cstr_pipe(lhs_code, rhs_code, ...)
     }
-
+  code <- apply_env_locks(x, code)
   repair_attributes_environment(x, code, ...)
 }
 
@@ -176,9 +179,11 @@ constructors$environment$new_environment <- function(x, ..., recurse, predefine)
   if (!recurse) {
     if (length(names(x))) {
       code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "rlang::new_environment", ...)
+      code <- apply_env_locks(x, code)
       return(repair_attributes_environment(x, code, ...))
     }
     code <- .cstr_apply(list(parent = topenv(x)), "rlang::new_environment", ...)
+    code <- apply_env_locks(x, code)
     return(repair_attributes_environment(x, code, ...))
   }
 
@@ -192,6 +197,7 @@ constructors$environment$new_environment <- function(x, ..., recurse, predefine)
     rhs_code <- .cstr_apply(list(parent = placeholder), "rlang::new_environment", ..., recurse = FALSE)
     code <- .cstr_pipe(lhs_code, rhs_code, ...)
   }
+  code <- apply_env_locks(x, code)
   repair_attributes_environment(x, code, ...)
 }
 
@@ -208,6 +214,7 @@ constructors$environment$as.environment <- function(x, ...) {
     "as.environment",
     new_line = FALSE
   )
+  code <- apply_env_locks(x, code)
   repair_attributes_environment(x, code, ...)
 }
 
