@@ -65,7 +65,7 @@ opts_atomic <- function(
   .cstr_repair_attributes(x, code, ...)
 }
 
-construct_atomic <- function(x, ..., one_liner = FALSE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
+construct_atomic <- function(x, ..., unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
   if(is.null(x)) return("NULL")
   nms <- names(x)
   attributes(x) <- NULL
@@ -91,13 +91,13 @@ construct_atomic <- function(x, ..., one_liner = FALSE, unicode_representation =
   # if all names are "" we let `repair_attributes_impl()` deal with it
   names(x) <- if (!anyNA(nms) && !all(nms == "")) nms
 
-  code <- if (opts$compress && is.null(names(x))) simplify_atomic(x, ..., one_liner = one_liner)
+  code <- if (opts$compress && is.null(names(x))) simplify_atomic(x, ...)
   if (!is.null(code)) return(code)
 
 
   if (!is.null(trim) && trim < l) {
     opts$trim <- NULL
-    code <- construct_atomic(x[seq_len(trim)], opts, ..., one_liner = one_liner)
+    code <- construct_atomic(x[seq_len(trim)], opts, ...)
     if (fill == "none" || trim == 0) return(code)
     if (trim == 1) code <- sprintf("c(%s)", code)
     replacement <- switch(
@@ -113,7 +113,7 @@ construct_atomic <- function(x, ..., one_liner = FALSE, unicode_representation =
   }
 
   if (is.character(x)) {
-    return(construct_chr(x, unicode_representation, escape = escape, one_liner = one_liner, ...))
+    return(construct_chr(x, unicode_representation = unicode_representation, escape = escape, ...))
   }
 
   if (!is.double(x)) {
@@ -130,7 +130,7 @@ construct_atomic <- function(x, ..., one_liner = FALSE, unicode_representation =
       unicode_representation = unicode_representation,
       escape = escape
     )
-    if (one_liner) code <- paste(code, collapse = " ")
+    if (list(...)$one_liner) code <- paste(code, collapse = " ")
     return(code)
   }
 
@@ -149,7 +149,7 @@ construct_atomic <- function(x, ..., one_liner = FALSE, unicode_representation =
     unicode_representation = unicode_representation,
     escape = escape
   )
-  if (one_liner) code <- paste(code, collapse = " ")
+  if (list(...)$one_liner) code <- paste(code, collapse = " ")
   code
 }
 
@@ -253,16 +253,19 @@ format_flex <- function(x, all_na) {
   sprintf("%a", x) # nocov
 }
 
-construct_chr <- function(x, unicode_representation, escape, one_liner, ...) {
+construct_chr <- function(x, unicode_representation, escape, ...) {
   if (!length(x)) return("character(0)")
-  strings <- deparse_chr(x, unicode_representation, escape)
+  strings <- deparse_chr(
+    x,
+    unicode_representation = unicode_representation,
+    escape = escape
+  )
   if (length(strings) == 1 && is.null(names(x))) return(strings)
   nas <- strings == "NA_character_"
   if (any(nas) && !all(nas)) strings[nas] <- "NA"
   .cstr_apply(
     strings,
     "c",
-    one_liner = one_liner,
     ...,
     recurse = FALSE,
     unicode_representation = unicode_representation,

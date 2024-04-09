@@ -59,22 +59,22 @@ constructors$data.frame$list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-constructors$data.frame$read.table <- function(x, one_liner, ...) {
+constructors$data.frame$read.table <- function(x, ...) {
   # Fall back on data.frame constructor if relevant
   if (!nrow(x)) {
-    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+    return(constructors$data.frame$data.frame(x, ...))
   }
 
   rn <- attr(x, "row.names")
   numeric_row_names_are_not_default <- is.numeric(rn) && !identical(rn, seq_len(nrow(x)))
   if (numeric_row_names_are_not_default) {
-    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+    return(constructors$data.frame$data.frame(x, ...))
   }
 
   some_cols_are_not_atomic_vectors <-
     any(!vapply(x, function(x) is.atomic(x) && is.vector(x), logical(1)))
   if (some_cols_are_not_atomic_vectors) {
-    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+    return(constructors$data.frame$data.frame(x, ...))
   }
 
   some_cols_are_problematic_char <-
@@ -84,7 +84,7 @@ constructors$data.frame$read.table <- function(x, one_liner, ...) {
         !grepl("[\"']", x)
     }))
   if (some_cols_are_problematic_char) {
-    return(constructors$data.frame$data.frame(x, one_liner = one_liner, ...))
+    return(constructors$data.frame$data.frame(x, ...))
   }
 
   # fill a data frame with deparsed values
@@ -109,11 +109,11 @@ constructors$data.frame$read.table <- function(x, one_liner, ...) {
   # collapse table into code
   code <- paste(
     c("read.table(header = TRUE, text = \"", do.call(paste, code_df), "\")"),
-    collapse = if (one_liner) "\\n" else "\n"
+    collapse = if (list(...)$one_liner) "\\n" else "\n"
   )
 
   # repair
-  repair_attributes_data.frame(x, code, one_liner = one_liner, ...)
+  repair_attributes_data.frame(x, code, ...)
 }
 
 align_numerics <- function(x) {

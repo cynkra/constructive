@@ -82,26 +82,27 @@ construct_ggplot_call <- function(mapping, ...) {
   .cstr_apply(mapping_code, fun = "ggplot2::ggplot", recurse = FALSE, new_line = FALSE, ...)
 }
 
-pipe_from_data <- function(plot_data, code, ..., pipe, one_liner) {
+pipe_from_data <- function(plot_data, code, ...) {
   if (!length(plot_data)) return(code)
-  data_code <- .cstr_construct(plot_data, pipe = pipe, one_liner = one_liner, ...)
-  .cstr_pipe(data_code, code, pipe = pipe, one_liner = one_liner)
+  data_code <- .cstr_construct(plot_data, ...)
+  .cstr_pipe(data_code, code, ...)
 }
 
-pipe_to_layers <- function(code, layers, plot_env, ..., one_liner, env) {
+pipe_to_layers <- function(code, layers, plot_env, ..., env) {
   if (!length(layers)) return(code)
-  layer_lines <- lapply(layers, .cstr_construct, one_liner = one_liner, env = plot_env, ...)
+  layer_lines <- lapply(layers, .cstr_construct, env = plot_env, ...)
+  one_liner <- list(...)$one_liner
   layer_code <- Reduce(function(x, y)  .cstr_pipe(x, y, pipe = "plus", one_liner = one_liner, indent = FALSE), layer_lines)
   .cstr_pipe(code, layer_code, pipe = "plus", one_liner = one_liner)
 }
 
-pipe_to_facets <- function(code, facet, ..., one_liner) {
+pipe_to_facets <- function(code, facet, ...) {
   if (inherits(facet, "FacetNull")) return(code)
-  facet_code <- .cstr_construct(facet, one_liner = one_liner, ...)
-  .cstr_pipe(code, facet_code, pipe = "plus", one_liner = one_liner)
+  facet_code <- .cstr_construct(facet, ...)
+  .cstr_pipe(code, facet_code, pipe = "plus", one_liner = list(...)$one_liner)
 }
 
-pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
+pipe_to_labels <- function(code, labels, mapping, layers, ...) {
   # discard default labels  tagged as "fallback"
   labels <- Filter(function(x) !isTRUE(attr(x, "fallback")), labels)
   if (!length(labels)) return(code)
@@ -140,28 +141,28 @@ pipe_to_labels <- function(code, labels, mapping, layers, ..., one_liner) {
   labels <- labels[setdiff(names(labels), to_remove)]
   if (length(labels)) {
     class(labels) <- "labels" # the class is dropped for some reason
-    labs_code <- .cstr_construct(labels, one_liner = one_liner, ...)
-    code <- .cstr_pipe(code, labs_code, pipe = "plus", one_liner = one_liner)
+    labs_code <- .cstr_construct(labels, ...)
+    code <- .cstr_pipe(code, labs_code, pipe = "plus", one_liner = list(...)$one_liner)
   }
   code
 }
 
-pipe_to_scales <- function(code, scales, ..., one_liner) {
+pipe_to_scales <- function(code, scales, ...) {
   if (!length(scales$scales)) return(code)
-  scales_code <- .cstr_construct(scales, one_liner = one_liner, ...)
-  .cstr_pipe(code, scales_code, pipe = "plus", one_liner = one_liner)
+  scales_code <- .cstr_construct(scales, ...)
+  .cstr_pipe(code, scales_code, pipe = "plus", one_liner = list(...)$one_liner)
 }
 
-pipe_to_theme <- function(code, theme, ..., one_liner) {
+pipe_to_theme <- function(code, theme, ...) {
   # an empty theme has attributes "complete" and "validate" it has a (non functional) effect
   if (!length(theme) && !length(attributes(theme))) return(code)
   class(theme) <- c("theme", "gg")
-  theme_code <- .cstr_construct(theme, one_liner = one_liner, ...)
-  .cstr_pipe(code, theme_code, pipe = "plus", one_liner = one_liner)
+  theme_code <- .cstr_construct(theme, ...)
+  .cstr_pipe(code, theme_code, pipe = "plus", one_liner = list(...)$one_liner)
 }
 
-pipe_to_coord <- function(code, coord, ..., one_liner) {
-  coord_code <- .cstr_construct(coord, one_liner = one_liner, ...)
+pipe_to_coord <- function(code, coord, ...) {
+  coord_code <- .cstr_construct(coord, ...)
   if (identical(coord_code, "ggplot2::coord_cartesian()")) return(code)
-  .cstr_pipe(code, coord_code, pipe = "plus", one_liner = one_liner)
+  .cstr_pipe(code, coord_code, pipe = "plus", one_liner = list(...)$one_liner)
 }

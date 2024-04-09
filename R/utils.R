@@ -38,7 +38,11 @@ name_and_append_comma <- function(
     # FIXME: not DRY, would require refactoring deparse_chr() as a composition
     #.  of format_unicode() and another function that we'd use here
     # FIXME: should the escape arg be a top level arg too ?
-    nm <- if (nm == nm_uni) protect(nm) else deparse_chr(nm, unicode_representation, escape)
+    nm <- if (nm == nm_uni) protect(nm) else deparse_chr(
+      nm,
+      unicode_representation = unicode_representation,
+      escape = escape
+    )
     x[1] <- paste(nm, "=", x[1])
   }
   x[length(x)] <- paste0(x[length(x)], ",")
@@ -55,13 +59,15 @@ name_and_append_comma <- function(
 #' @param one_liner A boolean. Whether to paste `x`, the pipe and `y` together
 #' @param indent A boolean. Whether to indent `y`
 #' on a same line (provided that `x` and `y` are strings and one liners themselves)
+#' @param ... Implemented to collect unused arguments forwarded by the dots of the
+#'   caller environment.
 #'
 #' @return A character vector
 #' @export
 #' @examples
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = FALSE)
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = TRUE)
-.cstr_pipe <- function(x, y, pipe, one_liner, indent = TRUE) {
+.cstr_pipe <- function(x, y, ..., pipe = NULL, one_liner = FALSE, indent = TRUE) {
   if (is.null(pipe)) {
     if (getRversion() >= "4.2") {
       pipe <- "base"

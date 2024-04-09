@@ -50,18 +50,17 @@ constructors$S4$new <- function(x, env, ...) {
   repair_attributes_S4(x, code, env = env, ...)
 }
 
-repair_attributes_S4 <- function(x, code, ..., pipe = NULL, selfref = FALSE) {
+repair_attributes_S4 <- function(x, code, ..., selfref = FALSE) {
   .cstr_repair_attributes(
     x, code, ...,
-    pipe = pipe,
     ignore = names(getSlots(class(x))),
     idiomatic_class = class(x),
     flag_s4 = FALSE
   )
 }
 
-construct_flagged_s4 <- function(x, ..., pipe, one_liner) {
+construct_flagged_s4 <- function(x, ...) {
   xS3 <- do.call(structure, c(list(asS3(x)), attributes(x)))
   codeS3 <- .cstr_construct(xS3, ...)
-  .cstr_pipe(codeS3, "asS4()", pipe, one_liner)
+  .cstr_pipe(codeS3, "asS4()", ...)
 }
