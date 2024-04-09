@@ -60,6 +60,9 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
     attrs[special_attr_nms] <- NULL
     # append structure() code to repair object
     if (length(attrs)) {
+      if ("row.names" %in% names(attrs) && identical(attrs$row.names, seq_along(attrs$row.names))) {
+        attrs$row.names <- c(NA, -length(attrs$row.names))
+      }
       attrs_code <- .cstr_apply(attrs, fun = "structure", ...)
       code <- .cstr_pipe(code, attrs_code, ...)
     }
