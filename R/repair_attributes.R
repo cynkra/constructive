@@ -59,8 +59,10 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
     special_attrs <- attrs[special_attr_nms]
     attrs[special_attr_nms] <- NULL
     # append structure() code to repair object
-    attrs_code <- .cstr_apply(attrs, fun = "structure", ...)
-    code <- .cstr_pipe(code, attrs_code, ...)
+    if (length(attrs)) {
+      attrs_code <- .cstr_apply(attrs, fun = "structure", ...)
+      code <- .cstr_pipe(code, attrs_code, ...)
+    }
     for (attr_nm in special_attr_nms) {
       attr_code <- .cstr_apply(
         list(attr_nm, special_attrs[[attr_nm]]),
