@@ -4,8 +4,11 @@
   and `escape` previously used by `opts_atomic()` and these are now not only 
   applied on strings but also on element names and variable names.
 * Named vectors of length 1 are constructed properly
+* We check for the S4 bit using `isS4()` and use `asS4()` when necessary
 * In `opts_numeric_version()`, `opts_package_version()` and `opts_R_system_version()`
 the incorrectly named "atomic" constructor is replaced by a "list" constructor
+* The class "integer64" is supported, it was important because we can't recreate
+  NAs or negative integer64 objects using base R only.
 
 # constructive 0.3.0
 

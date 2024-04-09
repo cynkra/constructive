@@ -25,6 +25,7 @@ Imports:
     rlang (>= 1.0.0),
     waldo
 Suggests: 
+    bit64,
     clipr,
     data.table,
     DiagrammeR,
