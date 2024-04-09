@@ -57,7 +57,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.cstr_pipe</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">pipe</span>, <span class="va">one_liner</span>, indent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.cstr_pipe</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">...</span>, pipe <span class="op">=</span> <span class="cn">NULL</span>, one_liner <span class="op">=</span> <span class="cn">FALSE</span>, indent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,6 +68,11 @@
 
 <dt>y</dt>
 <dd><p>A character vector. The code for the right hand side call.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Implemented to collect unused arguments forwarded by the dots of the
+caller environment.</p></dd>
 
 
 <dt>pipe</dt>

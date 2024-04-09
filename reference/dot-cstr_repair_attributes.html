@@ -67,11 +67,9 @@ others.</p>
 <span>  <span class="va">x</span>,</span>
 <span>  <span class="va">code</span>,</span>
 <span>  <span class="va">...</span>,</span>
-<span>  pipe <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ignore <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  idiomatic_class <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  remove <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  flag_s4 <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -90,11 +88,6 @@ others.</p>
 <dd><p>Forwarded to <code>.construct_apply()</code> when relevant</p></dd>
 
 
-<dt>pipe</dt>
-<dd><p>Which pipe to use, either <code>"base"</code> or <code>"magrittr"</code>.
-Defaults to <code>"base"</code> for R &gt;= 4.2, otherwise to <code>"magrittr"</code>.</p></dd>
-
-
 <dt>ignore</dt>
 <dd><p>The attributes that shouldn't be repaired, i.e. we expect them
 to be set by the constructor already in <code>code</code></p></dd>
@@ -107,10 +100,6 @@ if <code>x</code> is of class <code>idiomatic_class</code> there is no need to r
 
 <dt>remove</dt>
 <dd><p>Attributes that should be removed, should rarely be useful.</p></dd>
-
-
-<dt>one_liner</dt>
-<dd><p>Boolean. Whether to collapse the output to a single line of code.</p></dd>
 
 
 <dt>flag_s4</dt>
