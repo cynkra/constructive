@@ -49,4 +49,20 @@ test_that("environment", {
   expect_snapshot({
     construct(constructive::.cstr_construct, opts_environment(predefine = TRUE), opts_function(environment = TRUE))
   })
+
+  expect_snapshot({
+    e <- rlang::env(.GlobalEnv, a = 1, b = 2, c = 3, d = 4)
+    construct(e, check = FALSE)
+    lockEnvironment(e)
+    construct(e, check = FALSE)
+    construct(e, opts_environment("list2env"))
+    lockBinding("a", e)
+    construct(e, opts_environment("list2env"))
+    lockBinding("b", e)
+    construct(e, opts_environment("list2env"))
+    lockBinding("c", e)
+    construct(e, opts_environment("list2env"))
+    lockBinding("d", e)
+    construct(e, opts_environment("list2env"))
+  })
 })

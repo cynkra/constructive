@@ -130,3 +130,65 @@
       }) |>
         (`environment<-`)(asNamespace("constructive"))
 
+---
+
+    Code
+      e <- rlang::env(.GlobalEnv, a = 1, b = 2, c = 3, d = 4)
+      construct(e, check = FALSE)
+    Output
+      constructive::.env("0x123456789", parents = "global")
+    Code
+      lockEnvironment(e)
+      construct(e, check = FALSE)
+    Output
+      constructive::.env("0x123456789", parents = "global", locked = TRUE)
+    Code
+      construct(e, opts_environment("list2env"))
+    Output
+      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+        (\(e) {
+          lockEnvironment(e)
+          e
+        })()
+    Code
+      lockBinding("a", e)
+      construct(e, opts_environment("list2env"))
+    Output
+      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+        (\(e) {
+          lockEnvironment(e)
+          lockBinding("a", e)
+          e
+        })()
+    Code
+      lockBinding("b", e)
+      construct(e, opts_environment("list2env"))
+    Output
+      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+        (\(e) {
+          lockEnvironment(e)
+          lockBinding("a", e)
+          lockBinding("b", e)
+          e
+        })()
+    Code
+      lockBinding("c", e)
+      construct(e, opts_environment("list2env"))
+    Output
+      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+        (\(e) {
+          lockEnvironment(e)
+          locked <-  c("a", "b", "c")
+          for (sym in locked) lockBinding(sym, e)
+          e
+        })()
+    Code
+      lockBinding("d", e)
+      construct(e, opts_environment("list2env"))
+    Output
+      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+        (\(e) {
+          lockEnvironment(e, bindings = TRUE)
+          e
+        })()
+
