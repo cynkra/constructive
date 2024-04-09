@@ -54,7 +54,7 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
   if (length(remove)) attrs <- c(attrs, setNames(replicate(length(remove), NULL), remove))
   if (length(attrs)) {
     # See ?structure, when those arguments are provided to structure() differently named attributes are created
-    special_structure_args <- c(".Dim", ".Dimnames", ".Names", ".Tsp", ".Label")
+    special_structure_args <- c(".Data", ".Dim", ".Dimnames", ".Names", ".Tsp", ".Label")
     special_attr_nms <- intersect(names(attrs), special_structure_args)
     special_attrs <- attrs[special_attr_nms]
     attrs[special_attr_nms] <- NULL
