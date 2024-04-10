@@ -31,10 +31,13 @@
   named_dots <- eval(named_dots, env)
   err <- header
   for (expr in unnamed_dots) {
-    new_err <- try(eval(expr, env), silent = TRUE)
-    if (!missing(new_err) && inherits(new_err, "try-error")) {
-      err <- c(err, "!" = attr(new_err, "condition")$message, attr(new_err, "condition")$body)
+    err <- tryCatch({
+      eval(expr, env)
+      err
+    }, error = function(e) {
+      c(err, "!" = e$message, e$body)
     }
+    )
   }
   if (!is.null(err)) {
     names(err)[1] <- ""

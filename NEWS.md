@@ -13,6 +13,7 @@ the incorrectly named "atomic" constructor is replaced by a "list" constructor
 * We can construct objects with a ".Data" attribute
 * The default "row.names" attribute is built with the `c(NA, -<nrow>)` form,
   as in `dput()`, this solves some rare corner cases.
+* The "try-error" class is supported
 
 # constructive 0.3.0
 
