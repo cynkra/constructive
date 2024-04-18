@@ -80,10 +80,11 @@ constructors$`function`$`function` <- function(
 
   x_lst <- as.list(unclass(x))
   x_length <- length(x_lst)
-  body_is_a_proper_expression <-
-    is_expression2(x_lst[[x_length]])
 
-  if (!body_is_a_proper_expression) {
+  all_components_are_proper_expressions <-
+    all(vapply(x_lst, is_expression2, logical(1)))
+
+  if (!all_components_are_proper_expressions) {
     # fall back on `as.function()` constructor
     res <- constructors$`function`$as.function(
       x,
@@ -133,19 +134,16 @@ constructors$`function`$as.function <- function(
     environment,
     srcref
   ) {
-  # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
-  # so we must use regular deparse
-
   x_lst <- as.list(unclass(x))
 
-  body_is_a_proper_expression <-
-    is_expression2(x_lst[[length(x_lst)]])
+  all_components_are_proper_expressions <-
+    all(vapply(x_lst, is_expression2, logical(1)))
 
-  if (body_is_a_proper_expression) {
+  if (all_components_are_proper_expressions) {
     fun_lst <- lapply(x_lst, deparse_call0, ...)
     args <- list(.cstr_apply(fun_lst, "alist", ..., recurse = FALSE))
   } else {
-    fun_lst <- lapply(x_lst, .cstr_construct.language, ...)
+    fun_lst <- lapply(x_lst, .cstr_construct, ...)
     args <- list(.cstr_apply(fun_lst, "list", ..., recurse = FALSE))
   }
 

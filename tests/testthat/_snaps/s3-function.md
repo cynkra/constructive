@@ -164,4 +164,8 @@
             structure(some_attr = "hello")
         )
       )
+    Code
+      construct(as.function(list(a = list(), quote(a)), envir = .GlobalEnv))
+    Output
+      as.function(list(a = list(), quote(a)), envir = .GlobalEnv)
 
