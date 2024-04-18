@@ -188,10 +188,19 @@ deparse_call_impl <- function(
 
   if (caller %in% c("@", "$") && length(call) == 3) {
     if (is.symbol(call[[3]])) {
-      return(sprintf("%s%s%s", rec(call[[2]]), caller, as.character(call[[3]])))
+      nm <- as.character(call[[3]])
+      # we have no choice here but to keep unicode.
+      # because backquotes don't accept the "\U{}" syntax
+      nm <- fix_name(nm, "unicode", escape)
+      return(sprintf("%s%s%s", rec(call[[2]]), caller, nm))
     }
     if (is.character(call[[3]])) {
-      return(sprintf('%s%s"%s"', rec(call[[2]]), caller, call[[3]]))
+      nm <- construct_chr(
+        call[[3]],
+        unicode_representation = unicode_representation,
+        escape = escape
+      )
+      return(sprintf('%s%s%s', rec(call[[2]]), caller, nm))
     }
   }
 
