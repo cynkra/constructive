@@ -48,6 +48,8 @@ the global environment, the base namespace, the base package environment and the
 environment
 \item Namespaces are constructed using \code{asNamespace("pkg")}
 \item Package environments are constructed using \code{as.environment("package:pkg")}
+\item "imports" environments are constructed with \code{parent.env(asNamespace("pkg"))}
+\item "lazydata" environments are constructed with \code{getNamespaceInfo("pkg", "lazydata")}
 }
 
 By default For other environments we use \pkg{constructive}'s function \code{constructive::.env()}, it fetches

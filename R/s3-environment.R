@@ -19,6 +19,8 @@ constructors$environment <- new.env()
 #'   environment
 #' * Namespaces are constructed using `asNamespace("pkg")`
 #' * Package environments are constructed using `as.environment("package:pkg")`
+#' * "imports" environments are constructed with `parent.env(asNamespace("pkg"))`
+#' * "lazydata" environments are constructed with `getNamespaceInfo("pkg", "lazydata")`
 #'
 #' By default For other environments we use \pkg{constructive}'s function `constructive::.env()`, it fetches
 #'   the environment from its memory address and provides as additional information
