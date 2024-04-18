@@ -226,7 +226,7 @@ constructors$environment$topenv <- function(x, ...) {
 repair_attributes_environment <- function(x, code, ...) {
   opts <- .cstr_fetch_opts("environment", ...)
   constructor <- opts$constructor
-  if (constructor == ".env" ||
+  if ((constructor == ".env" && !opts$predefine) ||
       grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||
       code[[1]] %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
   ) {
