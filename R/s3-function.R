@@ -142,7 +142,7 @@ constructors$`function`$as.function <- function(
     fun_lst <- lapply(x_lst, deparse_call0, ...)
     args <- list(.cstr_apply(fun_lst, "alist", ..., recurse = FALSE))
   } else {
-    fun_lst <- lapply(x_lst, .cstr_construct.language, ...)
+    fun_lst <- lapply(x_lst, .cstr_construct, ...)
     args <- list(.cstr_apply(fun_lst, "list", ..., recurse = FALSE))
   }
 
