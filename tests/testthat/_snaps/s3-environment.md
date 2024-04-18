@@ -192,3 +192,14 @@
           e
         })()
 
+---
+
+    Code
+      construct(getNamespaceInfo("datasets", "lazydata"))
+    Output
+      getNamespaceInfo("datasets", "lazydata")
+    Code
+      construct(parent.env(asNamespace("stats")))
+    Output
+      parent.env(asNamespace("stats"))
+
