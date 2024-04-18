@@ -10,6 +10,24 @@ construct_special_env <- function(x) {
   if (identical(Sys.getenv("TESTTHAT"), "true") && name == "constructive") return('asNamespace("constructive")')
   if (name != "" && rlang::is_installed(name) && identical(x, asNamespace(name))) return(sprintf('asNamespace("%s")', name))
   if (name %in% search() && identical(x, as.environment(name))) return(sprintf('as.environment("%s")', name))
+  if (startsWith(name, "imports:")) {
+    pkg <- sub("^imports:(.*)$", "\\1", name)
+    env_is_imports <-
+      pkg != "" &&
+      rlang::is_installed(pkg) &&
+      identical(x, parent.env(asNamespace(pkg)))
+    if (env_is_imports)
+      return(sprintf('parent.env(asNamespace("%s"))', pkg))
+  }
+  if (startsWith(name, "lazydata:")) {
+    pkg <- sub("^lazydata:(.*)$", "\\1", name)
+    env_is_lazydata <-
+      pkg != "" &&
+      rlang::is_installed(pkg) &&
+      identical(x, getNamespaceInfo(pkg, "lazydata"))
+    if (env_is_lazydata)
+      return(sprintf('getNamespaceInfo("%s", "lazydata")', pkg))
+  }
 }
 
 env_memory_address <- function(x, by_name = FALSE) {
