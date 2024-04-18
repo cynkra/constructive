@@ -133,9 +133,6 @@ constructors$`function`$as.function <- function(
     environment,
     srcref
   ) {
-  # rlang::expr_deparse changes the body by putting parentheses around f <- (function(){})
-  # so we must use regular deparse
-
   x_lst <- as.list(unclass(x))
 
   body_is_a_proper_expression <-
