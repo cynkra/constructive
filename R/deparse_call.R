@@ -188,10 +188,19 @@ deparse_call_impl <- function(
 
   if (caller %in% c("@", "$") && length(call) == 3) {
     if (is.symbol(call[[3]])) {
-      return(sprintf("%s%s%s", rec(call[[2]]), caller, as.character(call[[3]])))
+      nm <- as.character(call[[3]])
+      # we have no choice here but to keep unicode.
+      # because backquotes don't accept the "\U{}" syntax
+      nm <- fix_name(nm, "unicode", escape)
+      return(sprintf("%s%s%s", rec(call[[2]]), caller, nm))
     }
     if (is.character(call[[3]])) {
-      return(sprintf('%s%s"%s"', rec(call[[2]]), caller, call[[3]]))
+      nm <- construct_chr(
+        call[[3]],
+        unicode_representation = unicode_representation,
+        escape = escape
+      )
+      return(sprintf('%s%s%s', rec(call[[2]]), caller, nm))
     }
   }
 
@@ -201,13 +210,25 @@ deparse_call_impl <- function(
 
   if (caller == "[" && length(call) > 1) {
     arg1 <- rec(call[[2]])
-    other_args <- deparse_named_args_to_string(call[-(1:2)], one_liner = one_liner, indent = indent)
+    other_args <- deparse_named_args_to_string(
+      call[-(1:2)],
+      one_liner = one_liner,
+      indent = indent,
+      unicode_representation,
+      escape
+    )
     return(sprintf("%s[%s]", arg1, other_args))
   }
 
   if (caller == "[[" && length(call) > 1) {
     arg1 <- rec(call[[2]])
-    other_args <- deparse_named_args_to_string(call[-(1:2)], one_liner = one_liner, indent = indent)
+    other_args <- deparse_named_args_to_string(
+      call[-(1:2)],
+      one_liner = one_liner,
+      indent = indent,
+      unicode_representation,
+      escape
+    )
     return(sprintf("%s[[%s]]", arg1, other_args))
   }
 
@@ -252,7 +273,13 @@ deparse_call_impl <- function(
       ))
     }
   }
-  args <- deparse_named_args_to_string(call[-1], one_liner = one_liner, indent = indent)
+  args <- deparse_named_args_to_string(
+    call[-1],
+    one_liner = one_liner,
+    indent = indent,
+    unicode_representation,
+    escape
+  )
   sprintf("%s(%s)", caller, args)
 }
 
@@ -272,12 +299,13 @@ is_infix_narrow <- function(x) {
   x %in% c("::", ":::", "$", "@", "^", ":")
 }
 
-deparse_named_args_to_string <- function(args, one_liner, indent) {
+deparse_named_args_to_string <- function(args, one_liner, indent, unicode_representation, escape) {
   if (length(args) == 0) {
     return("")
   }
   args <- vapply(args, deparse_call_impl, character(1), one_liner = one_liner, indent = indent + 1)
-  args <- paste(protect(rlang::names2(args)), "=", args)
+  nms <- sapply(rlang::names2(args), fix_name, unicode_representation, escape)
+  args <- paste(nms, "=", args)
   args <- sub("^ = ", "", args)
   # FIXME: the 80 is a bit arbitrary, since we don't account for indent and length of caller
   if (one_liner || max(nchar(args)) < 80) return(paste(args, collapse = ", "))
