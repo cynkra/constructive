@@ -57,3 +57,18 @@
     Output
       x ~ y
 
+# backslash and emojis in names work
+
+    Code
+      construct(c(`\\🐶` = "\\"), unicode_representation = "unicode")
+    Output
+      c(`\\🐶` = r"[\]")
+    Code
+      construct(c(`\\🐶` = "\\"))
+    Output
+      c("\\\U{1F436}" = r"[\]")
+    Code
+      construct(c(`\\` = "\\"))
+    Output
+      c(`\\` = r"[\]")
+

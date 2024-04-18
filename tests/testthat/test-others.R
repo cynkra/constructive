@@ -30,3 +30,11 @@ test_that("compare_options", {
     construct(evalq(x ~ y, asNamespace("stats")), opts_formula(environment = FALSE), compare = compare_options(ignore_formula_env = TRUE))
   })
 })
+
+test_that("backslash and emojis in names work", {
+  expect_snapshot({
+    construct(c("\\🐶" = "\\"), unicode_representation = "unicode")
+    construct(c("\\🐶" = "\\"))
+    construct(c("\\" = "\\"))
+  })
+})
