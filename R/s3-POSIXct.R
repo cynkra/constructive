@@ -14,6 +14,10 @@ constructors$POSIXct <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"atomic"` : We define as an atomic vector and repair attributes.
 #'
+#' If the data is not appropriate for a constructor we fall back to another one
+#' appropriately. In particulat corrupted POSIXct objects such as those defined
+#' on top of integers (or worse) are all constructed with the `".POSIXct"` constructor.
+#'
 #' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @param origin Origin to be used, ignored when irrelevant.
@@ -31,20 +35,28 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
 #' @export
 .cstr_construct.POSIXct <- function(x, ...) {
   opts <- .cstr_fetch_opts("POSIXct", ...)
-  if (is_corrupted_POSIXct(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$POSIXct[[opts$constructor]]
+  if (opts$constructor == "next") return(NextMethod())
+  if (is_corrupted_POSIXct(x)) {
+    # .POSIXct just applies attributes
+    constructor <- constructors$POSIXct$.POSIXct
+  } else {
+    constructor <- constructors$POSIXct[[opts$constructor]]
+  }
+
   constructor(x, ..., origin = opts$origin)
 }
 
 is_corrupted_POSIXct <- function(x) {
-  # TODO
-  FALSE
+  !is.double(x)
 }
 
 constructors$POSIXct$.POSIXct <- function(x, ..., origin) {
-  args <- list(as.numeric(x), tz = attr(x, "tzone"))
+  x_bare <- x
+  attributes(x_bare) <- NULL
+  args <- list(x_bare)
+  args$tz <- attr(x, "tzone")
   code <- .cstr_apply(args, ".POSIXct", new_line = TRUE, ...)
-  repair_attributes_POSIXct(x, code, ...)
+  repair_attributes_POSIXct(x, code, ..., remove_null_tz = FALSE)
 }
 
 constructors$POSIXct$as.POSIXct.numeric <- function(x, ..., origin) {
@@ -111,12 +123,12 @@ constructors$POSIXct$atomic <- function(x, ..., origin) {
   .cstr_construct.default(x, ...)
 }
 
-repair_attributes_POSIXct <- function(x, code, ..., pipe = NULL) {
+repair_attributes_POSIXct <- function(x, code, ..., pipe = NULL, remove_null_tz = TRUE) {
   .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     idiomatic_class = c("POSIXct", "POSIXt"),
     ignore = "tzone",
-    remove = if (is.null(attr(x, "tzone"))) "tzone" else NULL
+    remove = if (remove_null_tz && is.null(attr(x, "tzone"))) "tzone"
   )
 }

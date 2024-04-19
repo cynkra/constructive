@@ -43,4 +43,7 @@ provided \code{origin}
 on the object to see in which order the methods will be tried.
 \item \code{"atomic"} : We define as an atomic vector and repair attributes
 }
+
+If the data is not appropriate for a constructor we fall back to another one
+appropriately.
 }

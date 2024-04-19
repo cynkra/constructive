@@ -94,4 +94,32 @@
       construct(dates, opts_Date("date", origin = "2000-01-01"))
     Output
       lubridate::as_date(c(Inf, -Inf, -9496, -9131, -8766), origin = "2000-01-01")
+    Code
+      construct(as.Date(Inf), opts_Date("as.Date"))
+    Output
+      as.Date(Inf)
+    Code
+      construct(as.Date(Inf), opts_Date("as_date"))
+    Output
+      lubridate::as_date(Inf)
+    Code
+      construct(as.Date(NaN), opts_Date("as.Date"))
+    Output
+      as.Date(NaN)
+    Code
+      construct(as.Date(NaN), opts_Date("as_date"))
+    Output
+      lubridate::as_date(NaN)
+    Code
+      construct(as.Date(NA), opts_Date("as.Date"))
+    Output
+      as.Date(NA)
+    Code
+      construct(as.Date(NA), opts_Date("as_date"))
+    Output
+      lubridate::as_date(NA)
+    Code
+      construct(as.Date(Inf), opts_Date("as_date"))
+    Output
+      lubridate::as_date(Inf)
 

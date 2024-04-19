@@ -21,6 +21,9 @@ constructors$Date <- new.env()
 #'   on the object to see in which order the methods will be tried.
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
+#' If the data is not appropriate for a constructor we fall back to another one
+#' appropriately.
+#'
 #' @param constructor String. Name of the function used to construct the object.
 #' @inheritParams opts_atomic
 #' @param origin Origin to be used, ignored when irrelevant.
@@ -48,54 +51,61 @@ is_corrupted_Date <- function(x) {
 }
 
 constructors$Date$as.Date <- function(x, ..., origin = "1970-01-01") {
-  if (any(is.infinite(x)) && any(is.finite(x))) {
-    x_dbl <- unclass(x)
-    if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
-    code <- .cstr_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
-  } else {
-    code <- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
+  compatible_with_char <-
+    all(rlang::is_integerish(x) & (is.finite(x) | (is.na(x) & !is.nan(x))))
+  if (!compatible_with_char || all(is.na(x))) {
+    return(constructors$Date$as.Date.numeric(x, ..., origin = origin))
   }
+  code <- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
   repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$date <- function(x, ..., origin) {
-  if (any(is.infinite(x)) && any(is.finite(x))) {
-    return(constructors$Date$as_date(x, ..., origin = origin))
-  } else {
-    code <- .cstr_apply(list(format(x)),  "lubridate::date", ..., new_line = FALSE)
+  compatible_with_char <-
+    all(rlang::is_integerish(x) & (is.finite(x) | (is.na(x) & !is.nan(x))))
+  if (!compatible_with_char || all(is.na(x))) {
+    return(constructors$Date$as_date.numeric(x, ..., origin = origin))
   }
+  code <- .cstr_apply(list(format(x)),  "lubridate::date", ..., new_line = FALSE)
   repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$as_date <- function(x, ..., origin) {
-  if (any(is.infinite(x)) && any(is.finite(x))) {
-    x_dbl <- unclass(x)
-    if (origin == "1970-01-01") {
-      code <- .cstr_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
-    } else {
-      x_dbl <- x_dbl - as.numeric(as.Date(origin))
-      code <- .cstr_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
-    }
-  } else {
-    code <- .cstr_apply(list(format(x)),  "lubridate::as_date", ..., new_line = FALSE)
+  compatible_with_char <-
+    all(rlang::is_integerish(x) & (is.finite(x) | (is.na(x) & !is.nan(x))))
+  if (!compatible_with_char || all(is.na(x))) {
+    return(constructors$Date$as_date.numeric(x, ..., origin = origin))
   }
+  code <- .cstr_apply(list(format(x)),  "lubridate::as_date", ..., new_line = FALSE)
   repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$as.Date.numeric <- function(x, ..., origin) {
   x_dbl <- unclass(x)
-  if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
-  code <- .cstr_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
+  if (!any(is.finite(x))) {
+    # as.Date will deal with logical NA so we make it more compact
+    if (all(is.na(x) & !is.nan(x))) x_dbl <- as.logical(x)
+    code <- .cstr_apply(list(x_dbl), "as.Date", ..., new_line = FALSE)
+  } else {
+    if (origin != "1970-01-01") x_dbl <- x_dbl - as.numeric(as.Date(origin))
+    code <- .cstr_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)
+  }
   repair_attributes_Date(x, code, ...)
 }
 
 constructors$Date$as_date.numeric <- function(x, ..., origin) {
   x_dbl <- unclass(x)
-  if (origin != "1970-01-01") {
-    x_dbl <- x_dbl - as.numeric(as.Date(origin))
-  code <- .cstr_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
-  } else {
+  if (!any(is.finite(x))) {
+    # as_date will deal with logical NA so we make it more compact
+    if (all(is.na(x) & !is.nan(x))) x_dbl <- as.logical(x)
     code <- .cstr_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
+  } else {
+    if (origin != "1970-01-01") {
+      x_dbl <- x_dbl - as.numeric(as.Date(origin))
+      code <- .cstr_apply(list(x_dbl, origin = origin), "lubridate::as_date", ..., new_line = FALSE)
+    } else {
+      code <- .cstr_apply(list(x_dbl), "lubridate::as_date", ..., new_line = FALSE)
+    }
   }
   repair_attributes_Date(x, code, ...)
 }
