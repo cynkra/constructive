@@ -243,4 +243,8 @@
       construct(c(а = "a"))
     Output
       c("\U{430}" = "a")
+    Code
+      construct("'\"\n")
+    Output
+      "'\"\n"
 
