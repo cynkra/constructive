@@ -129,7 +129,7 @@ attempts to match its data input to a list of objects provided to the
 <span><span class="co">#&gt;   if (!is.null(data_name)) return(data_name)</span></span>
 <span><span class="co">#&gt;   UseMethod(".cstr_construct")</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x560a9be4a1f0&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55c68960c508&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span>
 <span><span class="fu"><a href="../reference/dot-cstr_construct.html">.cstr_construct</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "c("                                                                                                        </span></span>
@@ -273,16 +273,15 @@ contain the constructor functions.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">constructors</span><span class="op">$</span><span class="va">Date</span><span class="op">$</span><span class="va">as.Date</span></span>
 <span><span class="co">#&gt; function(x, ..., origin = "1970-01-01") {</span></span>
-<span><span class="co">#&gt;   if (any(is.infinite(x)) &amp;&amp; any(is.finite(x))) {</span></span>
-<span><span class="co">#&gt;     x_dbl &lt;- unclass(x)</span></span>
-<span><span class="co">#&gt;     if (origin != "1970-01-01") x_dbl &lt;- x_dbl - as.numeric(as.Date(origin))</span></span>
-<span><span class="co">#&gt;     code &lt;- .cstr_apply(list(x_dbl, origin = origin), "as.Date", ..., new_line = FALSE)</span></span>
-<span><span class="co">#&gt;   } else {</span></span>
-<span><span class="co">#&gt;     code &lt;- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)</span></span>
+<span><span class="co">#&gt;   compatible_with_char &lt;-</span></span>
+<span><span class="co">#&gt;     all(rlang::is_integerish(x) &amp; (is.finite(x) | (is.na(x) &amp; !is.nan(x))))</span></span>
+<span><span class="co">#&gt;   if (!compatible_with_char || all(is.na(x))) {</span></span>
+<span><span class="co">#&gt;     return(constructors$Date$as.Date.numeric(x, ..., origin = origin))</span></span>
 <span><span class="co">#&gt;   }</span></span>
+<span><span class="co">#&gt;   code &lt;- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)</span></span>
 <span><span class="co">#&gt;   repair_attributes_Date(x, code, ...)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x560a9ad890b0&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55c6884a07b8&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <p>A function call is made of a function and its arguments. A
 constructor sets the function and constructs its arguments recursively.
@@ -352,7 +351,7 @@ need to dive deeper in this vignette.</p>
 <span><span class="co">#&gt;     idiomatic_class = "Date"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x560a9be48970&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55c68963f570&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span>
 <span></span>
 <span><span class="fu">constructive</span><span class="fu">:::</span><span class="va">repair_attributes_factor</span></span>
@@ -363,7 +362,7 @@ need to dive deeper in this vignette.</p>
 <span><span class="co">#&gt;     idiomatic_class = "factor"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x560a9d295748&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55c68aa77018&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">

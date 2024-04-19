@@ -95,7 +95,10 @@ a character vector.</p></li>
 <li><p><code>"next"</code> : Use the constructor for the next supported class. Call <code><a href="https://rdrr.io/r/base/class.html" class="external-link">.class2()</a></code>
 on the object to see in which order the methods will be tried.</p></li>
 <li><p><code>"atomic"</code> : We define as an atomic vector and repair attributes.</p></li>
-</ul></div>
+</ul><p>If the data is not appropriate for a constructor we fall back to another one
+appropriately. In particulat corrupted POSIXct objects such as those defined
+on top of integers (or worse) are all constructed with the <code>".POSIXct"</code> constructor.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
