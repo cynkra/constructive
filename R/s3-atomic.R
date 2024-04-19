@@ -316,7 +316,8 @@ deparse_chr <- function(x, unicode_representation, escape) {
   # if we find double quotes in the string but no single quote
   # we should unescape the double quote and use single quotes instead
   surround_with_single_quotes <- uses_dbq & !uses_sq
-  use_raw_strings <- (uses_regular_backslashes & !uses_special_backlashes) | (uses_sq & uses_dbq)
+  use_raw_strings <- !uses_special_backlashes &
+    (uses_regular_backslashes | (uses_sq & uses_dbq))
 
   x_deparsed_formatted_sq <- ifelse(
     surround_with_single_quotes,
