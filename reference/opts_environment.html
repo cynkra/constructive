@@ -124,6 +124,8 @@ the global environment, the base namespace, the base package environment and the
 environment</p></li>
 <li><p>Namespaces are constructed using <code>asNamespace("pkg")</code></p></li>
 <li><p>Package environments are constructed using <code>as.environment("package:pkg")</code></p></li>
+<li><p>"imports" environments are constructed with <code>parent.env(asNamespace("pkg"))</code></p></li>
+<li><p>"lazydata" environments are constructed with <code>getNamespaceInfo("pkg", "lazydata")</code></p></li>
 </ul><p>By default For other environments we use <span class="pkg">constructive</span>'s function <code><a href="dot-env.html">constructive::.env()</a></code>, it fetches
 the environment from its memory address and provides as additional information
 the sequence of parents until we reach a special environment (those enumerated above).
@@ -186,7 +188,7 @@ using placeholder names <code>..env.1..</code>, <code>..env.2..</code> etc. This
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
     </footer></div>
