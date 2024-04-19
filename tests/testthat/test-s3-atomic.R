@@ -75,5 +75,6 @@ test_that("character", {
     construct("ü\\", opts_atomic(unicode_representation = "latin", escape = FALSE), check = FALSE)
     construct("ü\\", opts_atomic(escape = FALSE))
     construct(c("\U{430}" = "a"))
+    construct("'\"\n")
   })
 })
