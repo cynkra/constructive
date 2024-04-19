@@ -65,4 +65,9 @@ test_that("environment", {
     lockBinding("d", e)
     construct(e, opts_environment("list2env"))
   })
+
+  expect_snapshot({
+    construct(getNamespaceInfo("datasets", "lazydata"))
+    construct(parent.env(asNamespace("stats")))
+  })
 })
