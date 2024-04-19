@@ -78,7 +78,7 @@ try_eval <- function(styled_code, data, check, caller) {
   # in the proper env, this makes a difference for calls that capture the env
   local_bindings(!!!data, .env = caller)
   rlang::try_fetch(
-    suppressWarnings(eval(parse(text = styled_code), caller)),
+    suppress_all_output(eval(parse(text = styled_code), caller)),
     error = function(e) {
       #nocov start
       msg <- "The code built by {constructive} could not be evaluated."
@@ -90,6 +90,16 @@ try_eval <- function(styled_code, data, check, caller) {
       rlang::inform(c("!" = msg, "!" = paste("Due to error:", paste(e$message, collapse = "\n"))))
       #nocov end
     }
+  )
+}
+
+suppress_all_output <- function(expr) {
+  sink(tempfile())
+  on.exit(sink())
+  withCallingHandlers(
+    expr,
+    warning = function(w) tryInvokeRestart("muffleWarning"),
+    message = function(c) tryInvokeRestart("muffleMessage")
   )
 }
 
