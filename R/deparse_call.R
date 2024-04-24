@@ -191,6 +191,30 @@ deparse_call_impl <- function(
   if (is_infix_wide(caller) && length(call) == 3) {
     # cancel the pipe where it doesn't belong
     pipe <- pipe && caller %in% c("~", "<-", "<<-", "=", "?", ":=")
+    use_right_assignment <-
+      caller == "<-" &&
+      is.call(call[[2]]) &&
+      list(call[[2]][[1]]) %in% alist(`<-`, `if`, `for`, `while`, `repeat`)
+    if (use_right_assignment) {
+      # because `<-` has differen precedence
+      if (identical(call[[2]][[1]], as.symbol("<-"))) {
+        code <- sprintf(
+          "%s -> %s <- %s",
+          rec(call[[2]][[3]]),
+          rec(call[[2]][[2]]),
+          rec(call[[3]])
+        )
+        return(code)
+      }
+
+      code <- sprintf(
+        "%s -> %s",
+        rec(call[[3]]),
+        rec(call[[2]])
+      )
+      return(code)
+    }
+
     code <- sprintf(
       "%s %s %s",
       rec(call[[2]]),
