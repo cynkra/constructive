@@ -161,9 +161,20 @@ simplify_atomic <- function(x, ...) {
     if (l > 2) {
       if (is.logical(x) && isTRUE(all(!x))) return(sprintf("logical(%s)", l))
       if (is.integer(x) && isTRUE(all(x == 0L))) return(sprintf("integer(%s)", l))
-      if (is.double(x) && isTRUE(all(x == 0L))) return(sprintf("numeric(%s)", l))
       if (is.complex(x) && isTRUE(all(x == 0i))) return(sprintf("complex(%s)", l))
       if (is.raw(x) && isTRUE(all(x == raw(1)))) return(sprintf("raw(%s)", l))
+      if (is.double(x) && isTRUE(all(x == 0L))) {
+        signs <- sign(1/x)
+        if (all(signs == 1)) return(sprintf("numeric(%s)", l))
+        if (all(signs == -1)) return(sprintf("-numeric(%s)", l))
+      }
+    }
+
+    # don't compress if x contains both positive and negative zeroes
+    zeros_ind <- which(x == 0)
+    if (length(zeros_ind)) {
+      contains_pos_and_neg_zeroes <- length(unique(1/x[zeros_ind])) != 1
+      if (contains_pos_and_neg_zeroes) return(NULL)
     }
 
     # rep ----------------------------------------------------------------------
@@ -235,6 +246,13 @@ rle2 <- function (x) {
 
 
 format_flex <- function(x, all_na) {
+  # negative zeroes
+  if (identical(x, 0) && sign(1/x) == -1) return("-0")
+  # negative NAs, commented for now as might be overkill, and inconsistent
+  # if(is.na(x) && serialize(x, NULL)[[32]] == as.raw(0xff)) {
+  #   if (is.nan(x)) return("-NaN")
+  #   return("-NA_real_")
+  # }
   formatted <- format(x, digits = 15)
   if (formatted == "NA") {
     if (all_na) return("NA_real_") else return("NA")

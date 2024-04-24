@@ -78,3 +78,13 @@ test_that("character", {
     construct("'\"\n")
   })
 })
+
+test_that("negative zeroes", {
+  expect_snapshot({
+    construct(-0)
+    construct(c(-0, -0, -0))
+    construct(c(0, -0, -0))
+    # construct(-NA_real_)
+    # construct(-NaN)
+  })
+})
