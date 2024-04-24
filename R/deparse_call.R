@@ -348,6 +348,7 @@ is_infix_narrow <- function(x) {
 }
 
 deparse_named_args_to_string <- function(args, one_liner, indent, unicode_representation, escape) {
+
   if (length(args) == 0) {
     return("")
   }
