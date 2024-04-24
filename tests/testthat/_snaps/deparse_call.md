@@ -285,6 +285,29 @@
 ---
 
     Code
+      deparse_call(quote(list(x = 1)))
+    Output
+      list(x = 1)
+    Code
+      deparse_call(quote((x = 1)))
+    Output
+      (x = 1)
+    Code
+      deparse_call(quote(list(x = 1)))
+    Output
+      list(x = 1)
+    Code
+      deparse_call(quote({
+        x = 1
+      }))
+    Output
+      {
+        x = 1
+      }
+
+---
+
+    Code
       deparse_call(quote({{ x }}), style = FALSE)
     Output
       [1] "{{ x }}"

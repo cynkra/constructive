@@ -78,6 +78,16 @@ test_that("deparse_call()", {
   })
 
   expect_snapshot({
+    # the following line cannot be tested with testthat because of their own
+    # faulty deparsing
+    # deparse_call(quote(`=`(x, 1)))
+    deparse_call(quote(list(`=`(x, 1))))
+    deparse_call(quote((`=`(x, 1))))
+    deparse_call(quote(list(x = 1)))
+    deparse_call(quote({x = 1}))
+  })
+
+  expect_snapshot({
     deparse_call(quote({{x}}), style = FALSE) # proper tunnel
     deparse_call(quote({{1}}), style = FALSE) # not a symbol
     deparse_call(quote({{1}}), one_liner = TRUE, style = FALSE)
