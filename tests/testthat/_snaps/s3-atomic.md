@@ -248,3 +248,38 @@
     Output
       "'\"\n"
 
+# complex
+
+    Code
+      construct(NA_complex_)
+    Output
+      NA_complex_
+    Code
+      construct(c(NA_complex_, NA_complex_))
+    Output
+      c(NA_complex_, NA_complex_)
+    Code
+      construct(c(NA_complex_, NA_complex_, NA_complex_))
+    Output
+      rep(NA_complex_, 3L)
+    Code
+      construct(c(NA_complex_, NA_complex_, NA_complex_), opts_atomic(compress = FALSE))
+    Output
+      c(NA_complex_, NA_complex_, NA_complex_)
+    Code
+      construct(c(NA_complex_, 1))
+    Output
+      c(NA_complex_, 1)
+    Code
+      construct(c(NA_complex_, 0+1i))
+    Output
+      c(NA, 1i)
+    Code
+      construct(1e-10 + 0+1e+10i)
+    Output
+      1e-10+1e+10i
+    Code
+      construct(c(1e-10 + 0+1e+10i, 2e-10 + 0+2e+10i))
+    Output
+      c(1e-10+1e+10i, 2e-10+2e+10i)
+
