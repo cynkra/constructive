@@ -96,4 +96,12 @@ test_that("deparse_call()", {
     deparse_call("ü")
     deparse_call("ü", unicode_representation = "latin")
   })
+
+  expect_snapshot({
+    deparse_call(quote(1 -> x <- 2))
+    deparse_call(quote(1 -> if(TRUE) 1))
+    deparse_call(quote(1 -> for(i in j) 1))
+    deparse_call(quote(1 -> while(TRUE) 1))
+    deparse_call(quote(1 -> repeat 1))
+  })
 })
