@@ -3,5 +3,6 @@
     Code
       construct(citHeader("a", "b"))
     Output
-      citHeader("a b")
+      list() |>
+        structure(class = "bibentry", mheader = "a b")
 
