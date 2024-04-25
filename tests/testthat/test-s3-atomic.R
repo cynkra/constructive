@@ -79,6 +79,16 @@ test_that("character", {
   })
 })
 
+test_that("negative zeroes", {
+  expect_snapshot({
+    construct(-0)
+    construct(c(-0, -0, -0))
+    construct(c(0, -0, -0))
+    # construct(-NA_real_)
+    # construct(-NaN)
+  })
+})
+
 test_that("complex", {
   expect_snapshot({
     # construct(NA_complex_)
