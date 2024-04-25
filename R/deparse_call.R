@@ -47,7 +47,16 @@ deparse_call <- function(
   )
 
   code <- rlang::try_fetch(
-    deparse_call_impl(call, one_liner, 0, pipe, check_syntactic = TRUE, unicode_representation, escape),
+    deparse_call_impl(
+      call,
+      one_liner,
+      0,
+      pipe,
+      check_syntactic = TRUE,
+      unicode_representation,
+      escape,
+      lisp_equal = TRUE
+    ),
     error = function(cnd) {
       abort("`call` must only be made of symbols and syntactic literals", parent = cnd)
     })
@@ -71,7 +80,8 @@ deparse_call0 <- function(
     call,
     one_liner = one_liner,
     unicode_representation = unicode_representation,
-    escape = escape
+    escape = escape,
+    lisp_equal = TRUE
   )
   split_by_line(code)
 }
@@ -83,7 +93,9 @@ deparse_call_impl <- function(
     pipe = FALSE,
     check_syntactic = TRUE,
     unicode_representation = "ascii",
-    escape = FALSE) {
+    escape = FALSE,
+    lisp_equal = FALSE
+    ) {
 
   # helper to avoid forwarding all args all the time
   rec <- function(call, ...) {
@@ -96,8 +108,9 @@ deparse_call_impl <- function(
       pipe,
       check_syntactic,
       unicode_representation,
-      escape
-      )
+      escape,
+      lisp_equal = FALSE
+    )
   }
 
   if (is.symbol(call)) {
@@ -164,9 +177,44 @@ deparse_call_impl <- function(
     return(sprintf("%s%s", caller, rec(call[[2]])))
   }
 
+  if (lisp_equal && caller == "=") {
+    args <- deparse_named_args_to_string(
+      call[-1],
+      one_liner = one_liner,
+      indent = indent,
+      unicode_representation,
+      escape
+    )
+    return(sprintf("`=`(%s)", args))
+  }
+
   if (is_infix_wide(caller) && length(call) == 3) {
     # cancel the pipe where it doesn't belong
     pipe <- pipe && caller %in% c("~", "<-", "<<-", "=", "?", ":=")
+    use_right_assignment <-
+      caller == "<-" &&
+      is.call(call[[2]]) &&
+      list(call[[2]][[1]]) %in% alist(`<-`, `if`, `for`, `while`, `repeat`)
+    if (use_right_assignment) {
+      # because `<-` has differen precedence
+      if (identical(call[[2]][[1]], as.symbol("<-"))) {
+        code <- sprintf(
+          "%s -> %s <- %s",
+          rec(call[[2]][[3]]),
+          rec(call[[2]][[2]]),
+          rec(call[[3]])
+        )
+        return(code)
+      }
+
+      code <- sprintf(
+        "%s -> %s",
+        rec(call[[3]]),
+        rec(call[[2]])
+      )
+      return(code)
+    }
+
     code <- sprintf(
       "%s %s %s",
       rec(call[[2]]),
@@ -303,7 +351,7 @@ deparse_named_args_to_string <- function(args, one_liner, indent, unicode_repres
   if (length(args) == 0) {
     return("")
   }
-  args <- vapply(args, deparse_call_impl, character(1), one_liner = one_liner, indent = indent + 1)
+  args <- vapply(args, deparse_call_impl, character(1), one_liner = one_liner, indent = indent + 1, lisp_equal = TRUE)
   nms <- sapply(rlang::names2(args), fix_name, unicode_representation, escape)
   args <- paste(nms, "=", args)
   args <- sub("^ = ", "", args)

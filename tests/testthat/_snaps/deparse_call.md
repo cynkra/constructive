@@ -285,6 +285,29 @@
 ---
 
     Code
+      deparse_call(quote(list(x = 1)))
+    Output
+      list(x = 1)
+    Code
+      deparse_call(quote((x = 1)))
+    Output
+      (x = 1)
+    Code
+      deparse_call(quote(list(x = 1)))
+    Output
+      list(x = 1)
+    Code
+      deparse_call(quote({
+        x = 1
+      }))
+    Output
+      {
+        x = 1
+      }
+
+---
+
+    Code
       deparse_call(quote({{ x }}), style = FALSE)
     Output
       [1] "{{ x }}"
@@ -320,4 +343,27 @@
       deparse_call("ü", unicode_representation = "latin")
     Output
       "ü"
+
+---
+
+    Code
+      deparse_call(quote((x <- 1) <- 2))
+    Output
+      (x <- 1) <- 2
+    Code
+      deparse_call(quote(if (TRUE) 1 <- 1))
+    Output
+      if (TRUE) 1 <- 1
+    Code
+      deparse_call(quote(for (i in j) 1 <- 1))
+    Output
+      for (i in j) 1 <- 1
+    Code
+      deparse_call(quote(while (TRUE) 1 <- 1))
+    Output
+      while (TRUE) 1 <- 1
+    Code
+      deparse_call(quote(repeat 1 <- 1))
+    Output
+      repeat 1 <- 1
 

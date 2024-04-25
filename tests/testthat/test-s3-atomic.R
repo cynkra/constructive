@@ -88,3 +88,16 @@ test_that("negative zeroes", {
     # construct(-NaN)
   })
 })
+
+test_that("complex", {
+  expect_snapshot({
+    # construct(NA_complex_)
+    # construct(c(NA_complex_, NA_complex_))
+    # construct(c(NA_complex_, NA_complex_, NA_complex_))
+    # construct(c(NA_complex_, NA_complex_, NA_complex_), opts_atomic(compress = FALSE))
+    # construct(c(NA_complex_, 1))
+    # construct(c(NA_complex_, 1i))
+    # construct(1e-10 + 1e10i)
+    # construct(c(1e-10 + 1e10i, 2e-10 + 2e10i))
+  })
+})

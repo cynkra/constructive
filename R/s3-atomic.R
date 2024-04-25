@@ -116,6 +116,10 @@ construct_atomic <- function(x, ..., unicode_representation = c("ascii", "latin"
     return(construct_chr(x, unicode_representation = unicode_representation, escape = escape, ...))
   }
 
+  if (is.complex(x)) {
+    return(construct_complex(x, unicode_representation = unicode_representation, escape = escape, ...))
+  }
+
   if (!is.double(x)) {
     code <- sapply(x, deparse)
     if (!all(is.na(x))) {
@@ -270,6 +274,37 @@ format_flex <- function(x, all_na) {
   # (similarly to .deparseOpts("hexNumeric"))
   sprintf("%a", x) # nocov
 }
+
+construct_complex <- function(x, ...) {
+  re <- sapply(Re(x), construct_atomic, ...)
+  im <- sapply(Im(x), construct_atomic, ...)
+  code <- ifelse(
+    is.na(x),
+    "NA",
+    ifelse (
+      re == "0",
+      paste0(im, "i"),
+      ifelse(
+        im == "0" & !all(im == "0"),
+        re,
+        paste0(re, "+", im, "i")
+      )
+    )
+  )
+  if (all(is.na(x) | im == "0")) {
+    code[is.na(x)] <- "NA_complex_"
+  }
+  if (length(x) == 1 && is.null(names(x))) return(code)
+  code <- .cstr_apply(
+    code,
+    "c",
+    ...,
+    recurse = FALSE
+  )
+  if (list(...)$one_liner) code <- paste(code, collapse = " ")
+  code
+}
+
 
 construct_chr <- function(x, unicode_representation, escape, ...) {
   if (!length(x)) return("character(0)")
