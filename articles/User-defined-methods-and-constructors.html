@@ -48,11 +48,10 @@
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
+<ul class="navbar-nav">
+<li><form class="form-inline" role="search">
+<input type="search" class="form-control" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
+</form></li>
 <li class="nav-item">
   <a class="external-link nav-link" href="https://github.com/cynkra/constructive/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
@@ -129,7 +128,7 @@ attempts to match its data input to a list of objects provided to the
 <span><span class="co">#&gt;   if (!is.null(data_name)) return(data_name)</span></span>
 <span><span class="co">#&gt;   UseMethod(".cstr_construct")</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55a8eb9fad78&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5597802ffbd0&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span>
 <span><span class="fu"><a href="../reference/dot-cstr_construct.html">.cstr_construct</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "c("                                                                                                        </span></span>
@@ -281,7 +280,7 @@ contain the constructor functions.</p>
 <span><span class="co">#&gt;   code &lt;- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)</span></span>
 <span><span class="co">#&gt;   repair_attributes_Date(x, code, ...)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55a8ea88f950&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55977f16bef0&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <p>A function call is made of a function and its arguments. A
 constructor sets the function and constructs its arguments recursively.
@@ -351,7 +350,7 @@ need to dive deeper in this vignette.</p>
 <span><span class="co">#&gt;     idiomatic_class = "Date"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55a8eba2d5d8&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x559780354b50&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span>
 <span></span>
 <span><span class="fu">constructive</span><span class="fu">:::</span><span class="va">repair_attributes_factor</span></span>
@@ -362,7 +361,7 @@ need to dive deeper in this vignette.</p>
 <span><span class="co">#&gt;     idiomatic_class = "factor"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55a8ece65b00&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55978178a900&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
