@@ -40,10 +40,17 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
   if (is.null(attrs$names) || anyNA(attrs$names) || !all(attrs$names == "")) attrs$names <- NULL
   # The `noquote` class is added at the end of the class vector so method `.noquote`
   # wouldn't be triggered
-  if (inherits(x, "noquote")) {
+  if (
+    !identical(attrs$class, idiomatic_class) &&
+    tail(class(x), 1) == "noquote" &&
+    .cstr_fetch_opts("noquote", ...)$constructor == "noquote"
+    ) {
+    right <- identical(tail(names(class(x)), 1), "right")
+    args <- list(code)
+    args$right <- if (right) "TRUE"
+    code <- .cstr_apply(args, "noquote", recurse = FALSE)
     attrs$class <- setdiff(attrs$class, "noquote")
     if (!length(attrs$class)) attrs$class <- NULL
-    code <- .cstr_wrap(code, "noquote", new_line = FALSE)
   }
   if (identical(attrs$class, idiomatic_class)) {
     attrs$class <- NULL
