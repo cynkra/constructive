@@ -1,5 +1,6 @@
 #' @export
 #' @rdname other-opts
+#' @param integer Whether to use `as.hexmode()` on integer rather than character
 opts_hexmode <- function(constructor = c("as.hexmode", "next"), ..., integer = FALSE) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
