@@ -1,6 +1,6 @@
 #' @export
 #' @rdname other-opts
-opts_citationFooter <- function(constructor = c("default", "next"), ...) {
+opts_citationFooter <- function(constructor = c("citFooter", "next"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     check_dots_empty()
@@ -17,11 +17,11 @@ opts_citationFooter <- function(constructor = c("default", "next"), ...) {
 }
 
 is_corrupted_citationFooter <- function(x) {
-  !is.character(x)
+  !is.character(x) || getRversion() > "3.3.0"
 }
 
 #' @export
-constructors$citationFooter$default <- function(x, ...) {
+constructors$citationFooter$citFooter <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "citFooter", ...)
   repair_attributes_citationFooter(x, code, ...)
 }

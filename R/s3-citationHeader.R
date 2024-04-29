@@ -1,6 +1,6 @@
 #' @export
 #' @rdname other-opts
-opts_citationHeader <- function(constructor = c("default", "next"), ...) {
+opts_citationHeader <- function(constructor = c("citHeader", "next"), ...) {
   .cstr_combine_errors(
     constructor <- rlang::arg_match(constructor),
     check_dots_empty()
@@ -17,11 +17,11 @@ opts_citationHeader <- function(constructor = c("default", "next"), ...) {
 }
 
 is_corrupted_citationHeader <- function(x) {
-  !is.character(x)
+  !is.character(x) || getRversion() > "3.3.0"
 }
 
 #' @export
-constructors$citationHeader$default <- function(x, ...) {
+constructors$citationHeader$citHeader <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "citHeader", ...)
   repair_attributes_citationHeader(x, code, ...)
 }
