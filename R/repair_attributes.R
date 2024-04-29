@@ -28,7 +28,6 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
 #' @param remove Attributes that should be removed, should rarely be useful.
 #' @param flag_s4 use `asS4()` on the code of S4 objects, set to `FALSE` when
 #'   a constructor that produces S4 objects was used.
-#' @inheritParams construct
 #'
 #' @return A character vector
 #' @export
