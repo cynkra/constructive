@@ -248,6 +248,21 @@
     Output
       "'\"\n"
 
+# negative zeroes
+
+    Code
+      construct(-0)
+    Output
+      -0
+    Code
+      construct(c(-0, -0, -0))
+    Output
+      -numeric(3)
+    Code
+      construct(c(0, -0, -0))
+    Output
+      c(0, -0, -0)
+
 # complex
 
     Code
