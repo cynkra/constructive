@@ -100,8 +100,8 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next", "atomic"), ...)}
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("default", "ascii", "latin", "character", "unicode"), escape = NULL)}
   \item \code{\link[=opts_bibentry]{opts_bibentry}(constructor = c("bibentry", "next"), ...)}
-  \item \code{\link[=opts_citationFooter]{opts_citationFooter}(constructor = c("default", "next"), ...)}
-  \item \code{\link[=opts_citationHeader]{opts_citationHeader}(constructor = c("default", "next"), ...)}
+  \item \code{\link[=opts_citationFooter]{opts_citationFooter}(constructor = c("citFooter", "next"), ...)}
+  \item \code{\link[=opts_citationHeader]{opts_citationHeader}(constructor = c("citHeader", "next"), ...)}
   \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}(constructor = c("setClass"), ...)}
   \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}(constructor = c("prototype"), ...)}
   \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}

@@ -62,9 +62,9 @@
 \usage{
 opts_bibentry(constructor = c("bibentry", "next"), ...)
 
-opts_citationFooter(constructor = c("default", "next"), ...)
+opts_citationFooter(constructor = c("citFooter", "next"), ...)
 
-opts_citationHeader(constructor = c("default", "next"), ...)
+opts_citationHeader(constructor = c("citHeader", "next"), ...)
 
 opts_difftime(constructor = c("as.difftime", "next"), ...)
 
