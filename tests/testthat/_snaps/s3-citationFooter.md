@@ -3,5 +3,6 @@
     Code
       construct(citFooter("a", "b"))
     Output
-      citFooter("a b")
+      "a b" |>
+        structure(class = "citationFooter")
 
