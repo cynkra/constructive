@@ -356,3 +356,8 @@ highlight_if_prettycode_installed <- function(x, style = NULL) {
   }
   prettycode::highlight(x, style = style %||% prettycode::default_style())
 }
+
+strip <- function(x) {
+  attributes(x) <- attributes(x)["names"]
+  x
+}
