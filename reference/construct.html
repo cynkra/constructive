@@ -88,33 +88,33 @@ builds the code to reproduce objects stored in a named list or environment.</p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>x</dt>
+    <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>An object, for <code>construct_multi()</code> a named list or an environment.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Constructive options built with the <code>opts_*()</code> family of functions. See the "Constructive options"
 section below.</p></dd>
 
 
-<dt>data</dt>
+<dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>Named list or environment of objects we want to detect and mention by name (as opposed to
 deparsing them further). Can also contain unnamed nested lists, environments, or
 package names, in the latter case package exports and datasets will be considered.
 In case of conflict, the last provided name is considered.</p></dd>
 
 
-<dt>pipe</dt>
+<dt id="arg-pipe">pipe<a class="anchor" aria-label="anchor" href="#arg-pipe"></a></dt>
 <dd><p>Which pipe to use, either <code>"base"</code> or <code>"magrittr"</code>.
 Defaults to <code>"base"</code> for R &gt;= 4.2, otherwise to <code>"magrittr"</code>.</p></dd>
 
 
-<dt>check</dt>
+<dt id="arg-check">check<a class="anchor" aria-label="anchor" href="#arg-check"></a></dt>
 <dd><p>Boolean. Whether to check if the created code reproduces the object
 using <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code>.</p></dd>
 
 
-<dt>unicode_representation</dt>
+<dt id="arg-unicode-representation">unicode_representation<a class="anchor" aria-label="anchor" href="#arg-unicode-representation"></a></dt>
 <dd><p>By default "ascii", which means only ASCII characters
 (code point &lt; 128) will be used to construct strings and variable names. This makes sure that
 homoglyphs (different spaces and other identically displayed unicode characters)
@@ -124,7 +124,7 @@ auto conversion issues. "latin" is more lax and uses all latin characters
 "unicode" displays all characters and emojis, which is what <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> does.</p></dd>
 
 
-<dt>escape</dt>
+<dt id="arg-escape">escape<a class="anchor" aria-label="anchor" href="#arg-escape"></a></dt>
 <dd><p>Whether to escape double quotes and backslashes. If <code>FALSE</code> we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
@@ -132,15 +132,15 @@ and/or a combination of single and double quotes. Depending on
 <code>unicode_representation</code> <code>escape = FALSE</code> cannot be applied on all strings.</p></dd>
 
 
-<dt>compare</dt>
+<dt id="arg-compare">compare<a class="anchor" aria-label="anchor" href="#arg-compare"></a></dt>
 <dd><p>Parameters passed to <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code>, built with <code><a href="compare_options.html">compare_options()</a></code>.</p></dd>
 
 
-<dt>one_liner</dt>
+<dt id="arg-one-liner">one_liner<a class="anchor" aria-label="anchor" href="#arg-one-liner"></a></dt>
 <dd><p>Boolean. Whether to collapse the output to a single line of code.</p></dd>
 
 
-<dt>template</dt>
+<dt id="arg-template">template<a class="anchor" aria-label="anchor" href="#arg-template"></a></dt>
 <dd><p>A list of constructive options built with <code>opts_*()</code> functions,
 they will be overriden by <code>...</code>. Use it to set a default
 behavior for <code>{constructive}</code>.</p></dd>
@@ -167,6 +167,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <ul><li><p><code><a href="opts_array.html">opts_array</a>(constructor = c("array", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_AsIs.html">opts_AsIs</a>(constructor = c("I", "next", "atomic"), ...)</code></p></li>
 <li><p><code><a href="opts_atomic.html">opts_atomic</a>(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("default", "ascii", "latin", "character", "unicode"), escape = NULL)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_bibentry</a>(constructor = c("bibentry", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_citationFooter</a>(constructor = c("citFooter", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_citationHeader</a>(constructor = c("citHeader", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_classGeneratorFunction.html">opts_classGeneratorFunction</a>(constructor = c("setClass"), ...)</code></p></li>
 <li><p><code><a href="opts_classPrototypeDef.html">opts_classPrototypeDef</a>(constructor = c("prototype"), ...)</code></p></li>
 <li><p><code><a href="opts_classRepresentation.html">opts_classRepresentation</a>(constructor = c("getClassDef"), ...)</code></p></li>
@@ -183,6 +186,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_data.frame.html">opts_data.frame</a>(constructor = c("data.frame", "read.table", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_data.table.html">opts_data.table</a>(constructor = c("data.table", "next", "list"), ..., selfref = FALSE)</code></p></li>
 <li><p><code><a href="opts_Date.html">opts_Date</a>(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01")</code></p></li>
+<li><p><code><a href="other-opts.html">opts_difftime</a>(constructor = c("as.difftime", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_dm.html">opts_dm</a>(constructor = c("dm", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_dots.html">opts_dots</a>(constructor = c("default"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_element_blank</a>(constructor = c("element_blank", "next", "list"), ...)</code></p></li>
@@ -192,6 +196,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_element_render</a>(constructor = c("element_render", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_element_text</a>(constructor = c("element_text", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_environment.html">opts_environment</a>(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_error</a>(constructor = c("errorCondition", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_externalptr.html">opts_externalptr</a>(constructor = c("default"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_FacetWrap</a>(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_factor.html">opts_factor</a>(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...)</code></p></li>
@@ -200,6 +205,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_ggplot.html">opts_ggplot</a>(constructor = c("ggplot", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_ggproto</a>(constructor = c("default", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_grouped_df.html">opts_grouped_df</a>(constructor = c("default", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_hexmode</a>(constructor = c("as.hexmode", "next"), ..., integer = FALSE)</code></p></li>
 <li><p><code><a href="opts_integer64.html">opts_integer64</a>(constructor = c("as.integer64", "next", "atomic"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_labels</a>(constructor = c("labs", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_language.html">opts_language</a>(constructor = c("default"), ...)</code></p></li>
@@ -208,10 +214,13 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_margin</a>(constructor = c("margin", "next", "atomic"), ...)</code></p></li>
 <li><p><code><a href="opts_matrix.html">opts_matrix</a>(constructor = c("matrix", "array", "next", "atomic"), ...)</code></p></li>
 <li><p><code><a href="opts_mts.html">opts_mts</a>(constructor = c("ts", "next", "atomic"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_noquote</a>(constructor = c("noquote", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_numeric_version.html">opts_numeric_version</a>(constructor = c("numeric_version", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_octmode</a>(constructor = c("as.octmode", "next"), ..., integer = FALSE)</code></p></li>
 <li><p><code><a href="opts_ordered.html">opts_ordered</a>(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...)</code></p></li>
 <li><p><code><a href="opts_package_version.html">opts_package_version</a>(constructor = c("package_version", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_pairlist.html">opts_pairlist</a>(constructor = c("pairlist", "pairlist2"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_person</a>(constructor = c("person", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_POSIXct.html">opts_POSIXct</a>(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")</code></p></li>
 <li><p><code><a href="opts_POSIXlt.html">opts_POSIXlt</a>(constructor = c("as.POSIXlt", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_quosure.html">opts_quosure</a>(constructor = c("new_quosure", "next", "language"), ...)</code></p></li>
@@ -222,13 +231,18 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_S4.html">opts_S4</a>(constructor = c("new"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_Scale</a>(constructor = c("default", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_ScalesList</a>(constructor = c("ScalesList", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_simpleCondition</a>(constructor = c("simpleCondition", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_simpleError</a>(constructor = c("simpleError", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_simpleMessage</a>(constructor = c("simpleMessage", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_simpleUnit</a>(constructor = c("unit", "next", "atomic"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_simpleWarning</a>(constructor = c("simpleWarning", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_tbl_df.html">opts_tbl_df</a>(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_theme</a>(constructor = c("theme", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_ts.html">opts_ts</a>(constructor = c("ts", "next", "atomic"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_uneval</a>(constructor = c("aes", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_vctrs_list_of.html">opts_vctrs_list_of</a>(constructor = c("list_of", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_waiver</a>(constructor = c("waiver", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_warning</a>(constructor = c("warningCondition", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_weakref.html">opts_weakref</a>(constructor = c("new_weakref"), ...)</code></p></li>
 </ul></div>
 

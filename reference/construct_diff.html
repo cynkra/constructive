@@ -73,51 +73,51 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>target</dt>
+    <dl><dt id="arg-target">target<a class="anchor" aria-label="anchor" href="#arg-target"></a></dt>
 <dd><p>the reference object</p></dd>
 
 
-<dt>current</dt>
+<dt id="arg-current">current<a class="anchor" aria-label="anchor" href="#arg-current"></a></dt>
 <dd><p>the object being compared to <code>target</code></p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Constructive options built with the <code>opts_*()</code> family of functions. See the "Constructive options"
 section below.</p></dd>
 
 
-<dt>data</dt>
+<dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>Named list or environment of objects we want to detect and mention by name (as opposed to
 deparsing them further). Can also contain unnamed nested lists, environments, or
 package names, in the latter case package exports and datasets will be considered.
 In case of conflict, the last provided name is considered.</p></dd>
 
 
-<dt>pipe</dt>
+<dt id="arg-pipe">pipe<a class="anchor" aria-label="anchor" href="#arg-pipe"></a></dt>
 <dd><p>Which pipe to use, either <code>"base"</code> or <code>"magrittr"</code>.
 Defaults to <code>"base"</code> for R &gt;= 4.2, otherwise to <code>"magrittr"</code>.</p></dd>
 
 
-<dt>check</dt>
+<dt id="arg-check">check<a class="anchor" aria-label="anchor" href="#arg-check"></a></dt>
 <dd><p>Boolean. Whether to check if the created code reproduces the object
 using <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code>.</p></dd>
 
 
-<dt>compare</dt>
+<dt id="arg-compare">compare<a class="anchor" aria-label="anchor" href="#arg-compare"></a></dt>
 <dd><p>Parameters passed to <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code>, built with <code><a href="compare_options.html">compare_options()</a></code>.</p></dd>
 
 
-<dt>one_liner</dt>
+<dt id="arg-one-liner">one_liner<a class="anchor" aria-label="anchor" href="#arg-one-liner"></a></dt>
 <dd><p>Boolean. Whether to collapse the output to a single line of code.</p></dd>
 
 
-<dt>template</dt>
+<dt id="arg-template">template<a class="anchor" aria-label="anchor" href="#arg-template"></a></dt>
 <dd><p>A list of constructive options built with <code>opts_*()</code> functions,
 they will be overriden by <code>...</code>. Use it to set a default
 behavior for <code>{constructive}</code>.</p></dd>
 
 
-<dt>mode, interactive</dt>
+<dt id="arg-mode-interactive">mode, interactive<a class="anchor" aria-label="anchor" href="#arg-mode-interactive"></a></dt>
 <dd><p>passed to <code><a href="https://rdrr.io/pkg/diffobj/man/diffChr.html" class="external-link">diffobj::diffChr()</a></code></p></dd>
 
 </dl></div>

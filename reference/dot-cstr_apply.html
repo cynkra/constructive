@@ -81,44 +81,44 @@ construct one should set <code>recurse</code> to <code>FALSE</code>.</p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>args</dt>
+    <dl><dt id="arg-args">args<a class="anchor" aria-label="anchor" href="#arg-args"></a></dt>
 <dd><p>A list of arguments to construct recursively, or code if <code>recurse = FALSE</code>.
 If elements are named, the arguments will be named in the generated code.</p></dd>
 
 
-<dt>fun</dt>
+<dt id="arg-fun">fun<a class="anchor" aria-label="anchor" href="#arg-fun"></a></dt>
 <dd><p>The function name to use to build code of the form "fun(...)"</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>options passed recursively to the further methods</p></dd>
 
 
-<dt>trailing_comma</dt>
+<dt id="arg-trailing-comma">trailing_comma<a class="anchor" aria-label="anchor" href="#arg-trailing-comma"></a></dt>
 <dd><p>leave a trailing comma after the last argument if
 the code is multiline, some constructors allow it (e.g. <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code>) and it makes for nicer
 diffs in version control.</p></dd>
 
 
-<dt>recurse</dt>
+<dt id="arg-recurse">recurse<a class="anchor" aria-label="anchor" href="#arg-recurse"></a></dt>
 <dd><p>Whether to recursively generate the code to construct <code>args</code>. If <code>FALSE</code> arguments
 are expected to contain code.</p></dd>
 
 
-<dt>implicit_names</dt>
+<dt id="arg-implicit-names">implicit_names<a class="anchor" aria-label="anchor" href="#arg-implicit-names"></a></dt>
 <dd><p>When data is provided, compress calls of the form <code>f(a = a)</code> to <code>f(a)</code></p></dd>
 
 
-<dt>new_line</dt>
+<dt id="arg-new-line">new_line<a class="anchor" aria-label="anchor" href="#arg-new-line"></a></dt>
 <dd><p>passed to wrap to remove add a line after "fun(" and before ")", forced to
 <code>FALSE</code> if <code>one_liner</code> is <code>TRUE</code></p></dd>
 
 
-<dt>one_liner</dt>
+<dt id="arg-one-liner">one_liner<a class="anchor" aria-label="anchor" href="#arg-one-liner"></a></dt>
 <dd><p>Whether to return a one line call.</p></dd>
 
 
-<dt>unicode_representation</dt>
+<dt id="arg-unicode-representation">unicode_representation<a class="anchor" aria-label="anchor" href="#arg-unicode-representation"></a></dt>
 <dd><p>By default "ascii", which means only ASCII characters
 (code point &lt; 128) will be used to construct strings and variable names. This makes sure that
 homoglyphs (different spaces and other identically displayed unicode characters)
@@ -128,7 +128,7 @@ auto conversion issues. "latin" is more lax and uses all latin characters
 "unicode" displays all characters and emojis, which is what <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> does.</p></dd>
 
 
-<dt>escape</dt>
+<dt id="arg-escape">escape<a class="anchor" aria-label="anchor" href="#arg-escape"></a></dt>
 <dd><p>Whether to escape double quotes and backslashes. If <code>FALSE</code> we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes

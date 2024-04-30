@@ -75,31 +75,31 @@ symbols and syntactic literals where cited alternatives would produce non syntac
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>call</dt>
+    <dl><dt id="arg-call">call<a class="anchor" aria-label="anchor" href="#arg-call"></a></dt>
 <dd><p>A call</p></dd>
 
 
-<dt>one_liner</dt>
+<dt id="arg-one-liner">one_liner<a class="anchor" aria-label="anchor" href="#arg-one-liner"></a></dt>
 <dd><p>Boolean. Whether to collapse multi-line expressions on a single line using
 semicolons</p></dd>
 
 
-<dt>pipe</dt>
+<dt id="arg-pipe">pipe<a class="anchor" aria-label="anchor" href="#arg-pipe"></a></dt>
 <dd><p>Boolean. Whether to use the base pipe to disentangle nested calls. This
 works best on simple calls.</p></dd>
 
 
-<dt>style</dt>
+<dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
 <dd><p>Boolean. Whether to give a class "constructive_code" on the output
 for pretty printing.</p></dd>
 
 
-<dt>collapse</dt>
+<dt id="arg-collapse">collapse<a class="anchor" aria-label="anchor" href="#arg-collapse"></a></dt>
 <dd><p>Boolean. Whether to collapse the output to a single string,
 won't be directly visible if <code>style</code> is <code>TRUE</code></p></dd>
 
 
-<dt>unicode_representation</dt>
+<dt id="arg-unicode-representation">unicode_representation<a class="anchor" aria-label="anchor" href="#arg-unicode-representation"></a></dt>
 <dd><p>By default "ascii", which means only ASCII characters
 (code point &lt; 128) will be used to construct strings and variable names. This makes sure that
 homoglyphs (different spaces and other identically displayed unicode characters)
@@ -109,7 +109,7 @@ auto conversion issues. "latin" is more lax and uses all latin characters
 "unicode" displays all characters and emojis, which is what <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> does.</p></dd>
 
 
-<dt>escape</dt>
+<dt id="arg-escape">escape<a class="anchor" aria-label="anchor" href="#arg-escape"></a></dt>
 <dd><p>Whether to escape double quotes and backslashes. If <code>FALSE</code> we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes

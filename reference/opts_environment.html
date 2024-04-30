@@ -88,22 +88,22 @@ avoid. <br></p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>constructor</dt>
+    <dl><dt id="arg-constructor">constructor<a class="anchor" aria-label="anchor" href="#arg-constructor"></a></dt>
 <dd><p>String. Name of the function used to construct the environment, see <strong>Constructors</strong> section.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Should not be used. Forces passing arguments by name.</p></dd>
 
 
-<dt>recurse</dt>
+<dt id="arg-recurse">recurse<a class="anchor" aria-label="anchor" href="#arg-recurse"></a></dt>
 <dd><p>Boolean. Only considered if <code>constructor</code> is <code>"list2env"</code> or <code>"new_environment"</code>. Whether to
 attempt to recreate all parent environments until a known environment is found,
 if <code>FALSE</code> (the default) we will use <code><a href="https://rdrr.io/r/base/ns-topenv.html" class="external-link">topenv()</a></code> to find a known ancestor to set as
 the parent.</p></dd>
 
 
-<dt>predefine</dt>
+<dt id="arg-predefine">predefine<a class="anchor" aria-label="anchor" href="#arg-predefine"></a></dt>
 <dd><p>Boolean. Whether to define environments first. If <code>TRUE</code> <code>constructor</code> and <code>recurse</code>
 are ignored. It circumvents the circularity, recursivity and redundancy issues of
 other constructors. The caveat is that the created code won't be a single call

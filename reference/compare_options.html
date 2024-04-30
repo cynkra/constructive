@@ -66,13 +66,13 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>ignore_srcref</dt>
+    <dl><dt id="arg-ignore-srcref">ignore_srcref<a class="anchor" aria-label="anchor" href="#arg-ignore-srcref"></a></dt>
 <dd><p>Ignore differences in function <code>srcref</code>s? <code>TRUE</code> by
 default since the <code>srcref</code> does not change the behaviour of a function,
 only its printed representation.</p></dd>
 
 
-<dt>ignore_attr</dt>
+<dt id="arg-ignore-attr">ignore_attr<a class="anchor" aria-label="anchor" href="#arg-ignore-attr"></a></dt>
 <dd><p>Ignore differences in specified attributes?
 Supply a character vector to ignore differences in named attributes.
 By default the <code>"waldo_opts"</code> attribute is listed in <code>ignore_attr</code> so
@@ -84,7 +84,7 @@ recommended as it is a blunt tool that will ignore many important
 functional differences.</p></dd>
 
 
-<dt>ignore_function_env, ignore_formula_env</dt>
+<dt id="arg-ignore-function-env-ignore-formula-env">ignore_function_env, ignore_formula_env<a class="anchor" aria-label="anchor" href="#arg-ignore-function-env-ignore-formula-env"></a></dt>
 <dd><p>Ignore the environments of
 functions and formulas, respectively? These are provided primarily for
 backward compatibility with <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code> which always ignores these
