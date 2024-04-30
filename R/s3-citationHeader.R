@@ -17,7 +17,7 @@ opts_citationHeader <- function(constructor = c("citHeader", "next"), ...) {
 }
 
 is_corrupted_citationHeader <- function(x) {
-  !is.character(x) || getRversion() > "3.3.0"
+  !is.character(x) || getRversion() > "4.3.0"
 }
 
 #' @export
