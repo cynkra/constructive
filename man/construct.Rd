@@ -99,6 +99,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_array]{opts_array}(constructor = c("array", "next"), ...)}
   \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next", "atomic"), ...)}
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("default", "ascii", "latin", "character", "unicode"), escape = NULL)}
+  \item \code{\link[=opts_bibentry]{opts_bibentry}(constructor = c("bibentry", "next"), ...)}
+  \item \code{\link[=opts_citationFooter]{opts_citationFooter}(constructor = c("citFooter", "next"), ...)}
+  \item \code{\link[=opts_citationHeader]{opts_citationHeader}(constructor = c("citHeader", "next"), ...)}
   \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}(constructor = c("setClass"), ...)}
   \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}(constructor = c("prototype"), ...)}
   \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}
@@ -115,6 +118,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ...)}
   \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE)}
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
+  \item \code{\link[=opts_difftime]{opts_difftime}(constructor = c("as.difftime", "next"), ...)}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
   \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
   \item \code{\link[=opts_element_blank]{opts_element_blank}(constructor = c("element_blank", "next", "list"), ...)}
@@ -124,6 +128,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_element_render]{opts_element_render}(constructor = c("element_render", "next", "list"), ...)}
   \item \code{\link[=opts_element_text]{opts_element_text}(constructor = c("element_text", "next", "list"), ...)}
   \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
+  \item \code{\link[=opts_error]{opts_error}(constructor = c("errorCondition", "next"), ...)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
   \item \code{\link[=opts_FacetWrap]{opts_FacetWrap}(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...)}
@@ -132,6 +137,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ggplot]{opts_ggplot}(constructor = c("ggplot", "next", "list"), ...)}
   \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
+  \item \code{\link[=opts_hexmode]{opts_hexmode}(constructor = c("as.hexmode", "next"), ..., integer = FALSE)}
   \item \code{\link[=opts_integer64]{opts_integer64}(constructor = c("as.integer64", "next", "atomic"), ...)}
   \item \code{\link[=opts_labels]{opts_labels}(constructor = c("labs", "next", "list"), ...)}
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
@@ -140,10 +146,13 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_margin]{opts_margin}(constructor = c("margin", "next", "atomic"), ...)}
   \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "next", "atomic"), ...)}
   \item \code{\link[=opts_mts]{opts_mts}(constructor = c("ts", "next", "atomic"), ...)}
+  \item \code{\link[=opts_noquote]{opts_noquote}(constructor = c("noquote", "next"), ...)}
   \item \code{\link[=opts_numeric_version]{opts_numeric_version}(constructor = c("numeric_version", "next", "list"), ...)}
+  \item \code{\link[=opts_octmode]{opts_octmode}(constructor = c("as.octmode", "next"), ..., integer = FALSE)}
   \item \code{\link[=opts_ordered]{opts_ordered}(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...)}
   \item \code{\link[=opts_package_version]{opts_package_version}(constructor = c("package_version", "next", "list"), ...)}
   \item \code{\link[=opts_pairlist]{opts_pairlist}(constructor = c("pairlist", "pairlist2"), ...)}
+  \item \code{\link[=opts_person]{opts_person}(constructor = c("person", "next"), ...)}
   \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "list"), ...)}
   \item \code{\link[=opts_quosure]{opts_quosure}(constructor = c("new_quosure", "next", "language"), ...)}
@@ -154,13 +163,18 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
   \item \code{\link[=opts_Scale]{opts_Scale}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_ScalesList]{opts_ScalesList}(constructor = c("ScalesList", "next", "list"), ...)}
+  \item \code{\link[=opts_simpleCondition]{opts_simpleCondition}(constructor = c("simpleCondition", "next"), ...)}
+  \item \code{\link[=opts_simpleError]{opts_simpleError}(constructor = c("simpleError", "next"), ...)}
+  \item \code{\link[=opts_simpleMessage]{opts_simpleMessage}(constructor = c("simpleMessage", "next"), ...)}
   \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = c("unit", "next", "atomic"), ...)}
+  \item \code{\link[=opts_simpleWarning]{opts_simpleWarning}(constructor = c("simpleWarning", "next"), ...)}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE)}
   \item \code{\link[=opts_theme]{opts_theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_uneval]{opts_uneval}(constructor = c("aes", "next", "list"), ...)}
   \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}(constructor = c("list_of", "next", "list"), ...)}
   \item \code{\link[=opts_waiver]{opts_waiver}(constructor = c("waiver", "next", "list"), ...)}
+  \item \code{\link[=opts_warning]{opts_warning}(constructor = c("warningCondition", "next"), ...)}
   \item \code{\link[=opts_weakref]{opts_weakref}(constructor = c("new_weakref"), ...)}
 }
 }
