@@ -87,9 +87,6 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
   )
   code <- c(globals$predefinition, code)
 
-  # for https://github.com/cynkra/constructive/issues/101
-  Encoding(code) <- "UTF-8"
-
   # attempt to parse, and style if successful
   styled_code <- try_parse(code, one_liner)
 
