@@ -57,6 +57,8 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
   # reset globals
   globals$predefinition <- character()
   globals$envs <- data.frame(hash = character(), name = character())
+  globals$native_encoding <- native_encoding()
+  globals$pedantic_encoding <- FALSE
 
   # check inputs
   .cstr_combine_errors(
@@ -166,14 +168,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
     code, names(code),
     f = function(x, y) {
       if (startsWith(x[[1]], "delayedAssign(")) return(x)
-
-      y_uni <- format_unicode(y, unicode_representation)
-      # FIXME: see name_and_append_comma()
-      y <- if (y == y_uni) protect(y) else deparse_chr(
-        y,
-        unicode_representation = unicode_representation,
-        escape = escape
-        )
+      y <- construct_string(y, unicode_representation, escape, mode = "name")
       x[[1]] <- paste(y, "<-", x[[1]])
       c(x, "")
     })

@@ -34,30 +34,11 @@ name_and_append_comma <- function(
     escape = FALSE) {
   unicode_representation <- match.arg(unicode_representation)
   if (nm != "" && (!implicit_names || !identical(nm, x))) {
-    nm <- fix_name(nm, unicode_representation, escape)
+    nm <- construct_string(nm, unicode_representation, escape, mode = "name")
     x[1] <- paste(nm, "=", x[1])
   }
   x[length(x)] <- paste0(x[length(x)], ",")
   x
-}
-
-# this includes the backquotes or double quotes, the backlash escaping,
-# and the unicode representation
-fix_name <- function(nm, unicode_representation, escape) {
-  nm_uni <- format_unicode(nm, unicode_representation)
-  # FIXME: not DRY, would require refactoring deparse_chr() as a composition
-  #.  of format_unicode() and another function that we'd use here
-  nm_contains_special_chars <- nm != nm_uni
-  if (nm_contains_special_chars) {
-    nm <- deparse_chr(
-      nm,
-      unicode_representation = unicode_representation,
-      escape = escape
-    )
-  } else {
-    nm <- gsub("\\\\", "\\\\\\\\", nm)
-    nm <- protect(nm)
-  }
 }
 
 #' Insert a pipe between two calls
@@ -361,3 +342,13 @@ strip <- function(x) {
   attributes(x) <- attributes(x)["names"]
   x
 }
+
+# note: system("locale charmap") gives the system encoding on unix but not sure
+# about windows
+native_encoding <- function() {
+  out <- sub("^.*\\.([^.]+)$", "\\1", Sys.getlocale("LC_CTYPE"))
+  if (out == "ISO8859-1") out <- "latin1"
+  out
+}
+
+
