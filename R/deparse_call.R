@@ -35,7 +35,8 @@ deparse_call <- function(
     style = TRUE,
     collapse = !style,
     unicode_representation = c("ascii", "latin", "character", "unicode"),
-    escape = FALSE) {
+    escape = FALSE,
+    pedantic_encoding = FALSE) {
 
   .cstr_combine_errors(
     abort_not_boolean(one_liner),
@@ -47,7 +48,7 @@ deparse_call <- function(
   )
 
   globals$native_encoding <- native_encoding()
-  globals$pedantic_encoding <- FALSE
+  globals$pedantic_encoding <- pedantic_encoding
 
   code <- rlang::try_fetch(
     deparse_call_impl(
