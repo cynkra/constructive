@@ -173,10 +173,6 @@ deparse_call_impl <- function(
     return(sprintf("repeat %s", expr))
   }
 
-  if (is_unary(caller) && length(call) == 2) {
-    return(sprintf("%s%s", caller, rec(call[[2]])))
-  }
-
   if (lisp_equal && caller == "=") {
     args <- deparse_named_args_to_string(
       call[-1],
@@ -186,6 +182,67 @@ deparse_call_impl <- function(
       escape
     )
     return(sprintf("`=`(%s)", args))
+  }
+
+  if (caller == "[" && length(call) > 1) {
+    arg1 <- rec(call[[2]])
+    other_args <- deparse_named_args_to_string(
+      call[-(1:2)],
+      one_liner = one_liner,
+      indent = indent,
+      unicode_representation,
+      escape
+    )
+    return(sprintf("%s[%s]", arg1, other_args))
+  }
+
+  if (caller == "[[" && length(call) > 1) {
+    arg1 <- rec(call[[2]])
+    other_args <- deparse_named_args_to_string(
+      call[-(1:2)],
+      one_liner = one_liner,
+      indent = indent,
+      unicode_representation,
+      escape
+    )
+    return(sprintf("%s[[%s]]", arg1, other_args))
+  }
+
+  if (caller == "(" && length(call) == 2) {
+    return(sprintf("(%s)", rec(call[[2]])))
+  }
+
+  if (caller == "{") {
+    if (length(call) == 1) {
+      return("{ }")
+    }
+    # tunneling
+    if (rlang::is_call(call[[2]], "{") && is.symbol(call[[c(2, 2)]])) {
+      return(sprintf("{{ %s }}", as.character(call[[c(2, 2)]])))
+    }
+
+    if (one_liner) {
+      args <- paste(vapply(call[-1], rec, character(1)), collapse = "; ")
+      return(sprintf("{%s}", args))
+    }
+    args <- vapply(call[-1], rec, character(1), indent = indent + 1)
+    args <- paste(indent(args, depth = indent + 1), collapse = "\n")
+    return(sprintf("{\n%s\n%s}", args, indent("", depth = indent)))
+  }
+
+  if (is.symbol(caller_lng) && !operands_have_higher_or_equal_precedence(caller, call)) {
+    args <- deparse_named_args_to_string(
+      call[-1],
+      one_liner = one_liner,
+      indent = indent,
+      unicode_representation,
+      escape
+    )
+    return(sprintf("%s(%s)", protect(caller), args))
+  }
+
+  if (is_unary(caller) && length(call) == 2) {
+    return(sprintf("%s%s", caller, rec(call[[2]])))
   }
 
   if (is_infix_wide(caller) && length(call) == 3) {
@@ -256,52 +313,6 @@ deparse_call_impl <- function(
     return(sprintf("%s%s%s", rec(call[[2]]), caller, rec(call[[3]])))
   }
 
-  if (caller == "[" && length(call) > 1) {
-    arg1 <- rec(call[[2]])
-    other_args <- deparse_named_args_to_string(
-      call[-(1:2)],
-      one_liner = one_liner,
-      indent = indent,
-      unicode_representation,
-      escape
-    )
-    return(sprintf("%s[%s]", arg1, other_args))
-  }
-
-  if (caller == "[[" && length(call) > 1) {
-    arg1 <- rec(call[[2]])
-    other_args <- deparse_named_args_to_string(
-      call[-(1:2)],
-      one_liner = one_liner,
-      indent = indent,
-      unicode_representation,
-      escape
-    )
-    return(sprintf("%s[[%s]]", arg1, other_args))
-  }
-
-  if (caller == "(" && length(call) == 2) {
-    return(sprintf("(%s)", rec(call[[2]])))
-  }
-
-  if (caller == "{") {
-    if (length(call) == 1) {
-      return("{ }")
-    }
-    # tunneling
-    if (rlang::is_call(call[[2]], "{") && is.symbol(call[[c(2, 2)]])) {
-      return(sprintf("{{ %s }}", as.character(call[[c(2, 2)]])))
-    }
-
-    if (one_liner) {
-      args <- paste(vapply(call[-1], rec, character(1)), collapse = "; ")
-      return(sprintf("{%s}", args))
-    }
-    args <- vapply(call[-1], rec, character(1), indent = indent + 1)
-    args <- paste(indent(args, depth = indent + 1), collapse = "\n")
-    return(sprintf("{\n%s\n%s}", args, indent("", depth = indent)))
-  }
-
   if (is.symbol(caller_lng)) {
     caller <- protect(caller)
   }
@@ -359,4 +370,78 @@ deparse_named_args_to_string <- function(args, one_liner, indent, unicode_repres
   if (one_liner || max(nchar(args)) < 80) return(paste(args, collapse = ", "))
   args <- paste(indent(args, depth = indent + 1), collapse = ",\n")
   paste0("\n", args, "\n", indent("", depth = indent))
+}
+
+precedence <- function(x, call_length = 2) {
+  if (!call_length %in% c(2, 3)) return(Inf)
+  if (call_length == 2) {
+    precedences <- c(
+      "-" = 14,
+      "+" = 14,
+      "!" = 8,
+      "~" = 5,
+      "?" = 1
+    )
+  } else {
+    if (grepl("^%.*%$", x)) return(12)
+    precedences <- c(
+      "::" = 18,
+      ":::" = 18,
+      "$" = 17,
+      "@" = 17,
+      "[" = 16,
+      "[[" = 16,
+      "^" = 15,
+      # "-" = 14,
+      # "+" = 14,
+      ":" = 13,
+      #"%any%", # 12
+      "*" = 11,
+      "/" = 11,
+      "+" = 10,
+      "-" = 10,
+      "<" = 9,
+      ">" = 9,
+      "<=" = 9,
+      ">=" = 9,
+      "==" = 9,
+      "!=" = 9,
+      #"!" = 8,
+      "&" = 7,
+      "&&" = 7,
+      "|" = 6,
+      "||" = 6,
+      "~" = 5,
+      "->" = 4,
+      "->>" = 4,
+      "<-" = 3,
+      "<<-" = 3,
+      "=" = 2,
+      "?" = 1
+    )
+  }
+  if (!x %in% names(precedences)) return(Inf)
+  precedences[[x]]
+}
+
+operands_have_higher_or_equal_precedence <- function(operator, call) {
+  if (!length(call) %in% c(2, 3)) return(TRUE)
+
+  # we need to special case ops with righ to left precedence
+  lhs <- call[[2]] # actually rhs when call is length 2
+  op_prec <-  precedence(operator, length(call))
+  if (is.call(lhs)) {
+    lhs_prec <- precedence(as.character(lhs[[1]]), length(lhs))
+  } else {
+    lhs_prec <- Inf
+  }
+  if (length(call) == 3 && is.call(rhs <- call[[3]])) {
+    rhs_prec <- precedence(as.character(rhs[[1]]), length(rhs))
+  } else {
+    rhs_prec <- Inf
+  }
+  if (op_prec %in% c(2, 3, 15) && lhs_prec == op_prec) {
+    return(FALSE)
+  }
+  lhs_prec >= op_prec && rhs_prec >= op_prec
 }
