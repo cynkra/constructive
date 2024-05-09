@@ -136,7 +136,7 @@ deparse_call_impl <- function(
     ))
   }
 
-  # function and ontrol flow ---------------------------------------------------
+  # function and control flow ---------------------------------------------------
 
   if (caller == "function")
     return(deparse_function(call, rec))
