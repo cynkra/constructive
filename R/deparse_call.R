@@ -94,7 +94,8 @@ deparse_call_impl <- function(
     check_syntactic = TRUE,
     unicode_representation = "ascii",
     escape = FALSE,
-    lisp_equal = FALSE
+    lisp_equal = FALSE, # To handle `=` as top level caller, e.g. quote(`=`(x, 1))
+    force_lisp = FALSE # To prevent callers from using the infix form, e.g. `+`(x, y)(z)
     ) {
 
   # helper to avoid forwarding all args all the time
@@ -108,7 +109,8 @@ deparse_call_impl <- function(
       pipe,
       check_syntactic,
       unicode_representation,
-      escape
+      escape,
+      force_lisp = force_lisp
     )
   }
 
@@ -127,7 +129,14 @@ deparse_call_impl <- function(
     abort(msg)
   }
   caller_lng <- call[[1]]
-  caller <- rec(caller_lng, check_syntactic = FALSE)
+  caller <- rec(caller_lng, check_syntactic = FALSE, force_lisp = TRUE)
+  if (is_op(caller) && force_lisp) {
+    return(deparse_lisp(
+      caller, call, rec, one_liner, indent, unicode_representation, escape,
+      protect = TRUE
+    ))
+  }
+  force_lisp <- FALSE
 
   if (lisp_equal && caller == "=") {
     return(deparse_lisp(
