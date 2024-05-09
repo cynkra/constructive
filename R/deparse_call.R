@@ -169,7 +169,6 @@ deparse_call_impl <- function(
 
   # non standard use of infix ops ----------------------------------------------
 
-  # FIXME: is_syntactic is too general here, we need is_op
   if (is_op(caller) && !operands_have_higher_or_equal_precedence(caller, call)) {
     args <- deparse_named_args_to_string(
       call[-1],
