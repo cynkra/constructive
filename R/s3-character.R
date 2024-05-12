@@ -53,7 +53,8 @@ construct_string <- function(x, unicode_representation, escape, mode = "string",
   if (is_na(x)) return("NA_character_")
 
   encoding <- Encoding(x)
-  if (native_encoding() != "UTF-8") {
+  locale_is_utf8 <- l10n_info()$`UTF-8`
+  if (!locale_is_utf8) {
     return(construct_string_from_byte_value(x, encoding, mode, protect))
   }
 
@@ -165,9 +166,13 @@ construct_string_from_byte_value <- function(x, encoding, mode = "string", prote
 }
 
 repair_encoding <- function(code, string_is_ascii, encoding) {
+  locale_is_like_encoding <-
+    (encoding == "UTF-8" && l10n_info()$`UTF-8`) ||
+    (encoding == "latin1" && l10n_info()$`Latin-1`)
+
   no_repair_needed <-
     string_is_ascii ||
-    encoding == native_encoding() ||
+    locale_is_like_encoding ||
     (!(globals$pedantic_encoding %||% FALSE) && encoding == "unknown")
   if (no_repair_needed) return(code)
   .cstr_pipe(
