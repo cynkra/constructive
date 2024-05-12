@@ -31,6 +31,14 @@
 #'   containing double quotes, and raw strings for strings that contain backslashes
 #'   and/or a combination of single and double quotes. Depending on
 #'   `unicode_representation` `escape = FALSE` cannot be applied on all strings.
+#' @param pedantic_encoding Whether to mark strings with the "unknown" encoding
+#'   rather than an explicit native encoding ("UTF-8" or "latin1") when it's
+#'   necessary to reproduce the binary representation exactly. This is pedantic
+#'   in the sense that it's not necessary to have a faithful output in the sense
+#'   of `identical()`. The reason why we're not pedantic by default is that
+#'   the constructed code might be different in the console and in snapshot
+#'   tests and reprexes due to the latter rounding some angles, and it would
+#'   be confusing for users.
 #' @param compare Parameters passed to `waldo::compare()`, built with `compare_options()`.
 #' @param ... Constructive options built with the `opts_*()` family of functions. See the "Constructive options"
 #'   section below.
@@ -48,15 +56,22 @@
 #' construct(head(cars), opts_data.frame("next"))
 #' construct(iris$Species)
 #' construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
-construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
-                      unicode_representation = c("ascii", "latin", "character", "unicode"),
-                      escape = FALSE,
-                      compare = compare_options(), one_liner = FALSE,
-                      template = getOption("constructive_opts_template")) {
+construct <- function(
+    x,
+    ...,
+    data = NULL,
+    pipe = NULL,
+    check = NULL,
+    unicode_representation = c("ascii", "latin", "character", "unicode"),
+    escape = FALSE,
+    pedantic_encoding = FALSE,
+    compare = compare_options(), one_liner = FALSE,
+    template = getOption("constructive_opts_template")) {
 
   # reset globals
   globals$predefinition <- character()
   globals$envs <- data.frame(hash = character(), name = character())
+  globals$pedantic_encoding <- pedantic_encoding
 
   # check inputs
   .cstr_combine_errors(
@@ -87,9 +102,6 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
   )
   code <- c(globals$predefinition, code)
 
-  # for https://github.com/cynkra/constructive/issues/101
-  Encoding(code) <- "UTF-8"
-
   # attempt to parse, and style if successful
   styled_code <- try_parse(code, one_liner)
 
@@ -102,11 +114,18 @@ construct <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
 
 #' @export
 #' @rdname construct
-construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
-                            unicode_representation = c("ascii", "latin", "character", "unicode"),
-                            escape = FALSE,
-                            compare = compare_options(), one_liner = FALSE,
-                            template = getOption("constructive_opts_template")) {
+construct_multi <- function(
+    x,
+    ...,
+    data = NULL,
+    pipe = NULL,
+    check = NULL,
+    unicode_representation = c("ascii", "latin", "character", "unicode"),
+    escape = FALSE,
+    pedantic_encoding = FALSE,
+    compare = compare_options(),
+    one_liner = FALSE,
+    template = getOption("constructive_opts_template")) {
   abort_not_env_or_named_list(x)
   data <- process_data(data)
   unicode_representation <- match.arg(unicode_representation)
@@ -117,6 +136,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
       data = data, pipe = pipe, check = check,
       unicode_representation = unicode_representation,
       escape = escape,
+      pedantic_encoding = pedantic_encoding,
       compare = compare,
       one_liner = one_liner,
       template = template
@@ -134,7 +154,8 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
               code,
               style = FALSE,
               unicode_representation = unicode_representation,
-              escape = escape),
+              escape = escape,
+              pedantic_encoding = pedantic_encoding),
             eval.env = .cstr_construct(env)
           ),
           "delayedAssign",
@@ -151,6 +172,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
           check = check,
           unicode_representation = unicode_representation,
           escape = escape,
+          pedantic_encoding = pedantic_encoding,
           compare = compare,
           one_liner = one_liner,
           template = template
@@ -169,14 +191,7 @@ construct_multi <- function(x, ..., data = NULL, pipe = NULL, check = NULL,
     code, names(code),
     f = function(x, y) {
       if (startsWith(x[[1]], "delayedAssign(")) return(x)
-
-      y_uni <- format_unicode(y, unicode_representation)
-      # FIXME: see name_and_append_comma()
-      y <- if (y == y_uni) protect(y) else deparse_chr(
-        y,
-        unicode_representation = unicode_representation,
-        escape = escape
-        )
+      y <- construct_string(y, unicode_representation, escape, mode = "name")
       x[[1]] <- paste(y, "<-", x[[1]])
       c(x, "")
     })

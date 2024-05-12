@@ -35,7 +35,8 @@ deparse_call <- function(
     style = TRUE,
     collapse = !style,
     unicode_representation = c("ascii", "latin", "character", "unicode"),
-    escape = FALSE) {
+    escape = FALSE,
+    pedantic_encoding = FALSE) {
 
   .cstr_combine_errors(
     abort_not_boolean(one_liner),
@@ -45,6 +46,8 @@ deparse_call <- function(
     { unicode_representation <- rlang::arg_match(unicode_representation) },
     abort_not_boolean(escape)
   )
+
+  globals$pedantic_encoding <- pedantic_encoding
 
   code <- rlang::try_fetch(
     deparse_call_impl(
@@ -114,10 +117,8 @@ deparse_call_impl <- function(
     )
   }
 
-  # exceptions -----------------------------------------------------------------
-
   if (is.symbol(call))
-    return(deparse_symbol(call, check_syntactic))
+    return(deparse_symbol(call, check_syntactic, unicode_representation, escape))
 
   # artificial cases where caller is NULL, a numeric etc
   if (rlang::is_syntactic_literal(call))
@@ -242,5 +243,3 @@ deparse_call_impl <- function(
     protect = is.symbol(caller_lng)
   )
 }
-
-

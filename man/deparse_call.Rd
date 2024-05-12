@@ -11,7 +11,8 @@ deparse_call(
   style = TRUE,
   collapse = !style,
   unicode_representation = c("ascii", "latin", "character", "unicode"),
-  escape = FALSE
+  escape = FALSE,
+  pedantic_encoding = FALSE
 )
 }
 \arguments{
@@ -42,6 +43,15 @@ single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
 \code{unicode_representation} \code{escape = FALSE} cannot be applied on all strings.}
+
+\item{pedantic_encoding}{Whether to mark strings with the "unknown" encoding
+rather than an explicit native encoding ("UTF-8" or "latin1") when it's
+necessary to reproduce the binary representation exactly. This is pedantic
+in the sense that it's not necessary to have a faithful output in the sense
+of \code{identical()}. The reason why we're not pedantic by default is that
+the constructed code might be different in the console and in snapshot
+tests and reprexes due to the latter rounding some angles, and it would
+be confusing for users.}
 }
 \value{
 a string or a character vector, with a class "constructive_code" for pretty
