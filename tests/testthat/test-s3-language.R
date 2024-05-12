@@ -4,6 +4,8 @@ test_that("language", {
     construct(quote(a + call))
     construct(body(ave))
     construct(quote(expr=))
+    construct(quote(`🐶`))
+    construct(quote(`🐶`), unicode_representation = "unicode")
   })
 })
 

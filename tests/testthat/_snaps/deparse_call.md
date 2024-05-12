@@ -69,6 +69,18 @@
     Output
       [1] "`$`()"
     Code
+      deparse_call(call("$"), style = FALSE)
+    Output
+      [1] "`$`()"
+    Code
+      deparse_call(quote(`🐶`), style = FALSE)
+    Output
+      [1] "`\\xf0\\x9f\\x90\\xb6`"
+    Code
+      deparse_call(quote(`🐶`), unicode_representation = "unicode")
+    Output
+      `🐶`
+    Code
       deparse_call(call(":", 1, 2, 3), style = FALSE)
     Output
       [1] "`:`(1, 2, 3)"

@@ -62,7 +62,7 @@
     Code
       construct(c(`\\🐶` = "\\"), unicode_representation = "unicode")
     Output
-      c(`\\🐶` = r"[\]")
+      c(r"[\🐶]" = r"[\]")
     Code
       construct(c(`\\🐶` = "\\"))
     Output
@@ -70,5 +70,5 @@
     Code
       construct(c(`\\` = "\\"))
     Output
-      c(`\\` = r"[\]")
+      c(r"[\]" = r"[\]")
 
