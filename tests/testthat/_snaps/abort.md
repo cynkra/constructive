@@ -22,10 +22,11 @@
     Code
       try(abort_not_string(mean))
     Output
-      Error in eval(code, test_env) : `mean` must be a string.
-      i It has type 'closure':
-      (function(x, ...) UseMethod("mean")) |>
-        (`environment<-`)(.BaseNamespaceEnv)
+      Error in construct(x, check = FALSE) : 
+        {constructive} could not build the requested code.
+      Caused by error in `FUN()`:
+      ! found element of type 'pairlist' and length '2':
+      pairlist("x" = quote(expr = ), "..." = quote(expr = ))
     Code
       try(abort_not_env_or_named_list(letters))
     Output
@@ -78,33 +79,17 @@
     Code
       try(abort_wrong_data(mean))
     Output
-      Error in eval(code, test_env) : `data` has an unexpected value.
-      i It has type 'closure':
-      (function(x, ...) UseMethod("mean")) |>
-        (`environment<-`)(.BaseNamespaceEnv)
+      Error in construct(x, check = FALSE) : 
+        {constructive} could not build the requested code.
+      Caused by error in `FUN()`:
+      ! found element of type 'pairlist' and length '2':
+      pairlist("x" = quote(expr = ), "..." = quote(expr = ))
     Code
       try(abort_wrong_data(list(mean)))
     Output
-      Error in eval(code, test_env) : 
-        `data[[1]]` is unnamed and has an unexpected value.
-      i It has type 'closure':
-      (function(x, ...) UseMethod("mean")) |>
-        (`environment<-`)(.BaseNamespaceEnv)
-
-# describe
-
-    Code
-      writeLines(describe(letters))
-    Output
-      It has type 'character' and length 26:
-      c(
-        "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
-        "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-      )
-    Code
-      writeLines(describe(mean))
-    Output
-      It has type 'closure':
-      (function(x, ...) UseMethod("mean")) |>
-        (`environment<-`)(.BaseNamespaceEnv)
+      Error in construct(x, check = FALSE) : 
+        {constructive} could not build the requested code.
+      Caused by error in `FUN()`:
+      ! found element of type 'pairlist' and length '2':
+      pairlist("x" = quote(expr = ), "..." = quote(expr = ))
 

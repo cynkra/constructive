@@ -7,18 +7,18 @@
       < list(a = head(cars, 2), b = "aaaaaa..  > list(a = head(iris, 1), b = "aaaaaa..
       @@ 1,5 @@                                @@ 1,11 @@                             
         list(                                    list(                                
-      <   a = data.frame(speed = c(4, 4), dis  >   a = data.frame(                    
-      : t = c(2, 10)),                         ~                                      
-      ~                                        >     Sepal.Length = 5.1,              
-      ~                                        >     Sepal.Width = 3.5,               
-      ~                                        >     Petal.Length = 1.4,              
-      ~                                        >     Petal.Width = 0.2,               
-      ~                                        >     Species = factor("setosa", levels
-      ~                                        :  = c("setosa", "versicolor", "virgini
-      ~                                        : ca"))                                
+      <   "a" = data.frame("speed" = c(4, 4),  >   "a" = data.frame(                  
+      :  "dist" = c(2, 10)),                   ~                                      
+      ~                                        >     "Sepal.Length" = 5.1,            
+      ~                                        >     "Sepal.Width" = 3.5,             
+      ~                                        >     "Petal.Length" = 1.4,            
+      ~                                        >     "Petal.Width" = 0.2,             
+      ~                                        >     "Species" = factor("setosa", "lev
+      ~                                        : els" = c("setosa", "versicolor", "vir
+      ~                                        : ginica"))                            
       ~                                        >   ),                                 
-          b = "aaaaaaaaaaaaaaaaaaaa",              b = "aaaaaaaaaaaaaaaaaaaa",        
-      <   c = "Foo"                            >   c = "foo"                          
+          "b" = "aaaaaaaaaaaaaaaaaaaa",            "b" = "aaaaaaaaaaaaaaaaaaaa",      
+      <   "c" = "Foo"                          >   "c" = "foo"                        
         )                                        )                                    
     Code
       construct_diff(list(a = head(cars, 2), b = "aaaaaaaaaaaaaaaaaaaa", c = "Foo"),
@@ -27,18 +27,18 @@
       < list(a = head(cars, 2), b = "aaaaaa..  > list(a = head(iris, 1), b = "aaaaaa..
       @@ 1,5 @@                                @@ 1,11 @@                             
         list(                                    list(                                
-      <   a = data.frame(speed = c(4, 4), dis  >   a = data.frame(                    
-      : t = c(2, 10)),                         ~                                      
-      ~                                        >     Sepal.Length = 5.1,              
-      ~                                        >     Sepal.Width = 3.5,               
-      ~                                        >     Petal.Length = 1.4,              
-      ~                                        >     Petal.Width = 0.2,               
-      ~                                        >     Species = factor("setosa", levels
-      ~                                        :  = c("setosa", "versicolor", "virgini
-      ~                                        : ca"))                                
+      <   "a" = data.frame("speed" = c(4, 4),  >   "a" = data.frame(                  
+      :  "dist" = c(2, 10)),                   ~                                      
+      ~                                        >     "Sepal.Length" = 5.1,            
+      ~                                        >     "Sepal.Width" = 3.5,             
+      ~                                        >     "Petal.Length" = 1.4,            
+      ~                                        >     "Petal.Width" = 0.2,             
+      ~                                        >     "Species" = factor("setosa", "lev
+      ~                                        : els" = c("setosa", "versicolor", "vir
+      ~                                        : ginica"))                            
       ~                                        >   ),                                 
-          b = "aaaaaaaaaaaaaaaaaaaa",              b = "aaaaaaaaaaaaaaaaaaaa",        
-      <   c = "Foo"                            >   c = "foo"                          
+          "b" = "aaaaaaaaaaaaaaaaaaaa",            "b" = "aaaaaaaaaaaaaaaaaaaa",      
+      <   "c" = "Foo"                          >   "c" = "foo"                        
         )                                        )                                    
     Code
       construct_diff(list(a = head(cars, 2), b = "aaaaaaaaaaaaaaaaaaaa", c = "Foo"),
@@ -48,18 +48,18 @@
       < list(a = head(cars, 2), b = "aaaaaa..  > list(a = head(iris, 1), b = "aaaaaa..
       @@ 1,9 @@                                @@ 1,11 @@                             
         list(                                    list(                                
-      <   a = read.table(header = TRUE, text   >   a = data.frame(                    
-      : = "                                    ~                                      
-      < speed dist                             >     Sepal.Length = 5.1,              
-      <    4.   2.                             >     Sepal.Width = 3.5,               
-      <    4.  10.                             >     Petal.Length = 1.4,              
-      < "),                                    >     Petal.Width = 0.2,               
-      ~                                        >     Species = factor("setosa", levels
-      ~                                        :  = c("setosa", "versicolor", "virgini
-      ~                                        : ca"))                                
+      <   "a" = read.table(header = TRUE, tex  >   "a" = data.frame(                  
+      : t = "                                  ~                                      
+      < speed dist                             >     "Sepal.Length" = 5.1,            
+      <    4.   2.                             >     "Sepal.Width" = 3.5,             
+      <    4.  10.                             >     "Petal.Length" = 1.4,            
+      < "),                                    >     "Petal.Width" = 0.2,             
+      ~                                        >     "Species" = factor("setosa", "lev
+      ~                                        : els" = c("setosa", "versicolor", "vir
+      ~                                        : ginica"))                            
       ~                                        >   ),                                 
-          b = "aaaaaaaaaaaaaaaaaaaa",              b = "aaaaaaaaaaaaaaaaaaaa",        
-      <   c = "Foo"                            >   c = "foo"                          
+          "b" = "aaaaaaaaaaaaaaaaaaaa",            "b" = "aaaaaaaaaaaaaaaaaaaa",      
+      <   "c" = "Foo"                          >   "c" = "foo"                        
         )                                        )                                    
     Code
       construct_diff(1, 1)

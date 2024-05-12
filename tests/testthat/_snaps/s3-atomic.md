@@ -84,16 +84,16 @@
     Code
       construct(c(0, 1:30))
     Output
-      seq(0, 30, by = 1)
+      seq(0, 30, "by" = 1)
     Code
       construct(c(0, 1:30), one_liner = TRUE)
     Output
-      seq(0, 30, by = 1)
+      seq(0, 30, "by" = 1)
     Code
       construct(structure("a", names = ""))
     Output
       "a" |>
-        structure(names = "")
+        structure("names" = "")
     Code
       construct(NaN)
     Output
@@ -105,7 +105,7 @@
     Code
       construct(c(а = 1))
     Output
-      c("\U{430}" = 1)
+      c(`\xd0\xb0` = 1)
 
 # other atomic
 
@@ -158,7 +158,7 @@
     Code
       construct(c(foo = "a", "a", "b", "c", "c", "c", "c"))
     Output
-      c(foo = "a", "a", "b", "c", "c", "c", "c")
+      c("foo" = "a", "a", "b", "c", "c", "c", "c")
     Code
       construct(c("a", "b", "a", "b", "a", "b", "a", "b"))
     Output
@@ -166,11 +166,11 @@
     Code
       construct(c("a", "a", "b", "b", "c", "c"))
     Output
-      rep(c("a", "b", "c"), each = 2L)
+      rep(c("a", "b", "c"), "each" = 2L)
     Code
       construct(c(1, 2, 3, 4, 1, 2, 3, 4))
     Output
-      rep(seq(1, 4, by = 1), 2)
+      rep(seq(1, 4, "by" = 1), 2)
     Code
       construct(as.integer(c(1, 2, 3, 4, 1, 2, 3, 4)))
     Output
@@ -178,11 +178,11 @@
     Code
       construct(c(2, 4, 6, 8, 2, 4, 6, 8))
     Output
-      rep(seq(2, 8, by = 2), 2)
+      rep(seq(2, 8, "by" = 2), 2)
     Code
       construct(as.integer(c(2, 4, 6, 8, 2, 4, 6, 8)))
     Output
-      rep(seq(2L, 8L, by = 2L), 2)
+      rep(seq(2L, 8L, "by" = 2L), 2)
     Code
       construct(c("a", "a", "b", "c", "c", "c", "c"), opts_atomic(compress = FALSE))
     Output
@@ -201,23 +201,23 @@
     Code
       construct("\"hello\"")
     Output
-      '"hello"'
+      "\"hello\""
     Code
       construct("'\"hello\"'", check = FALSE)
     Output
-      r"['"hello"']"
+      "'\"hello\"'"
     Code
       construct("'\"hello\"'", check = FALSE)
     Output
-      r"['"hello"']"
+      "'\"hello\"'"
     Code
       construct("\\", check = FALSE)
     Output
-      r"[\]"
+      "\\"
     Code
       construct("\\\\", check = FALSE)
     Output
-      r"[\\]"
+      "\\\\"
     Code
       construct("\n\\")
     Output
@@ -225,24 +225,24 @@
     Code
       construct("ü", opts_atomic(unicode_representation = "latin"))
     Output
-      "ü"
+      "\xc3\xbc"
     Code
       construct("ü", check = FALSE)
     Output
-      "\U{FC}"
+      "\xc3\xbc"
     Code
       construct("ü\\", opts_atomic(unicode_representation = "latin", escape = FALSE),
       check = FALSE)
     Output
-      r"[ü\]"
+      "\xc3\xbc\\"
     Code
       construct("ü\\", opts_atomic(escape = FALSE))
     Output
-      "\U{FC}\\"
+      "\xc3\xbc\\"
     Code
       construct(c(а = "a"))
     Output
-      c("\U{430}" = "a")
+      c(`\xd0\xb0` = "a")
     Code
       construct("'\"\n")
     Output

@@ -4,8 +4,8 @@
       construct(dm::dm(cars1 = head(cars, 2), cars2 = tail(cars, 2)), check = FALSE)
     Output
       dm::dm(
-        cars1 = data.frame(speed = c(4, 4), dist = c(2, 10)),
-        cars2 = data.frame(speed = c(24, 25), dist = c(120, 85), row.names = 49:50),
+        "cars1" = data.frame("speed" = c(4, 4), "dist" = c(2, 10)),
+        "cars2" = data.frame("speed" = c(24, 25), "dist" = c(120, 85), "row.names" = 49:50),
       )
     Code
       construct(dm::dm_pixarfilms(), data = "pixarfilms", check = FALSE)
@@ -22,11 +22,11 @@
         dm::dm_add_fk(genres, "film", pixar_films, "film") |>
         dm::dm_add_fk(public_response, "film", pixar_films, "film") |>
         dm::dm_set_colors(
-          `#5B9BD5FF` = "pixar_films",
-          `#70AD47FF` = "pixar_people",
-          `#ED7D31FF` = "academy",
-          `#ED7D31FF` = "box_office",
-          `#ED7D31FF` = "genres",
-          `#ED7D31FF` = "public_response"
+          "#5B9BD5FF" = "pixar_films",
+          "#70AD47FF" = "pixar_people",
+          "#ED7D31FF" = "academy",
+          "#ED7D31FF" = "box_office",
+          "#ED7D31FF" = "genres",
+          "#ED7D31FF" = "public_response"
         )
 

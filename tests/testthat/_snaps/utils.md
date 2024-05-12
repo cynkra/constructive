@@ -5,7 +5,7 @@
       attr(x, "foo") <- 2
       construct(x, one_liner = TRUE)
     Output
-      1 |> structure(foo = 2)
+      1 |> structure("foo" = 2)
 
 # data
 

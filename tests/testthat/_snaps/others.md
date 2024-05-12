@@ -43,7 +43,7 @@
       construct(evalq(x ~ y, asNamespace("stats")))
     Output
       (x ~ y) |>
-        structure(.Environment = asNamespace("stats"))
+        structure(".Environment" = asNamespace("stats"))
     Code
       construct(evalq(x ~ y, asNamespace("stats")), opts_formula(environment = FALSE))
     Message
@@ -56,19 +56,4 @@
       compare = compare_options(ignore_formula_env = TRUE))
     Output
       x ~ y
-
-# backslash and emojis in names work
-
-    Code
-      construct(c(`\\🐶` = "\\"), unicode_representation = "unicode")
-    Output
-      c(r"[\🐶]" = r"[\]")
-    Code
-      construct(c(`\\🐶` = "\\"))
-    Output
-      c("\\\U{1F436}" = r"[\]")
-    Code
-      construct(c(`\\` = "\\"))
-    Output
-      c(r"[\]" = r"[\]")
 

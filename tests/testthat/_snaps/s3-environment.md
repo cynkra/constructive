@@ -30,7 +30,7 @@
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      list2env(list(dist = c(2, 10), speed = c(4, 4)), parent = .GlobalEnv)
+      list2env(list("dist" = c(2, 10), "speed" = c(4, 4)), "parent" = .GlobalEnv)
     Code
       construct(as.environment(head(cars, 2)), opts_environment(constructor = "new.env"))
     Message
@@ -47,8 +47,8 @@
       class(env) <- "foo"
       construct(env, opts_environment("list2env"))
     Output
-      new.env(parent = asNamespace("stats")) |>
-        structure(class = "foo")
+      new.env("parent" = asNamespace("stats")) |>
+        structure("class" = "foo")
     Code
       e1 <- new.env(parent = .GlobalEnv)
       e1$x <- 1
@@ -60,14 +60,14 @@
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      list2env(list(.z = 3, y = 2), parent = .GlobalEnv)
+      list2env(list(".z" = 3, "y" = 2), "parent" = .GlobalEnv)
     Code
       construct(e2, opts_environment(constructor = "new_environment"))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      rlang::new_environment(list(.z = 3, y = 2), parent = .GlobalEnv)
+      rlang::new_environment(list(".z" = 3, "y" = 2), "parent" = .GlobalEnv)
     Code
       construct(e2, opts_environment(constructor = "new.env"))
     Message
@@ -88,7 +88,7 @@
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      as.environment(list(.z = 3, y = 2))
+      as.environment(list(".z" = 3, "y" = 2))
     Code
       evalq({
         e <- new.env()
@@ -100,7 +100,7 @@
       ..env.1.. <- new.env(parent = .GlobalEnv)
       ..env.1..$f <- ..env.1..
       (~a) |>
-        structure(.Environment = ..env.1..)
+        structure(".Environment" = ..env.1..)
 
 ---
 
@@ -108,14 +108,14 @@
       construct(e2, opts_environment(constructor = "list2env", recurse = TRUE))
     Output
       .GlobalEnv |>
-        list2env(list(x = 1), parent = _) |>
-        list2env(list(.z = 3, y = 2), parent = _)
+        list2env(list("x" = 1), "parent" = _) |>
+        list2env(list(".z" = 3, "y" = 2), "parent" = _)
     Code
       construct(e2, opts_environment(constructor = "new_environment", recurse = TRUE))
     Output
       .GlobalEnv |>
-        rlang::new_environment(list(x = 1), parent = _) |>
-        rlang::new_environment(list(.z = 3, y = 2), parent = _)
+        rlang::new_environment(list("x" = 1), "parent" = _) |>
+        rlang::new_environment(list(".z" = 3, "y" = 2), "parent" = _)
 
 ---
 
@@ -136,16 +136,16 @@
       e <- rlang::env(.GlobalEnv, a = 1, b = 2, c = 3, d = 4)
       construct(e, check = FALSE)
     Output
-      constructive::.env("0x123456789", parents = "global")
+      constructive::.env("0x123456789", "parents" = "global")
     Code
       lockEnvironment(e)
       construct(e, check = FALSE)
     Output
-      constructive::.env("0x123456789", parents = "global", locked = TRUE)
+      constructive::.env("0x123456789", "parents" = "global", "locked" = TRUE)
     Code
       construct(e, opts_environment("list2env"))
     Output
-      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+      list2env(list("a" = 1, "b" = 2, "c" = 3, "d" = 4), "parent" = .GlobalEnv) |>
         (\(e) {
           lockEnvironment(e)
           e
@@ -154,7 +154,7 @@
       lockBinding("a", e)
       construct(e, opts_environment("list2env"))
     Output
-      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+      list2env(list("a" = 1, "b" = 2, "c" = 3, "d" = 4), "parent" = .GlobalEnv) |>
         (\(e) {
           lockEnvironment(e)
           lockBinding("a", e)
@@ -164,7 +164,7 @@
       lockBinding("b", e)
       construct(e, opts_environment("list2env"))
     Output
-      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+      list2env(list("a" = 1, "b" = 2, "c" = 3, "d" = 4), "parent" = .GlobalEnv) |>
         (\(e) {
           lockEnvironment(e)
           lockBinding("a", e)
@@ -175,7 +175,7 @@
       lockBinding("c", e)
       construct(e, opts_environment("list2env"))
     Output
-      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+      list2env(list("a" = 1, "b" = 2, "c" = 3, "d" = 4), "parent" = .GlobalEnv) |>
         (\(e) {
           lockEnvironment(e)
           locked <-  c("a", "b", "c")
@@ -186,7 +186,7 @@
       lockBinding("d", e)
       construct(e, opts_environment("list2env"))
     Output
-      list2env(list(a = 1, b = 2, c = 3, d = 4), parent = .GlobalEnv) |>
+      list2env(list("a" = 1, "b" = 2, "c" = 3, "d" = 4), "parent" = .GlobalEnv) |>
         (\(e) {
           lockEnvironment(e, bindings = TRUE)
           e

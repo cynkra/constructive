@@ -7,5 +7,5 @@
     Code
       construct(rlang::new_weakref(.GlobalEnv, value = 1))
     Output
-      rlang::new_weakref(.GlobalEnv, value = 1)
+      rlang::new_weakref(.GlobalEnv, "value" = 1)
 

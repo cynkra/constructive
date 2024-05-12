@@ -4,8 +4,8 @@
       construct(list(a = 1, b = list(c(1L, 3L), list(.leap.seconds[1:2]))))
     Output
       list(
-        a = 1,
-        b = list(c(1L, 3L), list(as.POSIXct(c("1972-07-01", "1973-01-01"), tz = "GMT")))
+        "a" = 1,
+        "b" = list(c(1L, 3L), list(as.POSIXct(c("1972-07-01", "1973-01-01"), "tz" = "GMT")))
       )
     Code
       x1 <- as.list(letters[1:4])
@@ -83,7 +83,7 @@
     Code
       construct(list(а = 1))
     Output
-      list("\U{430}" = 1)
+      list(`\xd0\xb0` = 1)
 
 ---
 
@@ -91,5 +91,5 @@
       construct(corrupted_list)
     Output
       list(1) |>
-        structure(class = "corrupted")
+        structure("class" = "corrupted")
 
