@@ -47,7 +47,6 @@ deparse_call <- function(
     abort_not_boolean(escape)
   )
 
-  globals$native_encoding <- native_encoding()
   globals$pedantic_encoding <- pedantic_encoding
 
   code <- rlang::try_fetch(

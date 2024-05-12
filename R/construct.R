@@ -71,7 +71,6 @@ construct <- function(
   # reset globals
   globals$predefinition <- character()
   globals$envs <- data.frame(hash = character(), name = character())
-  globals$native_encoding <- native_encoding()
   globals$pedantic_encoding <- pedantic_encoding
 
   # check inputs
