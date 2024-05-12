@@ -156,7 +156,7 @@ construct_string_from_byte_value <- function(x, encoding, mode = "string", prote
     sprintf("\\x%s", as.character(bytes))
   )
   out <- paste(chars, collapse = "")
-  if (mode == "string" || string_is_ascii) {
+  if (mode == "string") {
     out <- paste0('"', out, '"')
   } else if (protect) {
     out <- protect(out)
