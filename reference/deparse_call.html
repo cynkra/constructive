@@ -69,7 +69,8 @@ symbols and syntactic literals where cited alternatives would produce non syntac
 <span>  style <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  collapse <span class="op">=</span> <span class="op">!</span><span class="va">style</span>,</span>
 <span>  unicode_representation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ascii"</span>, <span class="st">"latin"</span>, <span class="st">"character"</span>, <span class="st">"unicode"</span><span class="op">)</span>,</span>
-<span>  escape <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  escape <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  pedantic_encoding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,6 +116,17 @@ single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
 <code>unicode_representation</code> <code>escape = FALSE</code> cannot be applied on all strings.</p></dd>
+
+
+<dt id="arg-pedantic-encoding">pedantic_encoding<a class="anchor" aria-label="anchor" href="#arg-pedantic-encoding"></a></dt>
+<dd><p>Whether to mark strings with the "unknown" encoding
+rather than an explicit native encoding ("UTF-8" or "latin1") when it's
+necessary to reproduce the binary representation exactly. This is pedantic
+in the sense that it's not necessary to have a faithful output in the sense
+of <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical()</a></code>. The reason why we're not pedantic by default is that
+the constructed code might be different in the console and in snapshot
+tests and reprexes due to the latter rounding some angles, and it would
+be confusing for users.</p></dd>
 
 </dl></div>
     <div class="section level2">
