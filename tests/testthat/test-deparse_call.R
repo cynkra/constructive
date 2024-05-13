@@ -107,4 +107,15 @@ test_that("deparse_call()", {
     deparse_call(quote(1 -> while(TRUE) 1))
     deparse_call(quote(1 -> repeat 1))
   })
+
+  expect_snapshot({
+    construct(quote(`^`(`+`(a, b), c)))
+    construct(quote(`+`(`^`(a, b), c)))
+    construct(quote(`%in%`(`*`(a, b), c)))
+    construct(quote(`*`(`%in%`(a, b), c)))
+    construct(quote(`+`(`+`(1, 2), 4)))
+    construct(quote(`-`(1+2)))
+    construct(quote(`<-`(`<<-`(1, 2), 4)))
+    construct(quote(`+`(x, y)(z)))
+  })
 })

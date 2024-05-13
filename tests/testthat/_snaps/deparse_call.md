@@ -379,3 +379,38 @@
     Output
       repeat 1 <- 1
 
+---
+
+    Code
+      construct(quote((a + b)^c))
+    Output
+      quote((a + b)^c)
+    Code
+      construct(quote(a^b + c))
+    Output
+      quote(a^b + c)
+    Code
+      construct(quote((a * b) %in% c))
+    Output
+      quote((a * b) %in% c)
+    Code
+      construct(quote(a %in% b * c))
+    Output
+      quote(a %in% b * c)
+    Code
+      construct(quote(1 + 2 + 4))
+    Output
+      quote(1 + 2 + 4)
+    Code
+      construct(quote(-1 + 2))
+    Output
+      quote(-1 + 2)
+    Code
+      construct(quote((1 <<- 2) <- 4))
+    Output
+      quote((1 <<- 2) <- 4)
+    Code
+      construct(quote(`+`(x, y)(z)))
+    Output
+      quote(`+`(x, y)(z))
+
