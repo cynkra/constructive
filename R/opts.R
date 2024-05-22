@@ -1,3 +1,10 @@
+collect_opts <- function(..., template) {
+  opts <- c(list(...), template)
+  names(opts) <- sapply(opts, function(x) sub("^constructive_options_(.*)$", "\\1", class(x)[[1]]))
+  opts <- opts[unique(names(opts))]
+  opts
+}
+
 #' Create constructive options
 #'
 #' Exported for custom constructor design.
