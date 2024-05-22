@@ -84,6 +84,8 @@ construct <- function(
     { unicode_representation <- rlang::arg_match(unicode_representation) }
   )
 
+  opts <- collect_opts(..., template = template)
+
   # process data into a flat named list of objects
   data <- process_data(data)
 
@@ -91,8 +93,8 @@ construct <- function(
   caller <- caller_env()
   code <- try_construct(
     x,
+    opts = opts,
     template = template,
-    ...,
     data = data,
     pipe = pipe,
     unicode_representation = unicode_representation,
