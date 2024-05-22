@@ -43,6 +43,8 @@ strip_theme <- function(x) {
   x$line$linewidth <- NULL
 
   # these will mostly be set through the base_size arg
+  x$margins <- NULL
+  x$spacing <- NULL
   x$axis.title.x$margin <- NULL
   x$axis.title.x.top$margin <- NULL
   x$axis.title.y$margin <- NULL
