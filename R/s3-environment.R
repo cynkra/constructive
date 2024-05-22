@@ -96,7 +96,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
 }
 
 #' @export
-.cstr_construct.environment <- function(x, ...) {
+.cstr_construct.environment <- function(x, opts, ...) {
   # The name of `asNamespace("pkg")` is always "pkg" and print as `<environment: namespace:pkg>`
   # The name of `as.environment("package:pkg")` is ALMOST always "package:pkg" and prints as
   #  `<environment: package:pkg>` + attributes
@@ -105,7 +105,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
   # This means `asNamespace("base")` (a.k.a. `.BaseNamespaceEnv`) and
   #   `as.environment("package:base")` (a.k.a. `baseenv()`) have the same name
   #   but are different. So we implement a workaround.
-  opts <- .cstr_fetch_opts("environment", ...)
+  opts <- opts$environment %||% opts_environment() #opts <- .cstr_fetch_opts("environment", ...)
   if (is_corrupted_environment(x)) return(NextMethod())
 
   # if we can match a special env, return it directly
@@ -133,7 +133,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
     constructor <- constructors$environment[[opts$constructor]]
   }
 
-  constructor(x, ..., recurse = opts$recurse, predefine = opts$predefine)
+  constructor(x, opts = opts, ..., recurse = opts$recurse, predefine = opts$predefine)
 }
 
 is_corrupted_environment <- function(x) {

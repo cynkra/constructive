@@ -65,7 +65,7 @@ opts_atomic <- function(
   .cstr_repair_attributes(x, code, ...)
 }
 
-construct_atomic <- function(x, ..., unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
+construct_atomic <- function(x, opts, ..., unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
   if(is.null(x)) return("NULL")
   nms <- names(x)
   attributes(x) <- NULL
@@ -76,7 +76,7 @@ construct_atomic <- function(x, ..., unicode_representation = c("ascii", "latin"
   # provided through opts_atomic() but are now provided at the top level so they
   # apply on names too. The behavior set by opts_atomic() now overrided the
   # top level behavior for compatibility
-  opts <- .cstr_fetch_opts("atomic", ...)
+  opts <- opts$atomic %||% opts_atomic() # .cstr_fetch_opts("atomic", ...)
   unicode_representation <- if (opts$unicode_representation == "default") {
     match.arg(unicode_representation)
   } else {
