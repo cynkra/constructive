@@ -179,7 +179,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_simpleMessage]{opts_simpleMessage}(constructor = c("simpleMessage", "next"), ...)}
   \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = c("unit", "next", "atomic"), ...)}
   \item \code{\link[=opts_simpleWarning]{opts_simpleWarning}(constructor = c("simpleWarning", "next"), ...)}
-  \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE)}
+  \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"))}
   \item \code{\link[=opts_theme]{opts_theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_uneval]{opts_uneval}(constructor = c("aes", "next", "list"), ...)}

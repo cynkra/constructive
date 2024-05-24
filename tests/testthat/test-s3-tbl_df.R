@@ -6,6 +6,7 @@ test_that("tbl_df", {
     construct(dplyr::band_members, opts_tbl_df("next"))
     construct(dplyr::band_members, opts_tbl_df("next"), opts_data.frame("next"))
     construct(dplyr::band_members, opts_tbl_df(constructor = "tribble"))
+    construct(dplyr::band_members, opts_tbl_df(constructor = "tribble", justify = "right"))
     construct(dplyr::group_by(dplyr::band_members, band))
   })
 })
