@@ -7,7 +7,8 @@
 opts_tbl_df(
   constructor = c("tibble", "tribble", "next", "list"),
   ...,
-  trailing_comma = TRUE
+  trailing_comma = TRUE,
+  justify = c("left", "right", "centre", "none")
 )
 }
 \arguments{
@@ -17,6 +18,8 @@ opts_tbl_df(
 
 \item{trailing_comma}{Boolean, whether to leave a trailing comma at the end of the constructor call
 calls}
+
+\item{justify}{Character. Justification for columns if \code{constructor} is \code{"tribble"}}
 }
 \value{
 An object of class <constructive_options/constructive_options_tbl_df>

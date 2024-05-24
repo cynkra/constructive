@@ -1,5 +1,7 @@
 # constructive (development version)
 
+* `opts_tbl_df()` gains a `justify` argument to control the justification of
+  columns with `constructor = `"tribble"`.
 * `construct()` and `construct_multi()` gain the arguments `unicode_representation` 
   and `escape` previously used by `opts_atomic()` and these are now not only 
   applied on strings but also on element names and variable names.
