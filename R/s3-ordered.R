@@ -28,11 +28,11 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "ne
 }
 
 #' @export
-.cstr_construct.ordered <- function(x, ...) {
-  opts <- .cstr_fetch_opts("ordered", ...)
-  if (is_corrupted_ordered(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$ordered[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.ordered <- function(x, opts, ...) {
+  opts_local <- opts$ordered %||% opts_ordered()
+  if (is_corrupted_ordered(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$ordered[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_ordered <- function(x) {

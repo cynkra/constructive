@@ -11,11 +11,11 @@ opts_CoordSf <- function(constructor = c("coord_sf", "next", "environment"), ...
 }
 
 #' @export
-.cstr_construct.CoordSf <- function(x, ...) {
-  opts <- .cstr_fetch_opts("CoordSf", ...)
-  if (is_corrupted_CoordSf(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordSf[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.CoordSf <- function(x, opts, ...) {
+  opts_local <- opts$CoordSf %||% opts_CoordSf()
+  if (is_corrupted_CoordSf(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$CoordSf[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_CoordSf <- function(x) {

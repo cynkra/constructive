@@ -23,11 +23,11 @@ opts_grouped_df <- function(constructor = c("default", "next", "list"), ...) {
 }
 
 #' @export
-.cstr_construct.grouped_df <- function(x, ...) {
-  opts <- .cstr_fetch_opts("grouped_df", ...)
-  if (is_corrupted_grouped_df(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$grouped_df[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.grouped_df <- function(x, opts, ...) {
+  opts_local <- opts$grouped_df %||% opts_grouped_df()
+  if (is_corrupted_grouped_df(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$grouped_df[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_grouped_df <- function(x) {

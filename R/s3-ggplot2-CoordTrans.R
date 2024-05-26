@@ -11,11 +11,11 @@ opts_CoordTrans <- function(constructor = c("coord_trans", "next", "environment"
 }
 
 #' @export
-.cstr_construct.CoordTrans <- function(x, ...) {
-  opts <- .cstr_fetch_opts("CoordTrans", ...)
-  if (is_corrupted_CoordTrans(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordTrans[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.CoordTrans <- function(x, opts, ...) {
+  opts_local <- opts$CoordTrans %||% opts_CoordTrans()
+  if (is_corrupted_CoordTrans(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$CoordTrans[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_CoordTrans <- function(x) {

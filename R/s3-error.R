@@ -9,11 +9,11 @@ opts_error <- function(constructor = c("errorCondition", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.error <- function(x, ...) {
-  opts <- .cstr_fetch_opts("error", ...)
-  if (is_corrupted_error(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$error[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.error <- function(x, opts, ...) {
+  opts_local <- opts$error %||% opts_error()
+  if (is_corrupted_error(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$error[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_error <- function(x) {

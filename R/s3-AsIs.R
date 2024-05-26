@@ -25,9 +25,9 @@ opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
 
 #' @export
 .cstr_construct.AsIs <- function(x, opts, ...) {
-  opts <- opts$AsIs %||% opts_AsIs() # opts <- .cstr_fetch_opts("AsIs", ...)
-  if (is_corrupted_AsIs(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$AsIs[[opts$constructor]]
+  opts_local <- opts$AsIs %||% opts_AsIs()
+  if (is_corrupted_AsIs(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$AsIs[[opts_local$constructor]]
   constructor(x, opts = opts, ...)
 }
 

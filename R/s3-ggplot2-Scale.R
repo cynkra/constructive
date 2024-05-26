@@ -116,3 +116,4 @@ constructors$Scale$default <- function(x, ...) {
 repair_attributes_Scale <- function(x, code, ...) {
   code
 }
+

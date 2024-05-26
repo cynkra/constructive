@@ -23,11 +23,11 @@ opts_externalptr  <- function(constructor = c("default"), ...) {
 }
 
 #' @export
-.cstr_construct.externalptr <- function(x, ...) {
-  opts <- .cstr_fetch_opts("externalptr", ...)
+.cstr_construct.externalptr <- function(x, opts, ...) {
+  opts_local <- opts$externalptr %||% opts_externalptr()
   if (is_corrupted_externalptr (x)) return(NextMethod())
-  constructor <- constructors$externalptr [[opts$constructor]]
-  constructor(x, ...)
+  constructor <- constructors$externalptr [[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_externalptr <- function(x) {

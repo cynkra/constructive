@@ -23,11 +23,11 @@ opts_rowwise_df <- function(constructor = c("default", "next", "list"), ...) {
 }
 
 #' @export
-.cstr_construct.rowwise_df <- function(x, ...) {
-  opts <- .cstr_fetch_opts("rowwise_df", ...)
-  if (is_corrupted_rowwise_df(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$rowwise_df[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.rowwise_df <- function(x, opts, ...) {
+  opts_local <- opts$rowwise_df %||% opts_rowwise_df()
+  if (is_corrupted_rowwise_df(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$rowwise_df[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_rowwise_df <- function(x) {

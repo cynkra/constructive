@@ -17,11 +17,11 @@ opts_classRepresentation <- function(constructor = c("getClassDef"), ...) {
 }
 
 #' @export
-.cstr_construct.classRepresentation <- function(x, ...) {
-  opts <- .cstr_fetch_opts("classRepresentation", ...)
-  if (is_corrupted_classRepresentation(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$classRepresentation[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.classRepresentation <- function(x, opts, ...) {
+  opts_local <- opts$classRepresentation %||% opts_classRepresentation()
+  if (is_corrupted_classRepresentation(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$classRepresentation[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_classRepresentation <- function(x) {

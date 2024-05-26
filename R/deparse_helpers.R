@@ -16,8 +16,8 @@ deparse_symbol <- function(call, check_syntactic, unicode_representation, escape
 }
 
 deparse_syntactic_literal <- function(call, unicode_representation, escape) {
-  opts <- opts_atomic(unicode_representation = unicode_representation, escape = escape)
-  .cstr_construct(call, template = NULL, data = NULL, opts)
+  opts_local <- opts_atomic(unicode_representation = unicode_representation, escape = escape)
+  .cstr_construct(call, template = NULL, data = NULL, opts = list(atomic = opts_local))
 }
 
 # function and control flow ---------------------------------------------------

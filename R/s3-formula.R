@@ -32,11 +32,11 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
 
 #' @export
 .cstr_construct.formula <- function(x, opts, ..., env) {
-  opts <- opts$formula %||% opts_formula() #opts <- .cstr_fetch_opts("formula", ...)
-  if (is_corrupted_formula(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$formula[[opts$constructor]]
+  opts_local <- opts$formula %||% opts_formula()
+  if (is_corrupted_formula(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$formula[[opts_local$constructor]]
   env_is_default <- identical(attr(x, ".Environment"), env)
-  constructor(x, ..., opts = opts, environment = opts$environment, env = env, env_is_default = env_is_default)
+  constructor(x, ..., opts = opts, environment = opts_local$environment, env = env, env_is_default = env_is_default)
 }
 
 is_corrupted_formula <- function(x) {
@@ -80,7 +80,6 @@ constructors$formula$as.formula <- function(x, ..., environment, env_is_default)
 }
 
 repair_attributes_formula <- function(x, code, ..., pipe = NULL, ignore_env_attr = TRUE) {
-  opts <- .cstr_fetch_opts("formula", ...)
   ignore <- NULL
 
   if (ignore_env_attr) {

@@ -25,11 +25,11 @@ opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ...) 
 }
 
 #' @export
-.cstr_construct.quosures <- function(x, ...) {
-  opts <- .cstr_fetch_opts("quosures", ...)
-  if (is_corrupted_quosures(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$quosures[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.quosures <- function(x, opts, ...) {
+  opts_local <- opts$quosures %||% opts_quosures()
+  if (is_corrupted_quosures(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$quosures[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_quosures <- function(x) {

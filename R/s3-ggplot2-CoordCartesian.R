@@ -11,11 +11,11 @@ opts_CoordCartesian <- function(constructor = c("coord_cartesian", "next", "envi
 }
 
 #' @export
-.cstr_construct.CoordCartesian <- function(x, ...) {
-  opts <- .cstr_fetch_opts("CoordCartesian", ...)
-  if (is_corrupted_CoordCartesian(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordCartesian[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.CoordCartesian <- function(x, opts, ...) {
+  opts_local <- opts$CoordCartesian %||% opts_CoordCartesian()
+  if (is_corrupted_CoordCartesian(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$CoordCartesian[[opts_local$constructor]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_CoordCartesian <- function(x) {

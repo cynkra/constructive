@@ -28,9 +28,9 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", 
 
 #' @export
 .cstr_construct.data.frame <- function(x, opts, ...) {
-  opts <- opts$data.frame %||% opts_data.frame() # .cstr_fetch_opts("data.frame", ...)
-  if (is_corrupted_data.frame(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$data.frame[[opts$constructor]]
+  opts_local <- opts$data.frame %||% opts_data.frame()
+  if (is_corrupted_data.frame(x) || opts_local$constructor == "next") return(NextMethod())
+  constructor <- constructors$data.frame[[opts_local$constructor]]
   constructor(x, opts = opts, ...)
 }
 
@@ -90,7 +90,7 @@ constructors$data.frame$read.table <- function(x, ...) {
   # fill a data frame with deparsed values
   code_df <- x
   code_df[] <- lapply(x, function(x) {
-    if (is.character(x)) sprintf("'%s'", x) else sapply(x, .cstr_construct)
+    if (is.character(x)) sprintf("'%s'", x) else sapply(x, .cstr_construct, ...)
   })
   dbl_cols <- sapply(x, is.double)
 
