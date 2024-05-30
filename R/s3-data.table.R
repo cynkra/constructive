@@ -33,7 +33,7 @@ opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., 
   opts_local <- opts$data.table %||% opts_data.table()
   if (is_corrupted_data.table(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$data.table[[opts_local[["constructor"]]]]
-  constructor(x, selfref = opts_local$selfref, opts = opts, ...)
+  constructor(x, selfref = opts_local[["selfref"]], opts = opts, ...)
 }
 
 is_corrupted_data.table <- function(x) {

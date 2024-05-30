@@ -15,7 +15,7 @@ opts_hexmode <- function(constructor = c("as.hexmode", "next"), ..., integer = F
   opts_local <- opts$hexmode %||% opts_hexmode()
   if (is_corrupted_hexmode(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$hexmode[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ..., integer = opts_local$integer)
+  constructor(x, opts = opts, ..., integer = opts_local[["integer"]])
 }
 
 is_corrupted_hexmode <- function(x) {

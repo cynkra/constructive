@@ -36,7 +36,7 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
   if (is_corrupted_formula(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$formula[[opts_local[["constructor"]]]]
   env_is_default <- identical(attr(x, ".Environment"), env)
-  constructor(x, ..., opts = opts, environment = opts_local$environment, env = env, env_is_default = env_is_default)
+  constructor(x, ..., opts = opts, environment = opts_local[["environment"]], env = env, env_is_default = env_is_default)
 }
 
 is_corrupted_formula <- function(x) {

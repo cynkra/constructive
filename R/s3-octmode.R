@@ -14,7 +14,7 @@ opts_octmode <- function(constructor = c("as.octmode", "next"), ..., integer = F
   opts_local <- opts$octmode %||% opts_octmode()
   if (is_corrupted_octmode(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$octmode[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ..., integer = opts_local$integer)
+  constructor(x, opts = opts, ..., integer = opts_local[["integer"]])
 }
 
 is_corrupted_octmode <- function(x) {

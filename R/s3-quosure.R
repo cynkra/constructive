@@ -29,7 +29,7 @@ opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ...
   opts_local <- opts[["quosure"]] %||% opts_quosure()
   if (is_corrupted_quosure(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$quosure[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ..., origin = opts_local$origin)
+  constructor(x, opts = opts, ..., origin = opts_local[["origin"]])
 }
 
 is_corrupted_quosure <- function(x) {

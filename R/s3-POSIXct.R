@@ -43,7 +43,7 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
     constructor <- constructors$POSIXct[[opts_local[["constructor"]]]]
   }
 
-  constructor(x, opts = opts, ..., origin = opts_local$origin)
+  constructor(x, opts = opts, ..., origin = opts_local[["origin"]])
 }
 
 is_corrupted_POSIXct <- function(x) {

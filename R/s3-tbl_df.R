@@ -40,8 +40,8 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"),
     x,
     opts = opts,
     ...,
-    trailing_comma = opts_local$trailing_comma,
-    justify = opts_local$justify
+    trailing_comma = opts_local[["trailing_comma"]],
+    justify = opts_local[["justify"]]
   )
 }
 

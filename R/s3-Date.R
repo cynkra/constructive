@@ -43,7 +43,7 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
   opts_local <- opts$Date %||% opts_Date()
   if (is_corrupted_Date(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$Date[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ..., origin = opts_local$origin)
+  constructor(x, opts = opts, ..., origin = opts_local[["origin"]])
 }
 
 is_corrupted_Date <- function(x) {

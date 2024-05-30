@@ -50,7 +50,7 @@ opts_function <- function(
   if (is_corrupted_function(x)) return(NextMethod())
 
   # trim if relevant
-  trim <- opts_local$trim
+  trim <- opts_local[["trim"]]
   if (!is.null(trim)) {
     x_lst <- as.list(unclass(x))
     x_length <- length(x_lst)
@@ -62,7 +62,7 @@ opts_function <- function(
   }
 
   constructor <- constructors$`function`[[opts_local[["constructor"]]]]
-  constructor(x, ..., opts = opts, trim = opts_local$trim, environment = opts_local$environment, srcref = opts_local$srcref)
+  constructor(x, ..., opts = opts, trim = opts_local[["trim"]], environment = opts_local[["environment"]], srcref = opts_local[["srcref"]])
 }
 
 is_corrupted_function <- function(x) {
@@ -179,7 +179,7 @@ constructors$`function`$new_function <- function(
 
 repair_attributes_function <- function(x, code, opts, ...) {
   opts_local <- opts$`function` %||% opts_function()
-  srcref <- opts_local$srcref
+  srcref <- opts_local[["srcref"]]
   ignore <- c("name", "path")
   if (!srcref) ignore <- c(ignore, "srcref")
   .cstr_repair_attributes(x, code, opts = opts, ..., ignore = ignore)

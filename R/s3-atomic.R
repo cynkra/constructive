@@ -77,21 +77,21 @@ construct_atomic <- function(x, opts, ..., unicode_representation = c("ascii", "
   # apply on names too. The behavior set by opts_atomic() now overrided the
   # top level behavior for compatibility
   opts_local <- opts$atomic %||% opts_atomic()
-  unicode_representation <- if (opts_local$unicode_representation == "default") {
+  unicode_representation <- if (opts_local[["unicode_representation"]] == "default") {
     match.arg(unicode_representation)
   } else {
-    opts_local$unicode_representation
+    opts_local[["unicode_representation"]]
   }
-  escape <- opts_local$escape %||% escape
+  escape <- opts_local[["escape"]] %||% escape
 
-  trim <- opts_local$trim
-  fill <- opts_local$fill
+  trim <- opts_local[["trim"]]
+  fill <- opts_local[["fill"]]
 
 
   # if all names are "" we let `repair_attributes_impl()` deal with it
   names(x) <- if (!anyNA(nms) && !all(nms == "")) nms
 
-  code <- if (opts_local$compress && is.null(names(x))) simplify_atomic(x, opts = opts, ...)
+  code <- if (opts_local[["compress"]] && is.null(names(x))) simplify_atomic(x, opts = opts, ...)
   if (!is.null(code)) return(code)
 
 
