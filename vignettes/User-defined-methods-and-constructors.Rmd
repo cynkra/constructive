@@ -61,16 +61,16 @@ construct(letters)
 `.cstr_construct.?()` methods typically have this form:
 
 ```{r}
-.cstr_construct.Date <- function(x, ...) {
-  opts <- .cstr_fetch_opts("Date", ...)
-  if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$Date[[opts$constructor]]
-  constructor(x, ..., origin = opts$origin)
+.cstr_construct.Date <- function(x, opts, ...) {
+  opts_local <- opts$Date %||% opts_Date()
+  if (is_corrupted_Date(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$Date[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ..., origin = opts_local[["origin"]])
 }
 ```
 
-* `.cstr_fetch_opts()` gathers options provided to `construct()` through the `opts_*()` function
-  (see next section), or falls back to a default value if none were provided.
+* `opts` contains options passed to the `...` or `template` arguments of 
+  `construct()` through the `opts_*()` functions, we fall back to a default value if none were provided.
 * If the object is corrupted or if the user decided to bypass the current method by
   choosing "next" as a constructor for this class, we return `NextMethod()` to
   forward all our inputs to a lower level constructor.
@@ -80,8 +80,8 @@ construct(letters)
 ## `opts_?()` function
 
 When implementing a new method you'll need to define and export the corresponding
-`opts_?()` function. It provides to the user a way to choose a constructor and 
-object retrieved by `.cstr_fetch_opts()` in the `.cstr_construct()` method.
+`opts_?()` function. It provides to the user with a way to choose a constructor and 
+additional parameters, and sets the default behavior.
 
 It should always have this form:
 
@@ -108,18 +108,6 @@ opts_Date <- function(
 * A "next" value is mandatory except for internal types.
 * Additional arguments passed to the constructors might be added, as we did here with
   `origin`
- 
-The following code illustrates how the information is retrieved.
-
-```{r}
-# .cstr_fetch_opts() takes a class and the dots and retrieves the relevant options
-# if none were provided it falls back on the default value for the relevant opts_?() function
-test <- function(...) {
-  .cstr_fetch_opts("Date", ...)
-}
-test(opts_Date("as_date"), opts_data.frame("read.table"))
-test()
-```
 
 ## `is_corrupted_?()` function
 
@@ -226,13 +214,12 @@ constructors$Date$as.Date(x)
 * It doesn't set attributes that we choose to ignore because they are set by the
   constructor (e.g. row names for data frames or levels for factors)
 
-`.cstr_repair_attributes()` does a bit more but we don't need to dive deeper in this vignette.
-
-
 ```{r}
 constructive:::repair_attributes_Date
 
 constructive:::repair_attributes_factor
+
+constructive:::repair_attributes_tbl_df
 ```
 
 ## Register a new class
@@ -249,7 +236,6 @@ You should not attempt to modify manually the `constructors` object of the {cons
 
 Do the latter in `.onload()` if the new constructor is to be part of a package,
 for instance.
-
 
 ```{r, eval = FALSE}
 # in zzz.R
