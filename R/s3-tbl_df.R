@@ -16,6 +16,7 @@ constructors$tbl_df <- new.env()
 #' @inheritParams opts_atomic
 #' @param trailing_comma Boolean, whether to leave a trailing comma at the end of the constructor call
 #' calls
+#' @param justify Character. Justification for columns if `constructor` is `"tribble"`
 #'
 #' @return An object of class <constructive_options/constructive_options_tbl_df>
 #' @export
