@@ -11,8 +11,8 @@ opts_simpleCondition <- function(constructor = c("simpleCondition", "next"), ...
 #' @export
 .cstr_construct.simpleCondition <- function(x, opts, ...) {
   opts_local <- opts$simpleCondition %||% opts_simpleCondition()
-  if (is_corrupted_simpleCondition(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$simpleCondition[[opts_local$constructor]]
+  if (is_corrupted_simpleCondition(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$simpleCondition[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

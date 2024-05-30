@@ -11,8 +11,8 @@ opts_warning <- function(constructor = c("warningCondition", "next"), ...) {
 #' @export
 .cstr_construct.warning <- function(x, opts, ...) {
   opts_local <- opts$warning %||% opts_warning()
-  if (is_corrupted_warning(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$warning[[opts_local$constructor]]
+  if (is_corrupted_warning(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$warning[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

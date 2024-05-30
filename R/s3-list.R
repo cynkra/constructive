@@ -47,7 +47,7 @@ opts_list <- function(
 .cstr_construct.list <- function(x, opts, ...) {
   opts_local <- opts$list %||% opts_list()
   if (is_corrupted_list(x)) return(NextMethod())
-  constructors$list[[opts_local$constructor]](x, trim = opts_local$trim, fill = opts_local$fill, opts = opts, ...)
+  constructors$list[[opts_local[["constructor"]]]](x, trim = opts_local$trim, fill = opts_local$fill, opts = opts, ...)
 }
 
 is_corrupted_list <- function(x) {

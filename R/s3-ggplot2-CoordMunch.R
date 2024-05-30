@@ -13,8 +13,8 @@ opts_CoordMunch <- function(constructor = c("coord_munch", "next", "environment"
 #' @export
 .cstr_construct.CoordMunch <- function(x, opts, ...) {
   opts_local <- opts$CoordMunch %||% opts_CoordMunch()
-  if (is_corrupted_CoordMunch(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordMunch[[opts_local$constructor]]
+  if (is_corrupted_CoordMunch(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$CoordMunch[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

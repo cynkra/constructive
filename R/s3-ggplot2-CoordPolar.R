@@ -13,8 +13,8 @@ opts_CoordPolar <- function(constructor = c("coord_polar", "next", "environment"
 #' @export
 .cstr_construct.CoordPolar <- function(x, opts, ...) {
   opts_local <- opts$CoordPolar %||% opts_CoordPolar()
-  if (is_corrupted_CoordPolar(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordPolar[[opts_local$constructor]]
+  if (is_corrupted_CoordPolar(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$CoordPolar[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

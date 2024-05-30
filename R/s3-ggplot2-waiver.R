@@ -13,8 +13,8 @@ opts_waiver <- function(constructor = c("waiver", "next", "list"), ...) {
 #' @export
 .cstr_construct.waiver <- function(x, opts, ...) {
   opts_local <- opts$waiver %||% opts_waiver()
-  if (is_corrupted_waiver(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$waiver[[opts_local$constructor]]
+  if (is_corrupted_waiver(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$waiver[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

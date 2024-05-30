@@ -19,8 +19,8 @@ opts_classGeneratorFunction <- function(constructor = c("setClass"), ...) {
 #' @export
 .cstr_construct.classGeneratorFunction <- function(x, opts, ...) {
   opts_local <- opts$classGeneratorFunction %||% opts_classGeneratorFunction()
-  if (is_corrupted_classGeneratorFunction(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$classGeneratorFunction[[opts_local$constructor]]
+  if (is_corrupted_classGeneratorFunction(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$classGeneratorFunction[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

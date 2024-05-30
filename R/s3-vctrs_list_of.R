@@ -23,8 +23,8 @@ opts_vctrs_list_of <- function(constructor = c("list_of", "next", "list"), ...) 
 #' @export
 .cstr_construct.vctrs_list_of <- function(x, opts, ...) {
   opts_local <- opts$vctrs_list_of %||% opts_vctrs_list_of()
-  if (is_corrupted_vctrs_list_of(x) || opts_local$constructor == "next") return(NextMethod())
-  constructors <- constructors$vctrs_list_of[[opts_local$constructor]]
+  if (is_corrupted_vctrs_list_of(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructors <- constructors$vctrs_list_of[[opts_local[["constructor"]]]]
   constructors(x, opts = opts, ...)
 }
 
@@ -48,7 +48,7 @@ constructors$vctrs_list_of$list <- function(x, ...) {
 
 repair_attributes_vctrs_list_of <- function(x, code, opts, ..., pipe = NULL) {
   opts_local <- opts$vctrs_list_of %||% opts_vctrs_list_of()
-  if (opts_local$constructor == "list") {
+  if (opts_local[["constructor"]] == "list") {
     return(repair_attributes_list(x, code, ..., pipe = pipe))
   }
   .cstr_repair_attributes(

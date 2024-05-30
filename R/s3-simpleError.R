@@ -11,8 +11,8 @@ opts_simpleError <- function(constructor = c("simpleError", "next"), ...) {
 #' @export
 .cstr_construct.simpleError <- function(x, opts, ...) {
   opts_local <- opts$simpleError %||% opts_simpleError()
-  if (is_corrupted_simpleError(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$simpleError[[opts_local$constructor]]
+  if (is_corrupted_simpleError(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$simpleError[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

@@ -29,8 +29,8 @@ opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), .
 #' @export
 .cstr_construct.matrix <- function(x, opts, ...) {
   opts_local <- opts$matrix %||% opts_matrix()
-  if (is_corrupted_matrix(x) || opts_local$constructor == "next") return(NextMethod())
-  constructors$matrix[[opts_local$constructor]](x, opts = opts, ...)
+  if (is_corrupted_matrix(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructors$matrix[[opts_local[["constructor"]]]](x, opts = opts, ...)
 }
 
 is_corrupted_matrix <- function(x) {

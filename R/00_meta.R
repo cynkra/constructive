@@ -37,8 +37,8 @@ new_constructive_method <- function(class, constructors, ...) {
     as.function(
     alist(x = , opts =, ... = ,{
       opts_local <- opts[[.(CLASS_CHR)]] %||% .(OPTS_FUN)()
-      if (.(IS_CORRUPTED_FUN)(x) || opts_local$constructor == "next") return(NextMethod())
-      constructor <- constructors[[.(CLASS)]][[opts_local$constructor]]
+      if (.(IS_CORRUPTED_FUN)(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+      constructor <- constructors[[.(CLASS)]][[opts_local[["constructor"]]]]
       constructor(x, opts = opts, ..(FORWARDED_DOTS), ...)
     }),
     envir = env

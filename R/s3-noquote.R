@@ -11,8 +11,8 @@ opts_noquote <- function(constructor = c("noquote", "next"), ...) {
 #' @export
 .cstr_construct.noquote <- function(x, opts, ...) {
   opts_local <- opts$noquote %||% opts_noquote()
-  if (is_corrupted_noquote(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$noquote[[opts_local$constructor]]
+  if (is_corrupted_noquote(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$noquote[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

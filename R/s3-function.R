@@ -61,7 +61,7 @@ opts_function <- function(
     }
   }
 
-  constructor <- constructors$`function`[[opts_local$constructor]]
+  constructor <- constructors$`function`[[opts_local[["constructor"]]]]
   constructor(x, ..., opts = opts, trim = opts_local$trim, environment = opts_local$environment, srcref = opts_local$srcref)
 }
 

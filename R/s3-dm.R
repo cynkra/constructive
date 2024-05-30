@@ -25,8 +25,8 @@ opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
 #' @export
 .cstr_construct.dm <- function(x, opts, ...) {
   opts_local <- opts$dm %||% opts_dm()
-  if (is_corrupted_dm(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$dm[[opts_local$constructor]]
+  if (is_corrupted_dm(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$dm[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

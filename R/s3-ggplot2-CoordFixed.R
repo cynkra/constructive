@@ -13,8 +13,8 @@ opts_CoordFixed <- function(constructor = c("coord_fixed", "next", "environment"
 #' @export
 .cstr_construct.CoordFixed <- function(x, opts, ...) {
   opts_local <- opts$CoordFixed %||% opts_CoordFixed()
-  if (is_corrupted_CoordFixed(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordFixed[[opts_local$constructor]]
+  if (is_corrupted_CoordFixed(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$CoordFixed[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

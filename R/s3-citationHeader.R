@@ -11,8 +11,8 @@ opts_citationHeader <- function(constructor = c("citHeader", "next"), ...) {
 #' @export
 .cstr_construct.citationHeader <- function(x, opts, ...) {
   opts_local <- opts$citationHeader %||% opts_citationHeader()
-  if (is_corrupted_citationHeader(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$citationHeader[[opts_local$constructor]]
+  if (is_corrupted_citationHeader(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$citationHeader[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

@@ -19,8 +19,8 @@ opts_classPrototypeDef <- function(constructor = c("prototype"), ...) {
 #' @export
 .cstr_construct.classPrototypeDef <- function(x, opts, ...) {
   opts_local <- opts$classPrototypeDef %||% opts_classPrototypeDef()
-  if (is_corrupted_classPrototypeDef(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$classPrototypeDef[[opts_local$constructor]]
+  if (is_corrupted_classPrototypeDef(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$classPrototypeDef[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

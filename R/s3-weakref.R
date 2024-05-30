@@ -21,8 +21,8 @@ opts_weakref <- function(constructor = c("new_weakref"), ...) {
 #' @export
 .cstr_construct.weakref <- function(x, opts, ...) {
   opts_local <- opts$weakref %||% opts_weakref()
-  if (is_corrupted_weakref(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$weakref[[opts_local$constructor]]
+  if (is_corrupted_weakref(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$weakref[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

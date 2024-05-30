@@ -13,8 +13,8 @@ opts_CoordFlip <- function(constructor = c("coord_flip", "next", "environment"),
 #' @export
 .cstr_construct.CoordFlip <- function(x, opts, ...) {
   opts_local <- opts$CoordFlip %||% opts_CoordFlip()
-  if (is_corrupted_CoordFlip(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordFlip[[opts_local$constructor]]
+  if (is_corrupted_CoordFlip(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$CoordFlip[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

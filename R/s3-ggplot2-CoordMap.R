@@ -13,8 +13,8 @@ opts_CoordMap <- function(constructor = c("coord_map", "next", "environment"), .
 #' @export
 .cstr_construct.CoordMap <- function(x, opts, ...) {
   opts_local <- opts$CoordMap %||% opts_CoordMap()
-  if (is_corrupted_CoordMap(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordMap[[opts_local$constructor]]
+  if (is_corrupted_CoordMap(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$CoordMap[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

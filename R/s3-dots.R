@@ -29,7 +29,7 @@ opts_dots <- function(constructor = c("default"), ...) {
 .cstr_construct.dots <- function(x, opts, ...) {
   opts_local <- opts$dots %||% opts_dots()
   if (is_corrupted_dots(x)) return(NextMethod())
-  constructor <- constructors$dots[[opts_local$constructor]]
+  constructor <- constructors$dots[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

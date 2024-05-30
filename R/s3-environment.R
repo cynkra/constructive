@@ -130,7 +130,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
     # because it's the only one that can reproduce these objects.
     constructor <- constructors$environment[["env"]]
   } else {
-    constructor <- constructors$environment[[opts_local$constructor]]
+    constructor <- constructors$environment[[opts_local[["constructor"]]]]
   }
 
   constructor(x, opts = opts, ..., recurse = opts_local$recurse, predefine = opts_local$predefine)
@@ -227,7 +227,7 @@ constructors$environment$topenv <- function(x, ...) {
 
 repair_attributes_environment <- function(x, code, opts, ...) {
   opts_local <- opts$environment %||% opts_environment()
-  if ((opts_local$constructor == ".env" && !opts_local$predefine) ||
+  if ((opts_local[["constructor"]] == ".env" && !opts_local$predefine) ||
       grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||
       code[[1]] %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
   ) {

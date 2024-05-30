@@ -31,8 +31,8 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "ne
 #' @export
 .cstr_construct.factor <- function(x, opts, ...) {
   opts_local <- opts$factor %||% opts_factor()
-  if (is_corrupted_factor(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$factor[[opts_local$constructor]]
+  if (is_corrupted_factor(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$factor[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 

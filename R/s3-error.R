@@ -11,8 +11,8 @@ opts_error <- function(constructor = c("errorCondition", "next"), ...) {
 #' @export
 .cstr_construct.error <- function(x, opts, ...) {
   opts_local <- opts$error %||% opts_error()
-  if (is_corrupted_error(x) || opts_local$constructor == "next") return(NextMethod())
-  constructor <- constructors$error[[opts_local$constructor]]
+  if (is_corrupted_error(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$error[[opts_local[["constructor"]]]]
   constructor(x, opts = opts, ...)
 }
 
