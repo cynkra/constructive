@@ -23,7 +23,7 @@ opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 }
 
 #' @export
-.cstr_construct.mts <- function(x, opts, ...) {
+.cstr_construct.mts <- function(x, opts = NULL, ...) {
   opts_local <- opts$mts %||% opts_mts()
   if (is_corrupted_mts(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructors$mts[[opts_local[["constructor"]]]](x, opts = opts, ...)

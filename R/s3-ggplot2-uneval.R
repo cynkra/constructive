@@ -13,7 +13,7 @@ opts_uneval <- function(constructor = c("aes", "next", "list"), ...) {
 }
 
 #' @export
-.cstr_construct.uneval <- function(x, opts, ...) {
+.cstr_construct.uneval <- function(x, opts = NULL, ...) {
   opts_local <- opts$uneval %||% opts_uneval()
   if (is_corrupted_uneval(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$uneval[[opts_local[["constructor"]]]]

@@ -33,7 +33,7 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
 }
 
 #' @export
-.cstr_construct.POSIXct <- function(x, opts, ...) {
+.cstr_construct.POSIXct <- function(x, opts = NULL, ...) {
   opts_local <- opts$POSIXct %||% opts_POSIXct()
   if (opts_local[["constructor"]] == "next") return(NextMethod())
   if (is_corrupted_POSIXct(x)) {

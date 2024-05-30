@@ -29,7 +29,7 @@ opts_integer64 <- function(constructor = c("as.integer64", "next", "atomic"), ..
 }
 
 #' @export
-.cstr_construct.integer64 <- function(x, opts, ...) {
+.cstr_construct.integer64 <- function(x, opts = NULL, ...) {
   opts_local <- opts$integer64 %||% opts_integer64()
   if (is_corrupted_integer64(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$integer64[[opts_local[["constructor"]]]]

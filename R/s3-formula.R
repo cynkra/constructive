@@ -31,7 +31,7 @@ opts_formula <- function(constructor = c("~", "formula", "as.formula", "new_form
 }
 
 #' @export
-.cstr_construct.formula <- function(x, opts, ..., env) {
+.cstr_construct.formula <- function(x, opts = NULL, ..., env) {
   opts_local <- opts$formula %||% opts_formula()
   if (is_corrupted_formula(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$formula[[opts_local[["constructor"]]]]

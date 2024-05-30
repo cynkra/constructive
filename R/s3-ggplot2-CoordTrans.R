@@ -11,7 +11,7 @@ opts_CoordTrans <- function(constructor = c("coord_trans", "next", "environment"
 }
 
 #' @export
-.cstr_construct.CoordTrans <- function(x, opts, ...) {
+.cstr_construct.CoordTrans <- function(x, opts = NULL, ...) {
   opts_local <- opts$CoordTrans %||% opts_CoordTrans()
   if (is_corrupted_CoordTrans(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$CoordTrans[[opts_local[["constructor"]]]]

@@ -23,7 +23,7 @@ opts_rowwise_df <- function(constructor = c("default", "next", "list"), ...) {
 }
 
 #' @export
-.cstr_construct.rowwise_df <- function(x, opts, ...) {
+.cstr_construct.rowwise_df <- function(x, opts = NULL, ...) {
   opts_local <- opts$rowwise_df %||% opts_rowwise_df()
   if (is_corrupted_rowwise_df(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$rowwise_df[[opts_local[["constructor"]]]]

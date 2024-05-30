@@ -21,7 +21,7 @@ opts_vctrs_list_of <- function(constructor = c("list_of", "next", "list"), ...) 
 }
 
 #' @export
-.cstr_construct.vctrs_list_of <- function(x, opts, ...) {
+.cstr_construct.vctrs_list_of <- function(x, opts = NULL, ...) {
   opts_local <- opts$vctrs_list_of %||% opts_vctrs_list_of()
   if (is_corrupted_vctrs_list_of(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructors <- constructors$vctrs_list_of[[opts_local[["constructor"]]]]

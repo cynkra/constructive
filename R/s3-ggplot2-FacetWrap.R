@@ -9,7 +9,7 @@ opts_FacetWrap <- function(constructor = c("facet_wrap", "ggproto", "next", "env
 }
 
 #' @export
-.cstr_construct.FacetWrap <- function(x, opts, ...) {
+.cstr_construct.FacetWrap <- function(x, opts = NULL, ...) {
   opts_local <- opts$FacetWrap %||% opts_FacetWrap()
   if (is_corrupted_FacetWrap(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$FacetWrap[[opts_local[["constructor"]]]]

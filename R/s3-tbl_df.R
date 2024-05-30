@@ -32,7 +32,7 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"),
 }
 
 #' @export
-.cstr_construct.tbl_df <- function(x, opts, ...) {
+.cstr_construct.tbl_df <- function(x, opts = NULL, ...) {
   opts_local <- opts$tbl_df %||% opts_tbl_df()
   if (is_corrupted_tbl_df(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$tbl_df[[opts_local[["constructor"]]]]

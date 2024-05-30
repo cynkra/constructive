@@ -29,7 +29,7 @@ opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., 
 }
 
 #' @export
-.cstr_construct.data.table <- function(x, opts, ...) {
+.cstr_construct.data.table <- function(x, opts = NULL, ...) {
   opts_local <- opts$data.table %||% opts_data.table()
   if (is_corrupted_data.table(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$data.table[[opts_local[["constructor"]]]]

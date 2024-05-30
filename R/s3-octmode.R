@@ -10,7 +10,7 @@ opts_octmode <- function(constructor = c("as.octmode", "next"), ..., integer = F
 }
 
 #' @export
-.cstr_construct.octmode <- function(x, opts, ...) {
+.cstr_construct.octmode <- function(x, opts = NULL, ...) {
   opts_local <- opts$octmode %||% opts_octmode()
   if (is_corrupted_octmode(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$octmode[[opts_local[["constructor"]]]]

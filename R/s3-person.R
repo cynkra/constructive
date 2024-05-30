@@ -9,7 +9,7 @@ opts_person <- function(constructor = c("person", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.person <- function(x, opts, ...) {
+.cstr_construct.person <- function(x, opts = NULL, ...) {
   opts_local <- opts$person %||% opts_person()
   if (is_corrupted_person(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$person[[opts_local[["constructor"]]]]

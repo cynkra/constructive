@@ -17,7 +17,7 @@ opts_classRepresentation <- function(constructor = c("getClassDef"), ...) {
 }
 
 #' @export
-.cstr_construct.classRepresentation <- function(x, opts, ...) {
+.cstr_construct.classRepresentation <- function(x, opts = NULL, ...) {
   opts_local <- opts$classRepresentation %||% opts_classRepresentation()
   if (is_corrupted_classRepresentation(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$classRepresentation[[opts_local[["constructor"]]]]

@@ -9,7 +9,7 @@ opts_simpleWarning <- function(constructor = c("simpleWarning", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.simpleWarning <- function(x, opts, ...) {
+.cstr_construct.simpleWarning <- function(x, opts = NULL, ...) {
   opts_local <- opts$simpleWarning %||% opts_simpleWarning()
   if (is_corrupted_simpleWarning(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$simpleWarning[[opts_local[["constructor"]]]]

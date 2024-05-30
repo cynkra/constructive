@@ -28,7 +28,7 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "ne
 }
 
 #' @export
-.cstr_construct.ordered <- function(x, opts, ...) {
+.cstr_construct.ordered <- function(x, opts = NULL, ...) {
   opts_local <- opts$ordered %||% opts_ordered()
   if (is_corrupted_ordered(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$ordered[[opts_local[["constructor"]]]]

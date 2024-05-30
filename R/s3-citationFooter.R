@@ -9,7 +9,7 @@ opts_citationFooter <- function(constructor = c("citFooter", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.citationFooter <- function(x, opts, ...) {
+.cstr_construct.citationFooter <- function(x, opts = NULL, ...) {
   opts_local <- opts$citationFooter %||% opts_citationFooter()
   if (is_corrupted_citationFooter(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$citationFooter[[opts_local[["constructor"]]]]

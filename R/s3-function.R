@@ -44,7 +44,7 @@ opts_function <- function(
 
 
 #' @export
-.cstr_construct.function <- function(x, opts, ...) {
+.cstr_construct.function <- function(x, opts = NULL, ...) {
   if (rlang::is_primitive(x)) return(deparse(x))
   opts_local <- opts$`function` %||% opts_function()
   if (is_corrupted_function(x)) return(NextMethod())

@@ -9,7 +9,7 @@ opts_simpleMessage <- function(constructor = c("simpleMessage", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.simpleMessage <- function(x, opts, ...) {
+.cstr_construct.simpleMessage <- function(x, opts = NULL, ...) {
   opts_local <- opts$simpleMessage %||% opts_simpleMessage()
   if (is_corrupted_simpleMessage(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$simpleMessage[[opts_local[["constructor"]]]]

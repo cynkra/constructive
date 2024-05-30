@@ -19,7 +19,7 @@ opts_S4 <- function(constructor = c("new"), ...) {
 }
 
 #' @export
-.cstr_construct.S4 <- function(x, opts, ...) {
+.cstr_construct.S4 <- function(x, opts = NULL, ...) {
   opts_local <- opts$S4 %||% opts_S4()
   if (is_corrupted_S4(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$S4[[opts_local[["constructor"]]]]

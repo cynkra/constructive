@@ -25,7 +25,7 @@ opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ...) 
 }
 
 #' @export
-.cstr_construct.quosures <- function(x, opts, ...) {
+.cstr_construct.quosures <- function(x, opts = NULL, ...) {
   opts_local <- opts$quosures %||% opts_quosures()
   if (is_corrupted_quosures(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$quosures[[opts_local[["constructor"]]]]

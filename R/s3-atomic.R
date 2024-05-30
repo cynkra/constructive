@@ -65,7 +65,7 @@ opts_atomic <- function(
   .cstr_repair_attributes(x, code, ...)
 }
 
-construct_atomic <- function(x, opts, ..., unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
+construct_atomic <- function(x, opts = NULL, ..., unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
   if(is.null(x)) return("NULL")
   nms <- names(x)
   attributes(x) <- NULL

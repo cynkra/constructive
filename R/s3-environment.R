@@ -96,7 +96,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
 }
 
 #' @export
-.cstr_construct.environment <- function(x, opts, ...) {
+.cstr_construct.environment <- function(x, opts = NULL, ...) {
   # The name of `asNamespace("pkg")` is always "pkg" and print as `<environment: namespace:pkg>`
   # The name of `as.environment("package:pkg")` is ALMOST always "package:pkg" and prints as
   #  `<environment: package:pkg>` + attributes

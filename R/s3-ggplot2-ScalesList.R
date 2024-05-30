@@ -11,7 +11,7 @@ opts_ScalesList <- function(constructor = c("ScalesList", "next", "list"), ...) 
 }
 
 #' @export
-.cstr_construct.ScalesList <- function(x, opts, ...) {
+.cstr_construct.ScalesList <- function(x, opts = NULL, ...) {
   opts_local <- opts$ScalesList %||% opts_ScalesList()
   if (is_corrupted_ScalesList(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$ScalesList[[opts_local[["constructor"]]]]

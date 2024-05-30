@@ -23,7 +23,7 @@ opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
 }
 
 #' @export
-.cstr_construct.ggplot <- function(x, opts, ...) {
+.cstr_construct.ggplot <- function(x, opts = NULL, ...) {
   opts_local <- opts$ggplot %||% opts_ggplot()
   if (is_corrupted_ggplot(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$ggplot[[opts_local[["constructor"]]]]

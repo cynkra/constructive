@@ -23,7 +23,7 @@ opts_numeric_version  <- function(constructor = c("numeric_version", "next", "li
 }
 
 #' @export
-.cstr_construct.numeric_version <- function(x, opts, ...) {
+.cstr_construct.numeric_version <- function(x, opts = NULL, ...) {
   opts_local <- opts$numeric_version %||% opts_numeric_version()
   if (is_corrupted_numeric_version(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructors$numeric_version[[opts_local[["constructor"]]]](x, opts = opts, ...)
@@ -72,7 +72,7 @@ opts_package_version  <- function(constructor = c("package_version", "next", "li
 }
 
 #' @export
-.cstr_construct.package_version <- function(x, opts, ...) {
+.cstr_construct.package_version <- function(x, opts = NULL, ...) {
   opts_local <- opts$package_version %||% opts_package_version()
   if (is_corrupted_package_version(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructors$package_version[[opts_local[["constructor"]]]](x, opts = opts, ...)
@@ -121,7 +121,7 @@ opts_R_system_version  <- function(constructor = c("R_system_version", "next", "
 }
 
 #' @export
-.cstr_construct.R_system_version <- function(x, opts, ...) {
+.cstr_construct.R_system_version <- function(x, opts = NULL, ...) {
   opts_local <- opts$R_system_version %||% opts_R_system_version()
   if (is_corrupted_R_system_version(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructors$R_system_version[[opts_local[["constructor"]]]](x, opts = opts, ...)

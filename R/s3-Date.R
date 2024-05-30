@@ -39,7 +39,7 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
 }
 
 #' @export
-.cstr_construct.Date <- function(x, opts, ...) {
+.cstr_construct.Date <- function(x, opts = NULL, ...) {
   opts_local <- opts$Date %||% opts_Date()
   if (is_corrupted_Date(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$Date[[opts_local[["constructor"]]]]

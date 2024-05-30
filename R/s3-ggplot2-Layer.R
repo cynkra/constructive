@@ -27,7 +27,7 @@ opts_Layer <- function(constructor = c("default", "layer", "next", "environment"
 }
 
 #' @export
-.cstr_construct.Layer <- function(x, opts, ...) {
+.cstr_construct.Layer <- function(x, opts = NULL, ...) {
   opts_local <- opts$Layer %||% opts_Layer()
   if (is_corrupted_Layer(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$Layer[[opts_local[["constructor"]]]]

@@ -27,7 +27,7 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", 
 }
 
 #' @export
-.cstr_construct.data.frame <- function(x, opts, ...) {
+.cstr_construct.data.frame <- function(x, opts = NULL, ...) {
   opts_local <- opts$data.frame %||% opts_data.frame()
   if (is_corrupted_data.frame(x) || opts_local[["constructor"]] == "next") return(NextMethod())
   constructor <- constructors$data.frame[[opts_local[["constructor"]]]]
