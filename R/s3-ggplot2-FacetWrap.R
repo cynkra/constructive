@@ -54,7 +54,7 @@ constructors$FacetWrap$facet_wrap <- function(x, ...) {
     scales = scales,
     shrink = x$shrink,
     labeller = x$params$labeller,
-    as.table = x$params$as.table,
+    as.table = x$params$as.table, # NULL for new versions
     # switch is deprecated
     # switch =,
     drop = x$params$drop,
@@ -68,11 +68,24 @@ constructors$FacetWrap$facet_wrap <- function(x, ...) {
   if (isTRUE(args$scales == "fixed")) args$scales <- NULL
   if (isTRUE(args$shrink)) args$shrink <- NULL
   if (identical(args$labeller, getFromNamespace("label_value", "ggplot2")) || identical(args$labeller, "label_value")) args$labeller <- NULL
-  if (isTRUE(args$as.table)) args$as.table <- NULL
   if (is.null(args$switch)) args$switch <- NULL
   if (isTRUE(args$drop)) args$drop <- NULL
-  if (isTRUE(args$dir == "h")) args$dir <- NULL
   if (isTRUE(args$strip.position == "top")) args$strip.position <- NULL
+
+  if (FALSE) { # FIXME: keep for old versions ? maybe internals have changed
+    if (isTRUE(args$as.table)) args$as.table <- NULL
+    if (isTRUE(args$dir == "h")) args$dir <- NULL
+  } else {
+    if (isTRUE(args$dir == "lt")) {
+      args$as.table <- NULL # TRUE by default
+      args$dir <- NULL
+    } else if (isTRUE(args$dir == "lb")) {
+      args$as.table <- FALSE
+      args$dir <- NULL
+    } else {
+      args$as.table <- NULL
+    }
+  }
 
   ## build call
   args <- lapply(args, .cstr_construct, ...)
