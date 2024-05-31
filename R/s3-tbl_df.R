@@ -48,7 +48,7 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"),
 
 is_corrupted_tbl_df <- function(x) {
   # FIXME: ?rownames says a tibble can have rownames but as_tibble(mtcars) removes them
-  is_corrupted_data.frame(x)
+  is_corrupted_data.frame(x) || !identical(attr(x, "row.names"), seq_len(nrow(x)))
 }
 
 constructors$tbl_df$list <- function(x, ..., trailing_comma = TRUE) {
@@ -56,6 +56,9 @@ constructors$tbl_df$list <- function(x, ..., trailing_comma = TRUE) {
 }
 
 constructors$tbl_df$tibble <- function(x, ..., trailing_comma = TRUE) {
+  arg_names <- c(".rows", ".name_repair ")
+  df_has_problematic_names <- any(names(x) %in% arg_names)
+  if (df_has_problematic_names) return(.cstr_construct.list(x, ...))
   # construct idiomatic code
   code <- .cstr_apply(x, fun = "tibble::tibble", ..., trailing_comma = trailing_comma)
 
