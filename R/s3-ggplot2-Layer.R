@@ -44,7 +44,8 @@ constructors$Layer$environment <- function(x, ..., env) {
   .cstr_construct.environment(x, ...)
 }
 
-constructors$Layer$default <- function(constructor, env, ...) {
+constructors$Layer$default <- function(x, env, ...) {
+  constructor <- x$constructor
   caller_lng <- constructor[[1]]
   caller_val <- eval(caller_lng, env)
   ns <-  topenv(environment(caller_val)) # the most likely namespace
@@ -77,7 +78,7 @@ constructors$Layer$layer <- function(x, ...) {
   # in layer() the raw_key string when given is used to replace geom by a function
   # right before the ggproto call
   x <- as.list(x)
-  key_glyph <- construct_glyph(x$geom$draw_key)
+  key_glyph <- construct_glyph(x$geom$draw_key, ...)
   ggproto.ignore_draw_key <- !is.null(key_glyph)
 
   # geom -----------------------------------------------------------------------
@@ -125,7 +126,7 @@ constructors$Layer$layer <- function(x, ...) {
 }
 
 
-construct_glyph <- function(draw_key) {
+construct_glyph <- function(draw_key, ...) {
   if (is.null(draw_key)) return(NULL)
 
   key_glyph <- draw_key
@@ -162,5 +163,5 @@ construct_glyph <- function(draw_key) {
     }
   }
 
-  .cstr_construct(key_glyph)
+  .cstr_construct(key_glyph, ...)
 }
