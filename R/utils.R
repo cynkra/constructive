@@ -178,10 +178,11 @@ scrub_ggplot <- function(x) {
 
 # Thanks to Zi Lin : https://stackoverflow.com/questions/75960769
 flatten.scales <- function(gg) {
+  `$` <- base::`$`
   # take stock how many different scales are contained within the top-level
   # scale list, & sort their names alphabetically for consistency
-  orig.scales <- gg[["scales"]]
-  scale.count <- orig.scales$n()
+  orig.scales <-gg[["scales"]]
+  scale.count <-  orig.scales$n()
   scale.aesthetics <- lapply(seq_len(scale.count),
                              function(i) orig.scales$scales[[i]]$aesthetics)
   names(scale.aesthetics) <- lapply(scale.aesthetics,

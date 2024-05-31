@@ -10,3 +10,8 @@ colon_colon <- `::`
     }
   )
 }
+
+# we want regular behavior of internal generics in the tests
+`[` <- base::`[`
+`$` <- base::`$`
+length <- base::length
