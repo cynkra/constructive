@@ -1,9 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.0.9.9000
-pkgdown_sha: be8bb7dcc54262e4d2c7130bafc534b293bafb04
+pkgdown_sha: 11e1a8fe0fff6b1981721f50f18a958635177919
 articles:
   User-defined-methods-and-constructors: User-defined-methods-and-constructors.html
-last_built: 2024-05-24T14:13Z
+last_built: 2024-05-31T07:38Z
 urls:
   reference: https://cynkra.github.io/constructive/reference
   article: https://cynkra.github.io/constructive/articles
