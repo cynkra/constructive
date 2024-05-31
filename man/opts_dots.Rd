@@ -22,7 +22,7 @@ is provided in case users want to extend the method with other constructors.
 \details{
 Depending on \code{constructor}, we construct the object as follows:
 \itemize{
-\item \code{"default"} : We use the construct \code{(function(...) environment()$...)(a = x, y)}
+\item \code{"default"} : We use the construct \verb{(function(...) get(\\"...\\"))(a = x, y)}
 which we evaluate in the correct environment.
 }
 }
