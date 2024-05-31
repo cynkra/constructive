@@ -72,7 +72,8 @@ constructors$FacetWrap$facet_wrap <- function(x, ...) {
   if (isTRUE(args$drop)) args$drop <- NULL
   if (isTRUE(args$strip.position == "top")) args$strip.position <- NULL
 
-  if (FALSE) { # FIXME: keep for old versions ? maybe internals have changed
+  # after 3.5.1 as.table is not stored anymore
+  if (packageVersion("ggplot2") <= "3.5.1") {
     if (isTRUE(args$as.table)) args$as.table <- NULL
     if (isTRUE(args$dir == "h")) args$dir <- NULL
   } else {
