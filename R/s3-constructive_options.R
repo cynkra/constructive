@@ -24,11 +24,11 @@ opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.constructive_options <- function(x, ...) {
-  opts <- .cstr_fetch_opts("constructive_options", ...)
-  if (is_corrupted_constructive_options(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$constructive_options[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.constructive_options <- function(x, opts = NULL, ...) {
+  opts_local <- opts$constructive_options %||% opts_constructive_options()
+  if (is_corrupted_constructive_options(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$constructive_options[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_constructive_options <- function(x) {

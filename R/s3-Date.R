@@ -39,11 +39,11 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
 }
 
 #' @export
-.cstr_construct.Date <- function(x, ...) {
-  opts <- .cstr_fetch_opts("Date", ...)
-  if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$Date[[opts$constructor]]
-  constructor(x, ..., origin = opts$origin)
+.cstr_construct.Date <- function(x, opts = NULL, ...) {
+  opts_local <- opts$Date %||% opts_Date()
+  if (is_corrupted_Date(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$Date[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ..., origin = opts_local[["origin"]])
 }
 
 is_corrupted_Date <- function(x) {

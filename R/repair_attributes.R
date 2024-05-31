@@ -42,7 +42,7 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
   if (
     !identical(attrs$class, idiomatic_class) &&
     tail(class(x), 1) == "noquote" &&
-    .cstr_fetch_opts("noquote", ...)$constructor == "noquote"
+    list(...)$opts$no_quote$constructor %||% "no_quote" == "noquote"
     ) {
     right <- identical(tail(names(class(x)), 1), "right")
     args <- list(code)

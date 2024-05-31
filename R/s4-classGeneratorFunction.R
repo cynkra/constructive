@@ -17,11 +17,11 @@ opts_classGeneratorFunction <- function(constructor = c("setClass"), ...) {
 }
 
 #' @export
-.cstr_construct.classGeneratorFunction <- function(x, ...) {
-  opts <- .cstr_fetch_opts("classGeneratorFunction", ...)
-  if (is_corrupted_classGeneratorFunction(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$classGeneratorFunction[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.classGeneratorFunction <- function(x, opts = NULL, ...) {
+  opts_local <- opts$classGeneratorFunction %||% opts_classGeneratorFunction()
+  if (is_corrupted_classGeneratorFunction(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$classGeneratorFunction[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_classGeneratorFunction <- function(x) {

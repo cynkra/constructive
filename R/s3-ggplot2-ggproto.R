@@ -13,11 +13,11 @@ opts_ggproto <- function(constructor = c("default", "next", "environment"), ...)
 }
 
 #' @export
-.cstr_construct.ggproto <- function(x, ...) {
-  opts <- .cstr_fetch_opts("ggproto", ...)
-  if (is_corrupted_ggproto(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$ggproto[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.ggproto <- function(x, opts = NULL, ...) {
+  opts_local <- opts$ggproto %||% opts_ggproto()
+  if (is_corrupted_ggproto(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$ggproto[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_ggproto <- function(x) {

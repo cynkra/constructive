@@ -9,11 +9,11 @@ opts_noquote <- function(constructor = c("noquote", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.noquote <- function(x, ...) {
-  opts <- .cstr_fetch_opts("noquote", ...)
-  if (is_corrupted_noquote(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$noquote[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.noquote <- function(x, opts = NULL, ...) {
+  opts_local <- opts$noquote %||% opts_noquote()
+  if (is_corrupted_noquote(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$noquote[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_noquote <- function(x) {

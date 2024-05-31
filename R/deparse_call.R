@@ -99,7 +99,7 @@ deparse_call_impl <- function(
     escape = FALSE,
     lisp_equal = FALSE, # To handle `=` as top level caller, e.g. quote(`=`(x, 1))
     force_lisp = FALSE # To prevent callers from using the infix form, e.g. `+`(x, y)(z)
-    ) {
+) {
 
   # helper to avoid forwarding all args all the time
   rec <- function(call, ...) {

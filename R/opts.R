@@ -1,3 +1,10 @@
+collect_opts <- function(..., template) {
+  opts <- c(list(...), template)
+  names(opts) <- sapply(opts, function(x) sub("^constructive_options_(.*)$", "\\1", class(x)[[1]]))
+  opts <- opts[unique(names(opts))]
+  opts
+}
+
 #' Create constructive options
 #'
 #' Exported for custom constructor design.
@@ -38,7 +45,7 @@
 #' @export
 print.constructive_options <- function(x, ...) {
   cl <- cli::col_blue(sprintf("<%s>", paste(class(x), collapse = "/")))
-  opts <- vapply(x, .cstr_construct, character(1), one_liner = TRUE, template = NULL, data = NULL)
+  opts <- vapply(x, .cstr_construct, character(1), one_liner = TRUE, template = NULL, data = NULL, opts = NULL)
   # This assumes options are all scalar or NULL
   nms <- format(paste0(cli::col_blue(names(x)), ":"))
   writeLines(c(cl, paste(nms, opts)))

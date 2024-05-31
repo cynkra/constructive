@@ -11,11 +11,11 @@ opts_CoordQuickmap <- function(constructor = c("coord_quickmap", "next", "enviro
 }
 
 #' @export
-.cstr_construct.CoordQuickmap <- function(x, ...) {
-  opts <- .cstr_fetch_opts("CoordQuickmap", ...)
-  if (is_corrupted_CoordQuickmap(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordQuickmap[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.CoordQuickmap <- function(x, opts = NULL, ...) {
+  opts_local <- opts$CoordQuickmap %||% opts_CoordQuickmap()
+  if (is_corrupted_CoordQuickmap(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$CoordQuickmap[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_CoordQuickmap <- function(x) {

@@ -20,8 +20,10 @@ constructors$Scale$environment <- function(x, ...) {
 #' @export
 constructors$Scale$default <- function(x, ...) {
   # fetch caller and args from original call
-  caller <- x$call[[1]]
-  args <- as.list(x$call)[-1]
+  # here we need the ggplot subsetting method, not the low level [[
+  call <- base::`[[`(x, "call")
+  caller <- base::`[[`(x, "call")[[1]]
+  args <- as.list(call)[-1]
   fun_chr <- rlang::expr_deparse(caller)
   # the caller might be in the form pkg::fun
   fun_val <- eval(caller, asNamespace("ggplot2"))
@@ -116,3 +118,4 @@ constructors$Scale$default <- function(x, ...) {
 repair_attributes_Scale <- function(x, code, ...) {
   code
 }
+

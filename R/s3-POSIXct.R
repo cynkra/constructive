@@ -33,17 +33,17 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
 }
 
 #' @export
-.cstr_construct.POSIXct <- function(x, ...) {
-  opts <- .cstr_fetch_opts("POSIXct", ...)
-  if (opts$constructor == "next") return(NextMethod())
+.cstr_construct.POSIXct <- function(x, opts = NULL, ...) {
+  opts_local <- opts$POSIXct %||% opts_POSIXct()
+  if (opts_local[["constructor"]] == "next") return(NextMethod())
   if (is_corrupted_POSIXct(x)) {
     # .POSIXct just applies attributes
     constructor <- constructors$POSIXct$.POSIXct
   } else {
-    constructor <- constructors$POSIXct[[opts$constructor]]
+    constructor <- constructors$POSIXct[[opts_local[["constructor"]]]]
   }
 
-  constructor(x, ..., origin = opts$origin)
+  constructor(x, opts = opts, ..., origin = opts_local[["origin"]])
 }
 
 is_corrupted_POSIXct <- function(x) {

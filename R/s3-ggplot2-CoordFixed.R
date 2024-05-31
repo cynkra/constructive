@@ -11,11 +11,11 @@ opts_CoordFixed <- function(constructor = c("coord_fixed", "next", "environment"
 }
 
 #' @export
-.cstr_construct.CoordFixed <- function(x, ...) {
-  opts <- .cstr_fetch_opts("CoordFixed", ...)
-  if (is_corrupted_CoordFixed(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$CoordFixed[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.CoordFixed <- function(x, opts = NULL, ...) {
+  opts_local <- opts$CoordFixed %||% opts_CoordFixed()
+  if (is_corrupted_CoordFixed(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$CoordFixed[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_CoordFixed <- function(x) {

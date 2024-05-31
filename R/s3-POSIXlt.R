@@ -25,11 +25,11 @@ opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "list"), ...) {
 }
 
 #' @export
-.cstr_construct.POSIXlt <- function(x, ...) {
-  opts <- .cstr_fetch_opts("POSIXlt", ...)
-  if (is_corrupted_POSIXlt(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$POSIXlt[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.POSIXlt <- function(x, opts = NULL, ...) {
+  opts_local <- opts$POSIXlt %||% opts_POSIXlt()
+  if (is_corrupted_POSIXlt(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$POSIXlt[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_POSIXlt <- function(x) {

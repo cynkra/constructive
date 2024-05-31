@@ -23,11 +23,11 @@ opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 }
 
 #' @export
-.cstr_construct.ts <- function(x, ...) {
-  opts <- .cstr_fetch_opts("ts", ...)
-  if (is_corrupted_ts(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$ts[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.ts <- function(x, opts = NULL, ...) {
+  opts_local <- opts$ts %||% opts_ts()
+  if (is_corrupted_ts(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$ts[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_ts <- function(x) {

@@ -25,19 +25,21 @@ new_constructive_opts_function <- function(class, constructors, ...) {
 new_constructive_method <- function(class, constructors, ...) {
   env <- parent.frame()
   CLASS <- substitute(class)
+  CLASS_CHR <- as.character(CLASS)
   IS_CORRUPTED_FUN <- as.symbol(paste0("is_corrupted_", class))
   CONSTRUCTOR_ARGS <- sapply(constructors, as.symbol)
   DOTS <- eval(substitute(alist(...)))
   FORWARDED_DOTS <- DOTS
   FORWARDED_DOTS[] <- lapply(names(DOTS), function(x) call("$", quote(opts), as.symbol(x)))
+  OPTS_FUN = as.symbol(sprintf("opts_%s", CLASS_CHR))
   eval(bquote(
     splice = TRUE,
     as.function(
-    alist(x = , ... = ,{
-      opts <- .cstr_fetch_opts(.(CLASS), ...)
-      if (.(IS_CORRUPTED_FUN)(x) || opts$constructor == "next") return(NextMethod())
-      constructor <- constructors[[.(CLASS)]][[opts$constructor]]
-      constructor(x, ..(FORWARDED_DOTS), ...)
+    alist(x = , opts =, ... = ,{
+      opts_local <- opts[[.(CLASS_CHR)]] %||% .(OPTS_FUN)()
+      if (.(IS_CORRUPTED_FUN)(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+      constructor <- constructors[[.(CLASS)]][[opts_local[["constructor"]]]]
+      constructor(x, opts = opts, ..(FORWARDED_DOTS), ...)
     }),
     envir = env
     )

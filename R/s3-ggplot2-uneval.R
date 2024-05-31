@@ -13,11 +13,11 @@ opts_uneval <- function(constructor = c("aes", "next", "list"), ...) {
 }
 
 #' @export
-.cstr_construct.uneval <- function(x, ...) {
-  opts <- .cstr_fetch_opts("uneval", ...)
-  if (is_corrupted_uneval(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$uneval[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.uneval <- function(x, opts = NULL, ...) {
+  opts_local <- opts$uneval %||% opts_uneval()
+  if (is_corrupted_uneval(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$uneval[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_uneval <- function(x) {

@@ -44,10 +44,10 @@ opts_list <- function(
 }
 
 #' @export
-.cstr_construct.list <- function(x, ...) {
-  opts <- .cstr_fetch_opts("list", ...)
+.cstr_construct.list <- function(x, opts = NULL, ...) {
+  opts_local <- opts$list %||% opts_list()
   if (is_corrupted_list(x)) return(NextMethod())
-  constructors$list[[opts$constructor]](x, trim = opts$trim, fill = opts$fill, ...)
+  constructors$list[[opts_local[["constructor"]]]](x, trim = opts_local[["trim"]], fill = opts_local[["fill"]], opts = opts, ...)
 }
 
 is_corrupted_list <- function(x) {

@@ -9,11 +9,11 @@ opts_citationFooter <- function(constructor = c("citFooter", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.citationFooter <- function(x, ...) {
-  opts <- .cstr_fetch_opts("citationFooter", ...)
-  if (is_corrupted_citationFooter(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$citationFooter[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.citationFooter <- function(x, opts = NULL, ...) {
+  opts_local <- opts$citationFooter %||% opts_citationFooter()
+  if (is_corrupted_citationFooter(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$citationFooter[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_citationFooter <- function(x) {

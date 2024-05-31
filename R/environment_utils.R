@@ -156,7 +156,7 @@ update_predefinition <- function(envir, ...) {
   env_name
 }
 
-apply_env_locks <- function(x, code) {
+apply_env_locks <- function(x, code, ...) {
   locked_bindings <- rlang::env_binding_are_locked(x)
   if (environmentIsLocked(x)) {
     if (length(locked_bindings) && all(locked_bindings)) {
@@ -182,7 +182,7 @@ apply_env_locks <- function(x, code) {
     rhs <- c(
       '(\\(e) {',
       "  lockEnvironment(e)",
-      locked_code(locked_bindings),
+      locked_code(locked_bindings, ...),
       '  e',
       '})()'
     )
@@ -192,7 +192,7 @@ apply_env_locks <- function(x, code) {
   if (any(locked_bindings)) {
     rhs <- c(
       '(\\(e) {',
-      locked_code(locked_bindings),
+      locked_code(locked_bindings, ...),
       '  e',
       '})()'
     )
@@ -201,14 +201,14 @@ apply_env_locks <- function(x, code) {
   code
 }
 
-locked_code <- function(locked_bindings) {
+locked_code <- function(locked_bindings, ...) {
   locked <- names(locked_bindings)[locked_bindings]
   if (length(locked) > 2) {
-    locked_code <- .cstr_construct(locked)
+    locked_code <- .cstr_construct(locked, ...)
     locked_code[[1]] <- paste("locked <- ", locked_code[[1]])
     locked_code <- c(locked_code, 'for (sym in locked) lockBinding(sym, e)')
     locked_code <- paste0("  ", locked_code)
     return(locked_code)
   }
-  sprintf("  lockBinding(%s, e)", sapply(locked, construct_atomic))
+  sprintf("  lockBinding(%s, e)", sapply(locked, construct_atomic, ...))
 }

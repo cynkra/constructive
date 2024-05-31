@@ -9,11 +9,11 @@ opts_warning <- function(constructor = c("warningCondition", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.warning <- function(x, ...) {
-  opts <- .cstr_fetch_opts("warning", ...)
-  if (is_corrupted_warning(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$warning[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.warning <- function(x, opts = NULL, ...) {
+  opts_local <- opts$warning %||% opts_warning()
+  if (is_corrupted_warning(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$warning[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_warning <- function(x) {

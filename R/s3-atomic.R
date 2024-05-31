@@ -65,7 +65,7 @@ opts_atomic <- function(
   .cstr_repair_attributes(x, code, ...)
 }
 
-construct_atomic <- function(x, ..., unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
+construct_atomic <- function(x, opts = NULL, ..., unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE) {
   if(is.null(x)) return("NULL")
   nms <- names(x)
   attributes(x) <- NULL
@@ -76,27 +76,27 @@ construct_atomic <- function(x, ..., unicode_representation = c("ascii", "latin"
   # provided through opts_atomic() but are now provided at the top level so they
   # apply on names too. The behavior set by opts_atomic() now overrided the
   # top level behavior for compatibility
-  opts <- .cstr_fetch_opts("atomic", ...)
-  unicode_representation <- if (opts$unicode_representation == "default") {
+  opts_local <- opts$atomic %||% opts_atomic()
+  unicode_representation <- if (opts_local[["unicode_representation"]] == "default") {
     match.arg(unicode_representation)
   } else {
-    opts$unicode_representation
+    opts_local[["unicode_representation"]]
   }
-  escape <- opts$escape %||% escape
+  escape <- opts_local[["escape"]] %||% escape
 
-  trim <- opts$trim
-  fill <- opts$fill
+  trim <- opts_local[["trim"]]
+  fill <- opts_local[["fill"]]
 
 
   # if all names are "" we let `repair_attributes_impl()` deal with it
   names(x) <- if (!anyNA(nms) && !all(nms == "")) nms
 
-  code <- if (opts$compress && is.null(names(x))) simplify_atomic(x, ...)
+  code <- if (opts_local[["compress"]] && is.null(names(x))) simplify_atomic(x, opts = opts, ...)
   if (!is.null(code)) return(code)
 
 
   if (!is.null(trim) && trim < l) {
-    opts$trim <- NULL
+    opts$atomic$trim <- NULL
     code <- construct_atomic(x[seq_len(trim)], opts, ...)
     if (fill == "none" || trim == 0) return(code)
     if (trim == 1) code <- sprintf("c(%s)", code)

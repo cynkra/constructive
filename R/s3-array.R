@@ -24,11 +24,11 @@ opts_array <- function(constructor = c("array", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.array <- function(x, ...) {
-  opts <- .cstr_fetch_opts("array", ...)
-  if (is_corrupted_array(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$array[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.array <- function(x, opts = NULL, ...) {
+  opts_local <- opts$array %||% opts_array()
+  if (is_corrupted_array(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$array[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_array <- function(x) {

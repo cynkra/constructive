@@ -9,11 +9,11 @@ opts_bibentry <- function(constructor = c("bibentry", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.bibentry <- function(x, ...) {
-  opts <- .cstr_fetch_opts("bibentry", ...)
-  if (is_corrupted_bibentry(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$bibentry[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.bibentry <- function(x, opts = NULL, ...) {
+  opts_local <- opts$bibentry %||% opts_bibentry()
+  if (is_corrupted_bibentry(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$bibentry[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_bibentry <- function(x) {

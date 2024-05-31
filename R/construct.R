@@ -84,6 +84,8 @@ construct <- function(
     { unicode_representation <- rlang::arg_match(unicode_representation) }
   )
 
+  opts <- collect_opts(..., template = template)
+
   # process data into a flat named list of objects
   data <- process_data(data)
 
@@ -91,8 +93,8 @@ construct <- function(
   caller <- caller_env()
   code <- try_construct(
     x,
+    opts = opts,
     template = template,
-    ...,
     data = data,
     pipe = pipe,
     unicode_representation = unicode_representation,
@@ -142,6 +144,7 @@ construct_multi <- function(
       template = template
     )
   } else if (is.environment(x)) {
+    opts <- collect_opts(..., template = template)
     constructives <- list()
     for (nm in names(x)) {
       if (is_promise(as.symbol(nm), x)) {
@@ -149,14 +152,14 @@ construct_multi <- function(
         env <- promise_env(as.symbol(nm), x)
         code <- .cstr_apply(
           list(
-            .cstr_construct(nm),
+            .cstr_construct(nm, opts = opts),
             value = deparse_call(
               code,
               style = FALSE,
               unicode_representation = unicode_representation,
               escape = escape,
               pedantic_encoding = pedantic_encoding),
-            eval.env = .cstr_construct(env)
+            eval.env = .cstr_construct(env, opts = opts)
           ),
           "delayedAssign",
           recurse = FALSE

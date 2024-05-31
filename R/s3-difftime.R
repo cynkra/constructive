@@ -9,11 +9,11 @@ opts_difftime <- function(constructor = c("as.difftime", "next"), ...) {
 }
 
 #' @export
-.cstr_construct.difftime <- function(x, ...) {
-  opts <- .cstr_fetch_opts("difftime", ...)
-  if (is_corrupted_difftime(x) || opts$constructor == "next") return(NextMethod())
-  constructor <- constructors$difftime[[opts$constructor]]
-  constructor(x, ...)
+.cstr_construct.difftime <- function(x, opts = NULL, ...) {
+  opts_local <- opts$difftime %||% opts_difftime()
+  if (is_corrupted_difftime(x) || opts_local[["constructor"]] == "next") return(NextMethod())
+  constructor <- constructors$difftime[[opts_local[["constructor"]]]]
+  constructor(x, opts = opts, ...)
 }
 
 is_corrupted_difftime <- function(x) {
