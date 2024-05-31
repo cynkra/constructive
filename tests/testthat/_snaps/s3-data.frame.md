@@ -120,4 +120,13 @@
                 a
       'two words'
       ")
+    Code
+      constructive::construct(as.data.frame(list(row.names = 1:2)))
+    Output
+      list(row.names = 1:2) |>
+        structure(class = "data.frame", row.names = c(NA, -2L))
+    Code
+      construct(data.frame(row.names = c("a", "b")))
+    Output
+      data.frame(row.names = c("a", "b"))
 
