@@ -127,14 +127,20 @@ align_numerics <- function(x) {
 
 constructors$data.frame$data.frame <- function(x, ...) {
   # Fall back on list constructor if relevant
-  df_has_list_cols <- any(sapply(x, function(col) is.list(col) && ! inherits(col, "AsIs")))
-  if (df_has_list_cols) return(.cstr_construct.list(x, ...))
+  df_has_list_cols <- any(sapply(x, function(col) is.list(col) && !inherits(col, "AsIs")))
+  arg_names <- c("row.names", "check.rows", "check.names", "fix.empty.names", "stringsAsFactors")
+  df_has_problematic_names <- any(names(x) %in% arg_names)
+  if (df_has_list_cols || df_has_problematic_names) return(.cstr_construct.list(x, ...))
 
   args <- x
 
   # include row.names arg only if necessary
   rn <- attr(x, "row.names")
-  if (!identical(rn, seq_len(nrow(x)))) args <- c(args, list(row.names = rn))
+
+  # The automatic row names are defined oddly, from doc:
+  # If row names are not supplied in the call to data.frame, the row names are
+  # taken from the first component that has suitable names
+  if (!ncol(x) || !identical(rn, seq_len(nrow(x)))) args <- c(args, list(row.names = rn))
 
   # include check.names arg only if necessary
   if (any(!is_syntactic(names(x)))) args <- c(args, list(check.names = FALSE))

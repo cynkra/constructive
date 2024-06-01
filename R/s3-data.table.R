@@ -45,6 +45,11 @@ constructors$data.table$list <- function(x, ...) {
 }
 
 constructors$data.table$data.table <- function(x, selfref, ...) {
+  # Fall back on list constructor if relevant
+  arg_names <- c("keep.rownames", "check.names", "key", "stringsAsFactors")
+  df_has_problematic_names <- any(names(x) %in% arg_names)
+  if (df_has_problematic_names) return(.cstr_construct.list(x, ...))
+
   key <- attr(x, "sorted")
   if (!is.null(key)) {
     args <- c(x, key = key)
