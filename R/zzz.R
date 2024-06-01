@@ -7,3 +7,15 @@ all_opts_funs <- NULL
   s3_register("roxygen2::roxy_tag_parse", "roxy_tag_enumerateOptFunctions")
   s3_register("roxygen2::roxy_tag_rd", "roxy_tag_enumerateOptFunctions")
 }
+
+global_variables <- function() {
+  files <- list.files(system.file("R", package = "constructive"), full.names = TRUE)
+  nms <-
+    sort(unique(unlist(
+      lapply(files, function(file) all.names(parse(file = file), unique = TRUE))
+    )))
+  globalVariables(nms)
+}
+
+global_variables()
+rm(global_variables)
