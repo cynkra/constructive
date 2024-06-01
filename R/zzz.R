@@ -1,4 +1,4 @@
-all_opts_funs <- NULL
+all_opts_funs <-  NULL
 
 .onLoad <- function(libname, pkgname) {
   ns <- asNamespace(pkgname)
