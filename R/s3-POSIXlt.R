@@ -38,12 +38,14 @@ is_corrupted_POSIXlt <- function(x) {
 }
 
 constructors$POSIXlt$as.POSIXlt <- function(x, ...) {
-  gmtoff <- .subset2(x, "gmtoff")
-  from_posixct <- !is.null(gmtoff) && !all(is.na(gmtoff))
-  if (from_posixct) {
-    code_posixct <- .cstr_construct(as.POSIXct(x), ...)
-    code <- .cstr_wrap(code_posixct, "as.POSIXlt", new_line = FALSE)
-    return(repair_attributes_POSIXlt(x, code, ...))
+  if (getRversion() < "4.3.0") {
+    gmtoff <- .subset2(x, "gmtoff")
+    from_posixct <- !is.null(gmtoff) && !all(is.na(gmtoff))
+    if (from_posixct) {
+      code_posixct <- .cstr_construct(as.POSIXct(x), ...)
+      code <- .cstr_wrap(code_posixct, "as.POSIXlt", new_line = FALSE)
+      return(repair_attributes_POSIXlt(x, code, ...))
+    }
   }
   tzone <- attr(x, "tzone")
   x_chr <- format(x)
@@ -64,11 +66,17 @@ constructors$POSIXlt$list <- function(x, ...) {
 }
 
 repair_attributes_POSIXlt <- function(x, code, ..., pipe = NULL) {
+  if (getRversion() >= "4.3.0") {
+    ignore <- c("tzone", "balanced")
+  } else {
+    ignore <- c("tzone")
+  }
+
   code <- .cstr_repair_attributes(
     x, code, ...,
     pipe = pipe,
     idiomatic_class = c("POSIXlt", "POSIXt"),
-    ignore =  "tzone"
+    ignore =  ignore
   )
   code
 }
