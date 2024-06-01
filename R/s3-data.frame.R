@@ -127,8 +127,10 @@ align_numerics <- function(x) {
 
 constructors$data.frame$data.frame <- function(x, ...) {
   # Fall back on list constructor if relevant
-  df_has_list_cols <- any(sapply(x, function(col) is.list(col) && ! inherits(col, "AsIs")))
-  if (df_has_list_cols) return(.cstr_construct.list(x, ...))
+  df_has_list_cols <- any(sapply(x, function(col) is.list(col) && !inherits(col, "AsIs")))
+  arg_names <- c("row.names", "check.rows", "check.names", "fix.empty.names", "stringsAsFactors")
+  df_has_problematic_names <- any(names(x) %in% arg_names)
+  if (df_has_list_cols || df_has_problematic_names) return(.cstr_construct.list(x, ...))
 
   args <- x
 
