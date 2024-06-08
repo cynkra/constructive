@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_error <- function(constructor = c("errorCondition", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("error", constructor = constructor)
+  .cstr_options("error", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.error <- function(x, opts = NULL, ...) {
-  opts_local <- opts$error %||% opts_error()
-  if (is_corrupted_error(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$error[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.error <- function(x, ...) {
+  opts <- list(...)$opts$error %||% opts_error()
+  if (is_corrupted_error(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.error", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_error <- function(x) {
@@ -21,7 +16,7 @@ is_corrupted_error <- function(x) {
 }
 
 #' @export
-constructors$error$errorCondition <- function(x, ...) {
+.cstr_construct.error.errorCondition <- function(x, ...) {
   x_bkp <- x
   x <- unclass(x)
   args <- list(x$message)

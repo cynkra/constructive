@@ -1,11 +1,15 @@
-constructors$simpleUnit <- new.env()
-
 #' @export
 #' @rdname other-opts
-opts_simpleUnit <- new_constructive_opts_function("simpleUnit", c("unit", "next", "atomic"))
+opts_simpleUnit <- function(constructor = c("unit", "next", "atomic"), ...) {
+  .cstr_options("simpleUnit", constructor = constructor[[1]], ...)
+}
 
 #' @export
-.cstr_construct.simpleUnit <- new_constructive_method("simpleUnit", c("unit", "next", "atomic"))
+.cstr_construct.simpleUnit <- function(x, ...) {
+  opts <- list(...)$opts$simpleUnit %||% opts_simpleUnit()
+  if (is_corrupted_simpleUnit(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.simpleUnit", structure(NA, class = opts$constructor))
+}
 
 is_corrupted_simpleUnit <- function(x) {
   # TODO
@@ -13,12 +17,12 @@ is_corrupted_simpleUnit <- function(x) {
 }
 
 #' @export
-constructors$simpleUnit$atomic <- function(x, ...) {
+.cstr_construct.simpleUnit.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
 #' @export
-constructors$simpleUnit$unit <- function(x, ...) {
+.cstr_construct.simpleUnit.unit <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,

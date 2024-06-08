@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_bibentry <- function(constructor = c("bibentry", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("bibentry", constructor = constructor)
+  .cstr_options("bibentry", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.bibentry <- function(x, opts = NULL, ...) {
-  opts_local <- opts$bibentry %||% opts_bibentry()
-  if (is_corrupted_bibentry(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$bibentry[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.bibentry <- function(x, ...) {
+  opts <- list(...)$opts$bibentry %||% opts_bibentry()
+  if (is_corrupted_bibentry(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.bibentry", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_bibentry <- function(x) {
@@ -35,7 +30,7 @@ is_corrupted_bibentry <- function(x) {
 }
 
 #' @export
-constructors$bibentry$bibentry <- function(x, ...) {
+.cstr_construct.bibentry.bibentry <- function(x, ...) {
   is_footer_header <- length(x) == 0
   if (is_footer_header) {
     if (!is.null(attr(x, "mfooter"))) {

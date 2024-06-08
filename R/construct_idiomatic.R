@@ -63,7 +63,9 @@
   if (!length(args)) return(sprintf("%s()", fun))
   if (recurse) args <- lapply(
     args,
-    .cstr_construct,
+    # for some reason, using simply .cstr_construct on the next line doesn't
+    # dispatch to the right method
+    function(x, ...) .cstr_construct(x, ...),
     ...,
     one_liner = one_liner,
     unicode_representation = unicode_representation,

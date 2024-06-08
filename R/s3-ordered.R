@@ -1,5 +1,3 @@
-constructors$ordered <- new.env()
-
 #' Constructive options for class 'ordered'
 #'
 #' These options will be used on objects of class 'ordered'.
@@ -20,19 +18,14 @@ constructors$ordered <- new.env()
 #' @return An object of class <constructive_options/constructive_options_ordered>
 #' @export
 opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "ordered"),
-    check_dots_empty()
-  )
-  .cstr_options("ordered", constructor = constructor)
+  .cstr_options("ordered", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.ordered <- function(x, opts = NULL, ...) {
-  opts_local <- opts$ordered %||% opts_ordered()
-  if (is_corrupted_ordered(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$ordered[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.ordered <- function(x, ...) {
+  opts <- list(...)$opts$ordered %||% opts_ordered()
+  if (is_corrupted_ordered(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.ordered", structure(NA_integer_, class = opts$constructor))
 }
 
 is_corrupted_ordered <- function(x) {
@@ -41,7 +34,7 @@ is_corrupted_ordered <- function(x) {
 }
 
 #' @export
-constructors$ordered$ordered <- function(x, ...) {
+.cstr_construct.ordered.ordered <- function(x, ...) {
   levs <- levels(x)
   args <- list(setNames(as.character(x), names(x)))
   default_levs <- sort(unique(as.character(x)))
@@ -56,7 +49,7 @@ constructors$ordered$ordered <- function(x, ...) {
 }
 
 #' @export
-constructors$ordered$factor <- function(x, ...) {
+.cstr_construct.ordered.factor <- function(x, ...) {
   levs <- levels(x)
   args <- list(setNames(as.character(x), names(x)))
   default_levs <- sort(unique(as.character(x)))
@@ -69,14 +62,14 @@ constructors$ordered$factor <- function(x, ...) {
 
 
 #' @export
-constructors$ordered$new_ordered <- function(x, ...) {
+.cstr_construct.ordered.new_ordered <- function(x, ...) {
   levs <- levels(x)
   code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_ordered", ...)
   repair_attributes_ordered(x, code, ...)
 }
 
 #' @export
-constructors$ordered$atomic <- function(x, ...) {
+.cstr_construct.ordered.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 

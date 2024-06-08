@@ -1,5 +1,3 @@
-constructors$classPrototypeDef <- new.env()
-
 #' Constructive options for class 'classPrototypeDef'
 #'
 #' These options will be used on objects of class 'classPrototypeDef'.
@@ -9,19 +7,14 @@ constructors$classPrototypeDef <- new.env()
 #' @return An object of class <constructive_options/constructive_options_classPrototypeDef>
 #' @export
 opts_classPrototypeDef <- function(constructor = c("prototype"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "classPrototypeDef"),
-    check_dots_empty()
-  )
-  .cstr_options("classPrototypeDef", constructor = constructor)
+  .cstr_options("classPrototypeDef", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.classPrototypeDef <- function(x, opts = NULL, ...) {
-  opts_local <- opts$classPrototypeDef %||% opts_classPrototypeDef()
-  if (is_corrupted_classPrototypeDef(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$classPrototypeDef[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.classPrototypeDef <- function(x, ...) {
+  opts <- list(...)$opts$classPrototypeDef %||% opts_classPrototypeDef()
+  if (is_corrupted_classPrototypeDef(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.classPrototypeDef", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_classPrototypeDef <- function(x) {
@@ -29,7 +22,7 @@ is_corrupted_classPrototypeDef <- function(x) {
   !isS4(x)
 }
 
-constructors$classPrototypeDef$prototype <- function(x, env, ...) {
+.cstr_construct.classPrototypeDef.prototype <- function(x, env, ...) {
   object <- x@object
   slots <- getSlots(x)
   attrs <- attributes(object)[slots]

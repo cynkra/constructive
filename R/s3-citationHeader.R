@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_citationHeader <- function(constructor = c("citHeader", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("citationHeader", constructor = constructor)
+  .cstr_options("citationHeader", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.citationHeader <- function(x, opts = NULL, ...) {
-  opts_local <- opts$citationHeader %||% opts_citationHeader()
-  if (is_corrupted_citationHeader(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$citationHeader[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.citationHeader <- function(x, ...) {
+  opts <- list(...)$opts$citationHeader %||% opts_citationHeader()
+  if (is_corrupted_citationHeader(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.citationHeader", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_citationHeader <- function(x) {
@@ -21,7 +16,7 @@ is_corrupted_citationHeader <- function(x) {
 }
 
 #' @export
-constructors$citationHeader$citHeader <- function(x, ...) {
+.cstr_construct.citationHeader.citHeader <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "citHeader", ...)
   repair_attributes_citationHeader(x, code, ...)
 }

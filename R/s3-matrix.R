@@ -1,5 +1,3 @@
-constructors$matrix <- new.env()
-
 #' Constructive options for matrices
 #'
 #' Matrices are atomic vectors, lists, or objects of type `"expression"` with a `"dim"`
@@ -19,25 +17,22 @@ constructors$matrix <- new.env()
 #' @return An object of class <constructive_options/constructive_options_matrix>
 #' @export
 opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "matrix"),
-    check_dots_empty()
-  )
-  .cstr_options("matrix", constructor = constructor)
+  .cstr_options("matrix", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.matrix <- function(x, opts = NULL, ...) {
-  opts_local <- opts$matrix %||% opts_matrix()
-  if (is_corrupted_matrix(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructors$matrix[[opts_local[["constructor"]]]](x, opts = opts, ...)
+.cstr_construct.matrix <- function(x, ...) {
+  opts <- list(...)$opts$matrix %||% opts_matrix()
+  if (is_corrupted_matrix(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.matrix", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_matrix <- function(x) {
   is_corrupted_array(x) || length(dim(x)) != 2
 }
 
-constructors$matrix$matrix <- function(x, ...) {
+#' @export
+.cstr_construct.matrix.matrix <- function(x, ...) {
   dim <- attr(x, "dim")
   dimnames <- attr(x, "dimnames")
   dim_names_lst <- if (!is.null(dimnames)) list(dimnames = dimnames)
@@ -51,12 +46,13 @@ constructors$matrix$matrix <- function(x, ...) {
   repair_attributes_matrix(x, code, ...)
 }
 
-constructors$matrix$array <- function(x, ...) {
-  code <- constructors$array$array(x, ...)
-  repair_attributes_matrix(x, code, ...)
+#' @export
+.cstr_construct.matrix.array <- function(x, ...) {
+  .cstr_construct.array.array(x, ...)
 }
 
-constructors$matrix$atomic <- function(x, ...) {
+#' @export
+.cstr_construct.matrix.atomic <- function(x, ...) {
   .cstr_construct.default(x, ...)
 }
 

@@ -1,5 +1,3 @@
-constructors$array <- new.env()
-
 #' Constructive options for the class `AsIs`
 #'
 #' These options will be used on objects of class `AsIs`. `AsIs` objects are
@@ -16,26 +14,21 @@ constructors$array <- new.env()
 #' @return An object of class <constructive_options/constructive_options_AsIs>
 #' @export
 opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "AsIs"),
-    check_dots_empty()
-  )
-  .cstr_options("AsIs", constructor = constructor)
+  .cstr_options("AsIs", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.AsIs <- function(x, opts = NULL, ...) {
-  opts_local <- opts$AsIs %||% opts_AsIs()
-  if (is_corrupted_AsIs(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$AsIs[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.AsIs <- function(x, ...) {
+  opts <- list(...)$opts$AsIs %||% opts_AsIs()
+  if (is_corrupted_AsIs(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.AsIs", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_AsIs <- function(x) {
   oldClass(x)[[1]] != "AsIs"
 }
 
-constructors$AsIs$I <- function(x, ...) {
+.cstr_construct.AsIs.I <- function(x, ...) {
   x_stripped <- x
   cl <- oldClass(x)
   class(x_stripped) <- setdiff(cl, "AsIs")
@@ -44,7 +37,7 @@ constructors$AsIs$I <- function(x, ...) {
   repair_attributes_AsIs(x, code, ...)
 }
 
-constructors$AsIs$atomic <- function(x, ...) {
+.cstr_construct.AsIs.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 

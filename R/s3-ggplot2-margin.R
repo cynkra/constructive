@@ -1,11 +1,15 @@
-constructors$margin <- new.env()
-
 #' @export
 #' @rdname other-opts
-opts_margin <- new_constructive_opts_function("margin", c("margin", "next", "atomic"))
+opts_margin <- function(constructor = c("margin", "next", "atomic"), ...) {
+  .cstr_options("margin", constructor = constructor[[1]], ...)
+}
 
 #' @export
-.cstr_construct.margin <- new_constructive_method("margin", c("margin", "next", "atomic"))
+.cstr_construct.margin <- function(x, ...) {
+  opts <- list(...)$opts$margin %||% opts_margin()
+  if (is_corrupted_margin(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.margin", structure(NA, class = opts$constructor))
+}
 
 is_corrupted_margin <- function(x) {
   # TODO
@@ -13,12 +17,12 @@ is_corrupted_margin <- function(x) {
 }
 
 #' @export
-constructors$margin$atomic <- function(x, ...) {
+.cstr_construct.margin.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
 #' @export
-constructors$margin$margin <- function(x, ...) {
+.cstr_construct.margin.margin <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,
     bigpts = 10L, dida = 11L, cicero = 12L, scaledpts = 13L, lines = 3L,

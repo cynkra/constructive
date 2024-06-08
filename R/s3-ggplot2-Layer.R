@@ -1,5 +1,3 @@
-constructors$Layer <- new.env()
-
 #' Constructive options for class 'Layer' (ggplot2)
 #'
 #' These options will be used on objects of class 'Layer'.
@@ -19,19 +17,14 @@ constructors$Layer <- new.env()
 #' @return An object of class <constructive_options/constructive_options_Layer>
 #' @export
 opts_Layer <- function(constructor = c("default", "layer", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("Layer", constructor = constructor)
+  .cstr_options("Layer", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.Layer <- function(x, opts = NULL, ...) {
-  opts_local <- opts$Layer %||% opts_Layer()
-  if (is_corrupted_Layer(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$Layer[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.Layer <- function(x, ...) {
+  opts <- list(...)$opts$Layer %||% opts_Layer()
+  if (is_corrupted_Layer(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.Layer", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_Layer <- function(x) {
@@ -40,11 +33,11 @@ is_corrupted_Layer <- function(x) {
 }
 
 #' @export
-constructors$Layer$environment <- function(x, ..., env) {
+.cstr_construct.Layer.environment <- function(x, ..., env) {
   .cstr_construct.environment(x, ...)
 }
 
-constructors$Layer$default <- function(x, env, ...) {
+.cstr_construct.Layer.default <- function(x, env, ...) {
   constructor <- x$constructor
   caller_lng <- constructor[[1]]
   caller_val <- eval(caller_lng, env)
@@ -61,7 +54,7 @@ constructors$Layer$default <- function(x, env, ...) {
   .cstr_apply(args, caller_chr, env = env, ...)
 }
 
-constructors$Layer$layer <- function(x, ...) {
+.cstr_construct.Layer.layer <- function(x, ...) {
   # reconstruct the parameters from layer()
   # layer(
   #   geom = NULL, stat = NULL, data = NULL, mapping = NULL, position = NULL,
@@ -117,7 +110,7 @@ constructors$Layer$layer <- function(x, ...) {
   if (isTRUE(args$inherit.aes)) args$inherit.aes <- NULL
   if (rlang::is_na(args$show.legend)) args$show.legend <- NULL
   if (is.null(key_glyph)) args$key_glyph <- NULL
-  args_chr <- lapply(args, .cstr_construct, ggproto.ignore_draw_key = ggproto.ignore_draw_key, ...)
+  args_chr <- lapply(args, function(x, ...) .cstr_construct(x, ...), ggproto.ignore_draw_key = ggproto.ignore_draw_key, ...)
   args_chr$key_glyph <- key_glyph
   args_chr$geom <- geom
 

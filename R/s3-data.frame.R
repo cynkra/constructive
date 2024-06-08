@@ -1,5 +1,3 @@
-constructors$data.frame <- new.env()
-
 #' Constructive options for class 'data.frame'
 #'
 #' These options will be used on objects of class 'data.frame'.
@@ -19,19 +17,14 @@ constructors$data.frame <- new.env()
 #' @return An object of class <constructive_options/constructive_options_data.frame>
 #' @export
 opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", "list"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "data.frame"),
-    check_dots_empty()
-  )
-  .cstr_options("data.frame", constructor = constructor)
+  .cstr_options("data.frame", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.data.frame <- function(x, opts = NULL, ...) {
-  opts_local <- opts$data.frame %||% opts_data.frame()
-  if (is_corrupted_data.frame(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$data.frame[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.data.frame <- function(x, ...) {
+  opts <- list(...)$opts$data.frame %||% opts_data.frame()
+  if (is_corrupted_data.frame(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.data.frame", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_data.frame <- function(x) {
@@ -55,26 +48,26 @@ is_corrupted_data.frame <- function(x) {
   FALSE
 }
 
-constructors$data.frame$list <- function(x, ...) {
+.cstr_construct.data.frame.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-constructors$data.frame$read.table <- function(x, ...) {
+.cstr_construct.data.frame.read.table <- function(x, ...) {
   # Fall back on data.frame constructor if relevant
   if (!nrow(x)) {
-    return(constructors$data.frame$data.frame(x, ...))
+    return(.cstr_construct.data.frame.data.frame(x, ...))
   }
 
   rn <- attr(x, "row.names")
   numeric_row_names_are_not_default <- is.numeric(rn) && !identical(rn, seq_len(nrow(x)))
   if (numeric_row_names_are_not_default) {
-    return(constructors$data.frame$data.frame(x, ...))
+    return(.cstr_construct.data.frame.data.frame(x, ...))
   }
 
   some_cols_are_not_atomic_vectors <-
     any(!vapply(x, function(x) is.atomic(x) && is.vector(x), logical(1)))
   if (some_cols_are_not_atomic_vectors) {
-    return(constructors$data.frame$data.frame(x, ...))
+    return(.cstr_construct.data.frame.data.frame(x, ...))
   }
 
   some_cols_are_problematic_char <-
@@ -84,13 +77,13 @@ constructors$data.frame$read.table <- function(x, ...) {
         !grepl("[\"']", x)
     }))
   if (some_cols_are_problematic_char) {
-    return(constructors$data.frame$data.frame(x, ...))
+    return(.cstr_construct.data.frame.data.frame(x, ...))
   }
 
   # fill a data frame with deparsed values
   code_df <- x
   code_df[] <- lapply(x, function(x) {
-    if (is.character(x)) sprintf("'%s'", x) else sapply(x, .cstr_construct, ...)
+    if (is.character(x)) sprintf("'%s'", x) else sapply(x, function(x, ...) .cstr_construct(x, ...), ...)
   })
   dbl_cols <- sapply(x, is.double)
 
@@ -125,7 +118,7 @@ align_numerics <- function(x) {
 }
 
 
-constructors$data.frame$data.frame <- function(x, ...) {
+.cstr_construct.data.frame.data.frame <- function(x, ...) {
   # Fall back on list constructor if relevant
   df_has_list_cols <- any(sapply(x, function(col) is.list(col) && !inherits(col, "AsIs")))
   arg_names <- c("row.names", "check.rows", "check.names", "fix.empty.names", "stringsAsFactors")

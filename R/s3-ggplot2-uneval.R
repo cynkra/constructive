@@ -5,33 +5,23 @@
 #' @export
 #' @rdname other-opts
 opts_uneval <- function(constructor = c("aes", "next", "list"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("uneval", constructor = constructor)
+  .cstr_options("uneval", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.uneval <- function(x, opts = NULL, ...) {
-  opts_local <- opts$uneval %||% opts_uneval()
-  if (is_corrupted_uneval(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$uneval[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
-}
-
-is_corrupted_uneval <- function(x) {
-  # TODO
-  FALSE
+.cstr_construct.uneval <- function(x, ...) {
+  opts <- list(...)$opts$uneval %||% opts_uneval()
+  if (is_corrupted_uneval(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.uneval", structure(NA, class = opts$constructor))
 }
 
 #' @export
-constructors$uneval$list <- function(x, ...) {
+.cstr_construct.uneval.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
-constructors$uneval$aes <- function(x, ...) {
+.cstr_construct.uneval.aes <- function(x, ...) {
   if (!length(x)) {
     return(
       repair_attributes_uneval(x, "ggplot2::aes()", ...)
@@ -49,6 +39,11 @@ constructors$uneval$aes <- function(x, ...) {
   }
   code <- .cstr_apply(args, fun = "ggplot2::aes", recurse = FALSE, new_line = FALSE)
   repair_attributes_uneval(x, code, ...)
+}
+
+is_corrupted_uneval <- function(x) {
+  # TODO
+  FALSE
 }
 
 repair_attributes_uneval <- function(x, code, pipe = NULL, ...) {

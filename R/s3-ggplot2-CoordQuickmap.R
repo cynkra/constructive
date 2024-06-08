@@ -1,21 +1,14 @@
-constructors$CoordQuickmap <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_CoordQuickmap <- function(constructor = c("coord_quickmap", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("CoordQuickmap", constructor = constructor)
+  .cstr_options("CoordQuickmap", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.CoordQuickmap <- function(x, opts = NULL, ...) {
-  opts_local <- opts$CoordQuickmap %||% opts_CoordQuickmap()
-  if (is_corrupted_CoordQuickmap(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$CoordQuickmap[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.CoordQuickmap <- function(x, ...) {
+  opts <- list(...)$opts$CoordQuickmap %||% opts_CoordQuickmap()
+  if (is_corrupted_CoordQuickmap(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.CoordQuickmap", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_CoordQuickmap <- function(x) {
@@ -24,12 +17,12 @@ is_corrupted_CoordQuickmap <- function(x) {
 }
 
 #' @export
-constructors$CoordQuickmap$environment <- function(x, ...) {
+.cstr_construct.CoordQuickmap.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$CoordQuickmap$coord_quickmap <- function(x, ...) {
+.cstr_construct.CoordQuickmap.coord_quickmap <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,

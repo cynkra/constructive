@@ -1,11 +1,15 @@
-constructors$rel <- new.env()
-
 #' @export
 #' @rdname other-opts
-opts_rel <- new_constructive_opts_function("rel", c("rel", "next", "atomic"))
+opts_rel <- function(constructor = c("rel", "next", "atomic"), ...) {
+  .cstr_options("rel", constructor = constructor[[1]], ...)
+}
 
 #' @export
-.cstr_construct.rel <- new_constructive_method("rel", c("rel", "next", "atomic"))
+.cstr_construct.rel <- function(x, ...) {
+  opts <- list(...)$opts$rel %||% opts_rel()
+  if (is_corrupted_rel(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.rel", structure(NA, class = opts$constructor))
+}
 
 is_corrupted_rel <- function(x) {
   # TODO
@@ -13,12 +17,12 @@ is_corrupted_rel <- function(x) {
 }
 
 #' @export
-constructors$rel$atomic <- function(x, ...) {
+.cstr_construct.rel.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
 #' @export
-constructors$rel$rel <- function(x, ...) {
+.cstr_construct.rel.rel <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "ggplot2::rel", ...)
   repair_attributes_rel(x, code, ...)
 }

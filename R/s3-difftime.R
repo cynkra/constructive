@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_difftime <- function(constructor = c("as.difftime", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("difftime", constructor = constructor)
+  .cstr_options("difftime", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.difftime <- function(x, opts = NULL, ...) {
-  opts_local <- opts$difftime %||% opts_difftime()
-  if (is_corrupted_difftime(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$difftime[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.difftime <- function(x, ...) {
+  opts <- list(...)$opts$difftime %||% opts_difftime()
+  if (is_corrupted_difftime(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.difftime", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_difftime <- function(x) {
@@ -27,7 +22,7 @@ is_corrupted_difftime <- function(x) {
 }
 
 #' @export
-constructors$difftime$as.difftime <- function(x, ...) {
+.cstr_construct.difftime.as.difftime <- function(x, ...) {
   x_bkp <- x
   attributes(x) <- attributes(x)["names"]
   args <- list(x, units = attr(x_bkp, "units"))

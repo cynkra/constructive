@@ -5,7 +5,7 @@
 \title{Constructive options for formulas}
 \usage{
 opts_formula(
-  constructor = c("~", "formula", "as.formula", "new_formula", "next"),
+  constructor = c("default", "formula", "as.formula", "new_formula", "next"),
   ...,
   environment = TRUE
 )
@@ -20,7 +20,7 @@ it makes a difference to construct it.
 
 Depending on \code{constructor}, we construct the formula as follows:
 \itemize{
-\item \code{"~"} (default): We construct the formula in the most common way using the \code{~}
+\item \code{"default"}: We construct the formula in the most common way using the \code{~}
 operator.
 \item \code{"formula"} : deparse the formula as a string and use \code{base::formula()} on top of it.
 \item \code{"as.formula"} : Same as above, but using \code{base::as.formula()}.

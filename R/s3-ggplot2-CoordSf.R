@@ -1,21 +1,14 @@
-constructors$CoordSf <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_CoordSf <- function(constructor = c("coord_sf", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("CoordSf", constructor = constructor)
+  .cstr_options("CoordSf", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.CoordSf <- function(x, opts = NULL, ...) {
-  opts_local <- opts$CoordSf %||% opts_CoordSf()
-  if (is_corrupted_CoordSf(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$CoordSf[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.CoordSf <- function(x, ...) {
+  opts <- list(...)$opts$CoordSf %||% opts_CoordSf()
+  if (is_corrupted_CoordSf(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.CoordSf", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_CoordSf <- function(x) {
@@ -24,12 +17,12 @@ is_corrupted_CoordSf <- function(x) {
 }
 
 #' @export
-constructors$CoordSf$environment <- function(x, ...) {
+.cstr_construct.CoordSf.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$CoordSf$coord_sf <- function(x, ...) {
+.cstr_construct.CoordSf.coord_sf <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,

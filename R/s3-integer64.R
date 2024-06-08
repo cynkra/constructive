@@ -1,5 +1,3 @@
-constructors$integer64 <- new.env()
-
 #' Constructive options for class 'integer64'
 #'
 #' These options will be used on objects of class 'integer64'.
@@ -21,30 +19,25 @@ constructors$integer64 <- new.env()
 #' @return An object of class <constructive_options/constructive_options_integer64>
 #' @export
 opts_integer64 <- function(constructor = c("as.integer64", "next", "atomic"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "integer64"),
-    check_dots_empty()
-  )
-  .cstr_options("integer64", constructor = constructor)
+  .cstr_options("integer64", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.integer64 <- function(x, opts = NULL, ...) {
-  opts_local <- opts$integer64 %||% opts_integer64()
-  if (is_corrupted_integer64(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$integer64[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.integer64 <- function(x, ...) {
+  opts <- list(...)$opts$integer64 %||% opts_integer64()
+  if (is_corrupted_integer64(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.integer64", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_integer64 <- function(x) {
   typeof(x) != "double"
 }
 
-constructors$integer64$atomic <- function(x, ...) {
+.cstr_construct.integer64.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-constructors$integer64$as.integer64 <- function(x, ...) {
+.cstr_construct.integer64.as.integer64 <- function(x, ...) {
   code <- .cstr_apply(list(trimws(format(x))), "bit64::as.integer64", ...)
   repair_attributes_integer64(x, code, ...)
 }

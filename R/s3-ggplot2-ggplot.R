@@ -1,5 +1,3 @@
-constructors$ggplot <- new.env()
-
 #' Constructive options for class 'ggplot'
 #'
 #' These options will be used on objects of class 'ggplot'.
@@ -15,19 +13,14 @@ constructors$ggplot <- new.env()
 #' @return An object of class <constructive_options/constructive_options_ggplot>
 #' @export
 opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "ggplot"),
-    check_dots_empty()
-  )
-  .cstr_options("ggplot", constructor = constructor)
+  .cstr_options("ggplot", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.ggplot <- function(x, opts = NULL, ...) {
-  opts_local <- opts$ggplot %||% opts_ggplot()
-  if (is_corrupted_ggplot(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$ggplot[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.ggplot <- function(x, ...) {
+  opts <- list(...)$opts$ggplot %||% opts_ggplot()
+  if (is_corrupted_ggplot(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.ggplot", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_ggplot <- function(x) {
@@ -35,11 +28,11 @@ is_corrupted_ggplot <- function(x) {
   FALSE
 }
 
-constructors$ggplot$list <- function(x, ...) {
+.cstr_construct.ggplot.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-constructors$ggplot$ggplot <- function(x, ...) {
+.cstr_construct.ggplot.ggplot <- function(x, ...) {
   ## ggplot call
   code <- construct_ggplot_call(x$mapping, ...)
 
@@ -90,7 +83,7 @@ pipe_from_data <- function(plot_data, code, ...) {
 
 pipe_to_layers <- function(code, layers, plot_env, ..., env) {
   if (!length(layers)) return(code)
-  layer_lines <- lapply(layers, .cstr_construct, env = plot_env, ...)
+  layer_lines <- lapply(layers, function(x, ...) .cstr_construct(x, ...), env = plot_env, ...)
   one_liner <- list(...)$one_liner
   layer_code <- Reduce(function(x, y)  .cstr_pipe(x, y, pipe = "plus", one_liner = one_liner, indent = FALSE), layer_lines)
   .cstr_pipe(code, layer_code, pipe = "plus", one_liner = one_liner)

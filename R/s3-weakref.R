@@ -1,5 +1,3 @@
-constructors$weakref <- new.env()
-
 #' Constructive options for the class `weakref`
 #'
 #' These options will be used on objects of type `weakref`. `weakref` objects
@@ -11,26 +9,21 @@ constructors$weakref <- new.env()
 #' @return An object of class <constructive_options/constructive_options_array>
 #' @export
 opts_weakref <- function(constructor = c("new_weakref"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "weakref"),
-    check_dots_empty()
-  )
-  .cstr_options("weakref", constructor = constructor)
+  .cstr_options("weakref", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.weakref <- function(x, opts = NULL, ...) {
-  opts_local <- opts$weakref %||% opts_weakref()
-  if (is_corrupted_weakref(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$weakref[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.weakref <- function(x, ...) {
+  opts <- list(...)$opts$weakref %||% opts_weakref()
+  if (is_corrupted_weakref(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.weakref", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_weakref <- function(x) {
   !rlang::is_weakref(x)
 }
 
-constructors$weakref$new_weakref <- function(x, ...) {
+.cstr_construct.weakref.new_weakref <- function(x, ...) {
   args <- list(rlang::wref_key(x))
   # assigned this way so no element is added if NULL
   args$value <- rlang::wref_value(x)

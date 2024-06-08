@@ -1,6 +1,3 @@
-# FIXME: we should use the names used by .class2 and have different constructors for language, symbol (could be quote, as.name, as.symbol, and expression (not yet supported it seems)
-constructors$language <- new.env()
-
 #' Constructive options for type 'language'
 #'
 #' These options will be used on objects of type 'language'. By default this
@@ -17,25 +14,21 @@ constructors$language <- new.env()
 #' @return An object of class <constructive_options/constructive_options_language>
 #' @export
 opts_language  <- function(constructor = c("default"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "language"),
-    check_dots_empty()
-  )
-  .cstr_options("language", constructor = constructor)
+  .cstr_options("language", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.language <- function(x, opts = NULL, ...) {
-  opts_local <- opts$language %||% opts_language()
+.cstr_construct.language <- function(x, ...) {
+  opts <- list(...)$opts$language %||% opts_language()
   if (is_corrupted_language(x)) return(NextMethod())
-  constructors$language[[opts_local[["constructor"]]]](x, opts = opts, ...)
+  UseMethod(".cstr_construct.language", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_language <- function(x) {
-  ! typeof(x) %in% c("language", "symbol", "expression")
+  !typeof(x) %in% c("language", "symbol", "expression")
 }
 
-constructors$language$default <- function(x, ...) {
+.cstr_construct.language.default <- function(x, ...) {
   if (identical(x, quote(expr=))) return("quote(expr = )")
   x_stripped <- x
   attributes(x_stripped) <- NULL

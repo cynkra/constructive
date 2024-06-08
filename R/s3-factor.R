@@ -1,5 +1,3 @@
-constructors$factor <- new.env()
-
 #' Constructive options for class 'factor'
 #'
 #' These options will be used on objects of class 'factor'.
@@ -21,19 +19,14 @@ constructors$factor <- new.env()
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
 opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "factor"),
-    check_dots_empty()
-  )
-  .cstr_options("factor", constructor = constructor)
+  .cstr_options("factor", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.factor <- function(x, opts = NULL, ...) {
-  opts_local <- opts$factor %||% opts_factor()
-  if (is_corrupted_factor(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$factor[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.factor <- function(x, ...) {
+  opts <- list(...)$opts$factor %||% opts_factor()
+  if (is_corrupted_factor(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.factor", structure(NA_integer_, class = opts$constructor))
 }
 
 is_corrupted_factor <- function(x) {
@@ -41,26 +34,26 @@ is_corrupted_factor <- function(x) {
   typeof(x) != "integer"
 }
 
-constructors$factor$atomic <- function(x, ...) {
+.cstr_construct.factor.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 
-constructors$factor$new_factor <- function(x, ...) {
+.cstr_construct.factor.new_factor <- function(x, ...) {
   levs <- levels(x)
   code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_factor", ...)
   repair_attributes_factor(x, code, ...)
 }
 
-constructors$factor$as_factor <- function(x, ...) {
+.cstr_construct.factor.as_factor <- function(x, ...) {
   levs <- levels(x)
   x_chr <- as.character(x)
-  if (!identical(unique(x_chr), levs) || NA %in% levs) return(constructors$factor$factor(x, ...))
+  if (!identical(unique(x_chr), levs) || NA %in% levs) return(.cstr_construct.factor.factor(x, ...))
   x_chr_named <- setNames(x_chr, names(x))
   code <- .cstr_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
   repair_attributes_factor(x, code, ...)
 }
 
-constructors$factor$factor <- function(x, ...) {
+.cstr_construct.factor.factor <- function(x, ...) {
   levs <- levels(x)
   x_chr <- as.character(x)
   x_chr_named <- setNames(x_chr, names(x))

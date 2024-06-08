@@ -1,5 +1,3 @@
-constructors$mts <- new.env()
-
 #' Constructive options for time-series objets
 #'
 #' Depending on `constructor`, we construct the object as follows:
@@ -15,18 +13,14 @@ constructors$mts <- new.env()
 #' @return An object of class <constructive_options/constructive_options_mts>
 #' @export
 opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "mts"),
-    check_dots_empty()
-  )
-  .cstr_options("mts", constructor = constructor)
+  .cstr_options("mts", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.mts <- function(x, opts = NULL, ...) {
-  opts_local <- opts$mts %||% opts_mts()
-  if (is_corrupted_mts(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructors$mts[[opts_local[["constructor"]]]](x, opts = opts, ...)
+.cstr_construct.mts <- function(x, ...) {
+  opts <- list(...)$opts$mts %||% opts_mts()
+  if (is_corrupted_mts(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.mts", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_mts <- function(x) {
@@ -34,7 +28,7 @@ is_corrupted_mts <- function(x) {
   FALSE
 }
 
-constructors$mts$ts <- function(x, ...) {
+.cstr_construct.mts.ts <- function(x, ...) {
   x_stripped <- x
   tsp <- attr(x, "tsp")
   attr(x_stripped, "tsp") <- NULL
@@ -42,7 +36,7 @@ constructors$mts$ts <- function(x, ...) {
   .cstr_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
 }
 
-constructors$mts$atomic <- function(x, ...) {
+.cstr_construct.mts.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 

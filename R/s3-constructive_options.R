@@ -1,7 +1,3 @@
-# FIXME: do we really need to support this class ?
-
-constructors$constructive_options <- new.env()
-
 #' Constructive options for the class `constructive_options`
 #'
 #' These options will be used on objects of class `constructive_options`.
@@ -16,19 +12,14 @@ constructors$constructive_options <- new.env()
 #' @return An object of class <constructive_options/constructive_options_constructive_options>
 #' @export
 opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "constructive_options"),
-    check_dots_empty()
-  )
-  .cstr_options("constructive_options", constructor = constructor)
+  .cstr_options("constructive_options", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.constructive_options <- function(x, opts = NULL, ...) {
-  opts_local <- opts$constructive_options %||% opts_constructive_options()
-  if (is_corrupted_constructive_options(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$constructive_options[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.constructive_options <- function(x, ...) {
+  opts <- list(...)$opts$constructive_options %||% opts_constructive_options()
+  if (is_corrupted_constructive_options(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.constructive_options", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_constructive_options <- function(x) {
@@ -36,7 +27,7 @@ is_corrupted_constructive_options <- function(x) {
   FALSE
 }
 
-constructors$constructive_options$opts <- function(x, ...) {
+.cstr_construct.constructive_options.opts <- function(x, ...) {
   pattern <- "^constructive_options_(.*)$"
   suffix <- sub(pattern, "\\1", grep(pattern, class(x), value = TRUE))
   # FIXME: there should be 1 and only 1, else it's a corrupted object

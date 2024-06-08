@@ -1,5 +1,3 @@
-constructors$ts <- new.env()
-
 #' Constructive options for time-series objets
 #'
 #' Depending on `constructor`, we construct the object as follows:
@@ -15,19 +13,14 @@ constructors$ts <- new.env()
 #' @return An object of class <constructive_options/constructive_options_ts>
 #' @export
 opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "ts"),
-    check_dots_empty()
-  )
-  .cstr_options("ts", constructor = constructor)
+  .cstr_options("ts", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.ts <- function(x, opts = NULL, ...) {
-  opts_local <- opts$ts %||% opts_ts()
-  if (is_corrupted_ts(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$ts[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.ts <- function(x, ...) {
+  opts <- list(...)$opts$ts %||% opts_ts()
+  if (is_corrupted_ts(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.ts", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_ts <- function(x) {
@@ -35,7 +28,7 @@ is_corrupted_ts <- function(x) {
   FALSE
 }
 
-constructors$ts$ts <- function(x, ...) {
+.cstr_construct.ts.ts <- function(x, ...) {
   x_stripped <- x
   tsp <- attr(x, "tsp")
   attr(x_stripped, "tsp") <- NULL
@@ -44,7 +37,7 @@ constructors$ts$ts <- function(x, ...) {
   repair_attributes_ts(x, code, ...)
 }
 
-constructors$ts$atomic <- function(x, ...) {
+.cstr_construct.ts.atomic <- function(x, ...) {
   .cstr_construct.atomic(x, ...)
 }
 

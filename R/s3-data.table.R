@@ -1,7 +1,3 @@
-# FIXME: optionally construct pointer
-
-constructors$data.table <- new.env()
-
 #' Constructive options for class 'data.table'
 #'
 #' These options will be used on objects of class 'data.table'.
@@ -21,30 +17,26 @@ constructors$data.table <- new.env()
 #' @return An object of class <constructive_options/constructive_options_data.table>
 #' @export
 opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., selfref = FALSE) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "data.table"),
-    check_dots_empty()
-  )
-  .cstr_options("data.table", constructor = constructor, selfref = selfref)
+  .cstr_options("data.table", constructor = constructor[[1]], ..., selfref = selfref)
 }
 
 #' @export
-.cstr_construct.data.table <- function(x, opts = NULL, ...) {
-  opts_local <- opts$data.table %||% opts_data.table()
-  if (is_corrupted_data.table(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$data.table[[opts_local[["constructor"]]]]
-  constructor(x, selfref = opts_local[["selfref"]], opts = opts, ...)
+.cstr_construct.data.table <- function(x, ...) {
+  opts <- list(...)$opts$data.table %||% opts_data.table()
+  if (is_corrupted_data.table(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.data.table", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_data.table <- function(x) {
   is_corrupted_data.frame(x)
 }
 
-constructors$data.table$list <- function(x, ...) {
+.cstr_construct.data.table.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
-constructors$data.table$data.table <- function(x, selfref, ...) {
+.cstr_construct.data.table.data.table <- function(x, ...) {
+  opts <- list(...)$opts$data.table %||% opts_data.table()
   # Fall back on list constructor if relevant
   arg_names <- c("keep.rownames", "check.names", "key", "stringsAsFactors")
   df_has_problematic_names <- any(names(x) %in% arg_names)
@@ -57,7 +49,7 @@ constructors$data.table$data.table <- function(x, selfref, ...) {
     args <- x
   }
   code <- .cstr_apply(args, fun = "data.table::data.table", ...)
-  repair_attributes_data.table(x, code, ..., selfref = selfref)
+  repair_attributes_data.table(x, code, ..., selfref = opts$selfref)
 }
 
 repair_attributes_data.table <- function(x, code, ..., pipe = NULL, selfref = FALSE) {

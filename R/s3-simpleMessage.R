@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_simpleMessage <- function(constructor = c("simpleMessage", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("simpleMessage", constructor = constructor)
+  .cstr_options("simpleMessage", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.simpleMessage <- function(x, opts = NULL, ...) {
-  opts_local <- opts$simpleMessage %||% opts_simpleMessage()
-  if (is_corrupted_simpleMessage(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$simpleMessage[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.simpleMessage <- function(x, ...) {
+  opts <- list(...)$opts$simpleMessage %||% opts_simpleMessage()
+  if (is_corrupted_simpleMessage(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.simpleMessage", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_simpleMessage <- function(x) {
@@ -21,7 +16,7 @@ is_corrupted_simpleMessage <- function(x) {
 }
 
 #' @export
-constructors$simpleMessage$simpleMessage <- function(x, ...) {
+.cstr_construct.simpleMessage.simpleMessage <- function(x, ...) {
   # we let attributes to the reparation step
   x_bkp <- x
   x <- unclass(x)

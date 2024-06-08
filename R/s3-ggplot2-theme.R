@@ -1,11 +1,15 @@
-constructors$theme <- new.env()
-
 #' @export
 #' @rdname other-opts
-opts_theme <- new_constructive_opts_function("theme", c("theme", "next", "list"))
+opts_theme <- function(constructor = c("theme", "next", "list"), ...) {
+  .cstr_options("theme", constructor = constructor[[1]], ...)
+}
 
 #' @export
-.cstr_construct.theme <- new_constructive_method("theme", c("theme", "next", "list"))
+.cstr_construct.theme <- function(x, ...) {
+  opts <- list(...)$opts$theme %||% opts_theme()
+  if (is_corrupted_theme(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.theme", structure(NA, class = opts$constructor))
+}
 
 is_corrupted_theme <- function(x) {
   # TODO
@@ -13,12 +17,12 @@ is_corrupted_theme <- function(x) {
 }
 
 #' @export
-constructors$theme$list <- function(x, ...) {
+.cstr_construct.theme.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
-constructors$theme$theme <- function(x, ...) {
+.cstr_construct.theme.theme <- function(x, ...) {
   args <- unclass(x)
   args$complete <- if (attr(x, "complete")) TRUE
   args$validate <- if (!attr(x, "validate")) FALSE

@@ -16,10 +16,10 @@ opts_tbl_df(
 
 \item{...}{Should not be used. Forces passing arguments by name.}
 
-\item{trailing_comma}{Boolean, whether to leave a trailing comma at the end of the constructor call
+\item{trailing_comma}{Boolean. Whether to leave a trailing comma at the end of the constructor call
 calls}
 
-\item{justify}{Character. Justification for columns if \code{constructor} is \code{"tribble"}}
+\item{justify}{String. Justification for columns if \code{constructor} is \code{"tribble"}}
 }
 \value{
 An object of class <constructive_options/constructive_options_tbl_df>

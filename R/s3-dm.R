@@ -1,5 +1,3 @@
-constructors$dm <- new.env()
-
 #' Constructive options class 'dm'
 #'
 #' These options will be used on objects of class 'dm'.
@@ -16,18 +14,13 @@ constructors$dm <- new.env()
 #' @return An object of class <constructive_options/constructive_options_dm>
 #' @export
 opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "dm"),
-    check_dots_empty()
-  )
-  .cstr_options("dm", constructor = constructor)
+  .cstr_options("dm", constructor = constructor[[1]], ...)
 }
 #' @export
-.cstr_construct.dm <- function(x, opts = NULL, ...) {
-  opts_local <- opts$dm %||% opts_dm()
-  if (is_corrupted_dm(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$dm[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.dm <- function(x, ...) {
+  opts <- list(...)$opts$dm %||% opts_dm()
+  if (is_corrupted_dm(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.dm", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_dm <- function(x) {
@@ -35,7 +28,7 @@ is_corrupted_dm <- function(x) {
   FALSE
 }
 
-constructors$dm$dm <- function(x, ...) {
+.cstr_construct.dm.dm <- function(x, ...) {
   def <- unclass(x)$def
   named_list_of_tables <- set_names(def$data, def$table)
   code <- .cstr_apply(
@@ -97,7 +90,7 @@ constructors$dm$dm <- function(x, ...) {
   repair_attributes_dm(x, code, ...)
 }
 
-constructors$dm$list <- function(x, ...) {
+.cstr_construct.dm.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
