@@ -210,5 +210,5 @@ locked_code <- function(locked_bindings, ...) {
     locked_code <- paste0("  ", locked_code)
     return(locked_code)
   }
-  sprintf("  lockBinding(%s, e)", sapply(locked, construct_atomic, ...))
+  sprintf("  lockBinding(%s, e)", sapply(locked, .cstr_construct, ...))
 }

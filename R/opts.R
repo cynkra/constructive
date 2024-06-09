@@ -2,6 +2,29 @@ collect_opts <- function(..., template) {
   opts <- c(list(...), template)
   names(opts) <- sapply(opts, function(x) sub("^constructive_options_(.*)$", "\\1", class(x)[[1]]))
   opts <- opts[unique(names(opts))]
+  # inherit from atomic
+  opts$character$constructor <-
+    opts$character$constructor %||%
+    opts$atomic$constructor %||%
+    "default"
+  opts$character$trim <-
+    opts$character$trim %||%
+    opts$atomic$trim
+  opts$character$fill <-
+    opts$character$fill %||%
+    opts$atomic$fill %||%
+    "default"
+  opts$character$compress <-
+    opts$character$compress %||%
+    opts$atomic$compress %||%
+    TRUE
+  opts$character$unicode_representation <-
+    opts$character$unicode_representation %||%
+    opts$atomic$unicode_representation
+  opts$character$escape <-
+    opts$character$escape %||%
+    opts$atomic$escape
+
   opts
 }
 

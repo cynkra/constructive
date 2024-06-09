@@ -46,7 +46,7 @@ opts_atomic <- function(
     trim = NULL,
     fill = c("default", "rlang", "+", "...", "none"),
     compress = TRUE,
-    unicode_representation = c("default", "ascii", "latin", "character", "unicode"),
+    unicode_representation = c("ascii", "latin", "character", "unicode"),
     escape = NULL
 ) {
   .cstr_combine_errors(
