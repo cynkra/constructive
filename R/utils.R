@@ -310,7 +310,15 @@ with_versions <- function(expr, lib.loc = NULL) {
   names(versions) <- vars[keep]
   R <- R.Version()
   R <- as.package_version(sprintf("%s.%s", R$major, R$minor))
-  eval(expr, envir = c(list(R = R), versions), enclos = parent.frame())
+  mask <- c(
+    list(R = R),
+    versions,
+    `==` = base::`==`,
+    `==` = base::`!=`,
+    `>=` = base::`>=`,
+    `<=` = base::`<=`
+  )
+  eval(expr, envir = mask, enclos = parent.frame())
 }
 
 indent <- function(x, depth = 1) {
