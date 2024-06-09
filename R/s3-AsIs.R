@@ -7,13 +7,12 @@
 #' * `"I"` (default): Use the `I()` function
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
-#' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_AsIs>
 #' @export
-opts_AsIs <- function(constructor = c("I", "next", "atomic"), ...) {
+opts_AsIs <- function(constructor = c("I", "next"), ...) {
   .cstr_options("AsIs", constructor = constructor[[1]], ...)
 }
 
@@ -35,10 +34,6 @@ is_corrupted_AsIs <- function(x) {
   # no validation needed
   code <- .cstr_wrap(.cstr_construct(x_stripped, ...), "I", new_line = FALSE)
   repair_attributes_AsIs(x, code, ...)
-}
-
-.cstr_construct.AsIs.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
 }
 
 repair_attributes_AsIs <- function(x, code, ...) {

@@ -4,7 +4,7 @@
 \alias{opts_AsIs}
 \title{Constructive options for the class \code{AsIs}}
 \usage{
-opts_AsIs(constructor = c("I", "next", "atomic"), ...)
+opts_AsIs(constructor = c("I", "next"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
@@ -24,6 +24,5 @@ Depending on \code{constructor}, we construct the object as follows:
 \item \code{"I"} (default): Use the \code{I()} function
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.
-\item \code{"atomic"} : We define as an atomic vector and repair attributes
 }
 }
