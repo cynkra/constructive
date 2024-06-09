@@ -40,9 +40,10 @@ format_rep <- function(x, ...) {
 
 }
 
-format_seq <- function(x, values, lengths) {
+format_seq <- function(x, ...) {
+  l <- length(x)
   # seq ----------------------------------------------------------------------
-  if (is.integer(x) && l >=2 && !anyNA(x)) {
+  if (is.integer(x) && l >= 2 && !anyNA(x)) {
     # diff returns NA when span of difference exceeds .Machine$integer.max
     d <- suppressWarnings(diff(x))
     if (!anyNA(d) && length(unique(d)) == 1) {
