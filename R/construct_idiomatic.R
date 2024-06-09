@@ -10,6 +10,7 @@
   if (typeof(x) == "S4")  return(.cstr_construct.S4(x, ..., one_liner = one_liner))
   if (typeof(x) == "character")  return(.cstr_construct.character(x, ..., one_liner = one_liner))
   if (typeof(x) == "integer")  return(.cstr_construct.integer(x, ..., one_liner = one_liner))
+  if (typeof(x) == "double")  return(.cstr_construct.double(x, ..., one_liner = one_liner))
   .cstr_construct.atomic(x, ..., one_liner = one_liner)
 }
 
