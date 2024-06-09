@@ -16,7 +16,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_matrix>
 #' @export
-opts_matrix  <- function(constructor = c("matrix", "array", "next", "atomic"), ...) {
+opts_matrix  <- function(constructor = c("matrix", "array", "next"), ...) {
   .cstr_options("matrix", constructor = constructor[[1]], ...)
 }
 
@@ -49,11 +49,6 @@ is_corrupted_matrix <- function(x) {
 #' @export
 .cstr_construct.matrix.array <- function(x, ...) {
   .cstr_construct.array.array(x, ...)
-}
-
-#' @export
-.cstr_construct.matrix.atomic <- function(x, ...) {
-  .cstr_construct.default(x, ...)
 }
 
 repair_attributes_matrix <- function(x, code, ..., pipe = NULL) {
