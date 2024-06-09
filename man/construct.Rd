@@ -150,13 +150,14 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_hexmode]{opts_hexmode}(constructor = c("as.hexmode", "next"), ..., integer = FALSE)}
+  \item \code{\link[=opts_integer]{opts_integer}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_integer64]{opts_integer64}(constructor = c("as.integer64", "next", "atomic"), ...)}
   \item \code{\link[=opts_labels]{opts_labels}(constructor = c("labs", "next", "list"), ...)}
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
   \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "next", "environment"), ...)}
   \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
   \item \code{\link[=opts_margin]{opts_margin}(constructor = c("margin", "next", "atomic"), ...)}
-  \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "next", "atomic"), ...)}
+  \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "next"), ...)}
   \item \code{\link[=opts_mts]{opts_mts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_noquote]{opts_noquote}(constructor = c("noquote", "next"), ...)}
   \item \code{\link[=opts_numeric_version]{opts_numeric_version}(constructor = c("numeric_version", "next", "list"), ...)}
