@@ -67,20 +67,23 @@ trim_atomic <- function(x, trim, fill, ...) {
   if (trim >= l) return(NULL)
   if (trim == 0) return(.cstr_construct(x[0], ...))
   x_short <- x[seq_len(trim)]
-  strings <- construct_strings(x_short, ...)
-  #   vapply(
-  #   x_short,
-  #   function(x, ...) .cstr_construct(x, ...),
-  #   character(1),
-  #   ...
-  # )
+  strings <- vapply(
+    x_short,
+    function(x, ...) .cstr_construct(x, ...),
+    character(1),
+    ...
+  )
   nms <- names(x_short)
   if (fill == "none" && trim == 1 && is.null(nms)) return(strings)
   names(strings) <- names(x_short)
   replacement <- switch(
     fill,
     none = NULL,
-    default = sprintf("%s(%s)", typeof(x), l - trim),
+    default =  sprintf(
+      "%s(%s)",
+      if (is.double(x)) "numeric" else typeof(x),
+      l - trim
+    ),
     rlang = sprintf("rlang::new_%s(%s)", typeof(x), l - trim),
     "+" = paste0("+", l - trim),
     "..." = "..."
