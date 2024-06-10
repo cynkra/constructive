@@ -14,6 +14,7 @@
   if (typeof(x) == "complex")  return(.cstr_construct.complex(x, ..., one_liner = one_liner))
   if (typeof(x) == "logical")  return(.cstr_construct.logical(x, ..., one_liner = one_liner))
   if (typeof(x) == "raw")  return(.cstr_construct.raw(x, ..., one_liner = one_liner))
+  if (typeof(x) == "NULL")  return(.cstr_construct.NULL(x, ..., one_liner = one_liner))
   .cstr_construct.atomic(x, ..., one_liner = one_liner)
 }
 
