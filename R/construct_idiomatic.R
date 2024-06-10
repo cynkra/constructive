@@ -11,6 +11,9 @@
   if (typeof(x) == "character")  return(.cstr_construct.character(x, ..., one_liner = one_liner))
   if (typeof(x) == "integer")  return(.cstr_construct.integer(x, ..., one_liner = one_liner))
   if (typeof(x) == "double")  return(.cstr_construct.double(x, ..., one_liner = one_liner))
+  if (typeof(x) == "complex")  return(.cstr_construct.complex(x, ..., one_liner = one_liner))
+  if (typeof(x) == "logical")  return(.cstr_construct.logical(x, ..., one_liner = one_liner))
+  if (typeof(x) == "raw")  return(.cstr_construct.raw(x, ..., one_liner = one_liner))
   .cstr_construct.atomic(x, ..., one_liner = one_liner)
 }
 
