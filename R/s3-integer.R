@@ -81,6 +81,7 @@ is_corrupted_integer <- function(x) {
 }
 
 compress_integer <- function(x, ...) {
-  if (length(x) > 2 && isTRUE(all(x == 0L))) return(sprintf("integer(%s)", length(x)))
+  l <- length(x)
+  if (l > 2 && isTRUE(all(x == 0L))) return(sprintf("integer(%s)", l))
   format_rep(x, ...) %||% format_seq(x, ...)
 }
