@@ -10,7 +10,7 @@
       19469 |>
         structure(class = "Date")
     Code
-      construct(structure(19469, class = "Date"), opts_Date("atomic"))
+      construct(structure(19469, class = "Date"), opts_Date("double"))
     Output
       19469 |>
         structure(class = "Date")

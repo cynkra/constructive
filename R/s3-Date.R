@@ -17,7 +17,7 @@
 #'   provided `origin`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
-#' * `"atomic"` : We define as an atomic vector and repair attributes
+#' * `"double"` : We define as an double vector and repair attributes
 #'
 #' If the data is not appropriate for a constructor we fall back to another one
 #' appropriately.
@@ -28,7 +28,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_Date>
 #' @export
-opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
+opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01") {
   .cstr_options("Date", constructor = constructor[[1]], ..., origin = origin)
 }
 
@@ -120,10 +120,10 @@ is_corrupted_Date <- function(x) {
   repair_attributes_Date(x, code, ...)
 }
 
-.cstr_construct.Date.atomic <- function(x, ...) {
+.cstr_construct.Date.double <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   origin <- opts$origin
-  .cstr_construct.atomic(x, ...)
+  .cstr_construct.double(x, ...)
 }
 
 repair_attributes_Date <- function(x, code, ...) {

@@ -1,6 +1,6 @@
 #' @export
 #' @rdname other-opts
-opts_margin <- function(constructor = c("margin", "next", "atomic"), ...) {
+opts_margin <- function(constructor = c("margin", "next", "double"), ...) {
   .cstr_options("margin", constructor = constructor[[1]], ...)
 }
 
@@ -17,8 +17,8 @@ is_corrupted_margin <- function(x) {
 }
 
 #' @export
-.cstr_construct.margin.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+.cstr_construct.margin.double <- function(x, ...) {
+  .cstr_construct.double(x, ...)
 }
 
 #' @export

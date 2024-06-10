@@ -25,7 +25,7 @@ opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 
 is_corrupted_mts <- function(x) {
   # TODO
-  FALSE
+  !typeof(x) %in% c("integer", "double")
 }
 
 .cstr_construct.mts.ts <- function(x, ...) {
@@ -37,7 +37,7 @@ is_corrupted_mts <- function(x) {
 }
 
 .cstr_construct.mts.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+  .cstr_construct.default(x, ...)
 }
 
 repair_attributes_mts <- function(x, code, ..., pipe = NULL) {

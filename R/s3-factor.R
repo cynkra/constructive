@@ -11,14 +11,14 @@
 #'   always defined explicitly.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
-#' * `"atomic"` : We define as an atomic vector and repair attributes.
+#' * `"integer"` : We define as an integer vector and repair attributes.
 #'
 #' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_factor>
 #' @export
-opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "next", "atomic"), ...) {
+opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...) {
   .cstr_options("factor", constructor = constructor[[1]], ...)
 }
 
@@ -34,8 +34,8 @@ is_corrupted_factor <- function(x) {
   typeof(x) != "integer"
 }
 
-.cstr_construct.factor.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+.cstr_construct.factor.integer <- function(x, ...) {
+  .cstr_construct.integer(x, ...)
 }
 
 .cstr_construct.factor.new_factor <- function(x, ...) {

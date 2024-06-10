@@ -1,6 +1,6 @@
 #' @export
 #' @rdname other-opts
-opts_simpleUnit <- function(constructor = c("unit", "next", "atomic"), ...) {
+opts_simpleUnit <- function(constructor = c("unit", "next", "double"), ...) {
   .cstr_options("simpleUnit", constructor = constructor[[1]], ...)
 }
 
@@ -12,13 +12,15 @@ opts_simpleUnit <- function(constructor = c("unit", "next", "atomic"), ...) {
 }
 
 is_corrupted_simpleUnit <- function(x) {
-  # TODO
-  FALSE
+  if (!is.double(x)) return(TRUE)
+  valid_units <- c(0:4, 6:13, 18L, 103:106)
+  unit <- attr(x, "unit")
+  !is.null(unit) && all(unit %in% valid_units)
 }
 
 #' @export
-.cstr_construct.simpleUnit.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+.cstr_construct.simpleUnit.double <- function(x, ...) {
+  .cstr_construct.double(x, ...)
 }
 
 #' @export

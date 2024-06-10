@@ -24,8 +24,8 @@ opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 }
 
 is_corrupted_ts <- function(x) {
-  # TODO
-  FALSE
+  # FIXME
+  !typeof(x) %in% c("integer", "double")
 }
 
 .cstr_construct.ts.ts <- function(x, ...) {
@@ -38,7 +38,8 @@ is_corrupted_ts <- function(x) {
 }
 
 .cstr_construct.ts.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+  # ts can be integer or double
+  .cstr_construct.default(x, ...)
 }
 
 repair_attributes_ts <- function(x, code, ..., pipe = NULL) {

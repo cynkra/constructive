@@ -10,14 +10,14 @@
 #'   always defined explicitly.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
-#' * `"atomic"` : We define as an atomic vector and repair attributes
+#' * `"integer"` : We define as an integer vector and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_ordered>
 #' @export
-opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "next", "atomic"), ...) {
+opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "next", "integer"), ...) {
   .cstr_options("ordered", constructor = constructor[[1]], ...)
 }
 
@@ -29,8 +29,8 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "ne
 }
 
 is_corrupted_ordered <- function(x) {
-  # TODO
-  FALSE
+  # FIXME
+  typeof(x) != "integer"
 }
 
 #' @export
@@ -69,8 +69,8 @@ is_corrupted_ordered <- function(x) {
 }
 
 #' @export
-.cstr_construct.ordered.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+.cstr_construct.ordered.integer <- function(x, ...) {
+  .cstr_construct.integer(x, ...)
 }
 
 repair_attributes_ordered <- function(x, code, ..., pipe = NULL) {

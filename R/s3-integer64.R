@@ -7,9 +7,9 @@
 #'   character vector.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
-#' * `"atomic"` : We define as an atomic vector and repair attributes.
+#' * `"double"` : We define as an atomic vector and repair attributes.
 #'
-#' We don't recommend the "next" and "atomic" constructors for this class as
+#' We don't recommend the "next" and "double" constructors for this class as
 #' they give incorrect results on negative or `NA` "integer64" objects
 #' due to some quirks in the implementation of the 'bit64' package.
 #'
@@ -18,7 +18,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_integer64>
 #' @export
-opts_integer64 <- function(constructor = c("as.integer64", "next", "atomic"), ...) {
+opts_integer64 <- function(constructor = c("as.integer64", "next", "double"), ...) {
   .cstr_options("integer64", constructor = constructor[[1]], ...)
 }
 
@@ -33,8 +33,8 @@ is_corrupted_integer64 <- function(x) {
   typeof(x) != "double"
 }
 
-.cstr_construct.integer64.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+.cstr_construct.integer64.double <- function(x, ...) {
+  .cstr_construct.double(x, ...)
 }
 
 .cstr_construct.integer64.as.integer64 <- function(x, ...) {

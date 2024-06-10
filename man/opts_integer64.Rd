@@ -4,7 +4,7 @@
 \alias{opts_integer64}
 \title{Constructive options for class 'integer64'}
 \usage{
-opts_integer64(constructor = c("as.integer64", "next", "atomic"), ...)
+opts_integer64(constructor = c("as.integer64", "next", "double"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
@@ -24,10 +24,10 @@ Depending on \code{constructor}, we construct the object as follows:
 character vector.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.
-\item \code{"atomic"} : We define as an atomic vector and repair attributes.
+\item \code{"double"} : We define as an atomic vector and repair attributes.
 }
 
-We don't recommend the "next" and "atomic" constructors for this class as
+We don't recommend the "next" and "double" constructors for this class as
 they give incorrect results on negative or \code{NA} "integer64" objects
 due to some quirks in the implementation of the 'bit64' package.
 }

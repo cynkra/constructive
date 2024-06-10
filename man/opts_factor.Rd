@@ -5,7 +5,7 @@
 \title{Constructive options for class 'factor'}
 \usage{
 opts_factor(
-  constructor = c("factor", "as_factor", "new_factor", "next", "atomic"),
+  constructor = c("factor", "as_factor", "new_factor", "next", "integer"),
   ...
 )
 }
@@ -31,6 +31,6 @@ possible, i.e. when levels are defined in order of appearance in the vector. Oth
 always defined explicitly.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.
-\item \code{"atomic"} : We define as an atomic vector and repair attributes.
+\item \code{"integer"} : We define as an integer vector and repair attributes.
 }
 }

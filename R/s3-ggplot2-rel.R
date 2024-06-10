@@ -1,6 +1,6 @@
 #' @export
 #' @rdname other-opts
-opts_rel <- function(constructor = c("rel", "next", "atomic"), ...) {
+opts_rel <- function(constructor = c("rel", "next", "double"), ...) {
   .cstr_options("rel", constructor = constructor[[1]], ...)
 }
 
@@ -12,13 +12,16 @@ opts_rel <- function(constructor = c("rel", "next", "atomic"), ...) {
 }
 
 is_corrupted_rel <- function(x) {
-  # TODO
+  # rel() really just sets a class so no object is really corrupted in the sense
+  # that "rel" objects can all be recreated, but it does expect a numeric input
+  # to work with other ggplot functions
   FALSE
 }
 
 #' @export
-.cstr_construct.rel.atomic <- function(x, ...) {
-  .cstr_construct.atomic(x, ...)
+.cstr_construct.rel.double <- function(x, ...) {
+  if (!is.double(x)) return(.cstr_construct.default(x, ...))
+  .cstr_construct.double(x, ...)
 }
 
 #' @export
