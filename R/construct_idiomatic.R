@@ -20,22 +20,6 @@
     raw = .cstr_construct.raw(x, ...),
     `NULL` = .cstr_construct.NULL(x, ...)
   )
-
-  # if (is.environment(x)) return(.cstr_construct.environment(x, ...))
-  # if (is.list(x))  return(.cstr_construct.list(x, ...))
-  # if (is.function(x))  return(.cstr_construct.function(x, ...))
-  # if (is.language(x) && !is.expression(x))  return(.cstr_construct.language(x, ...))
-  # if (typeof(x) == "...")  return(.cstr_construct.dots(x, ...))
-  # # for some reason the S3 method is not always caught the first time
-  # if (typeof(x) == "externalptr")  return(.cstr_construct.externalptr(x, ...))
-  # if (typeof(x) == "S4")  return(.cstr_construct.S4(x, ...))
-  # if (typeof(x) == "character")  return(.cstr_construct.character(x, ...))
-  # if (typeof(x) == "integer")  return(.cstr_construct.integer(x, ...))
-  # if (typeof(x) == "double")  return(.cstr_construct.double(x, ...))
-  # if (typeof(x) == "complex")  return(.cstr_construct.complex(x, ...))
-  # if (typeof(x) == "logical")  return(.cstr_construct.logical(x, ...))
-  # if (typeof(x) == "raw")  return(.cstr_construct.raw(x, ...))
-  # if (typeof(x) == "NULL")  return(.cstr_construct.NULL(x, ...))
 }
 
 #' .cstr_apply
