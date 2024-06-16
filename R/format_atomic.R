@@ -41,6 +41,8 @@ format_rep <- function(x, ...) {
 }
 
 format_seq <- function(x, ...) {
+  # for diff()
+  attributes(x) <- NULL
   l <- length(x)
   # seq ----------------------------------------------------------------------
   if (is.integer(x) && l >= 2 && !anyNA(x)) {
