@@ -16,7 +16,7 @@ is_corrupted_bibentry <- function(x) {
   # the class was removed in "3.3.1"
   if (!is.list(x)) return(FALSE)
   is_footer_header <-
-    getRversion() > "4.3.0" &&
+    with_versions(R > "4.3.0") &&
     length(x) == 0 &&
     (is.character(attr(x, "mfooter")) || is.character(attr(x, "mheader")))
 

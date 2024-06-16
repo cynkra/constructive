@@ -61,7 +61,7 @@ name_and_append_comma <- function(
 #' .cstr_pipe("iris", "head(2)", pipe = "magrittr", one_liner = TRUE)
 .cstr_pipe <- function(x, y, ..., pipe = NULL, one_liner = FALSE, indent = TRUE) {
   if (is.null(pipe)) {
-    if (getRversion() >= "4.2") {
+    if (with_versions(R >= "4.2.0")) {
       pipe <- "base"
     } else {
       pipe <- "magrittr"
@@ -81,7 +81,7 @@ name_and_append_comma <- function(
 
 arg_match_pipe <- function(pipe, allow_plus = FALSE) {
   if (is.null(pipe)) {
-    if (getRversion() >= "4.2") {
+    if (with_versions(R >= "4.2.0")) {
       pipe <- "base"
     } else {
       pipe <- "magrittr"

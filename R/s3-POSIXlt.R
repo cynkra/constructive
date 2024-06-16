@@ -31,7 +31,7 @@ is_corrupted_POSIXlt <- function(x) {
 }
 
 .cstr_construct.POSIXlt.as.POSIXlt <- function(x, ...) {
-  if (getRversion() < "4.3.0") {
+  if (with_versions(R < "4.3.0")) {
     gmtoff <- .subset2(x, "gmtoff")
     from_posixct <- !is.null(gmtoff) && !all(is.na(gmtoff))
     if (from_posixct) {
@@ -59,7 +59,7 @@ is_corrupted_POSIXlt <- function(x) {
 }
 
 repair_attributes_POSIXlt <- function(x, code, ..., pipe = NULL) {
-  if (getRversion() >= "4.3.0") {
+  if (with_versions(R >= "4.3.0")) {
     ignore <- c("tzone", "balanced")
   } else {
     ignore <- c("tzone")
