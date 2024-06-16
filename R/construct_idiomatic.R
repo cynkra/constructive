@@ -68,6 +68,7 @@
     escape = FALSE) {
   new_line <- new_line && !one_liner
   trailing_comma <- trailing_comma && !one_liner
+  unicode_representation <- match.arg(unicode_representation)
   # so we make sure we use the right methods for length, [, [[
   # and lapply iterates properly at the low level
   args <- unclass(args)
