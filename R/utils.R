@@ -314,9 +314,11 @@ with_versions <- function(expr, lib.loc = NULL) {
     list(R = R),
     versions,
     `==` = base::`==`,
-    `==` = base::`!=`,
+    `!=` = base::`!=`,
     `>=` = base::`>=`,
-    `<=` = base::`<=`
+    `>` = base::`>`,
+    `<=` = base::`<=`,
+    `<` = base::`<`,
   )
   eval(expr, envir = mask, enclos = parent.frame())
 }
