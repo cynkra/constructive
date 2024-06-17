@@ -13,7 +13,7 @@ opts_bibentry <- function(constructor = c("bibentry", "next"), ...) {
 
 is_corrupted_bibentry <- function(x) {
   x <- unclass(x)
-  # the class was removed in "3.3.1"
+  # the class was removed in "4.3.1"
   if (!is.list(x)) return(FALSE)
   is_footer_header <-
     with_versions(R > "4.3.0") &&
