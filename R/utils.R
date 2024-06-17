@@ -318,7 +318,7 @@ with_versions <- function(expr, lib.loc = NULL) {
     `>=` = base::`>=`,
     `>` = base::`>`,
     `<=` = base::`<=`,
-    `<` = base::`<`,
+    `<` = base::`<`
   )
   eval(expr, envir = mask, enclos = parent.frame())
 }
