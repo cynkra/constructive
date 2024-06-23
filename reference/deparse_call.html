@@ -5,12 +5,19 @@ symbols and syntactic literals where cited alternatives would produce non syntac
 handles additional corner cases and fails when encountering tokens other than
 symbols and syntactic literals where cited alternatives would produce non syntactic code."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">constructive</a>
+
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9000</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
@@ -22,19 +29,24 @@ symbols and syntactic literals where cited alternatives would produce non syntac
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/cynkra/constructive/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
+
       <h1>Deparse a language object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/HEAD/R/deparse_call.R" class="external-link"><code>R/deparse_call.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/main/R/deparse_call.R" class="external-link"><code>R/deparse_call.R</code></a></small>
       <div class="d-none name"><code>deparse_call.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>This is an alternative to <code><a href="https://rdrr.io/r/base/deparse.html" class="external-link">base::deparse()</a></code> and <code><a href="https://rlang.r-lib.org/reference/expr_print.html" class="external-link">rlang::expr_deparse()</a></code> that
 handles additional corner cases and fails when encountering tokens other than
 symbols and syntactic literals where cited alternatives would produce non syntactic code.<br><br></p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">deparse_call</span><span class="op">(</span></span>
@@ -48,22 +60,35 @@ symbols and syntactic literals where cited alternatives would produce non syntac
 <span>  pedantic_encoding <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt id="arg-call">call<a class="anchor" aria-label="anchor" href="#arg-call"></a></dt>
+
+
+<dl><dt id="arg-call">call<a class="anchor" aria-label="anchor" href="#arg-call"></a></dt>
 <dd><p>A call</p></dd>
+
+
 <dt id="arg-one-liner">one_liner<a class="anchor" aria-label="anchor" href="#arg-one-liner"></a></dt>
 <dd><p>Boolean. Whether to collapse multi-line expressions on a single line using
 semicolons</p></dd>
+
+
 <dt id="arg-pipe">pipe<a class="anchor" aria-label="anchor" href="#arg-pipe"></a></dt>
 <dd><p>Boolean. Whether to use the base pipe to disentangle nested calls. This
 works best on simple calls.</p></dd>
+
+
 <dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
 <dd><p>Boolean. Whether to give a class "constructive_code" on the output
 for pretty printing.</p></dd>
+
+
 <dt id="arg-collapse">collapse<a class="anchor" aria-label="anchor" href="#arg-collapse"></a></dt>
 <dd><p>Boolean. Whether to collapse the output to a single string,
 won't be directly visible if <code>style</code> is <code>TRUE</code></p></dd>
+
+
 <dt id="arg-unicode-representation">unicode_representation<a class="anchor" aria-label="anchor" href="#arg-unicode-representation"></a></dt>
 <dd><p>By default "ascii", which means only ASCII characters
 (code point &lt; 128) will be used to construct strings and variable names. This makes sure that
@@ -72,12 +97,16 @@ are printed differently, and avoid possible unfortunate copy and paste
 auto conversion issues. "latin" is more lax and uses all latin characters
 (code point &lt; 256). "character" shows all characters, but not emojis. Finally
 "unicode" displays all characters and emojis, which is what <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> does.</p></dd>
+
+
 <dt id="arg-escape">escape<a class="anchor" aria-label="anchor" href="#arg-escape"></a></dt>
 <dd><p>Whether to escape double quotes and backslashes. If <code>FALSE</code> we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
 <code>unicode_representation</code> <code>escape = FALSE</code> cannot be applied on all strings.</p></dd>
+
+
 <dt id="arg-pedantic-encoding">pedantic_encoding<a class="anchor" aria-label="anchor" href="#arg-pedantic-encoding"></a></dt>
 <dd><p>Whether to mark strings with the "unknown" encoding
 rather than an explicit native encoding ("UTF-8" or "latin1") when it's
@@ -87,12 +116,14 @@ of <code><a href="https://rdrr.io/r/base/identical.html" class="external-link">i
 the constructed code might be different in the console and in snapshot
 tests and reprexes due to the latter rounding some angles, and it would
 be confusing for users.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-<p>a string or a character vector, with a class "constructive_code" for pretty
+    <p>a string or a character vector, with a class "constructive_code" for pretty
 printing if <code>style</code> is <code>TRUE</code></p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">expr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote</a></span><span class="op">(</span><span class="fu">foo</span><span class="op">(</span><span class="fu">bar</span><span class="op">(</span><span class="op">{</span><span class="va">this</span>; <span class="va">that</span><span class="op">}</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -119,12 +150,21 @@ printing if <code>style</code> is <code>TRUE</code></p>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by Antoine Fabri.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 

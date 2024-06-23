@@ -15,12 +15,19 @@ For this reason environments are constructive's cryptonite. They make some objec
 impossible to reproduce exactly. And since every function or formula has one they're hard to
 avoid. "></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+
+
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">constructive</a>
+
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9000</small>
+
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
@@ -32,14 +39,18 @@ avoid. "></head><body>
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/cynkra/constructive/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
+
+
   </div>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
+
       <h1>Constructive options for type 'environment'</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/HEAD/R/s3-environment.R" class="external-link"><code>R/s3-environment.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/main/R/s3-environment.R" class="external-link"><code>R/s3-environment.R</code></a></small>
       <div class="d-none name"><code>opts_environment.Rd</code></div>
     </div>
+
     <div class="ref-description section level2">
     <p>Environments use reference semantics, they cannot be copied.
 An attempt to copy an environment would indeed yield a different environment and <code>identical(env, copy)</code> would be <code>FALSE</code>.<br>
@@ -50,6 +61,7 @@ For this reason environments are <span class="pkg">constructive</span>'s crypton
 impossible to reproduce exactly. And since every function or formula has one they're hard to
 avoid. <br></p>
     </div>
+
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">opts_environment</span><span class="op">(</span></span>
@@ -60,26 +72,36 @@ avoid. <br></p>
 <span>  predefine <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
+
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt id="arg-constructor">constructor<a class="anchor" aria-label="anchor" href="#arg-constructor"></a></dt>
+
+
+<dl><dt id="arg-constructor">constructor<a class="anchor" aria-label="anchor" href="#arg-constructor"></a></dt>
 <dd><p>String. Name of the function used to construct the environment, see <strong>Constructors</strong> section.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Should not be used. Forces passing arguments by name.</p></dd>
+
+
 <dt id="arg-recurse">recurse<a class="anchor" aria-label="anchor" href="#arg-recurse"></a></dt>
 <dd><p>Boolean. Only considered if <code>constructor</code> is <code>"list2env"</code> or <code>"new_environment"</code>. Whether to
 attempt to recreate all parent environments until a known environment is found,
 if <code>FALSE</code> (the default) we will use <code><a href="https://rdrr.io/r/base/ns-topenv.html" class="external-link">topenv()</a></code> to find a known ancestor to set as
 the parent.</p></dd>
+
+
 <dt id="arg-predefine">predefine<a class="anchor" aria-label="anchor" href="#arg-predefine"></a></dt>
 <dd><p>Boolean. Whether to define environments first. If <code>TRUE</code> <code>constructor</code> and <code>recurse</code>
 are ignored. It circumvents the circularity, recursivity and redundancy issues of
 other constructors. The caveat is that the created code won't be a single call
 and will create objects in the workspace.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-<p>An object of class &lt;constructive_options/constructive_options_environment&gt;</p>
+    <p>An object of class &lt;constructive_options/constructive_options_environment&gt;</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -106,6 +128,9 @@ of environments of function.</p>
     </div>
     <div class="section level2">
     <h2 id="constructors">Constructors<a class="anchor" aria-label="anchor" href="#constructors"></a></h2>
+
+
+
 <p>We might set the <code>constructor</code> argument to:</p><ul><li><p><code>".env"</code> (default): use <code><a href="dot-env.html">constructive::.env()</a></code> to construct the environment from
 its memory address.</p></li>
 </ul><ul><li><p><code>"list2env"</code>: We construct the environment as a list then
@@ -130,20 +155,33 @@ This is the most accurate we can be when constructing only special environments.
 </ul></div>
     <div class="section level2">
     <h2 id="predefine">Predefine<a class="anchor" aria-label="anchor" href="#predefine"></a></h2>
+
+
+
 <p>Building environments from scratch using the above methods can be verbose and
 sometimes redundant if and environment is used several times. One last option
 is to define the environments and their content above the object returning call,
 using placeholder names <code>..env.1..</code>, <code>..env.2..</code> etc. This is done by setting
 <code>predefine</code> to <code>TRUE</code>. <code>constructor</code> and <code>recurse</code> are ignored in that case.</p>
     </div>
+
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
+
+
     <footer><div class="pkgdown-footer-left">
   <p>Developed by Antoine Fabri.</p>
 </div>
+
 <div class="pkgdown-footer-right">
   <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
+
     </footer></div>
+
+
+
+
+
   </body></html>
 
