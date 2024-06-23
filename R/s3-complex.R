@@ -98,6 +98,7 @@ is_corrupted_complex <- function(x) {
   }
 
   # wrap with c()
+  names(code) <- names(x)
   code <- .cstr_apply(code, "c", ..., recurse = FALSE)
   if (list(...)$one_liner) code <- paste(code, collapse = " ")
   .cstr_repair_attributes(x_bkp, code, ...)
