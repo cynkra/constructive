@@ -362,4 +362,6 @@ native_encoding <- function() {
   out
 }
 
-
+is_na_real <- function(x) {
+  is.na(x) & !is.nan(x)
+}
