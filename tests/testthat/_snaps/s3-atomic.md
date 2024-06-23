@@ -266,9 +266,69 @@
 # complex
 
     Code
-      NULL
+      construct(NA_complex_)
     Output
-      NULL
+      NA_complex_
+    Code
+      construct(c(NA_complex_, NA_complex_))
+    Output
+      c(NA_complex_, NA_complex_)
+    Code
+      construct(c(NA_complex_, NA_complex_, NA_complex_))
+    Output
+      rep(NA_complex_, 3L)
+    Code
+      construct(c(NA_complex_, NA_complex_, NA_complex_), opts_atomic(compress = FALSE))
+    Output
+      c(NA_complex_, NA_complex_, NA_complex_)
+    Code
+      construct(c(NA_complex_, 1))
+    Output
+      c(NA_complex_, 1)
+    Code
+      construct(c(NA_complex_, 0+1i))
+    Output
+      c(NA_complex_, 1i)
+    Code
+      construct(1e-10 + 0+1e+10i)
+    Output
+      1e-10+1e+10i
+    Code
+      construct(c(1e-10 + 0+1e+10i, 2e-10 + 0+2e+10i))
+    Output
+      c(1e-10+1e+10i, 2e-10+2e+10i)
+    Code
+      construct(complex(real = 1, imaginary = NA))
+    Output
+      complex(real = 1, imaginary = NA)
+    Code
+      construct(complex(real = 1, imaginary = NaN))
+    Output
+      complex(real = 1, imaginary = NaN)
+    Code
+      construct(complex(real = NaN, imaginary = NaN))
+    Output
+      complex(real = NaN, imaginary = NaN)
+    Code
+      construct(complex(real = NA, imaginary = NA))
+    Output
+      NA_complex_
+    Code
+      construct(complex(real = NA, imaginary = 1))
+    Output
+      complex(real = NA, imaginary = 1)
+    Code
+      construct(complex(real = NaN, imaginary = 1))
+    Output
+      complex(real = NaN, imaginary = 1)
+    Code
+      construct(c(complex(real = NaN, imaginary = 1), complex(real = NaN, imaginary = 1)))
+    Output
+      c(complex(real = NaN, imaginary = 1), complex(real = NaN, imaginary = 1))
+    Code
+      construct(c(1 + 0+1i, complex(real = NaN, imaginary = 1)))
+    Output
+      c(1+1i, complex(real = NaN, imaginary = 1))
 
 # NA and empty names
 
