@@ -67,24 +67,31 @@ is_corrupted_complex <- function(x) {
     }
   }
 
-  re <- sapply(Re(x), function(x, ...) .cstr_construct.double(x, ...), ...)
-  im <- sapply(Im(x), function(x, ...) .cstr_construct.double(x, ...), ...)
-  code <- ifelse(
-    is.na(x),
-    "NA",
-    ifelse (
-      re == "0",
-      paste0(im, "i"),
-      ifelse(
-        im == "0" & !all(im == "0"),
-        re,
-        paste0(re, "+", im, "i")
-      )
-    )
+  re <- Re(x)
+  im <- Im(x)
+  re_code <- sapply(re, function(x, ...) .cstr_construct.double(x, ...), ...)
+  im_code <- sapply(im, function(x, ...) .cstr_construct.double(x, ...), ...)
+
+  # general case
+  code <- sprintf("%s+%si", re_code, im_code)
+  # zero real parts can be omitted
+  zero_real <- re_code == "0"
+  code[zero_real] <- paste0(im_code[zero_real], "i")
+  # zero im parts can sometimes be omitted
+  zero_im <- !zero_real & im_code == "0" & !all(im_code == "0")
+  code[zero_im] <- re_code[zero_im]
+  # if both parts are true NA we have a NA_complex
+  complex_na <- is_na_real(re) & is_na_real(im)
+  code[complex_na] <- "NA_complex_"
+  other_na <- is.na(x) & !complex_na
+  code[other_na] <- mapply(
+    function(re, im) {
+      .cstr_apply(list(real = re, imaginary = im), "complex", recurse = FALSE)
+    },
+    re = re[other_na],
+    im = im[other_na]
   )
-  if (all(is.na(x) | im == "0")) {
-    code[is.na(x)] <- "NA_complex_"
-  }
+
   if (length(x) == 1 && is.null(names(x))) {
     code <- .cstr_repair_attributes(x_bkp, code, ...)
     return(code)
