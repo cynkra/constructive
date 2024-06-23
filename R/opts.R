@@ -51,6 +51,22 @@ collect_opts <- function(..., template) {
     opts$double$compress %||%
     opts$atomic$compress %||%
     TRUE
+  # complex
+  opts$complex$constructor <-
+    opts$complex$constructor %||%
+    opts$atomic$constructor %||%
+    "default"
+  opts$complex$trim <-
+    opts$complex$trim %||%
+    opts$atomic$trim
+  opts$complex$fill <-
+    opts$complex$fill %||%
+    opts$atomic$fill %||%
+    "default"
+  opts$complex$compress <-
+    opts$complex$compress %||%
+    opts$atomic$compress %||%
+    TRUE
   # raw
   opts$raw$constructor <-
     opts$raw$constructor %||%
