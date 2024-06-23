@@ -30,6 +30,11 @@ test_that("numeric", {
     construct(NaN)
     construct(c(1, NaN))
     construct(c("\U{430}" = 1))
+
+    construct(c(NaN, NA))
+    construct(c(NaN, NA, NaN))
+    construct(c(NA, NaN, NA))
+
   })
 })
 

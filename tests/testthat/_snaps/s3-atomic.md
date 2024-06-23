@@ -106,6 +106,18 @@
       construct(c(а = 1))
     Output
       c("\U{430}" = 1)
+    Code
+      construct(c(NaN, NA))
+    Output
+      c(NaN, NA)
+    Code
+      construct(c(NaN, NA, NaN))
+    Output
+      c(NaN, NA, NaN)
+    Code
+      construct(c(NA, NaN, NA))
+    Output
+      c(NA, NaN, NA)
 
 # other atomic
 
