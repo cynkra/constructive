@@ -1,6 +1,3 @@
-# see also environment_utils.R
-constructors$environment <- new.env()
-
 #' Constructive options for type 'environment'
 #'
 #' Environments use reference semantics, they cannot be copied.
@@ -87,16 +84,11 @@ constructors$environment <- new.env()
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
 opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "environment"),
-    check_dots_empty(),
-    abort_not_boolean(recurse)
-  )
-  .cstr_options("environment", constructor = constructor, recurse = recurse, predefine = predefine)
+  .cstr_options("environment", constructor = constructor[[1]], ..., recurse = recurse, predefine = predefine)
 }
 
 #' @export
-.cstr_construct.environment <- function(x, opts = NULL, ...) {
+.cstr_construct.environment <- function(x, ...) {
   # The name of `asNamespace("pkg")` is always "pkg" and print as `<environment: namespace:pkg>`
   # The name of `as.environment("package:pkg")` is ALMOST always "package:pkg" and prints as
   #  `<environment: package:pkg>` + attributes
@@ -105,7 +97,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
   # This means `asNamespace("base")` (a.k.a. `.BaseNamespaceEnv`) and
   #   `as.environment("package:base")` (a.k.a. `baseenv()`) have the same name
   #   but are different. So we implement a workaround.
-  opts_local <- opts$environment %||% opts_environment()
+  opts <- list(...)$opts$environment %||% opts_environment()
   if (is_corrupted_environment(x)) return(NextMethod())
 
   # if we can match a special env, return it directly
@@ -114,12 +106,12 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
 
   null_parent <- is.null(parent.env(x))
   # FIXME: what does this do ?
-  if (opts_local[["predefine"]] && !null_parent) {
-    special_envs <-  c(search(), "R_EmptyEnv", "R_GlobalEnv")
+  if (opts[["predefine"]] && !null_parent) {
+    special_envs <- c(search(), "R_EmptyEnv", "R_GlobalEnv")
     nm <- environmentName(x)
     # construct only if not found
-    if (!(nm != "" && rlang::is_installed(nm)) && ! nm %in% globals$special_envs) {
-      code <- update_predefinition(envir = x, opts = opts, ...)
+    if (!(nm != "" && rlang::is_installed(nm)) && !nm %in% globals$special_envs) {
+      code <- update_predefinition(envir = x, ...)
       return(code)
     }
   }
@@ -128,19 +120,18 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
     # according to error of `new.env(parent = NULL)` we should nopt find NULL
     # parents anymore, yet we do. In this case we force the use of `env` as a constructor
     # because it's the only one that can reproduce these objects.
-    constructor <- constructors$environment[["env"]]
+    .cstr_construct.environment.env(x, ...)
   } else {
-    constructor <- constructors$environment[[opts_local[["constructor"]]]]
+    UseMethod(".cstr_construct.environment", structure(NA, class = opts$constructor))
   }
-
-  constructor(x, opts = opts, ..., recurse = opts_local[["recurse"]], predefine = opts_local[["predefine"]])
 }
 
 is_corrupted_environment <- function(x) {
   !is.environment(x)
 }
 
-constructors$environment$.env <- function(x, ..., recurse, predefine) {
+.cstr_construct.environment..env <- function(x, ...) {
+  opts <- list(...)$opts$environment %||% opts_environment()
   args <- c(
     list(env_memory_address(x), parents = fetch_parent_names(x)),
     attributes(x)
@@ -151,8 +142,9 @@ constructors$environment$.env <- function(x, ..., recurse, predefine) {
   repair_attributes_environment(x, code, ...)
 }
 
-constructors$environment$list2env <- function(x, ..., recurse, predefine) {
-    if (!recurse) {
+.cstr_construct.environment.list2env <- function(x, ...) {
+  opts <- list(...)$opts$environment %||% opts_environment()
+    if (!opts$recurse) {
       if (length(names(x))) {
         code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "list2env", ...)
         code <- apply_env_locks(x, code, ...)
@@ -177,8 +169,9 @@ constructors$environment$list2env <- function(x, ..., recurse, predefine) {
   repair_attributes_environment(x, code, ...)
 }
 
-constructors$environment$new_environment <- function(x, ..., recurse, predefine) {
-  if (!recurse) {
+.cstr_construct.environment.new_environment <- function(x, ...) {
+  opts <- list(...)$opts$environment %||% opts_environment()
+  if (!opts$recurse) {
     if (length(names(x))) {
       code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "rlang::new_environment", ...)
       code <- apply_env_locks(x, code)
@@ -203,12 +196,12 @@ constructors$environment$new_environment <- function(x, ..., recurse, predefine)
   repair_attributes_environment(x, code, ...)
 }
 
-constructors$environment$new.env <- function(x, ...) {
+.cstr_construct.environment.new.env <- function(x, ...) {
   code <- "new.env()"
   repair_attributes_environment(x, code, ...)
 }
 
-constructors$environment$as.environment <- function(x, ...) {
+.cstr_construct.environment.as.environment <- function(x, ...) {
   # We need to use as.list.environment() (via env2list()) because as.list() will only map
   # to as.list.environment() if class was not overriden
   code <- .cstr_wrap(
@@ -220,14 +213,14 @@ constructors$environment$as.environment <- function(x, ...) {
   repair_attributes_environment(x, code, ...)
 }
 
-constructors$environment$topenv <- function(x, ...) {
+.cstr_construct.environment.topenv <- function(x, ...) {
   code <- .cstr_construct(topenv(x), ...)
   code
 }
 
 repair_attributes_environment <- function(x, code, opts, ...) {
-  opts_local <- opts$environment %||% opts_environment()
-  if ((opts_local[["constructor"]] == ".env" && !opts_local[["predefine"]]) ||
+  opts <- opts$environment %||% opts_environment()
+  if ((opts$constructor == ".env" && !opts[["predefine"]]) ||
       grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||
       code[[1]] %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
   ) {
@@ -237,11 +230,11 @@ repair_attributes_environment <- function(x, code, opts, ...) {
 
   pkg_env_lgl <- grepl("as.environment\\(\"[^\"]+\"\\)", code[[1]])
   .cstr_repair_attributes(
-    x, code, opts = opts, ...,
+    x, code, ...,
     ignore = c(
       # pkg:fun envs have name and path attributes already set by `as.environment()`
       if (pkg_env_lgl) c("name", "path"),
-      if (opts_local[["predefine"]]) "class"
+      if (opts[["predefine"]]) "class"
     )
   )
 }

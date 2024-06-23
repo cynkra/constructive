@@ -98,7 +98,15 @@ construct <- function(
     data = data,
     pipe = pipe,
     unicode_representation = unicode_representation,
+    unicode_representation.chr =
+      opts$character$unicode_representation %||%
+      opts$atomic$unicode_representation %||%
+      unicode_representation,
     escape = escape,
+    escape.chr =
+      opts$character$escape %||%
+      opts$atomic$escape %||%
+      escape,
     one_liner = one_liner,
     env = caller
   )
@@ -150,16 +158,38 @@ construct_multi <- function(
       if (is_promise(as.symbol(nm), x)) {
         code <- do.call(substitute, list(as.name(nm), x))
         env <- promise_env(as.symbol(nm), x)
+
+        name_code <- .cstr_construct(
+          nm,
+          opts = opts,
+          unicode_representation.chr = unicode_representation,
+          escape.chr = escape,
+          unicode_representation = unicode_representation,
+          escape = escape
+        )
+
+        value_code <- deparse_call(
+          code,
+          style = FALSE,
+          unicode_representation = unicode_representation,
+          escape = escape,
+          pedantic_encoding = pedantic_encoding
+        )
+
+        env_code <- .cstr_construct(
+          env,
+          opts = opts,
+          unicode_representation.chr = unicode_representation,
+          escape.chr = escape,
+          unicode_representation = unicode_representation,
+          escape = escape
+        )
+
         code <- .cstr_apply(
           list(
-            .cstr_construct(nm, opts = opts),
-            value = deparse_call(
-              code,
-              style = FALSE,
-              unicode_representation = unicode_representation,
-              escape = escape,
-              pedantic_encoding = pedantic_encoding),
-            eval.env = .cstr_construct(env, opts = opts)
+            name_code,
+            value = value_code,
+            eval.env = env_code
           ),
           "delayedAssign",
           recurse = FALSE

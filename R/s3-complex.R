@@ -1,0 +1,158 @@
+#' @export
+#' @rdname other-opts
+opts_complex <- function(
+    constructor = c("default"),
+    ...,
+    trim = NULL,
+    fill = c("default", "rlang", "+", "...", "none"),
+    compress = TRUE) {
+  .cstr_combine_errors(
+    abort_not_null_or_integerish(trim),
+    { fill <- rlang::arg_match(fill) },
+    abort_not_boolean(compress)
+  )
+  .cstr_options(
+    "complex",
+    constructor = constructor,
+    ...,
+    trim = trim,
+    fill = fill,
+    compress = compress
+  )
+}
+
+#' @export
+.cstr_construct.complex <- function(x, ...) {
+  opts <- list(...)$opts$complex %||% opts_complex()
+  if (is_corrupted_complex(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.complex", structure(NA, class = opts$constructor))
+}
+
+is_corrupted_complex <- function(x) {
+  typeof(x) != "complex"
+}
+
+
+.cstr_construct.complex.default <- function(x, ...) {
+  # return length 0 object early
+  if (!length(x)) return("complex(0)")
+
+  # we apply in priority the complex opts, fall back on atomic opts otherwise
+  opts <- list(...)$opts$complex %||% opts_complex()
+  x_bkp <- x
+
+  # non standard names
+  nms <- names(x)
+  names_need_repair <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
+  if (names_need_repair) names(x) <- NULL
+
+  # trim
+  # FIXME: the name reparation is affected by trim
+  if (!is.null(opts$trim)) {
+    code <- trim_atomic(x, opts$trim, opts$fill, ...)
+    if (!is.null(code)) {
+      code <- .cstr_repair_attributes(x_bkp, code, ...)
+      return(code)
+    }
+  }
+
+  # compression
+  if (opts$compress && is.null(nms)) {
+    code <- compress_complex(x, ...)
+    if (!is.null(code)) {
+      code <- .cstr_repair_attributes(x_bkp, code, ...)
+      return(code)
+    }
+  }
+
+  re <- sapply(Re(x), function(x, ...) .cstr_construct.double(x, ...), ...)
+  im <- sapply(Im(x), function(x, ...) .cstr_construct.double(x, ...), ...)
+  code <- ifelse(
+    is.na(x),
+    "NA",
+    ifelse (
+      re == "0",
+      paste0(im, "i"),
+      ifelse(
+        im == "0" & !all(im == "0"),
+        re,
+        paste0(re, "+", im, "i")
+      )
+    )
+  )
+  if (all(is.na(x) | im == "0")) {
+    code[is.na(x)] <- "NA_complex_"
+  }
+  if (length(x) == 1 && is.null(names(x))) {
+    code <- .cstr_repair_attributes(x_bkp, code, ...)
+    return(code)
+  }
+
+  # wrap with c()
+  code <- .cstr_apply(code, "c", ..., recurse = FALSE)
+  if (list(...)$one_liner) code <- paste(code, collapse = " ")
+  .cstr_repair_attributes(x_bkp, code, ...)
+}
+
+compress_complex <- function(x, ...) {
+  l <- length(x)
+  if (l > 2 && isTRUE(all(x == 0+0i))) return(sprintf("complex(%s)", l))
+  format_rep(x, ...)
+}
+
+format_flex <- function(x, all_na) {
+  # negative zeroes
+  if (identical(x, 0) && sign(1/x) == -1) return("-0")
+  # negative NAs, commented for now as might be overkill, and inconsistent
+  # if(is.na(x) && serialize(x, NULL)[[32]] == as.raw(0xff)) {
+  #   if (is.nan(x)) return("-NaN")
+  #   return("-NA_real_")
+  # }
+  formatted <- format.default(x, digits = 15)
+  if (formatted == "NA") {
+    if (all_na) return("NA_real_") else return("NA")
+  }
+  if (formatted == "NaN") {
+    return("NaN")
+  }
+  if (as.numeric(formatted) == x) return(formatted)
+  # FIXME: Increase digits only for those array elements that don't match
+  for (digits in 16:22) {
+    formatted <- format.default(x, digits = digits)
+    if (as.numeric(formatted) == x) return(formatted)
+  }
+  # remove from coverage since system dependent
+  # (similarly to .deparseOpts("hexNumeric"))
+  sprintf("%a", x) # nocov
+}
+
+
+construct_complex <- function(x, ...) {
+  re <- sapply(Re(x), construct_atomic, ...)
+  im <- sapply(Im(x), construct_atomic, ...)
+  code <- ifelse(
+    is.na(x),
+    "NA",
+    ifelse (
+      re == "0",
+      paste0(im, "i"),
+      ifelse(
+        im == "0" & !all(im == "0"),
+        re,
+        paste0(re, "+", im, "i")
+      )
+    )
+  )
+  if (all(is.na(x) | im == "0")) {
+    code[is.na(x)] <- "NA_complex_"
+  }
+  if (length(x) == 1 && is.null(names(x))) return(code)
+  code <- .cstr_apply(
+    code,
+    "c",
+    ...,
+    recurse = FALSE
+  )
+  if (list(...)$one_liner) code <- paste(code, collapse = " ")
+  code
+}

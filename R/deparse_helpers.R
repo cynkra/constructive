@@ -16,8 +16,13 @@ deparse_symbol <- function(call, check_syntactic, unicode_representation, escape
 }
 
 deparse_syntactic_literal <- function(call, unicode_representation, escape) {
-  opts_local <- opts_atomic(unicode_representation = unicode_representation, escape = escape)
-  .cstr_construct(call, template = NULL, data = NULL, opts = list(atomic = opts_local))
+  .cstr_construct(
+    call, template = NULL, data = NULL,
+    unicode_representation = unicode_representation,
+    escape = escape,
+    unicode_representation.chr = unicode_representation,
+    escape.chr = escape
+  )
 }
 
 # function and control flow ---------------------------------------------------
@@ -185,7 +190,7 @@ deparse_accessor <- function(caller, call, rec, unicode_representation, escape) 
     return(sprintf("%s%s%s", rec(call[[2]]), caller, nm))
   }
   if (is.character(call[[3]])) {
-    nm <- construct_chr(
+    nm <- construct_string(
       call[[3]],
       unicode_representation = unicode_representation,
       escape = escape

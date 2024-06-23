@@ -1,20 +1,15 @@
 #' @export
 #' @rdname other-opts
 opts_octmode <- function(constructor = c("as.octmode", "next"), ..., integer = FALSE) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    abort_not_boolean(integer),
-    check_dots_empty()
-  )
-  .cstr_options("octmode", constructor = constructor, integer = integer)
+  abort_not_boolean(integer)
+  .cstr_options("octmode", constructor = constructor[[1]], ..., integer = integer)
 }
 
 #' @export
-.cstr_construct.octmode <- function(x, opts = NULL, ...) {
-  opts_local <- opts$octmode %||% opts_octmode()
-  if (is_corrupted_octmode(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$octmode[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ..., integer = opts_local[["integer"]])
+.cstr_construct.octmode <- function(x, ...) {
+  opts <- list(...)$opts$octmode %||% opts_octmode()
+  if (is_corrupted_octmode(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.octmode", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_octmode <- function(x) {
@@ -22,11 +17,12 @@ is_corrupted_octmode <- function(x) {
 }
 
 #' @export
-constructors$octmode$as.octmode <- function(x, ..., integer) {
+.cstr_construct.octmode.as.octmode <- function(x, ...) {
+  opts <- list(...)$opts$octmode %||% opts_octmode()
   # we let attributes to the reparation step
   x_bkp <- x
   attributes(x) <- NULL
-  if (integer) {
+  if (opts$integer) {
     code <- .cstr_apply(list(unclass(x)), "as.octmode", ...)
   } else {
     code <- .cstr_apply(list(format.octmode(x)), "as.octmode", ...)

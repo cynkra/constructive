@@ -1,11 +1,15 @@
-constructors$element_text <- new.env()
-
 #' @export
 #' @rdname other-opts
-opts_element_text <- new_constructive_opts_function("element_text", c("element_text", "next", "list"))
+opts_element_text <- function(constructor = c("element_text", "next", "list"), ...) {
+  .cstr_options("element_text", constructor = constructor[[1]], ...)
+}
 
 #' @export
-.cstr_construct.element_text <- new_constructive_method("element_text", c("element_text", "next", "list"))
+.cstr_construct.element_text <- function(x, ...) {
+  opts <- list(...)$opts$element_text %||% opts_element_text()
+  if (is_corrupted_element_text(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.element_text", structure(NA, class = opts$constructor))
+}
 
 is_corrupted_element_text <- function(x) {
   # TODO
@@ -13,12 +17,12 @@ is_corrupted_element_text <- function(x) {
 }
 
 #' @export
-constructors$element_text$list <- function(x, ...) {
+.cstr_construct.element_text.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
-constructors$element_text$element_text <- function(x, ...) {
+.cstr_construct.element_text.element_text <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_text)
   code <- .cstr_apply(args, "ggplot2::element_text", ...)
   repair_attributes_element_text(x, code, ...)

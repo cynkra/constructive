@@ -15,7 +15,7 @@ test_that("Date", {
   expect_pipe_snapshot({
     construct(structure(19469, class = "Date"))
     construct(structure(19469, class = "Date"), opts_Date("next"))
-    construct(structure(19469, class = "Date"), opts_Date("atomic"))
+    construct(structure(19469, class = "Date"), opts_Date("double"))
     construct(structure(19469L, class = "Date"))
     construct(structure("19469", class = "Date"))
     # one line

@@ -1,21 +1,14 @@
-constructors$CoordPolar <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_CoordPolar <- function(constructor = c("coord_polar", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("CoordPolar", constructor = constructor)
+  .cstr_options("CoordPolar", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.CoordPolar <- function(x, opts = NULL, ...) {
-  opts_local <- opts$CoordPolar %||% opts_CoordPolar()
-  if (is_corrupted_CoordPolar(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$CoordPolar[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.CoordPolar <- function(x, ...) {
+  opts <- list(...)$opts$CoordPolar %||% opts_CoordPolar()
+  if (is_corrupted_CoordPolar(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.CoordPolar", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_CoordPolar <- function(x) {
@@ -24,12 +17,12 @@ is_corrupted_CoordPolar <- function(x) {
 }
 
 #' @export
-constructors$CoordPolar$environment <- function(x, ...) {
+.cstr_construct.CoordPolar.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$CoordPolar$coord_polar <- function(x, ...) {
+.cstr_construct.CoordPolar.coord_polar <- function(x, ...) {
   args <- list(
     theta = x$theta,
     start = x$start,

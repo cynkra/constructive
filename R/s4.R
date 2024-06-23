@@ -1,5 +1,3 @@
-constructors$S4 <- new.env()
-
 #' Constructive options for class 'S4'
 #'
 #' These options will be used on objects of class 'S4'. Note that the support
@@ -11,26 +9,21 @@ constructors$S4 <- new.env()
 #' @return An object of class <constructive_options/constructive_options_S4>
 #' @export
 opts_S4 <- function(constructor = c("new"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "S4"),
-    check_dots_empty()
-  )
-  .cstr_options("S4", constructor = constructor)
+  .cstr_options("S4", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.S4 <- function(x, opts = NULL, ...) {
-  opts_local <- opts$S4 %||% opts_S4()
-  if (is_corrupted_S4(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$S4[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.S4 <- function(x, ...) {
+  opts <- list(...)$opts$S4 %||% opts_S4()
+  if (is_corrupted_S4(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.S4", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_S4 <- function(x) {
   !isS4(x)
 }
 
-constructors$S4$new <- function(x, env, ...) {
+.cstr_construct.S4.new <- function(x, env, ...) {
   cl <- class(x)
   if (
     attr(cl, "package") == environmentName(env) ||
@@ -59,8 +52,3 @@ repair_attributes_S4 <- function(x, code, ..., selfref = FALSE) {
   )
 }
 
-construct_flagged_s4 <- function(x, ...) {
-  xS3 <- do.call(structure, c(list(asS3(x)), attributes(x)))
-  codeS3 <- .cstr_construct(xS3, ...)
-  .cstr_pipe(codeS3, "asS4()", ...)
-}

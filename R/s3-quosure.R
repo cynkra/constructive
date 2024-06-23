@@ -1,5 +1,3 @@
-constructors$quosure <- new.env()
-
 #' Constructive options for class 'quosure'
 #'
 #' These options will be used on objects of class 'quosure'.
@@ -17,19 +15,14 @@ constructors$quosure <- new.env()
 #' @return An object of class <constructive_options/constructive_options_quosure>
 #' @export
 opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "quosure"),
-    check_dots_empty()
-  )
-  .cstr_options("quosure", constructor = constructor)
+  .cstr_options("quosure", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.quosure <- function(x, opts = NULL, ...) {
-  opts_local <- opts[["quosure"]] %||% opts_quosure()
-  if (is_corrupted_quosure(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$quosure[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ..., origin = opts_local[["origin"]])
+.cstr_construct.quosure <- function(x, ...) {
+  opts <- list(...)$opts[["quosure"]] %||% opts_quosure()
+  if (is_corrupted_quosure(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.quosure", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_quosure <- function(x) {
@@ -38,7 +31,7 @@ is_corrupted_quosure <- function(x) {
 }
 
 #' @export
-constructors$quosure$new_quosure <- function(x, env, ...) {
+.cstr_construct.quosure.new_quosure <- function(x, env = NULL, ...) {
   if (identical(env, attr(x, ".Environment"))) {
     code <- .cstr_apply(list(rlang::quo_squash(x)), "rlang::new_quosure", ...)
   } else {
@@ -48,7 +41,7 @@ constructors$quosure$new_quosure <- function(x, env, ...) {
 }
 
 #' @export
-constructors$quosure$language <- function(x, ...) {
+.cstr_construct.quosure.language <- function(x, ...) {
   .cstr_construct.language(x, ...)
 }
 

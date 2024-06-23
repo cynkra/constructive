@@ -1,5 +1,3 @@
-constructors$tbl_df <- new.env()
-
 #' Constructive options for tibbles
 #'
 #' These options will be used on objects of class 'tbl_df', also known as tibbles.
@@ -14,9 +12,9 @@ constructors$tbl_df <- new.env()
 #'
 #' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
-#' @param trailing_comma Boolean, whether to leave a trailing comma at the end of the constructor call
+#' @param trailing_comma Boolean. Whether to leave a trailing comma at the end of the constructor call
 #' calls
-#' @param justify Character. Justification for columns if `constructor` is `"tribble"`
+#' @param justify String. Justification for columns if `constructor` is `"tribble"`
 #'
 #' @return An object of class <constructive_options/constructive_options_tbl_df>
 #' @export
@@ -25,25 +23,17 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"),
                         trailing_comma = TRUE,
                         justify = c("left", "right", "centre", "none")) {
   .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "tbl_df"),
-    check_dots_empty(), abort_not_boolean(trailing_comma)
+    abort_not_boolean(trailing_comma),
+    justify <- match.arg(justify)
   )
-  justify <- match.arg(justify)
-  .cstr_options("tbl_df", constructor = constructor, trailing_comma = trailing_comma, justify = justify)
+  .cstr_options("tbl_df", constructor = constructor[[1]], ..., trailing_comma = trailing_comma, justify = justify)
 }
 
 #' @export
-.cstr_construct.tbl_df <- function(x, opts = NULL, ...) {
-  opts_local <- opts$tbl_df %||% opts_tbl_df()
-  if (is_corrupted_tbl_df(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$tbl_df[[opts_local[["constructor"]]]]
-  constructor(
-    x,
-    opts = opts,
-    ...,
-    trailing_comma = opts_local[["trailing_comma"]],
-    justify = opts_local[["justify"]]
-  )
+.cstr_construct.tbl_df <- function(x, ...) {
+  opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
+  if (is_corrupted_tbl_df(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.tbl_df", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_tbl_df <- function(x) {
@@ -51,37 +41,40 @@ is_corrupted_tbl_df <- function(x) {
   is_corrupted_data.frame(x) || !identical(attr(x, "row.names"), seq_len(nrow(x)))
 }
 
-constructors$tbl_df$list <- function(x, ..., trailing_comma = TRUE) {
+.cstr_construct.tbl_df.list <- function(x, ...) {
+  opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
   .cstr_construct.list(x, ...)
 }
 
-constructors$tbl_df$tibble <- function(x, ..., trailing_comma = TRUE) {
+.cstr_construct.tbl_df.tibble <- function(x, ...) {
+  opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
   arg_names <- c(".rows", ".name_repair ")
   df_has_problematic_names <- any(names(x) %in% arg_names)
   if (df_has_problematic_names) return(.cstr_construct.list(x, ...))
   # construct idiomatic code
-  code <- .cstr_apply(x, fun = "tibble::tibble", ..., trailing_comma = trailing_comma)
+  code <- .cstr_apply(x, fun = "tibble::tibble", ..., trailing_comma = opts$trailing_comma)
 
   # repair
   repair_attributes_tbl_df(x, code, ...)
 }
 
-constructors$tbl_df$tribble <- function(x, ..., trailing_comma = TRUE, justify = "left") {
+.cstr_construct.tbl_df.tribble <- function(x, ...) {
+  opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
   # fall back to tibble if no row or has df cols or list cols containing only length 1 elements
-  if (!nrow(x)) return(constructors$tbl_df$tibble(x, ...))
+  if (!nrow(x)) return(.cstr_construct.tbl_df.tibble(x, ...))
   is_unsupported_col <- function(col) {
     is.data.frame(col) || (is.list(col) && all(lengths(col) == 1))
   }
   some_cols_are_unsupported <- any(sapply(x, is_unsupported_col))
-  if (some_cols_are_unsupported) return(constructors$tbl_df$tibble(x, ...))
+  if (some_cols_are_unsupported) return(.cstr_construct.tbl_df.tibble(x, ...))
 
   # construct idiomatic code
   code_df <- x
   code_df[] <- lapply(x, function(col) paste0(sapply(col, function(cell) paste(.cstr_construct(cell, ...), collapse = "")), ","))
   code_df <- rbind(paste0("~", sapply(names(x), protect), ","), as.data.frame(code_df))
-  code_df[] <- lapply(code_df, format, justify = justify)
+  code_df[] <- lapply(code_df, format, justify = opts$justify)
   code <- do.call(paste, code_df)
-  if (!trailing_comma) {
+  if (!opts$trailing_comma) {
     code[[length(code)]] <- sub(", *$", "", code[[length(code)]])
   }
   code <- sub(" +$", "", code)

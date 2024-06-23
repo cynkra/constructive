@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_simpleError <- function(constructor = c("simpleError", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("simpleError", constructor = constructor)
+  .cstr_options("simpleError", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.simpleError <- function(x, opts = NULL, ...) {
-  opts_local <- opts$simpleError %||% opts_simpleError()
-  if (is_corrupted_simpleError(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$simpleError[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.simpleError <- function(x, ...) {
+  opts <- list(...)$opts$simpleError %||% opts_simpleError()
+  if (is_corrupted_simpleError(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.simpleError", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_simpleError <- function(x) {
@@ -21,7 +16,7 @@ is_corrupted_simpleError <- function(x) {
 }
 
 #' @export
-constructors$simpleError$simpleError <- function(x, ...) {
+.cstr_construct.simpleError.simpleError <- function(x, ...) {
   # we let attributes to the reparation step
   x_bkp <- x
   x <- unclass(x)

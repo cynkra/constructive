@@ -1,5 +1,3 @@
-constructors$array <- new.env()
-
 #' Constructive options for arrays
 #'
 #' These options will be used on arrays. Note that arrays can be built on top of
@@ -16,26 +14,22 @@ constructors$array <- new.env()
 #' @return An object of class <constructive_options/constructive_options_array>
 #' @export
 opts_array <- function(constructor = c("array", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "array"),
-    check_dots_empty()
-  )
-  .cstr_options("array", constructor = constructor)
+  .cstr_options("array", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.array <- function(x, opts = NULL, ...) {
-  opts_local <- opts$array %||% opts_array()
-  if (is_corrupted_array(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$array[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.array <- function(x, ...) {
+  opts <- list(...)$opts$array %||% opts_array()
+  if (is_corrupted_array(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.array", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_array <- function(x) {
   !("dim" %in% names(attributes(x)) && (is.atomic(x) || is.list(x) || is.expression(x)))
 }
 
-constructors$array$array <- function(x, ...) {
+#' @export
+.cstr_construct.array.array <- function(x, ...) {
   # build args for array() call
   x_stripped <- x
   attributes(x_stripped) <- NULL

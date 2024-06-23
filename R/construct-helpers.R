@@ -166,27 +166,3 @@ new_constructive <- function(code, compare) {
   if (!is.null(data_name)) return(data_name)
   UseMethod(".cstr_construct")
 }
-
-#' Validate a constructor
-#'
-#' Fails if the chosen constructor doesn't exist.
-#'
-#' @param constructor a String (or character vector but only the first item will
-#'   be considered)
-#' @param class A string
-#' @return A string, the first value of `constructor` if it is the name of a n existing
-#' constructor or "next".
-#' @export
-.cstr_match_constructor <- function(constructor, class) {
-  constructor <- constructor[[1]]
-  choices <- ls(constructors[[class]], all.names = TRUE)
-  internal_types <- c( # note: "..." replaced by "dots"
-    "logical", "integer", "double", "complex", "character", "raw", "list", "NULL",
-    "closure", "special", "builtin", "environment", "S4", "symbol", "pairlist",
-    "promise", "language", "char", "any", "expression", "externalptr",
-    "bytecode",  "weakref", "dots"
-  )
-  if (!class %in% internal_types) choices <- c(choices, "next")
-  rlang::arg_match(constructor, choices)
-  constructor
-}

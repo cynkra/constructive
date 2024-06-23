@@ -1,5 +1,3 @@
-constructors$quosures <- new.env()
-
 #' Constructive options for class 'quosures'
 #'
 #' These options will be used on objects of class 'quosures'.
@@ -17,19 +15,14 @@ constructors$quosures <- new.env()
 #' @return An object of class <constructive_options/constructive_options_quosures>
 #' @export
 opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "quosures"),
-    check_dots_empty()
-  )
-  .cstr_options("quosures", constructor = constructor)
+  .cstr_options("quosures", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.quosures <- function(x, opts = NULL, ...) {
-  opts_local <- opts$quosures %||% opts_quosures()
-  if (is_corrupted_quosures(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$quosures[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.quosures <- function(x, ...) {
+  opts <- list(...)$opts$quosures %||% opts_quosures()
+  if (is_corrupted_quosures(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.quosures", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_quosures <- function(x) {
@@ -38,7 +31,7 @@ is_corrupted_quosures <- function(x) {
 }
 
 #' @export
-constructors$quosures$new_quosures <- function(x, ...) {
+.cstr_construct.quosures.new_quosures <- function(x, ...) {
   x_list <- unclass(x)
   # remove names if "" so we avoid repairing the names
   if (all(names(x) == "")) names(x_list) <- NULL
@@ -48,7 +41,7 @@ constructors$quosures$new_quosures <- function(x, ...) {
 }
 
 #' @export
-constructors$quosures$list <- function(x, ...) {
+.cstr_construct.quosures.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 

@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_simpleWarning <- function(constructor = c("simpleWarning", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("simpleWarning", constructor = constructor)
+  .cstr_options("simpleWarning", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.simpleWarning <- function(x, opts = NULL, ...) {
-  opts_local <- opts$simpleWarning %||% opts_simpleWarning()
-  if (is_corrupted_simpleWarning(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$simpleWarning[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.simpleWarning <- function(x, ...) {
+  opts <- list(...)$opts$simpleWarning %||% opts_simpleWarning()
+  if (is_corrupted_simpleWarning(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.simpleWarning", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_simpleWarning <- function(x) {
@@ -21,7 +16,7 @@ is_corrupted_simpleWarning <- function(x) {
 }
 
 #' @export
-constructors$simpleWarning$simpleWarning <- function(x, ...) {
+.cstr_construct.simpleWarning.simpleWarning <- function(x, ...) {
   # we let attributes to the reparation step
   x_bkp <- x
   x <- unclass(x)

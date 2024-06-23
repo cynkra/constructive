@@ -33,9 +33,4 @@
       construct(matrix(1:9, 3), opts_matrix("next"))
     Output
       array(1:9, dim = c(3L, 3L))
-    Code
-      construct(matrix(1:9, 3), opts_matrix("atomic"))
-    Output
-      1:9 |>
-        structure(dim = c(3L, 3L))
 

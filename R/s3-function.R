@@ -1,5 +1,3 @@
-constructors$`function` <- new.env()
-
 #' Constructive options for functions
 #'
 #' These options will be used on functions, i.e. objects of type "closure", "special" and "builtin".
@@ -33,48 +31,36 @@ opts_function <- function(
     srcref = FALSE,
     trim = NULL) {
   .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "function"),
     check_dots_empty(),
     abort_not_boolean(environment),
     abort_not_boolean(srcref),
     abort_not_null_or_integerish(trim)
   )
-  .cstr_options("function", constructor = constructor, environment = environment, srcref = srcref, trim = trim)
+  .cstr_options("function", constructor = constructor[[1]], environment = environment, srcref = srcref, trim = trim)
 }
 
 
 #' @export
-.cstr_construct.function <- function(x, opts = NULL, ...) {
+.cstr_construct.function <- function(x, ...) {
   if (rlang::is_primitive(x)) return(deparse(x))
-  opts_local <- opts$`function` %||% opts_function()
+  opts <- list(...)$opts$`function` %||% opts_function()
   if (is_corrupted_function(x)) return(NextMethod())
-
-  # trim if relevant
-  trim <- opts_local[["trim"]]
-  if (!is.null(trim)) {
-    x_lst <- as.list(unclass(x))
-    x_length <- length(x_lst)
-    body_lng <- x_lst[[x_length]]
-    if (length(body_lng) > trim + 1) {
-      x_lst[[x_length]] <- as.call(c(head(as.list(body_lng), trim + 1), quote(...)))
-      x <- as.function(x_lst, envir = environment(x))
-    }
-  }
-
-  constructor <- constructors$`function`[[opts_local[["constructor"]]]]
-  constructor(x, ..., opts = opts, trim = opts_local[["trim"]], environment = opts_local[["environment"]], srcref = opts_local[["srcref"]])
+  UseMethod(".cstr_construct.function", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_function <- function(x) {
   !is.function(x)
 }
 
-constructors$`function`$`function` <- function(
-    x,
-    ...,
-    trim,
-    environment,
-    srcref) {
+.cstr_construct.function.function <- function(x, ...) {
+  opts <- list(...)$opts$`function` %||% opts_function()
+  trim <- opts$trim
+  environment <- opts$environment
+  srcref <- opts$srcref
+
+  x_bkp <- x
+  if (!is.null(trim)) x <- trim_function(x, trim)
+
   # if the srcref matches the function's body (always in non artifical cases)
   # we might use the srcref rather than the body, so we keep the comments
 
@@ -86,13 +72,7 @@ constructors$`function`$`function` <- function(
 
   if (!all_components_are_proper_expressions) {
     # fall back on `as.function()` constructor
-    res <- constructors$`function`$as.function(
-      x,
-      ...,
-      trim = trim,
-      environment = environment,
-      srcref = srcref
-    )
+    res <- .cstr_construct.function.as.function(x, ...)
     return(res)
   }
 
@@ -124,16 +104,18 @@ constructors$`function`$`function` <- function(
     envir_code <- .cstr_apply(list(environment(x)), "(`environment<-`)", ...)
     code <- .cstr_pipe(code, envir_code, ...)
   }
-  repair_attributes_function(x, code, ...)
+  repair_attributes_function(x_bkp, code, ...)
 }
 
-constructors$`function`$as.function <- function(
-    x,
-    ...,
-    trim,
-    environment,
-    srcref
-  ) {
+.cstr_construct.function.as.function <- function(x, ...) {
+  opts <- list(...)$opts$`function` %||% opts_function()
+  trim <- opts$trim
+  environment <- opts$environment
+  srcref <- opts$srcref
+
+  x_bkp <- x
+  if (!is.null(trim)) x <- trim_function(x)
+
   x_lst <- as.list(unclass(x))
 
   all_components_are_proper_expressions <-
@@ -143,7 +125,7 @@ constructors$`function`$as.function <- function(
     fun_lst <- lapply(x_lst, deparse_call0, ...)
     args <- list(.cstr_apply(fun_lst, "alist", ..., recurse = FALSE))
   } else {
-    fun_lst <- lapply(x_lst, .cstr_construct, ...)
+    fun_lst <- lapply(x_lst, function(x, ...) .cstr_construct(x, ...), ...)
     args <- list(.cstr_apply(fun_lst, "list", ..., recurse = FALSE))
   }
 
@@ -152,16 +134,18 @@ constructors$`function`$as.function <- function(
     args <- c(args, list(envir = envir_arg))
   }
   code <- .cstr_apply(args, "as.function", ..., recurse = FALSE)
-  repair_attributes_function(x, code, ...)
+  repair_attributes_function(x_bkp, code, ...)
 }
 
-constructors$`function`$new_function <- function(
-    x,
-    ...,
-    trim,
-    environment,
-    srcref
-    ) {
+.cstr_construct.function.new_function <- function(x, ...) {
+  opts <- list(...)$opts$`function` %||% opts_function()
+  trim <- opts$trim
+  environment <- opts$environment
+  srcref <- opts$srcref
+
+  x_bkp <- x
+  if (!is.null(trim)) x <- trim_function(x)
+
   x_lst <- as.list(unclass(x))
 
   args <- lapply(x_lst[-length(x_lst)], deparse_call0, ...)
@@ -174,12 +158,12 @@ constructors$`function`$new_function <- function(
     args <- c(args, list(env = envir_arg))
   }
   code <- .cstr_apply(args, "rlang::new_function", ..., recurse = FALSE)
-  repair_attributes_function(x, code, ...)
+  repair_attributes_function(x_bkp, code, ...)
 }
 
-repair_attributes_function <- function(x, code, opts, ...) {
-  opts_local <- opts$`function` %||% opts_function()
-  srcref <- opts_local[["srcref"]]
+repair_attributes_function <- function(x, code, ...) {
+  opts <- list(...)$opts$`function` %||% opts_function()
+  srcref <- opts[["srcref"]]
   ignore <- c("name", "path")
   if (!srcref) ignore <- c(ignore, "srcref")
   .cstr_repair_attributes(x, code, opts = opts, ..., ignore = ignore)
@@ -203,4 +187,15 @@ code_from_srcref <- function(x) {
     return(NULL)
   }
   srcref_chr
+}
+
+trim_function <- function(x, trim) {
+  x_lst <- as.list(unclass(x))
+  x_length <- length(x_lst)
+  body_lng <- x_lst[[x_length]]
+  if (length(body_lng) > trim + 1) {
+    x_lst[[x_length]] <- as.call(c(head(as.list(body_lng), trim + 1), quote(...)))
+    x <- as.function(x_lst, envir = environment(x))
+  }
+  x
 }

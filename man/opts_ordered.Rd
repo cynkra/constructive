@@ -5,7 +5,7 @@
 \title{Constructive options for class 'ordered'}
 \usage{
 opts_ordered(
-  constructor = c("ordered", "factor", "new_ordered", "next", "atomic"),
+  constructor = c("ordered", "factor", "new_ordered", "next", "integer"),
   ...
 )
 }
@@ -30,6 +30,6 @@ be defined explicitly if they are in alphabetical order (locale dependent!)
 always defined explicitly.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.
-\item \code{"atomic"} : We define as an atomic vector and repair attributes
+\item \code{"integer"} : We define as an integer vector and repair attributes
 }
 }

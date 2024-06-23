@@ -1,5 +1,3 @@
-constructors$externalptr <- new.env()
-
 #' Constructive options for type 'externalptr'
 #'
 #' These options will be used on objects of type 'externalptr'. By default this
@@ -15,26 +13,22 @@ constructors$externalptr <- new.env()
 #' @return An object of class <constructive_options/constructive_options_externalptr>
 #' @export
 opts_externalptr  <- function(constructor = c("default"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "externalptr"),
-    check_dots_empty()
-  )
-  .cstr_options("externalptr", constructor = constructor)
+  .cstr_options("externalptr", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.externalptr <- function(x, opts = NULL, ...) {
-  opts_local <- opts$externalptr %||% opts_externalptr()
+.cstr_construct.externalptr <- function(x, ...) {
+  opts <- list(...)$opts$externalptr %||% opts_externalptr()
   if (is_corrupted_externalptr (x)) return(NextMethod())
-  constructor <- constructors$externalptr [[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+  UseMethod(".cstr_construct.externalptr", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_externalptr <- function(x) {
   typeof(x) != "externalptr"
 }
 
-constructors$externalptr$default <- function(x, ...) {
+#' @export
+.cstr_construct.externalptr.default <- function(x, ...) {
   code <- sprintf('constructive::.xptr("%s")', external_pointer_address(x))
   repair_attributes_externalptr(x, code, ...)
 }

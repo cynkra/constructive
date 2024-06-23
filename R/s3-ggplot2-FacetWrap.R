@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_FacetWrap <- function(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("FacetWrap", constructor = constructor)
+  .cstr_options("FacetWrap", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.FacetWrap <- function(x, opts = NULL, ...) {
-  opts_local <- opts$FacetWrap %||% opts_FacetWrap()
-  if (is_corrupted_FacetWrap(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$FacetWrap[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.FacetWrap <- function(x, ...) {
+  opts <- list(...)$opts$FacetWrap %||% opts_FacetWrap()
+  if (is_corrupted_FacetWrap(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.FacetWrap", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_FacetWrap <- function(x) {
@@ -22,17 +17,17 @@ is_corrupted_FacetWrap <- function(x) {
 }
 
 #' @export
-constructors$FacetWrap$environment <- function(x, ...) {
+.cstr_construct.FacetWrap.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$FacetWrap$ggproto <- function(x, ...) {
+.cstr_construct.FacetWrap.ggproto <- function(x, ...) {
   .cstr_construct.ggproto(x, ...)
 }
 
 #' @export
-constructors$FacetWrap$facet_wrap <- function(x, ...) {
+.cstr_construct.FacetWrap.facet_wrap <- function(x, ...) {
   args <- as.list(x)
 
   scales_ind <-  unlist(x$params$free) + 1
@@ -73,7 +68,7 @@ constructors$FacetWrap$facet_wrap <- function(x, ...) {
   if (isTRUE(args$strip.position == "top")) args$strip.position <- NULL
 
   # after 3.5.1 as.table is not stored anymore
-  if (packageVersion("ggplot2") <= "3.5.1") {
+  if (with_versions(ggplot2 <= "3.5.1")) {
     if (isTRUE(args$as.table)) args$as.table <- NULL
     if (isTRUE(args$dir == "h")) args$dir <- NULL
   } else {
@@ -89,7 +84,7 @@ constructors$FacetWrap$facet_wrap <- function(x, ...) {
   }
 
   ## build call
-  args <- lapply(args, .cstr_construct, ...)
+  args <- lapply(args, function(x, ...) .cstr_construct(x, ...), ...)
   args$facets <- facets
   code <- .cstr_apply(args, fun = "ggplot2::facet_wrap", recurse = FALSE, ...)
   repair_attributes_FacetWrap(x, code, ...)

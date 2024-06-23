@@ -1,21 +1,14 @@
-constructors$CoordCartesian <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_CoordCartesian <- function(constructor = c("coord_cartesian", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("CoordCartesian", constructor = constructor)
+  .cstr_options("CoordCartesian", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.CoordCartesian <- function(x, opts = NULL, ...) {
-  opts_local <- opts$CoordCartesian %||% opts_CoordCartesian()
-  if (is_corrupted_CoordCartesian(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$CoordCartesian[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.CoordCartesian <- function(x, ...) {
+  opts <- list(...)$opts$CoordCartesian %||% opts_CoordCartesian()
+  if (is_corrupted_CoordCartesian(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.CoordCartesian", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_CoordCartesian <- function(x) {
@@ -24,12 +17,12 @@ is_corrupted_CoordCartesian <- function(x) {
 }
 
 #' @export
-constructors$CoordCartesian$environment <- function(x, ...) {
+.cstr_construct.CoordCartesian.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$CoordCartesian$coord_cartesian <- function(x, ...) {
+.cstr_construct.CoordCartesian.coord_cartesian <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,

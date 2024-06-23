@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_warning <- function(constructor = c("warningCondition", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("warning", constructor = constructor)
+  .cstr_options("warning", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.warning <- function(x, opts = NULL, ...) {
-  opts_local <- opts$warning %||% opts_warning()
-  if (is_corrupted_warning(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$warning[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.warning <- function(x, ...) {
+  opts <- list(...)$opts$warning %||% opts_warning()
+  if (is_corrupted_warning(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.warning", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_warning <- function(x) {
@@ -21,7 +16,7 @@ is_corrupted_warning <- function(x) {
 }
 
 #' @export
-constructors$warning$warningCondition <- function(x, ...) {
+.cstr_construct.warning.warningCondition <- function(x, ...) {
   x_bkp <- x
   x <- unclass(x)
   args <- list(x$message)

@@ -1,5 +1,3 @@
-constructors$vctrs_list_of <- new.env()
-
 #' Constructive options for class 'data.table'
 #'
 #' These options will be used on objects of class 'data.table'.
@@ -13,19 +11,14 @@ constructors$vctrs_list_of <- new.env()
 #' @return An object of class <constructive_options/constructive_options_vctrs_list_of>
 #' @export
 opts_vctrs_list_of <- function(constructor = c("list_of", "next", "list"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "vctrs_list_of"),
-    check_dots_empty()
-  )
-  .cstr_options("vctrs_list_of", constructor = constructor)
+  .cstr_options("vctrs_list_of", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.vctrs_list_of <- function(x, opts = NULL, ...) {
-  opts_local <- opts$vctrs_list_of %||% opts_vctrs_list_of()
-  if (is_corrupted_vctrs_list_of(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructors <- constructors$vctrs_list_of[[opts_local[["constructor"]]]]
-  constructors(x, opts = opts, ...)
+.cstr_construct.vctrs_list_of <- function(x, ...) {
+  opts <- list(...)$opts$vctrs_list_of %||% opts_vctrs_list_of()
+  if (is_corrupted_vctrs_list_of(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.vctrs_list_of", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_vctrs_list_of <- function(x) {
@@ -33,7 +26,7 @@ is_corrupted_vctrs_list_of <- function(x) {
   FALSE
 }
 
-constructors$vctrs_list_of$list_of <- function(x, ...) {
+.cstr_construct.vctrs_list_of.list_of <- function(x, ...) {
   code <- .cstr_apply(
     args = c(as.list(x), list(.ptype = attr(x, "ptype"))),
     fun = "vctrs::list_of",
@@ -42,13 +35,13 @@ constructors$vctrs_list_of$list_of <- function(x, ...) {
   repair_attributes_vctrs_list_of(x, code, ...)
 }
 
-constructors$vctrs_list_of$list <- function(x, ...) {
+.cstr_construct.vctrs_list_of.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 repair_attributes_vctrs_list_of <- function(x, code, opts, ..., pipe = NULL) {
-  opts_local <- opts$vctrs_list_of %||% opts_vctrs_list_of()
-  if (opts_local[["constructor"]] == "list") {
+  opts <- opts$vctrs_list_of %||% opts_vctrs_list_of()
+  if (opts$constructor == "list") {
     return(repair_attributes_list(x, code, ..., pipe = pipe))
   }
   .cstr_repair_attributes(

@@ -6,7 +6,7 @@
 \usage{
 opts_Date(
   constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric",
-    "as_date.numeric", "next", "atomic"),
+    "as_date.numeric", "next", "double"),
   ...,
   origin = "1970-01-01"
 )
@@ -41,7 +41,7 @@ provided \code{origin}
 provided \code{origin}
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.
-\item \code{"atomic"} : We define as an atomic vector and repair attributes
+\item \code{"double"} : We define as an double vector and repair attributes
 }
 
 If the data is not appropriate for a constructor we fall back to another one

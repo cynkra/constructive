@@ -1,6 +1,3 @@
-# maybe we should use "..." because we might have objects of class "dots"
-constructors$dots <- new.env()
-
 #' Constructive options for type '...'
 #'
 #' These options will be used on objects of type '...'. These are rarely encountered
@@ -18,26 +15,21 @@ constructors$dots <- new.env()
 #' @return An object of class <constructive_options/constructive_options_dots>
 #' @export
 opts_dots <- function(constructor = c("default"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "dots"),
-    check_dots_empty()
-  )
-  .cstr_options("dots", constructor = constructor)
+  .cstr_options("dots", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.dots <- function(x, opts = NULL, ...) {
-  opts_local <- opts$dots %||% opts_dots()
+.cstr_construct.dots <- function(x, ...) {
+  opts <- list(...)$opts$dots %||% opts_dots()
   if (is_corrupted_dots(x)) return(NextMethod())
-  constructor <- constructors$dots[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+  UseMethod(".cstr_construct.dots", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_dots <- function(x) {
   typeof(x) != "..."
 }
 
-constructors$dots$default <- function(x, ...) {
+.cstr_construct.dots.default <- function(x, ...) {
   quo_dots <- with(list(... = x), rlang::enquos(...))
   envs <- lapply(quo_dots, rlang::quo_get_env)
   unique_env <- unique(envs)

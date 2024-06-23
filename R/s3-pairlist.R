@@ -1,5 +1,3 @@
-constructors$pairlist <- new.env()
-
 #' Constructive options for pairlists
 #'
 #' Depending on `constructor`, we construct the object as follows:
@@ -12,31 +10,26 @@ constructors$pairlist <- new.env()
 #' @return An object of class <constructive_options/constructive_options_pairlist>
 #' @export
 opts_pairlist <- function(constructor = c("pairlist", "pairlist2"), ...) {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "pairlist"),
-    check_dots_empty()
-  )
-  .cstr_options("pairlist", constructor = constructor)
+  .cstr_options("pairlist", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.pairlist <- function(x, opts = NULL, ...) {
-  opts_local <- opts$pairlist %||% opts_pairlist()
+.cstr_construct.pairlist <- function(x, ...) {
+  opts <- list(...)$opts$pairlist %||% opts_pairlist()
   if (is_corrupted_pairlist(x)) return(NextMethod())
-  constructor <- constructors$pairlist[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+  UseMethod(".cstr_construct.pairlist", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_pairlist <- function(x) {
   typeof(x) != "pairlist"
 }
 
-constructors$pairlist$pairlist <- function(x, ...) {
+.cstr_construct.pairlist.pairlist <- function(x, ...) {
   code <- .cstr_apply(x, "pairlist", ...)
   repair_attributes_pairlist(x, code, ...)
 }
 
-constructors$pairlist$pairlist2 <- function(x, ...) {
+.cstr_construct.pairlist.pairlist2 <- function(x, ...) {
   code <- .cstr_apply(x, "rlang::pairlist2", ...)
   repair_attributes_pairlist(x, code, ...)
 }

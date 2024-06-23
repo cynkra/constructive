@@ -1,21 +1,14 @@
-constructors$waiver <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_waiver <- function(constructor = c("waiver", "next", "list"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("waiver", constructor = constructor)
+  .cstr_options("waiver", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.waiver <- function(x, opts = NULL, ...) {
-  opts_local <- opts$waiver %||% opts_waiver()
-  if (is_corrupted_waiver(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$waiver[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.waiver <- function(x, ...) {
+  opts <- list(...)$opts$waiver %||% opts_waiver()
+  if (is_corrupted_waiver(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.waiver", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_waiver <- function(x) {
@@ -24,12 +17,12 @@ is_corrupted_waiver <- function(x) {
 }
 
 #' @export
-constructors$waiver$list <- function(x, ...) {
+.cstr_construct.waiver.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
-constructors$waiver$waiver <- function(x, ...) {
+.cstr_construct.waiver.waiver <- function(x, ...) {
   code <- "ggplot2::waiver()"
   repair_attributes_waiver(x, code, ...)
 }

@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_person <- function(constructor = c("person", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("person", constructor = constructor)
+  .cstr_options("person", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.person <- function(x, opts = NULL, ...) {
-  opts_local <- opts$person %||% opts_person()
-  if (is_corrupted_person(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$person[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.person <- function(x, ...) {
+  opts <- list(...)$opts$person %||% opts_person()
+  if (is_corrupted_person(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.person", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_person <- function(x) {
@@ -27,7 +22,7 @@ is_corrupted_person <- function(x) {
 }
 
 #' @export
-constructors$person$person <- function(x, ...) {
+.cstr_construct.person.person <- function(x, ...) {
   args <- unclass(unclass(x)[[1]])
   args <- Filter(Negate(is.null), args)
   code <- .cstr_apply(args, "person", ...)

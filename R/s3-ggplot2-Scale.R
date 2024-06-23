@@ -1,11 +1,15 @@
-constructors$Scale <- new.env()
-
 #' @export
 #' @rdname other-opts
-opts_Scale <- new_constructive_opts_function("Scale", c("default", "next", "environment"))
+opts_Scale <- function(constructor = c("default", "next", "environment"), ...) {
+  .cstr_options("CoordCartesian", constructor = constructor[[1]], ...)
+}
 
 #' @export
-.cstr_construct.Scale <- new_constructive_method("Scale", c("default", "next", "environment"))
+.cstr_construct.Scale <- function(x, ...) {
+  opts <- list(...)$opts$Scale %||% opts_CoordCartesian()
+  if (is_corrupted_Scale(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.Scale", structure(NA, class = opts$constructor))
+}
 
 is_corrupted_Scale <- function(x) {
   # TODO
@@ -13,12 +17,12 @@ is_corrupted_Scale <- function(x) {
 }
 
 #' @export
-constructors$Scale$environment <- function(x, ...) {
+.cstr_construct.Scale.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$Scale$default <- function(x, ...) {
+.cstr_construct.Scale.default <- function(x, ...) {
   # fetch caller and args from original call
   # here we need the ggplot subsetting method, not the low level [[
   call <- base::`[[`(x, "call")
@@ -79,7 +83,7 @@ constructors$Scale$default <- function(x, ...) {
   }
 
   # construct values, except for `super` and `palette` that we handle specifically after
-  args[names(values)] <- lapply(values, .cstr_construct, ...)
+  args[names(values)] <- lapply(values, function(x, ...) .cstr_construct(x, ...), ...)
 
   # special case waiver as it's an empty list unfortunately matched to `.data`
   # FIXME: we should probably not match empty objects, that inclused NULL and zero length objects

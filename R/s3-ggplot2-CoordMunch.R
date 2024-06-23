@@ -1,21 +1,14 @@
-constructors$CoordMunch <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_CoordMunch <- function(constructor = c("coord_munch", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("CoordMunch", constructor = constructor)
+  .cstr_options("CoordMunch", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.CoordMunch <- function(x, opts = NULL, ...) {
-  opts_local <- opts$CoordMunch %||% opts_CoordMunch()
-  if (is_corrupted_CoordMunch(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$CoordMunch[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.CoordMunch <- function(x, ...) {
+  opts <- list(...)$opts$CoordMunch %||% opts_CoordMunch()
+  if (is_corrupted_CoordMunch(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.CoordMunch", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_CoordMunch <- function(x) {
@@ -24,12 +17,12 @@ is_corrupted_CoordMunch <- function(x) {
 }
 
 #' @export
-constructors$CoordMunch$environment <- function(x, ...) {
+.cstr_construct.CoordMunch.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$CoordMunch$coord_munch <- function(x, ...) {
+.cstr_construct.CoordMunch.coord_munch <- function(x, ...) {
   # untested because didn't find any use case
   args <- list(
     coord = x$coordinates,

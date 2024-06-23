@@ -1,19 +1,14 @@
 #' @export
 #' @rdname other-opts
 opts_noquote <- function(constructor = c("noquote", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("noquote", constructor = constructor)
+  .cstr_options("noquote", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.noquote <- function(x, opts = NULL, ...) {
-  opts_local <- opts$noquote %||% opts_noquote()
-  if (is_corrupted_noquote(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$noquote[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.noquote <- function(x, ...) {
+  opts <- list(...)$opts$noquote %||% opts_noquote()
+  if (is_corrupted_noquote(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.noquote", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_noquote <- function(x) {
@@ -24,7 +19,7 @@ is_corrupted_noquote <- function(x) {
 }
 
 #' @export
-constructors$noquote$noquote <- function(x, ...) {
+.cstr_construct.noquote.noquote <- function(x, ...) {
   right <- identical(tail(names(class(x)), 1), "right")
   x_bkp <- x
   class(x) <- setdiff(class(x), "noquote")

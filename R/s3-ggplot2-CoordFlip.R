@@ -1,21 +1,14 @@
-constructors$CoordFlip <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_CoordFlip <- function(constructor = c("coord_flip", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("CoordFlip", constructor = constructor)
+  .cstr_options("CoordFlip", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.CoordFlip <- function(x, opts = NULL, ...) {
-  opts_local <- opts$CoordFlip %||% opts_CoordFlip()
-  if (is_corrupted_CoordFlip(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$CoordFlip[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.CoordFlip <- function(x, ...) {
+  opts <- list(...)$opts$CoordFlip %||% opts_CoordFlip()
+  if (is_corrupted_CoordFlip(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.CoordFlip", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_CoordFlip <- function(x) {
@@ -24,12 +17,12 @@ is_corrupted_CoordFlip <- function(x) {
 }
 
 #' @export
-constructors$CoordFlip$environment <- function(x, ...) {
+.cstr_construct.CoordFlip.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$CoordFlip$coord_flip <- function(x, ...) {
+.cstr_construct.CoordFlip.coord_flip <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,
     ylim = x$limits$y,

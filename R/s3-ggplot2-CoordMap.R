@@ -1,21 +1,14 @@
-constructors$CoordMap <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_CoordMap <- function(constructor = c("coord_map", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("CoordMap", constructor = constructor)
+  .cstr_options("CoordMap", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.CoordMap <- function(x, opts = NULL, ...) {
-  opts_local <- opts$CoordMap %||% opts_CoordMap()
-  if (is_corrupted_CoordMap(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$CoordMap[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.CoordMap <- function(x, ...) {
+  opts <- list(...)$opts$CoordMap %||% opts_CoordMap()
+  if (is_corrupted_CoordMap(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.CoordMap", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_CoordMap <- function(x) {
@@ -24,12 +17,12 @@ is_corrupted_CoordMap <- function(x) {
 }
 
 #' @export
-constructors$CoordMap$environment <- function(x, ...) {
+.cstr_construct.CoordMap.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$CoordMap$coord_map <- function(x, ...) {
+.cstr_construct.CoordMap.coord_map <- function(x, ...) {
   args <- c(
     list(projection = x$projection),
     if (length(x$params)) as.list(x$params) else NULL,

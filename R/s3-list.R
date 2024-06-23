@@ -1,5 +1,3 @@
-constructors$list <- new.env()
-
 #' Constructive options for type 'list'
 #'
 #' These options will be used on objects of type 'list'.
@@ -35,19 +33,17 @@ opts_list <- function(
     trim = NULL,
     fill = c("vector", "new_list", "+", "...", "none")) {
   .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "list"),
-    check_dots_empty(),
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill)
   )
-  .cstr_options("list", constructor = constructor, trim = trim, fill = fill)
+  .cstr_options("list", constructor = constructor[[1]], ..., trim = trim, fill = fill)
 }
 
 #' @export
-.cstr_construct.list <- function(x, opts = NULL, ...) {
-  opts_local <- opts$list %||% opts_list()
+.cstr_construct.list <- function(x, ...) {
+  opts <- list(...)$opts$list %||% opts_list()
   if (is_corrupted_list(x)) return(NextMethod())
-  constructors$list[[opts_local[["constructor"]]]](x, trim = opts_local[["trim"]], fill = opts_local[["fill"]], opts = opts, ...)
+  UseMethod(".cstr_construct.list", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_list <- function(x) {
@@ -83,13 +79,17 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
   .cstr_apply(x, fun = constructor, ..., trailing_comma = trailing_comma)
 }
 
-constructors$list$list <- function(x, trim, fill, ...) {
-  code <- construct_list(x, "list", trim, fill, trailing_comma = FALSE, ...)
+#' @export
+.cstr_construct.list.list <- function(x, ...) {
+  opts <- list(...)$opts$list %||% opts_list()
+  code <- construct_list(x, "list", opts$trim, opts$fill, trailing_comma = FALSE, ...)
   .cstr_repair_attributes(x, code, ...)
 }
 
-constructors$list$list2 <- function(x, trim, fill, ...) {
-  code <- construct_list(x, "rlang::list2", trim, fill, trailing_comma = TRUE, ...)
+#' @export
+.cstr_construct.list.list2 <- function(x, ...) {
+  opts <- list(...)$opts$list %||% opts_list()
+  code <- construct_list(x, "rlang::list2", opts$trim, opts$fill, trailing_comma = TRUE, ...)
   repair_attributes_list(x, code, ...)
 }
 

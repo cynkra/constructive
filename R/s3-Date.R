@@ -1,5 +1,3 @@
-constructors$Date <- new.env()
-
 #' Constructive options class 'Date'
 #'
 #' These options will be used on objects of class 'date'.
@@ -19,7 +17,7 @@ constructors$Date <- new.env()
 #'   provided `origin`
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
-#' * `"atomic"` : We define as an atomic vector and repair attributes
+#' * `"double"` : We define as an double vector and repair attributes
 #'
 #' If the data is not appropriate for a constructor we fall back to another one
 #' appropriately.
@@ -30,57 +28,60 @@ constructors$Date <- new.env()
 #'
 #' @return An object of class <constructive_options/constructive_options_Date>
 #' @export
-opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "atomic"), ..., origin = "1970-01-01") {
-  .cstr_combine_errors(
-    constructor <- .cstr_match_constructor(constructor, "Date"),
-    check_dots_empty()
-  )
-  .cstr_options("Date", constructor = constructor, origin = origin)
+opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01") {
+  .cstr_options("Date", constructor = constructor[[1]], ..., origin = origin)
 }
 
 #' @export
-.cstr_construct.Date <- function(x, opts = NULL, ...) {
-  opts_local <- opts$Date %||% opts_Date()
-  if (is_corrupted_Date(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$Date[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ..., origin = opts_local[["origin"]])
+.cstr_construct.Date <- function(x, ...) {
+  opts <- list(...)$opts$Date %||% opts_Date()
+  if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.Date", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_Date <- function(x) {
   typeof(x) != "double"
 }
 
-constructors$Date$as.Date <- function(x, ..., origin = "1970-01-01") {
+.cstr_construct.Date.as.Date <- function(x, ...) {
+  opts <- list(...)$opts$Date %||% opts_Date()
+  origin <- opts$origin
   compatible_with_char <-
     all(rlang::is_integerish(x) & (is.finite(x) | (is.na(x) & !is.nan(x))))
   if (!compatible_with_char || all(is.na(x))) {
-    return(constructors$Date$as.Date.numeric(x, ..., origin = origin))
+    return(.cstr_construct.Date.as.Date.numeric(x, ...))
   }
   code <- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
   repair_attributes_Date(x, code, ...)
 }
 
-constructors$Date$date <- function(x, ..., origin) {
+.cstr_construct.Date.date <- function(x, ...) {
+  opts <- list(...)$opts$Date %||% opts_Date()
+  origin <- opts$origin
   compatible_with_char <-
     all(rlang::is_integerish(x) & (is.finite(x) | (is.na(x) & !is.nan(x))))
   if (!compatible_with_char || all(is.na(x))) {
-    return(constructors$Date$as_date.numeric(x, ..., origin = origin))
+    return(.cstr_construct.Date.as_date.numeric(x, ...))
   }
   code <- .cstr_apply(list(format(x)),  "lubridate::date", ..., new_line = FALSE)
   repair_attributes_Date(x, code, ...)
 }
 
-constructors$Date$as_date <- function(x, ..., origin) {
+.cstr_construct.Date.as_date <- function(x, ...) {
+  opts <- list(...)$opts$Date %||% opts_Date()
+  origin <- opts$origin
   compatible_with_char <-
     all(rlang::is_integerish(x) & (is.finite(x) | (is.na(x) & !is.nan(x))))
   if (!compatible_with_char || all(is.na(x))) {
-    return(constructors$Date$as_date.numeric(x, ..., origin = origin))
+    return(.cstr_construct.Date.as_date.numeric(x, ...))
   }
   code <- .cstr_apply(list(format(x)),  "lubridate::as_date", ..., new_line = FALSE)
   repair_attributes_Date(x, code, ...)
 }
 
-constructors$Date$as.Date.numeric <- function(x, ..., origin) {
+.cstr_construct.Date.as.Date.numeric <- function(x, ...) {
+  opts <- list(...)$opts$Date %||% opts_Date()
+  origin <- opts$origin
   x_dbl <- unclass(x)
   if (!any(is.finite(x))) {
     # as.Date will deal with logical NA so we make it more compact
@@ -93,7 +94,9 @@ constructors$Date$as.Date.numeric <- function(x, ..., origin) {
   repair_attributes_Date(x, code, ...)
 }
 
-constructors$Date$as_date.numeric <- function(x, ..., origin) {
+.cstr_construct.Date.as_date.numeric <- function(x, ...) {
+  opts <- list(...)$opts$Date %||% opts_Date()
+  origin <- opts$origin
   x_dbl <- unclass(x)
   if (!any(is.finite(x))) {
     # as_date will deal with logical NA so we make it more compact
@@ -110,13 +113,17 @@ constructors$Date$as_date.numeric <- function(x, ..., origin) {
   repair_attributes_Date(x, code, ...)
 }
 
-constructors$Date$new_date <- function(x, ..., origin) {
+.cstr_construct.Date.new_date <- function(x, ...) {
+  opts <- list(...)$opts$Date %||% opts_Date()
+  origin <- opts$origin
   code <- .cstr_apply(list(unclass(x)), "vctrs::new_date", ..., new_line = FALSE)
   repair_attributes_Date(x, code, ...)
 }
 
-constructors$Date$atomic <- function(x, ..., origin) {
-  .cstr_construct.atomic(x, ...)
+.cstr_construct.Date.double <- function(x, ...) {
+  opts <- list(...)$opts$Date %||% opts_Date()
+  origin <- opts$origin
+  .cstr_construct.double(x, ...)
 }
 
 repair_attributes_Date <- function(x, code, ...) {

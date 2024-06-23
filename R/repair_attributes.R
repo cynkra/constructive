@@ -1,13 +1,3 @@
-# FIXME: find a better place for those
-# FIXME: repair_attributes should be dispatched on a prototype and attributes already present should
-# be ignored by default
-
-#' constructors
-#'
-#' A nested environment containing constructor functions for the package \pkg{constructive}
-#' @export
-constructors <- new.env()
-
 repair_attributes <- function(x, code, ..., pipe = NULL) {
   UseMethod("repair_attributes")
 }

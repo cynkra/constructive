@@ -84,3 +84,26 @@ names <- function(x) {
   e1
 }
 
+`==` <- function(e1, e2) {
+  base::`==`(unclass(e1), unclass(e2))
+}
+
+`!=` <- function(e1, e2) {
+  base::`!=`(unclass(e1), unclass(e2))
+}
+
+`>` <- function(e1, e2) {
+  base::`>`(unclass(e1), unclass(e2))
+}
+
+`<` <- function(e1, e2) {
+  base::`<`(unclass(e1), unclass(e2))
+}
+
+`>=` <- function(e1, e2) {
+  base::`>=`(unclass(e1), unclass(e2))
+}
+
+`<=` <- function(e1, e2) {
+  base::`<=`(unclass(e1), unclass(e2))
+}

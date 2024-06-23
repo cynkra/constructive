@@ -1,27 +1,22 @@
 #' @export
 #' @rdname other-opts
 opts_citationFooter <- function(constructor = c("citFooter", "next"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("citationFooter", constructor = constructor)
+  .cstr_options("citationFooter", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.citationFooter <- function(x, opts = NULL, ...) {
-  opts_local <- opts$citationFooter %||% opts_citationFooter()
-  if (is_corrupted_citationFooter(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$citationFooter[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.citationFooter <- function(x, ...) {
+  opts <- list(...)$opts$citationFooter %||% opts_citationFooter()
+  if (is_corrupted_citationFooter(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.citationFooter", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_citationFooter <- function(x) {
-  !is.character(x) || getRversion() > "4.3.0"
+  !is.character(x) || with_versions(R > "4.3.0")
 }
 
 #' @export
-constructors$citationFooter$citFooter <- function(x, ...) {
+.cstr_construct.citationFooter.citFooter <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "citFooter", ...)
   repair_attributes_citationFooter(x, code, ...)
 }

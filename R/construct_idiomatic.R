@@ -1,14 +1,25 @@
 #' @export
-.cstr_construct.default <- function(x, ..., one_liner = FALSE) {
-  if (is.environment(x)) return(.cstr_construct.environment(x, ..., one_liner = one_liner))
-  if (is.list(x))  return(.cstr_construct.list(x, ..., one_liner = one_liner))
-  if (is.function(x))  return(.cstr_construct.function(x, ..., one_liner = one_liner))
-  if (is.language(x) && !is.expression(x))  return(.cstr_construct.language(x, ..., one_liner = one_liner))
-  if (typeof(x) == "...")  return(.cstr_construct.dots(x, ..., one_liner = one_liner))
-  # for some reason the S3 method is not always caught the first time
-  if (typeof(x) == "externalptr")  return(.cstr_construct.externalptr(x, ..., one_liner = one_liner))
-  if (typeof(x) == "S4")  return(.cstr_construct.S4(x, ..., one_liner = one_liner))
-  .cstr_construct.atomic(x, ..., one_liner = one_liner)
+.cstr_construct.default <- function(x, ...) {
+  switch(
+    typeof(x),
+    environment = .cstr_construct.environment(x, ...),
+    list = .cstr_construct.list(x, ...),
+    special =,
+    builtin =,
+    closure = .cstr_construct.function(x, ...),
+    symbol =,
+    language = .cstr_construct.language(x, ...),
+    `...` = .cstr_construct.dots(x, ...),
+    externalptr = .cstr_construct.externalptr(x, ...),
+    S4 = .cstr_construct.S4(x, ...),
+    character = .cstr_construct.character(x, ...),
+    integer = .cstr_construct.integer(x, ...),
+    double = .cstr_construct.double(x, ...),
+    complex = .cstr_construct.complex(x, ...),
+    logical = .cstr_construct.logical(x, ...),
+    raw = .cstr_construct.raw(x, ...),
+    `NULL` = .cstr_construct.NULL(x, ...)
+  )
 }
 
 #' .cstr_apply
@@ -57,13 +68,16 @@
     escape = FALSE) {
   new_line <- new_line && !one_liner
   trailing_comma <- trailing_comma && !one_liner
+  unicode_representation <- match.arg(unicode_representation)
   # so we make sure we use the right methods for length, [, [[
   # and lapply iterates properly at the low level
   args <- unclass(args)
   if (!length(args)) return(sprintf("%s()", fun))
   if (recurse) args <- lapply(
     args,
-    .cstr_construct,
+    # for some reason, using simply .cstr_construct on the next line doesn't
+    # dispatch to the right method
+    function(x, ...) .cstr_construct(x, ...),
     ...,
     one_liner = one_liner,
     unicode_representation = unicode_representation,

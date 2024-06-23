@@ -1,23 +1,14 @@
-# FIXME: would be nice to construct using the ggproto() function
-
-constructors$ggproto <- new.env()
-
 #' @export
 #' @rdname other-opts
 opts_ggproto <- function(constructor = c("default", "next", "environment"), ...) {
-  .cstr_combine_errors(
-    constructor <- rlang::arg_match(constructor),
-    check_dots_empty()
-  )
-  .cstr_options("ggproto", constructor = constructor)
+  .cstr_options("ggproto", constructor = constructor[[1]], ...)
 }
 
 #' @export
-.cstr_construct.ggproto <- function(x, opts = NULL, ...) {
-  opts_local <- opts$ggproto %||% opts_ggproto()
-  if (is_corrupted_ggproto(x) || opts_local[["constructor"]] == "next") return(NextMethod())
-  constructor <- constructors$ggproto[[opts_local[["constructor"]]]]
-  constructor(x, opts = opts, ...)
+.cstr_construct.ggproto <- function(x, ...) {
+  opts <- list(...)$opts$ggproto %||% opts_ggproto()
+  if (is_corrupted_ggproto(x) || opts$constructor == "next") return(NextMethod())
+  UseMethod(".cstr_construct.ggproto", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_ggproto <- function(x) {
@@ -26,12 +17,12 @@ is_corrupted_ggproto <- function(x) {
 }
 
 #' @export
-constructors$ggproto$environment <- function(x, ...) {
+.cstr_construct.ggproto.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
-constructors$ggproto$default <- function(x, ..., ggproto.ignore_draw_key = FALSE) {
+.cstr_construct.ggproto.default <- function(x, ..., ggproto.ignore_draw_key = FALSE) {
   if (ggproto.ignore_draw_key) {
     x <- as.list(x)
     x$draw_key <- NULL
