@@ -21,6 +21,7 @@ opts_matrix  <- function(constructor = c("matrix", "array", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct matrix
 .cstr_construct.matrix <- function(x, ...) {
   opts <- list(...)$opts$matrix %||% opts_matrix()
   if (is_corrupted_matrix(x) || opts$constructor == "next") return(NextMethod())
@@ -32,6 +33,7 @@ is_corrupted_matrix <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.matrix matrix
 .cstr_construct.matrix.matrix <- function(x, ...) {
   dim <- attr(x, "dim")
   dimnames <- attr(x, "dimnames")
@@ -47,6 +49,7 @@ is_corrupted_matrix <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.matrix array
 .cstr_construct.matrix.array <- function(x, ...) {
   .cstr_construct.array.array(x, ...)
 }

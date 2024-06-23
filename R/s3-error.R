@@ -5,6 +5,7 @@ opts_error <- function(constructor = c("errorCondition", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct error
 .cstr_construct.error <- function(x, ...) {
   opts <- list(...)$opts$error %||% opts_error()
   if (is_corrupted_error(x) || opts$constructor == "next") return(NextMethod())
@@ -16,6 +17,7 @@ is_corrupted_error <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.error errorCondition
 .cstr_construct.error.errorCondition <- function(x, ...) {
   x_bkp <- x
   x <- unclass(x)

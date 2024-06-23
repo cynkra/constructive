@@ -17,6 +17,7 @@ opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct ts
 .cstr_construct.ts <- function(x, ...) {
   opts <- list(...)$opts$ts %||% opts_ts()
   if (is_corrupted_ts(x) || opts$constructor == "next") return(NextMethod())
@@ -28,6 +29,8 @@ is_corrupted_ts <- function(x) {
   !typeof(x) %in% c("integer", "double")
 }
 
+#' @export
+#' @method .cstr_construct.ts ts
 .cstr_construct.ts.ts <- function(x, ...) {
   x_stripped <- x
   tsp <- attr(x, "tsp")
@@ -37,6 +40,8 @@ is_corrupted_ts <- function(x) {
   repair_attributes_ts(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.ts atomic
 .cstr_construct.ts.atomic <- function(x, ...) {
   # ts can be integer or double
   .cstr_construct.default(x, ...)

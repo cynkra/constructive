@@ -5,6 +5,7 @@ opts_margin <- function(constructor = c("margin", "next", "double"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct margin
 .cstr_construct.margin <- function(x, ...) {
   opts <- list(...)$opts$margin %||% opts_margin()
   if (is_corrupted_margin(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_margin <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.margin double
 .cstr_construct.margin.double <- function(x, ...) {
   .cstr_construct.double(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.margin margin
 .cstr_construct.margin.margin <- function(x, ...) {
   lkp <- c(
     npc = 0L, cm = 1L, inches = 2L, mm = 7L, points = 8L, picas = 9L,

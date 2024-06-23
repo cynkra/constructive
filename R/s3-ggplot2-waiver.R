@@ -5,6 +5,7 @@ opts_waiver <- function(constructor = c("waiver", "next", "list"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct waiver
 .cstr_construct.waiver <- function(x, ...) {
   opts <- list(...)$opts$waiver %||% opts_waiver()
   if (is_corrupted_waiver(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_waiver <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.waiver list
 .cstr_construct.waiver.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.waiver waiver
 .cstr_construct.waiver.waiver <- function(x, ...) {
   code <- "ggplot2::waiver()"
   repair_attributes_waiver(x, code, ...)

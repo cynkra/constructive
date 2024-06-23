@@ -11,6 +11,7 @@ opts_expression <- function(
 }
 
 #' @export
+#' @method .cstr_construct expression
 .cstr_construct.expression <- function(x, ...) {
   opts <- list(...)$opts$expression %||% opts_expression()
   if (is_corrupted_expression(x) || opts$constructor == "next") return(NextMethod())
@@ -21,6 +22,8 @@ is_corrupted_expression <- function(x) {
   typeof(x) != "expression"
 }
 
+#' @export
+#' @method .cstr_construct.expression default
 .cstr_construct.expression.default <- function(x, ...) {
   x_bkp <- x
   # return length 0 object early

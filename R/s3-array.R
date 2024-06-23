@@ -18,6 +18,7 @@ opts_array <- function(constructor = c("array", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct array
 .cstr_construct.array <- function(x, ...) {
   opts <- list(...)$opts$array %||% opts_array()
   if (is_corrupted_array(x) || opts$constructor == "next") return(NextMethod())
@@ -29,6 +30,7 @@ is_corrupted_array <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.array array
 .cstr_construct.array.array <- function(x, ...) {
   # build args for array() call
   x_stripped <- x

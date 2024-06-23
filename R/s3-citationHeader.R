@@ -5,6 +5,7 @@ opts_citationHeader <- function(constructor = c("citHeader", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct citationHeader
 .cstr_construct.citationHeader <- function(x, ...) {
   opts <- list(...)$opts$citationHeader %||% opts_citationHeader()
   if (is_corrupted_citationHeader(x) || opts$constructor == "next") return(NextMethod())
@@ -16,6 +17,7 @@ is_corrupted_citationHeader <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.citationHeader citHeader
 .cstr_construct.citationHeader.citHeader <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "citHeader", ...)
   repair_attributes_citationHeader(x, code, ...)

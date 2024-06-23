@@ -11,6 +11,7 @@ opts_classRepresentation <- function(constructor = c("getClassDef"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct classRepresentation
 .cstr_construct.classRepresentation <- function(x, ...) {
   opts <- list(...)$opts$classRepresentation %||% opts_classRepresentation()
   if (is_corrupted_classRepresentation(x) || opts$constructor == "next") return(NextMethod())
@@ -22,6 +23,8 @@ is_corrupted_classRepresentation <- function(x) {
   !isS4(x)
 }
 
+#' @export
+#' @method .cstr_construct.classRepresentation getClassDef
 .cstr_construct.classRepresentation.getClassDef <- function(x, env, ...) {
   # FIXME: what about multiple classes ? is this considered corrupted in S4 ?
   cl <- x@className

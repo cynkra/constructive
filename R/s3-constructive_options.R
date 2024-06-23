@@ -16,6 +16,7 @@ opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct constructive_options
 .cstr_construct.constructive_options <- function(x, ...) {
   opts <- list(...)$opts$constructive_options %||% opts_constructive_options()
   if (is_corrupted_constructive_options(x) || opts$constructor == "next") return(NextMethod())
@@ -27,6 +28,8 @@ is_corrupted_constructive_options <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.constructive_options opts
 .cstr_construct.constructive_options.opts <- function(x, ...) {
   pattern <- "^constructive_options_(.*)$"
   suffix <- sub(pattern, "\\1", grep(pattern, class(x), value = TRUE))

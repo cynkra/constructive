@@ -19,6 +19,7 @@ opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ...) 
 }
 
 #' @export
+#' @method .cstr_construct quosures
 .cstr_construct.quosures <- function(x, ...) {
   opts <- list(...)$opts$quosures %||% opts_quosures()
   if (is_corrupted_quosures(x) || opts$constructor == "next") return(NextMethod())
@@ -31,6 +32,7 @@ is_corrupted_quosures <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.quosures new_quosures
 .cstr_construct.quosures.new_quosures <- function(x, ...) {
   x_list <- unclass(x)
   # remove names if "" so we avoid repairing the names
@@ -41,6 +43,7 @@ is_corrupted_quosures <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.quosures list
 .cstr_construct.quosures.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }

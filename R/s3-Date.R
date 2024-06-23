@@ -33,6 +33,7 @@ opts_Date <- function(constructor = c("as.Date", "as_date", "date", "new_date", 
 }
 
 #' @export
+#' @method .cstr_construct Date
 .cstr_construct.Date <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
@@ -43,6 +44,8 @@ is_corrupted_Date <- function(x) {
   typeof(x) != "double"
 }
 
+#' @export
+#' @method .cstr_construct.Date as.Date
 .cstr_construct.Date.as.Date <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   origin <- opts$origin
@@ -55,6 +58,8 @@ is_corrupted_Date <- function(x) {
   repair_attributes_Date(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.Date date
 .cstr_construct.Date.date <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   origin <- opts$origin
@@ -67,6 +72,8 @@ is_corrupted_Date <- function(x) {
   repair_attributes_Date(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.Date as_date
 .cstr_construct.Date.as_date <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   origin <- opts$origin
@@ -79,6 +86,8 @@ is_corrupted_Date <- function(x) {
   repair_attributes_Date(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.Date.as.Date numeric
 .cstr_construct.Date.as.Date.numeric <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   origin <- opts$origin
@@ -94,6 +103,8 @@ is_corrupted_Date <- function(x) {
   repair_attributes_Date(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.Date as_date.numeric
 .cstr_construct.Date.as_date.numeric <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   origin <- opts$origin
@@ -113,6 +124,8 @@ is_corrupted_Date <- function(x) {
   repair_attributes_Date(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.Date new_date
 .cstr_construct.Date.new_date <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   origin <- opts$origin
@@ -120,6 +133,8 @@ is_corrupted_Date <- function(x) {
   repair_attributes_Date(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.Date double
 .cstr_construct.Date.double <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   origin <- opts$origin

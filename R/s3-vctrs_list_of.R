@@ -15,6 +15,7 @@ opts_vctrs_list_of <- function(constructor = c("list_of", "next", "list"), ...) 
 }
 
 #' @export
+#' @method .cstr_construct vctrs_list_of
 .cstr_construct.vctrs_list_of <- function(x, ...) {
   opts <- list(...)$opts$vctrs_list_of %||% opts_vctrs_list_of()
   if (is_corrupted_vctrs_list_of(x) || opts$constructor == "next") return(NextMethod())
@@ -26,6 +27,8 @@ is_corrupted_vctrs_list_of <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.vctrs_list_of list_of
 .cstr_construct.vctrs_list_of.list_of <- function(x, ...) {
   code <- .cstr_apply(
     args = c(as.list(x), list(.ptype = attr(x, "ptype"))),
@@ -35,6 +38,8 @@ is_corrupted_vctrs_list_of <- function(x) {
   repair_attributes_vctrs_list_of(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.vctrs_list_of list
 .cstr_construct.vctrs_list_of.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }

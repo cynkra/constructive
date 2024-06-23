@@ -17,6 +17,7 @@ opts_externalptr  <- function(constructor = c("default"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct externalptr
 .cstr_construct.externalptr <- function(x, ...) {
   opts <- list(...)$opts$externalptr %||% opts_externalptr()
   if (is_corrupted_externalptr (x)) return(NextMethod())
@@ -28,6 +29,7 @@ is_corrupted_externalptr <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.externalptr default
 .cstr_construct.externalptr.default <- function(x, ...) {
   code <- sprintf('constructive::.xptr("%s")', external_pointer_address(x))
   repair_attributes_externalptr(x, code, ...)

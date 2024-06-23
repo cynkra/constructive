@@ -5,6 +5,7 @@ opts_simpleWarning <- function(constructor = c("simpleWarning", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct simpleWarning
 .cstr_construct.simpleWarning <- function(x, ...) {
   opts <- list(...)$opts$simpleWarning %||% opts_simpleWarning()
   if (is_corrupted_simpleWarning(x) || opts$constructor == "next") return(NextMethod())
@@ -16,6 +17,7 @@ is_corrupted_simpleWarning <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.simpleWarning simpleWarning
 .cstr_construct.simpleWarning.simpleWarning <- function(x, ...) {
   # we let attributes to the reparation step
   x_bkp <- x

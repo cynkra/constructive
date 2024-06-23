@@ -17,6 +17,7 @@ opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct mts
 .cstr_construct.mts <- function(x, ...) {
   opts <- list(...)$opts$mts %||% opts_mts()
   if (is_corrupted_mts(x) || opts$constructor == "next") return(NextMethod())
@@ -28,6 +29,8 @@ is_corrupted_mts <- function(x) {
   !typeof(x) %in% c("integer", "double")
 }
 
+#' @export
+#' @method .cstr_construct.mts ts
 .cstr_construct.mts.ts <- function(x, ...) {
   x_stripped <- x
   tsp <- attr(x, "tsp")
@@ -36,6 +39,8 @@ is_corrupted_mts <- function(x) {
   .cstr_apply(list(x_stripped, frequency =  tail(tsp, 1), start = tsp[[1]]), "ts", ..., new_line = TRUE)
 }
 
+#' @export
+#' @method .cstr_construct.mts atomic
 .cstr_construct.mts.atomic <- function(x, ...) {
   .cstr_construct.default(x, ...)
 }

@@ -5,6 +5,7 @@ opts_difftime <- function(constructor = c("as.difftime", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct difftime
 .cstr_construct.difftime <- function(x, ...) {
   opts <- list(...)$opts$difftime %||% opts_difftime()
   if (is_corrupted_difftime(x) || opts$constructor == "next") return(NextMethod())
@@ -22,6 +23,7 @@ is_corrupted_difftime <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.difftime as.difftime
 .cstr_construct.difftime.as.difftime <- function(x, ...) {
   x_bkp <- x
   attributes(x) <- attributes(x)["names"]

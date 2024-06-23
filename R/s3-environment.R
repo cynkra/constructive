@@ -88,6 +88,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
 }
 
 #' @export
+#' @method .cstr_construct environment
 .cstr_construct.environment <- function(x, ...) {
   # The name of `asNamespace("pkg")` is always "pkg" and print as `<environment: namespace:pkg>`
   # The name of `as.environment("package:pkg")` is ALMOST always "package:pkg" and prints as
@@ -130,6 +131,8 @@ is_corrupted_environment <- function(x) {
   !is.environment(x)
 }
 
+#' @export
+#' @method .cstr_construct.environment .env
 .cstr_construct.environment..env <- function(x, ...) {
   opts <- list(...)$opts$environment %||% opts_environment()
   args <- c(
@@ -142,6 +145,8 @@ is_corrupted_environment <- function(x) {
   repair_attributes_environment(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.environment list2env
 .cstr_construct.environment.list2env <- function(x, ...) {
   opts <- list(...)$opts$environment %||% opts_environment()
     if (!opts$recurse) {
@@ -169,6 +174,8 @@ is_corrupted_environment <- function(x) {
   repair_attributes_environment(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.environment new_environment
 .cstr_construct.environment.new_environment <- function(x, ...) {
   opts <- list(...)$opts$environment %||% opts_environment()
   if (!opts$recurse) {
@@ -196,11 +203,15 @@ is_corrupted_environment <- function(x) {
   repair_attributes_environment(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.environment new.env
 .cstr_construct.environment.new.env <- function(x, ...) {
   code <- "new.env()"
   repair_attributes_environment(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.environment as.environment
 .cstr_construct.environment.as.environment <- function(x, ...) {
   # We need to use as.list.environment() (via env2list()) because as.list() will only map
   # to as.list.environment() if class was not overriden
@@ -213,6 +224,8 @@ is_corrupted_environment <- function(x) {
   repair_attributes_environment(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.environment topenv
 .cstr_construct.environment.topenv <- function(x, ...) {
   code <- .cstr_construct(topenv(x), ...)
   code

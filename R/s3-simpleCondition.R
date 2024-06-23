@@ -5,6 +5,7 @@ opts_simpleCondition <- function(constructor = c("simpleCondition", "next"), ...
 }
 
 #' @export
+#' @method .cstr_construct simpleCondition
 .cstr_construct.simpleCondition <- function(x, ...) {
   opts <- list(...)$opts$simpleCondition %||% opts_simpleCondition()
   if (is_corrupted_simpleCondition(x) || opts$constructor == "next") return(NextMethod())
@@ -16,6 +17,7 @@ is_corrupted_simpleCondition <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.simpleCondition simpleCondition
 .cstr_construct.simpleCondition.simpleCondition <- function(x, ...) {
   # we let attributes to the reparation step
   x_bkp <- x

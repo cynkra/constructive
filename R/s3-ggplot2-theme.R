@@ -5,6 +5,7 @@ opts_theme <- function(constructor = c("theme", "next", "list"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct theme
 .cstr_construct.theme <- function(x, ...) {
   opts <- list(...)$opts$theme %||% opts_theme()
   if (is_corrupted_theme(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_theme <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.theme list
 .cstr_construct.theme.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.theme theme
 .cstr_construct.theme.theme <- function(x, ...) {
   args <- unclass(x)
   args$complete <- if (attr(x, "complete")) TRUE

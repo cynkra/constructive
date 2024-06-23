@@ -30,6 +30,7 @@ opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"),
 }
 
 #' @export
+#' @method .cstr_construct tbl_df
 .cstr_construct.tbl_df <- function(x, ...) {
   opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
   if (is_corrupted_tbl_df(x) || opts$constructor == "next") return(NextMethod())
@@ -41,11 +42,15 @@ is_corrupted_tbl_df <- function(x) {
   is_corrupted_data.frame(x) || !identical(attr(x, "row.names"), seq_len(nrow(x)))
 }
 
+#' @export
+#' @method .cstr_construct.tbl_df list
 .cstr_construct.tbl_df.list <- function(x, ...) {
   opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
   .cstr_construct.list(x, ...)
 }
 
+#' @export
+#' @method .cstr_construct.tbl_df tibble
 .cstr_construct.tbl_df.tibble <- function(x, ...) {
   opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
   arg_names <- c(".rows", ".name_repair ")
@@ -58,6 +63,8 @@ is_corrupted_tbl_df <- function(x) {
   repair_attributes_tbl_df(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.tbl_df tribble
 .cstr_construct.tbl_df.tribble <- function(x, ...) {
   opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
   # fall back to tibble if no row or has df cols or list cols containing only length 1 elements

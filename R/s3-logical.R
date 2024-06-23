@@ -22,6 +22,7 @@ opts_logical <- function(
 }
 
 #' @export
+#' @method .cstr_construct logical
 .cstr_construct.logical <- function(x, ...) {
   opts <- list(...)$opts$logical %||% opts_logical()
   if (is_corrupted_logical(x) || opts$constructor == "next") return(NextMethod())
@@ -32,7 +33,8 @@ is_corrupted_logical <- function(x) {
   typeof(x) != "logical"
 }
 
-
+#' @export
+#' @method .cstr_construct.logical default
 .cstr_construct.logical.default <- function(x, ...) {
   # return length 0 object early
   if (!length(x)) return("logical(0)")

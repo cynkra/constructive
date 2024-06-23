@@ -17,6 +17,7 @@ opts_grouped_df <- function(constructor = c("default", "next", "list"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct grouped_df
 .cstr_construct.grouped_df <- function(x, ...) {
   opts <- list(...)$opts$grouped_df %||% opts_grouped_df()
   if (is_corrupted_grouped_df(x) || opts$constructor == "next") return(NextMethod())
@@ -28,6 +29,8 @@ is_corrupted_grouped_df <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.grouped_df default
 .cstr_construct.grouped_df.default <- function(x, ...) {
   x_stripped <- x
   class(x_stripped) <- setdiff(class(x_stripped), "grouped_df")
@@ -39,6 +42,8 @@ is_corrupted_grouped_df <- function(x) {
   repair_attributes_grouped_df(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.grouped_df list
 .cstr_construct.grouped_df.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }

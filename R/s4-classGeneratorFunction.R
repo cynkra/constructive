@@ -11,6 +11,7 @@ opts_classGeneratorFunction <- function(constructor = c("setClass"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct classGeneratorFunction
 .cstr_construct.classGeneratorFunction <- function(x, ...) {
   opts <- list(...)$opts$classGeneratorFunction %||% opts_classGeneratorFunction()
   if (is_corrupted_classGeneratorFunction(x) || opts$constructor == "next") return(NextMethod())
@@ -22,6 +23,8 @@ is_corrupted_classGeneratorFunction <- function(x) {
   !isS4(x)
 }
 
+#' @export
+#' @method .cstr_construct.classGeneratorFunction setClass
 .cstr_construct.classGeneratorFunction.setClass <- function(x, env, ...) {
   # FIXME: what about multiple classes ? is this considered corrupted in S4 ?
   cl <- x@className

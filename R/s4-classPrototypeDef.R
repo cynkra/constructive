@@ -11,6 +11,7 @@ opts_classPrototypeDef <- function(constructor = c("prototype"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct classPrototypeDef
 .cstr_construct.classPrototypeDef <- function(x, ...) {
   opts <- list(...)$opts$classPrototypeDef %||% opts_classPrototypeDef()
   if (is_corrupted_classPrototypeDef(x) || opts$constructor == "next") return(NextMethod())
@@ -22,6 +23,8 @@ is_corrupted_classPrototypeDef <- function(x) {
   !isS4(x)
 }
 
+#' @export
+#' @method .cstr_construct.classPrototypeDef prototype
 .cstr_construct.classPrototypeDef.prototype <- function(x, env, ...) {
   object <- x@object
   slots <- getSlots(x)

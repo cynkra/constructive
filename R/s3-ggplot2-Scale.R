@@ -5,6 +5,7 @@ opts_Scale <- function(constructor = c("default", "next", "environment"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct Scale
 .cstr_construct.Scale <- function(x, ...) {
   opts <- list(...)$opts$Scale %||% opts_CoordCartesian()
   if (is_corrupted_Scale(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_Scale <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.Scale environment
 .cstr_construct.Scale.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.Scale default
 .cstr_construct.Scale.default <- function(x, ...) {
   # fetch caller and args from original call
   # here we need the ggplot subsetting method, not the low level [[

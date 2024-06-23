@@ -104,7 +104,7 @@ test_that("complex", {
 
 
 test_that("NA and empty names", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(structure(logical(2), names = c("", "")))
     construct(structure(logical(2), names = c("", NA)))
     construct(structure(logical(2), names = c(NA, NA)))

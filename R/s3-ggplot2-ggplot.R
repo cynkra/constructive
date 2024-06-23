@@ -17,6 +17,7 @@ opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct ggplot
 .cstr_construct.ggplot <- function(x, ...) {
   opts <- list(...)$opts$ggplot %||% opts_ggplot()
   if (is_corrupted_ggplot(x) || opts$constructor == "next") return(NextMethod())
@@ -28,10 +29,14 @@ is_corrupted_ggplot <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.ggplot list
 .cstr_construct.ggplot.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
+#' @export
+#' @method .cstr_construct.ggplot ggplot
 .cstr_construct.ggplot.ggplot <- function(x, ...) {
   ## ggplot call
   code <- construct_ggplot_call(x$mapping, ...)

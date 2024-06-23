@@ -27,6 +27,7 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
 }
 
 #' @export
+#' @method .cstr_construct POSIXct
 .cstr_construct.POSIXct <- function(x, ...) {
   opts <- list(...)$opts$POSIXct %||% opts_POSIXct()
   if (opts$constructor == "next") return(NextMethod())
@@ -43,6 +44,7 @@ is_corrupted_POSIXct <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.POSIXct .POSIXct
 .cstr_construct.POSIXct..POSIXct <- function(x, ...) {
   x_bare <- x
   attributes(x_bare) <- NULL
@@ -53,6 +55,7 @@ is_corrupted_POSIXct <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.POSIXct as.POSIXct.numeric
 .cstr_construct.POSIXct.as.POSIXct.numeric <- function(x, ...) {
   opts <- list(...)$opts$POSIXct %||% opts_POSIXct()
   args <- list(
@@ -65,6 +68,7 @@ is_corrupted_POSIXct <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.POSIXct as_datetime.numeric
 .cstr_construct.POSIXct.as_datetime.numeric <- function(x, ...) {
   opts <- list(...)$opts$POSIXct %||% opts_POSIXct()
   tzone <- attr(x, "tzone")
@@ -80,6 +84,7 @@ is_corrupted_POSIXct <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.POSIXct as_datetime
 .cstr_construct.POSIXct.as_datetime <- function(x, ...) {
   tzone <- attr(x, "tzone")
   x_chr <- format(x)
@@ -93,6 +98,7 @@ is_corrupted_POSIXct <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.POSIXct as_datetime
 .cstr_construct.POSIXct.as_datetime <- function(x, ...) {
   opts <- list(...)$opts$POSIXct %||% opts_POSIXct()
   tzone <- attr(x, "tzone")
@@ -107,6 +113,7 @@ is_corrupted_POSIXct <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.POSIXct as.POSIXct
 .cstr_construct.POSIXct.as.POSIXct <- function(x, ...) {
   tzone <- attr(x, "tzone")
 
@@ -123,6 +130,7 @@ is_corrupted_POSIXct <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.POSIXct atomic
 .cstr_construct.POSIXct.atomic <- function(x, ...) {
   .cstr_construct.default(x, ...)
 }

@@ -5,6 +5,7 @@ opts_ScalesList <- function(constructor = c("ScalesList", "next", "list"), ...) 
 }
 
 #' @export
+#' @method .cstr_construct ScalesList
 .cstr_construct.ScalesList <- function(x, ...) {
   opts <- list(...)$opts$ScalesList %||% opts_ScalesList()
   if (is_corrupted_ScalesList(x) || opts$constructor == "next") return(NextMethod())
@@ -16,11 +17,14 @@ is_corrupted_ScalesList <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.ScalesList environment
 .cstr_construct.ScalesList.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.ScalesList ScalesList
 .cstr_construct.ScalesList.ScalesList <- function(x, ...) {
   # FIXME: appropriate constructors
   if (!length(x$scales)) return(NextMethod(x))

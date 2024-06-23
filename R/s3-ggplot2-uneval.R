@@ -9,6 +9,7 @@ opts_uneval <- function(constructor = c("aes", "next", "list"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct uneval
 .cstr_construct.uneval <- function(x, ...) {
   opts <- list(...)$opts$uneval %||% opts_uneval()
   if (is_corrupted_uneval(x) || opts$constructor == "next") return(NextMethod())
@@ -16,11 +17,13 @@ opts_uneval <- function(constructor = c("aes", "next", "list"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct.uneval list
 .cstr_construct.uneval.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.uneval aes
 .cstr_construct.uneval.aes <- function(x, ...) {
   if (!length(x)) {
     return(

@@ -39,8 +39,8 @@ opts_function <- function(
   .cstr_options("function", constructor = constructor[[1]], environment = environment, srcref = srcref, trim = trim)
 }
 
-
 #' @export
+#' @method .cstr_construct function
 .cstr_construct.function <- function(x, ...) {
   if (rlang::is_primitive(x)) return(deparse(x))
   opts <- list(...)$opts$`function` %||% opts_function()
@@ -52,6 +52,8 @@ is_corrupted_function <- function(x) {
   !is.function(x)
 }
 
+#' @export
+#' @method .cstr_construct.function function
 .cstr_construct.function.function <- function(x, ...) {
   opts <- list(...)$opts$`function` %||% opts_function()
   trim <- opts$trim
@@ -107,6 +109,8 @@ is_corrupted_function <- function(x) {
   repair_attributes_function(x_bkp, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.function as.function
 .cstr_construct.function.as.function <- function(x, ...) {
   opts <- list(...)$opts$`function` %||% opts_function()
   trim <- opts$trim
@@ -137,6 +141,8 @@ is_corrupted_function <- function(x) {
   repair_attributes_function(x_bkp, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.function new_function
 .cstr_construct.function.new_function <- function(x, ...) {
   opts <- list(...)$opts$`function` %||% opts_function()
   trim <- opts$trim

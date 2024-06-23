@@ -5,6 +5,7 @@ opts_simpleError <- function(constructor = c("simpleError", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct simpleError
 .cstr_construct.simpleError <- function(x, ...) {
   opts <- list(...)$opts$simpleError %||% opts_simpleError()
   if (is_corrupted_simpleError(x) || opts$constructor == "next") return(NextMethod())
@@ -16,6 +17,7 @@ is_corrupted_simpleError <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.simpleError simpleError
 .cstr_construct.simpleError.simpleError <- function(x, ...) {
   # we let attributes to the reparation step
   x_bkp <- x

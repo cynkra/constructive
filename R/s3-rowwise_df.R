@@ -17,6 +17,7 @@ opts_rowwise_df <- function(constructor = c("default", "next", "list"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct rowwise_df
 .cstr_construct.rowwise_df <- function(x, ...) {
   opts <- list(...)$opts$rowwise_df %||% opts_rowwise_df()
   if (is_corrupted_rowwise_df(x) || opts$constructor == "next") return(NextMethod())
@@ -28,6 +29,8 @@ is_corrupted_rowwise_df <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.rowwise_df default
 .cstr_construct.rowwise_df.default <- function(x, ...) {
   x_stripped <- x
   class(x_stripped) <- setdiff(class(x_stripped), "rowwise_df")
@@ -39,6 +42,8 @@ is_corrupted_rowwise_df <- function(x) {
   repair_attributes_rowwise_df(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.rowwise_df list
 .cstr_construct.rowwise_df.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }

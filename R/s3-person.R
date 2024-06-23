@@ -5,6 +5,7 @@ opts_person <- function(constructor = c("person", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct person
 .cstr_construct.person <- function(x, ...) {
   opts <- list(...)$opts$person %||% opts_person()
   if (is_corrupted_person(x) || opts$constructor == "next") return(NextMethod())
@@ -22,6 +23,7 @@ is_corrupted_person <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.person person
 .cstr_construct.person.person <- function(x, ...) {
   args <- unclass(unclass(x)[[1]])
   args <- Filter(Negate(is.null), args)

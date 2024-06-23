@@ -5,6 +5,7 @@ opts_CoordTrans <- function(constructor = c("coord_trans", "next", "environment"
 }
 
 #' @export
+#' @method .cstr_construct CoordTrans
 .cstr_construct.CoordTrans <- function(x, ...) {
   opts <- list(...)$opts$CoordTrans %||% opts_CoordTrans()
   if (is_corrupted_CoordTrans(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_CoordTrans <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.CoordTrans environment
 .cstr_construct.CoordTrans.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.CoordTrans coord_trans
 .cstr_construct.CoordTrans.coord_trans <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,

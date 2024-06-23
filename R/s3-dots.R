@@ -19,6 +19,7 @@ opts_dots <- function(constructor = c("default"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct dots
 .cstr_construct.dots <- function(x, ...) {
   opts <- list(...)$opts$dots %||% opts_dots()
   if (is_corrupted_dots(x)) return(NextMethod())
@@ -29,6 +30,8 @@ is_corrupted_dots <- function(x) {
   typeof(x) != "..."
 }
 
+#' @export
+#' @method .cstr_construct.dots default
 .cstr_construct.dots.default <- function(x, ...) {
   quo_dots <- with(list(... = x), rlang::enquos(...))
   envs <- lapply(quo_dots, rlang::quo_get_env)

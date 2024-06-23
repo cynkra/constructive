@@ -5,6 +5,7 @@ opts_CoordCartesian <- function(constructor = c("coord_cartesian", "next", "envi
 }
 
 #' @export
+#' @method .cstr_construct CoordCartesian
 .cstr_construct.CoordCartesian <- function(x, ...) {
   opts <- list(...)$opts$CoordCartesian %||% opts_CoordCartesian()
   if (is_corrupted_CoordCartesian(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_CoordCartesian <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.CoordCartesian environment
 .cstr_construct.CoordCartesian.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.CoordCartesian coord_cartesian
 .cstr_construct.CoordCartesian.coord_cartesian <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,

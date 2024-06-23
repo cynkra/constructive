@@ -18,6 +18,7 @@ opts_language  <- function(constructor = c("default"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct language
 .cstr_construct.language <- function(x, ...) {
   opts <- list(...)$opts$language %||% opts_language()
   if (is_corrupted_language(x)) return(NextMethod())
@@ -28,6 +29,8 @@ is_corrupted_language <- function(x) {
   !typeof(x) %in% c("language", "symbol", "expression")
 }
 
+#' @export
+#' @method .cstr_construct.language default
 .cstr_construct.language.default <- function(x, ...) {
   if (identical(x, quote(expr=))) return("quote(expr = )")
   x_stripped <- x
