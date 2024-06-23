@@ -23,6 +23,7 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "ne
 }
 
 #' @export
+#' @method .cstr_construct factor
 .cstr_construct.factor <- function(x, ...) {
   opts <- list(...)$opts$factor %||% opts_factor()
   if (is_corrupted_factor(x) || opts$constructor == "next") return(NextMethod())
@@ -34,16 +35,22 @@ is_corrupted_factor <- function(x) {
   typeof(x) != "integer"
 }
 
+#' @export
+#' @method .cstr_construct.factor integer
 .cstr_construct.factor.integer <- function(x, ...) {
   .cstr_construct.integer(x, ...)
 }
 
+#' @export
+#' @method .cstr_construct.factor new_factor
 .cstr_construct.factor.new_factor <- function(x, ...) {
   levs <- levels(x)
   code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_factor", ...)
   repair_attributes_factor(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.factor as_factor
 .cstr_construct.factor.as_factor <- function(x, ...) {
   levs <- levels(x)
   x_chr <- as.character(x)
@@ -53,6 +60,8 @@ is_corrupted_factor <- function(x) {
   repair_attributes_factor(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.factor factor
 .cstr_construct.factor.factor <- function(x, ...) {
   levs <- levels(x)
   x_chr <- as.character(x)

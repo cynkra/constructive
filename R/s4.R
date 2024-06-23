@@ -13,6 +13,7 @@ opts_S4 <- function(constructor = c("new"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct S4
 .cstr_construct.S4 <- function(x, ...) {
   opts <- list(...)$opts$S4 %||% opts_S4()
   if (is_corrupted_S4(x) || opts$constructor == "next") return(NextMethod())
@@ -23,6 +24,8 @@ is_corrupted_S4 <- function(x) {
   !isS4(x)
 }
 
+#' @export
+#' @method .cstr_construct.S4 new
 .cstr_construct.S4.new <- function(x, env, ...) {
   cl <- class(x)
   if (

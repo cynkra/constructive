@@ -5,6 +5,7 @@ opts_rel <- function(constructor = c("rel", "next", "double"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct rel
 .cstr_construct.rel <- function(x, ...) {
   opts <- list(...)$opts$rel %||% opts_rel()
   if (is_corrupted_rel(x) || opts$constructor == "next") return(NextMethod())
@@ -19,12 +20,14 @@ is_corrupted_rel <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.rel double
 .cstr_construct.rel.double <- function(x, ...) {
   if (!is.double(x)) return(.cstr_construct.default(x, ...))
   .cstr_construct.double(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.rel rel
 .cstr_construct.rel.rel <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "ggplot2::rel", ...)
   repair_attributes_rel(x, code, ...)

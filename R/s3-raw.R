@@ -22,6 +22,7 @@ opts_raw <- function(
 }
 
 #' @export
+#' @method .cstr_construct raw
 .cstr_construct.raw <- function(x, ...) {
   opts <- list(...)$opts$raw %||% opts_raw()
   if (is_corrupted_raw(x) || opts$constructor == "next") return(NextMethod())
@@ -32,7 +33,8 @@ is_corrupted_raw <- function(x) {
   typeof(x) != "raw"
 }
 
-
+#' @export
+#' @method .cstr_construct.raw default
 .cstr_construct.raw.default <- function(x, ...) {
   # return length 0 object early
   if (!length(x)) return("raw(0)")

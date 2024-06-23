@@ -17,6 +17,7 @@ opts_numeric_version  <- function(constructor = c("numeric_version", "next", "li
 }
 
 #' @export
+#' @method .cstr_construct numeric_version
 .cstr_construct.numeric_version <- function(x, ...) {
   opts <- list(...)$opts$numeric_version %||% opts_numeric_version()
   if (is_corrupted_numeric_version(x) || opts$constructor == "next") return(NextMethod())
@@ -28,11 +29,15 @@ is_corrupted_numeric_version <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.numeric_version numeric_version
 .cstr_construct.numeric_version.numeric_version <- function(x, ...) {
   code <- .cstr_apply(paste(x, collapse = "."), "numeric_version", ...)
   repair_attributes_numeric_version(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.numeric_version list
 .cstr_construct.numeric_version.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
@@ -60,6 +65,7 @@ opts_package_version  <- function(constructor = c("package_version", "next", "li
 }
 
 #' @export
+#' @method .cstr_construct package_version
 .cstr_construct.package_version <- function(x, ...) {
   opts <- list(...)$opts$package_version %||% opts_package_version()
   if (is_corrupted_package_version(x) || opts$constructor == "next") return(NextMethod())
@@ -71,11 +77,15 @@ is_corrupted_package_version <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.package_version package_version
 .cstr_construct.package_version.package_version <- function(x, ...) {
   code <- .cstr_apply(paste(x, collapse = "."), "package_version", ...)
   repair_attributes_package_version(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.package_version list
 .cstr_construct.package_version.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
@@ -103,6 +113,7 @@ opts_R_system_version  <- function(constructor = c("R_system_version", "next", "
 }
 
 #' @export
+#' @method .cstr_construct R_system_version
 .cstr_construct.R_system_version <- function(x, ...) {
   opts <- list(...)$opts$R_system_version %||% opts_R_system_version()
   if (is_corrupted_R_system_version(x) || opts$constructor == "next") return(NextMethod())
@@ -114,11 +125,15 @@ is_corrupted_R_system_version <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.R_system_version R_system_version
 .cstr_construct.R_system_version.R_system_version <- function(x, ...) {
   code <- .cstr_apply(paste(x, collapse = "."), "R_system_version", ...)
   repair_attributes_R_system_version(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.R_system_version list
 .cstr_construct.R_system_version.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }

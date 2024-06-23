@@ -5,6 +5,7 @@ opts_warning <- function(constructor = c("warningCondition", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct warning
 .cstr_construct.warning <- function(x, ...) {
   opts <- list(...)$opts$warning %||% opts_warning()
   if (is_corrupted_warning(x) || opts$constructor == "next") return(NextMethod())
@@ -16,6 +17,7 @@ is_corrupted_warning <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.warning warningCondition
 .cstr_construct.warning.warningCondition <- function(x, ...) {
   x_bkp <- x
   x <- unclass(x)

@@ -5,6 +5,7 @@ opts_element_rect <- function(constructor = c("element_rect", "next", "list"), .
 }
 
 #' @export
+#' @method .cstr_construct element_rect
 .cstr_construct.element_rect <- function(x, ...) {
   opts <- list(...)$opts$element_rect %||% opts_element_rect()
   if (is_corrupted_element_rect(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_element_rect <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.element_rect list
 .cstr_construct.element_rect.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.element_rect element_rect
 .cstr_construct.element_rect.element_rect <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_rect)
   code <- .cstr_apply(args, "ggplot2::element_rect", ...)

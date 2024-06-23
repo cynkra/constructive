@@ -24,6 +24,7 @@ opts_formula <- function(constructor = c("default", "formula", "as.formula", "ne
 }
 
 #' @export
+#' @method .cstr_construct formula
 .cstr_construct.formula <- function(x, ..., env = parent.frame()) {
   opts <- list(...)$opts$formula %||% opts_formula()
   if (is_corrupted_formula(x) || opts$constructor == "next") return(NextMethod())
@@ -34,6 +35,8 @@ is_corrupted_formula <- function(x) {
   !is.call(x) || !identical(.subset2(x, 1), quote(`~`))
 }
 
+#' @export
+#' @method .cstr_construct.formula default
 .cstr_construct.formula.default <- function(x, ..., env) {
   opts <- list(...)$opts$formula %||% opts_formula()
   env_is_default <- identical(attr(x, ".Environment"), env)
@@ -41,7 +44,8 @@ is_corrupted_formula <- function(x) {
   repair_attributes_formula(x, code, ..., ignore_env_attr = env_is_default || !opts$environment)
 }
 
-
+#' @export
+#' @method .cstr_construct.formula new_formula
 .cstr_construct.formula.new_formula <- function(x, ..., env) {
   opts <- list(...)$opts$formula %||% opts_formula()
   env_is_default <- identical(attr(x, ".Environment"), env)
@@ -56,6 +60,8 @@ is_corrupted_formula <- function(x) {
   repair_attributes_formula(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.formula formula
 .cstr_construct.formula.formula <- function(x, ..., env) {
   opts <- list(...)$opts$formula %||% opts_formula()
   env_is_default <- identical(attr(x, ".Environment"), env)
@@ -67,6 +73,8 @@ is_corrupted_formula <- function(x) {
   repair_attributes_formula(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.formula as.formula
 .cstr_construct.formula.as.formula <- function(x, ..., env) {
   opts <- list(...)$opts$formula %||% opts_formula()
   env_is_default <- identical(attr(x, ".Environment"), env)

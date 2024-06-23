@@ -16,7 +16,9 @@
 opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
   .cstr_options("dm", constructor = constructor[[1]], ...)
 }
+
 #' @export
+#' @method .cstr_construct dm
 .cstr_construct.dm <- function(x, ...) {
   opts <- list(...)$opts$dm %||% opts_dm()
   if (is_corrupted_dm(x) || opts$constructor == "next") return(NextMethod())
@@ -28,6 +30,8 @@ is_corrupted_dm <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.dm dm
 .cstr_construct.dm.dm <- function(x, ...) {
   def <- unclass(x)$def
   named_list_of_tables <- set_names(def$data, def$table)
@@ -90,6 +94,8 @@ is_corrupted_dm <- function(x) {
   repair_attributes_dm(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.dm list
 .cstr_construct.dm.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }

@@ -5,6 +5,7 @@ opts_element_blank <- function(constructor = c("element_blank", "next", "list"),
 }
 
 #' @export
+#' @method .cstr_construct element_blank
 .cstr_construct.element_blank <- function(x, ...) {
   opts <- list(...)$opts$element_blank %||% opts_element_blank()
   if (is_corrupted_element_blank(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_element_blank <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.element_blank list
 .cstr_construct.element_blank.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.element_blank element_blank
 .cstr_construct.element_blank.element_blank <- function(x, ...) {
   code <- "ggplot2::element_blank()"
   repair_attributes_element_blank(x, code, ...)

@@ -21,6 +21,7 @@ opts_Layer <- function(constructor = c("default", "layer", "next", "environment"
 }
 
 #' @export
+#' @method .cstr_construct Layer
 .cstr_construct.Layer <- function(x, ...) {
   opts <- list(...)$opts$Layer %||% opts_Layer()
   if (is_corrupted_Layer(x) || opts$constructor == "next") return(NextMethod())
@@ -33,10 +34,13 @@ is_corrupted_Layer <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.Layer environment
 .cstr_construct.Layer.environment <- function(x, ..., env) {
   .cstr_construct.environment(x, ...)
 }
 
+#' @export
+#' @method .cstr_construct.Layer default
 .cstr_construct.Layer.default <- function(x, env, ...) {
   constructor <- x$constructor
   caller_lng <- constructor[[1]]
@@ -54,6 +58,8 @@ is_corrupted_Layer <- function(x) {
   .cstr_apply(args, caller_chr, env = env, ...)
 }
 
+#' @export
+#' @method .cstr_construct.Layer layer
 .cstr_construct.Layer.layer <- function(x, ...) {
   # reconstruct the parameters from layer()
   # layer(

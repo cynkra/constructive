@@ -21,6 +21,7 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", 
 }
 
 #' @export
+#' @method .cstr_construct data.frame
 .cstr_construct.data.frame <- function(x, ...) {
   opts <- list(...)$opts$data.frame %||% opts_data.frame()
   if (is_corrupted_data.frame(x) || opts$constructor == "next") return(NextMethod())
@@ -48,10 +49,14 @@ is_corrupted_data.frame <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.data.frame list
 .cstr_construct.data.frame.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
+#' @export
+#' @method .cstr_construct.data.frame read.table
 .cstr_construct.data.frame.read.table <- function(x, ...) {
   # Fall back on data.frame constructor if relevant
   if (!nrow(x)) {
@@ -117,7 +122,8 @@ align_numerics <- function(x) {
   paste0(x, strrep(" ", max(digits) - digits))
 }
 
-
+#' @export
+#' @method .cstr_construct.data.frame data.frame
 .cstr_construct.data.frame.data.frame <- function(x, ...) {
   # Fall back on list constructor if relevant
   df_has_list_cols <- any(sapply(x, function(col) is.list(col) && !inherits(col, "AsIs")))

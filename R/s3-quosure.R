@@ -19,6 +19,7 @@ opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ...
 }
 
 #' @export
+#' @method .cstr_construct quosure
 .cstr_construct.quosure <- function(x, ...) {
   opts <- list(...)$opts[["quosure"]] %||% opts_quosure()
   if (is_corrupted_quosure(x) || opts$constructor == "next") return(NextMethod())
@@ -31,6 +32,7 @@ is_corrupted_quosure <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.quosure new_quosure
 .cstr_construct.quosure.new_quosure <- function(x, env = NULL, ...) {
   if (identical(env, attr(x, ".Environment"))) {
     code <- .cstr_apply(list(rlang::quo_squash(x)), "rlang::new_quosure", ...)
@@ -41,6 +43,7 @@ is_corrupted_quosure <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.quosure language
 .cstr_construct.quosure.language <- function(x, ...) {
   .cstr_construct.language(x, ...)
 }

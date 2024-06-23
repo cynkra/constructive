@@ -23,6 +23,7 @@ opts_integer64 <- function(constructor = c("as.integer64", "next", "double"), ..
 }
 
 #' @export
+#' @method .cstr_construct integer64
 .cstr_construct.integer64 <- function(x, ...) {
   opts <- list(...)$opts$integer64 %||% opts_integer64()
   if (is_corrupted_integer64(x) || opts$constructor == "next") return(NextMethod())
@@ -33,10 +34,14 @@ is_corrupted_integer64 <- function(x) {
   typeof(x) != "double"
 }
 
+#' @export
+#' @method .cstr_construct.integer64 double
 .cstr_construct.integer64.double <- function(x, ...) {
   .cstr_construct.double(x, ...)
 }
 
+#' @export
+#' @method .cstr_construct.integer64 as.integer64
 .cstr_construct.integer64.as.integer64 <- function(x, ...) {
   code <- .cstr_apply(list(trimws(format(x))), "bit64::as.integer64", ...)
   repair_attributes_integer64(x, code, ...)

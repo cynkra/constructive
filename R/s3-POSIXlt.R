@@ -19,6 +19,7 @@ opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "list"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct POSIXlt
 .cstr_construct.POSIXlt <- function(x, ...) {
   opts <- list(...)$opts$POSIXlt %||% opts_POSIXlt()
   if (is_corrupted_POSIXlt(x) || opts$constructor == "next") return(NextMethod())
@@ -30,6 +31,8 @@ is_corrupted_POSIXlt <- function(x) {
   FALSE
 }
 
+#' @export
+#' @method .cstr_construct.POSIXlt as.POSIXlt
 .cstr_construct.POSIXlt.as.POSIXlt <- function(x, ...) {
   if (with_versions(R < "4.3.0")) {
     gmtoff <- .subset2(x, "gmtoff")
@@ -53,6 +56,8 @@ is_corrupted_POSIXlt <- function(x) {
   repair_attributes_POSIXlt(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.POSIXlt list
 .cstr_construct.POSIXlt.list <- function(x, ...) {
   code <- .cstr_construct.list(x, ...)
   repair_attributes_POSIXlt(x, code, ...)

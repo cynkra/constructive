@@ -14,6 +14,7 @@ opts_pairlist <- function(constructor = c("pairlist", "pairlist2"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct pairlist
 .cstr_construct.pairlist <- function(x, ...) {
   opts <- list(...)$opts$pairlist %||% opts_pairlist()
   if (is_corrupted_pairlist(x)) return(NextMethod())
@@ -24,11 +25,15 @@ is_corrupted_pairlist <- function(x) {
   typeof(x) != "pairlist"
 }
 
+#' @export
+#' @method .cstr_construct.pairlist pairlist
 .cstr_construct.pairlist.pairlist <- function(x, ...) {
   code <- .cstr_apply(x, "pairlist", ...)
   repair_attributes_pairlist(x, code, ...)
 }
 
+#' @export
+#' @method .cstr_construct.pairlist pairlist2
 .cstr_construct.pairlist.pairlist2 <- function(x, ...) {
   code <- .cstr_apply(x, "rlang::pairlist2", ...)
   repair_attributes_pairlist(x, code, ...)

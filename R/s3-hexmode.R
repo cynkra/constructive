@@ -7,6 +7,7 @@ opts_hexmode <- function(constructor = c("as.hexmode", "next"), ..., integer = F
 }
 
 #' @export
+#' @method .cstr_construct hexmode
 .cstr_construct.hexmode <- function(x, ...) {
   opts <- list(...)$opts$hexmode %||% opts_hexmode()
   if (is_corrupted_hexmode(x) || opts$constructor == "next") return(NextMethod())
@@ -18,6 +19,7 @@ is_corrupted_hexmode <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.hexmode as.hexmode
 .cstr_construct.hexmode.as.hexmode <- function(x, ...) {
   opts <- list(...)$opts$hexmode %||% opts_hexmode()
   # we let attributes to the reparation step

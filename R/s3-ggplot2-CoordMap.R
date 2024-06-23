@@ -5,6 +5,7 @@ opts_CoordMap <- function(constructor = c("coord_map", "next", "environment"), .
 }
 
 #' @export
+#' @method .cstr_construct CoordMap
 .cstr_construct.CoordMap <- function(x, ...) {
   opts <- list(...)$opts$CoordMap %||% opts_CoordMap()
   if (is_corrupted_CoordMap(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_CoordMap <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.CoordMap environment
 .cstr_construct.CoordMap.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.CoordMap coord_map
 .cstr_construct.CoordMap.coord_map <- function(x, ...) {
   args <- c(
     list(projection = x$projection),

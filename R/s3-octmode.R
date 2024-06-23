@@ -6,6 +6,7 @@ opts_octmode <- function(constructor = c("as.octmode", "next"), ..., integer = F
 }
 
 #' @export
+#' @method .cstr_construct octmode
 .cstr_construct.octmode <- function(x, ...) {
   opts <- list(...)$opts$octmode %||% opts_octmode()
   if (is_corrupted_octmode(x) || opts$constructor == "next") return(NextMethod())
@@ -17,6 +18,7 @@ is_corrupted_octmode <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.octmode as.octmode
 .cstr_construct.octmode.as.octmode <- function(x, ...) {
   opts <- list(...)$opts$octmode %||% opts_octmode()
   # we let attributes to the reparation step

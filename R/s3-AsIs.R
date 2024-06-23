@@ -17,6 +17,7 @@ opts_AsIs <- function(constructor = c("I", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct AsIs
 .cstr_construct.AsIs <- function(x, ...) {
   opts <- list(...)$opts$AsIs %||% opts_AsIs()
   if (is_corrupted_AsIs(x) || opts$constructor == "next") return(NextMethod())
@@ -27,6 +28,8 @@ is_corrupted_AsIs <- function(x) {
   oldClass(x)[[1]] != "AsIs"
 }
 
+#' @export
+#' @method .cstr_construct.AsIs I
 .cstr_construct.AsIs.I <- function(x, ...) {
   x_stripped <- x
   cl <- oldClass(x)

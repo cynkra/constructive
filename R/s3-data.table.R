@@ -21,6 +21,7 @@ opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., 
 }
 
 #' @export
+#' @method .cstr_construct data.table
 .cstr_construct.data.table <- function(x, ...) {
   opts <- list(...)$opts$data.table %||% opts_data.table()
   if (is_corrupted_data.table(x) || opts$constructor == "next") return(NextMethod())
@@ -31,10 +32,14 @@ is_corrupted_data.table <- function(x) {
   is_corrupted_data.frame(x)
 }
 
+#' @export
+#' @method .cstr_construct.data.table list
 .cstr_construct.data.table.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
+#' @export
+#' @method .cstr_construct.data.table data.table
 .cstr_construct.data.table.data.table <- function(x, ...) {
   opts <- list(...)$opts$data.table %||% opts_data.table()
   # Fall back on list constructor if relevant

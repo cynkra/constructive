@@ -13,6 +13,7 @@ opts_weakref <- function(constructor = c("new_weakref"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct weakref
 .cstr_construct.weakref <- function(x, ...) {
   opts <- list(...)$opts$weakref %||% opts_weakref()
   if (is_corrupted_weakref(x) || opts$constructor == "next") return(NextMethod())
@@ -23,6 +24,8 @@ is_corrupted_weakref <- function(x) {
   !rlang::is_weakref(x)
 }
 
+#' @export
+#' @method .cstr_construct.weakref new_weakref
 .cstr_construct.weakref.new_weakref <- function(x, ...) {
   args <- list(rlang::wref_key(x))
   # assigned this way so no element is added if NULL

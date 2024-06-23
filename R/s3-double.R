@@ -22,6 +22,7 @@ opts_double <- function(
 }
 
 #' @export
+#' @method .cstr_construct double
 .cstr_construct.double <- function(x, ...) {
   opts <- list(...)$opts$double %||% opts_double()
   if (is_corrupted_double(x) || opts$constructor == "next") return(NextMethod())
@@ -32,7 +33,8 @@ is_corrupted_double <- function(x) {
   typeof(x) != "double"
 }
 
-
+#' @export
+#' @method .cstr_construct.double default
 .cstr_construct.double.default <- function(x, ...) {
   # return length 0 object early
   if (!length(x)) return("numeric(0)")

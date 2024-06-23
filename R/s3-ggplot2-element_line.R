@@ -5,6 +5,7 @@ opts_element_line <- function(constructor = c("element_line", "next", "list"), .
 }
 
 #' @export
+#' @method .cstr_construct element_line
 .cstr_construct.element_line <- function(x, ...) {
   opts <- list(...)$opts$element_line %||% opts_element_line()
   if (is_corrupted_element_line(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_element_line <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.element_line list
 .cstr_construct.element_line.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.element_line element_line
 .cstr_construct.element_line.element_line <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_line)
   code <- .cstr_apply(args, "ggplot2::element_line", ...)

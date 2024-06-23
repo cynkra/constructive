@@ -5,6 +5,7 @@ opts_CoordSf <- function(constructor = c("coord_sf", "next", "environment"), ...
 }
 
 #' @export
+#' @method .cstr_construct CoordSf
 .cstr_construct.CoordSf <- function(x, ...) {
   opts <- list(...)$opts$CoordSf %||% opts_CoordSf()
   if (is_corrupted_CoordSf(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_CoordSf <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.CoordSf environment
 .cstr_construct.CoordSf.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.CoordSf coord_sf
 .cstr_construct.CoordSf.coord_sf <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,

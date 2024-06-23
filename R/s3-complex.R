@@ -22,6 +22,7 @@ opts_complex <- function(
 }
 
 #' @export
+#' @method .cstr_construct complex
 .cstr_construct.complex <- function(x, ...) {
   opts <- list(...)$opts$complex %||% opts_complex()
   if (is_corrupted_complex(x) || opts$constructor == "next") return(NextMethod())
@@ -32,7 +33,8 @@ is_corrupted_complex <- function(x) {
   typeof(x) != "complex"
 }
 
-
+#' @export
+#' @method .cstr_construct.complex default
 .cstr_construct.complex.default <- function(x, ...) {
   # return length 0 object early
   if (!length(x)) return("complex(0)")

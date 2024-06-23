@@ -5,6 +5,7 @@ opts_CoordQuickmap <- function(constructor = c("coord_quickmap", "next", "enviro
 }
 
 #' @export
+#' @method .cstr_construct CoordQuickmap
 .cstr_construct.CoordQuickmap <- function(x, ...) {
   opts <- list(...)$opts$CoordQuickmap %||% opts_CoordQuickmap()
   if (is_corrupted_CoordQuickmap(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_CoordQuickmap <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.CoordQuickmap environment
 .cstr_construct.CoordQuickmap.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.CoordQuickmap coord_quickmap
 .cstr_construct.CoordQuickmap.coord_quickmap <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,

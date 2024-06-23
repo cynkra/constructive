@@ -5,6 +5,7 @@ opts_citationFooter <- function(constructor = c("citFooter", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct citationFooter
 .cstr_construct.citationFooter <- function(x, ...) {
   opts <- list(...)$opts$citationFooter %||% opts_citationFooter()
   if (is_corrupted_citationFooter(x) || opts$constructor == "next") return(NextMethod())
@@ -16,6 +17,7 @@ is_corrupted_citationFooter <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.citationFooter citFooter
 .cstr_construct.citationFooter.citFooter <- function(x, ...) {
   code <- .cstr_apply(list(unclass(x)), "citFooter", ...)
   repair_attributes_citationFooter(x, code, ...)

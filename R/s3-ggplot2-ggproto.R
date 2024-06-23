@@ -5,6 +5,7 @@ opts_ggproto <- function(constructor = c("default", "next", "environment"), ...)
 }
 
 #' @export
+#' @method .cstr_construct ggproto
 .cstr_construct.ggproto <- function(x, ...) {
   opts <- list(...)$opts$ggproto %||% opts_ggproto()
   if (is_corrupted_ggproto(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_ggproto <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.ggproto environment
 .cstr_construct.ggproto.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.ggproto default
 .cstr_construct.ggproto.default <- function(x, ..., ggproto.ignore_draw_key = FALSE) {
   if (ggproto.ignore_draw_key) {
     x <- as.list(x)

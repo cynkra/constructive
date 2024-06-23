@@ -5,6 +5,7 @@ opts_CoordFixed <- function(constructor = c("coord_fixed", "next", "environment"
 }
 
 #' @export
+#' @method .cstr_construct CoordFixed
 .cstr_construct.CoordFixed <- function(x, ...) {
   opts <- list(...)$opts$CoordFixed %||% opts_CoordFixed()
   if (is_corrupted_CoordFixed(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_CoordFixed <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.CoordFixed environment
 .cstr_construct.CoordFixed.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.CoordFixed coord_fixed
 .cstr_construct.CoordFixed.coord_fixed <- function(x, ...) {
   args <- list(
   xlim = x$limits$x,

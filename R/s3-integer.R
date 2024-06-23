@@ -22,6 +22,7 @@ opts_integer <- function(
 }
 
 #' @export
+#' @method .cstr_construct integer
 .cstr_construct.integer <- function(x, ...) {
   opts <- list(...)$opts$integer %||% opts_integer()
   if (is_corrupted_integer(x) || opts$constructor == "next") return(NextMethod())
@@ -32,7 +33,8 @@ is_corrupted_integer <- function(x) {
   typeof(x) != "integer"
 }
 
-
+#' @export
+#' @method .cstr_construct.integer default
 .cstr_construct.integer.default <- function(x, ...) {
   # return length 0 object early
   if (!length(x)) return("integer(0)")

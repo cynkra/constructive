@@ -5,6 +5,7 @@ opts_element_render <- function(constructor = c("element_render", "next", "list"
 }
 
 #' @export
+#' @method .cstr_construct element_render
 .cstr_construct.element_render <- function(x, ...) {
   opts <- list(...)$opts$element_render %||% opts_element_render()
   if (is_corrupted_element_render(x) || opts$constructor == "next") return(NextMethod())
@@ -17,11 +18,13 @@ is_corrupted_element_render <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.element_render list
 .cstr_construct.element_render.list <- function(x, ...) {
   .cstr_construct.list(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.element_render element_render
 .cstr_construct.element_render.element_render <- function(x, ...) {
   args <- keep_only_non_defaults(unclass(x), ggplot2::element_render)
   code <- .cstr_apply(args, "ggplot2::element_render", ...)

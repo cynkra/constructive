@@ -5,6 +5,7 @@ opts_bibentry <- function(constructor = c("bibentry", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct bibentry
 .cstr_construct.bibentry <- function(x, ...) {
   opts <- list(...)$opts$bibentry %||% opts_bibentry()
   if (is_corrupted_bibentry(x) || opts$constructor == "next") return(NextMethod())
@@ -30,6 +31,7 @@ is_corrupted_bibentry <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.bibentry bibentry
 .cstr_construct.bibentry.bibentry <- function(x, ...) {
   is_footer_header <- length(x) == 0
   if (is_footer_header) {

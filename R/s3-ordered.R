@@ -22,6 +22,7 @@ opts_ordered <- function(constructor = c("ordered", "factor", "new_ordered", "ne
 }
 
 #' @export
+#' @method .cstr_construct ordered
 .cstr_construct.ordered <- function(x, ...) {
   opts <- list(...)$opts$ordered %||% opts_ordered()
   if (is_corrupted_ordered(x) || opts$constructor == "next") return(NextMethod())
@@ -34,6 +35,7 @@ is_corrupted_ordered <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.ordered ordered
 .cstr_construct.ordered.ordered <- function(x, ...) {
   levs <- levels(x)
   args <- list(setNames(as.character(x), names(x)))
@@ -49,6 +51,7 @@ is_corrupted_ordered <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.ordered factor
 .cstr_construct.ordered.factor <- function(x, ...) {
   levs <- levels(x)
   args <- list(setNames(as.character(x), names(x)))
@@ -60,8 +63,8 @@ is_corrupted_ordered <- function(x) {
   repair_attributes_ordered(x, code, ...)
 }
 
-
 #' @export
+#' @method .cstr_construct.ordered new_ordered
 .cstr_construct.ordered.new_ordered <- function(x, ...) {
   levs <- levels(x)
   code <- .cstr_apply(list(setNames(as.integer(x), names(x)), levels = levs), "vctrs::new_ordered", ...)
@@ -69,6 +72,7 @@ is_corrupted_ordered <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.ordered integer
 .cstr_construct.ordered.integer <- function(x, ...) {
   .cstr_construct.integer(x, ...)
 }

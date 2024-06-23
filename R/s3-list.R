@@ -40,6 +40,7 @@ opts_list <- function(
 }
 
 #' @export
+#' @method .cstr_construct list
 .cstr_construct.list <- function(x, ...) {
   opts <- list(...)$opts$list %||% opts_list()
   if (is_corrupted_list(x)) return(NextMethod())
@@ -80,6 +81,7 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
 }
 
 #' @export
+#' @method .cstr_construct.list list
 .cstr_construct.list.list <- function(x, ...) {
   opts <- list(...)$opts$list %||% opts_list()
   code <- construct_list(x, "list", opts$trim, opts$fill, trailing_comma = FALSE, ...)
@@ -87,6 +89,7 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
 }
 
 #' @export
+#' @method .cstr_construct.list list2
 .cstr_construct.list.list2 <- function(x, ...) {
   opts <- list(...)$opts$list %||% opts_list()
   code <- construct_list(x, "rlang::list2", opts$trim, opts$fill, trailing_comma = TRUE, ...)

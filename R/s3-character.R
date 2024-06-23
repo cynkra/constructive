@@ -28,6 +28,7 @@ opts_character <- function(
 }
 
 #' @export
+#' @method .cstr_construct character
 .cstr_construct.character <- function(x, ...) {
   opts <- list(...)$opts$character %||% opts_character()
   if (is_corrupted_character(x) || opts$constructor == "next") return(NextMethod())
@@ -38,6 +39,8 @@ is_corrupted_character <- function(x) {
   typeof(x) != "character"
 }
 
+#' @export
+#' @method .cstr_construct.character default
 .cstr_construct.character.default <- function(x, ...) {
   # return length 0 object early
   if (!length(x)) return("character(0)")

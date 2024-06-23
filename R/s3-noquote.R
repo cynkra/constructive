@@ -5,6 +5,7 @@ opts_noquote <- function(constructor = c("noquote", "next"), ...) {
 }
 
 #' @export
+#' @method .cstr_construct noquote
 .cstr_construct.noquote <- function(x, ...) {
   opts <- list(...)$opts$noquote %||% opts_noquote()
   if (is_corrupted_noquote(x) || opts$constructor == "next") return(NextMethod())
@@ -19,6 +20,7 @@ is_corrupted_noquote <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.noquote noquote
 .cstr_construct.noquote.noquote <- function(x, ...) {
   right <- identical(tail(names(class(x)), 1), "right")
   x_bkp <- x

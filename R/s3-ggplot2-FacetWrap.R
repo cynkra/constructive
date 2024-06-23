@@ -5,6 +5,7 @@ opts_FacetWrap <- function(constructor = c("facet_wrap", "ggproto", "next", "env
 }
 
 #' @export
+#' @method .cstr_construct FacetWrap
 .cstr_construct.FacetWrap <- function(x, ...) {
   opts <- list(...)$opts$FacetWrap %||% opts_FacetWrap()
   if (is_corrupted_FacetWrap(x) || opts$constructor == "next") return(NextMethod())
@@ -17,16 +18,19 @@ is_corrupted_FacetWrap <- function(x) {
 }
 
 #' @export
+#' @method .cstr_construct.FacetWrap environment
 .cstr_construct.FacetWrap.environment <- function(x, ...) {
   .cstr_construct.environment(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.FacetWrap ggproto
 .cstr_construct.FacetWrap.ggproto <- function(x, ...) {
   .cstr_construct.ggproto(x, ...)
 }
 
 #' @export
+#' @method .cstr_construct.FacetWrap facet_wrap
 .cstr_construct.FacetWrap.facet_wrap <- function(x, ...) {
   args <- as.list(x)
 

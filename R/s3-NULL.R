@@ -11,6 +11,7 @@ opts_NULL <- function(
 }
 
 #' @export
+#' @method .cstr_construct NULL
 .cstr_construct.NULL <- function(x, ...) {
   opts <- list(...)$opts$`NULL` %||% opts_NULL()
   if (is_corrupted_NULL(x) || opts$constructor == "next") return(NextMethod())
@@ -21,6 +22,8 @@ is_corrupted_NULL <- function(x) {
   typeof(x) != "NULL"
 }
 
+#' @export
+#' @method .cstr_construct.NULL NULL
 .cstr_construct.NULL.NULL <- function(x, ...) {
   "NULL"
 }
