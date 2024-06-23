@@ -102,33 +102,6 @@ compress_complex <- function(x, ...) {
   format_rep(x, ...)
 }
 
-format_flex <- function(x, all_na) {
-  # negative zeroes
-  if (identical(x, 0) && sign(1/x) == -1) return("-0")
-  # negative NAs, commented for now as might be overkill, and inconsistent
-  # if(is.na(x) && serialize(x, NULL)[[32]] == as.raw(0xff)) {
-  #   if (is.nan(x)) return("-NaN")
-  #   return("-NA_real_")
-  # }
-  formatted <- format.default(x, digits = 15)
-  if (formatted == "NA") {
-    if (all_na) return("NA_real_") else return("NA")
-  }
-  if (formatted == "NaN") {
-    return("NaN")
-  }
-  if (as.numeric(formatted) == x) return(formatted)
-  # FIXME: Increase digits only for those array elements that don't match
-  for (digits in 16:22) {
-    formatted <- format.default(x, digits = digits)
-    if (as.numeric(formatted) == x) return(formatted)
-  }
-  # remove from coverage since system dependent
-  # (similarly to .deparseOpts("hexNumeric"))
-  sprintf("%a", x) # nocov
-}
-
-
 construct_complex <- function(x, ...) {
   re <- sapply(Re(x), construct_atomic, ...)
   im <- sapply(Im(x), construct_atomic, ...)
