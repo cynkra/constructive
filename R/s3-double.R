@@ -73,7 +73,7 @@ is_corrupted_double <- function(x) {
     return(code)
   }
 
-  code <- vapply(x, format_flex, character(1), all_na = all(is.na(x)))
+  code <- vapply(x, format_flex, character(1), all_na = all(is_na_real(x)))
 
   # wrap with c()
   code <- .cstr_apply(code, "c", ..., recurse = FALSE)
@@ -94,7 +94,7 @@ compress_double <- function(x, ...) {
     contains_pos_and_neg_zeroes <- length(unique(1/x[zeros_ind])) != 1
     if (contains_pos_and_neg_zeroes) return(NULL)
   }
-  format_rep(x, ...) %||% format_seq(x, ...)
+  format_rep(x, ..., double = TRUE) %||% format_seq(x, ...)
 }
 
 format_flex <- function(x, all_na) {

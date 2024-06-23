@@ -66,12 +66,20 @@ divisors <- function(x) {
 
 # A rle without checks that treats NAs like a regular values and return an unnamed list
 # with value first
-rle2 <- function (x) {
+rle2 <- function (x, double = FALSE) {
   n <- length(x)
   t <- x[-1L]
   h <- x[-n]
   y <- t != h
-  y <- ifelse(is.na(y), !(is.na(t) & is.na(h)), y)
+  if (double) {
+    y <- ifelse(
+      is.na(y),
+      !(is.nan(t) & is.nan(h)) & !(is_na_real(t) & is_na_real(h)),
+      y
+    )
+  } else {
+    y <- ifelse(is.na(y), !(is.na(t) & is.na(h)), y)
+  }
   i <- c(which(y), n)
   list(x[i], diff(c(0L, i)))
 }

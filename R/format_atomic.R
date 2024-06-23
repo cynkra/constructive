@@ -1,6 +1,6 @@
 
-format_rep <- function(x, ...) {
-  rle_x <- rle2(x)
+format_rep <- function(x, ..., double = FALSE) {
+  rle_x <- rle2(x, double = double)
   values <- rle_x[[1]]
   lengths <- rle_x[[2]]
   l <- length(x)
