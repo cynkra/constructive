@@ -62,7 +62,7 @@ is_corrupted_character <- function(x) {
   }
 
   # compression
-  if (opts$compress && is.null(nms)) {
+  if (opts$compress && is.null(names(x))) {
     code <- compress_character(x, ...)
     if (!is.null(code)) {
       code <- .cstr_repair_attributes(x_bkp, code, ...)

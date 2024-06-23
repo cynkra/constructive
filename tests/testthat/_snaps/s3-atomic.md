@@ -270,3 +270,155 @@
     Output
       NULL
 
+# NA and empty names
+
+    Code
+      construct(structure(logical(2), names = c("", "")))
+    Output
+      c(FALSE, FALSE) |>
+        structure(names = c("", ""))
+    Code
+      construct(structure(logical(2), names = c("", NA)))
+    Output
+      c(FALSE, FALSE) |>
+        structure(names = c("", NA))
+    Code
+      construct(structure(logical(2), names = c(NA, NA)))
+    Output
+      c(FALSE, FALSE) |>
+        structure(names = c(NA_character_, NA_character_))
+    Code
+      construct(structure(logical(2), names = c(NA, "a")))
+    Output
+      c(FALSE, FALSE) |>
+        structure(names = c(NA, "a"))
+    Code
+      construct(structure(logical(2), names = c("", "a")))
+    Output
+      c(FALSE, a = FALSE)
+    Code
+      construct(structure(logical(2), names = c("", "a")))
+    Output
+      c(FALSE, a = FALSE)
+    Code
+      construct(structure(logical(10), names = c("", "a")))
+    Output
+      logical(10) |>
+        structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+    Code
+      construct(structure(integer(2), names = c("", "")))
+    Output
+      c(0L, 0L) |>
+        structure(names = c("", ""))
+    Code
+      construct(structure(integer(2), names = c("", NA)))
+    Output
+      c(0L, 0L) |>
+        structure(names = c("", NA))
+    Code
+      construct(structure(integer(2), names = c(NA, NA)))
+    Output
+      c(0L, 0L) |>
+        structure(names = c(NA_character_, NA_character_))
+    Code
+      construct(structure(integer(2), names = c(NA, "a")))
+    Output
+      c(0L, 0L) |>
+        structure(names = c(NA, "a"))
+    Code
+      construct(structure(integer(2), names = c("", "a")))
+    Output
+      c(0L, a = 0L)
+    Code
+      construct(structure(integer(10), names = c("", "a")))
+    Output
+      integer(10) |>
+        structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+    Code
+      construct(structure(double(2), names = c("", "")))
+    Output
+      c(0, 0) |>
+        structure(names = c("", ""))
+    Code
+      construct(structure(double(2), names = c("", NA)))
+    Output
+      c(0, 0) |>
+        structure(names = c("", NA))
+    Code
+      construct(structure(double(2), names = c(NA, NA)))
+    Output
+      c(0, 0) |>
+        structure(names = c(NA_character_, NA_character_))
+    Code
+      construct(structure(double(2), names = c(NA, "a")))
+    Output
+      c(0, 0) |>
+        structure(names = c(NA, "a"))
+    Code
+      construct(structure(double(2), names = c("", "a")))
+    Output
+      c(0, a = 0)
+    Code
+      construct(structure(double(10), names = c("", "a")))
+    Output
+      numeric(10) |>
+        structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+    Code
+      construct(structure(complex(2), names = c("", "")))
+    Output
+      c(0i, 0i) |>
+        structure(names = c("", ""))
+    Code
+      construct(structure(complex(2), names = c("", NA)))
+    Output
+      c(0i, 0i) |>
+        structure(names = c("", NA))
+    Code
+      construct(structure(complex(2), names = c(NA, NA)))
+    Output
+      c(0i, 0i) |>
+        structure(names = c(NA_character_, NA_character_))
+    Code
+      construct(structure(complex(2), names = c(NA, "a")))
+    Output
+      c(0i, 0i) |>
+        structure(names = c(NA, "a"))
+    Code
+      construct(structure(complex(2), names = c("", "a")))
+    Output
+      c(0i, a = 0i)
+    Code
+      construct(structure(complex(10), names = c("", "a")))
+    Output
+      c(0i, 0i, 0i, 0i, 0i, 0i, 0i, 0i, 0i, 0i) |>
+        structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+    Code
+      construct(structure(character(2), names = c("", "")))
+    Output
+      c("", "") |>
+        structure(names = c("", ""))
+    Code
+      construct(structure(character(2), names = c("", NA)))
+    Output
+      c("", "") |>
+        structure(names = c("", NA))
+    Code
+      construct(structure(character(2), names = c(NA, NA)))
+    Output
+      c("", "") |>
+        structure(names = c(NA_character_, NA_character_))
+    Code
+      construct(structure(character(2), names = c(NA, "a")))
+    Output
+      c("", "") |>
+        structure(names = c(NA, "a"))
+    Code
+      construct(structure(character(2), names = c("", "a")))
+    Output
+      c("", a = "")
+    Code
+      construct(structure(character(10), names = c("", "a")))
+    Output
+      character(10) |>
+        structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+

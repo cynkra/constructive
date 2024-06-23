@@ -101,3 +101,51 @@ test_that("complex", {
     # construct(c(1e-10 + 1e10i, 2e-10 + 2e10i))
   })
 })
+
+
+test_that("NA and empty names", {
+  expect_snapshot({
+    construct(structure(logical(2), names = c("", "")))
+    construct(structure(logical(2), names = c("", NA)))
+    construct(structure(logical(2), names = c(NA, NA)))
+    construct(structure(logical(2), names = c(NA, "a")))
+    construct(structure(logical(2), names = c("", "a")))
+    construct(structure(logical(2), names = c("", "a")))
+    construct(structure(logical(10), names = c("", "a")))
+
+    construct(structure(integer(2), names = c("", "")))
+    construct(structure(integer(2), names = c("", NA)))
+    construct(structure(integer(2), names = c(NA, NA)))
+    construct(structure(integer(2), names = c(NA, "a")))
+    construct(structure(integer(2), names = c("", "a")))
+    construct(structure(integer(10), names = c("", "a")))
+
+    construct(structure(double(2), names = c("", "")))
+    construct(structure(double(2), names = c("", NA)))
+    construct(structure(double(2), names = c(NA, NA)))
+    construct(structure(double(2), names = c(NA, "a")))
+    construct(structure(double(2), names = c("", "a")))
+    construct(structure(double(10), names = c("", "a")))
+
+    construct(structure(complex(2), names = c("", "")))
+    construct(structure(complex(2), names = c("", NA)))
+    construct(structure(complex(2), names = c(NA, NA)))
+    construct(structure(complex(2), names = c(NA, "a")))
+    construct(structure(complex(2), names = c("", "a")))
+    construct(structure(complex(10), names = c("", "a")))
+
+    construct(structure(character(2), names = c("", "")))
+    construct(structure(character(2), names = c("", NA)))
+    construct(structure(character(2), names = c(NA, NA)))
+    construct(structure(character(2), names = c(NA, "a")))
+    construct(structure(character(2), names = c("", "a")))
+    construct(structure(character(10), names = c("", "a")))
+
+    # construct(structure(raw(2), names = c("", "")))
+    # construct(structure(raw(2), names = c("", NA)))
+    # construct(structure(raw(2), names = c(NA, NA)))
+    # construct(structure(raw(2), names = c(NA, "a")))
+    # construct(structure(raw(2), names = c("", "a")))
+    # construct(structure(raw(10), names = c("", "a")))
+  })
+})
