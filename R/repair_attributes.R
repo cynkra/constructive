@@ -25,8 +25,8 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL
-  # names are already provided by construct_raw except if they're ""
-  if (is.null(attrs$names) || anyNA(attrs$names) || !all(attrs$names == "")) attrs$names <- NULL
+  # names are already provided by atomic constructors except if they're ""
+  if (!anyNA(attrs$names) && !all(attrs$names == "")) attrs$names <- NULL
   # The `noquote` class is added at the end of the class vector so method `.noquote`
   # wouldn't be triggered
   if (
