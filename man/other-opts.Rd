@@ -2,21 +2,21 @@
 % Please edit documentation in R/document-other-opts.R, R/s3-NULL.R,
 %   R/s3-bibentry.R, R/s3-character.R, R/s3-citationFooter.R,
 %   R/s3-citationHeader.R, R/s3-complex.R, R/s3-difftime.R, R/s3-double.R,
-%   R/s3-error.R, R/s3-ggplot2-CoordCartesian.R, R/s3-ggplot2-CoordFixed.R,
-%   R/s3-ggplot2-CoordFlip.R, R/s3-ggplot2-CoordMap.R,
-%   R/s3-ggplot2-CoordMunch.R, R/s3-ggplot2-CoordPolar.R,
-%   R/s3-ggplot2-CoordQuickmap.R, R/s3-ggplot2-CoordSf.R,
-%   R/s3-ggplot2-CoordTrans.R, R/s3-ggplot2-FacetWrap.R, R/s3-ggplot2-Scale.R,
-%   R/s3-ggplot2-ScalesList.R, R/s3-ggplot2-element_blank.R,
-%   R/s3-ggplot2-element_grob.R, R/s3-ggplot2-element_line.R,
-%   R/s3-ggplot2-element_rect.R, R/s3-ggplot2-element_render.R,
-%   R/s3-ggplot2-element_text.R, R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R,
-%   R/s3-ggplot2-margin.R, R/s3-ggplot2-rel.R, R/s3-ggplot2-simpleUnit.R,
-%   R/s3-ggplot2-theme.R, R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R,
-%   R/s3-hexmode.R, R/s3-integer.R, R/s3-logical.R, R/s3-noquote.R,
-%   R/s3-octmode.R, R/s3-person.R, R/s3-raw.R, R/s3-simpleCondition.R,
-%   R/s3-simpleError.R, R/s3-simpleMessage.R, R/s3-simpleWarning.R,
-%   R/s3-warning.R
+%   R/s3-error.R, R/s3-expression.R, R/s3-ggplot2-CoordCartesian.R,
+%   R/s3-ggplot2-CoordFixed.R, R/s3-ggplot2-CoordFlip.R,
+%   R/s3-ggplot2-CoordMap.R, R/s3-ggplot2-CoordMunch.R,
+%   R/s3-ggplot2-CoordPolar.R, R/s3-ggplot2-CoordQuickmap.R,
+%   R/s3-ggplot2-CoordSf.R, R/s3-ggplot2-CoordTrans.R,
+%   R/s3-ggplot2-FacetWrap.R, R/s3-ggplot2-Scale.R, R/s3-ggplot2-ScalesList.R,
+%   R/s3-ggplot2-element_blank.R, R/s3-ggplot2-element_grob.R,
+%   R/s3-ggplot2-element_line.R, R/s3-ggplot2-element_rect.R,
+%   R/s3-ggplot2-element_render.R, R/s3-ggplot2-element_text.R,
+%   R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R, R/s3-ggplot2-margin.R,
+%   R/s3-ggplot2-rel.R, R/s3-ggplot2-simpleUnit.R, R/s3-ggplot2-theme.R,
+%   R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R, R/s3-hexmode.R,
+%   R/s3-integer.R, R/s3-logical.R, R/s3-noquote.R, R/s3-octmode.R,
+%   R/s3-person.R, R/s3-raw.R, R/s3-simpleCondition.R, R/s3-simpleError.R,
+%   R/s3-simpleMessage.R, R/s3-simpleWarning.R, R/s3-warning.R
 \name{other-opts}
 \alias{other-opts}
 \alias{opts_NULL}
@@ -28,6 +28,7 @@
 \alias{opts_difftime}
 \alias{opts_double}
 \alias{opts_error}
+\alias{opts_expression}
 \alias{opts_CoordCartesian}
 \alias{opts_CoordFixed}
 \alias{opts_CoordFlip}
@@ -105,6 +106,8 @@ opts_double(
 )
 
 opts_error(constructor = c("errorCondition", "next"), ...)
+
+opts_expression(constructor = c("default"), ...)
 
 opts_CoordCartesian(
   constructor = c("coord_cartesian", "next", "environment"),
