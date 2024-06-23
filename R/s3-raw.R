@@ -57,7 +57,7 @@ is_corrupted_raw <- function(x) {
   }
 
   # compression
-  if (opts$compress && is.null(nms)) {
+  if (opts$compress && is.null(names(x))) {
     code <- compress_raw(x, ...)
     if (!is.null(code)) {
       code <- .cstr_repair_attributes(x_bkp, code, ...)
