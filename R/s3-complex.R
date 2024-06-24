@@ -84,13 +84,15 @@ is_corrupted_complex <- function(x) {
   complex_na <- is_na_real(re) & is_na_real(im)
   code[complex_na] <- "NA_complex_"
   other_na <- is.na(x) & !complex_na
-  code[other_na] <- mapply(
-    function(re, im) {
-      .cstr_apply(list(real = re, imaginary = im), "complex", recurse = FALSE)
-    },
-    re = re[other_na],
-    im = im[other_na]
-  )
+  if (any(other_na)) {
+    code[other_na] <- mapply(
+      function(re, im) {
+        .cstr_apply(list(real = re, imaginary = im), "complex", recurse = FALSE)
+      },
+      re = re[other_na],
+      im = im[other_na]
+    )
+  }
 
   if (length(x) == 1 && is.null(names(x))) {
     code <- .cstr_repair_attributes(x_bkp, code, ...)
