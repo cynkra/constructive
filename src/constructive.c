@@ -10,13 +10,11 @@
 extern SEXP external_pointer(SEXP);
 extern SEXP external_pointer_address(SEXP);
 extern SEXP objectFromAddress(SEXP);
-extern SEXP promise_code(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
   {"external_pointer",         (DL_FUNC) &external_pointer,         1},
   {"external_pointer_address", (DL_FUNC) &external_pointer_address, 1},
   {"objectFromAddress",        (DL_FUNC) &objectFromAddress,        1},
-  {"promise_code",             (DL_FUNC) &promise_code,             2},
   {NULL, NULL, 0}
 };
 
@@ -59,8 +57,4 @@ SEXP objectFromAddress(SEXP a) {
   return result;
 }
 
-SEXP promise_code(SEXP name, SEXP env) {
-  SEXP object = Rf_findVar(name, env);
-  return R_PromiseExpr(object);
-}
 
