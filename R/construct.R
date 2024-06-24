@@ -155,7 +155,7 @@ construct_multi <- function(
     opts <- collect_opts(..., template = template)
     constructives <- list()
     for (nm in names(x)) {
-      if (is_promise(as.symbol(nm), x)) {
+      if (rlang::env_binding_are_lazy(x, nm)) {
         code <- do.call(substitute, list(as.name(nm), x))
         env <- promise_env(as.symbol(nm), x)
 

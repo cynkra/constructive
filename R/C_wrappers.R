@@ -23,14 +23,8 @@ env_impl <- function(address) {
   .Call("objectFromAddress", PACKAGE = "constructive", address)
 }
 
-is_promise <- function(name, env = parent.frame()) {
-  .Call("is_promise", PACKAGE = "constructive", name, env)
-}
-
-promise_code <- function(name, env = parent.frame()) {
-  .Call("promise_code", PACKAGE = "constructive", name, env)
-}
-
 promise_env <- function(name, env = parent.frame()) {
-  .Call("promise_env", PACKAGE = "constructive", name, env)
+  enquo_call <- substitute(rlang::enquo(X), list(X = rlang::sym(name)))
+  quo <- eval(enquo_call, env)
+  rlang::quo_get_env(quo)
 }
