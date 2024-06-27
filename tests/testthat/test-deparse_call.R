@@ -18,8 +18,6 @@ test_that("deparse_call()", {
     deparse_call(call("$", 1, "b"), style = FALSE)
     deparse_call(call("$"), style = FALSE)
     deparse_call(call("$"), style = FALSE)
-    deparse_call(quote(`🐶`), style = FALSE)
-    deparse_call(quote(`🐶`), unicode_representation = "unicode")
     deparse_call(call(":", 1, 2, 3), style = FALSE)
     deparse_call(call(":", 1, 2), style = FALSE)
     deparse_call(call(":", 1), style = FALSE)
@@ -117,5 +115,14 @@ test_that("deparse_call()", {
     construct(quote(`-`(1+2)))
     construct(quote(`<-`(`<<-`(1, 2), 4)))
     construct(quote(`+`(x, y)(z)))
+  })
+})
+
+test_that("deparse_call() for R >= 4.1", {
+  # Due to bypass.R
+  skip_if(base::`<`(getRversion(), "4.1"))
+  expect_pipe_snapshot({
+    deparse_call(quote(`🐶`), style = FALSE)
+    deparse_call(quote(`🐶`), unicode_representation = "unicode")
   })
 })
