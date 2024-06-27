@@ -4,8 +4,15 @@ test_that("language", {
     construct(quote(a + call))
     construct(body(ave))
     construct(quote(expr=))
-    construct(quote(`🐶`))
-    construct(quote(`🐶`), unicode_representation = "unicode")
+  })
+})
+
+test_that("language", {
+  skip_if(getRversion() < "4.1")
+
+  expect_snapshot({
+    eval(parse(text = 'construct(quote(`🐶`))'))
+    eval(parse(text = 'construct(quote(`🐶`), unicode_representation = "unicode")'))
   })
 })
 
