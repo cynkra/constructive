@@ -22,6 +22,9 @@
       construct(quote(expr = ))
     Output
       quote(expr = )
+
+# language after 4.1
+
     Code
       construct(quote(`🐶`))
     Output

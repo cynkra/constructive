@@ -4,6 +4,14 @@ test_that("language", {
     construct(quote(a + call))
     construct(body(ave))
     construct(quote(expr=))
+  })
+})
+
+test_that("language after 4.1", {
+  # Due to bypass.R
+  skip_if(base::`<`(getRversion(), "4.1"))
+
+  expect_snapshot({
     construct(quote(`🐶`))
     construct(quote(`🐶`), unicode_representation = "unicode")
   })

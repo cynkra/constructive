@@ -33,8 +33,17 @@ test_that("compare_options", {
 
 test_that("backslash and emojis in names work", {
   expect_snapshot({
+    construct(c("\\" = "\\"))
+  })
+})
+
+
+test_that("backslash and emojis in names work for R >= 4.1", {
+  # Due to bypass.R
+  skip_if(base::`<`(getRversion(), "4.1"))
+
+  expect_snapshot({
     construct(c("\\🐶" = "\\"), unicode_representation = "unicode")
     construct(c("\\🐶" = "\\"))
-    construct(c("\\" = "\\"))
   })
 })
