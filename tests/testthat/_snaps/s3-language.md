@@ -23,14 +23,14 @@
     Output
       quote(expr = )
 
----
+# language after 4.1
 
     Code
-      eval(parse(text = "construct(quote(`🐶`))"))
+      construct(quote(`🐶`))
     Output
       quote(`\xf0\x9f\x90\xb6`)
     Code
-      eval(parse(text = "construct(quote(`🐶`), unicode_representation = \"unicode\")"))
+      construct(quote(`🐶`), unicode_representation = "unicode")
     Output
       quote(`🐶`)
 

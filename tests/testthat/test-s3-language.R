@@ -7,12 +7,13 @@ test_that("language", {
   })
 })
 
-test_that("language", {
-  skip_if(getRversion() < "4.1")
+test_that("language after 4.1", {
+  # Due to bypass.R
+  skip_if(base::`<`(getRversion(), "4.1"))
 
   expect_snapshot({
-    eval(parse(text = 'construct(quote(`🐶`))'))
-    eval(parse(text = 'construct(quote(`🐶`), unicode_representation = "unicode")'))
+    construct(quote(`🐶`))
+    construct(quote(`🐶`), unicode_representation = "unicode")
   })
 })
 
