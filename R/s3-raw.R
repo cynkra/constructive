@@ -1,5 +1,18 @@
+#' Constructive options for class 'raw'
+#'
+#' These options will be used on objects of class 'raw'.
+#'
+#' Depending on `constructor`, we construct the object as follows:
+#' * `"as.raw"` (default): Use `as.raw()`, or `raw()` when relevant
+#' * `"charToRaw"` : Use `charToRaw()` on a string, if the a raw vector contains
+#'   a zero we fall back to the "as.raw" constructor.
+#'
+#' @param constructor String. Name of the function used to construct the object.
+#' @param representation For "as.raw" constructor. Respectively generate output
+#'   in the formats `as.raw(0x10)`, `as.raw(16)`, or `as.raw("10")`.
+#' @inheritParams opts_atomic
+#' @return An object of class <constructive_options/constructive_options_raw>
 #' @export
-#' @rdname other-opts
 opts_raw <- function(
     constructor = c("as.raw", "charToRaw"),
     ...,
