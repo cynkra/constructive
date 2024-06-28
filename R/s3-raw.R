@@ -1,23 +1,40 @@
+#' Constructive options for class 'raw'
+#'
+#' These options will be used on objects of class 'raw'.
+#'
+#' Depending on `constructor`, we construct the object as follows:
+#' * `"as.raw"` (default): Use `as.raw()`, or `raw()` when relevant
+#' * `"charToRaw"` : Use `charToRaw()` on a string, if the a raw vector contains
+#'   a zero we fall back to the "as.raw" constructor.
+#'
+#' @param constructor String. Name of the function used to construct the object.
+#' @param representation For "as.raw" constructor. Respectively generate output
+#'   in the formats `as.raw(0x10)`, `as.raw(16)`, or `as.raw("10")`.
+#' @inheritParams opts_atomic
+#' @return An object of class <constructive_options/constructive_options_raw>
 #' @export
-#' @rdname other-opts
 opts_raw <- function(
-    constructor = c("default"),
+    constructor = c("as.raw", "charToRaw"),
     ...,
     trim = NULL,
     fill = c("default", "rlang", "+", "...", "none"),
-    compress = TRUE) {
+    compress = TRUE,
+    representation = c("hexadecimal", "integer", "character")
+    ) {
   .cstr_combine_errors(
     abort_not_null_or_integerish(trim),
     { fill <- rlang::arg_match(fill) },
-    abort_not_boolean(compress)
+    abort_not_boolean(compress),
+    { representation <- rlang::arg_match(representation) }
   )
   .cstr_options(
     "raw",
-    constructor = constructor,
+    constructor = constructor[[1]],
     ...,
     trim = trim,
     fill = fill,
-    compress = compress
+    compress = compress,
+    representation = representation
   )
 }
 
@@ -34,8 +51,8 @@ is_corrupted_raw <- function(x) {
 }
 
 #' @export
-#' @method .cstr_construct.raw default
-.cstr_construct.raw.default <- function(x, ...) {
+#' @method .cstr_construct.raw as.raw
+.cstr_construct.raw.as.raw <- function(x, ...) {
   # return length 0 object early
   if (!length(x)) return(.cstr_repair_attributes(x, "raw(0)", ...))
 
@@ -67,14 +84,65 @@ is_corrupted_raw <- function(x) {
     }
   }
 
-  code <- sapply(x, deparse)
   if (length(x) == 1 && is.null(names(x))) {
+    code <- switch(
+      opts$representation,
+      hexadecimal = sprintf("as.raw(0x%02x)", as.integer(x)),
+      integer = sprintf("as.raw(%s)", as.integer(x)),
+      character = sprintf('as.raw("%02x")', as.integer(x))
+    )
     code <- .cstr_repair_attributes(x_bkp, code, ...)
     return(code)
   }
 
   # wrap with c()
+  code <- switch(
+    opts$representation,
+    hexadecimal = sprintf("0x%02x", as.integer(x)),
+    integer = sprintf("%s", as.integer(x)),
+    character = sprintf('"%02x"', as.integer(x))
+  )
   code <- .cstr_apply(code, "c", ..., recurse = FALSE)
+  code <- .cstr_wrap(code, "as.raw")
+  if (list(...)$one_liner) code <- paste(code, collapse = " ")
+  .cstr_repair_attributes(x_bkp, code, ...)
+}
+
+#' @export
+#' @method .cstr_construct.raw charToRaw
+.cstr_construct.raw.charToRaw <- function(x, ...) {
+  # Fall back when it cannot be represented by a string
+  if (!length(x) || raw(1) %in% x) return(.cstr_construct.raw.as.raw(x, ...))
+
+  # we apply in priority the raw opts, fall back on atomic opts otherwise
+  opts <- list(...)$opts$raw %||% opts_raw()
+  x_bkp <- x
+
+  # non standard names
+  nms <- names(x)
+  names_need_repair <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
+  if (names_need_repair) names(x) <- NULL
+
+  # trim
+  # FIXME: the name reparation is affected by trim
+  if (!is.null(opts$trim)) {
+    code <- trim_atomic(x, opts$trim, opts$fill, ...)
+    if (!is.null(code)) {
+      code <- .cstr_repair_attributes(x_bkp, code, ...)
+      return(code)
+    }
+  }
+
+  # compression
+  if (opts$compress && is.null(names(x))) {
+    code <- compress_raw(x, ...)
+    if (!is.null(code)) {
+      code <- .cstr_repair_attributes(x_bkp, code, ...)
+      return(code)
+    }
+  }
+
+  code <- .cstr_wrap(.cstr_construct(rawToChar(x), ...), "charToRaw")
   if (list(...)$one_liner) code <- paste(code, collapse = " ")
   .cstr_repair_attributes(x_bkp, code, ...)
 }

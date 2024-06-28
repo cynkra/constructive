@@ -71,7 +71,7 @@ collect_opts <- function(..., template) {
   opts$raw$constructor <-
     opts$raw$constructor %||%
     opts$atomic$constructor %||%
-    "default"
+    "as.raw"
   opts$raw$trim <-
     opts$raw$trim %||%
     opts$atomic$trim
@@ -83,6 +83,9 @@ collect_opts <- function(..., template) {
     opts$raw$compress %||%
     opts$atomic$compress %||%
     TRUE
+  opts$raw$representation <-
+    opts$raw$representation %||%
+    "hexadecimal"
   # character
   opts$character$constructor <-
     opts$character$constructor %||%
