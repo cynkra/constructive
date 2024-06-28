@@ -11,7 +11,8 @@
   ignore = NULL,
   idiomatic_class = NULL,
   remove = NULL,
-  flag_s4 = TRUE
+  flag_s4 = TRUE,
+  repair_names = FALSE
 )
 }
 \arguments{
