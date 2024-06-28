@@ -16,7 +16,7 @@ opts_raw <- function(
   )
   .cstr_options(
     "raw",
-    constructor = constructor,
+    constructor = constructor[[1]],
     ...,
     trim = trim,
     fill = fill,
