@@ -1,7 +1,7 @@
 #' @export
 #' @rdname other-opts
 opts_raw <- function(
-    constructor = c("default"),
+    constructor = c("as.raw", "charToRaw"),
     ...,
     trim = NULL,
     fill = c("default", "rlang", "+", "...", "none"),
@@ -38,8 +38,8 @@ is_corrupted_raw <- function(x) {
 }
 
 #' @export
-#' @method .cstr_construct.raw default
-.cstr_construct.raw.default <- function(x, ...) {
+#' @method .cstr_construct.raw as.raw
+.cstr_construct.raw.as.raw <- function(x, ...) {
   # return length 0 object early
   if (!length(x)) return(.cstr_repair_attributes(x, "raw(0)", ...))
 
@@ -99,7 +99,7 @@ is_corrupted_raw <- function(x) {
 #' @method .cstr_construct.raw charToRaw
 .cstr_construct.raw.charToRaw <- function(x, ...) {
   # Fall back when it cannot be represented by a string
-  if (!length(x) || raw(1) %in% x) return(.cstr_construct.raw.default(x, ...))
+  if (!length(x) || raw(1) %in% x) return(.cstr_construct.raw.as.raw(x, ...))
 
   # we apply in priority the raw opts, fall back on atomic opts otherwise
   opts <- list(...)$opts$raw %||% opts_raw()

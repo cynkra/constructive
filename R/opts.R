@@ -71,7 +71,7 @@ collect_opts <- function(..., template) {
   opts$raw$constructor <-
     opts$raw$constructor %||%
     opts$atomic$constructor %||%
-    "default"
+    "as.raw"
   opts$raw$trim <-
     opts$raw$trim %||%
     opts$atomic$trim
