@@ -199,7 +199,8 @@ opts_raw(
   ...,
   trim = NULL,
   fill = c("default", "rlang", "+", "...", "none"),
-  compress = TRUE
+  compress = TRUE,
+  representation = c("hexadecimal", "integer", "character")
 )
 
 opts_simpleCondition(constructor = c("simpleCondition", "next"), ...)

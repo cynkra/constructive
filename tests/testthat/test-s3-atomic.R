@@ -154,12 +154,12 @@ test_that("NA and empty names", {
     construct(structure(character(2), names = c("", "a")))
     construct(structure(character(10), names = c("", "a")))
 
-    # construct(structure(raw(2), names = c("", "")))
-    # construct(structure(raw(2), names = c("", NA)))
-    # construct(structure(raw(2), names = c(NA, NA)))
-    # construct(structure(raw(2), names = c(NA, "a")))
-    # construct(structure(raw(2), names = c("", "a")))
-    # construct(structure(raw(10), names = c("", "a")))
+    construct(structure(raw(2), names = c("", "")))
+    construct(structure(raw(2), names = c("", NA)))
+    construct(structure(raw(2), names = c(NA, NA)))
+    construct(structure(raw(2), names = c(NA, "a")))
+    construct(structure(raw(2), names = c("", "a")))
+    construct(structure(raw(10), names = c("", "a")))
   })
 })
 
