@@ -111,6 +111,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next"), ...)}
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = NULL)}
   \item \code{\link[=opts_bibentry]{opts_bibentry}(constructor = c("bibentry", "next"), ...)}
+  \item \code{\link[=opts_blob]{opts_blob}(constructor = c("blob", "next"), ...)}
   \item \code{\link[=opts_character]{opts_character}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)}
   \item \code{\link[=opts_citationFooter]{opts_citationFooter}(constructor = c("citFooter", "next"), ...)}
   \item \code{\link[=opts_citationHeader]{opts_citationHeader}(constructor = c("citHeader", "next"), ...)}
