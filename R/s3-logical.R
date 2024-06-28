@@ -37,7 +37,7 @@ is_corrupted_logical <- function(x) {
 #' @method .cstr_construct.logical default
 .cstr_construct.logical.default <- function(x, ...) {
   # return length 0 object early
-  if (!length(x)) return("logical(0)")
+  if (!length(x)) return(.cstr_repair_attributes(x, "logical(0)", ...))
 
   # we apply in priority the logical opts, fall back on atomic opts otherwise
   opts <- list(...)$opts$logical %||% opts_logical()

@@ -37,7 +37,7 @@ is_corrupted_integer <- function(x) {
 #' @method .cstr_construct.integer default
 .cstr_construct.integer.default <- function(x, ...) {
   # return length 0 object early
-  if (!length(x)) return("integer(0)")
+  if (!length(x)) return(.cstr_repair_attributes(x, "integer(0)", ...))
 
   # we apply in priority the integer opts, fall back on atomic opts otherwise
   opts <- list(...)$opts$integer %||% opts_integer()

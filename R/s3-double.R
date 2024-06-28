@@ -37,7 +37,7 @@ is_corrupted_double <- function(x) {
 #' @method .cstr_construct.double default
 .cstr_construct.double.default <- function(x, ...) {
   # return length 0 object early
-  if (!length(x)) return("numeric(0)")
+  if (!length(x)) return(.cstr_repair_attributes(x, "numeric(0)", ...))
 
   # we apply in priority the double opts, fall back on atomic opts otherwise
   opts <- list(...)$opts$double %||% opts_double()

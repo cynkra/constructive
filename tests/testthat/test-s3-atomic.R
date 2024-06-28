@@ -162,3 +162,14 @@ test_that("NA and empty names", {
     # construct(structure(raw(10), names = c("", "a")))
   })
 })
+
+test_that("attributes are repaired on length 0 atomics", {
+  expect_snapshot({
+    construct(structure(character(0), foo = 1))
+    construct(structure(double(0), foo = 1))
+    construct(structure(integer(0), foo = 1))
+    construct(structure(complex(0), foo = 1))
+    construct(structure(logical(0), foo = 1))
+    construct(structure(raw(0), foo = 1))
+  })
+})

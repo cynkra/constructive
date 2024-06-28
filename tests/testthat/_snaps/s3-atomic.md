@@ -494,3 +494,36 @@
       character(10) |>
         structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
 
+# attributes are repaired on length 0 atomics
+
+    Code
+      construct(structure(character(0), foo = 1))
+    Output
+      character(0) |>
+        structure(foo = 1)
+    Code
+      construct(structure(double(0), foo = 1))
+    Output
+      numeric(0) |>
+        structure(foo = 1)
+    Code
+      construct(structure(integer(0), foo = 1))
+    Output
+      integer(0) |>
+        structure(foo = 1)
+    Code
+      construct(structure(complex(0), foo = 1))
+    Output
+      complex(0) |>
+        structure(foo = 1)
+    Code
+      construct(structure(logical(0), foo = 1))
+    Output
+      logical(0) |>
+        structure(foo = 1)
+    Code
+      construct(structure(raw(0), foo = 1))
+    Output
+      raw(0) |>
+        structure(foo = 1)
+

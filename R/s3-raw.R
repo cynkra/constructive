@@ -37,7 +37,7 @@ is_corrupted_raw <- function(x) {
 #' @method .cstr_construct.raw default
 .cstr_construct.raw.default <- function(x, ...) {
   # return length 0 object early
-  if (!length(x)) return("raw(0)")
+  if (!length(x)) return(.cstr_repair_attributes(x, "raw(0)", ...))
 
   # we apply in priority the raw opts, fall back on atomic opts otherwise
   opts <- list(...)$opts$raw %||% opts_raw()

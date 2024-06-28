@@ -43,7 +43,7 @@ is_corrupted_character <- function(x) {
 #' @method .cstr_construct.character default
 .cstr_construct.character.default <- function(x, ...) {
   # return length 0 object early
-  if (!length(x)) return("character(0)")
+  if (!length(x)) return(.cstr_repair_attributes(x, "character(0)", ...))
 
   # we apply in priority the character opts, fall back on atomic opts otherwise
   opts <- list(...)$opts$character %||% opts_character()
