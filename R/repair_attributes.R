@@ -21,12 +21,19 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
 #'
 #' @return A character vector
 #' @export
-.cstr_repair_attributes <- function(x, code, ..., ignore = NULL, idiomatic_class = NULL, remove = NULL, flag_s4 = TRUE) {
+.cstr_repair_attributes <- function(
+    x, code, ...,
+    ignore = NULL,
+    idiomatic_class = NULL,
+    remove = NULL,
+    flag_s4 = TRUE,
+    repair_names = FALSE) {
   # fetch non idiomatic args and class
   attrs <- attributes(x)
   attrs[ignore] <- NULL
-  # names are already provided by atomic constructors except if they're ""
-  if (!anyNA(attrs$names) && !all(attrs$names == "")) attrs$names <- NULL
+  # names are normally already provided through constructors, but need to be
+  # repaired for some corner cases
+  if (!repair_names) attrs$names <- NULL
   # The `noquote` class is added at the end of the class vector so method `.noquote`
   # wouldn't be triggered
   if (

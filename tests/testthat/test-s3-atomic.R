@@ -173,3 +173,13 @@ test_that("attributes are repaired on length 0 atomics", {
     construct(structure(raw(0), foo = 1))
   })
 })
+
+test_that("atomic elements named `recursive` or `use.names`", {
+  expect_snapshot({
+    construct(structure(logical(1), names = "recursive"))
+    construct(structure(integer(1), names = "recursive"))
+    construct(structure(numeric(1), names = "recursive"))
+    construct(structure(complex(1), names = "recursive"))
+    construct(structure(raw(1), names = "recursive"))
+  })
+})
