@@ -181,7 +181,7 @@ test_that("attributes are repaired on length 0 atomics", {
 })
 
 test_that("atomic elements named `recursive` or `use.names`", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(structure(logical(1), names = "recursive"))
     construct(structure(integer(1), names = "recursive"))
     construct(structure(numeric(1), names = "recursive"))
