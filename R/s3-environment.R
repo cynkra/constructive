@@ -231,8 +231,8 @@ is_corrupted_environment <- function(x) {
   code
 }
 
-repair_attributes_environment <- function(x, code, opts, ...) {
-  opts <- opts$environment %||% opts_environment()
+repair_attributes_environment <- function(x, code, ...) {
+  opts <- list(...)$opts$environment %||% opts_environment()
   if ((opts$constructor == ".env" && !opts[["predefine"]]) ||
       grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||
       code[[1]] %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
