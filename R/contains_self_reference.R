@@ -1,5 +1,15 @@
-
-contains_self_reference <- function(x, envs = character()) {
+# FIXME: instead of returning TRUE we could keep tract of nesting like waldo
+#   does and return the location of the problematic env
+contains_self_reference <- function(
+    x,
+    envs = character(),
+    check_parent = TRUE,
+    check_function_env = TRUE,
+    check_srcref = FALSE
+    ) {
+  rec <- function(x) {
+    contains_self_reference(x, envs, check_parent, check_function_env, check_srcref)
+  }
   if (is.null(x)) return(FALSE)
   if (is.environment(x)) {
     if (!is.null(construct_special_env(x))) return(FALSE)
@@ -10,22 +20,29 @@ contains_self_reference <- function(x, envs = character()) {
     lazy_bindings <- bindings[rlang::env_binding_are_lazy(x)]
     lazy_binding_envs <- lapply(lazy_bindings, promise_env, x)
     for (lazy_binding_env in lazy_binding_envs) {
-      if (contains_self_reference(lazy_binding_env, envs)) return(TRUE)
+      if (rec(lazy_binding_env)) return(TRUE)
     }
     bindings <- setdiff(bindings, lazy_bindings)
     for (binding in bindings) {
       obj <- get(binding, x)
-      if (contains_self_reference(obj, envs)) return(TRUE)
+      if (rec(obj)) return(TRUE)
     }
-    if (contains_self_reference(parent.env(x), envs)) return(TRUE)
+    if (check_parent && rec(parent.env(x))) return(TRUE)
   } else if (is.list(x)) {
     for (elt in x) {
-      if (contains_self_reference(elt, envs)) return(TRUE)
+      if (rec(elt)) return(TRUE)
     }
   } else if (is.function(x)) {
-    if (contains_self_reference(environment(x), envs)) return(TRUE)
+    if (check_function_env && rec(environment(x))) return(TRUE)
+    if (!check_srcref) attr(x, "srcref") <- NULL
   }
   # this correctly uses the updated envs if x is an environment
-  if (contains_self_reference(attributes(x), envs)) return(TRUE)
+
+  if (rec(names(x))) return(TRUE)
+  attrs <- attributes(x)
+  attrs$names <- NULL
+  # to avoid infinite recursion we don't inspect names
+  # names can be only characters so there
+  if (length(attrs) && rec(attrs)) return(TRUE)
   FALSE
 }
