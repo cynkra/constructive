@@ -28,3 +28,5 @@ expect_snapshot <- function(code) {
     )
   ))
 }
+# have a copy in the global env for some examples in CI
+.GlobalEnv$expect_snapshot <- expect_snapshot
