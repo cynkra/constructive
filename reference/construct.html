@@ -71,7 +71,8 @@ builds the code to reproduce objects stored in a named list or environment.</p>
 <span>  pedantic_encoding <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  compare <span class="op">=</span> <span class="fu"><a href="compare_options.html">compare_options</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  template <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"constructive_opts_template"</span><span class="op">)</span></span>
+<span>  template <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"constructive_opts_template"</span><span class="op">)</span>,</span>
+<span>  include_dotted <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -147,6 +148,12 @@ be confusing for users.</p></dd>
 they will be overriden by <code>...</code>. Use it to set a default
 behavior for <code>{constructive}</code>.</p></dd>
 
+
+<dt id="arg-include-dotted">include_dotted<a class="anchor" aria-label="anchor" href="#arg-include-dotted"></a></dt>
+<dd><p>Whether to include names starting with dots, this includes
+<code>.Random.seed</code> in the global environment and objects like <code>.Class</code>, <code>.Generic</code>
+in the execution environments of S3 methods.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -168,6 +175,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_AsIs.html">opts_AsIs</a>(constructor = c("I", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_atomic.html">opts_atomic</a>(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = NULL)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_bibentry</a>(constructor = c("bibentry", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_blob.html">opts_blob</a>(constructor = c("blob", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_character</a>(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_citationFooter</a>(constructor = c("citFooter", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_citationHeader</a>(constructor = c("citHeader", "next"), ...)</code></p></li>
