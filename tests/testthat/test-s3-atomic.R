@@ -125,6 +125,7 @@ test_that("NA and empty names", {
     construct(structure(logical(2), names = c("", "a")))
     construct(structure(logical(2), names = c("", "a")))
     construct(structure(logical(10), names = c("", "a")))
+    construct(structure(logical(2), names = structure(c("b", "a"), foo = 1)))
 
     construct(structure(integer(2), names = c("", "")))
     construct(structure(integer(2), names = c("", NA)))
@@ -132,6 +133,7 @@ test_that("NA and empty names", {
     construct(structure(integer(2), names = c(NA, "a")))
     construct(structure(integer(2), names = c("", "a")))
     construct(structure(integer(10), names = c("", "a")))
+    construct(structure(integer(2), names = structure(c("b", "a"), foo = 1)))
 
     construct(structure(double(2), names = c("", "")))
     construct(structure(double(2), names = c("", NA)))
@@ -139,6 +141,7 @@ test_that("NA and empty names", {
     construct(structure(double(2), names = c(NA, "a")))
     construct(structure(double(2), names = c("", "a")))
     construct(structure(double(10), names = c("", "a")))
+    construct(structure(double(2), names = structure(c("b", "a"), foo = 1)))
 
     construct(structure(complex(2), names = c("", "")))
     construct(structure(complex(2), names = c("", NA)))
@@ -146,6 +149,7 @@ test_that("NA and empty names", {
     construct(structure(complex(2), names = c(NA, "a")))
     construct(structure(complex(2), names = c("", "a")))
     construct(structure(complex(10), names = c("", "a")))
+    construct(structure(complex(2), names = structure(c("b", "a"), foo = 1)))
 
     construct(structure(character(2), names = c("", "")))
     construct(structure(character(2), names = c("", NA)))
@@ -153,6 +157,7 @@ test_that("NA and empty names", {
     construct(structure(character(2), names = c(NA, "a")))
     construct(structure(character(2), names = c("", "a")))
     construct(structure(character(10), names = c("", "a")))
+    construct(structure(character(2), names = structure(c("b", "a"), foo = 1)))
 
     construct(structure(raw(2), names = c("", "")))
     construct(structure(raw(2), names = c("", NA)))
@@ -160,6 +165,7 @@ test_that("NA and empty names", {
     construct(structure(raw(2), names = c(NA, "a")))
     construct(structure(raw(2), names = c("", "a")))
     construct(structure(raw(10), names = c("", "a")))
+    construct(structure(raw(2), names = structure(c("b", "a"), foo = 1)))
   })
 })
 
@@ -175,7 +181,7 @@ test_that("attributes are repaired on length 0 atomics", {
 })
 
 test_that("atomic elements named `recursive` or `use.names`", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(structure(logical(1), names = "recursive"))
     construct(structure(integer(1), names = "recursive"))
     construct(structure(numeric(1), names = "recursive"))

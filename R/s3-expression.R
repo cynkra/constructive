@@ -31,8 +31,8 @@ is_corrupted_expression <- function(x) {
 
   # non standard names
   nms <- names(x)
-  names_need_repair <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
-  if (names_need_repair) names(x) <- NULL
+  repair_names <- names_need_repair(nms, c_names = FALSE)
+  if (repair_names) names(x) <- NULL
 
   # items with attributes need to be repaired,
   with_attr <-
@@ -53,5 +53,5 @@ is_corrupted_expression <- function(x) {
     code <- .cstr_pipe(code, bracket_call, ...)
   }
 
-  .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
+  .cstr_repair_attributes(x_bkp, code, ..., repair_names = repair_names)
 }
