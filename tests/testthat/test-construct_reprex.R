@@ -32,7 +32,8 @@ test_that("construct_reprex", {
     writeLines("\n# 3 ------------------------------------------------------\n")
     x <- x + 1
     z <- 3
-    reprex <- construct_reprex(2)
+    .z <- 33
+    reprex <- construct_reprex(2, include_dotted = FALSE)
     print(reprex)
   }
 
