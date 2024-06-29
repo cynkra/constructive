@@ -62,7 +62,10 @@ is_corrupted_raw <- function(x) {
 
   # non standard names
   nms <- names(x)
-  names_need_repair <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
+  names_need_repair <-
+    !is.null(nms) && (
+      anyNA(nms) || all(nms == "") || any(c("recursive", "use.names") %in% nms)
+    )
   if (names_need_repair) names(x) <- NULL
 
   # trim
@@ -70,7 +73,7 @@ is_corrupted_raw <- function(x) {
   if (!is.null(opts$trim)) {
     code <- trim_atomic(x, opts$trim, opts$fill, ...)
     if (!is.null(code)) {
-      code <- .cstr_repair_attributes(x_bkp, code, ...)
+      code <- .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
       return(code)
     }
   }
@@ -79,7 +82,7 @@ is_corrupted_raw <- function(x) {
   if (opts$compress && is.null(names(x))) {
     code <- compress_raw(x, ...)
     if (!is.null(code)) {
-      code <- .cstr_repair_attributes(x_bkp, code, ...)
+      code <- .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
       return(code)
     }
   }
@@ -91,7 +94,7 @@ is_corrupted_raw <- function(x) {
       integer = sprintf("as.raw(%s)", as.integer(x)),
       character = sprintf('as.raw("%02x")', as.integer(x))
     )
-    code <- .cstr_repair_attributes(x_bkp, code, ...)
+    code <- .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
     return(code)
   }
 
@@ -105,7 +108,7 @@ is_corrupted_raw <- function(x) {
   code <- .cstr_apply(code, "c", ..., recurse = FALSE)
   code <- .cstr_wrap(code, "as.raw")
   if (list(...)$one_liner) code <- paste(code, collapse = " ")
-  .cstr_repair_attributes(x_bkp, code, ...)
+  .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
 }
 
 #' @export
@@ -144,7 +147,7 @@ is_corrupted_raw <- function(x) {
 
   code <- .cstr_wrap(.cstr_construct(rawToChar(x), ...), "charToRaw")
   if (list(...)$one_liner) code <- paste(code, collapse = " ")
-  .cstr_repair_attributes(x_bkp, code, ...)
+  .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
 }
 
 compress_raw <- function(x, ...) {

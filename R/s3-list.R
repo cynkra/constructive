@@ -73,10 +73,14 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
         # fill == "new_list
         null_list_code <- sprintf("rlang::new_list(%s)", l - trim)
       }
+      # args are not named here so no precaution needed for names args to c
       code <- .cstr_apply(list(list_code, null_list_code), "c", ..., new_line = FALSE, recurse = FALSE)
       return(code)
     }
   }
+  nms <- names(x)
+  names_need_repair <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
+  if (names_need_repair) names(x) <- NULL
   .cstr_apply(x, fun = constructor, ..., trailing_comma = trailing_comma)
 }
 
@@ -85,7 +89,7 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
 .cstr_construct.list.list <- function(x, ...) {
   opts <- list(...)$opts$list %||% opts_list()
   code <- construct_list(x, "list", opts$trim, opts$fill, trailing_comma = FALSE, ...)
-  .cstr_repair_attributes(x, code, ...)
+  repair_attributes_list(x, code, ...)
 }
 
 #' @export
@@ -97,5 +101,7 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
 }
 
 repair_attributes_list <- function(x, code, ...) {
-  .cstr_repair_attributes(x, code, ...)
+  nms <- names(x)
+  names_need_repair <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
+  .cstr_repair_attributes(x, code, ..., repair_names = names_need_repair)
 }

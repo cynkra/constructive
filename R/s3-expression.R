@@ -53,5 +53,5 @@ is_corrupted_expression <- function(x) {
     code <- .cstr_pipe(code, bracket_call, ...)
   }
 
-  .cstr_repair_attributes(x_bkp, code, ...)
+  .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
 }

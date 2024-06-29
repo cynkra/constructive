@@ -559,3 +559,31 @@
       raw(0) |>
         structure(foo = 1)
 
+# atomic elements named `recursive` or `use.names`
+
+    Code
+      construct(structure(logical(1), names = "recursive"))
+    Output
+      FALSE |>
+        structure(names = "recursive")
+    Code
+      construct(structure(integer(1), names = "recursive"))
+    Output
+      0L |>
+        structure(names = "recursive")
+    Code
+      construct(structure(numeric(1), names = "recursive"))
+    Output
+      0 |>
+        structure(names = "recursive")
+    Code
+      construct(structure(complex(1), names = "recursive"))
+    Output
+      0i |>
+        structure(names = "recursive")
+    Code
+      construct(structure(raw(1), names = "recursive"))
+    Output
+      as.raw(0x00) |>
+        structure(names = "recursive")
+
