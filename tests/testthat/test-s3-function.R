@@ -1,5 +1,5 @@
 test_that("function", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     f1 <- as.function(alist(x=, x), .GlobalEnv)
     f2 <- as.function(alist(x=, {x}), .GlobalEnv)
 

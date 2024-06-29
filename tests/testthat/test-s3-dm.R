@@ -1,5 +1,5 @@
 test_that("dm", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     # simple dm
     construct(dm::dm(cars1 = head(cars,2), cars2 = tail(cars,2)), check = FALSE)
     # skip because unstable

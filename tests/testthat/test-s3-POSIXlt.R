@@ -15,7 +15,7 @@ test_that("POSIXlt-all-versions", {
   withr::local_timezone("UTC")
   sys_time_1970 <- Sys.time()
   sys_time_1970[[1]] <- 0
-  expect_pipe_snapshot({
+  expect_snapshot({
     # ordered
     construct(as.POSIXlt(.leap.seconds[1:4]))
     construct(as.POSIXlt(.leap.seconds[1:4]))
@@ -44,7 +44,7 @@ test_that("POSIXlt-from-4.3", {
   withr::local_timezone("UTC")
   sys_time_1970 <- Sys.time()
   sys_time_1970[[1]] <- 0
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("list"))
   })
@@ -70,7 +70,7 @@ test_that("POSIXlt-pre-4.3", {
   withr::local_timezone("UTC")
   sys_time_1970 <- Sys.time()
   sys_time_1970[[1]] <- 0
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("list"))
   })

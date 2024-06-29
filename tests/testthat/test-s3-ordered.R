@@ -1,5 +1,5 @@
 test_that("ordered", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     # ordered
     construct(factor(month.abb, ordered = TRUE))
     construct(factor(month.abb, ordered = TRUE))

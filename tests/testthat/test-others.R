@@ -24,7 +24,7 @@ test_that("noquote is supported", {
 })
 
 test_that("compare_options", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(evalq(x ~ y, asNamespace("stats")))
     construct(evalq(x ~ y, asNamespace("stats")), opts_formula(environment = FALSE))
     construct(evalq(x ~ y, asNamespace("stats")), opts_formula(environment = FALSE), compare = compare_options(ignore_formula_env = TRUE))

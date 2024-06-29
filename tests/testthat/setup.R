@@ -15,3 +15,18 @@ colon_colon <- `::`
 `[` <- base::`[`
 `$` <- base::`$`
 length <- base::length
+
+expect_snapshot <- function(code) {
+  eval.parent(substitute(
+    testthat::expect_snapshot(
+      code,
+      transform = function(out) {
+        out <- gsub("%>%", "|>", out, fixed = TRUE)
+        out <- gsub("= [.]([,)])", "= _\\1", out)
+        out
+      }
+    )
+  ))
+}
+# have a copy in the global env for some examples in CI
+.GlobalEnv$expect_snapshot <- expect_snapshot

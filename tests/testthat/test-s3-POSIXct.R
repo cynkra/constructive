@@ -16,7 +16,7 @@ test_that("POSIXct", {
   withr::local_timezone("UTC")
   sys_time_1970 <- Sys.time()
   sys_time_1970[[1]] <- 0
-  expect_pipe_snapshot({
+  expect_snapshot({
     # ordered
     construct(.leap.seconds[1:4])
     construct(sys_time_1970)

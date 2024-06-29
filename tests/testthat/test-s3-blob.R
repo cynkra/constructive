@@ -1,5 +1,5 @@
 test_that("blob", {
-  expect_pipe_snapshot({
+  expect_snapshot({
   construct(blob::as_blob(c("hello", "world")))
   construct(blob::as_blob(c("hello", "world")), opts_blob("new_blob"))
   construct(blob::as_blob(c("hello", "world")), opts_blob("as_blob"))

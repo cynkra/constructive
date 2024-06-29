@@ -12,7 +12,7 @@ test_that("Date", {
     tz = "GMT"
   )
 
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(structure(19469, class = "Date"))
     construct(structure(19469, class = "Date"), opts_Date("next"))
     construct(structure(19469, class = "Date"), opts_Date("double"))

@@ -1,5 +1,5 @@
 test_that("quosures", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(
       rlang::new_quosures(list(
         rlang::new_quosure(quote(x)),

@@ -1,5 +1,5 @@
 test_that("dots", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     # if dots1 and the evaluation env of `...` is in the same env we have
     # infinite recursion issues so we use `local()`
     dots1 <- local((function(...) get("..."))(a=x, y))

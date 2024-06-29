@@ -1,5 +1,5 @@
 test_that("factor", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     # simple factor with implict levels
     construct(factor(month.abb))
     construct(factor(month.abb), opts_factor("next"))

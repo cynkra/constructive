@@ -1,5 +1,5 @@
 test_that("deparse_call()", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     deparse_call(call("::", 1, 2), style = FALSE)
     deparse_call(call("::", "a", quote(b)), style = FALSE)
     deparse_call(call("::", quote(a), "b"), style = FALSE)
@@ -121,7 +121,7 @@ test_that("deparse_call()", {
 test_that("deparse_call() for R >= 4.1", {
   # Due to bypass.R
   skip_if(base::`<`(getRversion(), "4.1"))
-  expect_pipe_snapshot({
+  expect_snapshot({
     deparse_call(quote(`🐶`), style = FALSE)
     deparse_call(quote(`🐶`), unicode_representation = "unicode")
   })

@@ -2,7 +2,7 @@ test_that("formula", {
   #testthat::skip("skipping formula tests")
   local(
     envir = .GlobalEnv,
-    constructive:::expect_pipe_snapshot({
+    expect_snapshot({
       fml1 <- formula(lhs ~ rhs, .GlobalEnv)
       construct(fml1) # by default no env for constructor = "~"
       construct(fml1, opts_formula(constructor = "formula"))
