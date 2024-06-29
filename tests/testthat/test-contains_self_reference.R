@@ -41,21 +41,21 @@ test_that("self reference fails properly", {
   expect_error(construct(env, opts_environment("list2env")), "self-references")
   expect_error(construct(env, opts_environment("new_environment")), "self-references")
   expect_error(construct(env, opts_environment("as.environment")), "self-references")
-  expect_snapshot(construct(env, opts_environment(predefine = TRUE)))
+  expect_snapshot(construct(env, opts_environment("predefine")))
 
   env <- new.env(parent = baseenv())
   env$x <- structure(1, foo = env)
   expect_error(construct(env, opts_environment("list2env")), "self-references")
   expect_error(construct(env, opts_environment("new_environment")), "self-references")
   expect_error(construct(env, opts_environment("as.environment")), "self-references")
-  expect_snapshot(construct(env, opts_environment(predefine = TRUE)))
+  expect_snapshot(construct(env, opts_environment("predefine")))
 
   env <- new.env(parent = baseenv())
   attr(env, "foo") <- env
   expect_error(construct(env, opts_environment("list2env")), "self-references")
   expect_error(construct(env, opts_environment("new_environment")), "self-references")
   expect_error(construct(env, opts_environment("as.environment")), "self-references")
-  expect_snapshot(construct(env, opts_environment(predefine = TRUE)))
+  expect_snapshot(construct(env, opts_environment("predefine")))
 
   env <- new.env(parent = baseenv())
   env$f <- function() NULL
@@ -78,7 +78,7 @@ test_that("self reference fails properly", {
     opts_environment("as.environment"),
     opts_function(environment = FALSE),
     check = FALSE))
-  expect_snapshot(construct(env, opts_environment(predefine = TRUE)))
+  expect_snapshot(construct(env, opts_environment("predefine")))
 
   parent <- new.env(parent = baseenv())
   env <- new.env(parent = parent)
