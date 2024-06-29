@@ -61,25 +61,20 @@
 #'  `emptyenv()`. `recurse` is ignored.
 #' * `"topenv"` : we construct `base::topenv(x)`, see `?topenv`. `recurse` is ignored.
 #'   This is the most accurate we can be when constructing only special environments.
-#'
-#' @section Predefine:
-#'
-#'  Building environments from scratch using the above methods can be verbose and
-#' sometimes redundant if and environment is used several times. One last option
-#' is to define the environments and their content above the object returning call,
-#' using placeholder names `..env.1..`, `..env.2..` etc. This is done by setting
-#' `predefine` to `TRUE`. `constructor` and `recurse` are ignored in that case.
-#'
-#' @param constructor String. Name of the function used to construct the environment, see **Constructors** section.
+#' * `"predefine"` : Building environments from scratch using the above methods
+#'   can be verbose, sometimes redundant and sometimes even impossible due to
+#'   circularity (e.g. an environment referencing itself).  With `"predefine"`
+#'   we define the environments and their content  above the object returning
+#'   call, using placeholder names `..env.1..`, `..env.2..` etc.
+#'   The caveat is that the created code won't be a single call
+#'   and will create objects in the workspace. `recurse` is ignored.
+#' @param constructor String. Name of the function used to construct the
+#'   environment, see **Constructors** section.
 #' @inheritParams opts_atomic
-#' @param recurse Boolean. Only considered if `constructor` is `"list2env"` or `"new_environment"`. Whether to
-#'   attempt to recreate all parent environments until a known environment is found,
-#'   if `FALSE` (the default) we will use `topenv()` to find a known ancestor to set as
-#'   the parent.
-#' @param predefine Boolean. Whether to define environments first. If `TRUE` `constructor` and `recurse`
-#'   are ignored. It circumvents the circularity, recursivity and redundancy issues of
-#'   other constructors. The caveat is that the created code won't be a single call
-#'   and will create objects in the workspace.
+#' @param recurse Boolean. Only considered if `constructor` is `"list2env"` or
+#'   `"new_environment"`. Whether to attempt to recreate all parent environments
+#'   until a known environment is found, if `FALSE` (the default) we will use
+#'    `topenv()` to find a known ancestor to set as the parent.
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export

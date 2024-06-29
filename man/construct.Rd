@@ -147,7 +147,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_element_rect]{opts_element_rect}(constructor = c("element_rect", "next", "list"), ...)}
   \item \code{\link[=opts_element_render]{opts_element_render}(constructor = c("element_render", "next", "list"), ...)}
   \item \code{\link[=opts_element_text]{opts_element_text}(constructor = c("element_text", "next", "list"), ...)}
-  \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE)}
+  \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE)}
   \item \code{\link[=opts_error]{opts_error}(constructor = c("errorCondition", "next"), ...)}
   \item \code{\link[=opts_expression]{opts_expression}(constructor = c("default"), ...)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
