@@ -51,18 +51,15 @@ is_corrupted_character <- function(x) {
 
   # non standard names
   nms <- names(x)
-  names_need_repair <-
-    !is.null(nms) && (
-      anyNA(nms) || all(nms == "") || any(c("recursive", "use.names") %in% nms)
-    )
-  if (names_need_repair) names(x) <- NULL
+  repair_names <- names_need_repair(nms)
+  if (repair_names) names(x) <- NULL
 
   # trim
   # FIXME: the name reparation is affected by trim
   if (!is.null(opts$trim)) {
     code <- trim_atomic(x, opts$trim, opts$fill, ...)
     if (!is.null(code)) {
-      code <- .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
+      code <- .cstr_repair_attributes(x_bkp, code, ..., repair_names = repair_names)
       return(code)
     }
   }
@@ -71,7 +68,7 @@ is_corrupted_character <- function(x) {
   if (opts$compress && is.null(names(x))) {
     code <- compress_character(x, ...)
     if (!is.null(code)) {
-      code <- .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
+      code <- .cstr_repair_attributes(x_bkp, code, ..., repair_names = repair_names)
       return(code)
     }
   }
@@ -81,7 +78,7 @@ is_corrupted_character <- function(x) {
 
   # return length 1 object early, no need for c() or NA compaction
   if (length(strings) == 1 && is.null(names(x))) {
-    code <- .cstr_repair_attributes(x_bkp, strings, ..., repair_names = names_need_repair)
+    code <- .cstr_repair_attributes(x_bkp, strings, ..., repair_names = repair_names)
     return(code)
   }
 
@@ -91,5 +88,5 @@ is_corrupted_character <- function(x) {
 
   # wrap with c()
   code <- .cstr_apply(strings, "c", ..., recurse = FALSE)
-  .cstr_repair_attributes(x_bkp, code, ..., repair_names = names_need_repair)
+  .cstr_repair_attributes(x_bkp, code, ..., repair_names = repair_names)
 }

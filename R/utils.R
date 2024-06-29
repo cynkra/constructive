@@ -365,3 +365,12 @@ native_encoding <- function() {
 is_na_real <- function(x) {
   is.na(x) & !is.nan(x)
 }
+
+names_need_repair <- function(nms, c_names = TRUE) {
+  !is.null(nms) && (
+    anyNA(nms) ||
+      all(nms == "")  ||
+      !is.null(attributes(nms)) ||
+      (c_names && any(c("recursive", "use.names") %in% nms))
+  )
+}

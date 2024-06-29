@@ -157,3 +157,9 @@ abort_wrong_data <- function(x) {
   }
   invisible(NULL)
 }
+
+abort_self_reference <- function() {
+  msg <- "The object contains self-references (environments depending pointing to themselves)"
+  info <- "Consider using `opts_environment(\"predefine\")` or less reliably `recurse = FALSE`"
+  rlang::abort(c(msg, i = info), call = parent.frame())
+}

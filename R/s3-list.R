@@ -79,8 +79,8 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
     }
   }
   nms <- names(x)
-  names_need_repair <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
-  if (names_need_repair) names(x) <- NULL
+  repair_names <- names_need_repair(nms, c_names = FALSE)
+  if (repair_names) names(x) <- NULL
   .cstr_apply(x, fun = constructor, ..., trailing_comma = trailing_comma)
 }
 
@@ -102,6 +102,6 @@ construct_list <- function(x, constructor, trim, fill, trailing_comma, ...) {
 
 repair_attributes_list <- function(x, code, ...) {
   nms <- names(x)
-  names_need_repair <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
-  .cstr_repair_attributes(x, code, ..., repair_names = names_need_repair)
+  repair_names <- !is.null(nms) && (anyNA(nms) || all(nms == ""))
+  .cstr_repair_attributes(x, code, ..., repair_names = repair_names)
 }

@@ -149,27 +149,38 @@ is_corrupted_environment <- function(x) {
 #' @method .cstr_construct.environment list2env
 .cstr_construct.environment.list2env <- function(x, ...) {
   opts <- list(...)$opts$environment %||% opts_environment()
-    if (!opts$recurse) {
-      if (length(names(x))) {
-        code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "list2env", ...)
-        code <- apply_env_locks(x, code, ...)
-        return(repair_attributes_environment(x, code, ...))
-      }
-      code <- .cstr_apply(list(parent = topenv(x)), "new.env", ...)
+  if (contains_self_reference(
+    x,
+    check_parent = opts$recurse,
+    check_function_env = list(...)$opts$`function`$environment %||% TRUE,
+    # FIXME: this would be a very contrived corner case to have a corrupted
+    #   srcref containing environment self refs
+    check_srcref = FALSE # list(...)$opts$`function`$srcref %||% FALSE
+    )) {
+    abort_self_reference()
+  }
+
+  if (!opts$recurse) {
+    if (length(names(x))) {
+      code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "list2env", ...)
       code <- apply_env_locks(x, code, ...)
       return(repair_attributes_environment(x, code, ...))
     }
+    code <- .cstr_apply(list(parent = topenv(x)), "new.env", ...)
+    code <- apply_env_locks(x, code, ...)
+    return(repair_attributes_environment(x, code, ...))
+  }
 
-    placeholder <- get_pipe_placeholder(list(...)$pipe)
-    lhs_code <- .cstr_construct(parent.env(x), ...)
-    if (length(names(x))) {
-      data_code <- .cstr_construct(env2list(x), ...)
-      rhs_code <- .cstr_apply(list(data_code, parent = placeholder), "list2env", ..., recurse = FALSE)
-      code <- .cstr_pipe(lhs_code, rhs_code, ...)
-    } else {
-      rhs_code <- .cstr_apply(list(parent = placeholder), "new.env", ..., recurse = FALSE)
-      code <- .cstr_pipe(lhs_code, rhs_code, ...)
-    }
+  placeholder <- get_pipe_placeholder(list(...)$pipe)
+  lhs_code <- .cstr_construct(parent.env(x), ...)
+  if (length(names(x))) {
+    data_code <- .cstr_construct(env2list(x), ...)
+    rhs_code <- .cstr_apply(list(data_code, parent = placeholder), "list2env", ..., recurse = FALSE)
+    code <- .cstr_pipe(lhs_code, rhs_code, ...)
+  } else {
+    rhs_code <- .cstr_apply(list(parent = placeholder), "new.env", ..., recurse = FALSE)
+    code <- .cstr_pipe(lhs_code, rhs_code, ...)
+  }
   code <- apply_env_locks(x, code)
   repair_attributes_environment(x, code, ...)
 }
@@ -178,6 +189,16 @@ is_corrupted_environment <- function(x) {
 #' @method .cstr_construct.environment new_environment
 .cstr_construct.environment.new_environment <- function(x, ...) {
   opts <- list(...)$opts$environment %||% opts_environment()
+  if (contains_self_reference(
+    x,
+    check_parent = opts$recurse,
+    check_function_env = list(...)$opts$`function`$environment %||% TRUE,
+    # FIXME: this would be a very contrived corner case to have a corrupted
+    #   srcref containing environment self refs
+    check_srcref = FALSE # list(...)$opts$`function`$srcref %||% FALSE
+  )) {
+    abort_self_reference()
+  }
   if (!opts$recurse) {
     if (length(names(x))) {
       code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "rlang::new_environment", ...)
@@ -213,6 +234,16 @@ is_corrupted_environment <- function(x) {
 #' @export
 #' @method .cstr_construct.environment as.environment
 .cstr_construct.environment.as.environment <- function(x, ...) {
+  if (contains_self_reference(
+    x,
+    check_parent = FALSE,
+    check_function_env = list(...)$opts$`function`$environment %||% TRUE,
+    # FIXME: this would be a very contrived corner case to have a corrupted
+    #   srcref containing environment self refs
+    check_srcref = FALSE # list(...)$opts$`function`$srcref %||% FALSE
+  )) {
+    abort_self_reference()
+  }
   # We need to use as.list.environment() (via env2list()) because as.list() will only map
   # to as.list.environment() if class was not overriden
   code <- .cstr_wrap(
@@ -231,8 +262,8 @@ is_corrupted_environment <- function(x) {
   code
 }
 
-repair_attributes_environment <- function(x, code, opts, ...) {
-  opts <- opts$environment %||% opts_environment()
+repair_attributes_environment <- function(x, code, ...) {
+  opts <- list(...)$opts$environment %||% opts_environment()
   if ((opts$constructor == ".env" && !opts[["predefine"]]) ||
       grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||
       code[[1]] %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
