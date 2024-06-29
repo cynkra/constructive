@@ -26,6 +26,7 @@ Imports:
     waldo
 Suggests: 
     bit64,
+    blob,
     clipr,
     data.table,
     DiagrammeR,
