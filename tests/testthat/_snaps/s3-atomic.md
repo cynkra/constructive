@@ -378,6 +378,14 @@
       logical(10) |>
         structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
     Code
+      construct(structure(logical(2), names = structure(c("b", "a"), foo = 1)))
+    Output
+      c(FALSE, FALSE) |>
+        structure(
+          names = c("b", "a") |>
+            structure(foo = 1)
+        )
+    Code
       construct(structure(integer(2), names = c("", "")))
     Output
       c(0L, 0L) |>
@@ -406,6 +414,14 @@
     Output
       integer(10) |>
         structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+    Code
+      construct(structure(integer(2), names = structure(c("b", "a"), foo = 1)))
+    Output
+      c(0L, 0L) |>
+        structure(
+          names = c("b", "a") |>
+            structure(foo = 1)
+        )
     Code
       construct(structure(double(2), names = c("", "")))
     Output
@@ -436,6 +452,14 @@
       numeric(10) |>
         structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
     Code
+      construct(structure(double(2), names = structure(c("b", "a"), foo = 1)))
+    Output
+      c(0, 0) |>
+        structure(
+          names = c("b", "a") |>
+            structure(foo = 1)
+        )
+    Code
       construct(structure(complex(2), names = c("", "")))
     Output
       c(0i, 0i) |>
@@ -465,6 +489,14 @@
       c(0i, 0i, 0i, 0i, 0i, 0i, 0i, 0i, 0i, 0i) |>
         structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
     Code
+      construct(structure(complex(2), names = structure(c("b", "a"), foo = 1)))
+    Output
+      c(0i, 0i) |>
+        structure(
+          names = c("b", "a") |>
+            structure(foo = 1)
+        )
+    Code
       construct(structure(character(2), names = c("", "")))
     Output
       c("", "") |>
@@ -493,6 +525,14 @@
     Output
       character(10) |>
         structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+    Code
+      construct(structure(character(2), names = structure(c("b", "a"), foo = 1)))
+    Output
+      c("", "") |>
+        structure(
+          names = c("b", "a") |>
+            structure(foo = 1)
+        )
     Code
       construct(structure(raw(2), names = c("", "")))
     Output
@@ -525,6 +565,14 @@
     Output
       raw(10) |>
         structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+    Code
+      construct(structure(raw(2), names = structure(c("b", "a"), foo = 1)))
+    Output
+      as.raw(c(0x00, 0x00)) |>
+        structure(
+          names = c("b", "a") |>
+            structure(foo = 1)
+        )
 
 # attributes are repaired on length 0 atomics
 
