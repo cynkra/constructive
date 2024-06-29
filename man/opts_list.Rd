@@ -14,7 +14,7 @@ opts_list(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
-\item{...}{Should not be used. Forces passing arguments by name.}
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
 \item{trim}{\code{NULL} or integerish. Maximum of elements showed before it's trimmed.
 Note that it will necessarily produce code that doesn't reproduce the input.

@@ -11,6 +11,7 @@
 #' character objects constructed as part of the blob construction.
 #'
 #' @param constructor String. Name of the function used to construct the object.
+#' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_blob>
 #' @export
 opts_blob <- function(constructor = c("blob", "next"), ...) {

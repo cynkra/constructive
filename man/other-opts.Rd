@@ -207,7 +207,7 @@ opts_warning(constructor = c("warningCondition", "next"), ...)
 \item{constructor}{String. Method used to construct the object, often the name
 of a function.}
 
-\item{...}{Should not be used. Forces passing arguments by name.}
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
 \item{trim}{\code{NULL} or integerish. Maximum of elements showed before it's trimmed.
 Note that it will necessarily produce code that doesn't reproduce the input.
