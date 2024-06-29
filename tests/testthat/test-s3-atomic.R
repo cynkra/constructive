@@ -39,7 +39,7 @@ test_that("numeric", {
 })
 
 test_that("other atomic", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(letters)
     construct(letters, one_liner = TRUE)
     construct(letters, opts_atomic(trim = 1, fill = "rlang"))
@@ -51,7 +51,7 @@ test_that("other atomic", {
 
 
 test_that("simplify atomic", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(c("a", "a", "b", "c", "c", "c", "c"))
     construct(c(foo = "a", "a", "b", "c", "c", "c", "c"))
     construct(c("a", "b", "a", "b","a", "b","a", "b"))
@@ -67,7 +67,7 @@ test_that("simplify atomic", {
 
 test_that("character", {
   # check = FALSE for raw strings to pass tests on older R versions
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct("'hello'")
     construct('"hello"')
     construct("'\"hello\"'", check = FALSE)
@@ -85,7 +85,7 @@ test_that("character", {
 })
 
 test_that("negative zeroes", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(-0)
     construct(c(-0, -0, -0))
     construct(c(0, -0, -0))
@@ -95,7 +95,7 @@ test_that("negative zeroes", {
 })
 
 test_that("complex", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(NA_complex_)
     construct(c(NA_complex_, NA_complex_))
     construct(c(NA_complex_, NA_complex_, NA_complex_))
@@ -154,17 +154,17 @@ test_that("NA and empty names", {
     construct(structure(character(2), names = c("", "a")))
     construct(structure(character(10), names = c("", "a")))
 
-    # construct(structure(raw(2), names = c("", "")))
-    # construct(structure(raw(2), names = c("", NA)))
-    # construct(structure(raw(2), names = c(NA, NA)))
-    # construct(structure(raw(2), names = c(NA, "a")))
-    # construct(structure(raw(2), names = c("", "a")))
-    # construct(structure(raw(10), names = c("", "a")))
+    construct(structure(raw(2), names = c("", "")))
+    construct(structure(raw(2), names = c("", NA)))
+    construct(structure(raw(2), names = c(NA, NA)))
+    construct(structure(raw(2), names = c(NA, "a")))
+    construct(structure(raw(2), names = c("", "a")))
+    construct(structure(raw(10), names = c("", "a")))
   })
 })
 
 test_that("attributes are repaired on length 0 atomics", {
-  expect_snapshot({
+  expect_pipe_snapshot({
     construct(structure(character(0), foo = 1))
     construct(structure(double(0), foo = 1))
     construct(structure(integer(0), foo = 1))

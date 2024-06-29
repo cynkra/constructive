@@ -111,6 +111,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next"), ...)}
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = NULL)}
   \item \code{\link[=opts_bibentry]{opts_bibentry}(constructor = c("bibentry", "next"), ...)}
+  \item \code{\link[=opts_blob]{opts_blob}(constructor = c("blob", "next"), ...)}
   \item \code{\link[=opts_character]{opts_character}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)}
   \item \code{\link[=opts_citationFooter]{opts_citationFooter}(constructor = c("citFooter", "next"), ...)}
   \item \code{\link[=opts_citationHeader]{opts_citationHeader}(constructor = c("citHeader", "next"), ...)}
@@ -176,7 +177,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_quosure]{opts_quosure}(constructor = c("new_quosure", "next", "language"), ...)}
   \item \code{\link[=opts_quosures]{opts_quosures}(constructor = c("new_quosures", "next", "list"), ...)}
   \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "list"), ...)}
-  \item \code{\link[=opts_raw]{opts_raw}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
+  \item \code{\link[=opts_raw]{opts_raw}(constructor = c("as.raw", "charToRaw"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, representation = c("hexadecimal", "integer", "character"))}
   \item \code{\link[=opts_rel]{opts_rel}(constructor = c("rel", "next", "double"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}

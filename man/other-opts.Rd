@@ -15,7 +15,7 @@
 %   R/s3-ggplot2-rel.R, R/s3-ggplot2-simpleUnit.R, R/s3-ggplot2-theme.R,
 %   R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R, R/s3-hexmode.R,
 %   R/s3-integer.R, R/s3-logical.R, R/s3-noquote.R, R/s3-octmode.R,
-%   R/s3-person.R, R/s3-raw.R, R/s3-simpleCondition.R, R/s3-simpleError.R,
+%   R/s3-person.R, R/s3-simpleCondition.R, R/s3-simpleError.R,
 %   R/s3-simpleMessage.R, R/s3-simpleWarning.R, R/s3-warning.R
 \name{other-opts}
 \alias{other-opts}
@@ -61,7 +61,6 @@
 \alias{opts_noquote}
 \alias{opts_octmode}
 \alias{opts_person}
-\alias{opts_raw}
 \alias{opts_simpleCondition}
 \alias{opts_simpleError}
 \alias{opts_simpleMessage}
@@ -193,14 +192,6 @@ opts_noquote(constructor = c("noquote", "next"), ...)
 opts_octmode(constructor = c("as.octmode", "next"), ..., integer = FALSE)
 
 opts_person(constructor = c("person", "next"), ...)
-
-opts_raw(
-  constructor = c("default"),
-  ...,
-  trim = NULL,
-  fill = c("default", "rlang", "+", "...", "none"),
-  compress = TRUE
-)
 
 opts_simpleCondition(constructor = c("simpleCondition", "next"), ...)
 

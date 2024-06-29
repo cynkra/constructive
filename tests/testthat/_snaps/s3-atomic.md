@@ -493,6 +493,38 @@
     Output
       character(10) |>
         structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
+    Code
+      construct(structure(raw(2), names = c("", "")))
+    Output
+      as.raw(c(0x00, 0x00)) |>
+        structure(names = c("", ""))
+    Code
+      construct(structure(raw(2), names = c("", NA)))
+    Output
+      as.raw(c(0x00, 0x00)) |>
+        structure(names = c("", NA))
+    Code
+      construct(structure(raw(2), names = c(NA, NA)))
+    Output
+      as.raw(c(0x00, 0x00)) |>
+        structure(names = c(NA_character_, NA_character_))
+    Code
+      construct(structure(raw(2), names = c(NA, "a")))
+    Output
+      as.raw(c(0x00, 0x00)) |>
+        structure(names = c(NA, "a"))
+    Code
+      construct(structure(raw(2), names = c("", "a")))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      as.raw(c(0x00, 0x00))
+    Code
+      construct(structure(raw(10), names = c("", "a")))
+    Output
+      raw(10) |>
+        structure(names = rep(c("", "a", NA), c(1L, 1L, 8L)))
 
 # attributes are repaired on length 0 atomics
 
