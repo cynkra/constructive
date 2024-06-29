@@ -149,27 +149,27 @@ is_corrupted_environment <- function(x) {
 #' @method .cstr_construct.environment list2env
 .cstr_construct.environment.list2env <- function(x, ...) {
   opts <- list(...)$opts$environment %||% opts_environment()
-    if (!opts$recurse) {
-      if (length(names(x))) {
-        code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "list2env", ...)
-        code <- apply_env_locks(x, code, ...)
-        return(repair_attributes_environment(x, code, ...))
-      }
-      code <- .cstr_apply(list(parent = topenv(x)), "new.env", ...)
+  if (!opts$recurse) {
+    if (length(names(x))) {
+      code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "list2env", ...)
       code <- apply_env_locks(x, code, ...)
       return(repair_attributes_environment(x, code, ...))
     }
+    code <- .cstr_apply(list(parent = topenv(x)), "new.env", ...)
+    code <- apply_env_locks(x, code, ...)
+    return(repair_attributes_environment(x, code, ...))
+  }
 
-    placeholder <- get_pipe_placeholder(list(...)$pipe)
-    lhs_code <- .cstr_construct(parent.env(x), ...)
-    if (length(names(x))) {
-      data_code <- .cstr_construct(env2list(x), ...)
-      rhs_code <- .cstr_apply(list(data_code, parent = placeholder), "list2env", ..., recurse = FALSE)
-      code <- .cstr_pipe(lhs_code, rhs_code, ...)
-    } else {
-      rhs_code <- .cstr_apply(list(parent = placeholder), "new.env", ..., recurse = FALSE)
-      code <- .cstr_pipe(lhs_code, rhs_code, ...)
-    }
+  placeholder <- get_pipe_placeholder(list(...)$pipe)
+  lhs_code <- .cstr_construct(parent.env(x), ...)
+  if (length(names(x))) {
+    data_code <- .cstr_construct(env2list(x), ...)
+    rhs_code <- .cstr_apply(list(data_code, parent = placeholder), "list2env", ..., recurse = FALSE)
+    code <- .cstr_pipe(lhs_code, rhs_code, ...)
+  } else {
+    rhs_code <- .cstr_apply(list(parent = placeholder), "new.env", ..., recurse = FALSE)
+    code <- .cstr_pipe(lhs_code, rhs_code, ...)
+  }
   code <- apply_env_locks(x, code)
   repair_attributes_environment(x, code, ...)
 }
