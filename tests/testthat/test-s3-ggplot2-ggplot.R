@@ -9,7 +9,7 @@ test_that("ggplot-all-versions", {
     expect_faithful_ggplot_construction(p1, opts_Layer("environment"))
     expect_faithful_ggplot_construction(p2, opts_Layer("environment"))
 
-    expect_pipe_snapshot({
+    expect_snapshot({
       construct(p1, data = list(mpg_99 = mpg_99))
     })
 })
@@ -23,7 +23,7 @@ test_that("ggplot-after-R4.1.3", {
   p1 <- base_99 + ggplot2::scale_x_continuous(limits = c(1, 7))
   p2 <- p1 + ggplot2::scale_y_continuous(limits = c(10, 45)) + ggplot2::facet_wrap(~manufacturer)
 
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(p2, data = list(mpg_99 = mpg_99))
   })
 })
@@ -35,7 +35,7 @@ test_that("ggplot-pre-incl-R4.1.3", {
   p1 <- base_99 + ggplot2::scale_x_continuous(limits = c(1, 7))
   p2 <- p1 + ggplot2::scale_y_continuous(limits = c(10, 45)) + ggplot2::facet_wrap(~manufacturer)
 
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(p2, data = list(mpg_99 = mpg_99))
   })
 })

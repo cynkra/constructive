@@ -1,5 +1,5 @@
 test_that("expression vectors", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     x <- expression(a = 1, x + y)
     construct(x)
     x[[2]] <- structure(quote(x + y), foo = 1)

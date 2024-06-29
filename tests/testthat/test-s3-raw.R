@@ -1,6 +1,6 @@
 test_that("raw", {
   # check = FALSE for raw strings to pass tests on older R versions
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(raw(1))
     construct(raw(2))
     construct(raw(10))

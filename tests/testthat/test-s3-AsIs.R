@@ -1,5 +1,5 @@
 test_that("AsIs", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(I(month.abb))
     construct(I(month.abb), opts_AsIs("next"))
     construct(I(head(cars,2)))

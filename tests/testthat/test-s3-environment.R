@@ -1,5 +1,5 @@
 test_that("environment", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     # handle special cases
     construct(globalenv())
     construct(baseenv())

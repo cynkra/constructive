@@ -18,7 +18,7 @@ test_that("language after 4.1", {
 })
 
 test_that("complex language", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     x <- quote(a(1)(2))
     attr(x[[1]], "foo") <- "bar"
     construct(x)

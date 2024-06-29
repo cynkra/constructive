@@ -1,5 +1,5 @@
 test_that("numeric_version(), package_version(), R_system_version()", {
-  expect_pipe_snapshot({
+  expect_snapshot({
     construct(numeric_version("1.2.3"))
     construct(numeric_version("1.2.3"), opts_numeric_version("next"))
     construct(numeric_version("1.2.3"), opts_numeric_version("list"))
