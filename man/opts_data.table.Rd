@@ -13,7 +13,7 @@ opts_data.table(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
-\item{...}{Should not be used. Forces passing arguments by name.}
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
 \item{selfref}{Boolean. Whether to include the \code{.internal.selfref} attribute. It's
 probably not useful, hence the default, \code{waldo::compare()} is used to assess the output

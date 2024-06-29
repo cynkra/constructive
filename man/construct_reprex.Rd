@@ -4,15 +4,19 @@
 \alias{construct_reprex}
 \title{construct_reprex}
 \usage{
-construct_reprex(n = 0, ...)
+construct_reprex(..., n = 0, include_dotted = TRUE)
 }
 \arguments{
+\item{...}{Forwarded to \code{construct_multi()}}
+
 \item{n}{The number of steps to go up on the call stack}
 
-\item{...}{Forwarded to \code{construct_multi()}}
+\item{include_dotted}{Whether to include names starting with dots, this includes
+\code{.Random.seed} in the global environment and objects like \code{.Class}, \code{.Generic}
+in the execution environments of S3 methods.}
 }
 \value{
-Returns return \code{NULL} invisibly, called for side-effects.
+An object of class 'constructive'.
 }
 \description{
 \code{construct_reprex()} constructs all objects of the local environment,

@@ -2,7 +2,7 @@
 #'
 #' These options will be used on atomic types ("logical", "integer", "numeric", "complex", "character" and "raw")
 #'
-#' @param ... Should not be used. Forces passing arguments by name.
+#' @param ... Additional options used by user defined constructors through the `opts` object
 #' @param trim `NULL` or integerish. Maximum of elements showed before it's trimmed.
 #' Note that it will necessarily produce code that doesn't reproduce the input.
 #' This code will parse without failure but its evaluation might fail.

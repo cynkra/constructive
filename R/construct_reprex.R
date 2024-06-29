@@ -26,16 +26,17 @@
 #' encounter these limitations please do open a ticket on our issue tracker
 #' at `https://github.com/cynkra/constructive/` and we might expand the feature.
 #'
-#' @param n The number of steps to go up on the call stack
 #' @param ... Forwarded to `construct_multi()`
+#' @param n The number of steps to go up on the call stack
+#' @inheritParams construct_multi
 #'
-#' @return Returns return `NULL` invisibly, called for side-effects.
+#' @return An object of class 'constructive'.
 #' @export
-construct_reprex <- function(n = 0, ...) {
+construct_reprex <- function(..., n = 0, include_dotted = TRUE) {
   stopifnot(n >= 0)
   caller_env <- parent.frame(1 + n)
   if (n == 0) {
-    return(construct_multi(caller_env, ...))
+    return(construct_multi(caller_env, ..., include_dotted = include_dotted))
   }
 
   call <- sys.call(-n)
@@ -43,7 +44,7 @@ construct_reprex <- function(n = 0, ...) {
 
   # output ---------------------------------------------------------------------
   if (length(names(caller_env))) {
-    constructed <- construct_multi(caller_env, ...)
+    constructed <- construct_multi(caller_env, ..., include_dotted = include_dotted)
     constructed$code <- as_constructive_code(
       c(constructed$code, paste("#", deparse_call(call, style = FALSE)))
     )

@@ -14,7 +14,7 @@ opts_tbl_df(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
-\item{...}{Should not be used. Forces passing arguments by name.}
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
 \item{trailing_comma}{Boolean. Whether to leave a trailing comma at the end of the constructor call
 calls}

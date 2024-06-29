@@ -15,7 +15,7 @@ opts_function(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
-\item{...}{Should not be used. Forces passing arguments by name.}
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
 \item{environment}{Boolean. Whether to reconstruct the function's environment.}
 
