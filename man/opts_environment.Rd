@@ -15,7 +15,7 @@ opts_environment(
 \arguments{
 \item{constructor}{String. Name of the function used to construct the environment, see \strong{Constructors} section.}
 
-\item{...}{Should not be used. Forces passing arguments by name.}
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
 \item{recurse}{Boolean. Only considered if \code{constructor} is \code{"list2env"} or \code{"new_environment"}. Whether to
 attempt to recreate all parent environments until a known environment is found,

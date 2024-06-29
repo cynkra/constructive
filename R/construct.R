@@ -46,6 +46,9 @@
 #' @param template A list of constructive options built with `opts_*()` functions,
 #'   they will be overriden by `...`. Use it to set a default
 #'   behavior for `{constructive}`.
+#' @param include_dotted Whether to include names starting with dots, this includes
+#'   `.Random.seed` in the global environment and objects like `.Class`, `.Generic`
+#'   in the execution environments of S3 methods.
 #' @return An object of class 'constructive'.
 #' @enumerateOptFunctions
 #'
@@ -135,12 +138,19 @@ construct_multi <- function(
     pedantic_encoding = FALSE,
     compare = compare_options(),
     one_liner = FALSE,
-    template = getOption("constructive_opts_template")) {
+    template = getOption("constructive_opts_template"),
+    include_dotted = TRUE
+    ) {
   abort_not_env_or_named_list(x)
   data <- process_data(data)
   unicode_representation <- match.arg(unicode_representation)
 
   if (is.list(x)) {
+    if (!include_dotted) {
+      nms <- grep("^[^.]|([.][.][.])", names(x), value = TRUE)
+      x <- x[nms]
+    }
+
     constructives <- lapply(
       x, construct,  ...,
       data = data, pipe = pipe, check = check,
@@ -154,7 +164,16 @@ construct_multi <- function(
   } else if (is.environment(x)) {
     opts <- collect_opts(..., template = template)
     constructives <- list()
-    for (nm in names(x)) {
+
+    # ls() sorts names alphabetically while names() displays from most to least
+    #   recently defined. Taking the reverse of names() will create the most
+    #   natural looking reprexes
+    nms <- rev(names(x))
+    if (!include_dotted) {
+      nms <- grep("^[^.]|([.][.][.])", nms, value = TRUE)
+    }
+
+    for (nm in nms) {
       if (rlang::env_binding_are_lazy(x, nm)) {
         code <- do.call(substitute, list(as.name(nm), x))
         env <- promise_env(as.symbol(nm), x)

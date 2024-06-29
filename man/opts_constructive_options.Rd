@@ -9,7 +9,7 @@ opts_constructive_options(constructor = c("opts", "next"), ...)
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
-\item{...}{Should not be used. Forces passing arguments by name.}
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
 }
 \value{
 An object of class <constructive_options/constructive_options_constructive_options>

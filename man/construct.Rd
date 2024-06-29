@@ -30,7 +30,8 @@ construct_multi(
   pedantic_encoding = FALSE,
   compare = compare_options(),
   one_liner = FALSE,
-  template = getOption("constructive_opts_template")
+  template = getOption("constructive_opts_template"),
+  include_dotted = TRUE
 )
 }
 \arguments{
@@ -80,6 +81,10 @@ be confusing for users.}
 \item{template}{A list of constructive options built with \verb{opts_*()} functions,
 they will be overriden by \code{...}. Use it to set a default
 behavior for \code{{constructive}}.}
+
+\item{include_dotted}{Whether to include names starting with dots, this includes
+\code{.Random.seed} in the global environment and objects like \code{.Class}, \code{.Generic}
+in the execution environments of S3 methods.}
 }
 \value{
 An object of class 'constructive'.

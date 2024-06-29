@@ -18,6 +18,14 @@ test_that("construct_multi", {
   expect_snapshot(
     construct_multi(new_environment(list(a = letters, b = .leap.seconds)))
   )
+
+  expect_snapshot(
+    construct_multi(
+      new_environment(list(a = letters, b = .leap.seconds)),
+      include_dotted = FALSE
+    )
+  )
+
   expect_error(
     construct_multi(list(letters, .leap.seconds)),
     "named"
