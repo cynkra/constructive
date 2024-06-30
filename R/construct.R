@@ -69,7 +69,8 @@ construct <- function(
     escape = FALSE,
     pedantic_encoding = FALSE,
     compare = compare_options(), one_liner = FALSE,
-    template = getOption("constructive_opts_template")) {
+    template = getOption("constructive_opts_template"),
+    classes = NULL) {
 
   # reset globals
   globals$predefinition <- character()
@@ -91,6 +92,7 @@ construct <- function(
 
   # process data into a flat named list of objects
   data <- process_data(data)
+  classes <- process_classes(classes)
 
   # build code that produces the object, prepend with predefinitions if relevant
   caller <- user_env()
@@ -111,7 +113,8 @@ construct <- function(
       opts$atomic$escape %||%
       escape,
     one_liner = one_liner,
-    env = caller
+    env = caller,
+    classes = classes
   )
   code <- c(globals$predefinition, code)
 
