@@ -82,4 +82,14 @@
         Species = c(1L, 1L) |>
           structure(levels = c("setosa", "versicolor", "virginica"), class = "factor")
       )
+    Code
+      construct_dput(dplyr::band_members)
+    Output
+      list(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
+        structure(class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, -3L))
+    Code
+      construct_base(dplyr::band_members)
+    Output
+      data.frame(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
+        structure(class = c("tbl_df", "tbl", "data.frame"))
 
