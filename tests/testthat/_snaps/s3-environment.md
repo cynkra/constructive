@@ -123,10 +123,20 @@
       construct(constructive::.cstr_construct, opts_environment("predefine"),
       opts_function(environment = TRUE))
     Output
-      (function(x, ..., data = NULL) {
+      (function(x, ..., data = NULL, classes = NULL) {
         data_name <- perfect_match(x, data)
         if (!is.null(data_name)) return(data_name)
-        UseMethod(".cstr_construct")
+        if (is.null(classes)) {
+          UseMethod(".cstr_construct")
+        } else if (identical(classes, "-")) {
+          .cstr_construct.default(x, ..., classes = classes)
+        } else if (classes[[1]] == "-") {
+          cl <- setdiff(.class2(x), classes[-1])
+          UseMethod(".cstr_construct", structure(NA_integer_, class = cl))
+        } else {
+          cl <- intersect(.class2(x), classes)
+          UseMethod(".cstr_construct", structure(NA_integer_, class = cl))
+        }
       }) |>
         (`environment<-`)(asNamespace("constructive"))
 
