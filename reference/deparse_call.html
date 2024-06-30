@@ -100,7 +100,7 @@ auto conversion issues. "latin" is more lax and uses all latin characters
 
 
 <dt id="arg-escape">escape<a class="anchor" aria-label="anchor" href="#arg-escape"></a></dt>
-<dd><p>Whether to escape double quotes and backslashes. If <code>FALSE</code> we use
+<dd><p>Boolean. Whether to escape double quotes and backslashes. If <code>FALSE</code> we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
@@ -108,7 +108,7 @@ and/or a combination of single and double quotes. Depending on
 
 
 <dt id="arg-pedantic-encoding">pedantic_encoding<a class="anchor" aria-label="anchor" href="#arg-pedantic-encoding"></a></dt>
-<dd><p>Whether to mark strings with the "unknown" encoding
+<dd><p>Boolean. Whether to mark strings with the "unknown" encoding
 rather than an explicit native encoding ("UTF-8" or "latin1") when it's
 necessary to reproduce the binary representation exactly. This is pedantic
 in the sense that it's not necessary to have a faithful output in the sense

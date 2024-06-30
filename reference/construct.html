@@ -57,7 +57,8 @@ builds the code to reproduce objects stored in a named list or environment.</p>
 <span>  pedantic_encoding <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  compare <span class="op">=</span> <span class="fu"><a href="compare_options.html">compare_options</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  template <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"constructive_opts_template"</span><span class="op">)</span></span>
+<span>  template <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"constructive_opts_template"</span><span class="op">)</span>,</span>
+<span>  classes <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">construct_multi</span><span class="op">(</span></span>
@@ -72,6 +73,7 @@ builds the code to reproduce objects stored in a named list or environment.</p>
 <span>  compare <span class="op">=</span> <span class="fu"><a href="compare_options.html">compare_options</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  one_liner <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  template <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"constructive_opts_template"</span><span class="op">)</span>,</span>
+<span>  classes <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  include_dotted <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -117,7 +119,7 @@ auto conversion issues. "latin" is more lax and uses all latin characters
 
 
 <dt id="arg-escape">escape<a class="anchor" aria-label="anchor" href="#arg-escape"></a></dt>
-<dd><p>Whether to escape double quotes and backslashes. If <code>FALSE</code> we use
+<dd><p>Boolean. Whether to escape double quotes and backslashes. If <code>FALSE</code> we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
@@ -125,7 +127,7 @@ and/or a combination of single and double quotes. Depending on
 
 
 <dt id="arg-pedantic-encoding">pedantic_encoding<a class="anchor" aria-label="anchor" href="#arg-pedantic-encoding"></a></dt>
-<dd><p>Whether to mark strings with the "unknown" encoding
+<dd><p>Boolean. Whether to mark strings with the "unknown" encoding
 rather than an explicit native encoding ("UTF-8" or "latin1") when it's
 necessary to reproduce the binary representation exactly. This is pedantic
 in the sense that it's not necessary to have a faithful output in the sense
@@ -149,6 +151,16 @@ they will be overriden by <code>...</code>. Use it to set a default
 behavior for <code>{constructive}</code>.</p></dd>
 
 
+<dt id="arg-classes">classes<a class="anchor" aria-label="anchor" href="#arg-classes"></a></dt>
+<dd><p>A character vector of classes for which to use idiomatic
+constructors when available, we can provide a package instead of all its
+classes, in the "{pkg}" form, and we can use a minus sign (inside the quotes)
+to exclude rather than include. By default we use idiomatic constructors
+whenever possible. The special values <code>"*none*"</code> and <code>"*base*"</code> can be used
+to restrict the idiomatic construction to the objects. See <code><a href="construct_dput.html">construct_dput()</a></code>
+and <code><a href="construct_dput.html">construct_base()</a></code> for wrappers around this feature.</p></dd>
+
+
 <dt id="arg-include-dotted">include_dotted<a class="anchor" aria-label="anchor" href="#arg-include-dotted"></a></dt>
 <dd><p>Whether to include names starting with dots, this includes
 <code>.Random.seed</code> in the global environment and objects like <code>.Class</code>, <code>.Generic</code>
@@ -164,8 +176,7 @@ in the execution environments of S3 methods.</p></dd>
     <p><code>construct_multi()</code> recognizes promises, this means that for instance
 <code>construct_multi(environment())</code> can be called in a
 function and will construct unevaluated arguments using <code><a href="https://rdrr.io/r/base/delayedAssign.html" class="external-link">delayedAssign()</a></code>.
-Note however that <code>construct_multi(environment())</code> is equivalent to <code><a href="construct_reprex.html">construct_reprex()</a></code>
-called without argument and the latter is preferred.</p>
+See also <code><a href="construct_reprex.html">construct_reprex()</a></code> for this feature.</p>
     </div>
     <div class="section level2">
     <h2 id="constructive-options">Constructive options<a class="anchor" aria-label="anchor" href="#constructive-options"></a></h2>

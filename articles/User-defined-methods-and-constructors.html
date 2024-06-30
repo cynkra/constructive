@@ -130,12 +130,22 @@ attempts to match its data input to a list of objects provided to the
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">.cstr_construct</span></span>
-<span><span class="co">#&gt; function(x, ..., data = NULL) {</span></span>
+<span><span class="co">#&gt; function(x, ..., data = NULL, classes = NULL) {</span></span>
 <span><span class="co">#&gt;   data_name &lt;- perfect_match(x, data)</span></span>
 <span><span class="co">#&gt;   if (!is.null(data_name)) return(data_name)</span></span>
-<span><span class="co">#&gt;   UseMethod(".cstr_construct")</span></span>
+<span><span class="co">#&gt;   if (is.null(classes)) {</span></span>
+<span><span class="co">#&gt;     UseMethod(".cstr_construct")</span></span>
+<span><span class="co">#&gt;   } else if (identical(classes, "-")) {</span></span>
+<span><span class="co">#&gt;     .cstr_construct.default(x, ..., classes = classes)</span></span>
+<span><span class="co">#&gt;   } else if (classes[[1]] == "-") {</span></span>
+<span><span class="co">#&gt;     cl &lt;- setdiff(.class2(x), classes[-1])</span></span>
+<span><span class="co">#&gt;     UseMethod(".cstr_construct", structure(NA_integer_, class = cl))</span></span>
+<span><span class="co">#&gt;   } else {</span></span>
+<span><span class="co">#&gt;     cl &lt;- intersect(.class2(x), classes)</span></span>
+<span><span class="co">#&gt;     UseMethod(".cstr_construct", structure(NA_integer_, class = cl))</span></span>
+<span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55978358f1e8&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55f352d7a2f0&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dot-cstr_construct.html">.cstr_construct</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span>
@@ -265,7 +275,7 @@ vector constructor:</p>
 <span><span class="co">#&gt;   code &lt;- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)</span></span>
 <span><span class="co">#&gt;   repair_attributes_Date(x, code, ...)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55978326e710&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55f3529a0010&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <p>Their arguments are <code>x</code> and <code>...</code>, and no more.
 Additional parameters fed to the <code>opt_&lt;class&gt;()</code>
@@ -327,7 +337,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = "Date"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x5597834c5640&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55f3524463f8&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -339,7 +349,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = "factor"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x559785d58a00&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55f3556e9530&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -352,7 +362,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = c("tbl_df", "tbl", "data.frame")</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x559785dbbcc8&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x55f35579d138&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -46,7 +46,7 @@ naked <code><a href="construct.html">construct()</a></code>, without the checks,
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.cstr_construct</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.cstr_construct</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, data <span class="op">=</span> <span class="cn">NULL</span>, classes <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,6 +67,16 @@ section below.</p></dd>
 deparsing them further). Can also contain unnamed nested lists, environments, or
 package names, in the latter case package exports and datasets will be considered.
 In case of conflict, the last provided name is considered.</p></dd>
+
+
+<dt id="arg-classes">classes<a class="anchor" aria-label="anchor" href="#arg-classes"></a></dt>
+<dd><p>A character vector of classes for which to use idiomatic
+constructors when available, we can provide a package instead of all its
+classes, in the "{pkg}" form, and we can use a minus sign (inside the quotes)
+to exclude rather than include. By default we use idiomatic constructors
+whenever possible. The special values <code>"*none*"</code> and <code>"*base*"</code> can be used
+to restrict the idiomatic construction to the objects. See <code><a href="construct_dput.html">construct_dput()</a></code>
+and <code><a href="construct_dput.html">construct_base()</a></code> for wrappers around this feature.</p></dd>
 
 </dl></div>
     <div class="section level2">
