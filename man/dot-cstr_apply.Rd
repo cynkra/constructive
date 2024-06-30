@@ -47,7 +47,7 @@ auto conversion issues. "latin" is more lax and uses all latin characters
 (code point < 256). "character" shows all characters, but not emojis. Finally
 "unicode" displays all characters and emojis, which is what \code{dput()} does.}
 
-\item{escape}{Whether to escape double quotes and backslashes. If \code{FALSE} we use
+\item{escape}{Boolean. Whether to escape double quotes and backslashes. If \code{FALSE} we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on

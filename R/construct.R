@@ -6,8 +6,7 @@
 #' `construct_multi()` recognizes promises, this means that for instance
 #'   `construct_multi(environment())` can be called in a
 #'  function and will construct unevaluated arguments using `delayedAssign()`.
-#'  Note however that `construct_multi(environment())` is equivalent to `construct_reprex()`
-#'  called without argument and the latter is preferred.
+#'  See also `construct_reprex()` for this feature.
 #'
 #' @param x An object, for `construct_multi()` a named list or an environment.
 #'
@@ -26,12 +25,12 @@
 #'   auto conversion issues. "latin" is more lax and uses all latin characters
 #'   (code point < 256). "character" shows all characters, but not emojis. Finally
 #'   "unicode" displays all characters and emojis, which is what `dput()` does.
-#' @param escape Whether to escape double quotes and backslashes. If `FALSE` we use
+#' @param escape Boolean. Whether to escape double quotes and backslashes. If `FALSE` we use
 #'   single quotes to surround strings (including variable and element names)
 #'   containing double quotes, and raw strings for strings that contain backslashes
 #'   and/or a combination of single and double quotes. Depending on
 #'   `unicode_representation` `escape = FALSE` cannot be applied on all strings.
-#' @param pedantic_encoding Whether to mark strings with the "unknown" encoding
+#' @param pedantic_encoding Boolean. Whether to mark strings with the "unknown" encoding
 #'   rather than an explicit native encoding ("UTF-8" or "latin1") when it's
 #'   necessary to reproduce the binary representation exactly. This is pedantic
 #'   in the sense that it's not necessary to have a faithful output in the sense
@@ -46,6 +45,13 @@
 #' @param template A list of constructive options built with `opts_*()` functions,
 #'   they will be overriden by `...`. Use it to set a default
 #'   behavior for `{constructive}`.
+#' @param classes A character vector of classes for which to use idiomatic
+#'   constructors when available, we can provide a package instead of all its
+#'   classes, in the "\{pkg\}" form, and we can use a minus sign (inside the quotes)
+#'   to exclude rather than include. By default we use idiomatic constructors
+#'   whenever possible. The special values `"*none*"` and `"*base*"` can be used
+#'   to restrict the idiomatic construction to the objects. See `construct_dput()`
+#'   and `construct_base()` for wrappers around this feature.
 #' @param include_dotted Whether to include names starting with dots, this includes
 #'   `.Random.seed` in the global environment and objects like `.Class`, `.Generic`
 #'   in the execution environments of S3 methods.
@@ -69,7 +75,8 @@ construct <- function(
     escape = FALSE,
     pedantic_encoding = FALSE,
     compare = compare_options(), one_liner = FALSE,
-    template = getOption("constructive_opts_template")) {
+    template = getOption("constructive_opts_template"),
+    classes = NULL) {
 
   # reset globals
   globals$predefinition <- character()
@@ -91,9 +98,10 @@ construct <- function(
 
   # process data into a flat named list of objects
   data <- process_data(data)
+  classes <- process_classes(classes)
 
   # build code that produces the object, prepend with predefinitions if relevant
-  caller <- caller_env()
+  caller <- user_env()
   code <- try_construct(
     x,
     opts = opts,
@@ -111,7 +119,8 @@ construct <- function(
       opts$atomic$escape %||%
       escape,
     one_liner = one_liner,
-    env = caller
+    env = caller,
+    classes = classes
   )
   code <- c(globals$predefinition, code)
 
@@ -139,6 +148,7 @@ construct_multi <- function(
     compare = compare_options(),
     one_liner = FALSE,
     template = getOption("constructive_opts_template"),
+    classes = NULL,
     include_dotted = TRUE
     ) {
   abort_not_env_or_named_list(x)
@@ -159,7 +169,8 @@ construct_multi <- function(
       pedantic_encoding = pedantic_encoding,
       compare = compare,
       one_liner = one_liner,
-      template = template
+      template = template,
+      classes = classes
     )
   } else if (is.environment(x)) {
     opts <- collect_opts(..., template = template)
@@ -227,7 +238,8 @@ construct_multi <- function(
           pedantic_encoding = pedantic_encoding,
           compare = compare,
           one_liner = one_liner,
-          template = template
+          template = template,
+          classes = classes
         )
       }
     }

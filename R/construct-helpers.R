@@ -161,8 +161,150 @@ new_constructive <- function(code, compare) {
 #'
 #' @return A character vector
 #' @export
-.cstr_construct <- function(x, ..., data = NULL) {
+.cstr_construct <- function(x, ..., data = NULL, classes = NULL) {
   data_name <- perfect_match(x, data)
   if (!is.null(data_name)) return(data_name)
-  UseMethod(".cstr_construct")
+  if (is.null(classes)) {
+    UseMethod(".cstr_construct")
+  } else if (identical(classes, "-")) {
+    .cstr_construct.default(x, ..., classes = classes)
+  } else if (classes[[1]] == "-") {
+    cl <- setdiff(.class2(x), classes[-1])
+    UseMethod(".cstr_construct", structure(NA_integer_, class = cl))
+  } else {
+    cl <- intersect(.class2(x), classes)
+    UseMethod(".cstr_construct", structure(NA_integer_, class = cl))
+  }
 }
+
+process_classes <- function(classes) {
+  if (!length(classes)) return(NULL)
+  classes <- setdiff(classes, "*none*")
+  if ("*base*" %in% classes) {
+    base_packages <- c("base", "utils", "stats", "methods")
+    classes <- setdiff(c(classes, unlist(all_classes[base_packages])), "*base*")
+  }
+  exclude <- classes[startsWith(classes, "-")]
+  include <- setdiff(classes, exclude)
+  if (length(exclude)) {
+    exclude <- sub("^-", "", exclude)
+    packages_lgl <- grepl("^\\{.*\\}$", exclude)
+    package_nms <- sub("^\\{(.*)\\}$", "\\1", exclude[packages_lgl])
+    exclude <- unique(c(exclude[!packages_lgl], unlist(all_classes[package_nms])))
+  }
+  if (!length(include)) return(c("-", exclude))
+  packages_lgl <- grepl("^\\{.*\\}$", include)
+  package_nms <- sub("^\\{(.*)\\}$", "\\1", include[packages_lgl])
+  include <- unique(c(all_classes[[1]], include[!packages_lgl], unlist(all_classes[package_nms])))
+  include
+}
+
+# cat(sprintf('"%s"', sub("^opts_", "", ls(envir = asNamespace("constructive"), pattern = "^opts_"))), sep = ",\n")
+all_classes <- list(
+  c(
+    ## low level classes that we can't remove
+    "array",
+    "character",
+    "complex",
+    "dots",
+    "double",
+    "environment",
+    "expression",
+    "externalptr",
+    "function",
+    "integer",
+    "language",
+    "list",
+    "logical",
+    "NULL",
+    "pairlist",
+    "raw",
+    "S4",
+    "weakref"
+  ),
+  base = c(
+    "AsIs",
+    "data.frame",
+    "Date",
+    "difftime",
+    "error",
+    "factor",
+    "formula",
+    "hexmode",
+    "matrix",
+    "noquote",
+    "numeric_version",
+    "octmode",
+    "ordered",
+    "package_version",
+    "POSIXct",
+    "POSIXlt",
+    "R_system_version",
+    "simpleCondition",
+    "simpleError",
+    "simpleMessage",
+    "simpleUnit",
+    "simpleWarning",
+    "warning"
+  ),
+  utils = c(
+    "bibentry",
+    "citationFooter",
+    "citationHeader",
+    "person"
+  ),
+  stats = c(
+    "mts",
+    "ts"
+  ),
+  methods = c(
+    "classGeneratorFunction",
+    "classPrototypeDef",
+    "classRepresentation"
+  ),
+  bit64 = c("integer64"),
+  blob = c(
+    "blob"
+  ),
+  ggplot2 = c(
+    "CoordCartesian",
+    "CoordFixed",
+    "CoordFlip",
+    "CoordMap",
+    "CoordMunch",
+    "CoordPolar",
+    "CoordQuickmap",
+    "CoordSf",
+    "CoordTrans",
+    "element_blank",
+    "element_grob",
+    "element_line",
+    "element_rect",
+    "element_render",
+    "element_text",
+    "FacetWrap",
+    "ggplot",
+    "ggproto",
+    "labels",
+    "Layer",
+    "margin",
+    "rel",
+    "Scale",
+    "ScalesList",
+    "theme",
+    "uneval",
+    "waiver"
+  ),
+  data.table = c("data.table"),
+  dm = c("dm"),
+  dplyr = c(
+    "grouped_df",
+    "rowwise_df"
+  ),
+  rlang = c(
+    "quosure",
+    "quosures"
+  ),
+  tibble = c("tbl_df"),
+  vctrs = c("vctrs_list_of")
+)

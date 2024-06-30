@@ -1,8 +1,9 @@
 #' Construct to clipboard
 #'
 #' This is a simple wrapper for convenience, `construct_clip(x, ...)` is equivalent to
-#' `print(construct(x, ...), print_mode = "clipboard")`. For more flexible printing
-#' options see `?constructive_print_mode`
+#' `print(construct(x, ...), print_mode = "clipboard")` (an idiom that you might
+#' use to use the clipboard with other functions). For more flexible printing
+#' options see `?constructive_print_mode`.
 #'
 #' @inheritParams construct
 #'
@@ -23,7 +24,8 @@ construct_clip <- function(
     escape = FALSE,
     pedantic_encoding = FALSE,
     compare = compare_options(), one_liner = FALSE,
-    template = getOption("constructive_opts_template")) {
+    template = getOption("constructive_opts_template"),
+    classes = NULL) {
   out <- construct(
     x,
     ...,
@@ -34,7 +36,8 @@ construct_clip <- function(
     escape = escape,
     pedantic_encoding = pedantic_encoding,
     compare = compare,
-    template = template
+    template = template,
+    classes = classes
   )
   print(out, print_mode = "clipboard")
 }

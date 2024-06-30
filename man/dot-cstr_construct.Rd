@@ -4,7 +4,7 @@
 \alias{.cstr_construct}
 \title{Generic for object code generation}
 \usage{
-.cstr_construct(x, ..., data = NULL)
+.cstr_construct(x, ..., data = NULL, classes = NULL)
 }
 \arguments{
 \item{x}{An object, for \code{construct_multi()} a named list or an environment.}
@@ -16,6 +16,14 @@ section below.}
 deparsing them further). Can also contain unnamed nested lists, environments, or
 package names, in the latter case package exports and datasets will be considered.
 In case of conflict, the last provided name is considered.}
+
+\item{classes}{A character vector of classes for which to use idiomatic
+constructors when available, we can provide a package instead of all its
+classes, in the "\{pkg\}" form, and we can use a minus sign (inside the quotes)
+to exclude rather than include. By default we use idiomatic constructors
+whenever possible. The special values \code{"*none*"} and \code{"*base*"} can be used
+to restrict the idiomatic construction to the objects. See \code{construct_dput()}
+and \code{construct_base()} for wrappers around this feature.}
 }
 \value{
 A character vector
