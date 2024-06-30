@@ -71,8 +71,9 @@ An object of class 'constructive', invisibly. Called for side effects.
 }
 \description{
 This is a simple wrapper for convenience, \code{construct_clip(x, ...)} is equivalent to
-\code{print(construct(x, ...), print_mode = "clipboard")}. For more flexible printing
-options see \code{?constructive_print_mode}
+\code{print(construct(x, ...), print_mode = "clipboard")} (an idiom that you might
+use to use the clipboard with other functions). For more flexible printing
+options see \code{?constructive_print_mode}.
 }
 \examples{
 \dontrun{

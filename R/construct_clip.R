@@ -1,8 +1,9 @@
 #' Construct to clipboard
 #'
 #' This is a simple wrapper for convenience, `construct_clip(x, ...)` is equivalent to
-#' `print(construct(x, ...), print_mode = "clipboard")`. For more flexible printing
-#' options see `?constructive_print_mode`
+#' `print(construct(x, ...), print_mode = "clipboard")` (an idiom that you might
+#' use to use the clipboard with other functions). For more flexible printing
+#' options see `?constructive_print_mode`.
 #'
 #' @inheritParams construct
 #'
