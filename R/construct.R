@@ -239,7 +239,7 @@ construct_multi <- function(
           compare = compare,
           one_liner = one_liner,
           template = template,
-          classes = classes,
+          classes = classes
         )
       }
     }
