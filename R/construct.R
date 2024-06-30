@@ -47,7 +47,7 @@
 #'   behavior for `{constructive}`.
 #' @param classes A character vector of classes for which to use idiomatic
 #'   constructors when available, we can provide a package instead of all its
-#'   classes, in the "{pkg}" form, and we can use a minus sign (inside the quotes)
+#'   classes, in the "\{pkg\}" form, and we can use a minus sign (inside the quotes)
 #'   to exclude rather than include. By default we use idiomatic constructors
 #'   whenever possible. The special values `"*none*"` and `"*base*"` can be used
 #'   to restrict the idiomatic construction to the objects. See `construct_dput()`
