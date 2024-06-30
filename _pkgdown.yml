@@ -1,4 +1,37 @@
 url: https://cynkra.github.io/constructive/
 template:
   bootstrap: 5
-
+reference:
+- title: Genderate code
+  desc:  The main functions of the package
+- contents:
+  - construct
+  - construct_clip
+  - construct_multi
+  - construct_dump
+  - construct_reprex
+  - construct_diff
+  - construct_signature
+  - deparse_call
+- title: Inspect problems related to code generation
+- contents:
+  - construct_issues
+- title: Global options
+- contents:
+  - constructive-global_options
+  - constructive_opts_template
+  - constructive_pretty
+  - constructive_print_mode
+- title: Extension system
+- contents:
+  - custom-constructors
+  - starts_with(".cstr")
+- title: Provide options to the main functions
+- contents:
+  - compare_options
+  - starts_with("opts_")
+  - other-opts
+- title: Helpers for special object construction
+- contents:
+  - .env
+  - .xptr
