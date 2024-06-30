@@ -94,7 +94,7 @@
         e <- new.env()
         e$f <- e
         foo <- evalq(~a, e)
-        construct(foo, opts_environment(predefine = TRUE), opts_formula(environment = TRUE))
+        construct(foo, opts_environment("predefine"), opts_formula(environment = TRUE))
       }, .GlobalEnv)
     Output
       ..env.1.. <- new.env(parent = .GlobalEnv)
@@ -120,7 +120,7 @@
 ---
 
     Code
-      construct(constructive::.cstr_construct, opts_environment(predefine = TRUE),
+      construct(constructive::.cstr_construct, opts_environment("predefine"),
       opts_function(environment = TRUE))
     Output
       (function(x, ..., data = NULL) {

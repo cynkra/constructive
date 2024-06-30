@@ -6,26 +6,21 @@
 \usage{
 opts_environment(
   constructor = c(".env", "list2env", "as.environment", "new.env", "topenv",
-    "new_environment"),
+    "new_environment", "predefine"),
   ...,
-  recurse = FALSE,
-  predefine = FALSE
+  recurse = FALSE
 )
 }
 \arguments{
-\item{constructor}{String. Name of the function used to construct the environment, see \strong{Constructors} section.}
+\item{constructor}{String. Name of the function used to construct the
+environment, see \strong{Constructors} section.}
 
 \item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
-\item{recurse}{Boolean. Only considered if \code{constructor} is \code{"list2env"} or \code{"new_environment"}. Whether to
-attempt to recreate all parent environments until a known environment is found,
-if \code{FALSE} (the default) we will use \code{topenv()} to find a known ancestor to set as
-the parent.}
-
-\item{predefine}{Boolean. Whether to define environments first. If \code{TRUE} \code{constructor} and \code{recurse}
-are ignored. It circumvents the circularity, recursivity and redundancy issues of
-other constructors. The caveat is that the created code won't be a single call
-and will create objects in the workspace.}
+\item{recurse}{Boolean. Only considered if \code{constructor} is \code{"list2env"} or
+\code{"new_environment"}. Whether to attempt to recreate all parent environments
+until a known environment is found, if \code{FALSE} (the default) we will use
+\code{topenv()} to find a known ancestor to set as the parent.}
 }
 \value{
 An object of class <constructive_options/constructive_options_environment>
@@ -97,16 +92,13 @@ contain the same variables as the original environment but the parent will be th
 \code{emptyenv()}. \code{recurse} is ignored.
 \item \code{"topenv"} : we construct \code{base::topenv(x)}, see \code{?topenv}. \code{recurse} is ignored.
 This is the most accurate we can be when constructing only special environments.
+\item \code{"predefine"} : Building environments from scratch using the above methods
+can be verbose, sometimes redundant and sometimes even impossible due to
+circularity (e.g. an environment referencing itself).  With \code{"predefine"}
+we define the environments and their content  above the object returning
+call, using placeholder names \code{..env.1..}, \code{..env.2..} etc.
+The caveat is that the created code won't be a single call
+and will create objects in the workspace. \code{recurse} is ignored.
 }
-}
-
-\section{Predefine}{
-
-
-Building environments from scratch using the above methods can be verbose and
-sometimes redundant if and environment is used several times. One last option
-is to define the environments and their content above the object returning call,
-using placeholder names \code{..env.1..}, \code{..env.2..} etc. This is done by setting
-\code{predefine} to \code{TRUE}. \code{constructor} and \code{recurse} are ignored in that case.
 }
 

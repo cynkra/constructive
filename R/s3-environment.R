@@ -61,30 +61,31 @@
 #'  `emptyenv()`. `recurse` is ignored.
 #' * `"topenv"` : we construct `base::topenv(x)`, see `?topenv`. `recurse` is ignored.
 #'   This is the most accurate we can be when constructing only special environments.
-#'
-#' @section Predefine:
-#'
-#'  Building environments from scratch using the above methods can be verbose and
-#' sometimes redundant if and environment is used several times. One last option
-#' is to define the environments and their content above the object returning call,
-#' using placeholder names `..env.1..`, `..env.2..` etc. This is done by setting
-#' `predefine` to `TRUE`. `constructor` and `recurse` are ignored in that case.
-#'
-#' @param constructor String. Name of the function used to construct the environment, see **Constructors** section.
+#' * `"predefine"` : Building environments from scratch using the above methods
+#'   can be verbose, sometimes redundant and sometimes even impossible due to
+#'   circularity (e.g. an environment referencing itself).  With `"predefine"`
+#'   we define the environments and their content  above the object returning
+#'   call, using placeholder names `..env.1..`, `..env.2..` etc.
+#'   The caveat is that the created code won't be a single call
+#'   and will create objects in the workspace. `recurse` is ignored.
+#' @param constructor String. Name of the function used to construct the
+#'   environment, see **Constructors** section.
 #' @inheritParams opts_atomic
-#' @param recurse Boolean. Only considered if `constructor` is `"list2env"` or `"new_environment"`. Whether to
-#'   attempt to recreate all parent environments until a known environment is found,
-#'   if `FALSE` (the default) we will use `topenv()` to find a known ancestor to set as
-#'   the parent.
-#' @param predefine Boolean. Whether to define environments first. If `TRUE` `constructor` and `recurse`
-#'   are ignored. It circumvents the circularity, recursivity and redundancy issues of
-#'   other constructors. The caveat is that the created code won't be a single call
-#'   and will create objects in the workspace.
+#' @param recurse Boolean. Only considered if `constructor` is `"list2env"` or
+#'   `"new_environment"`. Whether to attempt to recreate all parent environments
+#'   until a known environment is found, if `FALSE` (the default) we will use
+#'    `topenv()` to find a known ancestor to set as the parent.
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment"), ..., recurse = FALSE, predefine = FALSE) {
-  .cstr_options("environment", constructor = constructor[[1]], ..., recurse = recurse, predefine = predefine)
+opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE) {
+  if (isTRUE(list(...)$predefine)) {
+    msg <- "`predefine = TRUE` in `opts_environment()` is deprecated"
+    info <- "Use `constructor = \"predefine\"` instead."
+    rlang::warn(c(msg, i = info))
+    constructor <- "predefine"
+  }
+  .cstr_options("environment", constructor = constructor[[1]], ..., recurse = recurse)
 }
 
 #' @export
@@ -105,20 +106,8 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
   code <- construct_special_env(x)
   if (!is.null(code)) return(code)
 
-  null_parent <- is.null(parent.env(x))
-  # FIXME: what does this do ?
-  if (opts[["predefine"]] && !null_parent) {
-    special_envs <- c(search(), "R_EmptyEnv", "R_GlobalEnv")
-    nm <- environmentName(x)
-    # construct only if not found
-    if (!(nm != "" && rlang::is_installed(nm)) && !nm %in% globals$special_envs) {
-      code <- update_predefinition(envir = x, ...)
-      return(code)
-    }
-  }
-
-  if (null_parent) {
-    # according to error of `new.env(parent = NULL)` we should nopt find NULL
+  if (is.null(parent.env(x))) {
+    # according to error of `new.env(parent = NULL)` we should not find NULL
     # parents anymore, yet we do. In this case we force the use of `env` as a constructor
     # because it's the only one that can reproduce these objects.
     .cstr_construct.environment.env(x, ...)
@@ -129,6 +118,12 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
 
 is_corrupted_environment <- function(x) {
   !is.environment(x)
+}
+
+#' @export
+#' @method .cstr_construct.environment predefine
+.cstr_construct.environment.predefine <- function(x, ...) {
+  update_predefinition(envir = x, ...)
 }
 
 #' @export
@@ -264,7 +259,7 @@ is_corrupted_environment <- function(x) {
 
 repair_attributes_environment <- function(x, code, ...) {
   opts <- list(...)$opts$environment %||% opts_environment()
-  if ((opts$constructor == ".env" && !opts[["predefine"]]) ||
+  if (opts$constructor == ".env" ||
       grepl("^asNamespace\\(\"[^\"]+\"\\)", code[[1]]) ||
       code[[1]] %in% c("baseenv()", "emptyenv()", ".GlobalEnv", ".BaseNamespaceEnv")
   ) {
@@ -278,7 +273,7 @@ repair_attributes_environment <- function(x, code, ...) {
     ignore = c(
       # pkg:fun envs have name and path attributes already set by `as.environment()`
       if (pkg_env_lgl) c("name", "path"),
-      if (opts[["predefine"]]) "class"
+      if (opts$constructor == "predefine") "class"
     )
   )
 }
