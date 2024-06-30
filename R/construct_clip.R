@@ -10,7 +10,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' construct_clip(head(cars))
+#' }
 construct_clip <- function(
     x,
     ...,

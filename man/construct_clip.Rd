@@ -75,5 +75,7 @@ This is a simple wrapper for convenience, \code{construct_clip(x, ...)} is equiv
 options see \code{?constructive_print_mode}
 }
 \examples{
+\dontrun{
 construct_clip(head(cars))
+}
 }
