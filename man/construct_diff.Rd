@@ -14,6 +14,7 @@ construct_diff(
   compare = compare_options(),
   one_liner = FALSE,
   template = getOption("constructive_opts_template"),
+  classes = NULL,
   mode = c("sidebyside", "auto", "unified", "context"),
   interactive = TRUE
 )
@@ -44,6 +45,14 @@ using \code{waldo::compare()}.}
 \item{template}{A list of constructive options built with \verb{opts_*()} functions,
 they will be overriden by \code{...}. Use it to set a default
 behavior for \code{{constructive}}.}
+
+\item{classes}{A character vector of classes for which to use idiomatic
+constructors when available, we can provide a package instead of all its
+classes, in the "{pkg}" form, and we can use a minus sign (inside the quotes)
+to exclude rather than include. By default we use idiomatic constructors
+whenever possible. The special values \code{"*none*"} and \code{"*base*"} can be used
+to restrict the idiomatic construction to the objects. See \code{construct_dput()}
+and \code{construct_base()} for wrappers around this feature.}
 
 \item{mode, interactive}{passed to \code{diffobj::diffChr()}}
 }

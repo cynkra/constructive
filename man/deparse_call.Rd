@@ -38,13 +38,13 @@ auto conversion issues. "latin" is more lax and uses all latin characters
 (code point < 256). "character" shows all characters, but not emojis. Finally
 "unicode" displays all characters and emojis, which is what \code{dput()} does.}
 
-\item{escape}{Whether to escape double quotes and backslashes. If \code{FALSE} we use
+\item{escape}{Boolean. Whether to escape double quotes and backslashes. If \code{FALSE} we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
 \code{unicode_representation} \code{escape = FALSE} cannot be applied on all strings.}
 
-\item{pedantic_encoding}{Whether to mark strings with the "unknown" encoding
+\item{pedantic_encoding}{Boolean. Whether to mark strings with the "unknown" encoding
 rather than an explicit native encoding ("UTF-8" or "latin1") when it's
 necessary to reproduce the binary representation exactly. This is pedantic
 in the sense that it's not necessary to have a faithful output in the sense

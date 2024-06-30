@@ -16,7 +16,8 @@ construct(
   pedantic_encoding = FALSE,
   compare = compare_options(),
   one_liner = FALSE,
-  template = getOption("constructive_opts_template")
+  template = getOption("constructive_opts_template"),
+  classes = NULL
 )
 
 construct_multi(
@@ -31,6 +32,7 @@ construct_multi(
   compare = compare_options(),
   one_liner = FALSE,
   template = getOption("constructive_opts_template"),
+  classes = NULL,
   include_dotted = TRUE
 )
 }
@@ -59,13 +61,13 @@ auto conversion issues. "latin" is more lax and uses all latin characters
 (code point < 256). "character" shows all characters, but not emojis. Finally
 "unicode" displays all characters and emojis, which is what \code{dput()} does.}
 
-\item{escape}{Whether to escape double quotes and backslashes. If \code{FALSE} we use
+\item{escape}{Boolean. Whether to escape double quotes and backslashes. If \code{FALSE} we use
 single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
 \code{unicode_representation} \code{escape = FALSE} cannot be applied on all strings.}
 
-\item{pedantic_encoding}{Whether to mark strings with the "unknown" encoding
+\item{pedantic_encoding}{Boolean. Whether to mark strings with the "unknown" encoding
 rather than an explicit native encoding ("UTF-8" or "latin1") when it's
 necessary to reproduce the binary representation exactly. This is pedantic
 in the sense that it's not necessary to have a faithful output in the sense
@@ -82,6 +84,14 @@ be confusing for users.}
 they will be overriden by \code{...}. Use it to set a default
 behavior for \code{{constructive}}.}
 
+\item{classes}{A character vector of classes for which to use idiomatic
+constructors when available, we can provide a package instead of all its
+classes, in the "{pkg}" form, and we can use a minus sign (inside the quotes)
+to exclude rather than include. By default we use idiomatic constructors
+whenever possible. The special values \code{"*none*"} and \code{"*base*"} can be used
+to restrict the idiomatic construction to the objects. See \code{construct_dput()}
+and \code{construct_base()} for wrappers around this feature.}
+
 \item{include_dotted}{Whether to include names starting with dots, this includes
 \code{.Random.seed} in the global environment and objects like \code{.Class}, \code{.Generic}
 in the execution environments of S3 methods.}
@@ -97,8 +107,7 @@ builds the code to reproduce objects stored in a named list or environment.
 \code{construct_multi()} recognizes promises, this means that for instance
 \code{construct_multi(environment())} can be called in a
 function and will construct unevaluated arguments using \code{delayedAssign()}.
-Note however that \code{construct_multi(environment())} is equivalent to \code{construct_reprex()}
-called without argument and the latter is preferred.
+See also \code{construct_reprex()} for this feature.
 }
 \examples{
 construct(head(cars))
