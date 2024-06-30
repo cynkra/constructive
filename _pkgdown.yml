@@ -6,8 +6,10 @@ reference:
   desc:  The main functions of the package
 - contents:
   - construct
-  - construct_clip
   - construct_multi
+  - construct_dput
+  - construct_base
+  - construct_clip
   - construct_dump
   - construct_reprex
   - construct_diff
