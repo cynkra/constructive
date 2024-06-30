@@ -19,7 +19,7 @@ reference:
 - contents:
   - constructive-global_options
   - constructive_opts_template
-  - constructive_pretty	Global Options
+  - constructive_pretty
   - constructive_print_mode
 - title: Extension system
 - contents:
