@@ -142,6 +142,7 @@ construct_multi <- function(
     compare = compare_options(),
     one_liner = FALSE,
     template = getOption("constructive_opts_template"),
+    classes = NULL,
     include_dotted = TRUE
     ) {
   abort_not_env_or_named_list(x)
@@ -162,7 +163,8 @@ construct_multi <- function(
       pedantic_encoding = pedantic_encoding,
       compare = compare,
       one_liner = one_liner,
-      template = template
+      template = template,
+      classes = classes
     )
   } else if (is.environment(x)) {
     opts <- collect_opts(..., template = template)
@@ -230,7 +232,8 @@ construct_multi <- function(
           pedantic_encoding = pedantic_encoding,
           compare = compare,
           one_liner = one_liner,
-          template = template
+          template = template,
+          classes = classes,
         )
       }
     }

@@ -24,7 +24,8 @@ construct_clip <- function(
     escape = FALSE,
     pedantic_encoding = FALSE,
     compare = compare_options(), one_liner = FALSE,
-    template = getOption("constructive_opts_template")) {
+    template = getOption("constructive_opts_template"),
+    classes = NULL) {
   out <- construct(
     x,
     ...,
@@ -35,7 +36,8 @@ construct_clip <- function(
     escape = escape,
     pedantic_encoding = pedantic_encoding,
     compare = compare,
-    template = template
+    template = template,
+    classes = classes
   )
   print(out, print_mode = "clipboard")
 }

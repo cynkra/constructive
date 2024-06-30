@@ -40,6 +40,7 @@ construct_diff <- function(
     compare = compare_options(),
     one_liner = FALSE,
     template = getOption("constructive_opts_template"),
+    classes = NULL,
     mode = c("sidebyside", "auto", "unified", "context"),
     interactive = TRUE) {
   mode <- match.arg(mode)
@@ -57,7 +58,8 @@ construct_diff <- function(
     check = check,
     compare = compare,
     one_liner = one_liner,
-    template = template
+    template = template,
+    classes = classes
     )$code
   current_code <- construct(
     current,
@@ -67,7 +69,8 @@ construct_diff <- function(
     check = check,
     compare = compare,
     one_liner = one_liner,
-    template = template
+    template = template,
+    classes = classes
   )$code
   f <- tempfile(fileext = ".html")
   diffobj::diffChr(
