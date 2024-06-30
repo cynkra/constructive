@@ -374,3 +374,11 @@ names_need_repair <- function(nms, c_names = TRUE) {
       (c_names && any(c("recursive", "use.names") %in% nms))
   )
 }
+
+user_env <- function() {
+  envs <- sys.frames()
+  ns <- topenv()
+  i <- Position(function(x) identical(topenv(x), ns), envs)
+  # sys.frames() doesn't contain .GlobalEnv
+  parent.frame(length(envs) - i + 1)
+}

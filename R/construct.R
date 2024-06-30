@@ -93,7 +93,7 @@ construct <- function(
   data <- process_data(data)
 
   # build code that produces the object, prepend with predefinitions if relevant
-  caller <- caller_env()
+  caller <- user_env()
   code <- try_construct(
     x,
     opts = opts,
