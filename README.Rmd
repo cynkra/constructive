@@ -144,10 +144,11 @@ construct(environment(setNames))
 
 When it's not possible we use `constructive::.env()` function for this purpose.
 
-```{r}
+```{r, results="hide"}
 e1 <- new.env(parent = .GlobalEnv)
 e1$x <- 1
 construct(e1)
+#> constructive::.env("0x131515348", parents = "global")
 ```
 
 `constructive::.env()`  fetches the environment from its memory address. The `parents`
