@@ -17,15 +17,22 @@ Some use cases are:
 
 ## Installation
 
-Install it from [cynkra R-universe](https://cynkra.r-universe.dev):
+Install the last stable version from CRAN:
+
+``` r
+install.packages('constructive')
+```
+
+Or install the development version from [cynkra
+R-universe](https://cynkra.r-universe.dev):
 
 ``` r
 install.packages('constructive', repos = c('https://cynkra.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
-Or install with:
+Or directly from github:
 
-    remotes::install_github("cynkra/constructive")
+    pak::pak("cynkra/constructive")
 
 ## Comparison with `dput()`
 
@@ -125,7 +132,7 @@ construct(iris, opts_atomic(trim = 2))
 #>   Sepal.Width = c(3.5, 3, numeric(148)),
 #>   Petal.Length = c(1.4, 1.4, numeric(148)),
 #>   Petal.Width = c(0.2, 0.2, numeric(148)),
-#>   Species = factor(rep(c("setosa", "versicolor", character(1)), each = 50L))
+#>   Species = factor(c("setosa", "setosa", character(148)))
 #> )
 ```
 
@@ -143,7 +150,7 @@ construct(band_members, opts_tbl_df("next"))
 
 construct(band_members, opts_tbl_df("next"), opts_data.frame("next"))
 #> list(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
-#>   structure(class = c("tbl_df", "tbl", "data.frame"), row.names = 1:3)
+#>   structure(class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, -3L))
 ```
 
 ## Other functions
@@ -187,7 +194,7 @@ purpose.
 e1 <- new.env(parent = .GlobalEnv)
 e1$x <- 1
 construct(e1)
-#> constructive::.env("0x1211bd9e0", parents = "global")
+#> constructive::.env("0x1109dbe80", parents = "global")
 ```
 
 `constructive::.env()` fetches the environment from its memory address.
