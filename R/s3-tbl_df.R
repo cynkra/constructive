@@ -95,10 +95,9 @@ is_corrupted_tbl_df <- function(x) {
   repair_attributes_tbl_df(x, code, ...)
 }
 
-repair_attributes_tbl_df <- function(x, code, ..., pipe = NULL) {
+repair_attributes_tbl_df <- function(x, code, ...) {
   .cstr_repair_attributes(
     x, code, ...,
-    pipe = pipe,
     ignore = "row.names",
     idiomatic_class = c("tbl_df", "tbl", "data.frame")
   )

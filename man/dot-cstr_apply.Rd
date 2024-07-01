@@ -23,21 +23,21 @@ If elements are named, the arguments will be named in the generated code.}
 
 \item{fun}{The function name to use to build code of the form "fun(...)"}
 
-\item{...}{options passed recursively to the further methods}
+\item{...}{Options passed recursively to the further methods}
 
-\item{trailing_comma}{leave a trailing comma after the last argument if
+\item{trailing_comma}{Boolean. Whether to leave a trailing comma after the last argument if
 the code is multiline, some constructors allow it (e.g. \code{tibble::tibble()}) and it makes for nicer
 diffs in version control.}
 
-\item{recurse}{Whether to recursively generate the code to construct \code{args}. If \code{FALSE} arguments
+\item{recurse}{Boolean. Whether to recursively generate the code to construct \code{args}. If \code{FALSE} arguments
 are expected to contain code.}
 
 \item{implicit_names}{When data is provided, compress calls of the form \code{f(a = a)} to \code{f(a)}}
 
-\item{new_line}{passed to wrap to remove add a line after "fun(" and before ")", forced to
+\item{new_line}{Boolean. Forwarded to \code{wrap()} to add a line between "fun(" and ")", forced to
 \code{FALSE} if \code{one_liner} is \code{TRUE}}
 
-\item{one_liner}{Whether to return a one line call.}
+\item{one_liner}{Boolean. Whether to return a one line call.}
 
 \item{unicode_representation}{By default "ascii", which means only ASCII characters
 (code point < 128) will be used to construct strings and variable names. This makes sure that
