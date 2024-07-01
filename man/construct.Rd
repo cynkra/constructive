@@ -69,9 +69,8 @@ and/or a combination of single and double quotes. Depending on
 
 \item{pedantic_encoding}{Boolean. Whether to mark strings with the "unknown" encoding
 rather than an explicit native encoding ("UTF-8" or "latin1") when it's
-necessary to reproduce the binary representation exactly. This is pedantic
-in the sense that it's not necessary to have a faithful output in the sense
-of \code{identical()}. The reason why we're not pedantic by default is that
+necessary to reproduce the binary representation exactly. This detail is
+normally of very little significance. The reason why we're not pedantic by default is that
 the constructed code might be different in the console and in snapshot
 tests and reprexes due to the latter rounding some angles, and it would
 be confusing for users.}
@@ -93,21 +92,24 @@ to restrict the idiomatic construction to the objects. See \code{construct_dput(
 and \code{construct_base()} for wrappers around this feature.}
 
 \item{include_dotted}{Whether to include names starting with dots, this includes
-\code{.Random.seed} in the global environment and objects like \code{.Class}, \code{.Generic}
-in the execution environments of S3 methods.}
+\code{.Random.seed} in the global environment and objects like \code{.Class} and
+\code{.Generic} in the execution environments of S3 methods.}
 }
 \value{
 An object of class 'constructive'.
 }
 \description{
-\code{construct()} builds the code to reproduce one object, \code{construct_multi()}
-builds the code to reproduce objects stored in a named list or environment.
+\itemize{
+\item \code{construct()} builds the code to reproduce one object,
+\item \code{construct_multi()} builds the code to reproduce objects stored in a named
+list or environment.
+}
 }
 \details{
-\code{construct_multi()} recognizes promises, this means that for instance
-\code{construct_multi(environment())} can be called in a
-function and will construct unevaluated arguments using \code{delayedAssign()}.
-See also \code{construct_reprex()} for this feature.
+\code{construct_multi()} recognizes promises (also called lazy bindings),
+this means that for instance \code{construct_multi(environment())} can be called
+when debugging a function and will construct unevaluated arguments using
+\code{delayedAssign()}.
 }
 \examples{
 construct(head(cars))
@@ -115,6 +117,11 @@ construct(head(cars), opts_data.frame("read.table"))
 construct(head(cars), opts_data.frame("next"))
 construct(iris$Species)
 construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
+construct_multi(list(a = head(cars), b = iris$Species))
+}
+\seealso{
+\code{\link[=construct_dput]{construct_dput()}} \code{\link[=construct_base]{construct_base()}} \code{\link[=construct_clip]{construct_clip()}}
+\code{\link[=construct_dump]{construct_dump()}} \code{\link[=construct_reprex]{construct_reprex()}} \code{\link[=construct_diff]{construct_diff()}}
 }
 \section{Constructive options}{
 Constructive options provide a way to customize the output of `construct()`.

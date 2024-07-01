@@ -1,15 +1,20 @@
 #' Build code to recreate an object
 #'
-#' `construct()` builds the code to reproduce one object, `construct_multi()`
-#' builds the code to reproduce objects stored in a named list or environment.
+#' * `construct()` builds the code to reproduce one object,
+#' * `construct_multi()` builds the code to reproduce objects stored in a named
+#'   list or environment.
 #'
-#' `construct_multi()` recognizes promises, this means that for instance
-#'   `construct_multi(environment())` can be called in a
-#'  function and will construct unevaluated arguments using `delayedAssign()`.
-#'  See also `construct_reprex()` for this feature.
+#' @details
+#'
+#' `construct_multi()` recognizes promises (also called lazy bindings),
+#' this means that for instance `construct_multi(environment())` can be called
+#' when debugging a function and will construct unevaluated arguments using
+#' `delayedAssign()`.
+#'
+#' @seealso [construct_dput()] [construct_base()] [construct_clip()]
+#'   [construct_dump()] [construct_reprex()] [construct_diff()]
 #'
 #' @param x An object, for `construct_multi()` a named list or an environment.
-#'
 #' @param data Named list or environment of objects we want to detect and mention by name (as opposed to
 #'   deparsing them further). Can also contain unnamed nested lists, environments, or
 #'   package names, in the latter case package exports and datasets will be considered.
@@ -32,9 +37,8 @@
 #'   `unicode_representation` `escape = FALSE` cannot be applied on all strings.
 #' @param pedantic_encoding Boolean. Whether to mark strings with the "unknown" encoding
 #'   rather than an explicit native encoding ("UTF-8" or "latin1") when it's
-#'   necessary to reproduce the binary representation exactly. This is pedantic
-#'   in the sense that it's not necessary to have a faithful output in the sense
-#'   of `identical()`. The reason why we're not pedantic by default is that
+#'   necessary to reproduce the binary representation exactly. This detail is
+#'   normally of very little significance. The reason why we're not pedantic by default is that
 #'   the constructed code might be different in the console and in snapshot
 #'   tests and reprexes due to the latter rounding some angles, and it would
 #'   be confusing for users.
@@ -53,8 +57,8 @@
 #'   to restrict the idiomatic construction to the objects. See `construct_dput()`
 #'   and `construct_base()` for wrappers around this feature.
 #' @param include_dotted Whether to include names starting with dots, this includes
-#'   `.Random.seed` in the global environment and objects like `.Class`, `.Generic`
-#'   in the execution environments of S3 methods.
+#'   `.Random.seed` in the global environment and objects like `.Class` and
+#'    `.Generic` in the execution environments of S3 methods.
 #' @return An object of class 'constructive'.
 #' @enumerateOptFunctions
 #'
@@ -65,6 +69,7 @@
 #' construct(head(cars), opts_data.frame("next"))
 #' construct(iris$Species)
 #' construct(iris$Species, opts_atomic(compress = FALSE), opts_factor("new_factor"))
+#' construct_multi(list(a = head(cars), b = iris$Species))
 construct <- function(
     x,
     ...,

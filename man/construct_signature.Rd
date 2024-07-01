@@ -12,7 +12,7 @@ construct_signature(x, name = NULL, one_liner = FALSE, style = TRUE)
 \item{name}{The name of the function, by default we use the symbol provided to \code{x}}
 
 \item{one_liner}{Boolean. Whether to collapse multi-line expressions on a single line using
-semicolons}
+semicolons.}
 
 \item{style}{Boolean. Whether to give a class "constructive_code" on the output
 for pretty printing.}
@@ -22,7 +22,8 @@ a string or a character vector, with a class "constructive_code" for pretty
 printing if \code{style} is \code{TRUE}
 }
 \description{
-Construct a function's signature
+Construct a function's signature such as the one you can see right below in
+the 'Usage' section.
 }
 \examples{
 construct_signature(lm)

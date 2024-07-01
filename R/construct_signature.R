@@ -1,5 +1,8 @@
 #' Construct a function's signature
 #'
+#' Construct a function's signature such as the one you can see right below in
+#' the 'Usage' section.
+#'
 #' @param x A function
 #' @param name The name of the function, by default we use the symbol provided to `x`
 #' @inheritParams deparse_call

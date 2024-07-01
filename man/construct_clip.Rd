@@ -52,9 +52,8 @@ and/or a combination of single and double quotes. Depending on
 
 \item{pedantic_encoding}{Boolean. Whether to mark strings with the "unknown" encoding
 rather than an explicit native encoding ("UTF-8" or "latin1") when it's
-necessary to reproduce the binary representation exactly. This is pedantic
-in the sense that it's not necessary to have a faithful output in the sense
-of \code{identical()}. The reason why we're not pedantic by default is that
+necessary to reproduce the binary representation exactly. This detail is
+normally of very little significance. The reason why we're not pedantic by default is that
 the constructed code might be different in the console and in snapshot
 tests and reprexes due to the latter rounding some angles, and it would
 be confusing for users.}

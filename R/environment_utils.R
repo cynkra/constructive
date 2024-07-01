@@ -74,7 +74,8 @@ fetch_parent_names <- function(x) {
 #'
 #' This is designed to be used in constructed output. The `parents` and `...` arguments
 #'  are not processed and only used to display additional information. If used on
-#'  an improper memory address the output might be erratic or the session might crash.
+#'  an improper memory address it will either fail (most likely) or the output
+#'  will be erratic.
 #'
 #' @param address Memory address of the environment
 #' @param parents,... ignored

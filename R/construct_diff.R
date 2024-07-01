@@ -1,5 +1,8 @@
 #' Display diff of object definitions
 #'
+#' This calls `construct()` on two objects and compares the output using
+#' `diffobj::diffChr()`.
+#'
 #' @inheritParams construct
 #' @inheritParams diffobj::diffChr
 #' @param mode,interactive passed to `diffobj::diffChr()`

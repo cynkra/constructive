@@ -66,9 +66,8 @@ and/or a combination of single and double quotes. Depending on
 
 \item{pedantic_encoding}{Boolean. Whether to mark strings with the "unknown" encoding
 rather than an explicit native encoding ("UTF-8" or "latin1") when it's
-necessary to reproduce the binary representation exactly. This is pedantic
-in the sense that it's not necessary to have a faithful output in the sense
-of \code{identical()}. The reason why we're not pedantic by default is that
+necessary to reproduce the binary representation exactly. This detail is
+normally of very little significance. The reason why we're not pedantic by default is that
 the constructed code might be different in the console and in snapshot
 tests and reprexes due to the latter rounding some angles, and it would
 be confusing for users.}
@@ -87,9 +86,9 @@ An object of class 'constructive'.
 \description{
 \itemize{
 \item \code{construct_dput()} is a closer counterpart to \code{base::dput()} that doesn't
-use higher level constructors such as \code{data.frame()}, \code{factor()}.
+use higher level constructors such as \code{data.frame()} and \code{factor()}.
 \item \code{construct_base()} uses higher constructors, but only for the classes
-maintained in the default base R packages, so this includes \code{data.frame()}
+maintained in the default base R packages. This includes \code{data.frame()}
 and \code{factor()}, the S4 constructors from the 'method' package etc,
 but not \code{data.table()} and other constructors for classes from other
 packages.
@@ -105,9 +104,6 @@ for instance \code{stats::ts()}, \code{utils::person()} or
 \code{methods::classGeneratorFunction()}), we can call \verb{construct(x, classes = "\{base\}"}
 }
 \examples{
-\dontrun{
 construct_dput(head(iris, 2))
 construct_base(head(iris, 2))
-
-}
 }

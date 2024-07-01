@@ -1,5 +1,8 @@
 #' Show constructive issues
 #'
+#' Usually called without arguments right after an imperfect code generation,
+#' but can also be called on the 'constructive' object itself.
+#'
 #' @param x An object built by `construct()`, if `NULL` the latest encountered
 #'   issues will be displayed
 #'

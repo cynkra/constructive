@@ -13,21 +13,20 @@ permanently you can edit your \code{.RProfile} (\code{usethis::edit_r_profile()}
 \details{
 \itemize{
 \item Set \verb{options(constructive_print_mode = <character>)} to change the default
-value of the \code{print_mode} arument, of \code{print.constructive}, where \verb{<character>} is a vector
+value of the \code{print_mode} argument, of \code{print.constructive}, where \verb{<character>} is a vector
 of strings among the following :
 \itemize{
 \item \code{"console"} : The default behavior, the code is printed in the console
 \item \code{"script"} : The code is copied to a new R script
 \item \code{"reprex"} : The code is shown in the viewer as a reprex,
-the reprex (not only the code!) is also copied to the clipboard. Note that
-if the construction fails the reprex will too, and it might happen often
-when constructing environments since \pkg{reprex} opens a new session.
+the reprex (not only the code!) is also copied to the clipboard.
 \item \code{"clipboard"} : The constructed code is copied to the clipboard, if combined
-with \code{"reprex"} this takes precedence
+with \code{"reprex"} this takes precedence (the reprex is showed in the viewer,
+the code without output is copied to the clipboard)
 }
 \item Set \verb{options(constructive_opts_template = <list>)} to set default constructive options,
 see documentation of the \code{template} arg in \code{?construct}
-\item Set \code{options(constructive_pretty = FALSE)} to disable pretty printinh using
+\item Set \code{options(constructive_pretty = FALSE)} to disable pretty printing using
 \{prettycode\}
 }
 }
