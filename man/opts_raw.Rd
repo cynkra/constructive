@@ -10,7 +10,7 @@ opts_raw(
   trim = NULL,
   fill = c("default", "rlang", "+", "...", "none"),
   compress = TRUE,
-  representation = c("hexadecimal", "integer", "character")
+  representation = c("hexadecimal", "decimal")
 )
 }
 \arguments{
@@ -28,7 +28,7 @@ This code will parse without failure but its evaluation might fail.}
 \code{numeric()}, \code{complex()}, \code{raw()} when relevant to simplify the output.}
 
 \item{representation}{For "as.raw" constructor. Respectively generate output
-in the formats \code{as.raw(0x10)}, \code{as.raw(16)}, or \code{as.raw("10")}.}
+in the formats \code{as.raw(0x10)} or \code{as.raw(16)}}
 }
 \value{
 An object of class <constructive_options/constructive_options_raw>
