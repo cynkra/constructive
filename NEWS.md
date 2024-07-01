@@ -30,7 +30,7 @@ the incorrectly named "atomic" constructor is replaced by a "list" constructor
     behavior is "console". See `` ?`constructive-global_options`
 * `opts_atomic(escape = FALSE)` (the default) now correctly uses surrounding single quotes
   for strings that contain double quotes and no single quotes.
-* `deparse_call()` is more robusts and gains the arguments `escape` and `unicode_representation`
+* `deparse_call()` is more robust and gains the arguments `escape` and `unicode_representation`
   that were already present in `opts_atomic()`
 * The ggplot object generation supports the internal changes of ggplot2 3.5.0,
   and the resulting construction is nicer.

@@ -23,7 +23,7 @@
 #' * `"none"`: Don't represent trimmed elements.
 #'
 #' Depending on the case some or all of the choices above might generate code that
-#' cannot be executed. The 2 former options above are the most likely to suceed
+#' cannot be executed. The 2 former options above are the most likely to succeed
 #' and produce an output of the same type and dimensions recursively. This would
 #' at least be the case for data frame.
 #'
