@@ -282,7 +282,7 @@ print.constructive <- function(
   }
   if ("reprex" %in% print_mode) {
     check_installed("reprex")
-    reprex_code <- c("reprex::reprex({", x$code, "})")
+    reprex_code <- c('getFromNamespace("prex", "reprex")({', x$code, "})")
     eval.parent(parse(text = reprex_code))
   }
   if ("clipboard" %in% print_mode) {
