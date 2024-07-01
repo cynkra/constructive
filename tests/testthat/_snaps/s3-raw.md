@@ -18,27 +18,15 @@
       as.raw(c(0x00, 0x00)) |>
         structure(foo = 1)
     Code
-      construct(raw(1), opts_raw(representation = "integer"))
+      construct(raw(1), opts_raw(representation = "decimal"))
     Output
       as.raw(0)
     Code
-      construct(raw(2), opts_raw(representation = "integer"))
+      construct(raw(2), opts_raw(representation = "decimal"))
     Output
       as.raw(c(0, 0))
     Code
-      construct(raw(10), opts_raw(representation = "integer"))
-    Output
-      raw(10)
-    Code
-      construct(raw(1), opts_raw(representation = "character"))
-    Output
-      as.raw("00")
-    Code
-      construct(raw(2), opts_raw(representation = "character"))
-    Output
-      as.raw(c("00", "00"))
-    Code
-      construct(raw(10), opts_raw(representation = "character"))
+      construct(raw(10), opts_raw(representation = "decimal"))
     Output
       raw(10)
     Code

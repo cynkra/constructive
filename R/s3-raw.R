@@ -9,7 +9,7 @@
 #'
 #' @param constructor String. Name of the function used to construct the object.
 #' @param representation For "as.raw" constructor. Respectively generate output
-#'   in the formats `as.raw(0x10)`, `as.raw(16)`, or `as.raw("10")`.
+#'   in the formats `as.raw(0x10)` or `as.raw(16)`
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_raw>
 #' @export
@@ -19,7 +19,7 @@ opts_raw <- function(
     trim = NULL,
     fill = c("default", "rlang", "+", "...", "none"),
     compress = TRUE,
-    representation = c("hexadecimal", "integer", "character")
+    representation = c("hexadecimal", "decimal")
     ) {
   .cstr_combine_errors(
     abort_not_null_or_integerish(trim),
@@ -88,8 +88,7 @@ is_corrupted_raw <- function(x) {
     code <- switch(
       opts$representation,
       hexadecimal = sprintf("as.raw(0x%02x)", as.integer(x)),
-      integer = sprintf("as.raw(%s)", as.integer(x)),
-      character = sprintf('as.raw("%02x")', as.integer(x))
+      decimal = sprintf("as.raw(%s)", as.integer(x))
     )
     code <- .cstr_repair_attributes(x_bkp, code, ..., repair_names = repair_names)
     return(code)
@@ -99,8 +98,7 @@ is_corrupted_raw <- function(x) {
   code <- switch(
     opts$representation,
     hexadecimal = sprintf("0x%02x", as.integer(x)),
-    integer = sprintf("%s", as.integer(x)),
-    character = sprintf('"%02x"', as.integer(x))
+    decimal = sprintf("%s", as.integer(x)),
   )
   code <- .cstr_apply(code, "c", ..., recurse = FALSE)
   code <- .cstr_wrap(code, "as.raw")
