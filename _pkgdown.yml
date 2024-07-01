@@ -2,7 +2,7 @@ url: https://cynkra.github.io/constructive/
 template:
   bootstrap: 5
 reference:
-- title: Genderate code
+- title: Generate code
   desc:  The main functions of the package
 - contents:
   - construct
