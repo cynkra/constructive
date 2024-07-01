@@ -1,5 +1,5 @@
 ---
-title: "Extending constructive"
+title: "Extend constructive"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Extending constructive}
@@ -22,55 +22,40 @@ We detail in this vignette how {constructive} works and how
 you might extend it by defining custom  `.cstr_construct.<class>()` and 
 `.cstr_construct.<class>.<constructor>()` methods.
 
+The functions `.cstr_new_class()` and `.cstr_new_constructor()` can be used to
+create custom constructors from templates. The easiest workflow is probably
+to use them with the argument `commented = TRUE` and take a look at examples
+in the package itself (scripts starting with `s3` and `s4`) or in the 
+package {constructive.examples} accessible at 
+https://github.com/cynkra/constructive.example/ and designed just for that.
 
-## Implement new constructors or new methods in your package
+If this is not enough, or if you just want to know more, we describe below in 
+more details how the package and its key functions work.
 
-To define a new constructor for a class that is already handled:
+## `construct()` and `.cstr_construct()`
 
-* Import the necessary functions from constructive
-* Define a method `.cstr_construct.<class>.<constructor>`
-* Register it, e.g. with roxygen2 by using `#' @export` on top and running
-  `devtools::document()`
-
-To handle a new class:
-
-* Import the necessary functions from constructive
-* Define a method `.cstr_construct.<class>`
-* Register it, e.g. with roxygen2 by using `#' @export` on top and running
-  `devtools::document()`
-* Define constructors for it, as explained above,
-  but with the additional roxygen2 line: `#' @method .cstr_construct.<class> <constructor>`
-
-The package {constructive.examples} accessible at https://github.com/cynkra/constructive.example/
-contains a few examples and might be used as templates.
-
-The scripts starting with "s3-" and "s4-" in the {constructive} package provide
-many more examples in a similar but slightly different shape, those 2
-resources along with the explanations in this document should get you started.
-Raise issues if anything is unclear.
-
-If this is not enough, the sections below explain how the package works.
-
-## Recursion system
-
-* `.cstr_construct()` builds code recursively, without checking input or output validity, 
-  without handling errors, and without formatting.
+* `.cstr_construct()` builds code recursively, without checking the inputs or output 
+  validity, without error handling, and without formatting.
 * `construct()` wraps `.cstr_construct()` and does this extra work.
 * `.cstr_construct()` is a generic and many methods are implemented in the package, for
   instance `construct(iris)` will call `.cstr_construct.data.frame()` which down the line
   will call `.cstr_construct.numeric()` and `.cstr_construct.factor()` to construct its columns.
-* Additionally, before dispatching, `.cstr_construct()` attempts to match its data input
-  to a list of objects provided to the `data` argument.
+* `.cstr_construct()` contains extra logic to :
+  * Attempt to match its data input to a list of objects provided to the `data` argument.
+  * Restrict the dispatch so the `classes` argument and the functions `construct_base()` and
+    `construct_dput()` can work.
   
 ```{r}
 .cstr_construct
+# a character vector
 .cstr_construct(letters)
+# a constructive object, 
 construct(letters)
 ```
 
-## `.cstr_construct.?()` methods
+## `.cstr_construct.<class>()` methods
 
-`.cstr_construct.?()` methods typically have this form:
+`.cstr_construct.<class>()` methods are generics themselves, they typically have this form:
 
 ```{r}
 .cstr_construct.Date <- function(x, ...) {
@@ -88,7 +73,7 @@ construct(letters)
   choosing "next" as a constructor for this class, we return `NextMethod()` to
   forward all our inputs to a lower level constructor.
 * We finally dispatch to a method based on the constructor, and not on the object's
-  class as is done traditonally. This explains the unusual look of the `UseMethod()`
+  class as is done traditionally. This explains the unusual look of the `UseMethod()`
   call above.
   
 ## `opts_?()` function
@@ -116,7 +101,7 @@ opts_Date <- function(
 * Additional options retrievable by the constructor might be added, as we did here with
   `origin`
 * Note that we don't use `match.arg()` here, because new constructors can be defined
-  outside of the package..
+  outside of the package.
 
 ## `is_corrupted_?()` function
 
@@ -166,13 +151,13 @@ For instance the default constructor for "Date" is :
 constructive:::.cstr_construct.Date.as.Date
 ```
 
-Their arguments are `x` and `...`, and no more. Additional parameters fed
+Their arguments are `x` and `...`, and not more. Additional parameters fed
 to the `opt_<class>()` function can be fetched from `list(...)$opts$<class>`
 
 The function `.cstr_apply()` is used to construct arguments recursively.
 
 Sometimes a constructor cannot handle all cases and we need to fall back to
-another constructor, it happens above because Infinite, NA, or decimal dates
+another constructor, it happens above because `Inf`, `NA`, or decimal dates
 cannot be represented by a string wrapped by `as.Date()`.
 
 ```{r}
@@ -201,7 +186,7 @@ construct(x)
 
 `.cstr_repair_attributes()` essentially sets attributes with exceptions :
 
-* It doesn't set names, these should be handled by the constructors
+* It doesn't set names by default, these should be handled by the constructors
 * It doesn't set the class explicitly if it's identical to the idiomatic class, i.e. the
   class returned by the constructor before the repair call, and provided through the
   `idiomatic_class` argument
