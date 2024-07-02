@@ -18,7 +18,7 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/User-defined-methods-and-constructors.html">Extending constructive</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -37,20 +37,84 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="constructive-development-version">constructive (development version)<a class="anchor" aria-label="anchor" href="#constructive-development-version"></a></h2>
-<ul><li>
-<code><a href="../reference/opts_tbl_df.html">opts_tbl_df()</a></code> gains a <code>justify</code> argument to control the justification of columns with <code>constructor =</code>“tribble”`.</li>
+<h2 class="pkg-version" data-toc-text="1.0.0" id="constructive-100">constructive 1.0.0<a class="anchor" aria-label="anchor" href="#constructive-100"></a></h2>
+<div class="section level3">
+<h3 id="internals-extension-system-cosmetics-1-0-0">Internals, extension system, cosmetics<a class="anchor" aria-label="anchor" href="#internals-extension-system-cosmetics-1-0-0"></a></h3>
+<ul><li>The internals have changed quite a bit, and a new extension system has been developed.</li>
+<li>The vignette “extend-constructive” details it and how constructive works.</li>
+<li>The package {constructive.example} was updated to reflect the new system.</li>
+<li>We remove non API calls in the C code, to comply with new CRAN rules.</li>
+<li>The pkgdown website categorizes the functions so the package can be explored more conveniently (Thanks Maelle Salmon <a href="https://github.com/maelle" class="external-link">@maelle</a> for the suggestion).</li>
+<li>The doc was improved overall</li>
+<li>The README was reworked</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-1-0-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-0-0"></a></h3>
+<ul><li>Two new functions <code><a href="../reference/construct_dput.html">construct_dput()</a></code> and <code><a href="../reference/construct_dput.html">construct_base()</a></code> allow to construct objects respectively without using high level constructors at all, or using only those included in base packages (such as <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> etc).</li>
+<li>A new function <code><a href="../reference/construct_clip.html">construct_clip()</a></code> is just like <code><a href="../reference/construct.html">construct()</a></code> but copies code directly to the clipboard (Thanks Josiah Parry <a href="https://github.com/JosiahParry" class="external-link">@JosiahParry</a> for the suggestion).</li>
+<li>We now have <code><a href="../reference/opts_logical.html">opts_logical()</a></code>, <code><a href="../reference/opts_integer.html">opts_integer()</a></code>, <code><a href="../reference/opts_double.html">opts_double()</a></code>, <code><a href="../reference/opts_complex.html">opts_complex()</a></code>, <code><a href="../reference/opts_character.html">opts_character()</a></code> and <code><a href="../reference/opts_raw.html">opts_raw()</a></code> so options can be set independently. <code><a href="../reference/opts_atomic.html">opts_atomic()</a></code> still works to set a. behavior for all atomics but the new functions have precedence. The “raw” type is supported better can be constructed from integers in decimal or hexadecimal notation with the “as.raw” constructor, or from character using the “charToRaw” constructor.</li>
+<li>The new functions <code><a href="../reference/templates.html">.cstr_new_class()</a></code> and <code>.cstr_new_template()</code> facilitate the process of working with the new extension system.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-classes-1-0-0">New classes<a class="anchor" aria-label="anchor" href="#new-classes-1-0-0"></a></h3>
+<ul><li>Expression vectors are now supported (For some reason we had missed it!).</li>
+<li>We implement constructors for the following base R classes:
+<ul><li>citationFooter</li>
+<li>citationHeader</li>
+<li>hexmode</li>
+<li>octmode</li>
+<li>person</li>
+<li>difftime</li>
+<li>simpleError</li>
+<li>simpleWarning</li>
+<li>simpleMessage</li>
+<li>simpleCondition</li>
+<li>errorCondition</li>
+<li>warningCondition</li>
+</ul></li>
+<li>We support the class “integer64” from the {bit64} package. It was important because we can’t recreate <code>NA</code> or negative integer64 objects using base R only.</li>
+<li>We support the class “blob” from the {blob} package.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-and-deprecation-1-0-0">New features and deprecation<a class="anchor" aria-label="anchor" href="#new-features-and-deprecation-1-0-0"></a></h3>
+<ul><li>Many constructive functions gain the <code>classes</code> argument that generalize <code><a href="../reference/construct_dput.html">construct_dput()</a></code> and <code><a href="../reference/construct_dput.html">construct_base()</a></code>, so users can enable or disable the idiomatic construction of some classes.</li>
+<li>
+<code><a href="../reference/construct_reprex.html">construct_reprex()</a></code> and <code><a href="../reference/construct.html">construct_multi()</a></code> gain the <code>include_dotted = TRUE</code> argument so we can optionally disable the construction of objects such as <code>.Random.seed</code> int he global environment or <code>.Class</code> in the execution environment of S3 methods.s</li>
 <li>
 <code><a href="../reference/construct.html">construct()</a></code> and <code><a href="../reference/construct.html">construct_multi()</a></code> gain the arguments <code>unicode_representation</code> and <code>escape</code> previously used by <code><a href="../reference/opts_atomic.html">opts_atomic()</a></code> and these are now not only applied on strings but also on element names and variable names.</li>
+<li>We look at the encoding when constructing character vectors, so an UTF-8 “é” is not constructed like a latin-1 “é” anymore. Hopefully this will help some users out of encoding hell faster.</li>
+<li>
+<code><a href="../reference/opts_tbl_df.html">opts_tbl_df()</a></code> gains a <code>justify</code> argument to control the justification of columns with <code>constructor =</code>“tribble”` (Thanks Jacob Scott <a href="https://github.com/wurli" class="external-link">@wurli</a> for the implementation).</li>
+<li>The imports and lazydata environments of packages are constructed with <code>parent.env(asNamespace("pkg"))</code> and <code>getNamespaceInfo("pkg", "lazydata")</code>. Before that they were constructed as regular environments.</li>
+<li>When constructing environments we now lock environments and bindings when relevant.</li>
+<li>We construct negative zeroes as <code>-0</code>. <code>identical(0, -0))</code> is <code>TRUE</code> but <code>1/-0</code> is <code>-Inf</code> so it made sense to support them.</li>
+<li>
+<code><a href="../reference/opts_environment.html">opts_environment()</a></code> gains a <code>"predefine"</code> constructor and <code>opts_environment(predefine = TRUE)</code> is deprecated. The old way still works but warns and is not documented anymore.</li>
+<li>In <code><a href="../reference/opts_atomic.html">opts_atomic()</a></code> the arguments <code>unicode_representation</code> and <code>escape</code> are deprecated, use the new <code><a href="../reference/opts_character.html">opts_character()</a></code> function or set them in the main function directly instead so they also affect symbols and argument names. The old way still works but warns and is not documented anymore.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="fixes-1-0-0">Fixes<a class="anchor" aria-label="anchor" href="#fixes-1-0-0"></a></h3>
+<ul><li>We solve some operator precedence issues in <code><a href="../reference/deparse_call.html">deparse_call()</a></code>
+</li>
 <li>Named vectors of length 1 are constructed properly</li>
+<li>Objects are constructed properly if their names have attributes, contain <code>NA</code>s, or are named like <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>’s arguments <code>recursive</code> and <code>use.names</code>
+</li>
+<li>Circularity is detected when attempting to construct an environment refering to itself with an inappropriate constructor. It now fails explicitly rather than trigger an infinite loop or a low level error.</li>
+<li>
+<code>NA</code>s and <code>NaN</code>s are not conflated anymore when compressing double vectors</li>
+<li>complex numbers are constructed properly regarding the different combination of <code>NA</code> values in their real and imaginary parts.</li>
 <li>We check for the S4 bit using <code><a href="https://rdrr.io/r/base/isS4.html" class="external-link">isS4()</a></code> and use <code><a href="https://rdrr.io/r/base/isS4.html" class="external-link">asS4()</a></code> when necessary</li>
 <li>In <code><a href="../reference/opts_numeric_version.html">opts_numeric_version()</a></code>, <code><a href="../reference/opts_package_version.html">opts_package_version()</a></code> and <code><a href="../reference/opts_R_system_version.html">opts_R_system_version()</a></code> the incorrectly named “atomic” constructor is replaced by a “list” constructor</li>
-<li>The class “integer64” is supported, it was important because we can’t recreate NAs or negative integer64 objects using base R only.</li>
-<li>We now lock environments and bindings when relevant.</li>
-<li>We can construct objects with a “.Data” attribute</li>
+<li>data frames, data tables and tibbles are now properly constructed when they contain columns that their idiomatic constructors cannot handle, such as “row.names”, or “stringsAsFactors” for data frames.</li>
+<li>POSIXlt are constructed according to the R version, to account for the changes in R 4.3.0</li>
+<li>We can construct objects with a “.Data” attribute, this used to fail because <code><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure()</a></code> has a <code>.Data</code> argument.</li>
 <li>The default “row.names” attribute is built with the <code>c(NA, -&lt;nrow&gt;)</code> form, as in <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code>, this solves some rare corner cases.</li>
-<li>The “try-error” class is supported</li>
+<li>We fix some issues with raw strings when constructing character vectors</li>
+<li>We fix some issues with <code>NA</code>, <code>NaN</code>, <code>Inf</code> dates and <code>NULL</code> timezones</li>
+<li>We fix the environment attribute reparation</li>
+<li>Functions with non syntactic formals are constructed properly</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="constructive-030">constructive 0.3.0<a class="anchor" aria-label="anchor" href="#constructive-030"></a></h2><p class="text-muted">CRAN release: 2024-03-05</p>
 <ul><li>A new debugging tool, the <code><a href="../reference/construct_reprex.html">construct_reprex()</a></code> function, is introduced. It can be called in any function and will construct all variables and arguments where it’s called.</li>
@@ -60,7 +124,7 @@
 <li>
 <code>opts_atomic(escape = FALSE)</code> (the default) now correctly uses surrounding single quotes for strings that contain double quotes and no single quotes.</li>
 <li>
-<code><a href="../reference/deparse_call.html">deparse_call()</a></code> is more robusts and gains the arguments <code>escape</code> and <code>unicode_representation</code> that were already present in <code><a href="../reference/opts_atomic.html">opts_atomic()</a></code>
+<code><a href="../reference/deparse_call.html">deparse_call()</a></code> is more robust and gains the arguments <code>escape</code> and <code>unicode_representation</code> that were already present in <code><a href="../reference/opts_atomic.html">opts_atomic()</a></code>
 </li>
 <li>The ggplot object generation supports the internal changes of ggplot2 3.5.0, and the resulting construction is nicer.</li>
 <li>Data frames can be reconstructed when their columns don’t have a <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> method</li>

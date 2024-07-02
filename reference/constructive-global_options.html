@@ -20,7 +20,7 @@ permanently you can edit your .RProfile (usethis::edit_r_profile() might help)."
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/User-defined-methods-and-constructors.html">Extending constructive</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -49,19 +49,18 @@ permanently you can edit your <code>.RProfile</code> (<code><a href="https://use
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <ul><li><p>Set <code>options(constructive_print_mode = &lt;character&gt;)</code> to change the default
-value of the <code>print_mode</code> arument, of <code>print.constructive</code>, where <code>&lt;character&gt;</code> is a vector
+value of the <code>print_mode</code> argument, of <code>print.constructive</code>, where <code>&lt;character&gt;</code> is a vector
 of strings among the following :</p><ul><li><p><code>"console"</code> : The default behavior, the code is printed in the console</p></li>
 <li><p><code>"script"</code> : The code is copied to a new R script</p></li>
 <li><p><code>"reprex"</code> : The code is shown in the viewer as a reprex,
-the reprex (not only the code!) is also copied to the clipboard. Note that
-if the construction fails the reprex will too, and it might happen often
-when constructing environments since <span class="pkg">reprex</span> opens a new session.</p></li>
+the reprex (not only the code!) is also copied to the clipboard.</p></li>
 <li><p><code>"clipboard"</code> : The constructed code is copied to the clipboard, if combined
-with <code>"reprex"</code> this takes precedence</p></li>
+with <code>"reprex"</code> this takes precedence (the reprex is showed in the viewer,
+the code without output is copied to the clipboard)</p></li>
 </ul></li>
 <li><p>Set <code>options(constructive_opts_template = &lt;list&gt;)</code> to set default constructive options,
 see documentation of the <code>template</code> arg in <code><a href="construct.html">?construct</a></code></p></li>
-<li><p>Set <code>options(constructive_pretty = FALSE)</code> to disable pretty printinh using
+<li><p>Set <code>options(constructive_pretty = FALSE)</code> to disable pretty printing using
 {prettycode}</p></li>
 </ul></div>
 

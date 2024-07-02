@@ -35,7 +35,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/User-defined-methods-and-constructors.html">Extending constructive</a></li>
+<li><a class="dropdown-item" href="articles/extend-constructive.html">Extend constructive</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -66,18 +66,21 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install it from <a href="https://cynkra.r-universe.dev" class="external-link">cynkra R-universe</a>:</p>
+<p>Install the last stable version from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'constructive'</span><span class="op">)</span></span></code></pre></div>
+<p>Or install the development version from <a href="https://cynkra.r-universe.dev" class="external-link">cynkra R-universe</a>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'constructive'</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://cynkra.r-universe.dev'</span>, <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Or install with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"cynkra/constructive"</span>)</span></code></pre></div>
+<p>Or directly from github:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">"cynkra/constructive"</span>)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="comparison-with-dput">Comparison with <code>dput()</code>
 <a class="anchor" aria-label="anchor" href="#comparison-with-dput"></a>
 </h2>
 <p>A few examples compared to their <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> output.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cynkra/constructive" class="external-link">constructive</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
@@ -131,7 +134,7 @@
 <span><span class="co">#&gt; tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |&gt;</span></span>
 <span><span class="co">#&gt;   dplyr::group_by(band)</span></span></code></pre></div>
 <p>We can provide to the <code>data</code> argument a named list, an environment, a package where to look for data, or an unnamed list of such items, so we don’t print more than necessary, for instance improving the previous example:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">grouped_band_members</span>, data <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; band_members |&gt;</span></span>
 <span><span class="co">#&gt;   dplyr::group_by(band)</span></span></code></pre></div>
@@ -140,8 +143,8 @@
 <h2 id="customize-the-output-using-constructive-options">Customize the output using constructive options<a class="anchor" aria-label="anchor" href="#customize-the-output-using-constructive-options"></a>
 </h2>
 <p>Some objects can be constructed in several ways, for instance a tibble might be constructed using <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> or using <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tibble::tribble()</a></code>.</p>
-<p>The <code>opts_*()</code> family of functions provides ways to tweak the output code, this includes setting the constructor (e.g. setting <code>"tribble" rather than the default "tibble") is used for this purpose. Use these functions</code>construct()<code>'s</code>…`, for instance :</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>The <code>opts_*()</code> family of functions provides ways to tweak the output code, namely setting the constructor itself or options used by the constructor</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="fu"><a href="reference/opts_tbl_df.html">opts_tbl_df</a></span><span class="op">(</span><span class="st">"tribble"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tibble::tribble(</span></span>
 <span><span class="co">#&gt;   ~name,  ~band,</span></span>
@@ -149,70 +152,90 @@
 <span><span class="co">#&gt;   "John", "Beatles",</span></span>
 <span><span class="co">#&gt;   "Paul", "Beatles",</span></span>
 <span><span class="co">#&gt; )</span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="fu"><a href="reference/opts_tbl_df.html">opts_tbl_df</a></span><span class="op">(</span><span class="st">"tribble"</span>, justify <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; tibble::tribble(</span></span>
+<span><span class="co">#&gt;    ~name,     ~band,</span></span>
+<span><span class="co">#&gt;   "Mick",  "Stones",</span></span>
+<span><span class="co">#&gt;   "John", "Beatles",</span></span>
+<span><span class="co">#&gt;   "Paul", "Beatles",</span></span>
+<span><span class="co">#&gt; )</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fu"><a href="reference/opts_atomic.html">opts_atomic</a></span><span class="op">(</span>trim <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; {constructive} couldn't create code that reproduces perfectly the input</span></span>
-<span><span class="co">#&gt; ℹ Call `construct_issues()` to inspect the last issues</span></span>
-<span><span class="co">#&gt; data.frame(</span></span>
-<span><span class="co">#&gt;   Sepal.Length = c(5.1, 4.9, numeric(148)),</span></span>
-<span><span class="co">#&gt;   Sepal.Width = c(3.5, 3, numeric(148)),</span></span>
-<span><span class="co">#&gt;   Petal.Length = c(1.4, 1.4, numeric(148)),</span></span>
-<span><span class="co">#&gt;   Petal.Width = c(0.2, 0.2, numeric(148)),</span></span>
-<span><span class="co">#&gt;   Species = factor(rep(c("setosa", "versicolor", character(1)), each = 50L))</span></span>
-<span><span class="co">#&gt; )</span></span></code></pre></div>
+<span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0x68</span>, <span class="fl">0x65</span>, <span class="fl">0x6c</span>, <span class="fl">0x6c</span>, <span class="fl">0x6f</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">r</span><span class="op">)</span></span>
+<span><span class="co">#&gt; as.raw(c(0x68, 0x65, 0x6c, 0x6c, 0x6f))</span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">r</span>, <span class="fu"><a href="reference/opts_raw.html">opts_raw</a></span><span class="op">(</span>representation <span class="op">=</span> <span class="st">"decimal"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; as.raw(c(104, 101, 108, 108, 111))</span></span>
+<span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">r</span>, <span class="fu"><a href="reference/opts_raw.html">opts_raw</a></span><span class="op">(</span><span class="st">"charToRaw"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; charToRaw("hello")</span></span></code></pre></div>
 <p>These functions have their own documentation page and are referenced in <code><a href="reference/construct.html">?construct</a></code>.</p>
-<p>For every class that doesn’t refer to an internal type a “next” constructor is available, so we can conveniently explor objects using lower level constructors.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>For every class that doesn’t refer to an internal type a “next” constructor is available, so we can conveniently explore objects using lower level constructors.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="fu"><a href="reference/opts_tbl_df.html">opts_tbl_df</a></span><span class="op">(</span><span class="st">"next"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; data.frame(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |&gt;</span></span>
 <span><span class="co">#&gt;   structure(class = c("tbl_df", "tbl", "data.frame"))</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">band_members</span>, <span class="fu"><a href="reference/opts_tbl_df.html">opts_tbl_df</a></span><span class="op">(</span><span class="st">"next"</span><span class="op">)</span>, <span class="fu"><a href="reference/opts_data.frame.html">opts_data.frame</a></span><span class="op">(</span><span class="st">"next"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; list(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |&gt;</span></span>
-<span><span class="co">#&gt;   structure(class = c("tbl_df", "tbl", "data.frame"), row.names = 1:3)</span></span></code></pre></div>
+<span><span class="co">#&gt;   structure(class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, -3L))</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="other-functions">Other functions<a class="anchor" aria-label="anchor" href="#other-functions"></a>
 </h2>
 <ul>
 <li>
-<code><a href="reference/construct_issues.html">construct_issues()</a></code> is used without arguments to check what were the issues encountered with the last reconstructed object, it can also be provided a specific constructive object.</li>
+<code><a href="reference/construct.html">construct_multi()</a></code> constructs several objects from a named list or an environment</li>
 <li>
-<code><a href="reference/construct_diff.html">construct_diff()</a></code> highlights the differences in the code used to produce 2 objects.</li>
+<code><a href="reference/construct_reprex.html">construct_reprex()</a></code> wraps <code><a href="reference/construct.html">construct_multi()</a></code> and constructs all the objects of the local environment, or from the caller environments.</li>
 <li>
-<code><a href="reference/construct.html">construct_multi()</a></code> constructs several objects from a named list,</li>
+<code><a href="reference/construct_dput.html">construct_dput()</a></code> constructs the objects using only low level constructors, like <code><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure()</a></code>, <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>, <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, very similarly to <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">base::dput()</a></code>
+</li>
+<li>
+<code><a href="reference/construct_dput.html">construct_base()</a></code> constructs the objects using only base R functions.</li>
+<li>
+<code><a href="reference/construct_clip.html">construct_clip()</a></code> writes to the clipboard, see also ?<code>constructive-global_options</code>
+</li>
+<li>
+<code><a href="reference/construct_diff.html">construct_diff()</a></code> highlights the differences in the code used to produce 2 objects, it’s an alternative to <code><a href="https://waldo.r-lib.org/reference/compare.html" class="external-link">waldo::compare()</a></code>.</li>
 <li>
 <code><a href="reference/construct_dump.html">construct_dump()</a></code> is similar to <code><a href="https://rdrr.io/r/base/dump.html" class="external-link">base::dump()</a></code>, it’s a wrapper around <code><a href="reference/construct.html">construct_multi()</a></code> that writes to a file.</li>
 <li>
 <code><a href="reference/construct_signature.html">construct_signature()</a></code> constructs a function signature such as the one we see in the “usage” section of a function’s help file. outputs the code produced<br>
 </li>
 <li>
+<code><a href="reference/construct_issues.html">construct_issues()</a></code> is used without arguments to check what were the issues encountered with the last reconstructed object, it can also be provided a specific constructive object.</li>
+<li>
 <code><a href="reference/deparse_call.html">deparse_call()</a></code> is an alternative to <code><a href="https://rdrr.io/r/base/deparse.html" class="external-link">base::deparse()</a></code> and <code><a href="https://rlang.r-lib.org/reference/expr_print.html" class="external-link">rlang::expr_deparse()</a></code> that handles additional corner cases and fails when encountering tokens other than symbols and syntactic literals .</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="note-about-environments">Note about environments<a class="anchor" aria-label="anchor" href="#note-about-environments"></a>
+<h2 id="note-about-environments-and-external-pointers">Note about environments and external pointers<a class="anchor" aria-label="anchor" href="#note-about-environments-and-external-pointers"></a>
 </h2>
 <p>Environments use reference semantics, they cannot be copied. An attempt to copy an environment would indeed yield a different environment and <code>identical(env, copy)</code> would be <code>FALSE</code> (read more about it in <code><a href="reference/opts_environment.html">?opts_environment</a></code>).</p>
 <p>In some case we can build code that points to a specific environment, for instance:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">globalenv</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; .GlobalEnv</span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">setNames</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; asNamespace("stats")</span></span></code></pre></div>
 <p>When it’s not possible we use <code><a href="reference/dot-env.html">constructive::.env()</a></code> function for this purpose.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">e1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">new.env</a></span><span class="op">(</span>parent <span class="op">=</span> <span class="va">.GlobalEnv</span><span class="op">)</span></span>
 <span><span class="va">e1</span><span class="op">$</span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; constructive::.env("0x1211bd9e0", parents = "global")</span></span></code></pre></div>
+<span><span class="co">#&gt; constructive::.env("0x131515348", parents = "global")</span></span></code></pre></div>
 <p><code><a href="reference/dot-env.html">constructive::.env()</a></code> fetches the environment from its memory address. The <code>parents</code> argument doesn’t do anything, it provides as additional information the sequence of parents until we reach a special environment.</p>
 <p>This strategy is convenient because it always works, but it’s not reproducible between sessions as the memory address is not stable. Moreover it doesn’t tell us anything about the environment’s content.</p>
 <p>Depending on what compromise you’re ready to make, you might use different constructions in <code><a href="reference/opts_environment.html">opts_environment()</a></code>. For the case above, choosing <code>"list2env"</code> works well :</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">e1</span>, <span class="fu"><a href="reference/opts_environment.html">opts_environment</a></span><span class="op">(</span><span class="st">"list2env"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; list2env(list(x = 1), parent = .GlobalEnv)</span></span></code></pre></div>
 <p><code><a href="reference/dot-xptr.html">constructive::.xptr()</a></code> is the counterpart of <code><a href="reference/dot-env.html">constructive::.env()</a></code> to construct <code>"externalptr"</code> objects from a memory address.</p>
+</div>
+<div class="section level2">
+<h2 id="extending-constructive">Extending constructive<a class="anchor" aria-label="anchor" href="#extending-constructive"></a>
+</h2>
+<p>You can define your own constructors and methods!</p>
+<p>For more information see <code><a href="https://cynkra.github.io/constructive/articles/User-defined-methods-and-constructors.html">vignette("User-defined-methods-and-constructors", package = "constructive")</a></code></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

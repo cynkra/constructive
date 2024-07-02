@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Extending constructive • constructive</title>
+<title>Extend constructive • constructive</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Extending constructive">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Extend constructive">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -33,7 +33,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/User-defined-methods-and-constructors.html">Extending constructive</a></li>
+<li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -56,11 +56,11 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Extending constructive</h1>
+      <h1>Extend constructive</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/main/vignettes/User-defined-methods-and-constructors.Rmd" class="external-link"><code>vignettes/User-defined-methods-and-constructors.Rmd</code></a></small>
-      <div class="d-none name"><code>User-defined-methods-and-constructors.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/main/vignettes/extend-constructive.Rmd" class="external-link"><code>vignettes/extend-constructive.Rmd</code></a></small>
+      <div class="d-none name"><code>extend-constructive.Rmd</code></div>
     </div>
 
     
@@ -72,49 +72,25 @@ extend it by defining custom
 <code>.cstr_construct.&lt;class&gt;()</code> and
 <code>.cstr_construct.&lt;class&gt;.&lt;constructor&gt;()</code>
 methods.</p>
+<p>The functions <code><a href="../reference/templates.html">.cstr_new_class()</a></code> and
+<code><a href="../reference/templates.html">.cstr_new_constructor()</a></code> can be used to create custom
+constructors from templates. The easiest workflow is probably to use
+them with the argument <code>commented = TRUE</code> and take a look at
+examples in the package itself (scripts starting with <code>s3</code>
+and <code>s4</code>) or in the package {constructive.examples}
+accessible at <a href="https://github.com/cynkra/constructive.example/" class="external-link uri">https://github.com/cynkra/constructive.example/</a> and
+designed just for that.</p>
+<p>If this is not enough, or if you just want to know more, we describe
+below in more details how the package and its key functions work.</p>
 <div class="section level2">
-<h2 id="implement-new-constructors-or-new-methods-in-your-package">Implement new constructors or new methods in your package<a class="anchor" aria-label="anchor" href="#implement-new-constructors-or-new-methods-in-your-package"></a>
-</h2>
-<p>To define a new constructor for a class that is already handled:</p>
-<ul>
-<li>Import the necessary functions from constructive</li>
-<li>Define a method
-<code>.cstr_construct.&lt;class&gt;.&lt;constructor&gt;</code>
-</li>
-<li>Register it, e.g. with roxygen2 by using <code>#' @export</code> on
-top and running <code>devtools::document()</code>
-</li>
-</ul>
-<p>To handle a new class:</p>
-<ul>
-<li>Import the necessary functions from constructive</li>
-<li>Define a method <code>.cstr_construct.&lt;class&gt;</code>
-</li>
-<li>Register it, e.g. with roxygen2 by using <code>#' @export</code> on
-top and running <code>devtools::document()</code>
-</li>
-<li>Define constructors for it, as explained above, but with the
-additional roxygen2 line:
-<code>#' @method .cstr_construct.&lt;class&gt; &lt;constructor&gt;</code>
-</li>
-</ul>
-<p>The package {constructive.examples} accessible at <a href="https://github.com/cynkra/constructive.example/" class="external-link uri">https://github.com/cynkra/constructive.example/</a> contains
-a few examples and might be used as templates.</p>
-<p>The scripts starting with “s3-” and “s4-” in the {constructive}
-package provide many more examples in a similar but slightly different
-shape, those 2 resources along with the explanations in this document
-should get you started. Raise issues if anything is unclear.</p>
-<p>If this is not enough, the sections below explain how the package
-works.</p>
-</div>
-<div class="section level2">
-<h2 id="recursion-system">Recursion system<a class="anchor" aria-label="anchor" href="#recursion-system"></a>
+<h2 id="construct-and--cstr_construct">
+<code>construct()</code> and <code>.cstr_construct()</code><a class="anchor" aria-label="anchor" href="#construct-and--cstr_construct"></a>
 </h2>
 <ul>
 <li>
 <code><a href="../reference/dot-cstr_construct.html">.cstr_construct()</a></code> builds code recursively, without
-checking input or output validity, without handling errors, and without
-formatting.</li>
+checking the inputs or output validity, without error handling, and
+without formatting.</li>
 <li>
 <code><a href="../reference/construct.html">construct()</a></code> wraps <code><a href="../reference/dot-cstr_construct.html">.cstr_construct()</a></code> and
 does this extra work.</li>
@@ -124,9 +100,16 @@ implemented in the package, for instance <code>construct(iris)</code>
 will call <code>.cstr_construct.data.frame()</code> which down the line
 will call <code>.cstr_construct.numeric()</code> and
 <code>.cstr_construct.factor()</code> to construct its columns.</li>
-<li>Additionally, before dispatching, <code><a href="../reference/dot-cstr_construct.html">.cstr_construct()</a></code>
-attempts to match its data input to a list of objects provided to the
+<li>
+<code><a href="../reference/dot-cstr_construct.html">.cstr_construct()</a></code> contains extra logic to :
+<ul>
+<li>Attempt to match its data input to a list of objects provided to the
 <code>data</code> argument.</li>
+<li>Restrict the dispatch so the <code>classes</code> argument and the
+functions <code><a href="../reference/construct_dput.html">construct_base()</a></code> and
+<code><a href="../reference/construct_dput.html">construct_dput()</a></code> can work.</li>
+</ul>
+</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">.cstr_construct</span></span>
@@ -145,27 +128,29 @@ attempts to match its data input to a list of objects provided to the
 <span><span class="co">#&gt;     UseMethod(".cstr_construct", structure(NA_integer_, class = cl))</span></span>
 <span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55ae139ccb68&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x564a1e344cc0&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/dot-cstr_construct.html">.cstr_construct</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># a character vector</span></span>
+<span><span class="fu"><a href="../reference/dot-cstr_construct.html">.cstr_construct</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "c("                                                                                                        </span></span>
 <span><span class="co">#&gt; [2] "  \"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\", \"i\", \"j\", \"k\", \"l\", \"m\", \"n\", \"o\","</span></span>
 <span><span class="co">#&gt; [3] "  \"p\", \"q\", \"r\", \"s\", \"t\", \"u\", \"v\", \"w\", \"x\", \"y\", \"z\""                             </span></span>
 <span><span class="co">#&gt; [4] ")"</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/construct.html">construct</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># a constructive object, </span></span>
+<span><span class="fu"><a href="../reference/construct.html">construct</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">c</span><span style="color: #BBBB00;">(</span></span></span>
 <span><span class="co">#&gt;   <span style="color: #BBBB00;">"a"</span>, <span style="color: #BBBB00;">"b"</span>, <span style="color: #BBBB00;">"c"</span>, <span style="color: #BBBB00;">"d"</span>, <span style="color: #BBBB00;">"e"</span>, <span style="color: #BBBB00;">"f"</span>, <span style="color: #BBBB00;">"g"</span>, <span style="color: #BBBB00;">"h"</span>, <span style="color: #BBBB00;">"i"</span>, <span style="color: #BBBB00;">"j"</span>, <span style="color: #BBBB00;">"k"</span>, <span style="color: #BBBB00;">"l"</span>, <span style="color: #BBBB00;">"m"</span>, <span style="color: #BBBB00;">"n"</span>, <span style="color: #BBBB00;">"o"</span>,</span></span>
 <span><span class="co">#&gt;   <span style="color: #BBBB00;">"p"</span>, <span style="color: #BBBB00;">"q"</span>, <span style="color: #BBBB00;">"r"</span>, <span style="color: #BBBB00;">"s"</span>, <span style="color: #BBBB00;">"t"</span>, <span style="color: #BBBB00;">"u"</span>, <span style="color: #BBBB00;">"v"</span>, <span style="color: #BBBB00;">"w"</span>, <span style="color: #BBBB00;">"x"</span>, <span style="color: #BBBB00;">"y"</span>, <span style="color: #BBBB00;">"z"</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">)</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="cstr_construct--methods">
-<code>.cstr_construct.?()</code> methods<a class="anchor" aria-label="anchor" href="#cstr_construct--methods"></a>
+<h2 id="cstr_construct-class-methods">
+<code>.cstr_construct.&lt;class&gt;()</code> methods<a class="anchor" aria-label="anchor" href="#cstr_construct-class-methods"></a>
 </h2>
-<p><code>.cstr_construct.?()</code> methods typically have this
-form:</p>
+<p><code>.cstr_construct.&lt;class&gt;()</code> methods are generics
+themselves, they typically have this form:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">.cstr_construct.Date</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">$</span><span class="va">opts</span><span class="op">$</span><span class="va">Date</span> <span class="op"><a href="https://rdrr.io/r/base/Control.html" class="external-link">%||%</a></span> <span class="fu"><a href="../reference/opts_Date.html">opts_Date</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -184,7 +169,7 @@ current method by choosing “next” as a constructor for this class, we
 return <code><a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">NextMethod()</a></code> to forward all our inputs to a lower
 level constructor.</li>
 <li>We finally dispatch to a method based on the constructor, and not on
-the object’s class as is done traditonally. This explains the unusual
+the object’s class as is done traditionally. This explains the unusual
 look of the <code><a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">UseMethod()</a></code> call above.</li>
 </ul>
 </div>
@@ -215,7 +200,7 @@ default constructor</li>
 we did here with <code>origin</code>
 </li>
 <li>Note that we don’t use <code><a href="https://rdrr.io/r/base/match.arg.html" class="external-link">match.arg()</a></code> here, because new
-constructors can be defined outside of the package..</li>
+constructors can be defined outside of the package.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -275,18 +260,18 @@ vector constructor:</p>
 <span><span class="co">#&gt;   code &lt;- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)</span></span>
 <span><span class="co">#&gt;   repair_attributes_Date(x, code, ...)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55ae135f1f90&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x564a1da0a498&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
-<p>Their arguments are <code>x</code> and <code>...</code>, and no more.
-Additional parameters fed to the <code>opt_&lt;class&gt;()</code>
+<p>Their arguments are <code>x</code> and <code>...</code>, and not
+more. Additional parameters fed to the <code>opt_&lt;class&gt;()</code>
 function can be fetched from
 <code>list(...)$opts$&lt;class&gt;</code></p>
 <p>The function <code><a href="../reference/dot-cstr_apply.html">.cstr_apply()</a></code> is used to construct
 arguments recursively.</p>
 <p>Sometimes a constructor cannot handle all cases and we need to fall
-back to another constructor, it happens above because Infinite, NA, or
-decimal dates cannot be represented by a string wrapped by
-<code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code>.</p>
+back to another constructor, it happens above because <code>Inf</code>,
+<code>NA</code>, or decimal dates cannot be represented by a string
+wrapped by <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12345</span>, <span class="fl">20000</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"Date"</span><span class="op">)</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12345</span>, <span class="cn">Inf</span><span class="op">)</span>, class <span class="op">=</span> <span class="st">"Date"</span><span class="op">)</span></span>
@@ -319,7 +304,7 @@ data and canonical attributes.</p>
 <p><code><a href="../reference/dot-cstr_repair_attributes.html">.cstr_repair_attributes()</a></code> essentially sets attributes
 with exceptions :</p>
 <ul>
-<li>It doesn’t set names, these should be handled by the
+<li>It doesn’t set names by default, these should be handled by the
 constructors</li>
 <li>It doesn’t set the class explicitly if it’s identical to the
 idiomatic class, i.e. the class returned by the constructor before the
@@ -337,7 +322,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = "Date"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55ae1309fbe8&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x564a1efff138&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -349,20 +334,19 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = "factor"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55ae1633d548&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x564a1e32f0b0&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu">constructive</span><span class="fu">:::</span><span class="va">repair_attributes_tbl_df</span></span>
-<span><span class="co">#&gt; function(x, code, ..., pipe = NULL) {</span></span>
+<span><span class="co">#&gt; function(x, code, ...) {</span></span>
 <span><span class="co">#&gt;   .cstr_repair_attributes(</span></span>
 <span><span class="co">#&gt;     x, code, ...,</span></span>
-<span><span class="co">#&gt;     pipe = pipe,</span></span>
 <span><span class="co">#&gt;     ignore = "row.names",</span></span>
 <span><span class="co">#&gt;     idiomatic_class = c("tbl_df", "tbl", "data.frame")</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55ae163f1150&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x564a1e2bcf68&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

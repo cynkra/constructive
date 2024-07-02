@@ -2,7 +2,7 @@
 <url><loc>https://cynkra.github.io/constructive/404.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/LICENSE-text.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/LICENSE.html</loc></url>
-<url><loc>https://cynkra.github.io/constructive/articles/User-defined-methods-and-constructors.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/articles/extend-constructive.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/articles/index.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/authors.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/index.html</loc></url>
@@ -18,7 +18,6 @@
 <url><loc>https://cynkra.github.io/constructive/reference/construct_signature.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/constructive-global_options.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/constructive-package.html</loc></url>
-<url><loc>https://cynkra.github.io/constructive/reference/custom-constructors.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/deparse_call.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/dot-cstr_apply.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/dot-cstr_combine_errors.html</loc></url>
@@ -30,6 +29,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/dot-cstr_wrap.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/dot-env.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/dot-xptr.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/extend-constructive.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/index.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_AsIs.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_Date.html</loc></url>
@@ -41,14 +41,17 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_array.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_atomic.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_blob.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_character.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_classGeneratorFunction.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_classPrototypeDef.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_classRepresentation.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_complex.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_constructive_options.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_data.frame.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_data.table.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_dm.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_dots.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_double.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_environment.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_externalptr.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_factor.html</loc></url>
@@ -56,12 +59,16 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_function.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ggplot.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_grouped_df.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_hexmode.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_integer.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_integer64.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_language.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_list.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_logical.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_matrix.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_mts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_numeric_version.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_octmode.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ordered.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_package_version.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_pairlist.html</loc></url>
@@ -74,5 +81,6 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_vctrs_list_of.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_weakref.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/other-opts.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/templates.html</loc></url>
 </urlset>
 

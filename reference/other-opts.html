@@ -22,7 +22,7 @@ raise an issue"></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/User-defined-methods-and-constructors.html">Extending constructive</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -37,7 +37,7 @@ raise an issue"></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Other Opts Functions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/main/R/document-other-opts.R" class="external-link"><code>R/document-other-opts.R</code></a>, <a href="https://github.com/cynkra/constructive/blob/main/R/s3-NULL.R" class="external-link"><code>R/s3-NULL.R</code></a>, <a href="https://github.com/cynkra/constructive/blob/main/R/s3-bibentry.R" class="external-link"><code>R/s3-bibentry.R</code></a>, and 45 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/main/R/document-other-opts.R" class="external-link"><code>R/document-other-opts.R</code></a>, <a href="https://github.com/cynkra/constructive/blob/main/R/s3-NULL.R" class="external-link"><code>R/s3-NULL.R</code></a>, <a href="https://github.com/cynkra/constructive/blob/main/R/s3-bibentry.R" class="external-link"><code>R/s3-bibentry.R</code></a>, and 38 more</small>
       <div class="d-none name"><code>other-opts.Rd</code></div>
     </div>
 
@@ -53,37 +53,11 @@ the signature is self explanatory, if not please
 <span></span>
 <span><span class="fu">opts_bibentry</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bibentry"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opts_character</span><span class="op">(</span></span>
-<span>  constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span>,</span>
-<span>  <span class="va">...</span>,</span>
-<span>  trim <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"rlang"</span>, <span class="st">"+"</span>, <span class="st">"..."</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  compress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  unicode_representation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ascii"</span>, <span class="st">"latin"</span>, <span class="st">"character"</span>, <span class="st">"unicode"</span><span class="op">)</span>,</span>
-<span>  escape <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">opts_citationFooter</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"citFooter"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">opts_citationHeader</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"citHeader"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opts_complex</span><span class="op">(</span></span>
-<span>  constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span>,</span>
-<span>  <span class="va">...</span>,</span>
-<span>  trim <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"rlang"</span>, <span class="st">"+"</span>, <span class="st">"..."</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  compress <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">opts_difftime</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"as.difftime"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">opts_double</span><span class="op">(</span></span>
-<span>  constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span>,</span>
-<span>  <span class="va">...</span>,</span>
-<span>  trim <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"rlang"</span>, <span class="st">"+"</span>, <span class="st">"..."</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  compress <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">opts_error</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"errorCondition"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -150,27 +124,7 @@ the signature is self explanatory, if not please
 <span></span>
 <span><span class="fu">opts_waiver</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"waiver"</span>, <span class="st">"next"</span>, <span class="st">"list"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opts_hexmode</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"as.hexmode"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span>, integer <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">opts_integer</span><span class="op">(</span></span>
-<span>  constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span>,</span>
-<span>  <span class="va">...</span>,</span>
-<span>  trim <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"rlang"</span>, <span class="st">"+"</span>, <span class="st">"..."</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  compress <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">opts_logical</span><span class="op">(</span></span>
-<span>  constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span><span class="op">)</span>,</span>
-<span>  <span class="va">...</span>,</span>
-<span>  trim <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"rlang"</span>, <span class="st">"+"</span>, <span class="st">"..."</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
-<span>  compress <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu">opts_noquote</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"noquote"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">opts_octmode</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"as.octmode"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span>, integer <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">opts_person</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"person"</span>, <span class="st">"next"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
@@ -196,30 +150,6 @@ of a function.</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional options used by user defined constructors through the <code>opts</code> object</p></dd>
-
-
-<dt id="arg-trim">trim<a class="anchor" aria-label="anchor" href="#arg-trim"></a></dt>
-<dd><p><code>NULL</code> or integerish. Maximum of elements showed before it's trimmed.
-Note that it will necessarily produce code that doesn't reproduce the input.
-This code will parse without failure but its evaluation might fail.</p></dd>
-
-
-<dt id="arg-fill">fill<a class="anchor" aria-label="anchor" href="#arg-fill"></a></dt>
-<dd><p>String. Method to use to represent the trimmed elements.</p></dd>
-
-
-<dt id="arg-compress">compress<a class="anchor" aria-label="anchor" href="#arg-compress"></a></dt>
-<dd><p>Boolean. It <code>TRUE</code> instead of <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> Use <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq()</a></code>, <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep()</a></code>, or atomic constructors <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical()</a></code>, <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>,
-<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>, <code><a href="https://rdrr.io/r/base/complex.html" class="external-link">complex()</a></code>, <code><a href="https://rdrr.io/r/base/raw.html" class="external-link">raw()</a></code> when relevant to simplify the output.</p></dd>
-
-
-<dt id="arg-unicode-representation-escape">unicode_representation, escape<a class="anchor" aria-label="anchor" href="#arg-unicode-representation-escape"></a></dt>
-<dd><p>Deprecated, kept for compatibility with older versions.
-Overrides the arguments of <code><a href="construct.html">construct()</a></code></p></dd>
-
-
-<dt id="arg-integer">integer<a class="anchor" aria-label="anchor" href="#arg-integer"></a></dt>
-<dd><p>Whether to use <code><a href="https://rdrr.io/r/base/hexmode.html" class="external-link">as.hexmode()</a></code> on integer rather than character</p></dd>
 
 </dl></div>
 

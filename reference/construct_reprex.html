@@ -22,7 +22,7 @@ is also included in a comment."></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/User-defined-methods-and-constructors.html">Extending constructive</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -66,8 +66,8 @@ is also included in a comment.</p>
 
 <dt id="arg-include-dotted">include_dotted<a class="anchor" aria-label="anchor" href="#arg-include-dotted"></a></dt>
 <dd><p>Whether to include names starting with dots, this includes
-<code>.Random.seed</code> in the global environment and objects like <code>.Class</code>, <code>.Generic</code>
-in the execution environments of S3 methods.</p></dd>
+<code>.Random.seed</code> in the global environment and objects like <code>.Class</code> and
+<code>.Generic</code> in the execution environments of S3 methods.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -76,20 +76,24 @@ in the execution environments of S3 methods.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>construct_reprex()</code> doesn't call the {reprex} package but it shares
-the purpose of making it easier to reproduce an output, hence the name.
-If you want to it to look more like a <code><a href="https://reprex.tidyverse.org/reference/reprex.html" class="external-link">reprex::reprex</a></code> consider <code>options(constructive_print_mode = "reprex")</code>.
-See <code><a href="constructive-global_options.html">?constructive_print_mode</a></code> for more.</p>
+    <p><code>construct_reprex()</code> doesn't call the {reprex} package. <code>construct_reprex()</code>
+builds reproducible data while the reprex package build reproducible output
+once you have the data.</p>
 <p><code>construct_reprex()</code> wraps <code><a href="construct.html">construct_multi()</a></code> and is thus able to construct
 unevaluated arguments using <code><a href="https://rdrr.io/r/base/delayedAssign.html" class="external-link">delayedAssign()</a></code>. This means we can construct
 reprexes for functions that use Non Standard Evaluation.</p>
-<p>A useful trick is to use <code>construct_reprex()</code> with <code>options(error = recover)</code>
-to be able to reproduce an error.</p>
+<p>A useful trick is to use <code>options(error = recover)</code> to be able to inspect
+frames on error, and use <code>construct_reprex()</code> from there to reproduce the
+data state.</p>
 <p><code>construct_reprex()</code> might fail to reproduce the output of functions that refer
 to environments other than their caller environment. We believe these are
 very rare and that the simplicity is worth the rounded corners, but if you
 encounter these limitations please do open a ticket on our issue tracker
 at <code>https://github.com/cynkra/constructive/</code> and we might expand the feature.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="construct.html">construct_multi()</a></code></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
