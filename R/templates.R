@@ -6,8 +6,6 @@
 #' If the class is already supported and you want to implement a new constructor,
 #' use `.cstr_new_constructor()`, otherwise use `.cstr_new_class()`.
 #'
-#'
-#'
 #' @details
 #'
 #' We suggest the following workflow :
@@ -18,10 +16,10 @@
 #'   constructor
 #' * Tweak the code, in particular the definition of `args`
 #'
-#' For more information check `vignette("extend-constructive")`, the example
-#' extension package
+#' The README of the example extension package
 #' ['constructive.example'](https://github.com/cynkra/constructive.example)
-#' or \{constructive\}'s own code.
+#' guides you through the process. See also \{constructive\}'s own code
+#' and `vignette("extend-constructive")` for more details.
 #'
 #' @param class Class to support, provide the full `class()` vector.
 #' @param constructor Name of the constructor, usually the name of the function

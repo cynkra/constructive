@@ -24,12 +24,10 @@ you might extend it by defining custom  `.cstr_construct.<class>()` and
 
 The functions `.cstr_new_class()` and `.cstr_new_constructor()` can be used to
 create custom constructors from templates. The easiest workflow is probably
-to use them with the argument `commented = TRUE` and take a look at examples
-in the package itself (scripts starting with `s3` and `s4`) or in the 
-package {constructive.examples} accessible at 
-https://github.com/cynkra/constructive.example/ and designed just for that.
+to take a look at the 
+package [{constructive.examples}](https://github.com/cynkra/constructive.example/) which will guide you through the process, then call these functions with the argument `commented = TRUE`.
 
-If this is not enough, or if you just want to know more, we describe below in 
+If this is not enough, or if you want to know more, we describe below in 
 more details how the package and its key functions work.
 
 ## `construct()` and `.cstr_construct()`
@@ -167,9 +165,9 @@ construct(x)
 construct(y)
 ```
 
-That last line of the function is essential, it does the attribute reparation.
+That last line of the function is essential, it does the attribute repair.
 
-## Attribute reparation
+## Attribute repair
 
 Constructors should always end by a call to `.cstr_repair_attributes()` or a function
 that wraps it.
