@@ -40,7 +40,8 @@ is_corrupted_complex <- function(x) {
   if (!length(x)) return(.cstr_repair_attributes(x, "complex(0)", ...))
 
   # we apply in priority the complex opts, fall back on atomic opts otherwise
-  opts <- list(...)$opts$complex %||% opts_complex()
+  all_opts <- list(...)$opts
+  opts <- all_opts$complex %||% opts_complex()
   x_bkp <- x
 
   # non standard names
@@ -69,8 +70,10 @@ is_corrupted_complex <- function(x) {
 
   re <- Re(x)
   im <- Im(x)
-  re_code <- sapply(re, function(x, ...) .cstr_construct.double(x, ...), ...)
-  im_code <- sapply(im, function(x, ...) .cstr_construct.double(x, ...), ...)
+  # override double options so they don't affect complex numbers
+  all_opts$double <- opts
+  re_code <- sapply(re, function(x, ..., opts) .cstr_construct.double(x, ..., opts = all_opts), ...)
+  im_code <- sapply(im, function(x, ..., opts) .cstr_construct.double(x, ..., opts = all_opts), ...)
 
   # general case
   code <- sprintf("%s+%si", re_code, im_code)
