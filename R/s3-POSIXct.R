@@ -13,7 +13,7 @@
 #' * `"atomic"` : We define as an atomic vector and repair attributes.
 #'
 #' If the data is not appropriate for a constructor we fall back to another one
-#' appropriately. In particulat corrupted POSIXct objects such as those defined
+#' appropriately. In particular corrupted POSIXct objects such as those defined
 #' on top of integers (or worse) are all constructed with the `".POSIXct"` constructor.
 #'
 #' @param constructor String. Name of the function used to construct the object, see Details section.

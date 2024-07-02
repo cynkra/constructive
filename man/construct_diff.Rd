@@ -60,7 +60,8 @@ and \code{construct_base()} for wrappers around this feature.}
 Returns \code{NULL} invisibly, called for side effects
 }
 \description{
-Display diff of object definitions
+This calls \code{construct()} on two objects and compares the output using
+\code{diffobj::diffChr()}.
 }
 \examples{
 \dontrun{

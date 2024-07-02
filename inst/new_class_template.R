@@ -3,10 +3,11 @@
 #' These options will be used on objects of class 'CLASS'.
 #'
 #' Depending on `constructor`, we construct the object as follows:
-#' * `"CONSTRUCTOR"` (default): TODO.
+#' * `"CONSTRUCTOR"` (default): We build the object using `CONSTRUCTOR()`.
 #' * `"next"` : Use the constructor for the next supported class.
 #'
 #' @param constructor String. Name of the function used to construct the object.
+#' @param ... Additional options used by user defined constructors through the `opts` object
 #' @return An object of class <constructive_options/constructive_options_CLASS>
 #' @export
 opts_CLASS <- function(constructor = c("CONSTRUCTOR", "next"), ...) {
@@ -22,7 +23,6 @@ opts_CLASS <- function(constructor = c("CONSTRUCTOR", "next"), ...) {
 }
 
 is_corrupted_CLASS <- function(x) {
-  # FIXME
   FALSE
 }
 

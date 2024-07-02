@@ -4,10 +4,10 @@
     typeof(x),
     environment = .cstr_construct.environment(x, ...),
     list = .cstr_construct.list(x, ...),
-    special =,
-    builtin =,
+    special = ,
+    builtin = ,
     closure = .cstr_construct.function(x, ...),
-    symbol =,
+    symbol = ,
     language = .cstr_construct.language(x, ...),
     `...` = .cstr_construct.dots(x, ...),
     externalptr = .cstr_construct.externalptr(x, ...),
@@ -32,16 +32,16 @@
 #' @param args A list of arguments to construct recursively, or code if `recurse = FALSE`.
 #'   If elements are named, the arguments will be named in the generated code.
 #' @param fun The function name to use to build code of the form "fun(...)"
-#' @param ... options passed recursively to the further methods
-#' @param trailing_comma leave a trailing comma after the last argument if
+#' @param ... Options passed recursively to the further methods
+#' @param trailing_comma Boolean. Whether to leave a trailing comma after the last argument if
 #'   the code is multiline, some constructors allow it (e.g. `tibble::tibble()`) and it makes for nicer
 #'   diffs in version control.
-#' @param recurse Whether to recursively generate the code to construct `args`. If `FALSE` arguments
+#' @param recurse Boolean. Whether to recursively generate the code to construct `args`. If `FALSE` arguments
 #' are expected to contain code.
 #' @param implicit_names When data is provided, compress calls of the form `f(a = a)` to `f(a)`
-#' @param new_line passed to wrap to remove add a line after "fun(" and before ")", forced to
+#' @param new_line Boolean. Forwarded to `wrap()` to add a line between "fun(" and ")", forced to
 #'   `FALSE` if `one_liner` is `TRUE`
-#' @param one_liner Whether to return a one line call.
+#' @param one_liner Boolean. Whether to return a one line call.
 #' @inheritParams construct
 #'
 #' @export

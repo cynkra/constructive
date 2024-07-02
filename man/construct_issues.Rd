@@ -14,5 +14,6 @@ issues will be displayed}
 A character vector with class "waldo_compare"
 }
 \description{
-Show constructive issues
+Usually called without arguments right after an imperfect code generation,
+but can also be called on the 'constructive' object itself.
 }

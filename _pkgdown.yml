@@ -26,7 +26,7 @@ reference:
   - constructive_print_mode
 - title: Extension system
 - contents:
-  - custom-constructors
+  - extend-constructive
   - starts_with(".cstr")
 - title: Provide options to the main functions
 - contents:

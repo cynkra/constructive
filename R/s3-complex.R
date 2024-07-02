@@ -1,5 +1,16 @@
+#' Constructive options for type 'complex'
+#'
+#' @description
+#' These options will be used on objects of type 'complex'. This type has
+#' a single native constructor, but some additional options can be set.
+#'
+#' To set options on all atomic types at once see \link{opts_atomic}().
+#'
+#' @inheritParams opts_atomic
+#' @inheritParams other-opts
+#' @param fill String. Method to use to represent the trimmed elements. See `?opts_atomic`
+#' @return An object of class <constructive_options/constructive_options_complex>
 #' @export
-#' @rdname other-opts
 opts_complex <- function(
     constructor = c("default"),
     ...,
@@ -40,7 +51,8 @@ is_corrupted_complex <- function(x) {
   if (!length(x)) return(.cstr_repair_attributes(x, "complex(0)", ...))
 
   # we apply in priority the complex opts, fall back on atomic opts otherwise
-  opts <- list(...)$opts$complex %||% opts_complex()
+  all_opts <- list(...)$opts
+  opts <- all_opts$complex %||% opts_complex()
   x_bkp <- x
 
   # non standard names
@@ -69,8 +81,10 @@ is_corrupted_complex <- function(x) {
 
   re <- Re(x)
   im <- Im(x)
-  re_code <- sapply(re, function(x, ...) .cstr_construct.double(x, ...), ...)
-  im_code <- sapply(im, function(x, ...) .cstr_construct.double(x, ...), ...)
+  # override double options so they don't affect complex numbers
+  all_opts$double <- opts
+  re_code <- sapply(re, function(x, ..., opts) .cstr_construct.double(x, ..., opts = all_opts), ...)
+  im_code <- sapply(im, function(x, ..., opts) .cstr_construct.double(x, ..., opts = all_opts), ...)
 
   # general case
   code <- sprintf("%s+%si", re_code, im_code)

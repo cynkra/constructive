@@ -2,7 +2,7 @@
 % Please edit documentation in R/s3-raw.R
 \name{opts_raw}
 \alias{opts_raw}
-\title{Constructive options for class 'raw'}
+\title{Constructive options for type 'raw'}
 \usage{
 opts_raw(
   constructor = c("as.raw", "charToRaw"),
@@ -22,10 +22,10 @@ opts_raw(
 Note that it will necessarily produce code that doesn't reproduce the input.
 This code will parse without failure but its evaluation might fail.}
 
-\item{fill}{String. Method to use to represent the trimmed elements.}
+\item{fill}{String. Method to use to represent the trimmed elements. See \code{?opts_atomic}}
 
-\item{compress}{Boolean. It \code{TRUE} instead of \code{c()} Use \code{seq()}, \code{rep()}, or atomic constructors \code{logical()}, \code{integer()},
-\code{numeric()}, \code{complex()}, \code{raw()} when relevant to simplify the output.}
+\item{compress}{Boolean. If \code{TRUE} instead of \code{c()} Use \code{seq()}, \code{rep()}
+when relevant to simplify the output.}
 
 \item{representation}{For "as.raw" constructor. Respectively generate output
 in the formats \code{as.raw(0x10)} or \code{as.raw(16)}}
@@ -34,13 +34,14 @@ in the formats \code{as.raw(0x10)} or \code{as.raw(16)}}
 An object of class <constructive_options/constructive_options_raw>
 }
 \description{
-These options will be used on objects of class 'raw'.
-}
-\details{
+These options will be used on objects of type 'raw'.
+
 Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"as.raw"} (default): Use \code{as.raw()}, or \code{raw()} when relevant
 \item \code{"charToRaw"} : Use \code{charToRaw()} on a string, if the a raw vector contains
 a zero we fall back to the "as.raw" constructor.
 }
+
+To set options on all atomic types at once see \link{opts_atomic}().
 }

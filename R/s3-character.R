@@ -1,5 +1,21 @@
+#' Constructive options for type 'character'
+#'
+#' @description
+#' These options will be used on objects of type 'character'. This type has
+#' a single native constructor, but some additional options can be set.
+#'
+#' `unicode_representation` and `escape` are usually better set in the main
+#' function (`construct()` or other) so they apply not only on strings but on
+#' symbols and argument names as well.
+#'
+#' To set options on all atomic types at once see \link{opts_atomic}().
+#'
+#' @inheritParams construct
+#' @inheritParams opts_atomic
+#' @inheritParams other-opts
+#' @param fill String. Method to use to represent the trimmed elements. See `?opts_atomic`
+#' @return An object of class <constructive_options/constructive_options_character>
 #' @export
-#' @rdname other-opts
 opts_character <- function(
     constructor = c("default"),
     ...,

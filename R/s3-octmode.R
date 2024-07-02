@@ -1,5 +1,16 @@
+#' Constructive options for class 'octmode'
+#'
+#' These options will be used on objects of class 'octmode'.
+#'
+#' Depending on `constructor`, we construct the object as follows:
+#' * `"as.octmode"` (default): We build the object using `as.octmode()`
+#' * `"next"` : Use the constructor for the next supported class.
+#'
+#' @param constructor String. Name of the function used to construct the object.
+#' @param ... Additional options used by user defined constructors through the `opts` object
+#' @param integer Whether to use `as.octmode()` on integer rather than character
+#' @return An object of class <constructive_options/constructive_options_octmode>
 #' @export
-#' @rdname other-opts
 opts_octmode <- function(constructor = c("as.octmode", "next"), ..., integer = FALSE) {
   abort_not_boolean(integer)
   .cstr_options("octmode", constructor = constructor[[1]], ..., integer = integer)

@@ -1,21 +1,112 @@
-# constructive (development version)
+# constructive 1.0.0
 
-* `opts_tbl_df()` gains a `justify` argument to control the justification of
-  columns with `constructor = `"tribble"`.
+## Internals, extension system, cosmetics
+
+* The internals have changed quite a bit, and a new extension system has been
+developed.
+* The vignette "extend-constructive" details it and how constructive works.
+* The package {constructive.example} was updated to reflect the new system.
+* We remove non API calls in the C code, to comply with new CRAN rules.
+* The pkgdown website categorizes the functions so the package can be explored
+  more conveniently (Thanks Maelle Salmon @maelle for the suggestion).
+* The doc was improved overall
+* The README was reworked
+  
+## New functions
+
+* Two new functions `construct_dput()` and `construct_base()` allow to construct
+  objects respectively without using high level constructors at all, or using
+  only those included in base packages (such as `data.frame()` etc).
+* A new function `construct_clip()` is just like `construct()` but 
+  copies code directly to the clipboard (Thanks Josiah Parry @JosiahParry for the suggestion).
+* We now have `opts_logical()`, `opts_integer()`, `opts_double()`, `opts_complex()`,
+  `opts_character()` and `opts_raw()` so options can be set independently. 
+  `opts_atomic()` still works to set a. behavior for all atomics but the new functions have precedence.
+  The "raw" type is supported better can be constructed from integers in
+  decimal or hexadecimal notation with the "as.raw" constructor, or from 
+  character using the "charToRaw" constructor.
+* The new functions `.cstr_new_class()` and `.cstr_new_template()`
+  facilitate the process of working with the new extension system.
+
+## New classes
+
+* Expression vectors are now supported (For some reason we had missed it!).
+* We implement constructors for the following base R classes:
+  * citationFooter
+  * citationHeader
+  * hexmode
+  * octmode
+  * person
+  * difftime
+  * simpleError
+  * simpleWarning
+  * simpleMessage
+  * simpleCondition
+  * errorCondition
+  * warningCondition
+* We support the class "integer64" from the {bit64} package. It was important 
+  because we can't recreate `NA` or negative integer64 objects using base R only.
+* We support the class "blob" from the {blob} package.
+
+## New features and deprecation
+
+* Many constructive functions gain the `classes` argument that generalize
+  `construct_dput()` and `construct_base()`, so users can enable or disable the idiomatic construction of some
+  classes.
+* `construct_reprex()` and `construct_multi()` gain the `include_dotted = TRUE`
+  argument so we can optionally disable the construction of objects such as
+  `.Random.seed` int he global environment or `.Class` in the execution environment
+  of S3 methods.s
 * `construct()` and `construct_multi()` gain the arguments `unicode_representation` 
   and `escape` previously used by `opts_atomic()` and these are now not only 
   applied on strings but also on element names and variable names.
+* We look at the encoding when constructing character vectors, so an UTF-8
+  "é" is not constructed like a latin-1 "é" anymore. Hopefully this will help
+  some users out of encoding hell faster.
+* `opts_tbl_df()` gains a `justify` argument to control the justification of
+  columns with `constructor = `"tribble"` (Thanks Jacob Scott @wurli for the implementation).
+* The imports and lazydata environments of packages are constructed with
+ `parent.env(asNamespace("pkg"))` and `getNamespaceInfo("pkg", "lazydata")`.
+ Before that they were constructed as regular environments.
+* When constructing environments we now lock environments and bindings when relevant.
+* We construct negative zeroes as `-0`. `identical(0, -0))` is `TRUE` but
+  `1/-0` is `-Inf` so it made sense to support them.
+* `opts_environment()` gains a `"predefine"` constructor and 
+  `opts_environment(predefine = TRUE)` is deprecated. The old way still works
+  but warns and is not documented anymore.
+* In `opts_atomic()` the arguments `unicode_representation` and `escape` are
+  deprecated, use the new `opts_character()` function or set them in the 
+  main function directly instead so they also affect symbols and argument names.
+  The old way still works but warns and is not documented anymore.
+
+## Fixes
+
+* We solve some operator precedence issues in `deparse_call()`
 * Named vectors of length 1 are constructed properly
+* Objects are constructed properly if their names have attributes, contain `NA`s,
+  or are named like `c()`'s arguments `recursive` and `use.names`
+* Circularity is detected when attempting to construct an environment refering to
+  itself with an inappropriate constructor. It now fails explicitly rather than
+  trigger an infinite loop or a low level error.
+* `NA`s and `NaN`s are not conflated anymore when compressing double vectors 
+* complex numbers are constructed properly regarding the different combination
+  of `NA` values in their real and imaginary parts. 
 * We check for the S4 bit using `isS4()` and use `asS4()` when necessary
 * In `opts_numeric_version()`, `opts_package_version()` and `opts_R_system_version()`
 the incorrectly named "atomic" constructor is replaced by a "list" constructor
-* The class "integer64" is supported, it was important because we can't recreate
-  NAs or negative integer64 objects using base R only.
-* We now lock environments and bindings when relevant.
-* We can construct objects with a ".Data" attribute
+* data frames, data tables and tibbles are now properly constructed when they
+  contain columns that their idiomatic constructors cannot handle, such
+  as "row.names", or "stringsAsFactors" for data frames.
+* POSIXlt are constructed according to the R version, to account for the changes
+  in R 4.3.0
+* We can construct objects with a ".Data" attribute, this used to fail because
+  `structure()` has a `.Data` argument.
 * The default "row.names" attribute is built with the `c(NA, -<nrow>)` form,
   as in `dput()`, this solves some rare corner cases.
-* The "try-error" class is supported
+* We fix some issues with raw strings when constructing character vectors
+* We fix some issues with `NA`, `NaN`, `Inf` dates and `NULL` timezones
+* We fix the environment attribute reparation
+* Functions with non syntactic formals are constructed properly
 
 # constructive 0.3.0
 
@@ -30,7 +121,7 @@ the incorrectly named "atomic" constructor is replaced by a "list" constructor
     behavior is "console". See `` ?`constructive-global_options`
 * `opts_atomic(escape = FALSE)` (the default) now correctly uses surrounding single quotes
   for strings that contain double quotes and no single quotes.
-* `deparse_call()` is more robusts and gains the arguments `escape` and `unicode_representation`
+* `deparse_call()` is more robust and gains the arguments `escape` and `unicode_representation`
   that were already present in `opts_atomic()`
 * The ggplot object generation supports the internal changes of ggplot2 3.5.0,
   and the resulting construction is nicer.

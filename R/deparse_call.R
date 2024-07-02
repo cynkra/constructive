@@ -1,22 +1,22 @@
 #' Deparse a language object
 #'
-#' This is an alternative to `base::deparse()` and `rlang::expr_deparse()` that
+#' An alternative to `base::deparse()` and `rlang::expr_deparse()` that
 #' handles additional corner cases and fails when encountering tokens other than
 #' symbols and syntactic literals where cited alternatives would produce non syntactic code.\cr\cr
 #'
-#' @param call A call
+#' @param call A call.
 #' @param one_liner Boolean. Whether to collapse multi-line expressions on a single line using
-#'   semicolons
+#'   semicolons.
 #' @param pipe Boolean. Whether to use the base pipe to disentangle nested calls. This
 #'   works best on simple calls.
 #' @param style Boolean. Whether to give a class "constructive_code" on the output
 #'   for pretty printing.
 #' @param collapse Boolean. Whether to collapse the output to a single string,
-#'   won't be directly visible if `style` is `TRUE`
+#'   won't be directly visible if `style` is `TRUE`.
 #' @inheritParams construct
 #'
 #' @return a string or a character vector, with a class "constructive_code" for pretty
-#'   printing if `style` is `TRUE`
+#'   printing if `style` is `TRUE`.
 #' @export
 #'
 #' @examples
@@ -25,9 +25,6 @@
 #' deparse_call(expr, one_liner = TRUE)
 #' deparse_call(expr, pipe = TRUE)
 #' deparse_call(expr, style = FALSE)
-#' # some corner cases are handled better than in base R
-#' deparse(call("$", 1, 1)) # returns non syntactic output
-#' deparse_call(call("$", 1, 1))
 deparse_call <- function(
     call,
     one_liner = FALSE,

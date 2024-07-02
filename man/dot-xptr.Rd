@@ -14,7 +14,6 @@ The external pointer (type "externalptr") that the memory address points to.
 }
 \description{
 Base R doesn't provide utilities to build or manipulate external pointers
-(objects of type "externalptr"), so we provide our own. Be warned that
-objects defined with \code{.xptr()} are not stable across sessions,
-however this is the best we can
+(objects of type "externalptr"), so we provide our own.
+Objects defined with \code{.xptr()} are not stable across sessions,
 }

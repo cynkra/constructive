@@ -17,5 +17,6 @@ The environment that the memory address points to.
 \description{
 This is designed to be used in constructed output. The \code{parents} and \code{...} arguments
 are not processed and only used to display additional information. If used on
-an improper memory address the output might be erratic or the session might crash.
+an improper memory address it will either fail (most likely) or the output
+will be erratic.
 }

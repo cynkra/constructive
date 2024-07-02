@@ -1,9 +1,9 @@
 #' Construct using only low level constructors
 #'
 #' * `construct_dput()` is a closer counterpart to `base::dput()` that doesn't
-#'   use higher level constructors such as `data.frame()`, `factor()`.
+#'   use higher level constructors such as `data.frame()` and `factor()`.
 #' * `construct_base()` uses higher constructors, but only for the classes
-#'   maintained in the default base R packages, so this includes `data.frame()`
+#'   maintained in the default base R packages. This includes `data.frame()`
 #'   and `factor()`, the S4 constructors from the 'method' package etc,
 #'   but not `data.table()` and other constructors for classes from other
 #'   packages.
@@ -22,11 +22,8 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' construct_dput(head(iris, 2))
 #' construct_base(head(iris, 2))
-#'
-#' }
 construct_dput <- function(
     x,
     ...,

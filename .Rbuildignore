@@ -12,3 +12,5 @@
 ^CRAN-SUBMISSION$
 ^\.aviator$
 ^renovate\.json$
+^doc$
+^Meta$

@@ -38,6 +38,6 @@ on the object to see in which order the methods will be tried.
 }
 
 If the data is not appropriate for a constructor we fall back to another one
-appropriately. In particulat corrupted POSIXct objects such as those defined
+appropriately. In particular corrupted POSIXct objects such as those defined
 on top of integers (or worse) are all constructed with the \code{".POSIXct"} constructor.
 }

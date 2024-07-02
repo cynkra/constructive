@@ -1,6 +1,16 @@
-#' @export
-#' @rdname other-opts
+#' Constructive options for class 'hexmode'
+#'
+#' These options will be used on objects of class 'hexmode'.
+#'
+#' Depending on `constructor`, we construct the object as follows:
+#' * `"as.hexmode"` (default): We build the object using `as.hexmode()`
+#' * `"next"` : Use the constructor for the next supported class.
+#'
+#' @param constructor String. Name of the function used to construct the object.
+#' @param ... Additional options used by user defined constructors through the `opts` object
 #' @param integer Whether to use `as.hexmode()` on integer rather than character
+#' @return An object of class <constructive_options/constructive_options_hexmode>
+#' @export
 opts_hexmode <- function(constructor = c("as.hexmode", "next"), ..., integer = FALSE) {
   abort_not_boolean(integer)
   .cstr_options("hexmode", constructor = constructor[[1]], ..., integer = integer)

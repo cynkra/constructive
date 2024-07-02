@@ -17,15 +17,22 @@ Some use cases are:
 
 ## Installation
 
-Install it from [cynkra R-universe](https://cynkra.r-universe.dev):
+Install the last stable version from CRAN:
+
+``` r
+install.packages('constructive')
+```
+
+Or install the development version from [cynkra
+R-universe](https://cynkra.r-universe.dev):
 
 ``` r
 install.packages('constructive', repos = c('https://cynkra.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
-Or install with:
+Or directly from github:
 
-    remotes::install_github("cynkra/constructive")
+    pak::pak("cynkra/constructive")
 
 ## Comparison with `dput()`
 
@@ -104,9 +111,8 @@ might be constructed using `tibble::tibble()` or using
 `tibble::tribble()`.
 
 The `opts_*()` family of functions provides ways to tweak the output
-code, this includes setting the constructor (e.g. setting
-`"tribble" rather than the default "tibble") is used for this purpose. Use these functions`construct()`'s`…\`,
-for instance :
+code, namely setting the constructor itself or options used by the
+constructor
 
 ``` r
 construct(band_members, opts_tbl_df("tribble"))
@@ -116,24 +122,28 @@ construct(band_members, opts_tbl_df("tribble"))
 #>   "John", "Beatles",
 #>   "Paul", "Beatles",
 #> )
-
-construct(iris, opts_atomic(trim = 2))
-#> {constructive} couldn't create code that reproduces perfectly the input
-#> ℹ Call `construct_issues()` to inspect the last issues
-#> data.frame(
-#>   Sepal.Length = c(5.1, 4.9, numeric(148)),
-#>   Sepal.Width = c(3.5, 3, numeric(148)),
-#>   Petal.Length = c(1.4, 1.4, numeric(148)),
-#>   Petal.Width = c(0.2, 0.2, numeric(148)),
-#>   Species = factor(rep(c("setosa", "versicolor", character(1)), each = 50L))
+construct(band_members, opts_tbl_df("tribble", justify = "right"))
+#> tibble::tribble(
+#>    ~name,     ~band,
+#>   "Mick",  "Stones",
+#>   "John", "Beatles",
+#>   "Paul", "Beatles",
 #> )
+
+r <- as.raw(c(0x68, 0x65, 0x6c, 0x6c, 0x6f))
+construct(r)
+#> as.raw(c(0x68, 0x65, 0x6c, 0x6c, 0x6f))
+construct(r, opts_raw(representation = "decimal"))
+#> as.raw(c(104, 101, 108, 108, 111))
+construct(r, opts_raw("charToRaw"))
+#> charToRaw("hello")
 ```
 
 These functions have their own documentation page and are referenced in
 `?construct`.
 
 For every class that doesn’t refer to an internal type a “next”
-constructor is available, so we can conveniently explor objects using
+constructor is available, so we can conveniently explore objects using
 lower level constructors.
 
 ``` r
@@ -143,27 +153,36 @@ construct(band_members, opts_tbl_df("next"))
 
 construct(band_members, opts_tbl_df("next"), opts_data.frame("next"))
 #> list(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
-#>   structure(class = c("tbl_df", "tbl", "data.frame"), row.names = 1:3)
+#>   structure(class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, -3L))
 ```
 
 ## Other functions
 
-- `construct_issues()` is used without arguments to check what were the
-  issues encountered with the last reconstructed object, it can also be
-  provided a specific constructive object.
+- `construct_multi()` constructs several objects from a named list or an
+  environment
+- `construct_reprex()` wraps `construct_multi()` and constructs all the
+  objects of the local environment, or from the caller environments.
+- `construct_dput()` constructs the objects using only low level
+  constructors, like `structure()`, `list()`, `c()`, very similarly to
+  `base::dput()`
+- `construct_base()` constructs the objects using only base R functions.
+- `construct_clip()` writes to the clipboard, see also
+  ?`constructive-global_options`
 - `construct_diff()` highlights the differences in the code used to
-  produce 2 objects.
-- `construct_multi()` constructs several objects from a named list,
+  produce 2 objects, it’s an alternative to `waldo::compare()`.
 - `construct_dump()` is similar to `base::dump()`, it’s a wrapper around
   `construct_multi()` that writes to a file.
 - `construct_signature()` constructs a function signature such as the
   one we see in the “usage” section of a function’s help file. outputs
   the code produced  
+- `construct_issues()` is used without arguments to check what were the
+  issues encountered with the last reconstructed object, it can also be
+  provided a specific constructive object.
 - `deparse_call()` is an alternative to `base::deparse()` and
   `rlang::expr_deparse()` that handles additional corner cases and fails
   when encountering tokens other than symbols and syntactic literals .
 
-## Note about environments
+## Note about environments and external pointers
 
 Environments use reference semantics, they cannot be copied. An attempt
 to copy an environment would indeed yield a different environment and
@@ -187,7 +206,7 @@ purpose.
 e1 <- new.env(parent = .GlobalEnv)
 e1$x <- 1
 construct(e1)
-#> constructive::.env("0x1211bd9e0", parents = "global")
+#> constructive::.env("0x131515348", parents = "global")
 ```
 
 `constructive::.env()` fetches the environment from its memory address.
@@ -210,3 +229,10 @@ construct(e1, opts_environment("list2env"))
 
 `constructive::.xptr()` is the counterpart of `constructive::.env()` to
 construct `"externalptr"` objects from a memory address.
+
+## Extending constructive
+
+You can define your own constructors and methods!
+
+For more information see
+`vignette("User-defined-methods-and-constructors", package = "constructive")`

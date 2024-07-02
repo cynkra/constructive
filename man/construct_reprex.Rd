@@ -12,8 +12,8 @@ construct_reprex(..., n = 0, include_dotted = TRUE)
 \item{n}{The number of steps to go up on the call stack}
 
 \item{include_dotted}{Whether to include names starting with dots, this includes
-\code{.Random.seed} in the global environment and objects like \code{.Class}, \code{.Generic}
-in the execution environments of S3 methods.}
+\code{.Random.seed} in the global environment and objects like \code{.Class} and
+\code{.Generic} in the execution environments of S3 methods.}
 }
 \value{
 An object of class 'constructive'.
@@ -24,21 +24,24 @@ or a caller environment \code{n} steps above. If \code{n > 0} the function call
 is also included in a comment.
 }
 \details{
-\code{construct_reprex()} doesn't call the \{reprex\} package but it shares
-the purpose of making it easier to reproduce an output, hence the name.
-If you want to it to look more like a \code{reprex::reprex} consider \code{options(constructive_print_mode = "reprex")}.
-See \code{?constructive_print_mode} for more.
+\code{construct_reprex()} doesn't call the \{reprex\} package. \code{construct_reprex()}
+builds reproducible data while the reprex package build reproducible output
+once you have the data.
 
 \code{construct_reprex()} wraps \code{construct_multi()} and is thus able to construct
 unevaluated arguments using \code{delayedAssign()}. This means we can construct
 reprexes for functions that use Non Standard Evaluation.
 
-A useful trick is to use \code{construct_reprex()} with \code{options(error = recover)}
-to be able to reproduce an error.
+A useful trick is to use \code{options(error = recover)} to be able to inspect
+frames on error, and use \code{construct_reprex()} from there to reproduce the
+data state.
 
 \code{construct_reprex()} might fail to reproduce the output of functions that refer
 to environments other than their caller environment. We believe these are
 very rare and that the simplicity is worth the rounded corners, but if you
 encounter these limitations please do open a ticket on our issue tracker
 at \verb{https://github.com/cynkra/constructive/} and we might expand the feature.
+}
+\seealso{
+\code{\link[=construct_multi]{construct_multi()}}
 }
