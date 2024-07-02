@@ -13,6 +13,9 @@ opts_logical(
 )
 }
 \arguments{
+\item{constructor}{String. Method used to construct the object, often the name
+of a function.}
+
 \item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
 \item{trim}{\code{NULL} or integerish. Maximum of elements showed before it's trimmed.

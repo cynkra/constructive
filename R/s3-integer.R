@@ -7,6 +7,7 @@
 #' To set options on all atomic types at once see \link{opts_atomic()}.
 #'
 #' @inheritParams opts_atomic
+#' @inheritParams other-opts
 #' @param fill String. Method to use to represent the trimmed elements. See `?opts_atomic`
 #' @return An object of class <constructive_options/constructive_options_integer>
 #' @export

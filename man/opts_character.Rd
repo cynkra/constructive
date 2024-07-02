@@ -15,6 +15,9 @@ opts_character(
 )
 }
 \arguments{
+\item{constructor}{String. Method used to construct the object, often the name
+of a function.}
+
 \item{...}{Constructive options built with the \verb{opts_*()} family of functions. See the "Constructive options"
 section below.}
 
