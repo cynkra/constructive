@@ -8,9 +8,7 @@ opts_atomic(
   ...,
   trim = NULL,
   fill = c("default", "rlang", "+", "...", "none"),
-  compress = TRUE,
-  unicode_representation = c("ascii", "latin", "character", "unicode"),
-  escape = NULL
+  compress = TRUE
 )
 }
 \arguments{
@@ -22,17 +20,16 @@ This code will parse without failure but its evaluation might fail.}
 
 \item{fill}{String. Method to use to represent the trimmed elements.}
 
-\item{compress}{Boolean. It \code{TRUE} instead of \code{c()} Use \code{seq()}, \code{rep()}, or atomic constructors \code{logical()}, \code{integer()},
-\code{numeric()}, \code{complex()}, \code{raw()} when relevant to simplify the output.}
-
-\item{unicode_representation, escape}{Deprecated, kept for compatibility with older versions.
-Overrides the arguments of \code{construct()}}
+\item{compress}{Boolean. If \code{TRUE} instead of \code{c()} Use \code{seq()}, \code{rep()}
+when relevant to simplify the output.}
 }
 \value{
 An object of class <constructive_options/constructive_options_atomic>
 }
 \description{
-These options will be used on atomic types ("logical", "integer", "numeric", "complex", "character" and "raw")
+These options will be used on atomic types ("logical", "integer", "numeric", "complex", "character" and "raw").
+They can also be directly provided to atomic types through their own \verb{opts_*()}
+function, and in this case the latter will have precedence.
 }
 \details{
 If \code{trim} is provided, depending on \code{fill} we will present trimmed elements as followed:

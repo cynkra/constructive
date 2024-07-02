@@ -1,16 +1,16 @@
 #' Constructive options for atomic types
 #'
-#' These options will be used on atomic types ("logical", "integer", "numeric", "complex", "character" and "raw")
+#' These options will be used on atomic types ("logical", "integer", "numeric", "complex", "character" and "raw").
+#' They can also be directly provided to atomic types through their own `opts_*()`
+#' function, and in this case the latter will have precedence.
 #'
 #' @param ... Additional options used by user defined constructors through the `opts` object
 #' @param trim `NULL` or integerish. Maximum of elements showed before it's trimmed.
 #' Note that it will necessarily produce code that doesn't reproduce the input.
 #' This code will parse without failure but its evaluation might fail.
 #' @param fill String. Method to use to represent the trimmed elements.
-#' @param compress Boolean. It `TRUE` instead of `c()` Use `seq()`, `rep()`, or atomic constructors `logical()`, `integer()`,
-#'   `numeric()`, `complex()`, `raw()` when relevant to simplify the output.
-#' @param unicode_representation,escape Deprecated, kept for compatibility with older versions.
-#' Overrides the arguments of `construct()`
+#' @param compress Boolean. If `TRUE` instead of `c()` Use `seq()`, `rep()`
+#'   when relevant to simplify the output.
 #'
 #' @details
 #'
@@ -45,17 +45,21 @@ opts_atomic <- function(
     ...,
     trim = NULL,
     fill = c("default", "rlang", "+", "...", "none"),
-    compress = TRUE,
-    unicode_representation = c("ascii", "latin", "character", "unicode"),
-    escape = NULL
+    compress = TRUE
 ) {
   .cstr_combine_errors(
     abort_not_null_or_integerish(trim),
     fill <- rlang::arg_match(fill),
-    abort_not_boolean(compress),
-    unicode_representation <- rlang::arg_match(unicode_representation)
+    abort_not_boolean(compress)
   )
-  .cstr_options("atomic", ..., trim = trim, fill = fill, compress = compress, unicode_representation = unicode_representation, escape = escape)
+  if (any(c("unicode_representation", "escape") %in% ...names())) {
+    msg <- "`unicode_representation` and `escape` are deprecated in `opts_atomic()`"
+    info1 <-  "Set those in `opts_character()` instead for the same effect"
+    info2 <- "Set those directly in the main function (e.g. `construct()`) to apply them on both character vectors, symbols and argument names"
+    rlang::warn(c(msg, i = info1, i = info2))
+  }
+
+  .cstr_options("atomic", ..., trim = trim, fill = fill, compress = compress) #, unicode_representation = unicode_representation, escape = escape)
 }
 
 # divisors except self and 1
