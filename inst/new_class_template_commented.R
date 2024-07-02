@@ -3,7 +3,7 @@
 #' These options will be used on objects of class 'CLASS'.
 #'
 #' Depending on `constructor`, we construct the object as follows:
-#' * `"CONSTRUCTOR"` (default): TODO.
+#' * `"CONSTRUCTOR"` (default): We build the object using `CONSTRUCTOR()`.
 #' * `"next"` : Use the constructor for the next supported class.
 #'
 #' @param constructor String. Name of the function used to construct the object.
