@@ -74,14 +74,12 @@ extend it by defining custom
 methods.</p>
 <p>The functions <code><a href="../reference/templates.html">.cstr_new_class()</a></code> and
 <code><a href="../reference/templates.html">.cstr_new_constructor()</a></code> can be used to create custom
-constructors from templates. The easiest workflow is probably to use
-them with the argument <code>commented = TRUE</code> and take a look at
-examples in the package itself (scripts starting with <code>s3</code>
-and <code>s4</code>) or in the package {constructive.examples}
-accessible at <a href="https://github.com/cynkra/constructive.example/" class="external-link uri">https://github.com/cynkra/constructive.example/</a> and
-designed just for that.</p>
-<p>If this is not enough, or if you just want to know more, we describe
-below in more details how the package and its key functions work.</p>
+constructors from templates. The easiest workflow is probably to take a
+look at the package <a href="https://github.com/cynkra/constructive.example/" class="external-link">{constructive.examples}</a>
+which will guide you through the process, then call these functions with
+the argument <code>commented = TRUE</code>.</p>
+<p>If this is not enough, or if you want to know more, we describe below
+in more details how the package and its key functions work.</p>
 <div class="section level2">
 <h2 id="construct-and--cstr_construct">
 <code>construct()</code> and <code>.cstr_construct()</code><a class="anchor" aria-label="anchor" href="#construct-and--cstr_construct"></a>
@@ -128,7 +126,7 @@ functions <code><a href="../reference/construct_dput.html">construct_base()</a><
 <span><span class="co">#&gt;     UseMethod(".cstr_construct", structure(NA_integer_, class = cl))</span></span>
 <span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x56389c66b2e0&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x562835b23418&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># a character vector</span></span>
@@ -260,7 +258,7 @@ vector constructor:</p>
 <span><span class="co">#&gt;   code &lt;- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)</span></span>
 <span><span class="co">#&gt;   repair_attributes_Date(x, code, ...)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x56389b7b9c58&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5628351bcb78&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <p>Their arguments are <code>x</code> and <code>...</code>, and not
 more. Additional parameters fed to the <code>opt_&lt;class&gt;()</code>
@@ -281,10 +279,10 @@ wrapped by <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-l
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/construct.html">construct</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">as.Date</span><span style="color: #BBBB00;">(</span><span style="color: #00BBBB;">c</span><span style="color: #0000BB;">(12345</span>, <span style="color: #0000BB;">Inf)</span>, origin = <span style="color: #BBBB00;">"1970-01-01")</span></span></span></code></pre></div>
 <p>That last line of the function is essential, it does the attribute
-reparation.</p>
+repair.</p>
 </div>
 <div class="section level2">
-<h2 id="attribute-reparation">Attribute reparation<a class="anchor" aria-label="anchor" href="#attribute-reparation"></a>
+<h2 id="attribute-repair">Attribute repair<a class="anchor" aria-label="anchor" href="#attribute-repair"></a>
 </h2>
 <p>Constructors should always end by a call to
 <code><a href="../reference/dot-cstr_repair_attributes.html">.cstr_repair_attributes()</a></code> or a function that wraps it.</p>
@@ -322,7 +320,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = "Date"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x56389d350ee8&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5628367f94b8&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -334,7 +332,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = "factor"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x56389c638128&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x562835af3e38&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -346,7 +344,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = c("tbl_df", "tbl", "data.frame")</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x56389c5bf9b0&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x562835a7ecb0&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
