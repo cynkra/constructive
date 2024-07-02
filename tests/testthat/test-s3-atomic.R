@@ -75,10 +75,10 @@ test_that("character", {
     construct("\\", check = FALSE)
     construct("\\\\", check = FALSE)
     construct("\n\\")
-    construct("ü", opts_atomic(unicode_representation = "latin"))
+    construct("ü", opts_character(unicode_representation = "latin"))
     construct("ü", check = FALSE)
-    construct("ü\\", opts_atomic(unicode_representation = "latin", escape = FALSE), check = FALSE)
-    construct("ü\\", opts_atomic(escape = FALSE))
+    construct("ü\\", opts_character(unicode_representation = "latin", escape = FALSE), check = FALSE)
+    construct("ü\\", opts_character(escape = FALSE))
     construct(c("\U{430}" = "a"))
     construct("'\"\n")
   })
@@ -187,5 +187,38 @@ test_that("atomic elements named `recursive` or `use.names`", {
     construct(structure(numeric(1), names = "recursive"))
     construct(structure(complex(1), names = "recursive"))
     construct(structure(raw(1), names = "recursive"))
+  })
+})
+
+test_that("opts_atomic() inheritance", {
+  expect_snapshot({
+    construct(c(TRUE, FALSE, TRUE), opts_logical(trim = 1, fill = "+"))
+    construct(c(TRUE, FALSE, TRUE), opts_atomic(trim = 0), opts_logical(trim = 1, fill = "+"))
+
+    construct(1:3, opts_integer(trim = 1, fill = "+"))
+    construct(1:3, opts_atomic(trim = 0), opts_integer(trim = 1, fill = "+"))
+
+    construct(c(1, 2, 3), opts_double(trim = 1, fill = "+"))
+    construct(c(1, 2, 3), opts_atomic(trim = 0), opts_double(trim = 1, fill = "+"))
+
+    construct(c(1i, 2i, 3i), opts_complex(trim = 1, fill = "+"))
+    construct(c(1i, 2i, 3i), opts_double(trim = 0, fill = "+"))
+    construct(c(1i, 2i, 3i), opts_atomic(trim = 0), opts_complex(trim = 1, fill = "+"))
+
+    construct(as.raw(c(1,2,3)), opts_raw(trim = 1, fill = "+"))
+    construct(as.raw(c(1,2,3)), opts_integer(trim = 0))
+    construct(as.raw(c(1,2,3)), opts_double(trim = 0), opts_raw(representation = "decimal"))
+    construct(as.raw(c(1,2,3)), opts_atomic(trim = 0), opts_raw(trim = 1, fill = "+"))
+
+    construct(letters, opts_character(trim = 1, fill = "+"))
+    construct(letters, opts_atomic(trim = 0), opts_character(trim = 1, fill = "+"))
+
+    construct("🐶", unicode_representation = "ascii")
+    construct("🐶", unicode_representation = "ascii", opts_character(unicode_representation = "unicode"))
+    construct("🐶", unicode_representation = "unicode", opts_character(unicode_representation = "ascii"))
+    construct("🐶", unicode_representation = "ascii", opts_atomic(unicode_representation = "unicode"))
+    construct("🐶", unicode_representation = "unicode", opts_atomic(unicode_representation = "ascii"))
+    construct("🐶", opts_atomic(unicode_representation = "ascii"), opts_character(unicode_representation = "unicode"))
+    construct("🐶", opts_atomic(unicode_representation = "unicode"), opts_character(unicode_representation = "ascii"))
   })
 })

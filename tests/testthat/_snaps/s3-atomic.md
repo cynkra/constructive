@@ -235,7 +235,7 @@
     Output
       "\n\\"
     Code
-      construct("ü", opts_atomic(unicode_representation = "latin"))
+      construct("ü", opts_character(unicode_representation = "latin"))
     Output
       "ü"
     Code
@@ -243,12 +243,12 @@
     Output
       "\U{FC}"
     Code
-      construct("ü\\", opts_atomic(unicode_representation = "latin", escape = FALSE),
+      construct("ü\\", opts_character(unicode_representation = "latin", escape = FALSE),
       check = FALSE)
     Output
       r"[ü\]"
     Code
-      construct("ü\\", opts_atomic(escape = FALSE))
+      construct("ü\\", opts_character(escape = FALSE))
     Output
       "\U{FC}\\"
     Code
@@ -634,4 +634,159 @@
     Output
       as.raw(0x00) |>
         structure(names = "recursive")
+
+# opts_atomic() inheritance
+
+    Code
+      construct(c(TRUE, FALSE, TRUE), opts_logical(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(TRUE, +2)
+    Code
+      construct(c(TRUE, FALSE, TRUE), opts_atomic(trim = 0), opts_logical(trim = 1,
+        fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(TRUE, +2)
+    Code
+      construct(1:3, opts_integer(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(1L, +2)
+    Code
+      construct(1:3, opts_atomic(trim = 0), opts_integer(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(1L, +2)
+    Code
+      construct(c(1, 2, 3), opts_double(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(1, +2)
+    Code
+      construct(c(1, 2, 3), opts_atomic(trim = 0), opts_double(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(1, +2)
+    Code
+      construct(c(0+1i, 0+2i, 0+3i), opts_complex(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(1i, +2)
+    Code
+      construct(c(0+1i, 0+2i, 0+3i), opts_double(trim = 0, fill = "+"))
+    Output
+      c(1i, 2i, 3i)
+    Code
+      construct(c(0+1i, 0+2i, 0+3i), opts_atomic(trim = 0), opts_complex(trim = 1,
+        fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(1i, +2)
+    Code
+      construct(as.raw(c(1, 2, 3)), opts_raw(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(as.raw(0x01), +2)
+    Code
+      construct(as.raw(c(1, 2, 3)), opts_integer(trim = 0))
+    Output
+      as.raw(c(0x01, 0x02, 0x03))
+    Code
+      construct(as.raw(c(1, 2, 3)), opts_double(trim = 0), opts_raw(representation = "decimal"))
+    Output
+      as.raw(c(1, 2, 3))
+    Code
+      construct(as.raw(c(1, 2, 3)), opts_atomic(trim = 0), opts_raw(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c(as.raw(0x01), +2)
+    Code
+      construct(letters, opts_character(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c("a", +25)
+    Code
+      construct(letters, opts_atomic(trim = 0), opts_character(trim = 1, fill = "+"))
+    Message
+      {constructive} couldn't create code that reproduces perfectly the input
+      i Call `construct_issues()` to inspect the last issues
+    Output
+      c("a", +25)
+    Code
+      construct("🐶", unicode_representation = "ascii")
+    Output
+      "\U{1F436}"
+    Code
+      construct("🐶", unicode_representation = "ascii", opts_character(
+        unicode_representation = "unicode"))
+    Output
+      "🐶"
+    Code
+      construct("🐶", unicode_representation = "unicode", opts_character(
+        unicode_representation = "ascii"))
+    Output
+      "\U{1F436}"
+    Code
+      construct("🐶", unicode_representation = "ascii", opts_atomic(
+        unicode_representation = "unicode"))
+    Condition
+      Warning:
+      `unicode_representation` and `escape` are deprecated in `opts_atomic()`
+      i Set those in `opts_character()` instead for the same effect
+      i Set those directly in the main function (e.g. `construct()`) to apply them on both character vectors, symbols and argument names
+    Output
+      "🐶"
+    Code
+      construct("🐶", unicode_representation = "unicode", opts_atomic(
+        unicode_representation = "ascii"))
+    Condition
+      Warning:
+      `unicode_representation` and `escape` are deprecated in `opts_atomic()`
+      i Set those in `opts_character()` instead for the same effect
+      i Set those directly in the main function (e.g. `construct()`) to apply them on both character vectors, symbols and argument names
+    Output
+      "\U{1F436}"
+    Code
+      construct("🐶", opts_atomic(unicode_representation = "ascii"), opts_character(
+        unicode_representation = "unicode"))
+    Condition
+      Warning:
+      `unicode_representation` and `escape` are deprecated in `opts_atomic()`
+      i Set those in `opts_character()` instead for the same effect
+      i Set those directly in the main function (e.g. `construct()`) to apply them on both character vectors, symbols and argument names
+    Output
+      "🐶"
+    Code
+      construct("🐶", opts_atomic(unicode_representation = "unicode"), opts_character(
+        unicode_representation = "ascii"))
+    Condition
+      Warning:
+      `unicode_representation` and `escape` are deprecated in `opts_atomic()`
+      i Set those in `opts_character()` instead for the same effect
+      i Set those directly in the main function (e.g. `construct()`) to apply them on both character vectors, symbols and argument names
+    Output
+      "\U{1F436}"
 
