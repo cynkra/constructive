@@ -13,9 +13,8 @@
 %   R/s3-ggplot2-element_text.R, R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R,
 %   R/s3-ggplot2-margin.R, R/s3-ggplot2-rel.R, R/s3-ggplot2-simpleUnit.R,
 %   R/s3-ggplot2-theme.R, R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R,
-%   R/s3-hexmode.R, R/s3-noquote.R, R/s3-octmode.R, R/s3-person.R,
-%   R/s3-simpleCondition.R, R/s3-simpleError.R, R/s3-simpleMessage.R,
-%   R/s3-simpleWarning.R, R/s3-warning.R
+%   R/s3-noquote.R, R/s3-person.R, R/s3-simpleCondition.R, R/s3-simpleError.R,
+%   R/s3-simpleMessage.R, R/s3-simpleWarning.R, R/s3-warning.R
 \name{other-opts}
 \alias{other-opts}
 \alias{opts_NULL}
@@ -51,9 +50,7 @@
 \alias{opts_theme}
 \alias{opts_uneval}
 \alias{opts_waiver}
-\alias{opts_hexmode}
 \alias{opts_noquote}
-\alias{opts_octmode}
 \alias{opts_person}
 \alias{opts_simpleCondition}
 \alias{opts_simpleError}
@@ -137,11 +134,7 @@ opts_uneval(constructor = c("aes", "next", "list"), ...)
 
 opts_waiver(constructor = c("waiver", "next", "list"), ...)
 
-opts_hexmode(constructor = c("as.hexmode", "next"), ..., integer = FALSE)
-
 opts_noquote(constructor = c("noquote", "next"), ...)
-
-opts_octmode(constructor = c("as.octmode", "next"), ..., integer = FALSE)
 
 opts_person(constructor = c("person", "next"), ...)
 
@@ -160,8 +153,6 @@ opts_warning(constructor = c("warningCondition", "next"), ...)
 of a function.}
 
 \item{...}{Additional options used by user defined constructors through the \code{opts} object}
-
-\item{integer}{Whether to use \code{as.hexmode()} on integer rather than character}
 }
 \description{
 These \verb{opts_*()} functions are not extensively documented yet. Hopefully
