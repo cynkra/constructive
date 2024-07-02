@@ -1,16 +1,21 @@
-#' Constructive options for class 'raw'
+#' Constructive options for type 'raw'
 #'
-#' These options will be used on objects of class 'raw'.
+#' @description
+#'
+#' These options will be used on objects of type 'raw'.
 #'
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"as.raw"` (default): Use `as.raw()`, or `raw()` when relevant
 #' * `"charToRaw"` : Use `charToRaw()` on a string, if the a raw vector contains
 #'   a zero we fall back to the "as.raw" constructor.
 #'
+#' To set additional options on all atomic types at once see \link{opts_atomic()}.
+#'
 #' @param constructor String. Name of the function used to construct the object.
 #' @param representation For "as.raw" constructor. Respectively generate output
 #'   in the formats `as.raw(0x10)` or `as.raw(16)`
 #' @inheritParams opts_atomic
+#' @param fill String. Method to use to represent the trimmed elements. See `?opts_atomic`
 #' @return An object of class <constructive_options/constructive_options_raw>
 #' @export
 opts_raw <- function(

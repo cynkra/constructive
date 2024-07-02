@@ -1,5 +1,15 @@
+#' Constructive options for type 'logical'
+#'
+#' @description
+#' These options will be used on objects of type 'logical'. This type has
+#' a single native constructor, but some additional options can be set.
+#'
+#' To set options on all atomic types at once see \link{opts_atomic()}.
+#'
+#' @inheritParams opts_atomic
+#' @param fill String. Method to use to represent the trimmed elements. See `?opts_atomic`
+#' @return An object of class <constructive_options/constructive_options_logical>
 #' @export
-#' @rdname other-opts
 opts_logical <- function(
     constructor = c("default"),
     ...,

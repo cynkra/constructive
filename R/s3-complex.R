@@ -1,5 +1,15 @@
+#' Constructive options for type 'complex'
+#'
+#' @description
+#' These options will be used on objects of type 'complex'. This type has
+#' a single native constructor, but some additional options can be set.
+#'
+#' To set options on all atomic types at once see \link{opts_atomic()}.
+#'
+#' @inheritParams opts_atomic
+#' @param fill String. Method to use to represent the trimmed elements. See `?opts_atomic`
+#' @return An object of class <constructive_options/constructive_options_complex>
 #' @export
-#' @rdname other-opts
 opts_complex <- function(
     constructor = c("default"),
     ...,
