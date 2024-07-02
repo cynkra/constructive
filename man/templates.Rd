@@ -7,7 +7,7 @@
 \title{Extend constructive}
 \usage{
 .cstr_new_class(
-  class = "CLASS",
+  class = c("CLASS", "PARENT_CLASS"),
   constructor = "CONSTRUCTOR",
   commented = FALSE
 )
