@@ -9,6 +9,8 @@ opts_hexmode(constructor = c("as.hexmode", "next"), ..., integer = FALSE)
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object.}
 
+\item{...}{Additional options used by user defined constructors through the \code{opts} object}
+
 \item{integer}{Whether to use \code{as.hexmode()} on integer rather than character}
 }
 \value{

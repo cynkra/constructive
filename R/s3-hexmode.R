@@ -7,6 +7,7 @@
 #' * `"next"` : Use the constructor for the next supported class.
 #'
 #' @param constructor String. Name of the function used to construct the object.
+#' @param ... Additional options used by user defined constructors through the `opts` object
 #' @param integer Whether to use `as.hexmode()` on integer rather than character
 #' @return An object of class <constructive_options/constructive_options_hexmode>
 #' @export

@@ -9,7 +9,7 @@
 #' * `"charToRaw"` : Use `charToRaw()` on a string, if the a raw vector contains
 #'   a zero we fall back to the "as.raw" constructor.
 #'
-#' To set additional options on all atomic types at once see \link{opts_atomic()}.
+#' To set options on all atomic types at once see \link{opts_atomic}().
 #'
 #' @param constructor String. Name of the function used to construct the object.
 #' @param representation For "as.raw" constructor. Respectively generate output

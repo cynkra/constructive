@@ -8,7 +8,7 @@
 #' function (`construct()` or other) so they apply not only on strings but on
 #' symbols and argument names as well.
 #'
-#' To set `trim`, `fill` or `compress` on all atomic types at once see \link{opts_atomic()}.
+#' To set options on all atomic types at once see \link{opts_atomic}().
 #'
 #' @inheritParams construct
 #' @inheritParams opts_atomic

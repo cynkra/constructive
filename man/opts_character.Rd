@@ -55,5 +55,5 @@ a single native constructor, but some additional options can be set.
 function (\code{construct()} or other) so they apply not only on strings but on
 symbols and argument names as well.
 
-To set \code{trim}, \code{fill} or \code{compress} on all atomic types at once see \link{opts_atomic()}.
+To set options on all atomic types at once see \link{opts_atomic}().
 }

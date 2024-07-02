@@ -43,5 +43,5 @@ Depending on \code{constructor}, we construct the object as follows:
 a zero we fall back to the "as.raw" constructor.
 }
 
-To set additional options on all atomic types at once see \link{opts_atomic()}.
+To set options on all atomic types at once see \link{opts_atomic}().
 }

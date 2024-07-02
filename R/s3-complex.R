@@ -4,7 +4,7 @@
 #' These options will be used on objects of type 'complex'. This type has
 #' a single native constructor, but some additional options can be set.
 #'
-#' To set options on all atomic types at once see \link{opts_atomic()}.
+#' To set options on all atomic types at once see \link{opts_atomic}().
 #'
 #' @inheritParams opts_atomic
 #' @inheritParams other-opts
