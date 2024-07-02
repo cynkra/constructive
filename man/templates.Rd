@@ -19,9 +19,12 @@
 )
 }
 \arguments{
-\item{class}{Name of the class}
+\item{class}{Class to support, for \code{.cstr_new_class()} provide the full
+\code{class()} vector, for \code{.cstr_new_constructor()} the first element is enough.}
 
-\item{constructor}{Name of the constructor}
+\item{constructor}{Name of the constructor, usually the name of the function
+you can to use to build the object. If not you might need to adjust the
+script.}
 
 \item{commented}{Boolean. Whether to include comments in the template.}
 }
@@ -33,8 +36,22 @@ Both function return \code{NULL} invisibly and are called for side effects
 optionally commented, that can be used as templates to define new constructors.
 If the class is already supported and you want to implement a new constructor,
 use \code{.cstr_new_constructor()}, otherwise use \code{.cstr_new_class()}.
+
+We recommend working from these templates and examples in this package or
 }
 \details{
-We recommend working from these templates and examples in this package or
-the example extension package \href{https://github.com/cynkra/constructive.example}{'constructive.example'}
+We suggest the following workflow :
+\itemize{
+\item Call these functions, with \code{commented = TRUE} for more guidance
+\item Save the scripts unchanged in your package
+\item \code{devtools::document()}: this will register the S3 methods
+\item Try \code{construct()} on your new object, it should print a call to your chosen
+constructor
+\item Tweak the code, in particular the definition of \code{args}
+}
+
+For more information check \code{vignette("extend-constructive")}, the example
+extension package
+\href{https://github.com/cynkra/constructive.example}{'constructive.example'}
+or \{constructive\}'s own code.
 }
