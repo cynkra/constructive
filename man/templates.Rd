@@ -8,19 +8,18 @@
 \usage{
 .cstr_new_class(
   class = c("CLASS", "PARENT_CLASS"),
-  constructor = "CONSTRUCTOR",
+  constructor = "PKG::CONSTRUCTOR",
   commented = FALSE
 )
 
 .cstr_new_constructor(
-  class = "CLASS",
-  constructor = "CONSTRUCTOR",
+  class = c("CLASS", "PARENT_CLASS"),
+  constructor = "PKG::CONSTRUCTOR",
   commented = FALSE
 )
 }
 \arguments{
-\item{class}{Class to support, for \code{.cstr_new_class()} provide the full
-\code{class()} vector, for \code{.cstr_new_constructor()} the first element is enough.}
+\item{class}{Class to support, provide the full \code{class()} vector.}
 
 \item{constructor}{Name of the constructor, usually the name of the function
 you can to use to build the object. If not you might need to adjust the
@@ -36,8 +35,6 @@ Both function return \code{NULL} invisibly and are called for side effects
 optionally commented, that can be used as templates to define new constructors.
 If the class is already supported and you want to implement a new constructor,
 use \code{.cstr_new_constructor()}, otherwise use \code{.cstr_new_class()}.
-
-We recommend working from these templates and examples in this package or
 }
 \details{
 We suggest the following workflow :

@@ -6,7 +6,6 @@
 #' If the class is already supported and you want to implement a new constructor,
 #' use `.cstr_new_constructor()`, otherwise use `.cstr_new_class()`.
 #'
-#' We recommend working from these templates and examples in this package or
 #'
 #'
 #' @details
@@ -24,8 +23,7 @@
 #' ['constructive.example'](https://github.com/cynkra/constructive.example)
 #' or \{constructive\}'s own code.
 #'
-#' @param class Class to support, for `.cstr_new_class()` provide the full
-#'   `class()` vector, for `.cstr_new_constructor()` the first element is enough.
+#' @param class Class to support, provide the full `class()` vector.
 #' @param constructor Name of the constructor, usually the name of the function
 #'   you can to use to build the object. If not you might need to adjust the
 #'   script.
@@ -36,7 +34,7 @@
 #' @export
 .cstr_new_class <- function(
     class = c("CLASS", "PARENT_CLASS"),
-    constructor = "CONSTRUCTOR",
+    constructor = "PKG::CONSTRUCTOR",
     commented = FALSE) {
   template <- if (commented) {
     system.file("new_class_template_commented.R", package = "constructive")
@@ -44,28 +42,27 @@
     system.file("new_class_template.R", package = "constructive")
   }
   code <- readLines(template)
-  code <- gsub("CLASS1", class[[1]], code, fixed = TRUE)
-  code <- gsub(
-    "idiomatic_class = CLASS",
-    sprintf("idiomatic_class = %s", .cstr_construct(class, one_liner = TRUE)),
-    code,
-    fixed = TRUE)
-  code <- gsub("CONSTRUCTOR", constructor, code, fixed = TRUE)
+  code <- gsub(".CLASS.", .cstr_construct(class, one_liner = TRUE), code, fixed = TRUE)
+  code <- gsub(".CLASS1.", class[[1]], code, fixed = TRUE)
+  code <- gsub(".PKG::CONSTRUCTOR.", constructor, code, fixed = TRUE)
+  code <- gsub(".CONSTRUCTOR.", sub("^.*::(.*)$", "\\1", constructor), code, fixed = TRUE)
   rstudioapi::documentNew(code)
   invisible(NULL)
 }
 
 #' @rdname templates
 #' @export
-.cstr_new_constructor <- function(class = "CLASS", constructor = "CONSTRUCTOR", commented = FALSE) {
+.cstr_new_constructor <- function(class = c("CLASS", "PARENT_CLASS"), constructor = "PKG::CONSTRUCTOR", commented = FALSE) {
   template <- if (commented) {
     system.file("new_constructor_template_commented.R", package = "constructive")
   } else {
     system.file("new_constructor_template.R", package = "constructive")
   }
   code <- readLines(template)
-  code <- gsub("CLASS1", class[[1]], code, fixed = TRUE)
-  code <- gsub("CONSTRUCTOR", constructor, code, fixed = TRUE)
+  code <- gsub(".CLASS.", .cstr_construct(class, one_liner = TRUE), code, fixed = TRUE)
+  code <- gsub(".CLASS1.", class[[1]], code, fixed = TRUE)
+  code <- gsub(".PKG::CONSTRUCTOR.", constructor, code, fixed = TRUE)
+  code <- gsub(".CONSTRUCTOR.", sub("^.*::(.*)$", "\\1", constructor), code, fixed = TRUE)
   rstudioapi::documentNew(code)
   invisible(NULL)
 }
