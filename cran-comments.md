@@ -2,7 +2,7 @@
 
 0 errors | 0 warnings | 1 note
 
-## Adressing Benjamin Altmann's comment for version 1.0.1 (2021-06-05)
+## Adressing Benjamin Altmann's comment for version 0.0.1 (2021-06-05)
 
 > \dontrun{} should only be used if the example really cannot be executed 
 (e.g. because of missing additional software, missing API keys, ...) by 
