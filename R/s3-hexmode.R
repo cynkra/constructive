@@ -32,7 +32,7 @@ is_corrupted_hexmode <- function(x) {
 #' @method .cstr_construct.hexmode as.hexmode
 .cstr_construct.hexmode.as.hexmode <- function(x, ...) {
   opts <- list(...)$opts$hexmode %||% opts_hexmode()
-  # we let attributes to the reparation step
+  # we let attributes to the repair step
   x_bkp <- x
   attributes(x) <- NULL
   if (opts$integer) {

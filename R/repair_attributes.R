@@ -9,7 +9,7 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
 #' others.
 #'
 #' @param x The object to construct
-#' @param code The code constructing the object before attribute reparation
+#' @param code The code constructing the object before attribute repair
 #' @param ... Forwarded to `.construct_apply()` when relevant
 #' @param ignore The attributes that shouldn't be repaired, i.e. we expect them
 #'   to be set by the constructor already in `code`

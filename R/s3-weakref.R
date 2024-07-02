@@ -35,6 +35,6 @@ is_corrupted_weakref <- function(x) {
 }
 
 repair_attributes_weakref <- function(x, code, ...) {
-  # FIXME do these need any reparation ?
+  # FIXME do these need any repair ?
   code
 }

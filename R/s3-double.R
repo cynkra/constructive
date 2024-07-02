@@ -60,7 +60,7 @@ is_corrupted_double <- function(x) {
   if (repair_names) names(x) <- NULL
 
   # trim
-  # FIXME: the name reparation is affected by trim
+  # FIXME: the name repair is affected by trim
   if (!is.null(opts$trim)) {
     code <- trim_atomic(x, opts$trim, opts$fill, ...)
     if (!is.null(code)) {

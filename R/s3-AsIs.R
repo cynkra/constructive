@@ -40,6 +40,6 @@ is_corrupted_AsIs <- function(x) {
 }
 
 repair_attributes_AsIs <- function(x, code, ...) {
-  # no reparation needed, this will be dealt with in `I()`'s arg
+  # no repair needed, this will be dealt with in `I()`'s arg
   code
 }

@@ -47,8 +47,8 @@ constructor
 \item Tweak the code, in particular the definition of \code{args}
 }
 
-For more information check \code{vignette("extend-constructive")}, the example
-extension package
+The README of the example extension package
 \href{https://github.com/cynkra/constructive.example}{'constructive.example'}
-or \{constructive\}'s own code.
+guides you through the process. See also \{constructive\}'s own code
+and \code{vignette("extend-constructive")} for more details.
 }

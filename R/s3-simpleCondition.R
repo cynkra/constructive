@@ -19,7 +19,7 @@ is_corrupted_simpleCondition <- function(x) {
 #' @export
 #' @method .cstr_construct.simpleCondition simpleCondition
 .cstr_construct.simpleCondition.simpleCondition <- function(x, ...) {
-  # we let attributes to the reparation step
+  # we let attributes to the repair step
   x_bkp <- x
   x <- unclass(x)
   if (is.null(x$call)) {

@@ -18,7 +18,7 @@
 \arguments{
 \item{x}{The object to construct}
 
-\item{code}{The code constructing the object before attribute reparation}
+\item{code}{The code constructing the object before attribute repair}
 
 \item{...}{Forwarded to \code{.construct_apply()} when relevant}
 

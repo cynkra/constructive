@@ -32,7 +32,7 @@ is_corrupted_octmode <- function(x) {
 #' @method .cstr_construct.octmode as.octmode
 .cstr_construct.octmode.as.octmode <- function(x, ...) {
   opts <- list(...)$opts$octmode %||% opts_octmode()
-  # we let attributes to the reparation step
+  # we let attributes to the repair step
   x_bkp <- x
   attributes(x) <- NULL
   if (opts$integer) {

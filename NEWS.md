@@ -105,7 +105,7 @@ the incorrectly named "atomic" constructor is replaced by a "list" constructor
   as in `dput()`, this solves some rare corner cases.
 * We fix some issues with raw strings when constructing character vectors
 * We fix some issues with `NA`, `NaN`, `Inf` dates and `NULL` timezones
-* We fix the environment attribute reparation
+* We fix the environment attribute repair
 * Functions with non syntactic formals are constructed properly
 
 # constructive 0.3.0

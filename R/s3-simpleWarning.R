@@ -19,7 +19,7 @@ is_corrupted_simpleWarning <- function(x) {
 #' @export
 #' @method .cstr_construct.simpleWarning simpleWarning
 .cstr_construct.simpleWarning.simpleWarning <- function(x, ...) {
-  # we let attributes to the reparation step
+  # we let attributes to the repair step
   x_bkp <- x
   x <- unclass(x)
   if (is.null(x$call)) {
