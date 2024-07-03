@@ -74,10 +74,10 @@ construct(letters)
   class as is done traditionally. This explains the unusual look of the `UseMethod()`
   call above.
   
-## `opts_?()` function
+## `opts_<class>()` function
 
 When implementing a new method you'll need to define and export the corresponding
-`opts_?()` function. It provides to the user with a way to choose a constructor and 
+`opts_<class>()` function. It provides to the user with a way to choose a constructor and 
 additional parameters, and sets the default behavior.
 
 It should always have this form:
@@ -92,7 +92,7 @@ opts_Date <- function(
 }
 ```
 
-* The class is present in the name of the `opts_?()` function and as the first
+* The class is present in the name of the `opts_<class>()` function and as the first
   argument of `.cstr_options()`.
 * A character vector of constructors is provided, starting with the default constructor
 * A "next" value is mandatory except for internal types.
@@ -101,9 +101,9 @@ opts_Date <- function(
 * Note that we don't use `match.arg()` here, because new constructors can be defined
   outside of the package.
 
-## `is_corrupted_?()` function
+## `is_corrupted_<class>()` function
 
-`is_corrupted_?()` checks if `x` has the right internal type and attributes,
+`is_corrupted_<class>()` checks if `x` has the right internal type and attributes,
 sometimes structure, so that it satisfies the expectations of a well formatted object
 of a given class.
 
@@ -139,7 +139,7 @@ through `NextMethod()` and will handle the object using an atomic vector constru
 construct(x)
 ```
 
-## constructors
+## Constructors
 
 constructors are functions named as `.cstr_construct.<class>.<constructor>`.
 
@@ -155,7 +155,7 @@ to the `opt_<class>()` function can be fetched from `list(...)$opts$<class>`
 The function `.cstr_apply()` is used to construct arguments recursively.
 
 Sometimes a constructor cannot handle all cases and we need to fall back to
-another constructor, it happens above because `Inf`, `NA`, or decimal dates
+another constructor, it happens below because `Inf`, `NA`, or decimal dates
 cannot be represented by a string wrapped by `as.Date()`.
 
 ```{r}
