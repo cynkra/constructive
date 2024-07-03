@@ -52,7 +52,7 @@ opts_atomic <- function(
     fill <- rlang::arg_match(fill),
     abort_not_boolean(compress)
   )
-  if (any(c("unicode_representation", "escape") %in% ...names())) {
+  if (any(c("unicode_representation", "escape") %in% names(list(...)))) {
     msg <- "`unicode_representation` and `escape` are deprecated in `opts_atomic()`"
     info1 <-  "Set those in `opts_character()` instead for the same effect"
     info2 <- "Set those directly in the main function (e.g. `construct()`) to apply them on both character vectors, symbols and argument names"
