@@ -126,3 +126,14 @@ test_that("deparse_call() for R >= 4.1", {
     deparse_call(quote(`🐶`), unicode_representation = "unicode")
   })
 })
+
+test_that("high precedence infix ops in deparse_call()", {
+  expect_snapshot({
+    deparse_call(quote(x <- a::b(y)))
+    deparse_call(quote(x <- a:::b(y)))
+    deparse_call(quote(x <- a$b(y)))
+    deparse_call(quote(x <- a@b(y)))
+    deparse_call(quote(x <- a::b$c(y)))
+  })
+})
+
