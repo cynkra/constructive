@@ -127,7 +127,18 @@ deparse_call_impl <- function(
     abort(msg)
   }
   caller_lng <- call[[1]]
-  caller <- rec(caller_lng, check_syntactic = FALSE, force_lisp = TRUE)
+  # if the caller is not a symbol in order to parse we need to express it in lisp form
+  # for instance `+`(1, 2)(3), hence force_lisp() below.
+  # This does NOT apply if the caller is a call to `::` or `:::`!
+  caller_calls_colon_ops <-
+    is.call(caller_lng) && list(caller_lng[[1]]) %in% list(
+      quote(`::`), quote(`:::`), quote(`$`), quote(`@`)
+    )
+  caller <- rec(
+    caller_lng,
+    check_syntactic = FALSE,
+    force_lisp = !caller_calls_colon_ops
+  )
   if (is_op(caller) && force_lisp) {
     return(deparse_lisp(
       caller, call, rec, one_liner, indent, unicode_representation, escape,
