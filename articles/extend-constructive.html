@@ -126,7 +126,7 @@ functions <code><a href="../reference/construct_dput.html">construct_base()</a><
 <span><span class="co">#&gt;     UseMethod(".cstr_construct", structure(NA_integer_, class = cl))</span></span>
 <span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55d0b0181270&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5572e04065f8&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># a character vector</span></span>
@@ -172,13 +172,13 @@ look of the <code><a href="https://rdrr.io/r/base/UseMethod.html" class="externa
 </ul>
 </div>
 <div class="section level2">
-<h2 id="opts_-function">
-<code>opts_?()</code> function<a class="anchor" aria-label="anchor" href="#opts_-function"></a>
+<h2 id="opts_class-function">
+<code>opts_&lt;class&gt;()</code> function<a class="anchor" aria-label="anchor" href="#opts_class-function"></a>
 </h2>
 <p>When implementing a new method you’ll need to define and export the
-corresponding <code>opts_?()</code> function. It provides to the user
-with a way to choose a constructor and additional parameters, and sets
-the default behavior.</p>
+corresponding <code>opts_&lt;class&gt;()</code> function. It provides to
+the user with a way to choose a constructor and additional parameters,
+and sets the default behavior.</p>
 <p>It should always have this form:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">opts_Date</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
@@ -189,8 +189,9 @@ the default behavior.</p>
 <span>  <span class="fu"><a href="../reference/dot-cstr_options.html">.cstr_options</a></span><span class="op">(</span><span class="st">"Date"</span>, constructor <span class="op">=</span> <span class="va">constructor</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">...</span>, origin <span class="op">=</span> <span class="va">origin</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <ul>
-<li>The class is present in the name of the <code>opts_?()</code>
-function and as the first argument of <code><a href="../reference/dot-cstr_options.html">.cstr_options()</a></code>.</li>
+<li>The class is present in the name of the
+<code>opts_&lt;class&gt;()</code> function and as the first argument of
+<code><a href="../reference/dot-cstr_options.html">.cstr_options()</a></code>.</li>
 <li>A character vector of constructors is provided, starting with the
 default constructor</li>
 <li>A “next” value is mandatory except for internal types.</li>
@@ -202,12 +203,13 @@ constructors can be defined outside of the package.</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="is_corrupted_-function">
-<code>is_corrupted_?()</code> function<a class="anchor" aria-label="anchor" href="#is_corrupted_-function"></a>
+<h2 id="is_corrupted_class-function">
+<code>is_corrupted_&lt;class&gt;()</code> function<a class="anchor" aria-label="anchor" href="#is_corrupted_class-function"></a>
 </h2>
-<p><code>is_corrupted_?()</code> checks if <code>x</code> has the right
-internal type and attributes, sometimes structure, so that it satisfies
-the expectations of a well formatted object of a given class.</p>
+<p><code>is_corrupted_&lt;class&gt;()</code> checks if <code>x</code>
+has the right internal type and attributes, sometimes structure, so that
+it satisfies the expectations of a well formatted object of a given
+class.</p>
 <p>If an object is corrupted for a given class we cannot use
 constructors for this class, so we move on to a lower level constructor
 by calling <code><a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">NextMethod()</a></code> in
@@ -240,7 +242,7 @@ vector constructor:</p>
 <span><span class="co">#&gt;   <span style="color: #00BBBB;">structure</span><span style="color: #BBBB00;">(</span>class = <span style="color: #BBBB00;">"Date")</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="constructors">constructors<a class="anchor" aria-label="anchor" href="#constructors"></a>
+<h2 id="constructors">Constructors<a class="anchor" aria-label="anchor" href="#constructors"></a>
 </h2>
 <p>constructors are functions named as
 <code>.cstr_construct.&lt;class&gt;.&lt;constructor&gt;</code>.</p>
@@ -258,7 +260,7 @@ vector constructor:</p>
 <span><span class="co">#&gt;   code &lt;- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)</span></span>
 <span><span class="co">#&gt;   repair_attributes_Date(x, code, ...)</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55d0af81a590&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5572df558b38&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <p>Their arguments are <code>x</code> and <code>...</code>, and not
 more. Additional parameters fed to the <code>opt_&lt;class&gt;()</code>
@@ -267,7 +269,7 @@ function can be fetched from
 <p>The function <code><a href="../reference/dot-cstr_apply.html">.cstr_apply()</a></code> is used to construct
 arguments recursively.</p>
 <p>Sometimes a constructor cannot handle all cases and we need to fall
-back to another constructor, it happens above because <code>Inf</code>,
+back to another constructor, it happens below because <code>Inf</code>,
 <code>NA</code>, or decimal dates cannot be represented by a string
 wrapped by <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -320,7 +322,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = "Date"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55d0b0e5af40&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5572e10e49c8&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -332,7 +334,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = "factor"</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55d0b014f328&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5572e03d3980&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -344,7 +346,7 @@ factors)</li>
 <span><span class="co">#&gt;     idiomatic_class = c("tbl_df", "tbl", "data.frame")</span></span>
 <span><span class="co">#&gt;   )</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; &lt;bytecode: 0x55d0b00ddc50&gt;</span></span>
+<span><span class="co">#&gt; &lt;bytecode: 0x5572e0361f60&gt;</span></span>
 <span><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
