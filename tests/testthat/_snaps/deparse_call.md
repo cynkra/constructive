@@ -417,3 +417,26 @@
     Output
       `🐶`
 
+# high precedence infix ops in deparse_call()
+
+    Code
+      deparse_call(quote(x <- a::b(y)))
+    Output
+      x <- a::b(y)
+    Code
+      deparse_call(quote(x <- a:::b(y)))
+    Output
+      x <- a:::b(y)
+    Code
+      deparse_call(quote(x <- a$b(y)))
+    Output
+      x <- a$b(y)
+    Code
+      deparse_call(quote(x <- a@b(y)))
+    Output
+      x <- a@b(y)
+    Code
+      deparse_call(quote(x <- a::b$c(y)))
+    Output
+      x <- a::b$c(y)
+
