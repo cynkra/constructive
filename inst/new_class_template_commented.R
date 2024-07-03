@@ -29,7 +29,7 @@ opts_.CLASS1. <- function(constructor = c(".CONSTRUCTOR.", "next"), ...) {
   if (is_corrupted_.CLASS1.(x) || opts$constructor == "next") return(NextMethod())
   # This odd looking code dispatches to a method based on the name of
   # the constructor rather than the class
-  UseMethod(".cstr_construct..CLASS1.", structure(NA, .CLASS1. = opts$constructor))
+  UseMethod(".cstr_construct..CLASS1.", structure(NA, class = opts$constructor))
 }
 
 is_corrupted_.CLASS1. <- function(x) {
