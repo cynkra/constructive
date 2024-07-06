@@ -1,6 +1,8 @@
-## R CMD check results
+## Notes about version 1.0.1
 
-0 errors | 0 warnings | 1 note
+This contains a few fixes and improvement described in NEWS. Apologies for
+the short delay between the major release and the patch, I'm presenting
+the package next week at useR! 2024 and would like it to be in good shape.
 
 ## Adressing Benjamin Altmann's comment for version 0.0.1 (2021-06-05)
 
