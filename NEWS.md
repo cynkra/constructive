@@ -1,5 +1,9 @@
 # constructive (development version)
 
+* Fixed a typo that was breaking `.cstr_new_class(, commented = TRUE)`
+* Fixed bug regarding high precedence infix operators that was breaking `deparse_call()`
+* Improved vignette consistency
+
 # constructive 1.0.0
 
 ## Internals, extension system, cosmetics

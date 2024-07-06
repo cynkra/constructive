@@ -248,6 +248,9 @@ deparse_named_args_to_string <- function(args, one_liner, indent, unicode_repres
 }
 
 precedence <- function(x, call_length = 2) {
+  # length(x) > 1 means x was produced from a call, like `pkg::foo`, so it
+  # has the highest precedence
+  if (length(x) > 1) return(Inf)
   if (!call_length %in% c(2, 3)) return(Inf)
   if (call_length == 2) {
     precedences <- c(
@@ -296,10 +299,14 @@ precedence <- function(x, call_length = 2) {
       "?" = 1
     )
   }
+  # if the caller is not found above, it is a regular function call foo(x)
+  # so it has the highest precedence
   if (!x %in% names(precedences)) return(Inf)
   precedences[[x]]
 }
 
+# checks if the operator has a higher precedence than both the lhs and rhs
+# of the call
 operands_have_higher_or_equal_precedence <- function(operator, call) {
   if (!length(call) %in% c(2, 3)) return(TRUE)
 
