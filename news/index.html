@@ -38,10 +38,13 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="constructive-development-version">constructive (development version)<a class="anchor" aria-label="anchor" href="#constructive-development-version"></a></h2>
-<ul><li>Fixed a typo that was breaking <code>.cstr_new_class(, commented = TRUE)</code>
+<ul><li>We fixed a typo that was breaking <code>.cstr_new_class(, commented = TRUE)</code>
 </li>
-<li>Fixed bug regarding high precedence infix operators that was breaking <code><a href="../reference/deparse_call.html">deparse_call()</a></code>
+<li>We fixed a bug regarding high precedence infix operators that was breaking <code><a href="../reference/deparse_call.html">deparse_call()</a></code>
 </li>
+<li>“simpleUnit” is considered as a “grid” package class, not a “base” class and we fixed the check for corrupted “simpleUnit” objects</li>
+<li>The construction of “ScalesList” objects is improved, it failed in some cases</li>
+<li>The construction of “CoordCartesian” is improved and considers the “default” argument</li>
 <li>Improved vignette consistency</li>
 </ul></div>
     <div class="section level2">
