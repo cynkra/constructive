@@ -1,4 +1,4 @@
-# constructive (development version)
+# constructive 1.0.1
 
 * We fixed a typo that was breaking `.cstr_new_class(, commented = TRUE)`
 * We fixed a bug regarding high precedence infix operators that was breaking `deparse_call()`
