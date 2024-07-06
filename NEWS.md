@@ -1,7 +1,11 @@
 # constructive (development version)
 
-* Fixed a typo that was breaking `.cstr_new_class(, commented = TRUE)`
-* Fixed bug regarding high precedence infix operators that was breaking `deparse_call()`
+* We fixed a typo that was breaking `.cstr_new_class(, commented = TRUE)`
+* We fixed a bug regarding high precedence infix operators that was breaking `deparse_call()`
+* "simpleUnit" is considered as a "grid" package class, not a "base" class and
+  we fixed the check for corrupted "simpleUnit" objects
+* The construction of "ScalesList" objects is improved, it failed in some cases
+* The construction of "CoordCartesian" is improved and considers the "default" argument
 * Improved vignette consistency
 
 # constructive 1.0.0
