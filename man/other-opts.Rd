@@ -11,10 +11,10 @@
 %   R/s3-ggplot2-element_grob.R, R/s3-ggplot2-element_line.R,
 %   R/s3-ggplot2-element_rect.R, R/s3-ggplot2-element_render.R,
 %   R/s3-ggplot2-element_text.R, R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R,
-%   R/s3-ggplot2-margin.R, R/s3-ggplot2-rel.R, R/s3-ggplot2-simpleUnit.R,
-%   R/s3-ggplot2-theme.R, R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R,
-%   R/s3-noquote.R, R/s3-person.R, R/s3-simpleCondition.R, R/s3-simpleError.R,
-%   R/s3-simpleMessage.R, R/s3-simpleWarning.R, R/s3-warning.R
+%   R/s3-ggplot2-margin.R, R/s3-ggplot2-rel.R, R/s3-ggplot2-theme.R,
+%   R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R, R/s3-noquote.R, R/s3-person.R,
+%   R/s3-simpleCondition.R, R/s3-simpleError.R, R/s3-simpleMessage.R,
+%   R/s3-simpleUnit.R, R/s3-simpleWarning.R, R/s3-warning.R
 \name{other-opts}
 \alias{other-opts}
 \alias{opts_NULL}
@@ -46,7 +46,6 @@
 \alias{opts_labels}
 \alias{opts_margin}
 \alias{opts_rel}
-\alias{opts_simpleUnit}
 \alias{opts_theme}
 \alias{opts_uneval}
 \alias{opts_waiver}
@@ -55,6 +54,7 @@
 \alias{opts_simpleCondition}
 \alias{opts_simpleError}
 \alias{opts_simpleMessage}
+\alias{opts_simpleUnit}
 \alias{opts_simpleWarning}
 \alias{opts_warning}
 \title{Other Opts Functions}
@@ -126,8 +126,6 @@ opts_margin(constructor = c("margin", "next", "double"), ...)
 
 opts_rel(constructor = c("rel", "next", "double"), ...)
 
-opts_simpleUnit(constructor = c("unit", "next", "double"), ...)
-
 opts_theme(constructor = c("theme", "next", "list"), ...)
 
 opts_uneval(constructor = c("aes", "next", "list"), ...)
@@ -143,6 +141,8 @@ opts_simpleCondition(constructor = c("simpleCondition", "next"), ...)
 opts_simpleError(constructor = c("simpleError", "next"), ...)
 
 opts_simpleMessage(constructor = c("simpleMessage", "next"), ...)
+
+opts_simpleUnit(constructor = c("unit", "next", "double"), ...)
 
 opts_simpleWarning(constructor = c("simpleWarning", "next"), ...)
 

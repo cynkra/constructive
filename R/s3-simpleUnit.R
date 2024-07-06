@@ -16,7 +16,7 @@ is_corrupted_simpleUnit <- function(x) {
   if (!is.double(x)) return(TRUE)
   valid_units <- c(0:4, 6:13, 18L, 103:106)
   unit <- attr(x, "unit")
-  !is.null(unit) && all(unit %in% valid_units)
+  is.null(unit) || !all(unit %in% valid_units)
 }
 
 #' @export

@@ -84,6 +84,8 @@ names <- function(x) {
   e1
 }
 
+# comparison ops ===============================================================
+
 `==` <- function(e1, e2) {
   base::`==`(unclass(e1), unclass(e2))
 }
@@ -107,3 +109,8 @@ names <- function(x) {
 `<=` <- function(e1, e2) {
   base::`<=`(unclass(e1), unclass(e2))
 }
+
+`/` <- function(e1, e2) {
+  base::`/`(unclass(e1), unclass(e2))
+}
+

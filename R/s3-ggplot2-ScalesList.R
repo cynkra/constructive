@@ -27,7 +27,7 @@ is_corrupted_ScalesList <- function(x) {
 #' @method .cstr_construct.ScalesList ScalesList
 .cstr_construct.ScalesList.ScalesList <- function(x, ...) {
   # FIXME: appropriate constructors
-  if (!length(x$scales)) return(NextMethod(x))
+  if (!length(x$scales)) return(.cstr_construct.ScalesList.environment(x, ...))
   scales_chr <- lapply(x$scales, function(x, ...) .cstr_construct(x, ...), ...)
   if (length(x$scales) == 1) return(scales_chr[[1]])
   Reduce(function(x, y) .cstr_pipe(x, y, pipe = "plus", indent = FALSE), scales_chr)

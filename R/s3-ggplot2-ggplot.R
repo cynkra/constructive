@@ -161,6 +161,6 @@ pipe_to_theme <- function(code, theme, ...) {
 
 pipe_to_coord <- function(code, coord, ...) {
   coord_code <- .cstr_construct(coord, ...)
-  if (identical(coord_code, "ggplot2::coord_cartesian()")) return(code)
+  if (identical(coord_code, "ggplot2::coord_cartesian(default = TRUE)")) return(code)
   .cstr_pipe(code, coord_code, pipe = "plus", one_liner = list(...)$one_liner)
 }
