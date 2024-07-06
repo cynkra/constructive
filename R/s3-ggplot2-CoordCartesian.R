@@ -30,7 +30,7 @@ is_corrupted_CoordCartesian <- function(x) {
     xlim = x$limits$x,
     ylim = x$limits$y,
     expand = x$expand,
-    #default = x$default, triggers message on definition, but no effect on what's printed
+    default = x$default,
     clip = x$clip
   )
   args <- keep_only_non_defaults(args, ggplot2::coord_cartesian)
