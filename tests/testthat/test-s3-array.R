@@ -7,3 +7,9 @@ test_that("array", {
     construct(structure(1, class = "array", dim = 1))
   })
 })
+
+test_that("classed array", {
+  expect_snapshot({
+    construct(structure(array(1:27, c(3,3,3)), class = "a"))
+  })
+})

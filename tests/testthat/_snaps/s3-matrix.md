@@ -34,3 +34,11 @@
     Output
       array(1:9, dim = c(3L, 3L))
 
+# classed matrix
+
+    Code
+      construct(structure(matrix(1:9, 3), class = "a"))
+    Output
+      matrix(1:9, nrow = 3L, ncol = 3L) |>
+        structure(class = "a")
+
