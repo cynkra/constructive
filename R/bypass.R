@@ -19,6 +19,10 @@ sapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE) {
   base::sapply(unclass(X), FUN, ..., simplify = simplify, USE.NAMES = USE.NAMES)
 }
 
+vapply <- function(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE) {
+  base::vapply(unclass(X), FUN, FUN.VALUE, ..., USE.NAMES = USE.NAMES)
+}
+
 # dimensions ===================================================================
 
 length <- function(x) {
