@@ -43,6 +43,15 @@ dim <- function(x) {
   x
 }
 
+dimnames <- function(x) {
+  attr(x, "dimnames")
+}
+
+`dimnames<-` <- function(x, value) {
+  attr(x, "dimnames") <- value
+  x
+}
+
 names <- function(x) {
   if (is.environment(x)) return(ls(x, all.names = TRUE, sorted = FALSE))
   base::names(unclass(x))
