@@ -31,6 +31,21 @@ opts_xts <- function(constructor = c("as.xts.matrix", "next"), ...) {
 }
 
 is_corrupted_xts <- function(x) {
+  if (!typeof(x) %in% c("integer", "double")) return(TRUE)
+  if (length(dim(x)) != 2) return(TRUE)
+  dn <- dimnames(x)
+  dimnames_are_corrupted <-
+    length(dn) != 2 ||
+    !is.null(dn[[1]]) ||
+    !is.character(dn[[2]]) ||
+    length(dn[[2]]) != dim(x)[[2]]
+  if (dimnames_are_corrupted) return(TRUE)
+  index <- attr(x, "index")
+  index_is_corrupted <-
+    !is.double(index) ||
+    !is.character(attr(index, "tzone")) ||
+    !is.character(attr(index, "tclass"))
+  if (index_is_corrupted) return(TRUE)
   FALSE
 }
 
