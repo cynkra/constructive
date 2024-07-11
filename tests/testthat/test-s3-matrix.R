@@ -7,3 +7,9 @@ test_that("matrix", {
     construct(matrix(1:9, 3), opts_matrix("next"))
   })
 })
+
+test_that("classed matrix", {
+  expect_snapshot({
+    construct(structure(matrix(1:9, 3), class = "a"))
+  })
+})

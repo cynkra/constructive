@@ -27,3 +27,11 @@
       array(1, dim = 1L) |>
         structure(class = "array")
 
+# classed array
+
+    Code
+      construct(structure(array(1:27, c(3, 3, 3)), class = "a"))
+    Output
+      array(1:27, dim = rep(3L, 3L)) |>
+        structure(class = "a")
+
