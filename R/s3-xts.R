@@ -121,15 +121,25 @@ is_corrupted_xts <- function(x) {
 #' @export
 #' @method .cstr_construct.xts xts
 .cstr_construct.xts.xts <- function(x, ...) {
-  order.by <- as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone"))
-  dimnames_ <- dimnames(x)
-  #dimnames_[[1]] <- as.character(as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone")))
-  args <- list(
-    structure(strip(x), dim = dim(x), dimnames = dimnames_),
-    order.by = as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone"))
-  )
 
-  code <- .cstr_apply(args, fun = "xts::xts", ...)
+  if (list(...)$one_liner) {
+    args <- list(
+      structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
+      order.by = as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone"))
+    )
+    code <- .cstr_apply(args, fun = "xts::xts", ...)
+  } else {
+    args <- list(
+      order.by = as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone"))
+    )
+    code <- .cstr_pipe(
+      .cstr_construct(
+        structure(strip(x), dim = dim(x), dimnames = dimnames(x))
+      ),
+      .cstr_apply(args, fun = "xts::xts", ...),
+      ...
+    )
+  }
   .cstr_repair_attributes(
     x, code, ...,
     ignore = c("dim", "dimnames", "index"),
