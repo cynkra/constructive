@@ -93,8 +93,5 @@
         ncol = 3L,
         dimnames = list(NULL, c("Series 1", "Series 2", "Series 3"))
       ) |>
-        structure(
-          tsp = c(1961, 1961.1666666666667, 12),
-          class = c("mts", "ts", "matrix")
-        )
+        structure(tsp = c(1961, 1961.1666666666667, 12), class = c("mts", "ts", "matrix"))
 
