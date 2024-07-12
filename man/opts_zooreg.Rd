@@ -20,7 +20,8 @@ These options will be used on objects of class 'zooreg'.
 \details{
 Depending on \code{constructor}, we construct the object as follows:
 \itemize{
-\item \code{"zooreg"} (default): We build the object using \code{zoo::zooreg()}.
+\item \code{"zooreg"} (default): We build the object using \code{zoo::zooreg()}, using the
+\code{start} and \code{frequency} arguments.
 \item \code{"next"} : Use the constructor for the next supported class.
 }
 }

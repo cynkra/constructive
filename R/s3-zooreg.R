@@ -24,7 +24,7 @@ opts_zooreg <- function(constructor = c("zooreg", "next"), ...) {
 }
 
 is_corrupted_zooreg <- function(x) {
-  FALSE
+  is_corrupted_zoo(x)
 }
 
 #' @export
@@ -32,14 +32,14 @@ is_corrupted_zooreg <- function(x) {
 .cstr_construct.zooreg.zooreg <- function(x, ...) {
   # opts <- list(...)$opts$zooreg %||% opts_zooreg()
   args <- list(
-    strip(x),
+    structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
     start = attr(x, "index")[[1]],
     frequency = attr(x, "frequency")
   )
   code <- .cstr_apply(args, fun = "zoo::zooreg", ...)
   .cstr_repair_attributes(
     x, code, ...,
-    ignore = c("index", "frequency"),
+    ignore = c("index", "frequency", "dim", "dimnames"),
     idiomatic_class = c("zooreg", "zoo")
   )
 }
