@@ -220,6 +220,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_xts]{opts_xts}(constructor = c("as.xts.matrix", "next"), ...)}
   \item \code{\link[=opts_yearmon]{opts_yearmon}(constructor = c("as.yearmon", "yearmon", "next"), ...)}
   \item \code{\link[=opts_yearqtr]{opts_yearqtr}(constructor = c("as.yearqtr", "yearqtr", "next"), ...)}
+  \item \code{\link[=opts_zoo]{opts_zoo}(constructor = c("zoo", "next"), ...)}
   \item \code{\link[=opts_zooreg]{opts_zooreg}(constructor = c("zooreg", "next"), ...)}
 }
 }
