@@ -38,7 +38,7 @@ is_corrupted_yearmon <- function(x) {
   month <- floor(12 * (unclass(x) - year) + 1 + 0.5 + 0.001)
   date <- as.Date(sprintf("%s-%s-01", year, month))
   args <- list(format(date, format = "%b %Y"))
-  code <- .cstr_apply(args, fun = "zoo::as.yearmon", ...)
+  code <- .cstr_apply(args, fun = "zoo::as.yearmon", ..., new_line = FALSE)
   .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "yearmon"
@@ -49,7 +49,7 @@ is_corrupted_yearmon <- function(x) {
 #' @method .cstr_construct.yearmon yearmon
 .cstr_construct.yearmon.yearmon <- function(x, ...) {
   args <- list(unclass(x))
-  code <- .cstr_apply(args, fun = "zoo::yearmon", ...)
+  code <- .cstr_apply(args, fun = "zoo::yearmon", ..., new_line = FALSE)
   .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "yearmon"

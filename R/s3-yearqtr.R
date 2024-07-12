@@ -37,7 +37,7 @@ is_corrupted_yearqtr <- function(x) {
   quarter <- floor(4 * (unclass(x) - year) + 1 + 0.5 + 0.001)
   x_chr <- sprintf("%s Q%s", year, quarter)
   args <- list(x_chr)
-  code <- .cstr_apply(args, fun = "zoo::as.yearqtr", ...)
+  code <- .cstr_apply(args, fun = "zoo::as.yearqtr", ..., new_line = FALSE)
   .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "yearqtr"
@@ -48,7 +48,7 @@ is_corrupted_yearqtr <- function(x) {
 #' @method .cstr_construct.yearqtr yearqtr
 .cstr_construct.yearqtr.yearqtr <- function(x, ...) {
   args <- list(unclass(x))
-  code <- .cstr_apply(args, fun = "zoo::yearqtr", ...)
+  code <- .cstr_apply(args, fun = "zoo::yearqtr", ..., new_line = FALSE)
   .cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "yearqtr"
