@@ -30,7 +30,6 @@ is_corrupted_zooreg <- function(x) {
 #' @export
 #' @method .cstr_construct.zooreg zooreg
 .cstr_construct.zooreg.zooreg <- function(x, ...) {
-  # opts <- list(...)$opts$zooreg %||% opts_zooreg()
   args <- list(
     structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
     start = attr(x, "index")[[1]],

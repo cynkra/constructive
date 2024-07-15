@@ -1,6 +1,3 @@
-#' @importFrom constructive .cstr_options .cstr_construct .cstr_apply .cstr_repair_attributes
-NULL
-
 #' Constructive options for class 'zoo'
 #'
 #' These options will be used on objects of class 'zoo'.
@@ -48,7 +45,6 @@ is_corrupted_zoo <- function(x) {
 #' @export
 #' @method .cstr_construct.zoo zoo
 .cstr_construct.zoo.zoo <- function(x, ...) {
-  # opts <- list(...)$opts$zoo %||% opts_zoo()
   args <- list(
     structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
     order.by = attr(x, "index")
