@@ -25,7 +25,7 @@ opts_zoo <- function(constructor = c("zoo", "next"), ...) {
 is_corrupted_zoo <- function(x) {
   if (!typeof(x) %in% c("double", "integer")) return(TRUE)
   index <- attr(x, "index")
-  if (!is.double(index)) return(TRUE)
+  if (!typeof(index) %in% c("double", "integer")) return(TRUE)
   index_has_unsupported_class <-
     !is.null(attr(index, "class")) &&
     !inherits(index, "POSIXct") &&
