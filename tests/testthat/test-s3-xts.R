@@ -1,5 +1,8 @@
 test_that("xts", {
   skip_if(!is_installed("xts"))
+  # xts object convert character dates to POSIXct with local timezone, needs
+  # to be stabilized for the CI tests
+  withr::local_timezone("UTC")
   expect_snapshot({
     mat <- matrix(
       c(
@@ -18,9 +21,6 @@ test_that("xts", {
     x <- xts::as.xts(mat)
     construct(x)
     construct(x, opts_xts("as.xts.data.frame"))
-    # FIXME:
-    # before that amend commit with other constructors in signature
-    # also do the is_corrupted thing more in depth
     construct(x, opts_xts("xts"))
     construct(x, opts_xts(".xts"))
     construct(x, opts_xts("xts"), one_liner = TRUE)

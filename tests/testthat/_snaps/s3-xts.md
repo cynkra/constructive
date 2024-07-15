@@ -56,7 +56,7 @@
         dimnames = list(NULL, c("Open", "High", "Low", "Close"))
       ) |>
         xts::.xts(
-          index = c(1167692400, 1167778800) |>
+          index = c(1167696000, 1167782400) |>
             structure(tzone = "", tclass = c("POSIXct", "POSIXt"))
         )
     Code
@@ -66,7 +66,7 @@
     Code
       construct(x, opts_xts(".xts"), one_liner = TRUE)
     Output
-      xts::.xts(matrix(c(50.0397819115463, 50.2304961977954, 50.420955209067, 50.3734680543285, 50.2443255196795, 50.1321122972067, 50.0355467742705, 49.9948860954217), nrow = 2L, ncol = 4L, dimnames = list(NULL, c("Open", "High", "Low", "Close"))), index = c(1167692400, 1167778800) |> structure(tzone = "", tclass = c("POSIXct", "POSIXt")))
+      xts::.xts(matrix(c(50.0397819115463, 50.2304961977954, 50.420955209067, 50.3734680543285, 50.2443255196795, 50.1321122972067, 50.0355467742705, 49.9948860954217), nrow = 2L, ncol = 4L, dimnames = list(NULL, c("Open", "High", "Low", "Close"))), index = c(1167696000, 1167782400) |> structure(tzone = "", tclass = c("POSIXct", "POSIXt")))
     Code
       construct(x, opts_xts("next"))
     Output
@@ -80,7 +80,7 @@
         dimnames = list(NULL, c("Open", "High", "Low", "Close"))
       ) |>
         structure(
-          index = c(1167692400, 1167778800) |>
+          index = c(1167696000, 1167782400) |>
             structure(tzone = "", tclass = c("POSIXct", "POSIXt")),
           class = c("xts", "zoo")
         )
@@ -97,7 +97,7 @@
         dimnames = list(NULL, c("Open", "High", "Low", "Close"))
       ) |>
         structure(
-          index = c(1167692400, 1167778800) |>
+          index = c(1167696000, 1167782400) |>
             structure(tzone = "", tclass = c("POSIXct", "POSIXt")),
           class = c("xts", "zoo")
         )
@@ -114,7 +114,7 @@
         dimnames = list(NULL, c("Open", "High", "Low", "Close"))
       ) |>
         structure(
-          index = c(1167692400, 1167778800) |>
+          index = c(1167696000, 1167782400) |>
             structure(tzone = "", tclass = c("POSIXct", "POSIXt")),
           class = c("xts", "zoo")
         )
