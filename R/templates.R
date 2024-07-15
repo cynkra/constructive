@@ -35,9 +35,9 @@
     constructor = "PKG::CONSTRUCTOR",
     commented = FALSE) {
   template <- if (commented) {
-    system.file("new_class_template_commented.R", package = "constructive")
+    system.file("new_class_template_commented_no_import.R", package = "constructive")
   } else {
-    system.file("new_class_template.R", package = "constructive")
+    system.file("new_class_template_no_import.R", package = "constructive")
   }
   code <- readLines(template)
   code <- gsub(".CLASS.", .cstr_construct(class, one_liner = TRUE), code, fixed = TRUE)
@@ -45,6 +45,12 @@
   code <- gsub(".PKG::CONSTRUCTOR.", constructor, code, fixed = TRUE)
   code <- gsub(".CONSTRUCTOR.", sub("^.*::(.*)$", "\\1", constructor), code, fixed = TRUE)
   rstudioapi::documentNew(code)
+  inform(c(
+    `*` = "Call `usethis::use_package(\"constructive\"`, \"Suggests\")`",
+    `*` = "Save the script in your package's R folder",
+    `*` = "Call `devtools::document()`",
+    `*` = "Tweak and iterate"
+  ))
   invisible(NULL)
 }
 
@@ -52,9 +58,9 @@
 #' @export
 .cstr_new_constructor <- function(class = c("CLASS", "PARENT_CLASS"), constructor = "PKG::CONSTRUCTOR", commented = FALSE) {
   template <- if (commented) {
-    system.file("new_constructor_template_commented.R", package = "constructive")
+    system.file("new_constructor_template_commented_no_import.R", package = "constructive")
   } else {
-    system.file("new_constructor_template.R", package = "constructive")
+    system.file("new_constructor_template_no_import.R", package = "constructive")
   }
   code <- readLines(template)
   code <- gsub(".CLASS.", .cstr_construct(class, one_liner = TRUE), code, fixed = TRUE)
@@ -62,5 +68,11 @@
   code <- gsub(".PKG::CONSTRUCTOR.", constructor, code, fixed = TRUE)
   code <- gsub(".CONSTRUCTOR.", sub("^.*::(.*)$", "\\1", constructor), code, fixed = TRUE)
   rstudioapi::documentNew(code)
+  inform(c(
+    `*` = "Call `usethis::use_package(\"constructive\"`, \"Suggests\")`",
+    `*` = "Save the script in your package's R folder",
+    `*` = "Call `devtools::document()`",
+    `*` = "Tweak and iterate"
+  ))
   invisible(NULL)
 }
