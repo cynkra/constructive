@@ -1,6 +1,3 @@
-#' @importFrom constructive .cstr_options .cstr_construct .cstr_apply .cstr_repair_attributes
-NULL
-
 #' Constructive options for class 'xts'
 #'
 #' These options will be used on objects of class 'xts'.
@@ -54,10 +51,6 @@ is_corrupted_xts <- function(x) {
 .cstr_construct.xts.as.xts.matrix <- function(x, ...) {
   dimnames_ <- dimnames(x)
   dimnames_[[1]] <- as.character(as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone")))
-  # args <- list(
-  #   structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
-  #   order.by = as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone"))
-  # )
   args <- list(
     structure(strip(x), dim = dim(x), dimnames = dimnames_)
   )
@@ -73,7 +66,6 @@ is_corrupted_xts <- function(x) {
 #' @export
 #' @method .cstr_construct.xts as.xts.data.frame
 .cstr_construct.xts.as.xts.data.frame <- function(x, ...) {
-  # FIXME ? is it better to pipe rather than nest ?
   # we need xts for the as.data.frame()
   check_installed("xts")
   loadNamespace("xts")
