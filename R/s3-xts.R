@@ -50,7 +50,12 @@ is_corrupted_xts <- function(x) {
 #' @method .cstr_construct.xts as.xts.matrix
 .cstr_construct.xts.as.xts.matrix <- function(x, ...) {
   dimnames_ <- dimnames(x)
-  dimnames_[[1]] <- as.character(as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone")))
+  dimnames_[[1]] <- as.character(as.POSIXct(
+    attr(x,"index"),
+    tz = attr(attr(x,"index"), "tzone"),
+    # for compat with R < 4.3.0
+    origin = "1970-01-01"
+  ))
   args <- list(
     structure(strip(x), dim = dim(x), dimnames = dimnames_)
   )
@@ -117,12 +122,22 @@ is_corrupted_xts <- function(x) {
   if (list(...)$one_liner) {
     args <- list(
       structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
-      order.by = as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone"))
+      order.by = as.POSIXct(
+        attr(x,"index"),
+        tz = attr(attr(x,"index"), "tzone"),
+        # for compat with R < 4.3.0
+        origin = "1970-01-01"
+      )
     )
     code <- .cstr_apply(args, fun = "xts::xts", ...)
   } else {
     args <- list(
-      order.by = as.POSIXct(attr(x,"index"), tz = attr(attr(x,"index"), "tzone"))
+      order.by = as.POSIXct(
+        attr(x,"index"),
+        tz = attr(attr(x,"index"), "tzone"),
+        # for compat with R < 4.3.0
+        origin = "1970-01-01"
+      )
     )
     code <- .cstr_pipe(
       .cstr_construct(
