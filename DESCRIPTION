@@ -39,6 +39,7 @@ Suggests:
     lubridate,
     pixarfilms,
     prettycode,
+    R6,
     reprex,
     rmarkdown,
     roxygen2,
