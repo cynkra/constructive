@@ -1,5 +1,6 @@
 collect_opts <- function(..., template) {
-  opts <- c(list(...), template)
+  opts_from_dots <- rlang::with_bindings(list(...), !!!all_opts_funs, .env = .GlobalEnv)
+  opts <- c(opts_from_dots, template)
   names(opts) <- sapply(opts, function(x) sub("^constructive_options_(.*)$", "\\1", class(x)[[1]]))
   opts <- opts[unique(names(opts))]
   # inherit from atomic
