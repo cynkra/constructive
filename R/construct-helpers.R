@@ -115,6 +115,7 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
   rlang::local_bindings(
     compare_proxy.ggplot = compare_proxy_ggplot,
     compare_proxy.weakref = compare_proxy_weakref,
+    compare_proxy.R6ClassGenerator = compare_proxy_R6ClassGenerator,
     .env = .GlobalEnv)
   issues <-
     waldo::compare(
