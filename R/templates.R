@@ -8,13 +8,16 @@
 #'
 #' @details
 #'
-#' We suggest the following workflow :
-#' * Call these functions, with `commented = TRUE` for more guidance
-#' * Save the scripts unchanged in your package
-#' * `devtools::document()`: this will register the S3 methods
+#' We suggest the following workflow (summarized in a message when you call the functions):
+#' * Call `usethis::use_package(\"constructive\"`, \"Suggests\")` one time at any
+#'   point, this will add a soft dependency on 'constructive' so it's only needed to
+#'   install it when you use it.
+#' * Call `.cstr_new_class()` or `.cstr_new_constructor()`, with `commented = TRUE` for more guidance.
+#' * Save the scripts unchanged in the "R" folder of your package.
+#' * `devtools::document()`: this will register the S3 methods.
 #' * Try `construct()` on your new object, it should print a call to your chosen
-#'   constructor
-#' * Tweak the code, in particular the definition of `args`
+#'   constructor.
+#' * Tweak the code, in particular the definition of `args`.
 #'
 #' The README of the example extension package
 #' ['constructive.example'](https://github.com/cynkra/constructive.example)
