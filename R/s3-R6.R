@@ -19,7 +19,7 @@
 #' For this reason the `initialize()` method when it exists is repaired as an
 #' extra step.
 #'
-#' `construct_diff()` works well to inspect the differences between on 2 R6
+#' `construct_diff()` works well to inspect the differences between two R6
 #' objects where alternatives like `waldo::compare()` or `base::all.equal()`
 #' don't return anything informative.
 #'

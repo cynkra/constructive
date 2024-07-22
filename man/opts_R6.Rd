@@ -20,7 +20,23 @@ These options will be used on objects of class 'R6'.
 \details{
 Depending on \code{constructor}, we construct the object as follows:
 \itemize{
-\item \code{"R6Class"} (default): We build the object using \code{R6Class()}.
+\item \code{"R6Class"} (default): We build the object using \code{R6Class()$new()}, see details.
 \item \code{"next"} : Use the constructor for the next supported class.
 }
+
+Objects of class "R6" are harder to construct than "R6ClassGenerator" objects,
+because  'constructive' doesn't know by default the constructor (i.e. class
+generator) that was used to build them. So what we do is we build a class
+generator that generates this object by default. This is why the generated code
+is in the form \code{R6Class()$new()}.
+
+Another layer of complexity is added when the object features an
+\code{initialize()} method, we cannot implement it in the class generator because
+it might change the behavior of \verb{$new()} and return a wrong result (or fail).
+For this reason the \code{initialize()} method when it exists is repaired as an
+extra step.
+
+\code{construct_diff()} works well to inspect the differences between two R6
+objects where alternatives like \code{waldo::compare()} or \code{base::all.equal()}
+don't return anything informative.
 }
