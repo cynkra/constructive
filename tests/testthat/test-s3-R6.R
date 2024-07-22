@@ -30,6 +30,7 @@ test_that("multiplication works", {
     construct(Queue1$new(1, 2), check = FALSE)
     construct(Queue1$new(1, 2), check = FALSE, one_liner = TRUE)
 
+    # without initialize() method
     Queue2 <- R6::R6Class(
       "Queue",
       public = list(
@@ -51,7 +52,7 @@ test_that("multiplication works", {
       )
     )
     # check = FALSE because of environments
-    construct(Queue$new(), check = FALSE)
-    construct(Queue1$new(), check = FALSE, one_liner = TRUE)
+    construct(Queue2$new(), check = FALSE)
+    construct(Queue2$new(), check = FALSE, one_liner = TRUE)
   })
 })
