@@ -42,3 +42,42 @@
       matrix(1:9, nrow = 3L, ncol = 3L) |>
         structure(class = "a")
 
+# matrix with rbind and cbind
+
+    Code
+      construct(matrix(1:4, 2), opts_matrix("cbind"))
+    Output
+      cbind(1:2, 3:4)
+    Code
+      construct(matrix(1:4, 2, dimnames = list(c("a", "b"), c("c", "d"))),
+      opts_matrix("cbind"))
+    Output
+      cbind(c = c(a = 1L, b = 2L), d = c(a = 3L, b = 4L))
+    Code
+      construct(matrix(1:4, 2, dimnames = list(c("a", "b"))), opts_matrix("cbind"))
+    Output
+      cbind(c(a = 1L, b = 2L), c(a = 3L, b = 4L))
+    Code
+      construct(matrix(1:4, 2, dimnames = list(NULL, c("c", "d"))), opts_matrix(
+        "cbind"))
+    Output
+      cbind(c = 1:2, d = 3:4)
+    Code
+      construct(matrix(1:4, 2), opts_matrix("rbind"))
+    Output
+      rbind(c(1L, 3L), c(2L, 4L))
+    Code
+      construct(matrix(1:4, 2, dimnames = list(c("a", "b"), c("c", "d"))),
+      opts_matrix("rbind"))
+    Output
+      rbind(a = c(c = 1L, d = 3L), b = c(c = 2L, d = 4L))
+    Code
+      construct(matrix(1:4, 2, dimnames = list(c("a", "b"))), opts_matrix("rbind"))
+    Output
+      rbind(a = c(1L, 3L), b = c(2L, 4L))
+    Code
+      construct(matrix(1:4, 2, dimnames = list(NULL, c("c", "d"))), opts_matrix(
+        "rbind"))
+    Output
+      rbind(c(c = 1L, d = 3L), c(c = 2L, d = 4L))
+

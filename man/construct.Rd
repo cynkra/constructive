@@ -197,9 +197,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "list"), ...)}
   \item \code{\link[=opts_quosure]{opts_quosure}(constructor = c("new_quosure", "next", "language"), ...)}
   \item \code{\link[=opts_quosures]{opts_quosures}(constructor = c("new_quosures", "next", "list"), ...)}
-  \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "list"), ...)}
   \item \code{\link[=opts_R6]{opts_R6}(constructor = c("R6Class", "next"), ...)}
   \item \code{\link[=opts_R6ClassGenerator]{opts_R6ClassGenerator}(constructor = c("R6Class", "next"), ...)}
+  \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "list"), ...)}
   \item \code{\link[=opts_raw]{opts_raw}(constructor = c("as.raw", "charToRaw"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, representation = c("hexadecimal", "decimal"))}
   \item \code{\link[=opts_rel]{opts_rel}(constructor = c("rel", "next", "double"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}

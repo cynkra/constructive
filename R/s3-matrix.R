@@ -6,6 +6,8 @@
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"matrix"` : We use `matrix()`
 #' * `"array"` : We use `array()`
+#' * `"cbind"`,`"rbind"` : We use `cbind()` or `"rbind()"`, this makes named
+#'   columns and rows easier to read.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried. This will usually
 #'   be equivalent to `"array"`
@@ -52,6 +54,42 @@ is_corrupted_matrix <- function(x) {
 #' @method .cstr_construct.matrix array
 .cstr_construct.matrix.array <- function(x, ...) {
   .cstr_construct.array.array(x, ...)
+}
+
+#' @export
+#' @method .cstr_construct.matrix cbind
+.cstr_construct.matrix.cbind <- function(x, ...) {
+  dimnames <- attr(x, "dimnames")
+  args <- apply(
+    unclass(x),
+    2,
+    function(x) {
+      names(x) <- dimnames[[1]]
+      x
+    },
+    simplify = FALSE
+  )
+  names(args) <- dimnames[[2]]
+  code <- .cstr_apply(args, "cbind", ...)
+  repair_attributes_matrix(x, code, ...)
+}
+
+#' @export
+#' @method .cstr_construct.matrix rbind
+.cstr_construct.matrix.rbind <- function(x, ...) {
+  dimnames <- attr(x, "dimnames")
+  args <- apply(
+    unclass(x),
+    1,
+    function(x) {
+      names(x) <- dimnames[[2]]
+      x
+    },
+    simplify = FALSE
+  )
+  names(args) <- dimnames[[1]]
+  code <- .cstr_apply(args, "rbind", ...)
+  repair_attributes_matrix(x, code, ...)
 }
 
 repair_attributes_matrix <- function(x, code, ..., pipe = NULL) {
