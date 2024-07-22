@@ -69,6 +69,8 @@ attributes of length 2.</p>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"matrix"</code> : We use <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code></p></li>
 <li><p><code>"array"</code> : We use <code><a href="https://rdrr.io/r/base/array.html" class="external-link">array()</a></code></p></li>
+<li><p><code>"cbind"</code>,<code>"rbind"</code> : We use <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind()</a></code> or <code>"rbind()"</code>, this makes named
+columns and rows easier to read.</p></li>
 <li><p><code>"next"</code> : Use the constructor for the next supported class. Call <code><a href="https://rdrr.io/r/base/class.html" class="external-link">.class2()</a></code>
 on the object to see in which order the methods will be tried. This will usually
 be equivalent to <code>"array"</code></p></li>
