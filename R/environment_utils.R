@@ -147,10 +147,11 @@ update_predefinition <- function(envir, ...) {
       )
     } else if (is.environment(obj)) {
       nm <- protect(nm)
-      sub_env_name <- .cstr_construct(obj, ...) # this will also print code
+      obj_code <- .cstr_construct(obj, ...) # this will also print code
+      obj_code[[1]] <- sprintf("%s$%s <- %s", env_name, nm, obj_code[[1]])
       globals$predefinition <- c(
         globals$predefinition,
-        sprintf("%s$%s <- %s", env_name, nm, sub_env_name)
+        obj_code
       )
     }
   }
