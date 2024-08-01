@@ -60,14 +60,11 @@ is_corrupted_matrix <- function(x) {
 #' @method .cstr_construct.matrix cbind
 .cstr_construct.matrix.cbind <- function(x, ...) {
   dimnames <- attr(x, "dimnames")
-  args <- apply(
-    unclass(x),
-    2,
-    function(x) {
-      names(x) <- dimnames[[1]]
-      x
-    },
-    simplify = FALSE
+  # apply(simplify = TRUE) needs R >= 4.1
+  args <- lapply(
+    as.data.frame(unclass(x)),
+    set_names,
+    dimnames[[1]]
   )
   names(args) <- dimnames[[2]]
   code <- .cstr_apply(args, "cbind", ...)
@@ -78,14 +75,11 @@ is_corrupted_matrix <- function(x) {
 #' @method .cstr_construct.matrix rbind
 .cstr_construct.matrix.rbind <- function(x, ...) {
   dimnames <- attr(x, "dimnames")
-  args <- apply(
-    unclass(x),
-    1,
-    function(x) {
-      names(x) <- dimnames[[2]]
-      x
-    },
-    simplify = FALSE
+  # apply(simplify = TRUE) needs R >= 4.1
+  args <- lapply(
+    as.data.frame(t(unclass(x))),
+    set_names,
+    dimnames[[2]]
   )
   names(args) <- dimnames[[1]]
   code <- .cstr_apply(args, "rbind", ...)
