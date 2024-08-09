@@ -3,7 +3,7 @@ pkgdown: 2.1.0.9000
 pkgdown_sha: 1d40a80e6b3564a6d7da0ce467b0a4570aa5665e
 articles:
   extend-constructive: extend-constructive.html
-last_built: 2024-08-05T20:51Z
+last_built: 2024-08-09T22:55Z
 urls:
   reference: https://cynkra.github.io/constructive/reference
   article: https://cynkra.github.io/constructive/articles
