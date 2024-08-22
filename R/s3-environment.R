@@ -110,7 +110,7 @@ opts_environment <- function(constructor = c(".env", "list2env", "as.environment
     # according to error of `new.env(parent = NULL)` we should not find NULL
     # parents anymore, yet we do. In this case we force the use of `env` as a constructor
     # because it's the only one that can reproduce these objects.
-    .cstr_construct.environment.env(x, ...)
+    .cstr_construct.environment..env(x, ...)
   } else {
     UseMethod(".cstr_construct.environment", structure(NA, class = opts$constructor))
   }
