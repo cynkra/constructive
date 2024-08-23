@@ -150,8 +150,8 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_CoordQuickmap]{opts_CoordQuickmap}(constructor = c("coord_quickmap", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordSf]{opts_CoordSf}(constructor = c("coord_sf", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordTrans]{opts_CoordTrans}(constructor = c("coord_trans", "next", "environment"), ...)}
-  \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ...)}
-  \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE)}
+  \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ..., recycle = TRUE)}
+  \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE)}
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_difftime]{opts_difftime}(constructor = c("as.difftime", "next"), ...)}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
@@ -211,7 +211,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_simpleMessage]{opts_simpleMessage}(constructor = c("simpleMessage", "next"), ...)}
   \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = c("unit", "next", "double"), ...)}
   \item \code{\link[=opts_simpleWarning]{opts_simpleWarning}(constructor = c("simpleWarning", "next"), ...)}
-  \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"))}
+  \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"), recycle = TRUE)}
   \item \code{\link[=opts_theme]{opts_theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_uneval]{opts_uneval}(constructor = c("aes", "next", "list"), ...)}

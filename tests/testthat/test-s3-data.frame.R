@@ -51,5 +51,17 @@ test_that("data.frame", {
   })
 })
 
-# -------------------------------------------------------------------------
+test_that("recycle in data frames", {
+  expect_snapshot({
+    construct(data.frame(a = 1:2, b = c(1, 1)))
+    construct(data.frame(a = c(1, 1), b = c(1, 1)))
+    construct(data.frame(a = 1:2, b = factor(c("a", "a"))))
+    construct(data.frame(a = 1:2, b = as.Date(c("2000-01-01", "2000-01-01"))))
+  })
+})
 
+test_that("duplicate names in data frames", {
+  expect_snapshot({
+    construct(data.frame(a = 1, a =2, check.names = FALSE))
+  })
+})

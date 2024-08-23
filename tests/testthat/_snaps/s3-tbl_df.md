@@ -57,3 +57,29 @@
         ),
       )
 
+# recycle in tibbles
+
+    Code
+      construct(tibble::tibble(a = 1:2, b = c(1, 1)))
+    Output
+      tibble::tibble(a = 1:2, b = 1)
+    Code
+      construct(tibble::tibble(a = c(1, 1), b = c(1, 1)))
+    Output
+      tibble::tibble(a = 1, b = 1, .rows = 2L)
+    Code
+      construct(tibble::tibble(a = 1:2, b = factor(c("a", "a"))))
+    Output
+      tibble::tibble(a = 1:2, b = factor("a"))
+    Code
+      construct(tibble::tibble(a = 1:2, b = as.Date(c("2000-01-01", "2000-01-01"))))
+    Output
+      tibble::tibble(a = 1:2, b = as.Date("2000-01-01"))
+
+# duplicate names in tibbles
+
+    Code
+      construct(tibble::tibble(a = 1, a = 2, .name_repair = "minimal"))
+    Output
+      tibble::tibble(a = 1, a = 2, .name_repair = "minimal")
+
