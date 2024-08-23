@@ -6,13 +6,17 @@
 \usage{
 opts_data.frame(
   constructor = c("data.frame", "read.table", "next", "list"),
-  ...
+  ...,
+  recycle = TRUE
 )
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
 
 \item{...}{Additional options used by user defined constructors through the \code{opts} object}
+
+\item{recycle}{Boolean. For the \code{"data.frame"} constructor. Whether to recycle
+scalars to compress the output.}
 }
 \value{
 An object of class <constructive_options/constructive_options_data.frame>

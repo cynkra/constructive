@@ -8,7 +8,8 @@ opts_tbl_df(
   constructor = c("tibble", "tribble", "next", "list"),
   ...,
   trailing_comma = TRUE,
-  justify = c("left", "right", "centre", "none")
+  justify = c("left", "right", "centre", "none"),
+  recycle = TRUE
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ opts_tbl_df(
 calls}
 
 \item{justify}{String. Justification for columns if \code{constructor} is \code{"tribble"}}
+
+\item{recycle}{Boolean. For the \code{"tibble"} constructor. Whether to recycle
+scalars to compress the output.}
 }
 \value{
 An object of class <constructive_options/constructive_options_tbl_df>

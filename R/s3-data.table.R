@@ -12,12 +12,14 @@
 #' @param selfref Boolean. Whether to include the `.internal.selfref` attribute. It's
 #'   probably not useful, hence the default, `waldo::compare()` is used to assess the output
 #'   fidelity and doesn't check it, but if you really need to generate code that builds
-#'   an object `identical()` to the input you'll need to set this to `TRUE`.
+#'   an object `identical()` to the input you'll need to set this to `TRUE`.#'
+#' @param recycle Boolean. Whether to recycle scalars to compress the output.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_data.table>
 #' @export
-opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., selfref = FALSE) {
-  .cstr_options("data.table", constructor = constructor[[1]], ..., selfref = selfref)
+opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE) {
+  abort_not_boolean(recycle)
+  .cstr_options("data.table", constructor = constructor[[1]], ..., selfref = selfref, recycle = recycle)
 }
 
 #' @export
@@ -47,12 +49,32 @@ is_corrupted_data.table <- function(x) {
   df_has_problematic_names <- any(names(x) %in% arg_names)
   if (df_has_problematic_names) return(.cstr_construct.list(x, ...))
 
+  args <- x
+  # recycle value for constant columns
+  if (opts$recycle && nrow(x) > 1 && ncol(x) > 1) {
+    # recycling depends on S3 subsetting so we can't be general here, but we might
+    # extend this list
+    # note : "POSIXlt" is coerced to "POSIXct" in data.frame so not relevant here
+    recyclable_classes <-
+      list(NULL, "factor", c("ordered", "factor"), "Date", c("POSIXct", "POSIXt"))
+    args <- lapply(args, function(x) {
+      if (
+        any(sapply(recyclable_classes, identical, oldClass(x))) &&
+        length(unique(x)) == 1 # &&
+        # !anyDuplicated(names(x)) # not necessary for data frames, but yes for tibble
+      ) {
+        return(base::`[`(x, 1))
+      }
+      x
+    })
+    if (all(lengths(args) == 1)) args[1] <- x[1]
+  }
+
   key <- attr(x, "sorted")
   if (!is.null(key)) {
-    args <- c(x, key = key)
-  } else {
-    args <- x
+    args <- c(args, key = key)
   }
+
   code <- .cstr_apply(args, fun = "data.table::data.table", ...)
   repair_attributes_data.table(x, code, ..., selfref = opts$selfref)
 }

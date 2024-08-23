@@ -34,9 +34,9 @@
       data.frame(
         Sepal.Length = c(5.1, 4.9),
         Sepal.Width = c(3.5, 3),
-        Petal.Length = c(1.4, 1.4),
-        Petal.Width = c(0.2, 0.2),
-        Species = factor(c("setosa", "setosa"), levels = c("setosa", "versicolor", "virginica"))
+        Petal.Length = 1.4,
+        Petal.Width = 0.2,
+        Species = factor("setosa", levels = c("setosa", "versicolor", "virginica"))
       )
     Code
       construct(iris2, classes = "{base}")
@@ -44,9 +44,9 @@
       data.frame(
         Sepal.Length = c(5.1, 4.9),
         Sepal.Width = c(3.5, 3),
-        Petal.Length = c(1.4, 1.4),
-        Petal.Width = c(0.2, 0.2),
-        Species = factor(c("setosa", "setosa"), levels = c("setosa", "versicolor", "virginica"))
+        Petal.Length = 1.4,
+        Petal.Width = 0.2,
+        Species = factor("setosa", levels = c("setosa", "versicolor", "virginica"))
       )
     Code
       construct(iris2, classes = "-{base}")
@@ -77,9 +77,9 @@
       data.frame(
         Sepal.Length = c(5.1, 4.9),
         Sepal.Width = c(3.5, 3),
-        Petal.Length = c(1.4, 1.4),
-        Petal.Width = c(0.2, 0.2),
-        Species = c(1L, 1L) |>
+        Petal.Length = 1.4,
+        Petal.Width = 0.2,
+        Species = 1L |>
           structure(levels = c("setosa", "versicolor", "virginica"), class = "factor")
       )
     Code
