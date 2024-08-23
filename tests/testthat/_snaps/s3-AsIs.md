@@ -12,7 +12,7 @@
     Code
       construct(I(head(cars, 2)))
     Output
-      I(data.frame(speed = c(4, 4), dist = c(2, 10)))
+      I(data.frame(speed = 4, dist = c(2, 10)))
     Code
       x <- 1
       class(x) <- c("AsIs", "foo")

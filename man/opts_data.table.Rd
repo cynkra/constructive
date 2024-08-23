@@ -7,7 +7,8 @@
 opts_data.table(
   constructor = c("data.table", "next", "list"),
   ...,
-  selfref = FALSE
+  selfref = FALSE,
+  recycle = TRUE
 )
 }
 \arguments{
@@ -18,7 +19,9 @@ opts_data.table(
 \item{selfref}{Boolean. Whether to include the \code{.internal.selfref} attribute. It's
 probably not useful, hence the default, \code{waldo::compare()} is used to assess the output
 fidelity and doesn't check it, but if you really need to generate code that builds
-an object \code{identical()} to the input you'll need to set this to \code{TRUE}.}
+an object \code{identical()} to the input you'll need to set this to \code{TRUE}.#'}
+
+\item{recycle}{Boolean. Whether to recycle scalars to compress the output.}
 }
 \value{
 An object of class <constructive_options/constructive_options_data.table>

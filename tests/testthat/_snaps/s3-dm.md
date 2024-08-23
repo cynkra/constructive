@@ -4,7 +4,7 @@
       construct(dm::dm(cars1 = head(cars, 2), cars2 = tail(cars, 2)), check = FALSE)
     Output
       dm::dm(
-        cars1 = data.frame(speed = c(4, 4), dist = c(2, 10)),
+        cars1 = data.frame(speed = 4, dist = c(2, 10)),
         cars2 = data.frame(speed = c(24, 25), dist = c(120, 85), row.names = 49:50),
       )
     Code

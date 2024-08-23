@@ -17,3 +17,18 @@ test_that("tbl_df with `tribble = TRUE` falls back on tibble() if unsupported co
     construct(tibble::tibble(a = 1:2, b = tibble::tibble(x = 3:4)), opts_tbl_df(constructor = "tribble"))
   })
 })
+
+test_that("recycle in tibbles", {
+  expect_snapshot({
+    construct(tibble::tibble(a = 1:2, b = c(1, 1)))
+    construct(tibble::tibble(a = c(1, 1), b = c(1, 1)))
+    construct(tibble::tibble(a = 1:2, b = factor(c("a", "a"))))
+    construct(tibble::tibble(a = 1:2, b = as.Date(c("2000-01-01", "2000-01-01"))))
+  })
+})
+
+test_that("duplicate names in tibbles", {
+  expect_snapshot({
+    construct(tibble::tibble(a = 1, a =2, .name_repair = "minimal"))
+  })
+})

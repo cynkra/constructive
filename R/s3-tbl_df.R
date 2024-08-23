@@ -15,18 +15,30 @@
 #' @param trailing_comma Boolean. Whether to leave a trailing comma at the end of the constructor call
 #' calls
 #' @param justify String. Justification for columns if `constructor` is `"tribble"`
+#' @param recycle Boolean. For the `"tibble"` constructor. Whether to recycle
+#'   scalars to compress the output.
 #'
 #' @return An object of class <constructive_options/constructive_options_tbl_df>
 #' @export
 opts_tbl_df <- function(constructor = c("tibble", "tribble", "next", "list"),
                         ...,
                         trailing_comma = TRUE,
-                        justify = c("left", "right", "centre", "none")) {
+                        justify = c("left", "right", "centre", "none"),
+                        recycle = TRUE
+                        ) {
   .cstr_combine_errors(
     abort_not_boolean(trailing_comma),
-    justify <- match.arg(justify)
+    {justify <- match.arg(justify)},
+    abort_not_boolean(recycle)
   )
-  .cstr_options("tbl_df", constructor = constructor[[1]], ..., trailing_comma = trailing_comma, justify = justify)
+  .cstr_options(
+    "tbl_df",
+    constructor = constructor[[1]],
+    ...,
+    trailing_comma = trailing_comma,
+    justify = justify,
+    recycle = recycle
+  )
 }
 
 #' @export
@@ -56,8 +68,43 @@ is_corrupted_tbl_df <- function(x) {
   arg_names <- c(".rows", ".name_repair ")
   df_has_problematic_names <- any(names(x) %in% arg_names)
   if (df_has_problematic_names) return(.cstr_construct.list(x, ...))
+  args <- x
+  # recycle value for constant columns
+  if (opts$recycle && nrow(x) > 1 && ncol(x) > 1) {
+    # recycling depends on S3 subsetting so we can't be general here, but we might
+    # extend this list
+    recyclable_classes <-
+      list(
+        NULL,
+        "factor",
+        c("ordered", "factor"),
+        "Date",
+        c("POSIXct", "POSIXt"),
+        c("POSIXlt", "POSIXt"),
+        "data.frame",
+        c("tbl_df", "tbl", "data.frame"),
+        c("data.table", "data.frame")
+      )
+    args <- lapply(args, function(x) {
+      col_is_recyclable <-
+        any(sapply(recyclable_classes, identical, oldClass(x))) &&
+        NROW(base::unique(x)) == 1 &&
+        (is.data.frame(x) || length(unique(names(x))) <= 1)
+      if (!col_is_recyclable) return(x)
+      if (is.data.frame(x)) {
+        x <- base::`[.data.frame`(x, 1, , drop = FALSE)
+        return(x)
+      }
+      base::`[`(x, 1)
+    })
+    if (all(lengths(args) == 1)) args <- c(args, list(.rows = nrow(x)))
+  }
+
+  if (anyDuplicated(names(x))) {
+    args <- c(args, list(.name_repair = "minimal"))
+  }
   # construct idiomatic code
-  code <- .cstr_apply(x, fun = "tibble::tibble", ..., trailing_comma = opts$trailing_comma)
+  code <- .cstr_apply(args, fun = "tibble::tibble", ..., trailing_comma = opts$trailing_comma)
 
   # repair
   repair_attributes_tbl_df(x, code, ...)

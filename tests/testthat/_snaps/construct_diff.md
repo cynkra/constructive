@@ -7,8 +7,8 @@
       < list(a = head(cars, 2), b = "aaaaaa..  > list(a = head(iris, 1), b = "aaaaaa..
       @@ 1,5 @@                                @@ 1,11 @@                             
         list(                                    list(                                
-      <   a = data.frame(speed = c(4, 4), dis  >   a = data.frame(                    
-      : t = c(2, 10)),                         ~                                      
+      <   a = data.frame(speed = 4, dist = c(  >   a = data.frame(                    
+      : 2, 10)),                               ~                                      
       ~                                        >     Sepal.Length = 5.1,              
       ~                                        >     Sepal.Width = 3.5,               
       ~                                        >     Petal.Length = 1.4,              
@@ -27,8 +27,8 @@
       < list(a = head(cars, 2), b = "aaaaaa..  > list(a = head(iris, 1), b = "aaaaaa..
       @@ 1,5 @@                                @@ 1,11 @@                             
         list(                                    list(                                
-      <   a = data.frame(speed = c(4, 4), dis  >   a = data.frame(                    
-      : t = c(2, 10)),                         ~                                      
+      <   a = data.frame(speed = 4, dist = c(  >   a = data.frame(                    
+      : 2, 10)),                               ~                                      
       ~                                        >     Sepal.Length = 5.1,              
       ~                                        >     Sepal.Width = 3.5,               
       ~                                        >     Petal.Length = 1.4,              

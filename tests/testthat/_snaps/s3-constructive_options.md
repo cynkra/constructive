@@ -20,5 +20,5 @@
     Code
       construct(opts_data.frame("read.table"))
     Output
-      constructive::opts_data.frame("read.table")
+      constructive::opts_data.frame("read.table", recycle = TRUE)
 
