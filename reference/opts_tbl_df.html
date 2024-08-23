@@ -47,7 +47,8 @@
 <span>  constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tibble"</span>, <span class="st">"tribble"</span>, <span class="st">"next"</span>, <span class="st">"list"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span>,</span>
 <span>  trailing_comma <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  justify <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"right"</span>, <span class="st">"centre"</span>, <span class="st">"none"</span><span class="op">)</span></span>
+<span>  justify <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"right"</span>, <span class="st">"centre"</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
+<span>  recycle <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -70,6 +71,11 @@ calls</p></dd>
 
 <dt id="arg-justify">justify<a class="anchor" aria-label="anchor" href="#arg-justify"></a></dt>
 <dd><p>String. Justification for columns if <code>constructor</code> is <code>"tribble"</code></p></dd>
+
+
+<dt id="arg-recycle">recycle<a class="anchor" aria-label="anchor" href="#arg-recycle"></a></dt>
+<dd><p>Boolean. For the <code>"tibble"</code> constructor. Whether to recycle
+scalars to compress the output.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -220,8 +220,8 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_CoordQuickmap</a>(constructor = c("coord_quickmap", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordSf</a>(constructor = c("coord_sf", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordTrans</a>(constructor = c("coord_trans", "next", "environment"), ...)</code></p></li>
-<li><p><code><a href="opts_data.frame.html">opts_data.frame</a>(constructor = c("data.frame", "read.table", "next", "list"), ...)</code></p></li>
-<li><p><code><a href="opts_data.table.html">opts_data.table</a>(constructor = c("data.table", "next", "list"), ..., selfref = FALSE)</code></p></li>
+<li><p><code><a href="opts_data.frame.html">opts_data.frame</a>(constructor = c("data.frame", "read.table", "next", "list"), ..., recycle = TRUE)</code></p></li>
+<li><p><code><a href="opts_data.table.html">opts_data.table</a>(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE)</code></p></li>
 <li><p><code><a href="opts_Date.html">opts_Date</a>(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")</code></p></li>
 <li><p><code><a href="other-opts.html">opts_difftime</a>(constructor = c("as.difftime", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_dm.html">opts_dm</a>(constructor = c("dm", "next", "list"), ...)</code></p></li>
@@ -281,7 +281,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_simpleMessage</a>(constructor = c("simpleMessage", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_simpleUnit</a>(constructor = c("unit", "next", "double"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_simpleWarning</a>(constructor = c("simpleWarning", "next"), ...)</code></p></li>
-<li><p><code><a href="opts_tbl_df.html">opts_tbl_df</a>(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"))</code></p></li>
+<li><p><code><a href="opts_tbl_df.html">opts_tbl_df</a>(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"), recycle = TRUE)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_theme</a>(constructor = c("theme", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_ts.html">opts_ts</a>(constructor = c("ts", "next", "atomic"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_uneval</a>(constructor = c("aes", "next", "list"), ...)</code></p></li>
