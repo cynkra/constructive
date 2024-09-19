@@ -31,7 +31,7 @@ construct_string <- function(x, unicode_representation, escape, mode = "string",
 
   encoding <- Encoding(x)
   locale_is_utf8 <- l10n_info()$`UTF-8`
-  if (!locale_is_utf8) {
+  if (encoding == "latin1" || !locale_is_utf8) {
     return(construct_string_from_byte_value(x, encoding, mode, protect))
   }
 
