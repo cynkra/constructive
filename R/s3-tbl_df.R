@@ -124,7 +124,7 @@ is_corrupted_tbl_df <- function(x) {
 
   # construct idiomatic code
   code_df <- x
-  code_df[] <- lapply(x, function(col) paste0(sapply(col, function(cell) paste(.cstr_construct(cell, ...), collapse = "")), ","))
+  code_df[] <- lapply(x, function(col) paste0(base::sapply(col, function(cell) paste(.cstr_construct(cell, ...), collapse = "")), ","))
   code_df <- rbind(paste0("~", sapply(names(x), protect), ","), as.data.frame(code_df))
   code_df[] <- lapply(code_df, format, justify = opts$justify)
   code <- do.call(paste, code_df)
