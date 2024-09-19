@@ -1,4 +1,4 @@
-# POSIXct
+# POSIXct post (incl) 4.3
 
     Code
       construct(.leap.seconds[1:4])
@@ -71,4 +71,9 @@
       construct(as.POSIXct(c("2022-01-01 01:00:00.1", NA), tz = "GMT"))
     Output
       as.POSIXct(c("2022-01-01 01:00:00.1", NA), tz = "GMT")
+    Code
+      construct(as.POSIXct(c("2024-07-22 13:25:22.868974",
+        "2024-07-22 13:25:22.868976"), tz = "UTC"))
+    Output
+      as.POSIXct(c("2024-07-22 13:25:22.868974", "2024-07-22 13:25:22.868976"), tz = "UTC")
 

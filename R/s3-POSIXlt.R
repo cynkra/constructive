@@ -47,7 +47,9 @@ is_corrupted_POSIXlt <- function(x) {
   x_chr <- format(x)
   split_s <- as.numeric(x) %% 1
   dec_lgl <- split_s != 0 & !is.na(x)
-  x_chr[dec_lgl] <- paste0(x_chr[dec_lgl], sub("^0", "", format(split_s[dec_lgl], digits = 5)))
+  dec_seconds <- vapply(strip(x)$sec[dec_lgl], .cstr_construct, character(1))
+  dec_seconds <- sub("^.*(\\..*)", "\\1", dec_seconds)
+  x_chr[dec_lgl] <- paste0(x_chr[dec_lgl], dec_seconds)
   args <- list(x_chr)
   if (!is.null(tzone) && length(tzone) == 1) {
     args <- c(args, list(tz = tzone))
