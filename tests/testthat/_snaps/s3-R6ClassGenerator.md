@@ -56,8 +56,7 @@
         ),
         private = list(
           queue = list(),
-          length = (function() base::length(private$
-            queue)) |>
+          length = (function() base::length(private$queue)) |>
             (`environment<-`)(
               constructive::.env(
                 "0x123456789",
