@@ -6,6 +6,8 @@
 \alias{constructive-package}
 \title{constructive: Display Idiomatic Code to Construct Most R Objects}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Prints code that can be used to recreate R objects. In a sense it is similar to 'base::dput()' or 'base::deparse()' but 'constructive' strives to use idiomatic constructors.
 }
 \seealso{

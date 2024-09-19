@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-# constructive
+# constructive <a href="https://cynkra.github.io/constructive/"><img src="man/figures/logo.png" align="right" height="139" alt="constructive website" /></a>
 
 {constructive} prints code that can be used to recreate R objects. In a
 sense it is similar to `base::dput()` or `base::deparse()` but
