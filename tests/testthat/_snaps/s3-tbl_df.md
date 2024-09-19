@@ -33,6 +33,13 @@
         "Paul", "Beatles",
       )
     Code
+      construct(tibble::tibble(a = as.Date("2001-01-01")), opts_tbl_df("tribble"))
+    Output
+      tibble::tribble(
+        ~a,
+        as.Date("2001-01-01"),
+      )
+    Code
       construct(dplyr::group_by(dplyr::band_members, band))
     Output
       tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
