@@ -1,5 +1,11 @@
 # constructive (development version)
 
+* `cli::code_highlight()` is now used when `options(constructive_pretty = TRUE)`,
+  removing the dependency on {prettycode}. This slightly changes the behaviour
+  of the global option `constructive_pretty`, which was previously treated as
+  `TRUE` with an additional requirement that {prettycode} be installed, but is
+  now treated as `FALSE` by default. {cli} >= 3.1.0 is now required as a result.
+
 # constructive 1.0.1
 
 * We fixed a typo that was breaking `.cstr_new_class(, commented = TRUE)`

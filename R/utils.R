@@ -342,11 +342,11 @@ defaults_arg_values <- function(fun_val, pkg) {
   lapply(defaults_lng, eval, asNamespace(pkg))
 }
 
-highlight_if_prettycode_installed <- function(x, style = NULL) {
-  if (!is_installed("prettycode") || isFALSE(getOption("constructive_pretty"))) {
+highlight_code <- function(x, opt = getOption("constructive_pretty", FALSE)) {
+  if (isFALSE(opt)) {
     return(x)
   }
-  prettycode::highlight(x, style = style %||% prettycode::default_style())
+  cli::code_highlight(x)
 }
 
 strip <- function(x) {

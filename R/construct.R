@@ -309,14 +309,8 @@ print.constructive <- function(
 # * returns input invisibly
 
 #' @export
-print.constructive_code <- function(x, ..., colored = rlang::is_installed("prettycode"), style = NULL) {
-  if (colored) {
-    if (!is_installed("prettycode")) {
-      abort(paste("Could not use `colored = TRUE`, as the package prettycode is not",
-                  "installed. Please install it if you want to see colored output"))
-    }
-    x <- highlight_if_prettycode_installed(x, style = style)
-  }
+print.constructive_code <- function(x, ..., colored = getOption("constructive_pretty", FALSE)) {
+  x <- highlight_code(x, colored)
   cat(x, sep = "\n")
   invisible(x)
 }

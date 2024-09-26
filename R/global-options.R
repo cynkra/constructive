@@ -15,8 +15,8 @@
 #'     the code without output is copied to the clipboard)
 #' * Set `options(constructive_opts_template = <list>)` to set default constructive options,
 #'     see documentation of the `template` arg in `?construct`
-#' * Set `options(constructive_pretty = FALSE)` to disable pretty printing using
-#'     \{prettycode\}
+#' * Set `options(constructive_pretty = TRUE)` to enable syntax highlighting 
+#'     using `cli::code_highlight()`
 #'
 #' @name constructive-global_options
 #' @aliases constructive_opts_template constructive_pretty constructive_print_mode

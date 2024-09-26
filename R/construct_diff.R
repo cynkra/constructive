@@ -89,7 +89,7 @@ construct_diff <- function(
 
 format_call_for_diffobj_banner <- function(call, interactive) {
   deparsed <- rlang::expr_deparse(call)
-  styled <- highlight_if_prettycode_installed(deparsed)
+  styled <- highlight_code(deparsed)
   if (!interactive) return(paste(styled, collapse = " "))
   multiline <- paste(styled, collapse = "<BR>")
   idented <- gsub(" ", "&#x00A0;", multiline)
