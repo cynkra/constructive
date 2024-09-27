@@ -305,6 +305,8 @@ print.constructive <- function(
 
 #' Print code with syntax highlighting
 #'
+#' @param x The object to print
+#' @param ... Unused
 #' @param colored Whether to apply syntax highlighting. Set to `FALSE`, or use
 #'   `options(constructive_pretty = FALSE)` to turn off highlighting.
 #' @param code_theme Syntax highlighting theme passed to [cli::code_highlight()].

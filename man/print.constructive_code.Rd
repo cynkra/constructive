@@ -13,6 +13,10 @@
 )
 }
 \arguments{
+\item{x}{The object to print}
+
+\item{...}{Unused}
+
 \item{colored}{Whether to apply syntax highlighting. Set to \code{FALSE}, or use
 \code{options(constructive_pretty = FALSE)} to turn off highlighting.}
 
