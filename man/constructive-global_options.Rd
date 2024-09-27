@@ -8,7 +8,7 @@
 \title{Global Options}
 \description{
 Set these options to tweak \{constructive\}'s global behavior, to set them
-permanently you can edit your \code{.RProfile} (\code{usethis::edit_r_profile()} might help).
+permanently you can edit your \code{.RProfile1}, e.g. using \code{usethis::edit_r_profile()}.
 }
 \details{
 \itemize{
@@ -26,7 +26,12 @@ the code without output is copied to the clipboard)
 }
 \item Set \verb{options(constructive_opts_template = <list>)} to set default constructive options,
 see documentation of the \code{template} arg in \code{?construct}
-\item Set \code{options(constructive_pretty = FALSE)} to disable pretty printing using
-\{prettycode\}
+\item Set \code{options(constructive_pretty = FALSE)} to disable syntax highlighting.
+}
+\subsection{Relevant options from other packages:}{
+\itemize{
+\item \code{cli.code_theme} can be used to configure the syntax highlighting theme
+used by \{constructive\}; see \code{\link[cli:code_theme_list]{cli::code_theme_list()}} for more information.
+}
 }
 }

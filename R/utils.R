@@ -342,11 +342,11 @@ defaults_arg_values <- function(fun_val, pkg) {
   lapply(defaults_lng, eval, asNamespace(pkg))
 }
 
-highlight_code <- function(x, opt = getOption("constructive_pretty", FALSE)) {
-  if (isFALSE(opt)) {
+highlight_code <- function(x, code_theme = NULL, colored = getOption("constructive_pretty", TRUE)) {
+  if (isFALSE(colored)) {
     return(x)
   }
-  cli::code_highlight(x)
+  cli::code_highlight(x, code_theme)
 }
 
 strip <- function(x) {

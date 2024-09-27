@@ -1,10 +1,12 @@
 # constructive (development version)
 
-* `cli::code_highlight()` is now used when `options(constructive_pretty = TRUE)`,
-  removing the dependency on {prettycode}. This slightly changes the behaviour
-  of the global option `constructive_pretty`, which was previously treated as
-  `TRUE` with an additional requirement that {prettycode} be installed, but is
-  now treated as `FALSE` by default. {cli} >= 3.1.0 is now required as a result.
+* `cli::code_highlight()` is now used to apply syntax highlighting to console
+  output, removing the dependency on {prettycode}.
+  * If you prefer not to use highlighting you can turn it off using
+    `options(constructive_pretty = FALSE)`. 
+  * The `style` argument of `print.constructive_code()` is deprecated in 
+    favour of the new argument `code_theme`.
+  * {cli} >= 3.1.0 is now required.
 
 # constructive 1.0.1
 

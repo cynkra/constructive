@@ -303,14 +303,30 @@ print.constructive <- function(
 
 
 
-# this is  styler:::print.vertical with small tweaks:
-# * different default for `colored`
-# * fail rather than warn if colored is TRUE and not installed
-# * returns input invisibly
-
+#' Print code with syntax highlighting
+#'
+#' @param colored Whether to apply syntax highlighting. Set to `FALSE`, or use
+#'   `options(constructive_pretty = FALSE)` to turn off highlighting.
+#' @param code_theme Syntax highlighting theme passed to [cli::code_highlight()].
+#'   Setting `code_theme = list()` will remove all syntax highlighting, but
+#'   hyperlinks will remain if supported.
+#' @param style Deprecated in favour of `code_theme`
 #' @export
-print.constructive_code <- function(x, ..., colored = getOption("constructive_pretty", FALSE)) {
-  x <- highlight_code(x, colored)
+print.constructive_code <- function(
+    x,
+    ...,
+    colored = getOption("constructive_pretty", TRUE),
+    code_theme = NULL,
+    style = NULL
+) {
+  if (!is.null(style)) {
+    deprecate_soft(c(
+      "The `style` argument of `print.constructive_code()` is deprecated as of constructive 1.0.2",
+      i = "Please use the `code_theme` argument instead"
+    ))
+  }
+
+  x <- highlight_code(x, code_theme, colored)
   cat(x, sep = "\n")
   invisible(x)
 }
