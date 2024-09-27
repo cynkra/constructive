@@ -313,6 +313,7 @@ print.constructive <- function(
 #'   Setting `code_theme = list()` will remove all syntax highlighting, but
 #'   hyperlinks will remain if supported.
 #' @param style Deprecated in favour of `code_theme`
+#' @keywords internal
 #' @export
 print.constructive_code <- function(
     x,
