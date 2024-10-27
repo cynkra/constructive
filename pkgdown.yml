@@ -1,9 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
-pkgdown_sha: ~
+pkgdown: 2.1.1.9000
+pkgdown_sha: a160ee0f36865f58d79b93d5024a20450fd30d6a
 articles:
   extend-constructive: extend-constructive.html
-last_built: 2024-09-19T12:16Z
+last_built: 2024-10-27T05:13Z
 urls:
   reference: https://cynkra.github.io/constructive/reference
   article: https://cynkra.github.io/constructive/articles
