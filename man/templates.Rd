@@ -37,14 +37,17 @@ If the class is already supported and you want to implement a new constructor,
 use \code{.cstr_new_constructor()}, otherwise use \code{.cstr_new_class()}.
 }
 \details{
-We suggest the following workflow :
+We suggest the following workflow (summarized in a message when you call the functions):
 \itemize{
-\item Call these functions, with \code{commented = TRUE} for more guidance
-\item Save the scripts unchanged in your package
-\item \code{devtools::document()}: this will register the S3 methods
+\item Call \verb{usethis::use_package(\\"constructive\\"}, \"Suggests\")` one time at any
+point, this will add a soft dependency on 'constructive' so it's only needed to
+install it when you use it.
+\item Call \code{.cstr_new_class()} or \code{.cstr_new_constructor()}, with \code{commented = TRUE} for more guidance.
+\item Save the scripts unchanged in the "R" folder of your package.
+\item \code{devtools::document()}: this will register the S3 methods.
 \item Try \code{construct()} on your new object, it should print a call to your chosen
-constructor
-\item Tweak the code, in particular the definition of \code{args}
+constructor.
+\item Tweak the code, in particular the definition of \code{args}.
 }
 
 The README of the example extension package
