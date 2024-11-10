@@ -62,7 +62,7 @@
 describe <- function(x) {
   type <- typeof(x)
   code <- construct(x, check = FALSE)$code
-  code <- highlight_if_prettycode_installed(code)
+  code <- highlight_code(code)
   code <- paste(code, collapse = "\n")
   if (type %in% c("logical", "integer", "double", "complex", "character", "raw", "list")) {
     info <- sprintf("It has type '%s' and length %s:\n", typeof(x), length(x))
