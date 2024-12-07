@@ -65,3 +65,9 @@ test_that("duplicate names in data frames", {
     construct(data.frame(a = 1, a =2, check.names = FALSE))
   })
 })
+
+test_that("unnamed data frames", {
+  expect_snapshot({
+    construct(structure(data.frame(1), names = ""))
+  })
+})
