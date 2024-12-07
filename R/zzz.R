@@ -14,7 +14,7 @@ global_variables <- function() {
     sort(unique(unlist(
       lapply(files, function(file) all.names(parse(file = file), unique = TRUE))
     )))
-  globalVariables(nms)
+  utils::globalVariables(nms)
 }
 
 global_variables()
