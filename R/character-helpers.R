@@ -152,7 +152,7 @@ repair_encoding <- function(code, string_is_ascii, encoding) {
   if (no_repair_needed) return(code)
   .cstr_pipe(
     code,
-    sprintf("(`Encoding<-`)(\"%s\")", encoding),
+    sprintf("`Encoding<-`(\"%s\")", encoding),
     one_liner = TRUE
   )
 }
