@@ -156,3 +156,11 @@
     Output
       data.frame(a = 1, a = 2, check.names = FALSE)
 
+# unnamed data frames
+
+    Code
+      construct(structure(data.frame(1), names = ""))
+    Output
+      data.frame(1, check.names = FALSE) |>
+        structure(names = "")
+

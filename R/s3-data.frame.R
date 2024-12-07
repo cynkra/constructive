@@ -182,6 +182,7 @@ repair_attributes_data.frame <- function(x, code, ..., pipe = NULL) {
     x, code, ...,
     pipe = pipe,
     ignore = ignore,
-    idiomatic_class = "data.frame"
+    idiomatic_class = "data.frame",
+    repair_names = any(names(x) == "")
   )
 }
