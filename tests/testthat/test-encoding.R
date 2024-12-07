@@ -14,7 +14,7 @@ test_that("non UTF-8 encodings with UTF-8 system", {
     construct(x)
     x <- iconv("こんにちは", to = "shift_jis")
     construct(x)
-    x <- "hello\U{A0}world"
+    x <- "hello\xa0world"
     Encoding(x) <- "latin1"
     construct(x)
   })
