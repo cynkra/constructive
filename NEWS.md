@@ -1,5 +1,8 @@
 # constructive (development version)
 
+* `construct_clip()` now shows a console message in addition to writing to the
+  clipboard
+
 # constructive 1.0.1
 
 * We fixed a typo that was breaking `.cstr_new_class(, commented = TRUE)`
