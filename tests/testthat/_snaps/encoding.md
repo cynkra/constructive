@@ -15,7 +15,7 @@
       x <- iconv("hello world", to = "latin1")
       construct(x)
     Output
-      "hello\xa0world" |> (`Encoding<-`)("latin1")
+      "hello\xa0world" |> `Encoding<-`("latin1")
     Code
       x <- iconv("こんにちは", to = "shift_jis")
       construct(x)
@@ -26,5 +26,5 @@
       Encoding(x) <- "latin1"
       construct(x)
     Output
-      "hello\xa0world" |> (`Encoding<-`)("latin1")
+      "hello\xa0world" |> `Encoding<-`("latin1")
 
