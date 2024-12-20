@@ -45,8 +45,6 @@ test_that("data.frame", {
       class = "data.frame"
     ))
     construct(data.frame(a = "two words"), constructive::opts_data.frame("read.table"))
-    # column named with a problematic name
-    constructive::construct(as.data.frame(list(row.names = 1:2)))
     construct(data.frame(row.names = c("a", "b")))
   })
 })
@@ -66,8 +64,22 @@ test_that("duplicate names in data frames", {
   })
 })
 
-test_that("unnamed data frames", {
+test_that("non standard names in data frames", {
   expect_snapshot({
+    construct(structure(data.frame(1), names = NULL))
     construct(structure(data.frame(1), names = ""))
+    construct(structure(data.frame(1), names = NA))
+    construct(structure(data.frame(1), names = "row.names"))
+    construct(structure(data.frame(1), names = "check.rows"))
+    construct(structure(data.frame(1), names = "check.names"))
+    construct(structure(data.frame(1), names = "fix.empty.names"))
+    construct(structure(data.frame(1), names = "stringsAsFactors"))
+    construct(structure(data.frame(1, 2), names = c("a", "")))
+    construct(structure(data.frame(1, 2), names = c("a", NA)))
+    construct(structure(data.frame(1, 2), names = c("a", "row.names")))
+    construct(structure(data.frame(1, 2), names = c("a", "check.rows")))
+    construct(structure(data.frame(1, 2), names = c("a", "check.names")))
+    construct(structure(data.frame(1, 2), names = c("a", "fix.empty.names")))
+    construct(structure(data.frame(1, 2), names = c("a", "stringsAsFactors")))
   })
 })

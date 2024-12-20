@@ -131,11 +131,12 @@ align_numerics <- function(x) {
   opts <- list(...)$opts$data.frame %||% opts_data.frame()
   # Fall back on list constructor if relevant
   df_has_list_cols <- any(sapply(x, function(col) is.list(col) && !inherits(col, "AsIs")))
+  if (df_has_list_cols) return(.cstr_construct.list(x, ...))
   arg_names <- c("row.names", "check.rows", "check.names", "fix.empty.names", "stringsAsFactors")
-  df_has_problematic_names <- any(names(x) %in% arg_names)
-  if (df_has_list_cols || df_has_problematic_names) return(.cstr_construct.list(x, ...))
-
+  problematic_names_lgl <- names(x) %in% c(arg_names, "", NA)
+  repair_names <- any(problematic_names_lgl)
   args <- x
+  if (repair_names) names(args)[problematic_names_lgl] <- ""
 
   # recycle value for constant columns
   if (opts$recycle && nrow(x) > 1 && ncol(x) > 1) {
@@ -166,13 +167,15 @@ align_numerics <- function(x) {
   if (!ncol(x) || !identical(rn, seq_len(nrow(x)))) args <- c(args, list(row.names = rn))
 
   # include check.names arg only if necessary
-  if (any(!is_syntactic(names(x))) || anyDuplicated(names(x))) args <- c(args, list(check.names = FALSE))
+  if (!any(names(x) %in% c("", NA)) && (any(!is_syntactic(names(x))) || anyDuplicated(names(x)))) {
+    args <- c(args, list(check.names = FALSE))
+  }
 
   # build code recursively
   code <- .cstr_apply(args, fun = "data.frame", ...)
 
   # repair
-  repair_attributes_data.frame(x, code, ...)
+  repair_attributes_data.frame(x, code, ..., repair_names = repair_names)
 }
 
 repair_attributes_data.frame <- function(x, code, ..., pipe = NULL) {
@@ -182,7 +185,6 @@ repair_attributes_data.frame <- function(x, code, ..., pipe = NULL) {
     x, code, ...,
     pipe = pipe,
     ignore = ignore,
-    idiomatic_class = "data.frame",
-    repair_names = any(names(x) == "")
+    idiomatic_class = "data.frame"
   )
 }
