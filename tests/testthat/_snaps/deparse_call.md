@@ -285,6 +285,14 @@
       deparse_call(quote(list(`a + b` = a + b)))
     Output
       list(`a + b` = a + b)
+    Code
+      deparse_call(quote((`boo<-`)(x)))
+    Output
+      (`boo<-`)(x)
+    Code
+      deparse_call(quote(`boo<-`[[1]](x)))
+    Output
+      `boo<-`[[1]](x)
 
 ---
 
