@@ -25,3 +25,21 @@ test_that("duplicate names in data tables", {
     construct(data.table::data.table(a = 1, a =2))
   })
 })
+
+test_that("non standard names in data tables", {
+  expect_snapshot({
+    construct(structure(data.table::data.table(1), names = NULL), check = FALSE)
+    construct(structure(data.table::data.table(1), names = ""))
+    construct(structure(data.table::data.table(1), names = NA))
+    construct(structure(data.table::data.table(1), names = "keep.rownames"))
+    construct(structure(data.table::data.table(1), names = "check.names"))
+    construct(structure(data.table::data.table(1), names = "key"))
+    construct(structure(data.table::data.table(1), names = "stringsAsFactors"))
+    construct(structure(data.table::data.table(1, 2), names = c("a", "")))
+    construct(structure(data.table::data.table(1, 2), names = c("a", NA)))
+    construct(structure(data.table::data.table(1, 2), names = c("a", "keep.rownames")))
+    construct(structure(data.table::data.table(1, 2), names = c("a", "check.names")))
+    construct(structure(data.table::data.table(1, 2), names = c("a", "key")))
+    construct(structure(data.table::data.table(1, 2), names = c("a", "stringsAsFactors")))
+  })
+})

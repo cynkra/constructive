@@ -46,10 +46,10 @@ is_corrupted_data.table <- function(x) {
   opts <- list(...)$opts$data.table %||% opts_data.table()
   # Fall back on list constructor if relevant
   arg_names <- c("keep.rownames", "check.names", "key", "stringsAsFactors")
-  df_has_problematic_names <- any(names(x) %in% arg_names)
-  if (df_has_problematic_names) return(.cstr_construct.list(x, ...))
-
+  problematic_names_lgl <- names(x) %in% c(arg_names, "", NA)
+  repair_names <- any(problematic_names_lgl)
   args <- x
+  if (repair_names) names(args)[problematic_names_lgl] <- ""
   # recycle value for constant columns
   if (opts$recycle && nrow(x) > 1 && ncol(x) > 1) {
     # recycling depends on S3 subsetting so we can't be general here, but we might
@@ -76,7 +76,7 @@ is_corrupted_data.table <- function(x) {
   }
 
   code <- .cstr_apply(args, fun = "data.table::data.table", ...)
-  repair_attributes_data.table(x, code, ..., selfref = opts$selfref)
+  repair_attributes_data.table(x, code, ..., selfref = opts$selfref, repair_names = repair_names)
 }
 
 repair_attributes_data.table <- function(x, code, ..., pipe = NULL, selfref = FALSE) {
