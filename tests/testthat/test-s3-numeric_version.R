@@ -1,12 +1,15 @@
 test_that("numeric_version(), package_version(), R_system_version()", {
   expect_snapshot({
     construct(numeric_version("1.2.3"))
+    construct(numeric_version(c("1.2.3", "4.5.6.7")))
     construct(numeric_version("1.2.3"), opts_numeric_version("next"))
     construct(numeric_version("1.2.3"), opts_numeric_version("list"))
     construct(package_version("1.2.3"))
+    construct(package_version(c("1.2.3", "4.5.6.7")))
     construct(package_version("1.2.3"), opts_package_version("next"))
     construct(package_version("1.2.3"), opts_package_version("list"))
     construct(R_system_version("1.2.3"))
+    construct(R_system_version(c("1.2.3", "4.5.6")))
     construct(R_system_version("1.2.3"), opts_R_system_version("next"))
     construct(R_system_version("1.2.3"), opts_R_system_version("list"))
   })
