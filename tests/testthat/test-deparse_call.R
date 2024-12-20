@@ -76,6 +76,10 @@ test_that("deparse_call()", {
 
     # non-syntactig argument name
     deparse_call(quote(list(`a + b` = a + b)))
+
+    # non syntactic function calls
+    deparse_call(quote((`boo<-`)(x)))
+    deparse_call(quote(`boo<-`[[1]](x)))
   })
 
   expect_snapshot({
