@@ -65,10 +65,11 @@ is_corrupted_tbl_df <- function(x) {
 #' @method .cstr_construct.tbl_df tibble
 .cstr_construct.tbl_df.tibble <- function(x, ...) {
   opts <- list(...)$opts$tbl_df %||% opts_tbl_df()
-  arg_names <- c(".rows", ".name_repair ")
-  df_has_problematic_names <- any(names(x) %in% arg_names)
-  if (df_has_problematic_names) return(.cstr_construct.list(x, ...))
+  arg_names <- c(".rows", ".name_repair")
+  problematic_names_lgl <- names(x) %in% c(arg_names, "", NA)
+  repair_names <- any(problematic_names_lgl)
   args <- x
+  if (repair_names) names(args)[problematic_names_lgl] <- ""
   # recycle value for constant columns
   if (opts$recycle && nrow(x) > 1 && ncol(x) > 1) {
     # recycling depends on S3 subsetting so we can't be general here, but we might
@@ -107,7 +108,7 @@ is_corrupted_tbl_df <- function(x) {
   code <- .cstr_apply(args, fun = "tibble::tibble", ..., trailing_comma = opts$trailing_comma)
 
   # repair
-  repair_attributes_tbl_df(x, code, ...)
+  repair_attributes_tbl_df(x, code, ..., repair_names = repair_names)
 }
 
 #' @export
