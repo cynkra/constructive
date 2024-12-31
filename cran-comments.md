@@ -1,3 +1,7 @@
+## Notes about version 1.1.0
+
+A few fixes and new features but no deep changes, all checks green AFAICT.
+
 ## Notes about version 1.0.1
 
 This contains a few fixes and improvement described in NEWS. Apologies for
