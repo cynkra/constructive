@@ -1,7 +1,34 @@
 # constructive (development version)
 
+Features:
+
+* Implemented construction of R6 objects
+* Implemented construction of zoo and xts objects
+* Implemented `"cbind"` and `"rbind"` constructors for matrices
+* Now there's no need to namespace `opts_*()` functions if the package is not
+  attached, this mean we can call for instance `constructive::construct(x, opts_tbl_df("tribble"))`
+  rather than `constructive::construct(x, constructive::opts_tbl_df("tribble"))`
+* New classes and constructors can now be implemented in your package without
+  importing the package (adding to "Suggests" instead)
+* Added a hex logo
+  
+Fixes and improvements:
+
+* Fixed a display issue in `construct_diff()`
 * `construct_clip()` now shows a console message in addition to writing to the
   clipboard
+* Improved support of data frames, tibbles, and data.tables regarding non syntactic, empty,
+`NA` or duplicate names
+* Improved recycling in data frames
+* Implemented support for dates in `tribble()` calls when calling `construct(x, opts_tbl_df("tribble"))`
+* Improved support of classed matrices
+* Fixed timestamp precision issue
+* Improved support of `"POSIXlt"` class
+* Improved encoding support
+* Fixed construction of vectors with `numeric_version()`, `package_version()`,
+  and `R_system_version()`
+* Fixed constuction edge case calls like ``(`fun<-`)()`` or ``(`a b`)()``
+* Fixed construction of environments with `NULL` parents
 
 # constructive 1.0.1
 
