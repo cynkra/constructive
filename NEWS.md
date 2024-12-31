@@ -27,7 +27,7 @@ Fixes and improvements:
 * Improved encoding support
 * Fixed construction of vectors with `numeric_version()`, `package_version()`,
   and `R_system_version()`
-* Fixed constuction edge case calls like ``(`fun<-`)()`` or ``(`a b`)()``
+* Fixed construction of edge case calls like ``(`fun<-`)()`` or ``(`a b`)()``
 * Fixed construction of environments with `NULL` parents
 
 # constructive 1.0.1
