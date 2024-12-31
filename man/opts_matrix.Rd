@@ -4,7 +4,7 @@
 \alias{opts_matrix}
 \title{Constructive options for matrices}
 \usage{
-opts_matrix(constructor = c("matrix", "array", "next"), ...)
+opts_matrix(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object.}
