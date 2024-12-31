@@ -18,7 +18,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_matrix>
 #' @export
-opts_matrix  <- function(constructor = c("matrix", "array", "next"), ...) {
+opts_matrix  <- function(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...) {
   .cstr_options("matrix", constructor = constructor[[1]], ...)
 }
 
