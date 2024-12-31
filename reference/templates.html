@@ -88,12 +88,15 @@ script.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>We suggest the following workflow :</p><ul><li><p>Call these functions, with <code>commented = TRUE</code> for more guidance</p></li>
-<li><p>Save the scripts unchanged in your package</p></li>
-<li><p><code>devtools::document()</code>: this will register the S3 methods</p></li>
+    <p>We suggest the following workflow (summarized in a message when you call the functions):</p><ul><li><p>Call <code>usethis::use_package(\"constructive\"</code>, \"Suggests\")` one time at any
+point, this will add a soft dependency on 'constructive' so it's only needed to
+install it when you use it.</p></li>
+<li><p>Call <code>.cstr_new_class()</code> or <code>.cstr_new_constructor()</code>, with <code>commented = TRUE</code> for more guidance.</p></li>
+<li><p>Save the scripts unchanged in the "R" folder of your package.</p></li>
+<li><p><code>devtools::document()</code>: this will register the S3 methods.</p></li>
 <li><p>Try <code><a href="construct.html">construct()</a></code> on your new object, it should print a call to your chosen
-constructor</p></li>
-<li><p>Tweak the code, in particular the definition of <code>args</code></p></li>
+constructor.</p></li>
+<li><p>Tweak the code, in particular the definition of <code>args</code>.</p></li>
 </ul><p>The README of the example extension package
 <a href="https://github.com/cynkra/constructive.example" class="external-link">'constructive.example'</a>
 guides you through the process. See also {constructive}'s own code
