@@ -284,9 +284,8 @@ print.constructive <- function(
 
   if ("clipboard" %in% print_mode) {
     check_installed("clipr")
-    cli::cli_alert_info("Construct code has been added to the clipboard:")
+    cli::cli_alert_info("Code has been added to the clipboard")
     clipr::write_clip(paste(x$code, collapse = "\n"), "character")
-    print_mode <- union(print_mode, "console")
   }
   if ("console" %in% print_mode) {
     print(x$code)

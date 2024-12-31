@@ -25,6 +25,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item Kirill Müller \email{kirill@cynkra.com} (\href{https://orcid.org/0000-0002-1416-3412}{ORCID}) [contributor]
+  \item Jacob Scott \email{jscott2718@gmail.com} [contributor]
 }
 
 }
