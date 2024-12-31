@@ -39,5 +39,5 @@ construct_clip <- function(
     template = template,
     classes = classes
   )
-  print(out, print_mode = "clipboard")
+  print(out, print_mode = union("clipboard", getOption("constructive_print_mode", "console")))
 }
