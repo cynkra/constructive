@@ -37,8 +37,32 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="constructive-development-version">constructive (development version)<a class="anchor" aria-label="anchor" href="#constructive-development-version"></a></h2>
-<ul><li>
+<p>Features:</p>
+<ul><li>Implemented construction of R6 objects</li>
+<li>Implemented construction of zoo and xts objects</li>
+<li>Implemented <code>"cbind"</code> and <code>"rbind"</code> constructors for matrices</li>
+<li>Now there’s no need to namespace <code>opts_*()</code> functions if the package is not attached, this mean we can call for instance <code>constructive::construct(x, opts_tbl_df("tribble"))</code> rather than <code>constructive::construct(x, constructive::opts_tbl_df("tribble"))</code>
+</li>
+<li>New classes and constructors can now be implemented in your package without importing the package (adding to “Suggests” instead)</li>
+<li>Added a hex logo</li>
+</ul><p>Fixes and improvements:</p>
+<ul><li>Fixed a display issue in <code><a href="../reference/construct_diff.html">construct_diff()</a></code>
+</li>
+<li>
 <code><a href="../reference/construct_clip.html">construct_clip()</a></code> now shows a console message in addition to writing to the clipboard</li>
+<li>Improved support of data frames, tibbles, and data.tables regarding non syntactic, empty, <code>NA</code> or duplicate names</li>
+<li>Improved recycling in data frames</li>
+<li>Implemented support for dates in <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble()</a></code> calls when calling <code>construct(x, opts_tbl_df("tribble"))</code>
+</li>
+<li>Improved support of classed matrices</li>
+<li>Fixed timestamp precision issue</li>
+<li>Improved support of <code>"POSIXlt"</code> class</li>
+<li>Improved encoding support</li>
+<li>Fixed construction of vectors with <code><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">numeric_version()</a></code>, <code><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">package_version()</a></code>, and <code><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">R_system_version()</a></code>
+</li>
+<li>Fixed constuction edge case calls like <code>(`fun&lt;-`)()</code> or <code>(`a b`)()</code>
+</li>
+<li>Fixed construction of environments with <code>NULL</code> parents</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.1" id="constructive-101">constructive 1.0.1<a class="anchor" aria-label="anchor" href="#constructive-101"></a></h2><p class="text-muted">CRAN release: 2024-07-07</p>
