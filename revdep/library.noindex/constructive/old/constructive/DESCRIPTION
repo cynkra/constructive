@@ -1,0 +1,38 @@
+Package: constructive
+Title: Display Idiomatic Code to Construct Most R Objects
+Version: 1.0.1
+Authors@R: 
+    c(person(given = "Antoine",
+             family = "Fabri",
+             email = "antoine.fabri@gmail.com",
+             role = c("aut", "cre")),
+      person(given = "Kirill",
+       family = "Müller",
+       role = "ctb",
+       email = "kirill@cynkra.com",
+       comment = c(ORCID = "0000-0002-1416-3412")))
+Description: Prints code that can be used to recreate R objects. In a
+    sense it is similar to 'base::dput()' or 'base::deparse()' but
+    'constructive' strives to use idiomatic constructors.
+License: MIT + file LICENSE
+URL: https://github.com/cynkra/constructive,
+        https://cynkra.github.io/constructive/
+BugReports: https://github.com/cynkra/constructive/issues
+Imports: cli, diffobj, methods, rlang (>= 1.0.0), waldo
+Suggests: bit64, blob, clipr, data.table, DiagrammeR, DiagrammeRsvg,
+        dm, dplyr, forcats, ggplot2, knitr, lubridate, pixarfilms,
+        prettycode, reprex, rmarkdown, roxygen2, rstudioapi, scales,
+        sf, testthat (>= 3.0.0), tibble, tidyselect, vctrs, withr
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+NeedsCompilation: yes
+Packaged: 2024-07-06 22:12:50 UTC; Antoine
+Author: Antoine Fabri [aut, cre],
+  Kirill Müller [ctb] (<https://orcid.org/0000-0002-1416-3412>)
+Maintainer: Antoine Fabri <antoine.fabri@gmail.com>
+Repository: CRAN
+Date/Publication: 2024-07-07 09:40:02 UTC
+Built: R 4.4.0; aarch64-apple-darwin20; 2024-07-07 10:27:00 UTC; unix
+Archs: constructive.so.dSYM

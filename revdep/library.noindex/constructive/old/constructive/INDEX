@@ -1,0 +1,84 @@
+.cstr_apply             .cstr_apply
+.cstr_combine_errors    Combine errors
+.cstr_construct         Generic for object code generation
+.cstr_fetch_opts        Fetch constructive options
+.cstr_options           Create constructive options
+.cstr_pipe              Insert a pipe between two calls
+.cstr_repair_attributes
+                        Repair attributes after idiomatic construction
+.cstr_wrap              Wrap argument code in function call
+.env                    Fetch environment from memory address
+.xptr                   Build a pointer from a memory address
+compare_options         Options for waldo::compare
+construct               Build code to recreate an object
+construct_clip          Construct to clipboard
+construct_diff          Display diff of object definitions
+construct_dput          Construct using only low level constructors
+construct_dump          Dump Constructed Code to a File
+construct_issues        Show constructive issues
+construct_reprex        construct_reprex
+construct_signature     Construct a function's signature
+constructive-global_options
+                        Global Options
+deparse_call            Deparse a language object
+extend-constructive     Extend constructive
+opts_AsIs               Constructive options for the class 'AsIs'
+opts_Date               Constructive options class 'Date'
+opts_Layer              Constructive options for class 'Layer'
+                        (ggplot2)
+opts_POSIXct            Constructive options for class 'POSIXct'
+opts_POSIXlt            Constructive options for class 'POSIXlt'
+opts_R_system_version   Constructive options for R_system_version
+opts_S4                 Constructive options for class 'S4'
+opts_array              Constructive options for arrays
+opts_atomic             Constructive options for atomic types
+opts_blob               Constructive options for class 'blob'
+opts_character          Constructive options for type 'character'
+opts_classGeneratorFunction
+                        Constructive options for class
+                        'classGeneratorFunction'
+opts_classPrototypeDef
+                        Constructive options for class
+                        'classPrototypeDef'
+opts_classRepresentation
+                        Constructive options for class
+                        'classRepresentation'
+opts_complex            Constructive options for type 'complex'
+opts_constructive_options
+                        Constructive options for the class
+                        'constructive_options'
+opts_data.frame         Constructive options for class 'data.frame'
+opts_data.table         Constructive options for class 'data.table'
+opts_dm                 Constructive options class 'dm'
+opts_dots               Constructive options for type '...'
+opts_double             Constructive options for type 'double'
+opts_environment        Constructive options for type 'environment'
+opts_externalptr        Constructive options for type 'externalptr'
+opts_factor             Constructive options for class 'factor'
+opts_formula            Constructive options for formulas
+opts_function           Constructive options for functions
+opts_ggplot             Constructive options for class 'ggplot'
+opts_grouped_df         Constructive options for class 'grouped_df'
+opts_hexmode            Constructive options for class 'hexmode'
+opts_integer            Constructive options for type 'integer'
+opts_integer64          Constructive options for class 'integer64'
+opts_language           Constructive options for type 'language'
+opts_list               Constructive options for type 'list'
+opts_logical            Constructive options for type 'logical'
+opts_matrix             Constructive options for matrices
+opts_mts                Constructive options for time-series objets
+opts_numeric_version    Constructive options for numeric_version
+opts_octmode            Constructive options for class 'octmode'
+opts_ordered            Constructive options for class 'ordered'
+opts_package_version    Constructive options for package_version
+opts_pairlist           Constructive options for pairlists
+opts_quosure            Constructive options for class 'quosure'
+opts_quosures           Constructive options for class 'quosures'
+opts_raw                Constructive options for type 'raw'
+opts_rowwise_df         Constructive options for class 'rowwise_df'
+opts_tbl_df             Constructive options for tibbles
+opts_ts                 Constructive options for time-series objets
+opts_vctrs_list_of      Constructive options for class 'data.table'
+opts_weakref            Constructive options for the class 'weakref'
+other-opts              Other Opts Functions
+templates               Extend constructive

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Extend constructive</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Extend constructive</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(constructive)</span></code></pre></div>
+<p>We detail in this vignette how {constructive} works and how you might
+extend it by defining custom
+<code>.cstr_construct.&lt;class&gt;()</code> and
+<code>.cstr_construct.&lt;class&gt;.&lt;constructor&gt;()</code>
+methods.</p>
+<p>The functions <code>.cstr_new_class()</code> and
+<code>.cstr_new_constructor()</code> can be used to create custom
+constructors from templates. The easiest workflow is probably to take a
+look at the package <a href="https://github.com/cynkra/constructive.example/">{constructive.examples}</a>
+which will guide you through the process, then call these functions with
+the argument <code>commented = TRUE</code>.</p>
+<p>If this is not enough, or if you want to know more, we describe below
+in more details how the package and its key functions work.</p>
+<div id="construct-and-.cstr_construct" class="section level2">
+<h2><code>construct()</code> and <code>.cstr_construct()</code></h2>
+<ul>
+<li><code>.cstr_construct()</code> builds code recursively, without
+checking the inputs or output validity, without error handling, and
+without formatting.</li>
+<li><code>construct()</code> wraps <code>.cstr_construct()</code> and
+does this extra work.</li>
+<li><code>.cstr_construct()</code> is a generic and many methods are
+implemented in the package, for instance <code>construct(iris)</code>
+will call <code>.cstr_construct.data.frame()</code> which down the line
+will call <code>.cstr_construct.numeric()</code> and
+<code>.cstr_construct.factor()</code> to construct its columns.</li>
+<li><code>.cstr_construct()</code> contains extra logic to :
+<ul>
+<li>Attempt to match its data input to a list of objects provided to the
+<code>data</code> argument.</li>
+<li>Restrict the dispatch so the <code>classes</code> argument and the
+functions <code>construct_base()</code> and
+<code>construct_dput()</code> can work.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>.cstr_construct</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; function (x, ..., data = NULL, classes = NULL) </span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;     data_name &lt;- perfect_match(x, data)</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt;     if (!is.null(data_name)) </span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt;         return(data_name)</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;     if (is.null(classes)) {</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;         UseMethod(&quot;.cstr_construct&quot;)</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;     else if (identical(classes, &quot;-&quot;)) {</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;         .cstr_construct.default(x, ..., classes = classes)</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;     else if (classes[[1]] == &quot;-&quot;) {</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;         cl &lt;- setdiff(.class2(x), classes[-1])</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;         UseMethod(&quot;.cstr_construct&quot;, structure(NA_integer_, class = cl))</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;     else {</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;         cl &lt;- intersect(.class2(x), classes)</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt;         UseMethod(&quot;.cstr_construct&quot;, structure(NA_integer_, class = cl))</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt; }</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x14299c980&gt;</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># a character vector</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">.cstr_construct</span>(letters)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;c(&quot;                                                                                                        </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [2] &quot;  \&quot;a\&quot;, \&quot;b\&quot;, \&quot;c\&quot;, \&quot;d\&quot;, \&quot;e\&quot;, \&quot;f\&quot;, \&quot;g\&quot;, \&quot;h\&quot;, \&quot;i\&quot;, \&quot;j\&quot;, \&quot;k\&quot;, \&quot;l\&quot;, \&quot;m\&quot;, \&quot;n\&quot;, \&quot;o\&quot;,&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; [3] &quot;  \&quot;p\&quot;, \&quot;q\&quot;, \&quot;r\&quot;, \&quot;s\&quot;, \&quot;t\&quot;, \&quot;u\&quot;, \&quot;v\&quot;, \&quot;w\&quot;, \&quot;x\&quot;, \&quot;y\&quot;, \&quot;z\&quot;&quot;                             </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [4] &quot;)&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># a constructive object, </span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">construct</span>(letters)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; c(</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;   &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, &quot;g&quot;, &quot;h&quot;, &quot;i&quot;, &quot;j&quot;, &quot;k&quot;, &quot;l&quot;, &quot;m&quot;, &quot;n&quot;, &quot;o&quot;,</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   &quot;p&quot;, &quot;q&quot;, &quot;r&quot;, &quot;s&quot;, &quot;t&quot;, &quot;u&quot;, &quot;v&quot;, &quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; )</span></span></code></pre></div>
+</div>
+<div id="cstr_construct.class-methods" class="section level2">
+<h2><code>.cstr_construct.&lt;class&gt;()</code> methods</h2>
+<p><code>.cstr_construct.&lt;class&gt;()</code> methods are generics
+themselves, they typically have this form:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>.cstr_construct.Date <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  opts <span class="ot">&lt;-</span> <span class="fu">list</span>(...)<span class="sc">$</span>opts<span class="sc">$</span>Date <span class="sc">%||%</span> <span class="fu">opts_Date</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is_corrupted_Date</span>(x) <span class="sc">||</span> opts<span class="sc">$</span>constructor <span class="sc">==</span> <span class="st">&quot;next&quot;</span>) <span class="fu">return</span>(<span class="fu">NextMethod</span>())</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">UseMethod</span>(<span class="st">&quot;.cstr_construct.Date&quot;</span>, <span class="fu">structure</span>(<span class="cn">NA</span>, <span class="at">class =</span> opts<span class="sc">$</span>constructor))</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>}</span></code></pre></div>
+<ul>
+<li><code>opts</code> contains options passed to the <code>...</code> or
+<code>template</code> arguments of <code>construct()</code> through the
+<code>opts_*()</code> functions, we fall back to a default value if none
+were provided. The <code>list(...)$opts</code> idiom is used in various
+places, it allows us to forward the dots conveniently.</li>
+<li>If the object is corrupted or if the user decided to bypass the
+current method by choosing “next” as a constructor for this class, we
+return <code>NextMethod()</code> to forward all our inputs to a lower
+level constructor.</li>
+<li>We finally dispatch to a method based on the constructor, and not on
+the object’s class as is done traditionally. This explains the unusual
+look of the <code>UseMethod()</code> call above.</li>
+</ul>
+</div>
+<div id="opts_class-function" class="section level2">
+<h2><code>opts_&lt;class&gt;()</code> function</h2>
+<p>When implementing a new method you’ll need to define and export the
+corresponding <code>opts_&lt;class&gt;()</code> function. It provides to
+the user with a way to choose a constructor and additional parameters,
+and sets the default behavior.</p>
+<p>It should always have this form:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>opts_Date <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="at">constructor =</span> <span class="fu">c</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>      <span class="st">&quot;as.Date&quot;</span>, <span class="st">&quot;as_date&quot;</span>, <span class="st">&quot;date&quot;</span>, <span class="st">&quot;new_date&quot;</span>, <span class="st">&quot;as.Date.numeric&quot;</span>, <span class="st">&quot;as_date.numeric&quot;</span>, <span class="st">&quot;next&quot;</span>, <span class="st">&quot;double&quot;</span>), </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    ..., </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>) {</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">.cstr_options</span>(<span class="st">&quot;Date&quot;</span>, <span class="at">constructor =</span> constructor[[<span class="dv">1</span>]], ..., <span class="at">origin =</span> origin)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>}</span></code></pre></div>
+<ul>
+<li>The class is present in the name of the
+<code>opts_&lt;class&gt;()</code> function and as the first argument of
+<code>.cstr_options()</code>.</li>
+<li>A character vector of constructors is provided, starting with the
+default constructor</li>
+<li>A “next” value is mandatory except for internal types.</li>
+<li>Additional options retrievable by the constructor might be added, as
+we did here with <code>origin</code></li>
+<li>Note that we don’t use <code>match.arg()</code> here, because new
+constructors can be defined outside of the package.</li>
+</ul>
+</div>
+<div id="is_corrupted_class-function" class="section level2">
+<h2><code>is_corrupted_&lt;class&gt;()</code> function</h2>
+<p><code>is_corrupted_&lt;class&gt;()</code> checks if <code>x</code>
+has the right internal type and attributes, sometimes structure, so that
+it satisfies the expectations of a well formatted object of a given
+class.</p>
+<p>If an object is corrupted for a given class we cannot use
+constructors for this class, so we move on to a lower level constructor
+by calling <code>NextMethod()</code> in
+<code>.cstr_construct()</code>.</p>
+<p>This is important so that <code>{constructive}</code> doesn’t choke
+on corrupted objects but instead helps us understand them.</p>
+<p>For instance in the following example <code>x</code> prints like a
+date but it’s corrupted, a date should not be built on top of characters
+and this object cannot be built with <code>as.Date()</code> or other
+idiomatic date constructors.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="st">&quot;12345&quot;</span>, <span class="at">class =</span> <span class="st">&quot;Date&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>x</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2003-10-20&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>x <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Error in unclass(e1) + unclass(e2): non-numeric argument to binary operator</span></span></code></pre></div>
+<p>We have defined :</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>is_corrupted_Date <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="sc">!</span><span class="fu">is.double</span>(x)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>}</span></code></pre></div>
+<p>And as a consequence the next method,
+<code>.cstr_construct.default()</code> will be called through
+<code>NextMethod()</code> and will handle the object using an atomic
+vector constructor:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">construct</span>(x)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; &quot;12345&quot; |&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt;   structure(class = &quot;Date&quot;)</span></span></code></pre></div>
+</div>
+<div id="constructors" class="section level2">
+<h2>Constructors</h2>
+<p>constructors are functions named as
+<code>.cstr_construct.&lt;class&gt;.&lt;constructor&gt;</code>.</p>
+<p>For instance the default constructor for “Date” is :</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>constructive<span class="sc">:::</span>.cstr_construct.Date.as.Date</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; function (x, ...) </span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt;     opts &lt;- list(...)$opts$Date %||% opts_Date()</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt;     origin &lt;- opts$origin</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt;     compatible_with_char &lt;- all(rlang::is_integerish(x) &amp; (is.finite(x) | </span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt;         (is.na(x) &amp; !is.nan(x))))</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt;     if (!compatible_with_char || all(is.na(x))) {</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt;         return(.cstr_construct.Date.as.Date.numeric(x, ...))</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt;     code &lt;- .cstr_apply(list(format(x)), &quot;as.Date&quot;, ..., new_line = FALSE)</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt;     repair_attributes_Date(x, code, ...)</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; }</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x142c1a6b0&gt;</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
+<p>Their arguments are <code>x</code> and <code>...</code>, and not
+more. Additional parameters fed to the <code>opt_&lt;class&gt;()</code>
+function can be fetched from
+<code>list(...)$opts$&lt;class&gt;</code></p>
+<p>The function <code>.cstr_apply()</code> is used to construct
+arguments recursively.</p>
+<p>Sometimes a constructor cannot handle all cases and we need to fall
+back to another constructor, it happens below because <code>Inf</code>,
+<code>NA</code>, or decimal dates cannot be represented by a string
+wrapped by <code>as.Date()</code>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">c</span>(<span class="dv">12345</span>, <span class="dv">20000</span>), <span class="at">class =</span> <span class="st">&quot;Date&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">c</span>(<span class="dv">12345</span>, <span class="cn">Inf</span>), <span class="at">class =</span> <span class="st">&quot;Date&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">construct</span>(x)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; as.Date(c(&quot;2003-10-20&quot;, &quot;2024-10-04&quot;))</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">construct</span>(y)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; as.Date(c(12345, Inf), origin = &quot;1970-01-01&quot;)</span></span></code></pre></div>
+<p>That last line of the function is essential, it does the attribute
+repair.</p>
+</div>
+<div id="attribute-repair" class="section level2">
+<h2>Attribute repair</h2>
+<p>Constructors should always end by a call to
+<code>.cstr_repair_attributes()</code> or a function that wraps it.</p>
+<p>These are needed to adjust the attributes of an object after
+idiomatic constructors such as <code>as.Date()</code> have defined their
+data and canonical attributes.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">structure</span>(<span class="fu">c</span>(<span class="dv">12345</span>, <span class="dv">20000</span>), <span class="at">class =</span> <span class="st">&quot;Date&quot;</span>, <span class="at">some_attr =</span> <span class="dv">42</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co"># attributes are not visible due to &quot;Date&quot;&#39;s printing method</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>x</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2003-10-20&quot; &quot;2024-10-04&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">construct</span>(x)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co">#&gt; as.Date(c(&quot;2003-10-20&quot;, &quot;2024-10-04&quot;)) |&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt;   structure(some_attr = 42)</span></span></code></pre></div>
+<p><code>.cstr_repair_attributes()</code> essentially sets attributes
+with exceptions :</p>
+<ul>
+<li>It doesn’t set names by default, these should be handled by the
+constructors</li>
+<li>It doesn’t set the class explicitly if it’s identical to the
+idiomatic class, i.e. the class returned by the constructor before the
+repair call, and provided through the <code>idiomatic_class</code>
+argument</li>
+<li>It doesn’t set attributes that we choose to ignore because they are
+set by the constructor (e.g. row names for data frames or levels for
+factors)</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>constructive<span class="sc">:::</span>repair_attributes_Date</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#&gt; function (x, code, ...) </span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co">#&gt;     .cstr_repair_attributes(x, code, ..., idiomatic_class = &quot;Date&quot;)</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt; }</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x131325d28&gt;</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>constructive<span class="sc">:::</span>repair_attributes_factor</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co">#&gt; function (x, code, ...) </span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co">#&gt;     .cstr_repair_attributes(x, code, ..., ignore = &quot;levels&quot;, </span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co">#&gt;         idiomatic_class = &quot;factor&quot;)</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co">#&gt; }</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x13228ee10&gt;</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>constructive<span class="sc">:::</span>repair_attributes_tbl_df</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co">#&gt; function (x, code, ...) </span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt;     .cstr_repair_attributes(x, code, ..., ignore = &quot;row.names&quot;, </span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt;         idiomatic_class = c(&quot;tbl_df&quot;, &quot;tbl&quot;, &quot;data.frame&quot;))</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co">#&gt; }</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="co">#&gt; &lt;bytecode: 0x1322ebaf8&gt;</span></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:constructive&gt;</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
