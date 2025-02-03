@@ -45,7 +45,7 @@ is_corrupted_hexmode <- function(x) {
 
 repair_attributes_hexmode <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = "hexmode",
     ...
   )

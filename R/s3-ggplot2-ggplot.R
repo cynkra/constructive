@@ -68,7 +68,7 @@ is_corrupted_ggplot <- function(x) {
 
 repair_attributes_ggplot <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = c("gg", "ggplot"),
     ...
   )

@@ -32,7 +32,7 @@ is_corrupted_simpleWarning <- function(x) {
 
 repair_attributes_simpleWarning <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = c("simpleWarning", "warning", "condition"),
     ...
   )

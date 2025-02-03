@@ -25,7 +25,7 @@ is_corrupted_citationFooter <- function(x) {
 
 repair_attributes_citationFooter <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = "citationFooter",
     ...
   )
