@@ -172,7 +172,7 @@ repair_attributes_function <- function(x, code, ...) {
   srcref <- opts[["srcref"]]
   ignore <- c("name", "path")
   if (!srcref) ignore <- c(ignore, "srcref")
-  .cstr_repair_attributes(x, code, opts = opts, ..., ignore = ignore)
+  .cstr_repair_attributes(x, code, ..., ignore = ignore)
 }
 
 # returns the srcref as a character vector IF it matches the actual function, NULL otherwise

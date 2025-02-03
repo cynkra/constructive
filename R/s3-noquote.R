@@ -33,7 +33,7 @@ is_corrupted_noquote <- function(x) {
 
 repair_attributes_noquote <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = class(x),
     ...
   )

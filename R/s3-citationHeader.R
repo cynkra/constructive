@@ -25,7 +25,7 @@ is_corrupted_citationHeader <- function(x) {
 
 repair_attributes_citationHeader <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = "citationHeader",
     ...
   )

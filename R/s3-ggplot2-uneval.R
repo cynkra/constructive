@@ -51,7 +51,7 @@ is_corrupted_uneval <- function(x) {
 
 repair_attributes_uneval <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = "uneval",
     ...
   )

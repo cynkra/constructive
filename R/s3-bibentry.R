@@ -51,7 +51,7 @@ is_corrupted_bibentry <- function(x) {
 
 repair_attributes_bibentry <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = "bibentry",
     ignore = c("mfooter", "mheader"),
     ...

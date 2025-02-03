@@ -33,7 +33,7 @@ is_corrupted_person <- function(x) {
 
 repair_attributes_person <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = "person",
     ...
   )

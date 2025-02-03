@@ -34,7 +34,7 @@ is_corrupted_difftime <- function(x) {
 
 repair_attributes_difftime <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = "difftime",
     ignore = "units",
     ...
