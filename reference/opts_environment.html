@@ -21,7 +21,7 @@ avoid. "><meta property="og:image" content="https://cynkra.github.io/constructiv
 
     <a class="navbar-brand me-2" href="../index.html">constructive</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,7 +127,9 @@ of environments of function.</p>
 its memory address.</p></li>
 </ul><ul><li><p><code>"list2env"</code>: We construct the environment as a list then
 use <code><a href="https://rdrr.io/r/base/list2env.html" class="external-link">base::list2env()</a></code> to convert it to an environment and assign it a parent. By
-default we will use <code><a href="https://rdrr.io/r/base/ns-topenv.html" class="external-link">base::topenv()</a></code> to construct a parent. If <code>recurse</code> is <code>TRUE</code>
+default we use as a parent the first special environment we find when going
+through ancestors, so we can print code that doesn't use <code><a href="dot-env.html">.env()</a></code>.
+If <code>recurse</code> is <code>TRUE</code>
 the parent will be built recursively so all ancestors will be created until
 we meet a known environment, this might be verbose and will fail if environments
 are nested too deep or have a circular relationship. If the environment is empty we use <code>new.env(parent=)</code>
