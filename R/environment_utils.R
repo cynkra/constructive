@@ -30,6 +30,15 @@ construct_special_env <- function(x) {
   }
 }
 
+construct_top_env <- function(x) {
+  repeat {
+    code <- construct_special_env(x)
+    if (!is.null(code)) break
+    x <- parent.env(x)
+  }
+  code
+}
+
 env_memory_address <- function(x, by_name = FALSE) {
   if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x123456789")
   if (by_name) rlang::env_label(x) else rlang::obj_address(x)
