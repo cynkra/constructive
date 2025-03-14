@@ -26,11 +26,8 @@
       asNamespace("stats")
     Code
       construct(as.environment(head(cars, 2)), opts_environment("list2env"))
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
     Output
-      list2env(list(dist = c(2, 10), speed = c(4, 4)), parent = .GlobalEnv)
+      list2env(list(dist = c(2, 10), speed = c(4, 4)), parent = emptyenv())
     Code
       construct(as.environment(head(cars, 2)), opts_environment(constructor = "new.env"))
     Message
@@ -212,4 +209,12 @@
       construct(parent.env(asNamespace("stats")))
     Output
       parent.env(asNamespace("stats"))
+
+# environments with names method are constructed properly
+
+    Code
+      construct(env, opts_environment("list2env"), check = FALSE)
+    Output
+      list2env(list(x = 1), parent = asNamespace("constructive")) |>
+        structure(class = "foo")
 

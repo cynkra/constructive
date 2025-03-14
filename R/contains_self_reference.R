@@ -16,8 +16,10 @@ contains_self_reference <- function(
     address <- rlang::obj_address(x)
     if (address %in% envs) return(TRUE)
     envs <- c(envs, address)
+    # since we override S3 dispatch here we can circumvent rlang bug
+    # https://github.com/r-lib/rlang/issues/1783
     bindings <- names(x)
-    lazy_bindings <- bindings[rlang::env_binding_are_lazy(x)]
+    lazy_bindings <- bindings[rlang::env_binding_are_lazy(x, bindings)]
     lazy_binding_envs <- lapply(lazy_bindings, promise_env, x)
     for (lazy_binding_env in lazy_binding_envs) {
       if (rec(lazy_binding_env)) return(TRUE)
