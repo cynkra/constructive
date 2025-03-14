@@ -26,11 +26,8 @@
       asNamespace("stats")
     Code
       construct(as.environment(head(cars, 2)), opts_environment("list2env"))
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
     Output
-      list2env(list(dist = c(2, 10), speed = c(4, 4)), parent = .GlobalEnv)
+      list2env(list(dist = c(2, 10), speed = c(4, 4)), parent = emptyenv())
     Code
       construct(as.environment(head(cars, 2)), opts_environment(constructor = "new.env"))
     Message
