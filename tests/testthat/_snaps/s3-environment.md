@@ -210,3 +210,11 @@
     Output
       parent.env(asNamespace("stats"))
 
+# environments with names method are constructed properly
+
+    Code
+      construct(env, opts_environment("list2env"), check = FALSE)
+    Output
+      list2env(list(x = 1), parent = asNamespace("constructive")) |>
+        structure(class = "foo")
+

@@ -71,3 +71,16 @@ test_that("environment", {
     construct(parent.env(asNamespace("stats")))
   })
 })
+
+test_that("environments with names method are constructed properly", {
+  env <- new.env()
+  env$x <- 1
+  class(env) <- "foo"
+  names.foo <- function(x) "y"
+  expect_snapshot({
+    construct(env, opts_environment("list2env"), check = FALSE)
+  })
+})
+
+
+
