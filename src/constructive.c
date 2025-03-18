@@ -1,9 +1,9 @@
-#include <R.h>
 #include <Rinternals.h>
 #include <Rdefines.h>
+#include <stdint.h> // for uintptr_t
 #include <stdio.h>
-#include <inttypes.h>
 #include <stdlib.h> // for NULL
+#include <R_ext/error.h> // for error
 #include <R_ext/Rdynload.h>
 
 /* .Call calls */
