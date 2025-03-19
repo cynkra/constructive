@@ -1,5 +1,5 @@
 test_that("xts", {
-  skip_if(!is_installed("xts"))
+  skip_if_not_installed("xts")
   # xts object convert character dates to POSIXct with local timezone, needs
   # to be stabilized for the CI tests
   withr::local_timezone("UTC")
