@@ -2,6 +2,7 @@
 #include <Rdefines.h>
 #include <stdint.h> // for uintptr_t
 #include <stdio.h>
+#include <inttypes.h> // for SCNxPTR
 #include <stdlib.h> // for NULL
 #include <R_ext/Error.h> // for error
 #include <R_ext/Rdynload.h>
