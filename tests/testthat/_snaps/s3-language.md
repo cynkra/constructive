@@ -9,14 +9,10 @@
     Output
       quote(a + call)
     Code
-      construct(body(ave))
+      construct(body(as_constructive_code))
     Output
       quote({
-        if (missing(...)) x[] <- FUN(x) else {
-          g <- interaction(...)
-          split(x, g) <- lapply(split(x, g), FUN)
-        }
-        x
+        structure(x, class = "constructive_code")
       })
     Code
       construct(quote(expr = ))
