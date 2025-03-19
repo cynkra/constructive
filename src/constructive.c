@@ -24,7 +24,7 @@ void R_init_constructive(DllInfo *dll)
   R_useDynamicSymbols(dll, FALSE);
 }
 
-// Thanks to Randi Lai: https://github.com/randy3k/xptr/
+// Thanks to Randy Lai: https://github.com/randy3k/xptr/
 SEXP external_pointer(SEXP p) {
   if (TYPEOF(p) != STRSXP || LENGTH(p) < 1) {
     error("Input must be a character vector of at least length 1");
