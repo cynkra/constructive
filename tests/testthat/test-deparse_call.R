@@ -74,6 +74,10 @@ test_that("deparse_call()", {
     # function with non syntactic formal names
     deparse_call(quote(function(`_x`) `_x`))
 
+    # call to function with too many args and a first arg that is not a pairlist
+    # this cannot be tested because of testthat/rlang limitations
+    # deparse_call(quote(`function`(a(b, c), d, e)))
+
     # non-syntactig argument name
     deparse_call(quote(list(`a + b` = a + b)))
 
