@@ -67,7 +67,7 @@ is_expression2 <- function(x) {
 
 is_regular_function_definition <- function(x) {
   identical(x[[1]], as.symbol("function")) &&
-    length(x) == 4 &&
+    length(x) %in% c(3,4) &&
     (
       is.null(x[[2]]) ||
         (is.pairlist(x[[2]]) && all(vapply(x[[2]], is_expression2, logical(1))))
