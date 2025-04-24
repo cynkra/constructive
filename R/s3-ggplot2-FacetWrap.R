@@ -71,8 +71,9 @@ is_corrupted_FacetWrap <- function(x) {
   if (isTRUE(args$drop)) args$drop <- NULL
   if (isTRUE(args$strip.position == "top")) args$strip.position <- NULL
 
-  # after 3.5.1 as.table is not stored anymore
-  if (with_versions(ggplot2 <= "3.5.1")) {
+  # In 3.5.1 and after 3.5.2 (not included) as.table is not stored
+  # It seems the old behavior was temporarily switched back for 3.5.2
+  if (with_versions(ggplot2 != "3.5.1" && ggplot2 < "3.5.2.9000")) {
     if (isTRUE(args$as.table)) args$as.table <- NULL
     if (isTRUE(args$dir == "h")) args$dir <- NULL
   } else {
