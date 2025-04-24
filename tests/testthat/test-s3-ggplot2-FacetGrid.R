@@ -14,6 +14,6 @@ test_that("FacetGrid", {
   expect_snapshot({
     construct(p2, data = list(mpg = mpg))
     construct(p3, data = list(mpg = mpg))
-    construct(p4, data = list(mpg = mpg), check = FALSE)
+    construct(p4, data = list(mpg = mpg))
   })
 })

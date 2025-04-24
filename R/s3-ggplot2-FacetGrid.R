@@ -42,7 +42,7 @@ is_corrupted_FacetGrid <- function(x) {
 
 
   if (inherits(environment(x$super)$env$rows, "formula")) {
-    rows <- .cstr_construct(environment(x$super)$env$rows)
+    rows <- .cstr_construct(environment(x$super)$env$rows, ...)
     cols <- NULL
   } else {
     # x$params$rows and x$params$cols are of class "quosures" "list"
