@@ -31,5 +31,10 @@ is_corrupted_labels <- function(x) {
 }
 
 repair_attributes_labels <- function(x, ...) {
-  .cstr_repair_attributes(x, idiomatic_class = "labels", ...)
+  if (with_versions(ggplot2 <= "3.5.2")) {
+    idiomatic_class <- "labels"
+  } else {
+    idiomatic_class <- c("labels", "gg")
+  }
+  .cstr_repair_attributes(x, idiomatic_class = idiomatic_class, ...)
 }

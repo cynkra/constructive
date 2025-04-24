@@ -74,6 +74,16 @@ strip_theme <- function(x) {
   x$strip.switch.pad.grid <- NULL
   x$strip.switch.pad.wrap <- NULL
   x$legend.key.spacing <- NULL
+
+  # for after ggplot2 3.5.2 (not included)
+  x$point$size <- NULL
+  x$polygon$linewidth <- NULL
+  x$geom$fontsize <- NULL
+  x$geom$pointsize <- NULL
+  x$point$stroke <- NULL
+  x$geom$linewidth <- NULL
+  x$geom$borderwidth <- NULL
+
   x
 }
 
