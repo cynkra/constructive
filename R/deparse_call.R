@@ -125,7 +125,7 @@ deparse_call_impl <- function(
 
   if (!is.call(call)) {
     code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
-    msg <- sprintf("found element of type '%s' and length '%s':\n%s", typeof(call), length(call), code)
+    msg <- sprintf("Found element of type '%s' and length '%s':\n%s", typeof(call), length(call), code)
     abort(msg)
   }
   caller_lng <- call[[1]]
