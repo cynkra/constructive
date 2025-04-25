@@ -109,6 +109,7 @@ is_regular_bracket_call <- function(call) {
 
   if (!lhs_is_call_with_a_symbol_caller) return(TRUE)
   lhs_caller_chr <- as.character((call[[2]][[1]]))
+  if (is_cf(lhs_caller_chr) || lhs_caller_chr == "function") return(FALSE)
   precedence(lhs_caller_chr, length(call[[2]])) >= 16
 }
 
@@ -342,7 +343,9 @@ operands_have_higher_or_equal_precedence <- function(operator, call) {
     lhs_caller_chr <- as.character(lhs[[1]])
     if (length(lhs_caller_chr) == 1 && lhs_caller_chr %in% c("[", "[[")) {
       lhs_prec <- Inf
-    } else {
+    } else if (length(call) == 3 && length(lhs_caller_chr) == 1 && is_cf(lhs_caller_chr)) {
+      lhs_prec <- 1.5 # just above `?`
+      } else {
       lhs_prec <- precedence(lhs_caller_chr, length(lhs))
     }
   } else {

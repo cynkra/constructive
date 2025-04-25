@@ -408,6 +408,30 @@
       deparse_call(quote(a[[b$c]]))
     Output
       a[[b$c]]
+    Code
+      deparse_call(call("[", quote(while (TRUE) { }), 1), style = FALSE)
+    Output
+      [1] "`[`(while (TRUE) { }, 1)"
+    Code
+      deparse_call(call("[", quote(if (TRUE) { }), 1), style = FALSE)
+    Output
+      [1] "`[`(if (TRUE) { }, 1)"
+    Code
+      deparse_call(call("[", quote(for (a in b) { }), 1), style = FALSE)
+    Output
+      [1] "`[`(for (a in b) { }, 1)"
+    Code
+      deparse_call(call("[", quote(repeat { }), 1), style = FALSE)
+    Output
+      [1] "`[`(repeat { }, 1)"
+    Code
+      deparse_call(call("[", quote(function() { }), 1), style = FALSE)
+    Output
+      [1] "`[`(function() { }, 1)"
+    Code
+      deparse_call(call("[", call("function", 1, 2), 1), style = FALSE)
+    Output
+      [1] "`[`(`function`(1, 2), 1)"
 
 # curly braces
 
@@ -513,4 +537,44 @@
       deparse_call(str2lang("`+`(4, `+`(1, 2))"))
     Output
       `+`(4, 1 + 2)
+    Code
+      deparse_call(substitute(X + Y, list(X = quote(repeat { }), Y = 1)))
+    Output
+      `+`(repeat { }, 1)
+    Code
+      deparse_call(substitute(X + Y, list(X = 1, Y = quote(repeat { }))))
+    Output
+      1 + repeat { }
+    Code
+      deparse_call(substitute(X ? Y, list(X = quote(repeat { }), Y = 1)))
+    Output
+      repeat { } ? 1
+    Code
+      deparse_call(substitute(X ? Y, list(X = 1, Y = quote(repeat { }))))
+    Output
+      1 ? repeat { }
+    Code
+      deparse_call(substitute(X$Y, list(X = quote(repeat { }), Y = 1)))
+    Output
+      `$`(repeat { }, 1)
+    Code
+      deparse_call(substitute(X$Y, list(X = 1, Y = quote(repeat { }))))
+    Output
+      `$`(1, repeat { })
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(repeat { }), Y = 1)))
+    Output
+      `repeat`({ })(1)
+    Code
+      deparse_call(substitute(X[Y], list(X = quote(repeat { }), Y = 1)))
+    Output
+      `[`(repeat { }, 1)
+    Code
+      deparse_call(quote(+repeat { }))
+    Output
+      +repeat { }
+    Code
+      deparse_call(quote(+repeat { }))
+    Output
+      +repeat { }
 
