@@ -28,3 +28,10 @@ test_that("complex language", {
     construct(y)
   })
 })
+
+test_that("We can construct calls with empty callers", {
+  expect_snapshot({
+    construct(substitute(X(), list(X = quote(expr = ))))
+    construct(substitute({X(1, 2)}, list(X = quote(expr = ))))
+  })
+})

@@ -47,3 +47,16 @@
     Output
       as.call(list(c("a", "vector"), 1))
 
+# We can construct calls with empty callers
+
+    Code
+      construct(substitute(X(), list(X = quote(expr = ))))
+    Output
+      as.call(list(quote(expr = )))
+    Code
+      construct(substitute({
+        X(1, 2)
+      }, list(X = quote(expr = ))))
+    Output
+      as.call(list(quote(`{`), as.call(list(quote(expr = ), 1, 2))))
+

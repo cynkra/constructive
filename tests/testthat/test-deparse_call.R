@@ -144,3 +144,11 @@ test_that("high precedence infix ops in deparse_call()", {
   })
 })
 
+test_that("deparse_call() fails when the caller is empty", {
+  # Note this prints a "fake" rstudio error when called manually
+  call <- substitute(X(), list(X = quote(expr = )))
+  expect_error(deparse_call(call), regexp = "Found empty symbol")
+  call <- substitute({X(1, 2)}, list(X = quote(expr = )))
+  expect_error(deparse_call(call), regexp = "Found empty symbol")
+})
+

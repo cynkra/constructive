@@ -128,6 +128,13 @@ deparse_call_impl <- function(
     msg <- sprintf("Found element of type '%s' and length '%s':\n%s", typeof(call), length(call), code)
     abort(msg)
   }
+
+  if (identical(call[[1]], quote(expr=))) {
+    code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
+    msg <- sprintf("Found empty symbol used as caller:\n%s", code)
+    abort(msg)
+  }
+
   caller_lng <- call[[1]]
   # if the caller is not a symbol in order to parse we need to express it in lisp form
   # for instance `+`(1, 2)(3), hence force_lisp() below.

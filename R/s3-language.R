@@ -61,6 +61,8 @@ is_expression2 <- function(x) {
   if (length(non_srcref_attr_nms)) return(FALSE)
   if (rlang::is_syntactic_literal(x) || rlang::is_symbol(x)) return(TRUE)
   if (!rlang::is_call(x)) return(FALSE)
+  # if the caller itself is empty the call can't be syntactic
+  if (identical(x[[1]], quote(expr=))) return(FALSE)
   if (is_regular_function_definition(x)) return(TRUE)
   all(vapply(x, is_expression2, logical(1)))
 }
