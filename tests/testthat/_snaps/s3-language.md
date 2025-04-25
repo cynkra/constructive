@@ -9,12 +9,6 @@
     Output
       quote(a + call)
     Code
-      construct(body(as_constructive_code))
-    Output
-      quote({
-        structure(x, class = "constructive_code")
-      })
-    Code
       construct(quote(expr = ))
     Output
       quote(expr = )
