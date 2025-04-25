@@ -28,3 +28,19 @@ promise_env <- function(name, env = parent.frame()) {
   quo <- eval(enquo_call, env)
   rlang::quo_get_env(quo)
 }
+
+indent_c <- function(x, depth = 1) {
+  .Call("indentC", PACKAGE = "constructive", x, depth)
+}
+
+deparse_no_quotes_c <- function(x) {
+  .Call("deparse_no_quoteC", PACKAGE = "constructive", x)
+}
+
+.cstr_pipe_c <- function(x, y, ..., pipe = NULL, one_liner = FALSE, indent = TRUE) {
+  .Call("cstr_pipeC", PACKAGE = "constructive", x, y, pipe, one_liner, indent)
+}
+
+repair_encoding_c <- function(code, string_is_ascii, encoding) {
+  .Call("repair_encodingC", PACKAGE = "constructive", code, string_is_ascii, encoding)
+}

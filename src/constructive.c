@@ -5,16 +5,25 @@
 #include <inttypes.h>
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
+#include <string.h>
 
 /* .Call calls */
 extern SEXP external_pointer(SEXP);
 extern SEXP external_pointer_address(SEXP);
 extern SEXP objectFromAddress(SEXP);
+extern SEXP indentC(SEXP, SEXP);
+extern SEXP deparse_no_quoteC(SEXP);
+extern SEXP cstr_pipeC(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP repair_encodingC(SEXP, SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
   {"external_pointer",         (DL_FUNC) &external_pointer,         1},
   {"external_pointer_address", (DL_FUNC) &external_pointer_address, 1},
   {"objectFromAddress",        (DL_FUNC) &objectFromAddress,        1},
+  {"indentC",                  (DL_FUNC) &indentC,                  2},
+  {"deparse_no_quoteC",        (DL_FUNC) &deparse_no_quoteC,        1},
+  {"cstr_pipeC",               (DL_FUNC) &cstr_pipeC,               5},
+  {"repair_encodingC",         (DL_FUNC) &repair_encodingC,         3},
   {NULL, NULL, 0}
 };
 
@@ -56,5 +65,3 @@ SEXP objectFromAddress(SEXP a) {
   if (TYPEOF(result) != ENVSXP) return R_NilValue;
   return result;
 }
-
-
