@@ -158,7 +158,7 @@ deparse_call_impl <- function(
 
   # function and control flow ---------------------------------------------------
 
-  if (caller == "function")
+  if (caller == "function" && is_regular_function_definition(call))
     return(deparse_function(call, rec))
 
   if (caller == "if" && length(call) %in% 3:4)
