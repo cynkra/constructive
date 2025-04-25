@@ -469,6 +469,10 @@
       deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
     Output
       [1] "{1; 2}"
+    Code
+      deparse_call(call("{", 1, quote(expr = )), style = FALSE)
+    Output
+      [1] "`{`(1, )"
 
 # Use lisp notation when the caller expr calls a control flow construct
 

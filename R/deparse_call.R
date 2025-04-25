@@ -193,7 +193,7 @@ deparse_call_impl <- function(
   if (caller == "(" && length(call) == 2)
     return(deparse_paren(call, rec))
 
-  if (caller == "{")
+  if (caller == "{" && !any(vapply(call[-1], identical, logical(1), quote(expr = ))))
     return(deparse_curly(call, rec, one_liner, indent))
 
   # non standard use of infix ops ----------------------------------------------

@@ -162,6 +162,7 @@ test_that("curly braces", {
     deparse_call(call("{"), style = FALSE)
     deparse_call(call("{", 1, 2), style = FALSE)
     deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
+    deparse_call(call("{", 1, quote(expr = )), style = FALSE)
   })
 })
 
