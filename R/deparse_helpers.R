@@ -348,8 +348,10 @@ operands_have_higher_or_equal_precedence <- function(operator, call) {
   } else {
     rhs_prec <- Inf
   }
-  if (op_prec %in% c(2, 3, 15) && lhs_prec == op_prec) {
-    return(FALSE)
+
+  # `=`, `<-`, and `^` have right to left precedence
+  if (op_prec %in% c(2, 3, 15)) {
+    return(lhs_prec > op_prec && rhs_prec >= op_prec)
   }
-  lhs_prec >= op_prec && rhs_prec >= op_prec
+  lhs_prec >= op_prec && rhs_prec > op_prec
 }
