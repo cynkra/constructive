@@ -438,37 +438,37 @@
 # Operator precedence is well handled
 
     Code
-      construct(quote((a + b)^c))
+      deparse_call(quote((a + b)^c))
     Output
-      quote((a + b)^c)
+      (a + b)^c
     Code
-      construct(quote(a^b + c))
+      deparse_call(quote(a^b + c))
     Output
-      quote(a^b + c)
+      a^b + c
     Code
-      construct(quote((a * b) %in% c))
+      deparse_call(quote((a * b) %in% c))
     Output
-      quote((a * b) %in% c)
+      (a * b) %in% c
     Code
-      construct(quote(a %in% b * c))
+      deparse_call(quote(a %in% b * c))
     Output
-      quote(a %in% b * c)
+      a %in% b * c
     Code
-      construct(quote(1 + 2 + 4))
+      deparse_call(quote(1 + 2 + 4))
     Output
-      quote(1 + 2 + 4)
+      1 + 2 + 4
     Code
-      construct(quote(-1 + 2))
+      deparse_call(quote(-1 + 2))
     Output
-      quote(-1 + 2)
+      -1 + 2
     Code
-      construct(quote((1 <<- 2) <- 4))
+      deparse_call(quote((1 <<- 2) <- 4))
     Output
-      quote((1 <<- 2) <- 4)
+      (1 <<- 2) <- 4
     Code
-      construct(quote(`+`(x, y)(z)))
+      deparse_call(quote(`+`(x, y)(z)))
     Output
-      quote(`+`(x, y)(z))
+      `+`(x, y)(z)
     Code
       deparse_call(quote(x <- a::b(y)))
     Output

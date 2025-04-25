@@ -160,14 +160,14 @@ test_that("Use lisp notation when the caller expr calls a control flow construct
 
 test_that("Operator precedence is well handled", {
   expect_snapshot({
-    construct(quote(`^`(`+`(a, b), c)))
-    construct(quote(`+`(`^`(a, b), c)))
-    construct(quote(`%in%`(`*`(a, b), c)))
-    construct(quote(`*`(`%in%`(a, b), c)))
-    construct(quote(`+`(`+`(1, 2), 4)))
-    construct(quote(`-`(1+2)))
-    construct(quote(`<-`(`<<-`(1, 2), 4)))
-    construct(quote(`+`(x, y)(z)))
+    deparse_call(quote(`^`(`+`(a, b), c)))
+    deparse_call(quote(`+`(`^`(a, b), c)))
+    deparse_call(quote(`%in%`(`*`(a, b), c)))
+    deparse_call(quote(`*`(`%in%`(a, b), c)))
+    deparse_call(quote(`+`(`+`(1, 2), 4)))
+    deparse_call(quote(`-`(1+2)))
+    deparse_call(quote(`<-`(`<<-`(1, 2), 4)))
+    deparse_call(quote(`+`(x, y)(z)))
     deparse_call(quote(x <- a::b(y)))
     deparse_call(quote(x <- a:::b(y)))
     deparse_call(quote(x <- a$b(y)))
