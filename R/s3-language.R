@@ -69,10 +69,12 @@ is_expression2 <- function(x) {
     # missing args.
     if (length(x) == 2 && identical(x[[2]], quote(expr=))) return(FALSE)
   }
+  if (is_regular_function_definition(x[[1]])) return(FALSE)
   all(vapply(x, is_expression2, logical(1)))
 }
 
 is_regular_function_definition <- function(x) {
+  is.call(x) &&
   identical(x[[1]], as.symbol("function")) &&
     length(x) %in% c(3,4) &&
     (
