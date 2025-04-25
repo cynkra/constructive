@@ -455,3 +455,22 @@
     Output
       [1] "`[[`()"
 
+# Use lisp notation when the caller expr calls a control flow construct
+
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(if (TRUE) { }), Y = 1)))
+    Output
+      `if`(TRUE, { })(1)
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(while (TRUE) { }), Y = 1)))
+    Output
+      `while`(TRUE, { })(1)
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(for (a in b) { }), Y = 1)))
+    Output
+      `for`(a, b, { })(1)
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(repeat { }), Y = 1)))
+    Output
+      `repeat`({ })(1)
+

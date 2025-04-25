@@ -148,7 +148,7 @@ deparse_call_impl <- function(
     check_syntactic = FALSE,
     force_lisp = !caller_calls_colon_ops
   )
-  if (is_op(caller) && force_lisp) {
+  if ((is_op(caller) || is_cf(caller)) && force_lisp) {
     return(deparse_lisp(
       caller, call, rec, one_liner, indent, unicode_representation, escape,
       protect = TRUE

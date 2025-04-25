@@ -157,3 +157,11 @@ test_that("square brackets", {
   })
 })
 
+test_that("Use lisp notation when the caller expr calls a control flow construct", {
+  expect_snapshot({
+    deparse_call(substitute(X(Y), list(X = quote(if (TRUE) {}), Y = 1)))
+    deparse_call(substitute(X(Y), list(X = quote(while (TRUE) {}), Y = 1)))
+    deparse_call(substitute(X(Y), list(X = quote(for (a in b) {}), Y = 1)))
+    deparse_call(substitute(X(Y), list(X = quote(repeat {}), Y = 1)))
+  })
+})
