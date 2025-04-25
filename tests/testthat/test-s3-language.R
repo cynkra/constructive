@@ -1,6 +1,7 @@
 test_that("language", {
   expect_snapshot({
     construct(quote(a_symbol))
+    construct(as.symbol("a\\b"))
     construct(quote(a + call))
     construct(quote(expr=))
   })

@@ -5,6 +5,10 @@
     Output
       quote(a_symbol)
     Code
+      construct(as.symbol("a\\b"))
+    Output
+      quote(`a\\b`)
+    Code
       construct(quote(a + call))
     Output
       quote(a + call)

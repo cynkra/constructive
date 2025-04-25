@@ -115,7 +115,7 @@ deparse_call_impl <- function(
   }
 
   if (is.symbol(call))
-    return(deparse_symbol(call, check_syntactic, unicode_representation, escape))
+    return(deparse_symbol(call, check_syntactic, unicode_representation))
 
   check_syntactic <- TRUE
 

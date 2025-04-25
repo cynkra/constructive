@@ -4,11 +4,11 @@ is_syntactic <- function(x) {
 
 # exceptions -----------------------------------------------------------------
 
-deparse_symbol <- function(call, check_syntactic, unicode_representation, escape) {
+deparse_symbol <- function(call, check_syntactic, unicode_representation) {
   code <- construct_string(
     as.character(call),
     unicode_representation,
-    escape,
+    escape = TRUE,
     mode = "symbol",
     protect = check_syntactic
   )
