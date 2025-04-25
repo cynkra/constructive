@@ -101,17 +101,6 @@ test_that("deparse_call()", {
     deparse_call(quote(1 -> while(TRUE) 1))
     deparse_call(quote(1 -> repeat 1))
   })
-
-  expect_snapshot({
-    construct(quote(`^`(`+`(a, b), c)))
-    construct(quote(`+`(`^`(a, b), c)))
-    construct(quote(`%in%`(`*`(a, b), c)))
-    construct(quote(`*`(`%in%`(a, b), c)))
-    construct(quote(`+`(`+`(1, 2), 4)))
-    construct(quote(`-`(1+2)))
-    construct(quote(`<-`(`<<-`(1, 2), 4)))
-    construct(quote(`+`(x, y)(z)))
-  })
 })
 
 test_that("deparse_call() for R >= 4.1", {
@@ -120,16 +109,6 @@ test_that("deparse_call() for R >= 4.1", {
   expect_snapshot({
     deparse_call(quote(`🐶`), style = FALSE)
     deparse_call(quote(`🐶`), unicode_representation = "unicode")
-  })
-})
-
-test_that("high precedence infix ops in deparse_call()", {
-  expect_snapshot({
-    deparse_call(quote(x <- a::b(y)))
-    deparse_call(quote(x <- a:::b(y)))
-    deparse_call(quote(x <- a$b(y)))
-    deparse_call(quote(x <- a@b(y)))
-    deparse_call(quote(x <- a::b$c(y)))
   })
 })
 
@@ -176,5 +155,23 @@ test_that("Use lisp notation when the caller expr calls a control flow construct
     deparse_call(substitute(X(Y), list(X = quote(while (TRUE) {}), Y = 1)))
     deparse_call(substitute(X(Y), list(X = quote(for (a in b) {}), Y = 1)))
     deparse_call(substitute(X(Y), list(X = quote(repeat {}), Y = 1)))
+  })
+})
+
+test_that("Operator precedence is well handled", {
+  expect_snapshot({
+    construct(quote(`^`(`+`(a, b), c)))
+    construct(quote(`+`(`^`(a, b), c)))
+    construct(quote(`%in%`(`*`(a, b), c)))
+    construct(quote(`*`(`%in%`(a, b), c)))
+    construct(quote(`+`(`+`(1, 2), 4)))
+    construct(quote(`-`(1+2)))
+    construct(quote(`<-`(`<<-`(1, 2), 4)))
+    construct(quote(`+`(x, y)(z)))
+    deparse_call(quote(x <- a::b(y)))
+    deparse_call(quote(x <- a:::b(y)))
+    deparse_call(quote(x <- a$b(y)))
+    deparse_call(quote(x <- a@b(y)))
+    deparse_call(quote(x <- a::b$c(y)))
   })
 })

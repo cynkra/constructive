@@ -339,41 +339,6 @@
     Output
       repeat 1 <- 1
 
----
-
-    Code
-      construct(quote((a + b)^c))
-    Output
-      quote((a + b)^c)
-    Code
-      construct(quote(a^b + c))
-    Output
-      quote(a^b + c)
-    Code
-      construct(quote((a * b) %in% c))
-    Output
-      quote((a * b) %in% c)
-    Code
-      construct(quote(a %in% b * c))
-    Output
-      quote(a %in% b * c)
-    Code
-      construct(quote(1 + 2 + 4))
-    Output
-      quote(1 + 2 + 4)
-    Code
-      construct(quote(-1 + 2))
-    Output
-      quote(-1 + 2)
-    Code
-      construct(quote((1 <<- 2) <- 4))
-    Output
-      quote((1 <<- 2) <- 4)
-    Code
-      construct(quote(`+`(x, y)(z)))
-    Output
-      quote(`+`(x, y)(z))
-
 # deparse_call() for R >= 4.1
 
     Code
@@ -384,29 +349,6 @@
       deparse_call(quote(`🐶`), unicode_representation = "unicode")
     Output
       `🐶`
-
-# high precedence infix ops in deparse_call()
-
-    Code
-      deparse_call(quote(x <- a::b(y)))
-    Output
-      x <- a::b(y)
-    Code
-      deparse_call(quote(x <- a:::b(y)))
-    Output
-      x <- a:::b(y)
-    Code
-      deparse_call(quote(x <- a$b(y)))
-    Output
-      x <- a$b(y)
-    Code
-      deparse_call(quote(x <- a@b(y)))
-    Output
-      x <- a@b(y)
-    Code
-      deparse_call(quote(x <- a::b$c(y)))
-    Output
-      x <- a::b$c(y)
 
 # square brackets
 
@@ -492,4 +434,59 @@
       deparse_call(substitute(X(Y), list(X = quote(repeat { }), Y = 1)))
     Output
       `repeat`({ })(1)
+
+# Operator precedence is well handled
+
+    Code
+      construct(quote((a + b)^c))
+    Output
+      quote((a + b)^c)
+    Code
+      construct(quote(a^b + c))
+    Output
+      quote(a^b + c)
+    Code
+      construct(quote((a * b) %in% c))
+    Output
+      quote((a * b) %in% c)
+    Code
+      construct(quote(a %in% b * c))
+    Output
+      quote(a %in% b * c)
+    Code
+      construct(quote(1 + 2 + 4))
+    Output
+      quote(1 + 2 + 4)
+    Code
+      construct(quote(-1 + 2))
+    Output
+      quote(-1 + 2)
+    Code
+      construct(quote((1 <<- 2) <- 4))
+    Output
+      quote((1 <<- 2) <- 4)
+    Code
+      construct(quote(`+`(x, y)(z)))
+    Output
+      quote(`+`(x, y)(z))
+    Code
+      deparse_call(quote(x <- a::b(y)))
+    Output
+      x <- a::b(y)
+    Code
+      deparse_call(quote(x <- a:::b(y)))
+    Output
+      x <- a:::b(y)
+    Code
+      deparse_call(quote(x <- a$b(y)))
+    Output
+      x <- a$b(y)
+    Code
+      deparse_call(quote(x <- a@b(y)))
+    Output
+      x <- a@b(y)
+    Code
+      deparse_call(quote(x <- a::b$c(y)))
+    Output
+      x <- a::b$c(y)
 
