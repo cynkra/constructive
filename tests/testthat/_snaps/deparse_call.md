@@ -101,18 +101,6 @@
     Output
       [1] "`(`()"
     Code
-      deparse_call(call("{"), style = FALSE)
-    Output
-      [1] "{ }"
-    Code
-      deparse_call(call("{", 1, 2), style = FALSE)
-    Output
-      [1] "{\n  1\n  2\n}"
-    Code
-      deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
-    Output
-      [1] "{1; 2}"
-    Code
       deparse_call(call("non-syntactic", 1), style = FALSE)
     Output
       [1] "`non-syntactic`(1)"
@@ -466,6 +454,21 @@
       deparse_call(call("[", quote(a + b), 1), style = FALSE)
     Output
       [1] "`[`(a + b, 1)"
+
+# curly braces
+
+    Code
+      deparse_call(call("{"), style = FALSE)
+    Output
+      [1] "{ }"
+    Code
+      deparse_call(call("{", 1, 2), style = FALSE)
+    Output
+      [1] "{\n  1\n  2\n}"
+    Code
+      deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
+    Output
+      [1] "{1; 2}"
 
 # Use lisp notation when the caller expr calls a control flow construct
 

@@ -25,9 +25,6 @@ test_that("deparse_call()", {
     deparse_call(call("(", 1, 2), style = FALSE)
     deparse_call(call("(", 1), style = FALSE)
     deparse_call(call("("), style = FALSE)
-    deparse_call(call("{"), style = FALSE)
-    deparse_call(call("{", 1, 2), style = FALSE)
-    deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
     deparse_call(call("non-syntactic", 1), style = FALSE)
 
     deparse_call(quote(foo(bar(baz(x), 1), arg = 2, empty=)), style = FALSE)
@@ -157,6 +154,14 @@ test_that("square brackets", {
     deparse_call(call("[", quote(expr=), quote(expr=)), style = FALSE)
     deparse_call(call("[", 1, quote(expr=)), style = FALSE)
     deparse_call(call("[", quote(a+b), 1), style = FALSE)
+  })
+})
+
+test_that("curly braces", {
+  expect_snapshot({
+    deparse_call(call("{"), style = FALSE)
+    deparse_call(call("{", 1, 2), style = FALSE)
+    deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
   })
 })
 
