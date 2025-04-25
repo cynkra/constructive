@@ -438,35 +438,35 @@
 # Operator precedence is well handled
 
     Code
-      deparse_call(quote((a + b)^c))
+      deparse_call(str2lang("`^`(`+`(a, b), c)"))
     Output
-      (a + b)^c
+      `^`(a + b, c)
     Code
-      deparse_call(quote(a^b + c))
+      deparse_call(str2lang("`+`(`^`(a, b), c)"))
     Output
       a^b + c
     Code
-      deparse_call(quote((a * b) %in% c))
+      deparse_call(str2lang("`%in%`(`*`(a, b), c)"))
     Output
-      (a * b) %in% c
+      `%in%`(a * b, c)
     Code
-      deparse_call(quote(a %in% b * c))
+      deparse_call(str2lang("`*`(`%in%`(a, b), c)"))
     Output
       a %in% b * c
     Code
-      deparse_call(quote(1 + 2 + 4))
+      deparse_call(str2lang("`+`(`+`(1, 2), 4)"))
     Output
       1 + 2 + 4
     Code
-      deparse_call(quote(-1 + 2))
+      deparse_call(str2lang("`-`(1+2)"))
     Output
-      -1 + 2
+      `-`(1 + 2)
     Code
-      deparse_call(quote((1 <<- 2) <- 4))
+      deparse_call(str2lang("`<-`(`<<-`(1, 2), 4)"))
     Output
-      (1 <<- 2) <- 4
+      `<-`(1 <<- 2, 4)
     Code
-      deparse_call(quote(`+`(x, y)(z)))
+      deparse_call(str2lang("`+`(x, y)(z)"))
     Output
       `+`(x, y)(z)
     Code
@@ -489,4 +489,16 @@
       deparse_call(quote(x <- a::b$c(y)))
     Output
       x <- a::b$c(y)
+    Code
+      deparse_call(str2lang("`^`(`^`(1, 2), 4)"))
+    Output
+      `^`(1^2, 4)
+    Code
+      deparse_call(str2lang("`^`(4, `^`(1, 2))"))
+    Output
+      4^1^2
+    Code
+      deparse_call(str2lang("`+`(4, `+`(1, 2))"))
+    Output
+      `+`(4, 1 + 2)
 
