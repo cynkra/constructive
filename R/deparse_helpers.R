@@ -339,7 +339,12 @@ operands_have_higher_or_equal_precedence <- function(operator, call) {
   lhs <- call[[2]] # actually rhs when call is length 2
   op_prec <-  precedence(operator, length(call))
   if (is.call(lhs)) {
-    lhs_prec <- precedence(as.character(lhs[[1]]), length(lhs))
+    lhs_caller_chr <- as.character(lhs[[1]])
+    if (length(lhs_caller_chr) == 1 && lhs_caller_chr %in% c("[", "[[")) {
+      lhs_prec <- Inf
+    } else {
+      lhs_prec <- precedence(lhs_caller_chr, length(lhs))
+    }
   } else {
     lhs_prec <- Inf
   }

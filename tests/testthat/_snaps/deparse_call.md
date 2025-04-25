@@ -396,6 +396,18 @@
       deparse_call(call("[", quote(a + b), 1), style = FALSE)
     Output
       [1] "`[`(a + b, 1)"
+    Code
+      deparse_call(quote(a$b[[c]]))
+    Output
+      a$b[[c]]
+    Code
+      deparse_call(quote(a[[b]]$c))
+    Output
+      a[[b]]$c
+    Code
+      deparse_call(quote(a[[b$c]]))
+    Output
+      a[[b$c]]
 
 # curly braces
 
