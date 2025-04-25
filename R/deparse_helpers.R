@@ -91,6 +91,27 @@ deparse_subset2 <- function(call, rec, one_liner, indent, unicode_representation
   sprintf("%s[[%s]]", arg1, other_args)
 }
 
+is_regular_bracket_call <- function(call) {
+  if (!identical(call[[1]], as.symbol("[")) && !identical(call[[1]], as.symbol("[["))) {
+    return(FALSE)
+  }
+  if (length(call) < 3) {
+    # even with empty bracket it is length 3 because x[] uses an empty arg
+    return(FALSE)
+  }
+
+  if (identical(call[[2]], quote(expr=))) return(FALSE)
+  if (!is.call(call[[2]])) return(TRUE)
+
+  lhs_is_call_with_a_symbol_caller <-
+    is.call(call[[2]]) &&
+    is.symbol(call[[2]][[1]])
+
+  if (!lhs_is_call_with_a_symbol_caller) return(TRUE)
+  lhs_caller_chr <- as.character((call[[2]][[1]]))
+  precedence(lhs_caller_chr) >= 16
+}
+
 deparse_paren <- function(call, rec) {
   sprintf("(%s)", rec(call[[2]]))
 }
