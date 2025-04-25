@@ -4,6 +4,7 @@ test_that("language", {
     construct(as.symbol("a\\b"))
     construct(quote(a + call))
     construct(quote(expr=))
+    construct(as.call(list(quote(expr = ))))
   })
 })
 

@@ -16,6 +16,10 @@
       construct(quote(expr = ))
     Output
       quote(expr = )
+    Code
+      construct(as.call(list(quote(expr = ))))
+    Output
+      as.call(list(quote(expr = )))
 
 # language after 4.1
 
