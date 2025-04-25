@@ -182,11 +182,13 @@ deparse_call_impl <- function(
 
   # surrounding ops ------------------------------------------------------------
 
-  if (caller == "[" && length(call) > 1)
+  if (caller == "[" && is_regular_bracket_call(call)) {
     return(deparse_subset(call, rec, one_liner, indent, unicode_representation, escape))
+  }
 
-  if (caller == "[[" && length(call) > 1)
+  if (caller == "[[" && is_regular_bracket_call(call)) {
     return(deparse_subset2(call, rec, one_liner, indent, unicode_representation, escape))
+  }
 
   if (caller == "(" && length(call) == 2)
     return(deparse_paren(call, rec))

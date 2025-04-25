@@ -64,6 +64,11 @@ is_expression2 <- function(x) {
   # if the caller itself is empty the call can't be syntactic
   if (identical(x[[1]], quote(expr=))) return(FALSE)
   if (is_regular_function_definition(x)) return(TRUE)
+  if (!is_regular_bracket_call(x)) {
+    # if the only arg is missing then we can't use lisp notation to represent
+    # missing args.
+    if (length(x) == 2 && identical(x[[2]], quote(expr=))) return(FALSE)
+  }
   all(vapply(x, is_expression2, logical(1)))
 }
 

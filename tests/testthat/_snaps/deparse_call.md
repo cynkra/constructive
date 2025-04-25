@@ -454,6 +454,18 @@
       deparse_call(call("[["), style = FALSE)
     Output
       [1] "`[[`()"
+    Code
+      deparse_call(call("[", quote(expr = ), quote(expr = )), style = FALSE)
+    Output
+      [1] "`[`(, )"
+    Code
+      deparse_call(call("[", 1, quote(expr = )), style = FALSE)
+    Output
+      [1] "1[]"
+    Code
+      deparse_call(call("[", quote(a + b), 1), style = FALSE)
+    Output
+      [1] "`[`(a + b, 1)"
 
 # Use lisp notation when the caller expr calls a control flow construct
 

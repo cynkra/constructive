@@ -154,6 +154,9 @@ test_that("square brackets", {
     deparse_call(call("[[", 1, 2), style = FALSE)
     deparse_call(call("[[", 1), style = FALSE)
     deparse_call(call("[["), style = FALSE)
+    deparse_call(call("[", quote(expr=), quote(expr=)), style = FALSE)
+    deparse_call(call("[", 1, quote(expr=)), style = FALSE)
+    deparse_call(call("[", quote(a+b), 1), style = FALSE)
   })
 })
 
