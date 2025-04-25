@@ -89,38 +89,6 @@
     Output
       [1] "`:`()"
     Code
-      deparse_call(call("[", 1, 2, 3), style = FALSE)
-    Output
-      [1] "1[2, 3]"
-    Code
-      deparse_call(call("[", 1, 2), style = FALSE)
-    Output
-      [1] "1[2]"
-    Code
-      deparse_call(call("[", 1), style = FALSE)
-    Output
-      [1] "1[]"
-    Code
-      deparse_call(call("["), style = FALSE)
-    Output
-      [1] "`[`()"
-    Code
-      deparse_call(call("[[", 1, 2, 3), style = FALSE)
-    Output
-      [1] "1[[2, 3]]"
-    Code
-      deparse_call(call("[[", 1, 2), style = FALSE)
-    Output
-      [1] "1[[2]]"
-    Code
-      deparse_call(call("[[", 1), style = FALSE)
-    Output
-      [1] "1[[]]"
-    Code
-      deparse_call(call("[["), style = FALSE)
-    Output
-      [1] "`[[`()"
-    Code
       deparse_call(call("(", 1, 2), style = FALSE)
     Output
       [1] "`(`(1, 2)"
@@ -451,4 +419,39 @@
       deparse_call(quote(x <- a::b$c(y)))
     Output
       x <- a::b$c(y)
+
+# square brackets
+
+    Code
+      deparse_call(call("[", 1, 2, 3), style = FALSE)
+    Output
+      [1] "1[2, 3]"
+    Code
+      deparse_call(call("[", 1, 2), style = FALSE)
+    Output
+      [1] "1[2]"
+    Code
+      deparse_call(call("[", 1), style = FALSE)
+    Output
+      [1] "`[`(1)"
+    Code
+      deparse_call(call("["), style = FALSE)
+    Output
+      [1] "`[`()"
+    Code
+      deparse_call(call("[[", 1, 2, 3), style = FALSE)
+    Output
+      [1] "1[[2, 3]]"
+    Code
+      deparse_call(call("[[", 1, 2), style = FALSE)
+    Output
+      [1] "1[[2]]"
+    Code
+      deparse_call(call("[[", 1), style = FALSE)
+    Output
+      [1] "`[[`(1)"
+    Code
+      deparse_call(call("[["), style = FALSE)
+    Output
+      [1] "`[[`()"
 
