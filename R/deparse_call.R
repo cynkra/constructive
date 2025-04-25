@@ -55,7 +55,7 @@ deparse_call <- function(
       check_syntactic = TRUE,
       unicode_representation,
       escape,
-      lisp_equal = TRUE
+      lisp_equal = FALSE
     ),
     error = function(cnd) {
       abort("`call` must only be made of symbols and syntactic literals", parent = cnd)

@@ -87,11 +87,10 @@ test_that("deparse_call()", {
   })
 
   expect_snapshot({
-    # the following line cannot be tested with testthat because of their own
-    # faulty deparsing
-    # deparse_call(quote(`=`(x, 1)))
-    deparse_call(quote(list(`=`(x, 1))))
-    deparse_call(quote((`=`(x, 1))))
+    # Avoid testthat corruption
+    deparse_call(eval(str2lang("quote(`=`(x, 1))")))
+    deparse_call(eval(str2lang("quote(list(`=`(x, 1)))")))
+    deparse_call(eval(str2lang("quote((`=`(x, 1)))")))
     deparse_call(quote(list(x = 1)))
     deparse_call(quote({x = 1}))
   })

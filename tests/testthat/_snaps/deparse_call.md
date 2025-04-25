@@ -297,11 +297,15 @@
 ---
 
     Code
-      deparse_call(quote(list(x = 1)))
+      deparse_call(eval(str2lang("quote(`=`(x, 1))")))
     Output
-      list(x = 1)
+      x = 1
     Code
-      deparse_call(quote((x = 1)))
+      deparse_call(eval(str2lang("quote(list(`=`(x, 1)))")))
+    Output
+      list(`=`(x, 1))
+    Code
+      deparse_call(eval(str2lang("quote((`=`(x, 1)))")))
     Output
       (x = 1)
     Code
