@@ -109,7 +109,7 @@ is_regular_bracket_call <- function(call) {
 
   if (!lhs_is_call_with_a_symbol_caller) return(TRUE)
   lhs_caller_chr <- as.character((call[[2]][[1]]))
-  precedence(lhs_caller_chr) >= 16
+  precedence(lhs_caller_chr, length(call[[2]])) >= 16
 }
 
 deparse_paren <- function(call, rec) {
