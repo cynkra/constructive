@@ -152,6 +152,10 @@ is_op <- function(x) {
   is_unary(x) || is_infix_wide(x) || is_infix_narrow(x)
 }
 
+is_cf <- function(x) {
+  x %in% c("if", "while", "for", "repeat")
+}
+
 deparse_unary <- function(caller, call, rec) {
   if (caller %in% c("+", "-")) {
     # FIXME: pipe = FALSE is too restrictive
