@@ -129,6 +129,12 @@ deparse_call_impl <- function(
     abort(msg)
   }
 
+  if (length(call) == 2 && identical(call[[2]], quote(expr = ))) {
+    code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
+    msg <- sprintf("Found empty symbol used as sole argument of a function:\n%s", code)
+    abort(msg)
+  }
+
   if (identical(call[[1]], quote(expr=))) {
     code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
     msg <- sprintf("Found empty symbol used as caller:\n%s", code)
@@ -257,11 +263,6 @@ deparse_call_impl <- function(
     }
   }
 
-  if (length(call) == 2 && identical(call[[2]], quote(expr = ))) {
-    code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
-    msg <- sprintf("Found empty symbol used as sole argument of a function:\n%s", code)
-    abort(msg)
-  }
   deparse_lisp(
     caller, call, rec, one_liner, indent, unicode_representation, escape,
     protect = is.symbol(caller_lng)
