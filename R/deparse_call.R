@@ -120,7 +120,7 @@ deparse_call_impl <- function(
   check_syntactic <- TRUE
 
   # artificial cases where caller is NULL, a numeric etc
-  if (rlang::is_syntactic_literal(call))
+  if (is_syntactic_literal2(call))
     return(deparse_syntactic_literal(call, unicode_representation, escape))
 
   if (!is.call(call)) {
