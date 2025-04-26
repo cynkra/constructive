@@ -89,38 +89,6 @@
     Output
       [1] "`:`()"
     Code
-      deparse_call(call("[", 1, 2, 3), style = FALSE)
-    Output
-      [1] "1[2, 3]"
-    Code
-      deparse_call(call("[", 1, 2), style = FALSE)
-    Output
-      [1] "1[2]"
-    Code
-      deparse_call(call("[", 1), style = FALSE)
-    Output
-      [1] "1[]"
-    Code
-      deparse_call(call("["), style = FALSE)
-    Output
-      [1] "`[`()"
-    Code
-      deparse_call(call("[[", 1, 2, 3), style = FALSE)
-    Output
-      [1] "1[[2, 3]]"
-    Code
-      deparse_call(call("[[", 1, 2), style = FALSE)
-    Output
-      [1] "1[[2]]"
-    Code
-      deparse_call(call("[[", 1), style = FALSE)
-    Output
-      [1] "1[[]]"
-    Code
-      deparse_call(call("[["), style = FALSE)
-    Output
-      [1] "`[[`()"
-    Code
       deparse_call(call("(", 1, 2), style = FALSE)
     Output
       [1] "`(`(1, 2)"
@@ -132,18 +100,6 @@
       deparse_call(call("("), style = FALSE)
     Output
       [1] "`(`()"
-    Code
-      deparse_call(call("{"), style = FALSE)
-    Output
-      [1] "{ }"
-    Code
-      deparse_call(call("{", 1, 2), style = FALSE)
-    Output
-      [1] "{\n  1\n  2\n}"
-    Code
-      deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
-    Output
-      [1] "{1; 2}"
     Code
       deparse_call(call("non-syntactic", 1), style = FALSE)
     Output
@@ -297,11 +253,15 @@
 ---
 
     Code
-      deparse_call(quote(list(x = 1)))
+      deparse_call(eval(str2lang("quote(`=`(x, 1))")))
     Output
-      list(x = 1)
+      x = 1
     Code
-      deparse_call(quote((x = 1)))
+      deparse_call(eval(str2lang("quote(list(`=`(x, 1)))")))
+    Output
+      list(`=`(x, 1))
+    Code
+      deparse_call(eval(str2lang("quote((`=`(x, 1)))")))
     Output
       (x = 1)
     Code
@@ -379,41 +339,6 @@
     Output
       repeat 1 <- 1
 
----
-
-    Code
-      construct(quote((a + b)^c))
-    Output
-      quote((a + b)^c)
-    Code
-      construct(quote(a^b + c))
-    Output
-      quote(a^b + c)
-    Code
-      construct(quote((a * b) %in% c))
-    Output
-      quote((a * b) %in% c)
-    Code
-      construct(quote(a %in% b * c))
-    Output
-      quote(a %in% b * c)
-    Code
-      construct(quote(1 + 2 + 4))
-    Output
-      quote(1 + 2 + 4)
-    Code
-      construct(quote(-1 + 2))
-    Output
-      quote(-1 + 2)
-    Code
-      construct(quote((1 <<- 2) <- 4))
-    Output
-      quote((1 <<- 2) <- 4)
-    Code
-      construct(quote(`+`(x, y)(z)))
-    Output
-      quote(`+`(x, y)(z))
-
 # deparse_call() for R >= 4.1
 
     Code
@@ -425,8 +350,161 @@
     Output
       `🐶`
 
-# high precedence infix ops in deparse_call()
+# square brackets
 
+    Code
+      deparse_call(call("[", 1, 2, 3), style = FALSE)
+    Output
+      [1] "1[2, 3]"
+    Code
+      deparse_call(call("[", 1, 2), style = FALSE)
+    Output
+      [1] "1[2]"
+    Code
+      deparse_call(call("[", 1), style = FALSE)
+    Output
+      [1] "`[`(1)"
+    Code
+      deparse_call(call("["), style = FALSE)
+    Output
+      [1] "`[`()"
+    Code
+      deparse_call(call("[[", 1, 2, 3), style = FALSE)
+    Output
+      [1] "1[[2, 3]]"
+    Code
+      deparse_call(call("[[", 1, 2), style = FALSE)
+    Output
+      [1] "1[[2]]"
+    Code
+      deparse_call(call("[[", 1), style = FALSE)
+    Output
+      [1] "`[[`(1)"
+    Code
+      deparse_call(call("[["), style = FALSE)
+    Output
+      [1] "`[[`()"
+    Code
+      deparse_call(call("[", quote(expr = ), quote(expr = )), style = FALSE)
+    Output
+      [1] "`[`(, )"
+    Code
+      deparse_call(call("[", 1, quote(expr = )), style = FALSE)
+    Output
+      [1] "1[]"
+    Code
+      deparse_call(call("[", quote(a + b), 1), style = FALSE)
+    Output
+      [1] "`[`(a + b, 1)"
+    Code
+      deparse_call(quote(a$b[[c]]))
+    Output
+      a$b[[c]]
+    Code
+      deparse_call(quote(a[[b]]$c))
+    Output
+      a[[b]]$c
+    Code
+      deparse_call(quote(a[[b$c]]))
+    Output
+      a[[b$c]]
+    Code
+      deparse_call(call("[", quote(while (TRUE) { }), 1), style = FALSE)
+    Output
+      [1] "`[`(while (TRUE) { }, 1)"
+    Code
+      deparse_call(call("[", quote(if (TRUE) { }), 1), style = FALSE)
+    Output
+      [1] "`[`(if (TRUE) { }, 1)"
+    Code
+      deparse_call(call("[", quote(for (a in b) { }), 1), style = FALSE)
+    Output
+      [1] "`[`(for (a in b) { }, 1)"
+    Code
+      deparse_call(call("[", quote(repeat { }), 1), style = FALSE)
+    Output
+      [1] "`[`(repeat { }, 1)"
+    Code
+      deparse_call(call("[", quote(function() { }), 1), style = FALSE)
+    Output
+      [1] "`[`(function() { }, 1)"
+    Code
+      deparse_call(call("[", call("function", 1, 2), 1), style = FALSE)
+    Output
+      [1] "`[`(`function`(1, 2), 1)"
+
+# curly braces
+
+    Code
+      deparse_call(call("{"), style = FALSE)
+    Output
+      [1] "{ }"
+    Code
+      deparse_call(call("{", 1, 2), style = FALSE)
+    Output
+      [1] "{\n  1\n  2\n}"
+    Code
+      deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
+    Output
+      [1] "{1; 2}"
+    Code
+      deparse_call(call("{", 1, quote(expr = )), style = FALSE)
+    Output
+      [1] "`{`(1, )"
+
+# Use lisp notation when the caller expr calls a control flow construct
+
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(if (TRUE) { }), Y = 1)))
+    Output
+      `if`(TRUE, { })(1)
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(while (TRUE) { }), Y = 1)))
+    Output
+      `while`(TRUE, { })(1)
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(for (a in b) { }), Y = 1)))
+    Output
+      `for`(a, b, { })(1)
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(repeat { }), Y = 1)))
+    Output
+      `repeat`({ })(1)
+
+# Operator precedence is well handled
+
+    Code
+      deparse_call(str2lang("`^`(`+`(a, b), c)"))
+    Output
+      `^`(a + b, c)
+    Code
+      deparse_call(str2lang("`+`(`^`(a, b), c)"))
+    Output
+      a^b + c
+    Code
+      deparse_call(str2lang("`%in%`(`*`(a, b), c)"))
+    Output
+      `%in%`(a * b, c)
+    Code
+      deparse_call(str2lang("`*`(`%in%`(a, b), c)"))
+    Output
+      a %in% b * c
+    Code
+      deparse_call(str2lang("`+`(`+`(1, 2), 4)"))
+    Output
+      1 + 2 + 4
+    Code
+      deparse_call(str2lang("`-`(1+2)"))
+    Output
+      `-`(1 + 2)
+    Code
+      deparse_call(str2lang("`<-`(`<<-`(1, 2), 4)"))
+    Output
+      `<-`(1 <<- 2, 4)
+    Code
+      deparse_call(str2lang("`+`(x, y)(z)"))
+    Output
+      `+`(x, y)(z)
     Code
       deparse_call(quote(x <- a::b(y)))
     Output
@@ -447,4 +525,56 @@
       deparse_call(quote(x <- a::b$c(y)))
     Output
       x <- a::b$c(y)
+    Code
+      deparse_call(str2lang("`^`(`^`(1, 2), 4)"))
+    Output
+      `^`(1^2, 4)
+    Code
+      deparse_call(str2lang("`^`(4, `^`(1, 2))"))
+    Output
+      4^1^2
+    Code
+      deparse_call(str2lang("`+`(4, `+`(1, 2))"))
+    Output
+      `+`(4, 1 + 2)
+    Code
+      deparse_call(substitute(X + Y, list(X = quote(repeat { }), Y = 1)))
+    Output
+      `+`(repeat { }, 1)
+    Code
+      deparse_call(substitute(X + Y, list(X = 1, Y = quote(repeat { }))))
+    Output
+      1 + repeat { }
+    Code
+      deparse_call(substitute(X ? Y, list(X = quote(repeat { }), Y = 1)))
+    Output
+      repeat { } ? 1
+    Code
+      deparse_call(substitute(X ? Y, list(X = 1, Y = quote(repeat { }))))
+    Output
+      1 ? repeat { }
+    Code
+      deparse_call(substitute(X$Y, list(X = quote(repeat { }), Y = 1)))
+    Output
+      `$`(repeat { }, 1)
+    Code
+      deparse_call(substitute(X$Y, list(X = 1, Y = quote(repeat { }))))
+    Output
+      `$`(1, repeat { })
+    Code
+      deparse_call(substitute(X(Y), list(X = quote(repeat { }), Y = 1)))
+    Output
+      `repeat`({ })(1)
+    Code
+      deparse_call(substitute(X[Y], list(X = quote(repeat { }), Y = 1)))
+    Output
+      `[`(repeat { }, 1)
+    Code
+      deparse_call(quote(+repeat { }))
+    Output
+      +repeat { }
+    Code
+      deparse_call(quote(+repeat { }))
+    Output
+      +repeat { }
 
