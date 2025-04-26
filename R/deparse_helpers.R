@@ -334,6 +334,7 @@ precedence <- function(x, call_length = 2) {
 # checks if the operator has a higher precedence than both the lhs and rhs
 # of the call
 operands_have_higher_or_equal_precedence <- function(operator, call) {
+  if (any(sapply(call[-1], identical, quote(expr=)))) return(FALSE)
   if (!length(call) %in% c(2, 3)) return(TRUE)
 
   # we need to special case ops with righ to left precedence
