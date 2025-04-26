@@ -36,3 +36,12 @@ test_that("We can construct calls with empty callers", {
     construct(substitute({X(1, 2)}, list(X = quote(expr = ))))
   })
 })
+
+test_that("We can construct calls with non syntactic literals", {
+  expect_snapshot({
+    construct(call("fun", -1))
+    construct(call("fun", 1+0i))
+    construct(call("fun", quote(expr=)))
+    construct(call("+", quote(expr=)))
+  })
+})

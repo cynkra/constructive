@@ -122,6 +122,7 @@ test_that("deparse_call() fails when the caller is empty", {
 
 test_that("deparse_call() fails when the sole arg is empty", {
   expect_error(deparse_call(call("fun", quote(expr = ))), regexp = "Found empty symbol")
+  expect_error(deparse_call(call("+", quote(expr = ))), regexp = "Found empty symbol")
 })
 
 test_that("square brackets", {
