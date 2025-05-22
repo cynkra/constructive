@@ -41,6 +41,12 @@ is_corrupted_S7_class <- function(x) {
   args$properties <- simplify_s7_class_properties(args$properties)
 
   code <- constructive::.cstr_apply(args, fun = "S7::new_class", ...)
+
+  # repair environment
+  code <- .cstr_wrap(code, fun = "")
+  envir_code <- .cstr_apply(list(environment(x)), "(`environment<-`)", ...)
+  code <- .cstr_pipe(code, envir_code, ...)
+
   constructive::.cstr_repair_attributes(
     x, code, ...,
     ignore = attr_names,
