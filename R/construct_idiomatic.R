@@ -14,6 +14,7 @@
     `...` = .cstr_construct.dots(x, ...),
     externalptr = .cstr_construct.externalptr(x, ...),
     S4 = .cstr_construct.S4(x, ...),
+    object = .cstr_construct.object(x, ...),
     character = .cstr_construct.character(x, ...),
     integer = .cstr_construct.integer(x, ...),
     double = .cstr_construct.double(x, ...),
