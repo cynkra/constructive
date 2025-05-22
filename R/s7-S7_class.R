@@ -49,6 +49,11 @@ is_corrupted_S7_class <- function(x) {
 }
 
 is_default_s7_class_constructor <- function(constructor) {
+  # FIXME: in ellmer for instance the default constructor is built with `new_object()`
+  # while with our version it's `S7::new_object()`, also the default constructor's env is
+  # the global env if we eval it there, so we're probably better off always constructing it
+  return(FALSE)
+
   # might be improved but from doc and toying around I gather that custom
   # constructors (assuming no corruption)  have a .data formal and default ones
   # haven't
