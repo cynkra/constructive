@@ -29,7 +29,7 @@ is_corrupted_S7_S3_class <- function(x) {
 .cstr_construct.S7_S3_class.new_S3_class <- function(x, ...) {
   # opts <- list(...)$opts$S7_S3_class %||% opts_S7_S3_class()
   args <- list(x$class)
-  if (!is.null(args$validator)) args$validator <- x$validator
+  if (!is.null(x$validator)) args$validator <- x$validator
   constructor_is_default <-
     identical(topenv(environment(x$constructor)), asNamespace("S7"))
   if (!constructor_is_default) args$constructor <- x$constructor
