@@ -29,7 +29,7 @@ is_corrupted_S7_base_class <- function(x) {
 .cstr_construct.S7_base_class.S7 <- function(x, ...) {
   # opts <- list(...)$opts$S7_base_class %||% opts_S7_base_class()
   args <- list()
-  # FIXME: the following is not enough to construct elmer types
+  # FIXME: the following is not enough to construct ellmer types
   # Filter(\(x) inherits(x, "S7_base_class"), mget(getNamespaceExports("S7"), inherits = TRUE)) |> names() |> construct()
   # candidates <- c(
   #   "class_name", "class_double", "class_complex", "class_call", "class_raw",
