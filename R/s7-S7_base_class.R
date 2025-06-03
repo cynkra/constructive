@@ -38,7 +38,9 @@ is_corrupted_S7_base_class <- function(x) {
   # )
   # fun_nm <- perfect_match(x, mget(candidates, asNamespace("S7")))
   # code <- paste0("S7::", fun_nm)
-  code <- paste0("S7::class_", x$constructor_name)
+  suffix <- x$constructor_name
+  if (suffix == "fun") suffix <- "function"
+  code <- paste0("S7::class_", suffix)
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "S7_base_class"
