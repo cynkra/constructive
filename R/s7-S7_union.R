@@ -3,6 +3,9 @@
 #' These options will be used on objects of class 'S7_union'.
 #'
 #' Depending on `constructor`, we construct the object as follows:
+#' * `"default"` : We build the object using its name if it's a "class_union"
+#'   object provided by the 'S7' package, or fall back to the `"|"` constructor.
+#' * `"|"` : We build the object using the `|` operator.
 #' * `"new_union"` (default): We build the object using `new_union()`.
 #' * `"next"` : Use the constructor for the next supported class.
 #'
