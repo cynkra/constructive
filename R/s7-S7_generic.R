@@ -39,6 +39,18 @@ is_corrupted_S7_generic <- function(x) {
     attr(args$fun, "srcref") <- attr(x, "srcref")
   }
   code <- constructive::.cstr_apply(args, fun = "S7::new_generic", ...)
+
+  # construct methods
+  methods <- attr(x, "methods")
+  for (nm in names(methods)) {
+    method <- methods[[nm]]
+    class <- attr(method, "signature")[[1]]
+    method <- strip(method)
+    method_code <- .cstr_apply(list(class, value = method), "(S7::`method<-`)")
+    code <- .cstr_pipe(code, method_code)
+  }
+
+
   constructive::.cstr_repair_attributes(
     x, code, ...,
     ignore = c(
