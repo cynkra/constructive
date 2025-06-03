@@ -172,8 +172,7 @@ is_corrupted_function <- function(x) {
 repair_attributes_function <- function(x, code, remove_srcref = FALSE, ...) {
   opts <- list(...)$opts$`function` %||% opts_function()
   srcref <- opts[["srcref"]]
-  ignore <- c("name", "path")
-  if (!srcref) ignore <- c(ignore, "srcref")
+  ignore <- if (!srcref) "srcref"
   remove <- if (remove_srcref) "srcref"
   .cstr_repair_attributes(x, code, ..., remove = remove, ignore = ignore)
 }
