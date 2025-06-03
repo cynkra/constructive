@@ -1,6 +1,10 @@
 #' Constructive options for class 'S7_object'
 #'
-#' These options will be used on objects of class 'S7_object'.
+#' These options will be used on objects of class 'S7_object'. This class is
+#' unusual in that it can be applied on objects of different internal types,
+#' objects of length 1 class `"S7_object"` are of type `"object"` while
+#' for instance objects of class `c("S7_class", "S7_object")` are closures.
+#' For closures we fall back to the next method.
 #'
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"S7_object"` (default): We build the object using `S7::S7_object()`.
@@ -17,7 +21,7 @@ opts_S7_object <- function(constructor = c("S7_object", "next"), ...) {
 #' @exportS3Method constructive::.cstr_construct
 .cstr_construct.S7_object <- function(x, ...) {
   opts <- list(...)$opts$S7_object %||% opts_S7_object()
-  if (is_corrupted_S7_object(x) || opts$constructor == "next") return(NextMethod())
+  if (is_corrupted_S7_object(x) || opts$constructor == "next" || is.function(x)) return(NextMethod())
   UseMethod(".cstr_construct.S7_object", structure(NA, class = opts$constructor))
 }
 
