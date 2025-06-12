@@ -188,6 +188,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_noquote]{opts_noquote}(constructor = c("noquote", "next"), ...)}
   \item \code{\link[=opts_NULL]{opts_NULL}(constructor = "NULL", ...)}
   \item \code{\link[=opts_numeric_version]{opts_numeric_version}(constructor = c("numeric_version", "next", "list"), ...)}
+  \item \code{\link[=opts_object]{opts_object}(constructor = c("prototype", "S7_object"), ...)}
   \item \code{\link[=opts_octmode]{opts_octmode}(constructor = c("as.octmode", "next"), ..., integer = FALSE)}
   \item \code{\link[=opts_ordered]{opts_ordered}(constructor = c("ordered", "factor", "new_ordered", "next", "integer"), ...)}
   \item \code{\link[=opts_package_version]{opts_package_version}(constructor = c("package_version", "next", "list"), ...)}
@@ -204,6 +205,15 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_rel]{opts_rel}(constructor = c("rel", "next", "double"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
+  \item \code{\link[=opts_S7_any]{opts_S7_any}(constructor = c("class_any", "next"), ...)}
+  \item \code{\link[=opts_S7_base_class]{opts_S7_base_class}(constructor = c("S7", "next"), ...)}
+  \item \code{\link[=opts_S7_class]{opts_S7_class}(constructor = c("new_class", "next"), ...)}
+  \item \code{\link[=opts_S7_external_generic]{opts_S7_external_generic}(constructor = c("new_external_generic", "next"), ...)}
+  \item \code{\link[=opts_S7_generic]{opts_S7_generic}(constructor = c("new_generic", "next"), ...)}
+  \item \code{\link[=opts_S7_object]{opts_S7_object}(constructor = c("S7_object", "next"), ...)}
+  \item \code{\link[=opts_S7_property]{opts_S7_property}(constructor = c("new_property", "next"), ...)}
+  \item \code{\link[=opts_S7_S3_class]{opts_S7_S3_class}(constructor = c("new_S3_class", "next"), ...)}
+  \item \code{\link[=opts_S7_union]{opts_S7_union}(constructor = c("default", "|", "new_union", "next"), ...)}
   \item \code{\link[=opts_Scale]{opts_Scale}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_ScalesList]{opts_ScalesList}(constructor = c("ScalesList", "next", "list"), ...)}
   \item \code{\link[=opts_simpleCondition]{opts_simpleCondition}(constructor = c("simpleCondition", "next"), ...)}
