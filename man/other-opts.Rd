@@ -15,6 +15,7 @@
 %   R/s3-ggplot2-ggplot2-element_line.R, R/s3-ggplot2-ggplot2-element_point.R,
 %   R/s3-ggplot2-ggplot2-element_polygon.R, R/s3-ggplot2-ggplot2-element_rect.R,
 %   R/s3-ggplot2-ggplot2-element_text.R, R/s3-ggplot2-ggplot2-mapping.R,
+%   R/s3-ggplot2-ggplot2-margin.R, R/s3-ggplot2-ggplot2-theme.R,
 %   R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R, R/s3-ggplot2-margin.R,
 %   R/s3-ggplot2-rel.R, R/s3-ggplot2-theme.R, R/s3-ggplot2-uneval.R,
 %   R/s3-ggplot2-waiver.R, R/s3-noquote.R, R/s3-person.R,
@@ -56,6 +57,8 @@
 \alias{opts_ggplot2::element_rect}
 \alias{opts_ggplot2::element_text}
 \alias{opts_ggplot2::mapping}
+\alias{opts_ggplot2::margin}
+\alias{opts_ggplot2::theme}
 \alias{opts_ggproto}
 \alias{opts_labels}
 \alias{opts_margin}
@@ -88,7 +91,7 @@ opts_error(constructor = c("errorCondition", "next"), ...)
 opts_expression(constructor = c("default"), ...)
 
 opts_CoordCartesian(
-  constructor = c("coord_cartesian", "next", "environment"),
+  constructor = c("default", "coord_cartesian", "next", "environment"),
   ...
 )
 
@@ -155,6 +158,10 @@ opts_element_text(constructor = c("element_text", "next", "list"), ...)
 `opts_ggplot2::element_text`(constructor = c("element_text", "next"), ...)
 
 `opts_ggplot2::mapping`(constructor = c("aes", "next", "list"), ...)
+
+`opts_ggplot2::margin`(constructor = c("margin", "next", "double"), ...)
+
+`opts_ggplot2::theme`(constructor = c("theme", "next", "list"), ...)
 
 opts_ggproto(constructor = c("default", "next", "environment"), ...)
 

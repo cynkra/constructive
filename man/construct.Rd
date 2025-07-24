@@ -141,7 +141,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}
   \item \code{\link[=opts_complex]{opts_complex}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_constructive_options]{opts_constructive_options}(constructor = c("opts", "next"), ...)}
-  \item \code{\link[=opts_CoordCartesian]{opts_CoordCartesian}(constructor = c("coord_cartesian", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordCartesian]{opts_CoordCartesian}(constructor = c("default", "coord_cartesian", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordFixed]{opts_CoordFixed}(constructor = c("coord_fixed", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordFlip]{opts_CoordFlip}(constructor = c("coord_flip", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordMap]{opts_CoordMap}(constructor = c("coord_map", "next", "environment"), ...)}
@@ -181,8 +181,11 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ggplot2::element_polygon]{opts_ggplot2::element_polygon}(constructor = c("element_polygon", "next"), ...)}
   \item \code{\link[=opts_ggplot2::element_rect]{opts_ggplot2::element_rect}(constructor = c("element_rect", "next"), ...)}
   \item \code{\link[=opts_ggplot2::element_text]{opts_ggplot2::element_text}(constructor = c("element_text", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::ggplot]{opts_ggplot2::ggplot}(constructor = c("ggplot", "next", "list"), ...)}
   \item \code{\link[=opts_ggplot2::labels]{opts_ggplot2::labels}(constructor = c("labs", "next"), ...)}
   \item \code{\link[=opts_ggplot2::mapping]{opts_ggplot2::mapping}(constructor = c("aes", "next", "list"), ...)}
+  \item \code{\link[=opts_ggplot2::margin]{opts_ggplot2::margin}(constructor = c("margin", "next", "double"), ...)}
+  \item \code{\link[=opts_ggplot2::theme]{opts_ggplot2::theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_hexmode]{opts_hexmode}(constructor = c("as.hexmode", "next"), ..., integer = FALSE)}

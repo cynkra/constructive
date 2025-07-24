@@ -7,15 +7,15 @@
     Code
       construct(ggplot2::coord_fixed(ratio = 5))
     Output
-      ggplot2::coord_fixed(5)
+      ggplot2::coord_fixed(ratio = 5)
     Code
       construct(ggplot2::coord_fixed(ratio = 1 / 5))
     Output
-      ggplot2::coord_fixed(0.2)
+      ggplot2::coord_fixed(ratio = 0.2)
     Code
       construct(ggplot2::coord_fixed(xlim = c(15, 30)))
     Output
-      ggplot2::coord_cartesian(xlim = c(15, 30), ratio = 1)
+      ggplot2::coord_fixed(xlim = c(15, 30))
 
 ---
 
@@ -26,15 +26,15 @@
     Code
       construct(ggplot2::coord_fixed(ratio = 5))
     Output
-      ggplot2::coord_fixed(5)
+      ggplot2::coord_fixed(ratio = 5)
     Code
       construct(ggplot2::coord_fixed(ratio = 1 / 5))
     Output
-      ggplot2::coord_fixed(0.2)
+      ggplot2::coord_fixed(ratio = 0.2)
     Code
       construct(ggplot2::coord_fixed(xlim = c(15, 30)))
     Output
-      ggplot2::coord_cartesian(xlim = c(15, 30), ratio = 1)
+      ggplot2::coord_fixed(xlim = c(15, 30))
 
 # CoordFixed <= v3.5.2
 
@@ -42,13 +42,6 @@
       construct(ggplot2::coord_fixed(xlim = c(15, 30)))
     Output
       ggplot2::coord_fixed(xlim = c(15, 30))
-
-# CoordFixed > v3.5.2
-
-    Code
-      construct(ggplot2::coord_fixed(xlim = c(15, 30)))
-    Output
-      ggplot2::coord_cartesian(xlim = c(15, 30), ratio = 1)
 
 # CoordFlip
 
@@ -102,16 +95,4 @@
         4326)))
     Output
       ggplot2::coord_sf(default_crs = crs)
-
-# CoordTransform > v3.5.2
-
-    Code
-      construct(ggplot2::coord_transform(x = "log10", y = "log10"), check = FALSE)
-    Output
-      ggplot2::coord_transform(x = "log-10", y = "log-10")
-    Code
-      construct(ggplot2::coord_transform(x = scales::exp_trans(10), y = scales::exp_trans(
-        10)), check = FALSE)
-    Output
-      ggplot2::coord_transform(x = "power-10", y = "power-10")
 
