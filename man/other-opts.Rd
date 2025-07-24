@@ -11,6 +11,10 @@
 %   R/s3-ggplot2-element_blank.R, R/s3-ggplot2-element_grob.R,
 %   R/s3-ggplot2-element_line.R, R/s3-ggplot2-element_rect.R,
 %   R/s3-ggplot2-element_render.R, R/s3-ggplot2-element_text.R,
+%   R/s3-ggplot2-ggplot2-element_blank.R, R/s3-ggplot2-ggplot2-element_geom.R,
+%   R/s3-ggplot2-ggplot2-element_line.R, R/s3-ggplot2-ggplot2-element_point.R,
+%   R/s3-ggplot2-ggplot2-element_polygon.R, R/s3-ggplot2-ggplot2-element_rect.R,
+%   R/s3-ggplot2-ggplot2-element_text.R, R/s3-ggplot2-ggplot2-mapping.R,
 %   R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R, R/s3-ggplot2-margin.R,
 %   R/s3-ggplot2-rel.R, R/s3-ggplot2-theme.R, R/s3-ggplot2-uneval.R,
 %   R/s3-ggplot2-waiver.R, R/s3-noquote.R, R/s3-person.R,
@@ -44,6 +48,14 @@
 \alias{opts_element_rect}
 \alias{opts_element_render}
 \alias{opts_element_text}
+\alias{opts_ggplot2::element_blank}
+\alias{opts_ggplot2::element_geom}
+\alias{opts_ggplot2::element_line}
+\alias{opts_ggplot2::element_point}
+\alias{opts_ggplot2::element_polygon}
+\alias{opts_ggplot2::element_rect}
+\alias{opts_ggplot2::element_text}
+\alias{opts_ggplot2::mapping}
 \alias{opts_ggproto}
 \alias{opts_labels}
 \alias{opts_margin}
@@ -124,6 +136,25 @@ opts_element_rect(constructor = c("element_rect", "next", "list"), ...)
 opts_element_render(constructor = c("element_render", "next", "list"), ...)
 
 opts_element_text(constructor = c("element_text", "next", "list"), ...)
+
+`opts_ggplot2::element_blank`(constructor = c("element_blank", "next"), ...)
+
+`opts_ggplot2::element_geom`(constructor = c("element_geom", "next"), ...)
+
+`opts_ggplot2::element_line`(constructor = c("element_line", "next"), ...)
+
+`opts_ggplot2::element_point`(constructor = c("element_point", "next"), ...)
+
+`opts_ggplot2::element_polygon`(
+  constructor = c("element_polygon", "next"),
+  ...
+)
+
+`opts_ggplot2::element_rect`(constructor = c("element_rect", "next"), ...)
+
+`opts_ggplot2::element_text`(constructor = c("element_text", "next"), ...)
+
+`opts_ggplot2::mapping`(constructor = c("aes", "next", "list"), ...)
 
 opts_ggproto(constructor = c("default", "next", "environment"), ...)
 
