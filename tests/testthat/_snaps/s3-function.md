@@ -29,16 +29,18 @@
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      function(x) x
+      (function(x) x) |>
+        structure(srcref = NULL)
     Code
       construct(f2, opts_function(srcref = TRUE, environment = FALSE))
     Message
       {constructive} couldn't create code that reproduces perfectly the input
       i Call `construct_issues()` to inspect the last issues
     Output
-      function(x) {
+      (function(x) {
         x
-      }
+      }) |>
+        structure(srcref = NULL)
     Code
       construct(f1, opts_function("as.function"))
     Output

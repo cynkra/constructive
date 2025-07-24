@@ -382,3 +382,10 @@ user_env <- function() {
   # sys.frames() doesn't contain .GlobalEnv
   parent.frame(length(envs) - i + 1)
 }
+
+compare_proxy_S7_object <- function(x, path) {
+  if (is.function(x)) {
+    x <- rlang::zap_srcref(x)
+  }
+  list(object = x, path = path)
+}
