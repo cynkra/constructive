@@ -166,8 +166,13 @@ pipe_to_scales <- function(code, scales, ...) {
 
 pipe_to_theme <- function(code, theme, ...) {
   # an empty theme has attributes "complete" and "validate" it has a (non functional) effect
-  if (!length(theme) && !length(attributes(theme))) return(code)
-  class(theme) <- c("theme", "gg")
+  if (with_versions(ggplot2 <= "3.5.2")) {
+    if (!length(theme) && !length(attributes(theme))) return(code)
+    class(theme) <- c("theme", "gg")
+  } else {
+    if (!length(theme)) return(code)
+  }
+
   theme_code <- .cstr_construct(theme, ...)
   .cstr_pipe(code, theme_code, pipe = "plus", one_liner = list(...)$one_liner)
 }
