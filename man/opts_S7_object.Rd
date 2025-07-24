@@ -15,7 +15,11 @@ opts_S7_object(constructor = c("S7_object", "next"), ...)
 An object of class <constructive_options/constructive_options_S7_object>
 }
 \description{
-These options will be used on objects of class 'S7_object'.
+These options will be used on objects of class 'S7_object'. This class is
+unusual in that it can be applied on objects of different internal types,
+objects of length 1 class \code{"S7_object"} are of type \code{"object"} while
+for instance objects of class \code{c("S7_class", "S7_object")} are closures.
+For closures we fall back to the next method.
 }
 \details{
 Depending on \code{constructor}, we construct the object as follows:
