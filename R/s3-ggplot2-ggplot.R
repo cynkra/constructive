@@ -66,11 +66,25 @@ is_corrupted_ggplot <- function(x) {
 }
 
 repair_attributes_ggplot <- function(x, code, pipe = NULL, ...) {
+  if (one_liner) {
+    code_with_parens <- paste0("(", code, ")")
+  } else {
+    code_with_parens <- c("(", indent(code), ")")
+  }
   .cstr_repair_attributes(
-    x, code, pipe = pipe,
+    x, code_with_parens, pipe = pipe,
     idiomatic_class = c("gg", "ggplot"),
     ...
   )
+  code_with_attrs <- .cstr_repair_attributes(
+    x, code_with_parens, pipe = pipe,
+    idiomatic_class = c("gg", "ggplot"),
+    one_liner = one_liner,
+    ...
+  )
+  nothing_to_repair <- identical(code_with_attrs, code_with_parens)
+  if (nothing_to_repair) return(code)
+  code_with_attrs
 }
 
 construct_ggplot_call <- function(mapping, ...) {
