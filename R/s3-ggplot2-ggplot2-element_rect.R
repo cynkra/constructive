@@ -5,7 +5,7 @@
 }
 
 #' @export
-#' @method .cstr_construct element_rect
+#' @method .cstr_construct ggplot2::element_rect
 `.cstr_construct.ggplot2::element_rect` <- function(x, ...) {
   opts <- list(...)$opts$element_rect %||% `opts_ggplot2::element_rect`()
   if (`is_corrupted_ggplot2::element_rect`(x) || opts$constructor == "next") return(NextMethod())
@@ -17,7 +17,7 @@
 }
 
 #' @export
-#' @method .cstr_construct.element_rect element_rect
+#' @method .cstr_construct.ggplot2::element_rect element_rect
 `.cstr_construct.ggplot2::element_rect.element_rect` <- function(x, ...) {
   args <- list(
     fill = x@fill,

@@ -5,7 +5,7 @@
 }
 
 #' @export
-#' @method .cstr_construct element_text
+#' @method .cstr_construct ggplot2::element_text
 `.cstr_construct.ggplot2::element_text` <- function(x, ...) {
   opts <- list(...)$opts$element_text %||% `opts_ggplot2::element_text`()
   if (`is_corrupted_ggplot2::element_text`(x) || opts$constructor == "next") return(NextMethod())
@@ -17,7 +17,7 @@
 }
 
 #' @export
-#' @method .cstr_construct.element_text element_text
+#' @method .cstr_construct.ggplot2::element_text element_text
 `.cstr_construct.ggplot2::element_text.element_text` <- function(x, ...) {
   args <- list(
     family = x@family,

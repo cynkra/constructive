@@ -5,7 +5,7 @@
 }
 
 #' @export
-#' @method .cstr_construct element_point
+#' @method .cstr_construct ggplot2::element_point
 `.cstr_construct.ggplot2::element_point` <- function(x, ...) {
   opts <- list(...)$opts$element_point %||% `opts_ggplot2::element_point`()
   if (`is_corrupted_ggplot2::element_point`(x) || opts$constructor == "next") return(NextMethod())
@@ -17,7 +17,7 @@
 }
 
 #' @export
-#' @method .cstr_construct.element_point element_point
+#' @method .cstr_construct.ggplot2::element_point element_point
 `.cstr_construct.ggplot2::element_point.element_point` <- function(x, ...) {
   args <- list(
     colour = x@colour,

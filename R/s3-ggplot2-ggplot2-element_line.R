@@ -5,7 +5,7 @@
 }
 
 #' @export
-#' @method .cstr_construct element_line
+#' @method .cstr_construct ggplot2::element_line
 `.cstr_construct.ggplot2::element_line` <- function(x, ...) {
   opts <- list(...)$opts$element_line %||% `opts_ggplot2::element_line`()
   if (`is_corrupted_ggplot2::element_line`(x) || opts$constructor == "next") return(NextMethod())
@@ -17,7 +17,7 @@
 }
 
 #' @export
-#' @method .cstr_construct.element_line element_line
+#' @method .cstr_construct.ggplot2::element_line element_line
 `.cstr_construct.ggplot2::element_line.element_line` <- function(x, ...) {
   args <- list(
     colour = x@colour,

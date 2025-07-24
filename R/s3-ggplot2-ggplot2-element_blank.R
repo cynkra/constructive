@@ -5,7 +5,7 @@
 }
 
 #' @export
-#' @method .cstr_construct element_blank
+#' @method .cstr_construct ggplot2::element_blank
 `.cstr_construct.ggplot2::element_blank` <- function(x, ...) {
   opts <- list(...)$opts$element_blank %||% `opts_ggplot2::element_blank`()
   if (`is_corrupted_ggplot2::element_blank`(x) || opts$constructor == "next") return(NextMethod())
@@ -17,7 +17,7 @@
 }
 
 #' @export
-#' @method .cstr_construct.element_blank element_blank
+#' @method .cstr_construct.ggplot2::element_blank element_blank
 `.cstr_construct.ggplot2::element_blank.element_blank` <- function(x, ...) {
   code <- "ggplot2::element_blank()"
   `repair_attributes_ggplot2::element_blank`(x, code, ...)

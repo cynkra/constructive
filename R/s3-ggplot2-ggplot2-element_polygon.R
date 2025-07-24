@@ -5,7 +5,7 @@
 }
 
 #' @export
-#' @method .cstr_construct element_polygon
+#' @method .cstr_construct ggplot2::element_polygon
 `.cstr_construct.ggplot2::element_polygon` <- function(x, ...) {
   opts <- list(...)$opts$element_polygon %||% `opts_ggplot2::element_polygon`()
   if (`is_corrupted_ggplot2::element_polygon`(x) || opts$constructor == "next") return(NextMethod())
@@ -17,7 +17,7 @@
 }
 
 #' @export
-#' @method .cstr_construct.element_polygon element_polygon
+#' @method .cstr_construct.ggplot2::element_polygon element_polygon
 `.cstr_construct.ggplot2::element_polygon.element_polygon` <- function(x, ...) {
   args <- list(
     fill = x@fill,

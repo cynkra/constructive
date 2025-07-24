@@ -5,7 +5,7 @@
 }
 
 #' @export
-#' @method .cstr_construct element_geom
+#' @method .cstr_construct ggplot2::element_geom
 `.cstr_construct.ggplot2::element_geom` <- function(x, ...) {
   opts <- list(...)$opts$element_geom %||% `opts_ggplot2::element_geom`()
   if (`is_corrupted_ggplot2::element_geom`(x) || opts$constructor == "next") return(NextMethod())
@@ -17,7 +17,7 @@
 }
 
 #' @export
-#' @method .cstr_construct.element_geom element_geom
+#' @method .cstr_construct.ggplot2::element_geom element_geom
 `.cstr_construct.ggplot2::element_geom.element_geom` <- function(x, ...) {
   args <- list(
     ink = x@ink,
