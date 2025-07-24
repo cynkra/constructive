@@ -13,8 +13,7 @@ opts_element_text <- function(constructor = c("element_text", "next", "list"), .
 }
 
 is_corrupted_element_text <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export

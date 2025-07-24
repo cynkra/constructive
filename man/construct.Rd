@@ -141,7 +141,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}
   \item \code{\link[=opts_complex]{opts_complex}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_constructive_options]{opts_constructive_options}(constructor = c("opts", "next"), ...)}
-  \item \code{\link[=opts_CoordCartesian]{opts_CoordCartesian}(constructor = c("coord_cartesian", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordCartesian]{opts_CoordCartesian}(constructor = c("default", "coord_cartesian", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordFixed]{opts_CoordFixed}(constructor = c("coord_fixed", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordFlip]{opts_CoordFlip}(constructor = c("coord_flip", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordMap]{opts_CoordMap}(constructor = c("coord_map", "next", "environment"), ...)}
@@ -150,6 +150,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_CoordQuickmap]{opts_CoordQuickmap}(constructor = c("coord_quickmap", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordSf]{opts_CoordSf}(constructor = c("coord_sf", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordTrans]{opts_CoordTrans}(constructor = c("coord_trans", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordTransform]{opts_CoordTransform}(constructor = c("coord_transform", "next"), ...)}
   \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ..., recycle = TRUE)}
   \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE)}
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")}
@@ -173,6 +174,18 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_formula]{opts_formula}(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)}
   \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
   \item \code{\link[=opts_ggplot]{opts_ggplot}(constructor = c("ggplot", "next", "list"), ...)}
+  \item \code{\link[=opts_ggplot2::element_blank]{opts_ggplot2::element_blank}(constructor = c("element_blank", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::element_geom]{opts_ggplot2::element_geom}(constructor = c("element_geom", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::element_line]{opts_ggplot2::element_line}(constructor = c("element_line", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::element_point]{opts_ggplot2::element_point}(constructor = c("element_point", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::element_polygon]{opts_ggplot2::element_polygon}(constructor = c("element_polygon", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::element_rect]{opts_ggplot2::element_rect}(constructor = c("element_rect", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::element_text]{opts_ggplot2::element_text}(constructor = c("element_text", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::ggplot]{opts_ggplot2::ggplot}(constructor = c("ggplot", "next", "list"), ...)}
+  \item \code{\link[=opts_ggplot2::labels]{opts_ggplot2::labels}(constructor = c("labs", "next"), ...)}
+  \item \code{\link[=opts_ggplot2::mapping]{opts_ggplot2::mapping}(constructor = c("aes", "next", "list"), ...)}
+  \item \code{\link[=opts_ggplot2::margin]{opts_ggplot2::margin}(constructor = c("margin", "next", "double"), ...)}
+  \item \code{\link[=opts_ggplot2::theme]{opts_ggplot2::theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_hexmode]{opts_hexmode}(constructor = c("as.hexmode", "next"), ..., integer = FALSE)}

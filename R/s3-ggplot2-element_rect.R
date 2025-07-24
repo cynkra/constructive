@@ -13,8 +13,7 @@ opts_element_rect <- function(constructor = c("element_rect", "next", "list"), .
 }
 
 is_corrupted_element_rect <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export

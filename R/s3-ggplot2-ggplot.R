@@ -25,8 +25,7 @@ opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
 }
 
 is_corrupted_ggplot <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export
@@ -67,11 +66,25 @@ is_corrupted_ggplot <- function(x) {
 }
 
 repair_attributes_ggplot <- function(x, code, pipe = NULL, ...) {
+  if (one_liner) {
+    code_with_parens <- paste0("(", code, ")")
+  } else {
+    code_with_parens <- c("(", indent(code), ")")
+  }
   .cstr_repair_attributes(
-    x, code, pipe = pipe,
+    x, code_with_parens, pipe = pipe,
     idiomatic_class = c("gg", "ggplot"),
     ...
   )
+  code_with_attrs <- .cstr_repair_attributes(
+    x, code_with_parens, pipe = pipe,
+    idiomatic_class = c("gg", "ggplot"),
+    one_liner = one_liner,
+    ...
+  )
+  nothing_to_repair <- identical(code_with_attrs, code_with_parens)
+  if (nothing_to_repair) return(code)
+  code_with_attrs
 }
 
 construct_ggplot_call <- function(mapping, ...) {
@@ -153,8 +166,13 @@ pipe_to_scales <- function(code, scales, ...) {
 
 pipe_to_theme <- function(code, theme, ...) {
   # an empty theme has attributes "complete" and "validate" it has a (non functional) effect
-  if (!length(theme) && !length(attributes(theme))) return(code)
-  class(theme) <- c("theme", "gg")
+  if (with_versions(ggplot2 <= "3.5.2")) {
+    if (!length(theme) && !length(attributes(theme))) return(code)
+    class(theme) <- c("theme", "gg")
+  } else {
+    if (!length(theme)) return(code)
+  }
+
   theme_code <- .cstr_construct(theme, ...)
   .cstr_pipe(code, theme_code, pipe = "plus", one_liner = list(...)$one_liner)
 }
