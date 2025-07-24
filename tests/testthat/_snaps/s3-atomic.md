@@ -341,6 +341,34 @@
       construct(c(1 + 0+1i, complex(real = NaN, imaginary = 1)))
     Output
       c(1+1i, complex(real = NaN, imaginary = 1))
+    Code
+      construct(complex(real = -0, imaginary = -0))
+    Output
+      -0-0i
+    Code
+      construct(complex(real = -0, imaginary = 0))
+    Output
+      -0+0i
+    Code
+      construct(complex(real = -0, imaginary = -0))
+    Output
+      -0-0i
+    Code
+      construct(0 + 0+0i)
+    Output
+      0i
+    Code
+      construct(0 - 0+0i)
+    Output
+      0i
+    Code
+      construct(-0 - 0+0i)
+    Output
+      0i
+    Code
+      construct(-0 + 0+0i)
+    Output
+      0i
 
 # NA and empty names
 

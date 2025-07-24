@@ -117,7 +117,7 @@ pipe_to_labels <- function(code, labels, mapping, layers, ...) {
   mappings <- unlist(c(mapping, lapply(layers, function(x) x$mapping)))
   mappings <- mappings[unique(names(mappings))]
   # discard mappings given as syntactic literals
-  litts <- vapply(mappings, rlang::is_syntactic_literal, logical(1))
+  litts <- vapply(mappings, is_syntactic_literal2, logical(1))
   litt_nms <- names(mappings[litts])
   mappings <- mappings[!litts]
   default_labs <- vapply(
