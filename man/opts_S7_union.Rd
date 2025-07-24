@@ -23,7 +23,7 @@ Depending on \code{constructor}, we construct the object as follows:
 \item \code{"default"} : We build the object using its name if it's a "class_union"
 object provided by the 'S7' package, or fall back to the \code{"|"} constructor.
 \item \code{"|"} : We build the object using the \code{|} operator.
-\item \code{"new_union"} (default): We build the object using \code{new_union()}.
+\item \code{"new_union"} (default): We build the object using \code{S7::new_union()}.
 \item \code{"next"} : Use the constructor for the next supported class.
 }
 }
