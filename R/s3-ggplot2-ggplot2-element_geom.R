@@ -19,6 +19,21 @@
 #' @export
 #' @method .cstr_construct.ggplot2::element_geom element_geom
 `.cstr_construct.ggplot2::element_geom.element_geom` <- function(x, ...) {
+  # points per millimeter
+
+  # a factor .pt meaning points per millimeter is applied
+  # .pt = points per inch / mm per inch = 72.27 / 25.4
+  .pt <-  72.27/25.4
+  fontsize_reconstructed <- x@fontsize * 72.27 / 25.4
+
+  # because of floating point there are several solutions
+  # we assume the user provided a round amount so we check if the
+  # round version works and take it if it does
+  fontsize_rounded <- round(fontsize_reconstructed, 14)
+  if (identical(fontsize_rounded * 25.4 / 72.27, fontsize_reconstructed * 25.4 / 72.27)) {
+    fontsize_reconstructed <- fontsize_rounded
+  }
+
   args <- list(
     ink = x@ink,
     paper = x@paper,
@@ -28,7 +43,9 @@
     linetype = x@linetype,
     bordertype = x@bordertype,
     family = x@family,
-    fontsize = x@fontsize,
+    # a factor .pt meaning points per millimeter is applies
+    # .pt = points per inch / mm per inch = 72.27 / 25.4
+    fontsize = fontsize_rounded,
     pointsize = x@pointsize,
     pointshape = x@pointshape,
     colour = x@colour,
