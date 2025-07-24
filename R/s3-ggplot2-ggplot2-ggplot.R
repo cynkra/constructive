@@ -57,7 +57,11 @@
   code <- pipe_to_scales(code, x@scales, ...)
 
   ## theme
-  code <- pipe_to_theme(code, x@theme, ...)
+  # post v3.5.2 there is always a theme element even if empty
+  if (length(x@theme)) {
+    code <- pipe_to_theme(code, x@theme, ...)
+  }
+
 
   ## coord
   code <- pipe_to_coord(code, x@coordinates, ...)
