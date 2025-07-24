@@ -38,6 +38,6 @@ is_corrupted_margin <- function(x) {
   repair_attributes_margin(x, code, ...)
 }
 
-repair_attributes_margin <- function(x, ...) {
-  .cstr_repair_attributes(x, idiomatic_class = c("margin", "simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
+repair_attributes_margin <- function(x, code, ...) {
+  .cstr_repair_attributes(x, code, idiomatic_class = c("margin", "simpleUnit", "unit", "unit_v2"), ignore = "unit", ...)
 }
