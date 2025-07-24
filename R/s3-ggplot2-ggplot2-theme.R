@@ -30,7 +30,10 @@
   args$validate <- if (!attr(x, "validate")) FALSE
   if (attr(x, "complete")) {
     code <- guess_complete_theme(x, ...)
-    if (!is.null(code)) return(code)
+    if (!is.null(code)) {
+      `repair_attributes_ggplot2::theme`(x, code, ...)
+      return(code)
+    }
   }
   code <- .cstr_apply(args, "ggplot2::theme", ...)
   `repair_attributes_ggplot2::theme`(x, code, ...)
