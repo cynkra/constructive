@@ -111,6 +111,12 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
   evaled <- try_eval(styled_code, data, check, caller)
   if (missing(evaled) || (is.null(evaled) && !is.null(x))) return(NULL)
 
+  if (compare$ignore_srcref) {
+    rlang::local_bindings(
+      compare_proxy.S7_object = compare_proxy_S7_object,
+      .env = .GlobalEnv
+    )
+  }
   # set custom method for waldo
   rlang::local_bindings(
     compare_proxy.ggplot = compare_proxy_ggplot,
