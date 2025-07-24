@@ -181,7 +181,13 @@ flatten.scales <- function(gg) {
   `$` <- base::`$`
   # take stock how many different scales are contained within the top-level
   # scale list, & sort their names alphabetically for consistency
-  orig.scales <-gg[["scales"]]
+  # FIXME: scrub new ggplot
+  if (with_versions(ggplot2 > "3.5.2")) {
+    orig.scales <- gg@scales
+  } else {
+    orig.scales <- gg[["scales"]]
+  }
+
   scale.count <-  orig.scales$n()
   scale.aesthetics <- lapply(seq_len(scale.count),
                              function(i) orig.scales$scales[[i]]$aesthetics)
@@ -211,7 +217,12 @@ flatten.scales <- function(gg) {
     new.scales$add(scale.to.add)
   }
 
-  gg[["scales"]] <- new.scales
+  if (with_versions(ggplot2 > "3.5.2")) {
+    gg@scales <- new.scales
+  } else {
+    gg[["scales"]] <- new.scales
+  }
+
   return(gg)
 }
 
