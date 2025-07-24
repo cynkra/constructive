@@ -13,8 +13,7 @@ opts_element_line <- function(constructor = c("element_line", "next", "list"), .
 }
 
 is_corrupted_element_line <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export

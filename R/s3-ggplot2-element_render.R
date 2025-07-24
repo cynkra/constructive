@@ -13,8 +13,7 @@ opts_element_render <- function(constructor = c("element_render", "next", "list"
 }
 
 is_corrupted_element_render <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export

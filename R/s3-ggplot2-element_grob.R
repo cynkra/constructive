@@ -13,8 +13,7 @@ opts_element_grob <- function(constructor = c("element_grob", "next", "list"), .
 }
 
 is_corrupted_element_grob <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export

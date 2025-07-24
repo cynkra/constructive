@@ -25,8 +25,7 @@ opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
 }
 
 is_corrupted_ggplot <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export
