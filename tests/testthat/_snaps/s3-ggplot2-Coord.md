@@ -96,3 +96,15 @@
     Output
       ggplot2::coord_sf(default_crs = crs)
 
+# CoordTransform > v3.5.2
+
+    Code
+      construct(ggplot2::coord_transform(x = "log10", y = "log10"), check = FALSE)
+    Output
+      ggplot2::coord_transform(x = "log-10", y = "log-10")
+    Code
+      construct(ggplot2::coord_transform(x = scales::exp_trans(10), y = scales::exp_trans(
+        10)), check = FALSE)
+    Output
+      ggplot2::coord_transform(x = "power-10", y = "power-10")
+
