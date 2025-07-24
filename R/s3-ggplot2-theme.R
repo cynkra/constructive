@@ -13,8 +13,7 @@ opts_theme <- function(constructor = c("theme", "next", "list"), ...) {
 }
 
 is_corrupted_theme <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x) || !is.null(attr(x, "S7_class"))
 }
 
 #' @export
@@ -33,11 +32,8 @@ is_corrupted_theme <- function(x) {
     code <- guess_complete_theme(x, ...)
     if (!is.null(code)) return(code)
   }
-  .cstr_apply(args, "ggplot2::theme", ...)
-}
-
-repair_attributes_theme <- function(x, ...) {
-  .cstr_repair_attributes(x, idiomatic_class = c("theme", "gg"), ...)
+  code <- .cstr_apply(args, "ggplot2::theme", ...)
+  repair_attributes_theme(x, code, ...)
 }
 
 strip_theme <- function(x) {
@@ -120,8 +116,8 @@ guess_complete_theme <- function(x, ...) {
   NULL
 }
 
-repair_attributes_theme <- function(x, ...) {
+repair_attributes_theme <- function(x, code, ...) {
   ignore <- c("complete", "validate")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
-  .cstr_repair_attributes(x, idiomatic_class = c("theme", "gg"), ignore = ignore, ...)
+  .cstr_repair_attributes(x, code, idiomatic_class = c("theme", "gg"), ignore = ignore, ...)
 }
