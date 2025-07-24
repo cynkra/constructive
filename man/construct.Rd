@@ -167,6 +167,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_error]{opts_error}(constructor = c("errorCondition", "next"), ...)}
   \item \code{\link[=opts_expression]{opts_expression}(constructor = c("default"), ...)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
+  \item \code{\link[=opts_FacetGrid]{opts_FacetGrid}(constructor = c("facet_grid", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_FacetWrap]{opts_FacetWrap}(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...)}
   \item \code{\link[=opts_formula]{opts_formula}(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)}

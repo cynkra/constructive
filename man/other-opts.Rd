@@ -6,13 +6,14 @@
 %   R/s3-ggplot2-CoordFlip.R, R/s3-ggplot2-CoordMap.R,
 %   R/s3-ggplot2-CoordMunch.R, R/s3-ggplot2-CoordPolar.R,
 %   R/s3-ggplot2-CoordQuickmap.R, R/s3-ggplot2-CoordSf.R,
-%   R/s3-ggplot2-CoordTrans.R, R/s3-ggplot2-FacetWrap.R, R/s3-ggplot2-Scale.R,
-%   R/s3-ggplot2-ScalesList.R, R/s3-ggplot2-element_blank.R,
-%   R/s3-ggplot2-element_grob.R, R/s3-ggplot2-element_line.R,
-%   R/s3-ggplot2-element_rect.R, R/s3-ggplot2-element_render.R,
-%   R/s3-ggplot2-element_text.R, R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R,
-%   R/s3-ggplot2-margin.R, R/s3-ggplot2-rel.R, R/s3-ggplot2-theme.R,
-%   R/s3-ggplot2-uneval.R, R/s3-ggplot2-waiver.R, R/s3-noquote.R, R/s3-person.R,
+%   R/s3-ggplot2-CoordTrans.R, R/s3-ggplot2-FacetGrid.R,
+%   R/s3-ggplot2-FacetWrap.R, R/s3-ggplot2-Scale.R, R/s3-ggplot2-ScalesList.R,
+%   R/s3-ggplot2-element_blank.R, R/s3-ggplot2-element_grob.R,
+%   R/s3-ggplot2-element_line.R, R/s3-ggplot2-element_rect.R,
+%   R/s3-ggplot2-element_render.R, R/s3-ggplot2-element_text.R,
+%   R/s3-ggplot2-ggproto.R, R/s3-ggplot2-labels.R, R/s3-ggplot2-margin.R,
+%   R/s3-ggplot2-rel.R, R/s3-ggplot2-theme.R, R/s3-ggplot2-uneval.R,
+%   R/s3-ggplot2-waiver.R, R/s3-noquote.R, R/s3-person.R,
 %   R/s3-simpleCondition.R, R/s3-simpleError.R, R/s3-simpleMessage.R,
 %   R/s3-simpleUnit.R, R/s3-simpleWarning.R, R/s3-warning.R
 \name{other-opts}
@@ -33,6 +34,7 @@
 \alias{opts_CoordQuickmap}
 \alias{opts_CoordSf}
 \alias{opts_CoordTrans}
+\alias{opts_FacetGrid}
 \alias{opts_FacetWrap}
 \alias{opts_Scale}
 \alias{opts_ScalesList}
@@ -96,6 +98,11 @@ opts_CoordQuickmap(
 opts_CoordSf(constructor = c("coord_sf", "next", "environment"), ...)
 
 opts_CoordTrans(constructor = c("coord_trans", "next", "environment"), ...)
+
+opts_FacetGrid(
+  constructor = c("facet_grid", "ggproto", "next", "environment"),
+  ...
+)
 
 opts_FacetWrap(
   constructor = c("facet_wrap", "ggproto", "next", "environment"),
