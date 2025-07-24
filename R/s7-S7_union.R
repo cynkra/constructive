@@ -6,7 +6,7 @@
 #' * `"default"` : We build the object using its name if it's a "class_union"
 #'   object provided by the 'S7' package, or fall back to the `"|"` constructor.
 #' * `"|"` : We build the object using the `|` operator.
-#' * `"new_union"` (default): We build the object using `new_union()`.
+#' * `"new_union"` (default): We build the object using `S7::new_union()`.
 #' * `"next"` : Use the constructor for the next supported class.
 #'
 #' @param constructor String. Name of the function used to construct the object.
@@ -61,7 +61,7 @@ is_corrupted_S7_union <- function(x) {
 .cstr_construct.S7_union.new_union <- function(x, ...) {
   # opts <- list(...)$opts$S7_union %||% opts_S7_union()
   args <- x$classes
-  code <- constructive::.cstr_apply(args, fun = "new_union", ...)
+  code <- constructive::.cstr_apply(args, fun = "S7::new_union", ...)
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = "S7_union"
