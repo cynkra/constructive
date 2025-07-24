@@ -55,7 +55,7 @@ deparse_call <- function(
       check_syntactic = TRUE,
       unicode_representation,
       escape,
-      lisp_equal = TRUE
+      lisp_equal = FALSE
     ),
     error = function(cnd) {
       abort("`call` must only be made of symbols and syntactic literals", parent = cnd)
@@ -115,19 +115,32 @@ deparse_call_impl <- function(
   }
 
   if (is.symbol(call))
-    return(deparse_symbol(call, check_syntactic, unicode_representation, escape))
+    return(deparse_symbol(call, check_syntactic, unicode_representation))
 
   check_syntactic <- TRUE
 
   # artificial cases where caller is NULL, a numeric etc
-  if (rlang::is_syntactic_literal(call))
+  if (is_syntactic_literal2(call))
     return(deparse_syntactic_literal(call, unicode_representation, escape))
 
   if (!is.call(call)) {
     code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
-    msg <- sprintf("found element of type '%s' and length '%s':\n%s", typeof(call), length(call), code)
+    msg <- sprintf("Found element of type '%s' and length '%s':\n%s", typeof(call), length(call), code)
     abort(msg)
   }
+
+  if (length(call) == 2 && identical(call[[2]], quote(expr = ))) {
+    code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
+    msg <- sprintf("Found empty symbol used as sole argument of a function:\n%s", code)
+    abort(msg)
+  }
+
+  if (identical(call[[1]], quote(expr=))) {
+    code <- paste(capture.output(construct(call, check = FALSE)), collapse = "\n")
+    msg <- sprintf("Found empty symbol used as caller:\n%s", code)
+    abort(msg)
+  }
+
   caller_lng <- call[[1]]
   # if the caller is not a symbol in order to parse we need to express it in lisp form
   # for instance `+`(1, 2)(3), hence force_lisp() below.
@@ -141,7 +154,7 @@ deparse_call_impl <- function(
     check_syntactic = FALSE,
     force_lisp = !caller_calls_colon_ops
   )
-  if (is_op(caller) && force_lisp) {
+  if ((is_op(caller) || is_cf(caller)) && force_lisp) {
     return(deparse_lisp(
       caller, call, rec, one_liner, indent, unicode_representation, escape,
       protect = TRUE
@@ -158,7 +171,7 @@ deparse_call_impl <- function(
 
   # function and control flow ---------------------------------------------------
 
-  if (caller == "function")
+  if (caller == "function" && is_regular_function_definition(call))
     return(deparse_function(call, rec))
 
   if (caller == "if" && length(call) %in% 3:4)
@@ -175,16 +188,18 @@ deparse_call_impl <- function(
 
   # surrounding ops ------------------------------------------------------------
 
-  if (caller == "[" && length(call) > 1)
+  if (caller == "[" && is_regular_bracket_call(call)) {
     return(deparse_subset(call, rec, one_liner, indent, unicode_representation, escape))
+  }
 
-  if (caller == "[[" && length(call) > 1)
+  if (caller == "[[" && is_regular_bracket_call(call)) {
     return(deparse_subset2(call, rec, one_liner, indent, unicode_representation, escape))
+  }
 
   if (caller == "(" && length(call) == 2)
     return(deparse_paren(call, rec))
 
-  if (caller == "{")
+  if (caller == "{" && !any(vapply(call[-1], identical, logical(1), quote(expr = ))))
     return(deparse_curly(call, rec, one_liner, indent))
 
   # non standard use of infix ops ----------------------------------------------

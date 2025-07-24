@@ -112,6 +112,14 @@ test_that("complex", {
     construct(complex(real = NaN, imaginary = 1))
     construct(c(complex(real = NaN, imaginary = 1), complex(real = NaN, imaginary = 1)))
     construct(c(1 + 1i, complex(real = NaN, imaginary = 1)))
+
+    construct(complex(real = -0, imaginary = -0))
+    construct(complex(real = -0, imaginary = 0))
+    construct(complex(real = -0, imaginary = -0))
+    construct(0 + 0i)
+    construct(0 - 0i)
+    construct(-0 - 0i)
+    construct(-0 + 0i)
   })
 })
 

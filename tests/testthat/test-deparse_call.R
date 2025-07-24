@@ -22,20 +22,9 @@ test_that("deparse_call()", {
     deparse_call(call(":", 1, 2), style = FALSE)
     deparse_call(call(":", 1), style = FALSE)
     deparse_call(call(":"), style = FALSE)
-    deparse_call(call("[", 1, 2, 3), style = FALSE)
-    deparse_call(call("[", 1, 2), style = FALSE)
-    deparse_call(call("[", 1), style = FALSE)
-    deparse_call(call("["), style = FALSE)
-    deparse_call(call("[[", 1, 2, 3), style = FALSE)
-    deparse_call(call("[[", 1, 2), style = FALSE)
-    deparse_call(call("[[", 1), style = FALSE)
-    deparse_call(call("[["), style = FALSE)
     deparse_call(call("(", 1, 2), style = FALSE)
     deparse_call(call("(", 1), style = FALSE)
     deparse_call(call("("), style = FALSE)
-    deparse_call(call("{"), style = FALSE)
-    deparse_call(call("{", 1, 2), style = FALSE)
-    deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
     deparse_call(call("non-syntactic", 1), style = FALSE)
 
     deparse_call(quote(foo(bar(baz(x), 1), arg = 2, empty=)), style = FALSE)
@@ -74,6 +63,10 @@ test_that("deparse_call()", {
     # function with non syntactic formal names
     deparse_call(quote(function(`_x`) `_x`))
 
+    # call to function with too many args and a first arg that is not a pairlist
+    # this cannot be tested because of testthat/rlang limitations
+    # deparse_call(quote(`function`(a(b, c), d, e)))
+
     # non-syntactig argument name
     deparse_call(quote(list(`a + b` = a + b)))
 
@@ -83,11 +76,10 @@ test_that("deparse_call()", {
   })
 
   expect_snapshot({
-    # the following line cannot be tested with testthat because of their own
-    # faulty deparsing
-    # deparse_call(quote(`=`(x, 1)))
-    deparse_call(quote(list(`=`(x, 1))))
-    deparse_call(quote((`=`(x, 1))))
+    # Avoid testthat corruption
+    deparse_call(eval(str2lang("quote(`=`(x, 1))")))
+    deparse_call(eval(str2lang("quote(list(`=`(x, 1)))")))
+    deparse_call(eval(str2lang("quote((`=`(x, 1)))")))
     deparse_call(quote(list(x = 1)))
     deparse_call(quote({x = 1}))
   })
@@ -109,17 +101,6 @@ test_that("deparse_call()", {
     deparse_call(quote(1 -> while(TRUE) 1))
     deparse_call(quote(1 -> repeat 1))
   })
-
-  expect_snapshot({
-    construct(quote(`^`(`+`(a, b), c)))
-    construct(quote(`+`(`^`(a, b), c)))
-    construct(quote(`%in%`(`*`(a, b), c)))
-    construct(quote(`*`(`%in%`(a, b), c)))
-    construct(quote(`+`(`+`(1, 2), 4)))
-    construct(quote(`-`(1+2)))
-    construct(quote(`<-`(`<<-`(1, 2), 4)))
-    construct(quote(`+`(x, y)(z)))
-  })
 })
 
 test_that("deparse_call() for R >= 4.1", {
@@ -131,13 +112,89 @@ test_that("deparse_call() for R >= 4.1", {
   })
 })
 
-test_that("high precedence infix ops in deparse_call()", {
+test_that("deparse_call() fails when the caller is empty", {
+  # Note this prints a "fake" rstudio error when called manually
+  call <- substitute(X(), list(X = quote(expr = )))
+  expect_error(deparse_call(call), regexp = "Found empty symbol")
+  call <- substitute({X(1, 2)}, list(X = quote(expr = )))
+  expect_error(deparse_call(call), regexp = "Found empty symbol")
+})
+
+test_that("deparse_call() fails when the sole arg is empty", {
+  expect_error(deparse_call(call("fun", quote(expr = ))), regexp = "Found empty symbol")
+  expect_error(deparse_call(call("+", quote(expr = ))), regexp = "Found empty symbol")
+})
+
+test_that("square brackets", {
   expect_snapshot({
+    deparse_call(call("[", 1, 2, 3), style = FALSE)
+    deparse_call(call("[", 1, 2), style = FALSE)
+    deparse_call(call("[", 1), style = FALSE)
+    deparse_call(call("["), style = FALSE)
+    deparse_call(call("[[", 1, 2, 3), style = FALSE)
+    deparse_call(call("[[", 1, 2), style = FALSE)
+    deparse_call(call("[[", 1), style = FALSE)
+    deparse_call(call("[["), style = FALSE)
+    deparse_call(call("[", quote(expr=), quote(expr=)), style = FALSE)
+    deparse_call(call("[", 1, quote(expr=)), style = FALSE)
+    deparse_call(call("[", quote(a+b), 1), style = FALSE)
+    deparse_call(quote(a$b[[c]]))
+    deparse_call(quote(a[[b]]$c))
+    deparse_call(quote(a[[b$c]]))
+    deparse_call(call("[", quote(while (TRUE) {}), 1), style = FALSE)
+    deparse_call(call("[", quote(if (TRUE) {}), 1), style = FALSE)
+    deparse_call(call("[", quote(for (a in b) {}), 1), style = FALSE)
+    deparse_call(call("[", quote(repeat {}), 1), style = FALSE)
+    deparse_call(call("[", quote(function() {}), 1), style = FALSE)
+    deparse_call(call("[", call("function", 1,2), 1), style = FALSE)
+  })
+})
+
+test_that("curly braces", {
+  expect_snapshot({
+    deparse_call(call("{"), style = FALSE)
+    deparse_call(call("{", 1, 2), style = FALSE)
+    deparse_call(call("{", 1, 2), one_liner = TRUE, style = FALSE)
+    deparse_call(call("{", 1, quote(expr = )), style = FALSE)
+  })
+})
+
+test_that("Use lisp notation when the caller expr calls a control flow construct", {
+  expect_snapshot({
+    deparse_call(substitute(X(Y), list(X = quote(if (TRUE) {}), Y = 1)))
+    deparse_call(substitute(X(Y), list(X = quote(while (TRUE) {}), Y = 1)))
+    deparse_call(substitute(X(Y), list(X = quote(for (a in b) {}), Y = 1)))
+    deparse_call(substitute(X(Y), list(X = quote(repeat {}), Y = 1)))
+  })
+})
+
+test_that("Operator precedence is well handled", {
+  expect_snapshot({
+    deparse_call(str2lang("`^`(`+`(a, b), c)"))
+    deparse_call(str2lang("`+`(`^`(a, b), c)"))
+    deparse_call(str2lang("`%in%`(`*`(a, b), c)"))
+    deparse_call(str2lang("`*`(`%in%`(a, b), c)"))
+    deparse_call(str2lang("`+`(`+`(1, 2), 4)"))
+    deparse_call(str2lang("`-`(1+2)"))
+    deparse_call(str2lang("`<-`(`<<-`(1, 2), 4)"))
+    deparse_call(str2lang("`+`(x, y)(z)"))
     deparse_call(quote(x <- a::b(y)))
     deparse_call(quote(x <- a:::b(y)))
     deparse_call(quote(x <- a$b(y)))
     deparse_call(quote(x <- a@b(y)))
     deparse_call(quote(x <- a::b$c(y)))
+    deparse_call(str2lang("`^`(`^`(1, 2), 4)"))
+    deparse_call(str2lang("`^`(4, `^`(1, 2))"))
+    deparse_call(str2lang("`+`(4, `+`(1, 2))"))
+    deparse_call(substitute(X + Y, list(X = quote(repeat {}), Y = 1)))
+    deparse_call(substitute(X + Y, list(X = 1, Y = quote(repeat {}))))
+    deparse_call(substitute(X ? Y, list(X = quote(repeat {}), Y = 1)))
+    deparse_call(substitute(X ? Y, list(X = 1, Y = quote(repeat {}))))
+    deparse_call(substitute(X$Y, list(X = quote(repeat {}), Y = 1)))
+    deparse_call(substitute(X$Y, list(X = 1, Y = quote(repeat {}))))
+    deparse_call(substitute(X(Y), list(X = quote(repeat {}), Y = 1)))
+    deparse_call(substitute(X[Y], list(X = quote(repeat {}), Y = 1)))
+    deparse_call(quote(+repeat {}))
+    deparse_call(quote(+repeat {}))
   })
 })
-
