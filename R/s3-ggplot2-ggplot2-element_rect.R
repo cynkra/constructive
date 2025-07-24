@@ -22,7 +22,7 @@
   args <- list(
     fill = x@fill,
     colour = x@colour,
-    linewidth = x@linetype,
+    linewidth = x@linewidth,
     linetype = x@linetype,
     linejoin = x@linejoin,
     inherit.blank = attr(x, "inherit.blank")
