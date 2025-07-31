@@ -137,6 +137,9 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
       max_diffs = Inf
     )
 
+  # special case ggplot2 NSE artifacts
+  issues <- issues[!detect_ggplot_nse_artifacts(issues)]
+
   # return early if no issue
   if (!length(issues)) return(NULL)
 
@@ -154,6 +157,12 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
   # return issues
   issues
 }
+
+detect_ggplot_nse_artifacts <- function(issues) {
+  # detect errors that are the same except for a `ggplot2::` prefix
+  grepl("^(.*?)original(.*?): *\033\\[32m`(.*?)`\033\\[39m         \n\\1recreated\\2: *\033\\[32m`(ggplot2::\\3)`\033\\[39m", issues)
+}
+
 
 new_constructive <- function(code, compare) {
   structure(list(code = code, compare = compare), class = "constructive")
