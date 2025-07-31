@@ -31,6 +31,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/extend-constructive.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/index.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_AsIs.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_CoordTransform.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_Date.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_Layer.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_POSIXct.html</loc></url>
@@ -39,6 +40,15 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_R6ClassGenerator.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_R_system_version.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_S4.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_S3_class.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_any.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_base_class.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_class.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_external_generic.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_generic.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_object.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_property.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_S7_union.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_array.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_atomic.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_blob.html</loc></url>
@@ -59,6 +69,8 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_formula.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_function.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ggplot.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_ggplot2-colon-colon-ggplot.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_ggplot2-colon-colon-labels.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_grouped_df.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_hexmode.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_integer.html</loc></url>
@@ -69,6 +81,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_matrix.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_mts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_numeric_version.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_object.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_octmode.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ordered.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_package_version.html</loc></url>

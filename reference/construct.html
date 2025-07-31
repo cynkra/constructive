@@ -211,7 +211,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_classRepresentation.html">opts_classRepresentation</a>(constructor = c("getClassDef"), ...)</code></p></li>
 <li><p><code><a href="opts_complex.html">opts_complex</a>(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)</code></p></li>
 <li><p><code><a href="opts_constructive_options.html">opts_constructive_options</a>(constructor = c("opts", "next"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_CoordCartesian</a>(constructor = c("coord_cartesian", "next", "environment"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_CoordCartesian</a>(constructor = c("default", "coord_cartesian", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordFixed</a>(constructor = c("coord_fixed", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordFlip</a>(constructor = c("coord_flip", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordMap</a>(constructor = c("coord_map", "next", "environment"), ...)</code></p></li>
@@ -220,6 +220,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_CoordQuickmap</a>(constructor = c("coord_quickmap", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordSf</a>(constructor = c("coord_sf", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordTrans</a>(constructor = c("coord_trans", "next", "environment"), ...)</code></p></li>
+<li><p><code><a href="opts_CoordTransform.html">opts_CoordTransform</a>(constructor = c("coord_transform", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_data.frame.html">opts_data.frame</a>(constructor = c("data.frame", "read.table", "next", "list"), ..., recycle = TRUE)</code></p></li>
 <li><p><code><a href="opts_data.table.html">opts_data.table</a>(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE)</code></p></li>
 <li><p><code><a href="opts_Date.html">opts_Date</a>(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")</code></p></li>
@@ -237,11 +238,24 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_error</a>(constructor = c("errorCondition", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_expression</a>(constructor = c("default"), ...)</code></p></li>
 <li><p><code><a href="opts_externalptr.html">opts_externalptr</a>(constructor = c("default"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_FacetGrid</a>(constructor = c("facet_grid", "ggproto", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_FacetWrap</a>(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_factor.html">opts_factor</a>(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...)</code></p></li>
 <li><p><code><a href="opts_formula.html">opts_formula</a>(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)</code></p></li>
 <li><p><code><a href="opts_function.html">opts_function</a>(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)</code></p></li>
 <li><p><code><a href="opts_ggplot.html">opts_ggplot</a>(constructor = c("ggplot", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::element_blank</a>(constructor = c("element_blank", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::element_geom</a>(constructor = c("element_geom", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::element_line</a>(constructor = c("element_line", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::element_point</a>(constructor = c("element_point", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::element_polygon</a>(constructor = c("element_polygon", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::element_rect</a>(constructor = c("element_rect", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::element_text</a>(constructor = c("element_text", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_ggplot2-colon-colon-ggplot.html">opts_ggplot2::ggplot</a>(constructor = c("ggplot", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_ggplot2-colon-colon-labels.html">opts_ggplot2::labels</a>(constructor = c("labs", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::mapping</a>(constructor = c("aes", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::margin</a>(constructor = c("margin", "next", "double"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2::theme</a>(constructor = c("theme", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_ggproto</a>(constructor = c("default", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_grouped_df.html">opts_grouped_df</a>(constructor = c("default", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_hexmode.html">opts_hexmode</a>(constructor = c("as.hexmode", "next"), ..., integer = FALSE)</code></p></li>
@@ -258,6 +272,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_noquote</a>(constructor = c("noquote", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_NULL</a>(constructor = "NULL", ...)</code></p></li>
 <li><p><code><a href="opts_numeric_version.html">opts_numeric_version</a>(constructor = c("numeric_version", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_object.html">opts_object</a>(constructor = c("prototype", "S7_object"), ...)</code></p></li>
 <li><p><code><a href="opts_octmode.html">opts_octmode</a>(constructor = c("as.octmode", "next"), ..., integer = FALSE)</code></p></li>
 <li><p><code><a href="opts_ordered.html">opts_ordered</a>(constructor = c("ordered", "factor", "new_ordered", "next", "integer"), ...)</code></p></li>
 <li><p><code><a href="opts_package_version.html">opts_package_version</a>(constructor = c("package_version", "next", "list"), ...)</code></p></li>
@@ -274,6 +289,15 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_rel</a>(constructor = c("rel", "next", "double"), ...)</code></p></li>
 <li><p><code><a href="opts_rowwise_df.html">opts_rowwise_df</a>(constructor = c("default", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_S4.html">opts_S4</a>(constructor = c("new"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_any.html">opts_S7_any</a>(constructor = c("class_any", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_base_class.html">opts_S7_base_class</a>(constructor = c("S7", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_class.html">opts_S7_class</a>(constructor = c("new_class", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_external_generic.html">opts_S7_external_generic</a>(constructor = c("new_external_generic", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_generic.html">opts_S7_generic</a>(constructor = c("new_generic", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_object.html">opts_S7_object</a>(constructor = c("S7_object", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_property.html">opts_S7_property</a>(constructor = c("new_property", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_S3_class.html">opts_S7_S3_class</a>(constructor = c("new_S3_class", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_S7_union.html">opts_S7_union</a>(constructor = c("default", "|", "new_union", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_Scale</a>(constructor = c("default", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_ScalesList</a>(constructor = c("ScalesList", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_simpleCondition</a>(constructor = c("simpleCondition", "next"), ...)</code></p></li>
