@@ -12,10 +12,6 @@
       construct(ggplot2::coord_fixed(ratio = 1 / 5))
     Output
       ggplot2::coord_fixed(ratio = 0.2)
-    Code
-      construct(ggplot2::coord_fixed(xlim = c(15, 30)))
-    Output
-      ggplot2::coord_cartesian(xlim = c(15, 30), ratio = 1)
 
 ---
 
@@ -31,13 +27,6 @@
       construct(ggplot2::coord_fixed(ratio = 1 / 5))
     Output
       ggplot2::coord_fixed(ratio = 0.2)
-    Code
-      construct(ggplot2::coord_fixed(xlim = c(15, 30)))
-    Output
-      ggplot2::coord_cartesian(xlim = c(15, 30), ratio = 1)
-
-# CoordFixed > v3.5.2
-
     Code
       construct(ggplot2::coord_fixed(xlim = c(15, 30)))
     Output

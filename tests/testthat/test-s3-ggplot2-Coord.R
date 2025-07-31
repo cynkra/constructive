@@ -11,23 +11,21 @@ test_that("CoordFixed", {
     construct(ggplot2::coord_fixed(ratio = 1))
     construct(ggplot2::coord_fixed(ratio = 5))
     construct(ggplot2::coord_fixed(ratio = 1/5))
-    construct(ggplot2::coord_fixed(xlim = c(15, 30)))
   })
 })
 
 test_that("CoordFixed <= v3.5.2", {
   skip_if(with_versions(ggplot2 > "3.5.2"))
-  expect_snapshot({
-    construct(ggplot2::coord_fixed(xlim = c(15, 30)))
-  })
+  expect_construct( ggplot2::coord_fixed(xlim = c(15, 30)))
 })
 
 test_that("CoordFixed > v3.5.2", {
   # newer version doesn't have a CoordFixed class and this falls back to a regular use of `coord_cartesian()`
   skip_if(with_versions(ggplot2 <= "3.5.2"))
-  expect_snapshot({
-    construct(ggplot2::coord_fixed(xlim = c(15, 30)))
-  })
+  expect_construct(
+    ggplot2::coord_fixed(xlim = c(15, 30)),
+    ggplot2::coord_cartesian(xlim = c(15, 30), ratio = 1)
+  )
 })
 
 test_that("CoordFixed", {
