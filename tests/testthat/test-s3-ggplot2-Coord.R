@@ -28,15 +28,6 @@ test_that("CoordFixed > v3.5.2", {
   )
 })
 
-test_that("CoordFixed", {
-  expect_snapshot({
-    construct(ggplot2::coord_fixed(ratio = 1))
-    construct(ggplot2::coord_fixed(ratio = 5))
-    construct(ggplot2::coord_fixed(ratio = 1/5))
-    construct(ggplot2::coord_fixed(xlim = c(15, 30)))
-  })
-})
-
 test_that("CoordFlip", {
   expect_snapshot({
     construct(ggplot2::coord_flip())
