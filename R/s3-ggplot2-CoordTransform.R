@@ -38,7 +38,7 @@ is_corrupted_CoordTransform <- function(x) {
     reverse = x$reverse
   )
 
-  args <- keep_only_non_defaults(args, ggplot2::coord_transform)
+  args <- keep_only_non_defaults(args, getFromNamespace("coord_transform", "ggplot2"))
   code <- .cstr_apply(args, "ggplot2::coord_transform", ...)
   constructive::.cstr_repair_attributes(
     x, code, ...,

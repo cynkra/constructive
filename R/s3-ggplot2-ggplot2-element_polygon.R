@@ -27,7 +27,7 @@
     linejoin = x@linejoin,
     inherit.blank = x@inherit.blank
   )
-  args <- keep_only_non_defaults(args, ggplot2::element_polygon)
+  args <- keep_only_non_defaults(args,  getFromNamespace("element_polygon", "ggplot2"))
   code <- .cstr_apply(args, "ggplot2::element_polygon", ...)
   `repair_attributes_ggplot2::element_polygon`(x, code, ...)
 }
