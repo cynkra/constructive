@@ -8,13 +8,8 @@
     Code
       environment(attr(type_of, "S7_class")) <- .GlobalEnv
       environment(attr(attr(type_of, "S7_class"), "constructor")) <- .GlobalEnv
-      construct(type_of, opts_S7_generic("next"), opts_function(srcref = TRUE))
-    Message
-      ! The code built by {constructive} could not be evaluated.
-      ! Due to error: No environment was found at the memory address '0x123456789'
-      i It's likely that {constructive} was called in a different session to generate this code.
-      i The environment might also have been garbage collected.
-      i See `?opts_environment` for various alternatives to construct environment with persistent definitions.
+      construct(type_of, opts_S7_generic("next"), opts_function(srcref = TRUE),
+      check = FALSE)
     Output
       (function(x, ...) S7::S7_dispatch()) |>
         (`environment<-`)(
@@ -56,43 +51,4 @@
       S7::method(type_of, S7::new_S3_class("data.frame")) <- (function(x, ...)
         "A data frame")
       S7::method(type_of, S7::class_function) <- (function(x, ...) "A function")
-      construct(type_of)
-    Message
-      ! The code built by {constructive} could not be evaluated.
-      ! Due to error: No environment was found at the memory address '0x123456789'
-      i It's likely that {constructive} was called in a different session to generate this code.
-      i The environment might also have been garbage collected.
-      i See `?opts_environment` for various alternatives to construct environment with persistent definitions.
-    Output
-      S7::new_generic("type_of", dispatch_args = "x") |>
-        (S7::`method<-`)(
-          S7::new_S3_class("data.frame"),
-          value = (function(x, ...) "A data frame") |>
-            (`environment<-`)(
-              constructive::.env(
-                "0x123456789",
-                parents = c("0x123456789", "0x123456789", "namespace:constructive")
-              )
-            )
-        ) |>
-        (S7::`method<-`)(
-          S7::class_character,
-          value = (function(x, ...) "A character vector") |>
-            (`environment<-`)(
-              constructive::.env(
-                "0x123456789",
-                parents = c("0x123456789", "0x123456789", "namespace:constructive")
-              )
-            )
-        ) |>
-        (S7::`method<-`)(
-          S7::class_function,
-          value = (function(x, ...) "A function") |>
-            (`environment<-`)(
-              constructive::.env(
-                "0x123456789",
-                parents = c("0x123456789", "0x123456789", "namespace:constructive")
-              )
-            )
-        )
 
