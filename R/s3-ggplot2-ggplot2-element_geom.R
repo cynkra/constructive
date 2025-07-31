@@ -51,7 +51,7 @@
     colour = x@colour,
     fill = x@fill
   )
-  args <- keep_only_non_defaults(args, ggplot2::element_geom)
+  args <- keep_only_non_defaults(args, getFromNamespace("element_geom", "ggplot2"))
   code <- .cstr_apply(args, "ggplot2::element_geom", ...)
   `repair_attributes_ggplot2::element_geom`(x, code, ...)
 }

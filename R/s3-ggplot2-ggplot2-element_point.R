@@ -27,7 +27,7 @@
     stroke = x@stroke,
     inherit.blank = x@inherit.blank
   )
-  args <- keep_only_non_defaults(args, ggplot2::element_point)
+  args <- keep_only_non_defaults(args, getFromNamespace("element_point", "ggplot2"))
   code <- .cstr_apply(args, "ggplot2::element_point", ...)
   `repair_attributes_ggplot2::element_point`(x, code, ...)
 }

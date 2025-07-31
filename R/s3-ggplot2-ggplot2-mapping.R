@@ -9,7 +9,7 @@
 }
 
 #' @export
-#' @method .cstr_construct uneval
+#' @method .cstr_construct ggplot2::mapping
 `.cstr_construct.ggplot2::mapping` <- function(x, ...) {
   opts <- list(...)$opts$uneval %||% `opts_ggplot2::mapping`()
   if (`is_corrupted_ggplot2::mapping`(x) || opts$constructor == "next") return(NextMethod())

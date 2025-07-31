@@ -6,12 +6,9 @@ test_that("S7_generic", {
     # to avoid issue with changing env adresses
     environment(attr(type_of, "S7_class")) <- .GlobalEnv
     environment(attr(attr(type_of, "S7_class"), "constructor")) <- .GlobalEnv
-    construct(type_of, opts_S7_generic("next"), opts_function(srcref = TRUE))
+    construct(type_of, opts_S7_generic("next"), opts_function(srcref = TRUE), check = FALSE)
     S7::method(type_of, S7::class_character) <- function(x, ...) "A character vector"
     S7::method(type_of, S7::new_S3_class("data.frame")) <- function(x, ...) "A data frame"
     S7::method(type_of, S7::class_function) <- function(x, ...) "A function"
-
-    # FIXME: srcref and srcfile are not reconstructed properly
-    construct(type_of)
   })
 })
