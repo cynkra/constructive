@@ -1,5 +1,6 @@
 expect_construct <- function(x, expected, ...) {
-  if (!missing(expected) && rlang::is_na(expected)) {
+  withr::local_envvar(c(TESTTHAT = "true"))
+  if (!missing(expected) && rlang::is_na(substitute(expected))) {
     out <- construct(x, check = FALSE, ...)$code
     getFromNamespace("write_clip", "clipr")(out)
     return(out)
