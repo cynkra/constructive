@@ -30,7 +30,18 @@
       `repair_attributes_ggplot2::mapping`(x, "ggplot2::aes()", ...)
     )
   }
-  args <- lapply(x, function(x) rlang::expr_deparse(rlang::quo_squash(x)))
+  env <- list(...)$env
+  args <- lapply(
+    x,
+    function(x) {
+      if (!inherits(x, "quosure")) return(.cstr_construct(x, ...))
+      if (identical(environment(x), env)) return(rlang::expr_deparse(rlang::quo_squash(x)))
+      code <- .cstr_construct(x, ...)
+      code[[1]] <- paste0("!!", code[[1]])
+      code
+    }
+  )
+
   nm1 <- names(args)[1]
   # omit `x` and `y` if provided in this order
   if (nm1 == "x") {
@@ -40,7 +51,7 @@
       names(args)[2] <- ""
     }
   }
-  code <- .cstr_apply(args, fun = "ggplot2::aes", recurse = FALSE, new_line = FALSE)
+  code <- .cstr_apply(args, fun = "ggplot2::aes", recurse = FALSE)
   `repair_attributes_ggplot2::mapping`(x, code, ...)
 }
 
