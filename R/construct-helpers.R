@@ -119,6 +119,7 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
   }
   # set custom method for waldo
   rlang::local_bindings(
+    compare_proxy.LayerInstance = compare_proxy_LayerInstance,
     compare_proxy.ggplot = compare_proxy_ggplot,
     compare_proxy.weakref = compare_proxy_weakref,
     compare_proxy.R6ClassGenerator = compare_proxy_R6ClassGenerator,
@@ -138,8 +139,9 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
     )
 
   # special case ggplot2 NSE artifacts
+  max_diffs <- attr(issues, "max_diffs")
   issues <- issues[!detect_ggplot_nse_artifacts(issues)]
-
+  attr(issues, "max_diffs") <- max_diffs
   # return early if no issue
   if (!length(issues)) return(NULL)
 
@@ -159,8 +161,10 @@ check_round_trip <- function(x, styled_code, data, check, compare, caller) {
 }
 
 detect_ggplot_nse_artifacts <- function(issues) {
+  # concatenate multiline
+  issues <- gsub("`\033\\[39m +\033\\[32m` +", "", issues)
   # detect errors that are the same except for a `ggplot2::` prefix
-  grepl("^(.*?)original(.*?): *\033\\[32m`(.*?)`\033\\[39m         \n\\1recreated\\2: *\033\\[32m`(ggplot2::\\3)`\033\\[39m", issues)
+  cli::ansi_grepl("^(.*?)original(.*?): *`(.*?)` +\n\\1recreated\\2: *`(ggplot2::\\3)`", issues)
 }
 
 
