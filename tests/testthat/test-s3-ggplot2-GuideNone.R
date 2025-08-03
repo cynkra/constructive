@@ -1,3 +1,5 @@
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+test_that("GuideNone", {
+  skip_if(with_versions(ggplot2 <= "3.5.2"))
+  expect_construct(ggplot2::guide_none())
+  expect_construct(ggplot2::guide_none(title = "my title", position = "top"))
 })
