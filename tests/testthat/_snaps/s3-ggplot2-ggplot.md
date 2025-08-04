@@ -2,9 +2,6 @@
 
     Code
       construct(p1, data = list(mpg_99 = mpg_99))
-    Message
-      {constructive} couldn't create code that reproduces perfectly the input
-      i Call `construct_issues()` to inspect the last issues
     Output
       mpg_99 |>
         ggplot2::ggplot(ggplot2::aes(displ, hwy)) +
