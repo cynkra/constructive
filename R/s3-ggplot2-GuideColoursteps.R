@@ -24,7 +24,7 @@ opts_GuideColoursteps <- function(constructor = c("guide_colorsteps", "next"), .
 is_corrupted_GuideColoursteps <- function(x) {
   !is.environment(x) ||
     !is.function(x$super) ||
-    !identical(environment(x$super)$env$args$name, "coloursteps")
+    !identical(x$params$name, "colourbar")
 }
 
 #' @export
