@@ -14,7 +14,7 @@ test_that("GuideCustom", {
     ),
     data = list(circle = circle)
   )
-  circle2 <- grid::circleGrob(r = unit(1, "cm"))
+  circle2 <- grid::circleGrob(r = grid::unit(1, "cm"))
   expect_construct(
     ggplot2::guide_custom(
       circle2,
