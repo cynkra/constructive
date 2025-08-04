@@ -7,7 +7,7 @@ expect_construct <- function(x, expected, ...) {
   }
 
   expected <- if (missing(expected)) substitute(x) else substitute(expected)
-  new_code <- construct(x, check = FALSE, ...)$code
+  new_code <- eval(substitute(construct(x, check = FALSE, ...)$code), parent.frame())
   recreated <- parse(text=new_code)[[1]]
   expect_equal(recreated, expected)
 }
