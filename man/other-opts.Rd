@@ -7,7 +7,8 @@
 %   R/s3-ggplot2-CoordMunch.R, R/s3-ggplot2-CoordPolar.R,
 %   R/s3-ggplot2-CoordQuickmap.R, R/s3-ggplot2-CoordSf.R,
 %   R/s3-ggplot2-CoordTrans.R, R/s3-ggplot2-FacetGrid.R,
-%   R/s3-ggplot2-FacetWrap.R, R/s3-ggplot2-Scale.R, R/s3-ggplot2-ScalesList.R,
+%   R/s3-ggplot2-FacetWrap.R, R/s3-ggplot2-Guide.R,
+%   R/s3-ggplot2-Scale.R, R/s3-ggplot2-ScalesList.R,
 %   R/s3-ggplot2-element_blank.R, R/s3-ggplot2-element_grob.R,
 %   R/s3-ggplot2-element_line.R, R/s3-ggplot2-element_rect.R,
 %   R/s3-ggplot2-element_render.R, R/s3-ggplot2-element_text.R,
@@ -41,6 +42,7 @@
 \alias{opts_CoordTrans}
 \alias{opts_FacetGrid}
 \alias{opts_FacetWrap}
+\alias{opts_Guide}
 \alias{opts_Scale}
 \alias{opts_ScalesList}
 \alias{opts_element_blank}
@@ -124,6 +126,8 @@ opts_FacetWrap(
   ...
 )
 
+opts_Guide(constructor = c("default", "next", "environment"), ...)
+
 opts_Scale(constructor = c("default", "next", "environment"), ...)
 
 opts_ScalesList(constructor = c("ScalesList", "next", "list"), ...)
@@ -163,7 +167,7 @@ opts_element_text(constructor = c("element_text", "next", "list"), ...)
 
 `opts_ggplot2::theme`(constructor = c("theme", "next", "list"), ...)
 
-opts_ggproto(constructor = c("default", "next", "environment"), ...)
+opts_ggproto(constructor = c("default", "ggproto", "next", "environment"), ...)
 
 opts_labels(constructor = c("labs", "next", "list"), ...)
 
