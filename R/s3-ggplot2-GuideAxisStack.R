@@ -24,7 +24,7 @@ opts_GuideAxisStack <- function(constructor = c("guide_axis_stack", "next"), ...
 is_corrupted_GuideAxisStack <- function(x) {
   !is.environment(x) ||
     !is.function(x$super) ||
-    !identical(x$params$name, "axis")
+    !identical(x$params$name, "stacked_axis")
 }
 
 #' @export
