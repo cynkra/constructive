@@ -4,8 +4,8 @@ test_that("GuideColourbar", {
   expect_construct(ggplot2::guide_colourbar(), ggplot2::guide_colorbar())
   expect_construct(
     ggplot2::guide_colorbar(theme = ggplot2::theme(
-      legend.key.height = grid::unit(10, units = "lines"),
-      legend.key.width  = grid::unit(0.5, units = "lines")
+      legend.key.height = grid::unit(10, "lines"),
+      legend.key.width  = grid::unit(0.5,"lines")
     ))
   )
   expect_construct(
