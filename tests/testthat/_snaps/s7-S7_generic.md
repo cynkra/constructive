@@ -12,12 +12,6 @@
       check = FALSE)
     Output
       (function(x, ...) S7::S7_dispatch()) |>
-        (`environment<-`)(
-          constructive::.env(
-            "0x123456789",
-            parents = c("0x123456789", "0x123456789", "namespace:constructive")
-          )
-        ) |>
         structure(
           class = c("S7_generic", "function", "S7_object"),
           S7_class = (S7::new_class(
