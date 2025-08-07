@@ -23,7 +23,8 @@ raise an issue"><meta property="og:image" content="https://cynkra.github.io/cons
         <ul class="navbar-nav me-auto"></ul><ul class="navbar-nav"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/deparse_call.html">deparse_call</a></li>
+    <li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
             <li class="nav-item"><form class="form-inline" role="search">
@@ -37,7 +38,7 @@ raise an issue"><meta property="og:image" content="https://cynkra.github.io/cons
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Other Opts Functions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/main/R/document-other-opts.R" class="external-link"><code>R/document-other-opts.R</code></a>, <a href="https://github.com/cynkra/constructive/blob/main/R/s3-NULL.R" class="external-link"><code>R/s3-NULL.R</code></a>, <a href="https://github.com/cynkra/constructive/blob/main/R/s3-bibentry.R" class="external-link"><code>R/s3-bibentry.R</code></a>, and 49 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/cynkra/constructive/blob/main/R/document-other-opts.R" class="external-link"><code>R/document-other-opts.R</code></a>, <a href="https://github.com/cynkra/constructive/blob/main/R/s3-NULL.R" class="external-link"><code>R/s3-NULL.R</code></a>, <a href="https://github.com/cynkra/constructive/blob/main/R/s3-bibentry.R" class="external-link"><code>R/s3-bibentry.R</code></a>, and 50 more</small>
       <div class="d-none name"><code>other-opts.Rd</code></div>
     </div>
 
@@ -97,6 +98,8 @@ the signature is self explanatory, if not please
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">opts_Guide</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"next"</span>, <span class="st">"environment"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">opts_Scale</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"next"</span>, <span class="st">"environment"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">opts_ScalesList</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ScalesList"</span>, <span class="st">"next"</span>, <span class="st">"list"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -136,7 +139,7 @@ the signature is self explanatory, if not please
 <span></span>
 <span><span class="fu">`opts_ggplot2::theme`</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"theme"</span>, <span class="st">"next"</span>, <span class="st">"list"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opts_ggproto</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"next"</span>, <span class="st">"environment"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">opts_ggproto</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"ggproto"</span>, <span class="st">"next"</span>, <span class="st">"environment"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">opts_labels</span><span class="op">(</span>constructor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"labs"</span>, <span class="st">"next"</span>, <span class="st">"list"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>

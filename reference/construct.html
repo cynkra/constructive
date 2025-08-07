@@ -31,7 +31,8 @@ list or environment.
         <ul class="navbar-nav me-auto"></ul><ul class="navbar-nav"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/deparse_call.html">deparse_call</a></li>
+    <li><a class="dropdown-item" href="../articles/extend-constructive.html">Extend constructive</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
             <li class="nav-item"><form class="form-inline" role="search">
@@ -218,6 +219,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_CoordMunch</a>(constructor = c("coord_munch", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordPolar</a>(constructor = c("coord_polar", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordQuickmap</a>(constructor = c("coord_quickmap", "next", "environment"), ...)</code></p></li>
+<li><p><code><a href="opts_CoordRadial.html">opts_CoordRadial</a>(constructor = c("coord_radial", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordSf</a>(constructor = c("coord_sf", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_CoordTrans</a>(constructor = c("coord_trans", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_CoordTransform.html">opts_CoordTransform</a>(constructor = c("coord_transform", "next"), ...)</code></p></li>
@@ -239,6 +241,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_expression</a>(constructor = c("default"), ...)</code></p></li>
 <li><p><code><a href="opts_externalptr.html">opts_externalptr</a>(constructor = c("default"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_FacetGrid</a>(constructor = c("facet_grid", "ggproto", "next", "environment"), ...)</code></p></li>
+<li><p><code><a href="opts_FacetNull.html">opts_FacetNull</a>(constructor = c("facet_null", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_FacetWrap</a>(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_factor.html">opts_factor</a>(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...)</code></p></li>
 <li><p><code><a href="opts_formula.html">opts_formula</a>(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)</code></p></li>
@@ -256,8 +259,20 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_ggplot2::mapping</a>(constructor = c("aes", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_ggplot2::margin</a>(constructor = c("margin", "next", "double"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_ggplot2::theme</a>(constructor = c("theme", "next", "list"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggproto</a>(constructor = c("default", "next", "environment"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggproto</a>(constructor = c("default", "ggproto", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_grouped_df.html">opts_grouped_df</a>(constructor = c("default", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_Guide</a>(constructor = c("default", "next", "environment"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideAxis.html">opts_GuideAxis</a>(constructor = c("guide_axis", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideAxisLogticks.html">opts_GuideAxisLogticks</a>(constructor = c("guide_axis_logticks", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideAxisStack.html">opts_GuideAxisStack</a>(constructor = c("guide_axis_stack", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideAxisTheta.html">opts_GuideAxisTheta</a>(constructor = c("guide_axis_theta", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideBins.html">opts_GuideBins</a>(constructor = c("guide_bins", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideColourbar.html">opts_GuideColourbar</a>(constructor = c("guide_colorbar", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideColoursteps.html">opts_GuideColoursteps</a>(constructor = c("guide_colorsteps", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideCustom.html">opts_GuideCustom</a>(constructor = c("guide_custom", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideLegend.html">opts_GuideLegend</a>(constructor = c("guide_legend", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_GuideNone.html">opts_GuideNone</a>(constructor = c("guide_none", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_Guides.html">opts_Guides</a>(constructor = c("guides", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_hexmode.html">opts_hexmode</a>(constructor = c("as.hexmode", "next"), ..., integer = FALSE)</code></p></li>
 <li><p><code><a href="opts_integer.html">opts_integer</a>(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)</code></p></li>
 <li><p><code><a href="opts_integer64.html">opts_integer64</a>(constructor = c("as.integer64", "next", "double"), ...)</code></p></li>
