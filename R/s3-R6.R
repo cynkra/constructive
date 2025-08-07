@@ -49,7 +49,12 @@ is_corrupted_R6 <- function(x) {
   public$clone <- NULL
   public$.__enclos_env__ <- NULL
   if (x_has_initialize) public["initialize"] <- list(NULL)
-  private <- as.list.environment(x$.__enclos_env__$private, all.names = TRUE)
+  if (is.null(x$.__enclos_env__$private)) {
+    private <- NULL
+  } else {
+    private <- as.list.environment(x$.__enclos_env__$private, all.names = TRUE)
+  }
+
   classname <- class(x)[[which(class(x) == "R6") - 1]]
   args <- list(
     classname = classname,
