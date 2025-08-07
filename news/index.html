@@ -39,7 +39,13 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="constructive-development-version">constructive (development version)<a class="anchor" aria-label="anchor" href="#constructive-development-version"></a></h2>
-</div>
+<ul><li>
+<code><a href="https://cli.r-lib.org/reference/code_highlight.html" class="external-link">cli::code_highlight()</a></code> is now used to apply syntax highlighting to console output, removing the dependency on {prettycode}.
+<ul><li>If you prefer not to use highlighting you can turn it off using <code>options(constructive_pretty = FALSE)</code>.</li>
+<li>The <code>style</code> argument of <code><a href="../reference/print.constructive_code.html">print.constructive_code()</a></code> is deprecated in favour of the new argument <code>code_theme</code>.</li>
+<li>{cli} &gt;= 3.1.0 is now required.</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="constructive-110">constructive 1.1.0<a class="anchor" aria-label="anchor" href="#constructive-110"></a></h2><p class="text-muted">CRAN release: 2025-01-10</p>
 <p>Features:</p>
