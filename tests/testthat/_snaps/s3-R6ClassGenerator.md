@@ -20,50 +20,23 @@
       R6::R6Class(
         "Queue",
         public = list(
-          initialize = (function(...) {
+          initialize = function(...) {
             for (item in list(...)) {
               self$add(item)
             }
-          }) |>
-            (`environment<-`)(
-              constructive::.env(
-                "0x123456789",
-                parents = c("0x123456789", "0x123456789", "namespace:constructive")
-              )
-            ),
-          add = (function(x) {
+          },
+          add = function(x) {
             private$queue <- c(private$queue, list(x))
             invisible(self)
-          }) |>
-            (`environment<-`)(
-              constructive::.env(
-                "0x123456789",
-                parents = c("0x123456789", "0x123456789", "namespace:constructive")
-              )
-            ),
-          remove = (function() {
+          },
+          remove = function() {
             if (private$length() == 0) return(NULL)
             head <- private$queue[[1]]
             private$queue <- private$queue[-1]
             head
-          }) |>
-            (`environment<-`)(
-              constructive::.env(
-                "0x123456789",
-                parents = c("0x123456789", "0x123456789", "namespace:constructive")
-              )
-            )
+          }
         ),
-        private = list(
-          queue = list(),
-          length = (function() base::length(private$queue)) |>
-            (`environment<-`)(
-              constructive::.env(
-                "0x123456789",
-                parents = c("0x123456789", "0x123456789", "namespace:constructive")
-              )
-            )
-        ),
+        private = list(queue = list(), length = function() base::length(private$queue)),
         parent_env = constructive::.env(
           "0x123456789",
           parents = c("0x123456789", "0x123456789", "namespace:constructive")

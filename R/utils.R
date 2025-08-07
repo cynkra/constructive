@@ -176,6 +176,8 @@ scrub_ggplot <- function(x) {
   x
 }
 
+
+
 # Thanks to Zi Lin : https://stackoverflow.com/questions/75960769
 flatten.scales <- function(gg) {
   `$` <- base::`$`
@@ -253,6 +255,19 @@ trans_order <- function(x) {
   names(scales) <- rep("scales", n_scales)
 
   c(layers, scales)[order(c(layer_order, scale_order))]
+}
+
+compare_proxy_LayerInstance <- function(x, path) {
+
+  if (with_versions(ggplot2 > "3.5.2")) {
+    # remove computed elements before comparison
+    # we clone the env not to change it by reference
+    x <- rlang::env_clone(x)
+    if (exists("computed_geom_params", x)) rm("computed_geom_params", envir = x)
+    if (exists("computed_mapping", x)) rm("computed_mapping", envir = x)
+    if (exists("computed_stat_params", x)) rm("computed_stat_params", envir = x)
+  }
+  list(object = x, path = path)
 }
 
 compare_proxy_ggplot <- function(x, path) {

@@ -148,6 +148,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_CoordMunch]{opts_CoordMunch}(constructor = c("coord_munch", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordPolar]{opts_CoordPolar}(constructor = c("coord_polar", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordQuickmap]{opts_CoordQuickmap}(constructor = c("coord_quickmap", "next", "environment"), ...)}
+  \item \code{\link[=opts_CoordRadial]{opts_CoordRadial}(constructor = c("coord_radial", "next"), ...)}
   \item \code{\link[=opts_CoordSf]{opts_CoordSf}(constructor = c("coord_sf", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordTrans]{opts_CoordTrans}(constructor = c("coord_trans", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordTransform]{opts_CoordTransform}(constructor = c("coord_transform", "next"), ...)}
@@ -169,6 +170,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_expression]{opts_expression}(constructor = c("default"), ...)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
   \item \code{\link[=opts_FacetGrid]{opts_FacetGrid}(constructor = c("facet_grid", "ggproto", "next", "environment"), ...)}
+  \item \code{\link[=opts_FacetNull]{opts_FacetNull}(constructor = c("facet_null", "next"), ...)}
   \item \code{\link[=opts_FacetWrap]{opts_FacetWrap}(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...)}
   \item \code{\link[=opts_formula]{opts_formula}(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)}
@@ -186,8 +188,20 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ggplot2::mapping]{opts_ggplot2::mapping}(constructor = c("aes", "next", "list"), ...)}
   \item \code{\link[=opts_ggplot2::margin]{opts_ggplot2::margin}(constructor = c("margin", "next", "double"), ...)}
   \item \code{\link[=opts_ggplot2::theme]{opts_ggplot2::theme}(constructor = c("theme", "next", "list"), ...)}
-  \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "next", "environment"), ...)}
+  \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
+  \item \code{\link[=opts_Guide]{opts_Guide}(constructor = c("default", "next", "environment"), ...)}
+  \item \code{\link[=opts_GuideAxis]{opts_GuideAxis}(constructor = c("guide_axis", "next"), ...)}
+  \item \code{\link[=opts_GuideAxisLogticks]{opts_GuideAxisLogticks}(constructor = c("guide_axis_logticks", "next"), ...)}
+  \item \code{\link[=opts_GuideAxisStack]{opts_GuideAxisStack}(constructor = c("guide_axis_stack", "next"), ...)}
+  \item \code{\link[=opts_GuideAxisTheta]{opts_GuideAxisTheta}(constructor = c("guide_axis_theta", "next"), ...)}
+  \item \code{\link[=opts_GuideBins]{opts_GuideBins}(constructor = c("guide_bins", "next"), ...)}
+  \item \code{\link[=opts_GuideColourbar]{opts_GuideColourbar}(constructor = c("guide_colorbar", "next"), ...)}
+  \item \code{\link[=opts_GuideColoursteps]{opts_GuideColoursteps}(constructor = c("guide_colorsteps", "next"), ...)}
+  \item \code{\link[=opts_GuideCustom]{opts_GuideCustom}(constructor = c("guide_custom", "next"), ...)}
+  \item \code{\link[=opts_GuideLegend]{opts_GuideLegend}(constructor = c("guide_legend", "next"), ...)}
+  \item \code{\link[=opts_GuideNone]{opts_GuideNone}(constructor = c("guide_none", "next"), ...)}
+  \item \code{\link[=opts_Guides]{opts_Guides}(constructor = c("guides", "next"), ...)}
   \item \code{\link[=opts_hexmode]{opts_hexmode}(constructor = c("as.hexmode", "next"), ..., integer = FALSE)}
   \item \code{\link[=opts_integer]{opts_integer}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_integer64]{opts_integer64}(constructor = c("as.integer64", "next", "double"), ...)}

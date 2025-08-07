@@ -1,0 +1,166 @@
+---
+title: "deparse_call"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{deparse_call}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+TODO: reorganize, put failing alternatives on top, then really wrong stuff, then inaccuracies then readability.
+
+
+`constructive::deparse_call()` converts calls (language objects) to code.
+It is an alternative to `base::deparse()` or `rlang::expr_deparse()` with a slightly
+different scope, and 3 main differences:
+
+* `deparse_call()` faisl if the call is not syntactic (if it cannot be the output
+of `parse(text=x)[[1]]`), for instance if its AST contains elements that are
+not syntactic tokens
+
+```{r, error = TRUE}
+x <- call('+', c(1, 2))
+base::deparse(x)
+rlang::expr_deparse(x)
+constructive::deparse_call(x)
+
+# this is different
+y <- quote(+c(1, 2))
+x[[2]]
+y[[2]]
+```
+
+* `deparse_call()` never makes compromises to make code more readable at the
+expense of accuracy.
+
+```{r}
+x <- quote(`*`(a + b, c))
+base::deparse(x)
+rlang::expr_deparse(x)
+constructive::deparse_call(x)
+
+y <- quote((a + b) * c)
+base::deparse(y)
+rlang::expr_deparse(y)
+constructive::deparse_call(y)
+
+# x and y are different, parentheses are code!
+x[[2]]
+y[[2]]
+```
+
+* `deparse_call()` handles many more contrived cases. It strives to provide an
+accurate syntactic representation for every possible syntactic language object,
+however unprobable or unpractical they might be.
+
+```{r}
+x <- call("[")
+base::deparse(x)
+rlang::expr_deparse(x)
+constructive::deparse_call(x)
+```
+
+```{r setup, echo= FALSE}
+library(constructive)
+#deparse_call <- function(x) gsub("`", "\\\\`", constructive::deparse_call(x))
+
+deparse_call <- function(x) paste(sprintf("`` %s ``", constructive::deparse_call(x)), collapse = "<br>")
+deparse <- function(x) paste(sprintf("`` %s ``", base::deparse(x)), collapse = "<br>")
+expr_deparse <- function(x) paste(sprintf("`` %s ``", rlang::expr_deparse(x)), collapse = "<br>")
+
+# deparse <- function(x) as_constructive_code(base::deparse(x))
+# expr_deparse <- function(x) as_constructive_code(rlang::expr_deparse(x))
+compare_deparse_call <- function(x) 
+  identical(unclass(constructive::deparse_call(x)), base::deparse(x)) &&
+  identical(base::deparse(x), rlang::expr_deparse(x))
+
+```
+
+## `deparse_call()` is more accurate
+
+We present more differences below, where at least one of the alternatives is
+not deparsing faithfully.
+
+|                   | deparse_call() | deparse() | expr_deparse()  |
+|-------------------|------------------------------|-----------------|------------------------|
+| `call('+', c(1, 2))` cannot be obtained by parsing code  | ERROR | `r deparse(call('+', c(1, 2)))` | `r expr_deparse(call('+', c(1, 2)))` |
+| Infix `::` and `:::` can only be called on symbols  | `r deparse_call(call("::", 1, 2))` | `r deparse(call("::", 1, 2))` | `r expr_deparse(call("::", 1, 2))` |
+| Infix `$` and `@` can only have a symbol rhs  | `r deparse_call(call("$", "a", 1))` | `r deparse(call("$", "a", 1))` | `r expr_deparse(call("$", "a", 1))` |
+| Infix `$` and `@` create different calls when rhs is symbol or string | `r deparse_call(call("$", quote(a), "b"))` | `r deparse(call("$", quote(a), "b"))` | `r expr_deparse(call("$", quote(a), "b"))` |
+| Binary ops cannot be used as prefixes  | `r deparse_call(call("*", 1)) ` | `r deparse(call("*", 1)) ` | `r expr_deparse(call("*", 1)) ` |
+| Binary ops cannot be used infix with > 2 args  | `r deparse_call(call("*", 1, 2, 3)) ` | `r deparse(call("*", 1, 2, 3)) ` | `r expr_deparse(call("*", 1, 2, 3)) ` |
+| Binary ops cannot be used infix with empty args  | `r deparse_call(call("*", 1, quote(expr=))) ` | `r deparse(call("*", 1, quote(expr=))) ` | `r expr_deparse(call("*", 1, quote(expr=))) ` |
+| Parentheses need function call notation if 0 arg  | `r deparse_call(call("("))` | `r deparse(call("("))` | `r expr_deparse(call("("))` |
+| Parentheses need function call notation if > 1 arg  | `r deparse_call(call("(", 1, 2))` | `r deparse(call("(", 1, 2))` | `r expr_deparse(call("(", 1, 2))` |
+| Calling `=` is different from passing an arg  | `r deparse_call(substitute(list(X), list(X = call("=", quote(x), 1))))` | `r deparse(substitute(list(X), list(X = call("=", quote(x), 1))))` | `r expr_deparse(substitute(list(X), list(X = call("=", quote(x), 1))))` |
+| Precedence must be respected, but adding extra parentheses to respect precedence is not accurate  | `r deparse_call(str2lang("'-'(1+2)"))` | `r deparse(str2lang("'-'(1+2)"))` | `r expr_deparse(str2lang("'-'(1+2)"))` |
+|  | `r deparse_call(quote('+'(repeat { }, 1)))` | `r deparse(quote('+'(repeat { }, 1)))` | `r expr_deparse(quote('+'(repeat { }, 1)))` |
+|  | `r deparse_call(quote(1 -> x <- 2))` | `r deparse(quote(1 -> x <- 2))` | `r expr_deparse(quote(1 -> x <- 2))` |
+|   | `r deparse_call(str2lang("'*'('+'(a, b), c)"))` | `r deparse(str2lang("'*'('+'(a, b), c)"))` | `r expr_deparse(str2lang("'*'('+'(a, b), c)"))` |
+|  | `r deparse_call(str2lang("'+'(x, y)(z)"))` | `r deparse(str2lang("'+'(x, y)(z)"))` | `r expr_deparse(str2lang("'+'(x, y)(z)"))` |
+|  | `r deparse_call(str2lang("'^'('^'(1, 2), 4)"))` | `r deparse(str2lang("'^'('^'(1, 2), 4)"))` | `r expr_deparse(str2lang("'^'('^'(1, 2), 4)"))` |
+|  | `r deparse_call(str2lang("'+'(1, '+'(2, 3))"))` | `r deparse(str2lang("'+'(1, '+'(2, 3))"))` | `r expr_deparse(str2lang("'+'(1, '+'(2, 3))"))` |
+| Brackets calling no arg is different from subsetting NULL  | `r deparse_call(call("["))` | `r deparse(call("["))` | `r expr_deparse(call("["))` |
+| Empty bracket syntax means doesn't mean no 2nd arg, it means 2nd arg is empty symbol, so for 1 arg we need function notation | `r deparse_call(call("[", quote(x)))` | `r deparse(call("[", quote(x)))` | `r expr_deparse(call("[", quote(x)))` |
+| Brackets with an empty first arg need function call notation  | `r deparse_call(call("[", quote(expr=), quote(expr=)))` | `r deparse(call("[", quote(expr=), quote(expr=)))` | `r expr_deparse(call("[", quote(expr=), quote(expr=)))` |
+| Brackets taking a call to a lower precedence op as a first arg need function call notation  | `r deparse_call(call("[", quote(a+b), 1))` | `r deparse(call("[", quote(a+b), 1))` | `r expr_deparse(call("[", quote(a+b), 1))` |
+| Invalid function definitions can be valid code  | `r deparse_call(call("function", 1,2))` | ERROR | SEGFAULT |
+|   | `r deparse_call(quote('function'(1(2), 3)))` | `r deparse(quote('function'(1(2), 3)))` | ERROR |
+| Curly braces need function call notation if they have empty args  | `r deparse_call(call("{", 1, quote(expr = )))` | `r deparse(call("{", 1, quote(expr = )))` | `r expr_deparse(call("{", 1, quote(expr = )))` |
+| Control flow constructs need function call notation if they're used as callers  | `r deparse_call(quote('if'(TRUE, { })(1)))` | `r deparse(quote('if'(TRUE, { })(1)))` | `r expr_deparse(quote('if'(TRUE, { })(1)))` |
+| Symbols with non syntactic names need backquotes  | `r deparse_call(as.symbol("*a*"))` | `r deparse(as.symbol("*a*"))` | `r expr_deparse(as.symbol("*a*"))` |
+| This includes emojis | `r deparse_call(as.symbol("🐶"))` | `r deparse(as.symbol("🐶"))` | `r expr_deparse(as.symbol("🐶"))` |
+
+## `deparse_call()` is clearer
+
+In the following `base::deparse()` and `rlang::expr_deparse()` are not wrong, 
+but `constructive::deparse_call()` is clearer.
+
+|                    | constructive::deparse_call() | base::deparse() | rlang::expr_deparse()  |
+|------------------------|------------------------|------------------------|------------------------|
+| Simple quotes make strings that use double quotes more readable  | `r deparse_call('"oh" "hey" "there"')` | `r deparse('"oh" "hey" "there"')` | `r expr_deparse('"oh" "hey" "there"')` |
+| Raw strings make more complex strings more readable  | `r deparse_call('"oh"\\\'hey\'\\"there"')` | `r deparse('"oh"\\\'hey\'\\"there"')` | `r expr_deparse('"oh"\\\'hey\'\\"there"')` |
+| Homoglyphs are dangerous, we can use the `\U{XX}` notation | `r deparse_call("\U{410} \U{A0} A")` | `r deparse("\U{410} \U{A0} A")` | `r expr_deparse("\U{410} \U{A0} A")` |
+| For symbols we need the `\xXX` notation| `r deparse_call(call("c", as.symbol("\U{410}"), "\U{A0}" = 1))` | `r deparse(call("c", as.symbol("\U{410}"), "\U{A0}" = 1))` | `r expr_deparse(call("c", as.symbol("\U{410}"), "\U{A0}" = 1))` |
+| Emojis depend on font so are ambiguous | `r deparse_call("🐶")` | `r deparse("🐶")` | `r expr_deparse("🐶")` |
+
+
+## `deparse_call()` fails rather than making things up
+
+```{r, error = TRUE}
+x <- call("(", -1)
+base::deparse(x)
+rlang::expr_deparse(x)
+constructive::deparse_call(x)
+
+# this is different! `-` is code!
+y <- quote((-1))
+base::deparse(y)
+rlang::expr_deparse(y)
+constructive::deparse_call(y)
+
+
+x <- call("fun", quote(expr = ))
+base::deparse(x)
+rlang::expr_deparse(x)
+constructive::deparse_call(x) # this is wrong!
+
+# no agument and 1 missing argument is not the same!
+y <- call("fun")
+base::deparse(y)
+rlang::expr_deparse(y)
+constructive::deparse_call(y)
+
+x <- call("!", quote(expr = ))
+base::deparse(x)
+rlang::expr_deparse(x)
+constructive::deparse_call(x)
+```
+

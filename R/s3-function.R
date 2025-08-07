@@ -57,7 +57,7 @@ is_corrupted_function <- function(x) {
 .cstr_construct.function.function <- function(x, ...) {
   opts <- list(...)$opts$`function` %||% opts_function()
   trim <- opts$trim
-  environment <- opts$environment
+  environment <- opts$environment && !identical(environment(x), list(...)$env)
   srcref <- opts$srcref
 
   x_bkp <- x

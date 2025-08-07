@@ -97,6 +97,7 @@ pipe_from_data <- function(plot_data, code, ...) {
 
 pipe_to_layers <- function(code, layers, plot_env, ..., env) {
   if (!length(layers)) return(code)
+  # FIXME: do we really want env = plot_env here? it seems to mess with the scatter_by() example in ?aes
   layer_lines <- lapply(layers, function(x, ...) .cstr_construct(x, ...), env = plot_env, ...)
   one_liner <- list(...)$one_liner
   layer_code <- Reduce(function(x, y)  .cstr_pipe(x, y, pipe = "plus", one_liner = one_liner, indent = FALSE), layer_lines)
@@ -177,4 +178,10 @@ pipe_to_coord <- function(code, coord, ...) {
   coord_code <- .cstr_construct(coord, ...)
   if (identical(coord_code, "ggplot2::coord_cartesian(default = TRUE)")) return(code)
   .cstr_pipe(code, coord_code, pipe = "plus", one_liner = list(...)$one_liner)
+}
+
+pipe_to_guide <- function(code, guides, ...) {
+  if (!length(guides$guides)) return(code)
+  guides_code <- .cstr_construct(guides, ...)
+  .cstr_pipe(code, guides_code, pipe = "plus", one_liner = list(...)$one_liner)
 }

@@ -59,9 +59,11 @@
   ## theme
   code <- pipe_to_theme(code, x@theme, ...)
 
-
   ## coord
   code <- pipe_to_coord(code, x@coordinates, ...)
+
+  ## coord
+  code <- pipe_to_guide(code, x@guides, ...)
 
   `repair_attributes_ggplot2::ggplot`(x, code, ...)
 }

@@ -35,7 +35,7 @@ is_corrupted_simpleUnit <- function(x) {
     mystrwidth = 105L, mystrheight = 106L
   )
   units <- names(lkp)[match(attr(x, "unit"), lkp)]
-  code <- .cstr_apply(list(as.vector(x), units = units), "grid::unit", ...)
+  code <- .cstr_apply(list(as.vector(x), units), "grid::unit", ...)
   repair_attributes_simpleUnit(x, code, ...)
 }
 
