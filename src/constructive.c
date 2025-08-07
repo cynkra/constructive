@@ -1,9 +1,10 @@
-#include <R.h>
 #include <Rinternals.h>
 #include <Rdefines.h>
+#include <stdint.h> // for uintptr_t
 #include <stdio.h>
-#include <inttypes.h>
+#include <inttypes.h> // for SCNxPTR
 #include <stdlib.h> // for NULL
+#include <R_ext/Error.h> // for error
 #include <R_ext/Rdynload.h>
 
 /* .Call calls */
@@ -24,7 +25,7 @@ void R_init_constructive(DllInfo *dll)
   R_useDynamicSymbols(dll, FALSE);
 }
 
-// Thanks to Randi Lai: https://github.com/randy3k/xptr/
+// Thanks to Randy Lai: https://github.com/randy3k/xptr/
 SEXP external_pointer(SEXP p) {
   if (TYPEOF(p) != STRSXP || LENGTH(p) < 1) {
     error("Input must be a character vector of at least length 1");

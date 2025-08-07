@@ -32,7 +32,8 @@ is_corrupted_numeric_version <- function(x) {
 #' @export
 #' @method .cstr_construct.numeric_version numeric_version
 .cstr_construct.numeric_version.numeric_version <- function(x, ...) {
-  code <- .cstr_apply(paste(x, collapse = "."), "numeric_version", ...)
+  x_chr <- vapply(x, paste, collapse = ".", FUN.VALUE = character(1))
+  code <- .cstr_apply(list(x_chr), "numeric_version", ...)
   repair_attributes_numeric_version(x, code, ...)
 }
 
@@ -80,7 +81,8 @@ is_corrupted_package_version <- function(x) {
 #' @export
 #' @method .cstr_construct.package_version package_version
 .cstr_construct.package_version.package_version <- function(x, ...) {
-  code <- .cstr_apply(paste(x, collapse = "."), "package_version", ...)
+  x_chr <- vapply(x, paste, collapse = ".", FUN.VALUE = character(1))
+  code <- .cstr_apply(list(x_chr), "package_version", ...)
   repair_attributes_package_version(x, code, ...)
 }
 
@@ -128,7 +130,8 @@ is_corrupted_R_system_version <- function(x) {
 #' @export
 #' @method .cstr_construct.R_system_version R_system_version
 .cstr_construct.R_system_version.R_system_version <- function(x, ...) {
-  code <- .cstr_apply(paste(x, collapse = "."), "R_system_version", ...)
+  x_chr <- vapply(x, paste, collapse = ".", FUN.VALUE = character(1))
+  code <- .cstr_apply(list(x_chr), "R_system_version", ...)
   repair_attributes_R_system_version(x, code, ...)
 }
 

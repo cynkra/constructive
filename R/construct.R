@@ -282,6 +282,11 @@ print.constructive <- function(
     multiple = TRUE
   )
 
+  if ("clipboard" %in% print_mode) {
+    check_installed("clipr")
+    cli::cli_alert_info("Code has been added to the clipboard")
+    clipr::write_clip(paste(x$code, collapse = "\n"), "character")
+  }
   if ("console" %in% print_mode) {
     print(x$code)
   }
@@ -289,10 +294,6 @@ print.constructive <- function(
     check_installed("reprex")
     reprex_code <- c('getFromNamespace("prex", "reprex")({', x$code, "})")
     eval.parent(parse(text = reprex_code))
-  }
-  if ("clipboard" %in% print_mode) {
-    check_installed("clipr")
-    clipr::write_clip(paste(x$code, collapse = "\n"), "character")
   }
   if ("script" %in% print_mode) {
     check_installed("rstudioapi")

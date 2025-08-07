@@ -60,3 +60,77 @@
     Output
       data.table::data.table(a = 1, a = 2)
 
+# non standard names in data tables
+
+    Code
+      construct(structure(data.table::data.table(1), names = NULL), check = FALSE)
+    Output
+      list(1) |>
+        structure(
+          row.names = c(NA, -1L),
+          class = c("data.table", "data.frame"),
+          .internal.selfref = constructive::.xptr("0x123456789")
+        )
+    Code
+      construct(structure(data.table::data.table(1), names = ""))
+    Output
+      data.table::data.table(1) |>
+        structure(names = "")
+    Code
+      construct(structure(data.table::data.table(1), names = NA))
+    Output
+      data.table::data.table(1) |>
+        structure(names = NA_character_)
+    Code
+      construct(structure(data.table::data.table(1), names = "keep.rownames"))
+    Output
+      data.table::data.table(1) |>
+        structure(names = "keep.rownames")
+    Code
+      construct(structure(data.table::data.table(1), names = "check.names"))
+    Output
+      data.table::data.table(1) |>
+        structure(names = "check.names")
+    Code
+      construct(structure(data.table::data.table(1), names = "key"))
+    Output
+      data.table::data.table(1) |>
+        structure(names = "key")
+    Code
+      construct(structure(data.table::data.table(1), names = "stringsAsFactors"))
+    Output
+      data.table::data.table(1) |>
+        structure(names = "stringsAsFactors")
+    Code
+      construct(structure(data.table::data.table(1, 2), names = c("a", "")))
+    Output
+      data.table::data.table(a = 1, 2) |>
+        structure(names = c("a", ""))
+    Code
+      construct(structure(data.table::data.table(1, 2), names = c("a", NA)))
+    Output
+      data.table::data.table(a = 1, 2) |>
+        structure(names = c("a", NA))
+    Code
+      construct(structure(data.table::data.table(1, 2), names = c("a",
+        "keep.rownames")))
+    Output
+      data.table::data.table(a = 1, 2) |>
+        structure(names = c("a", "keep.rownames"))
+    Code
+      construct(structure(data.table::data.table(1, 2), names = c("a", "check.names")))
+    Output
+      data.table::data.table(a = 1, 2) |>
+        structure(names = c("a", "check.names"))
+    Code
+      construct(structure(data.table::data.table(1, 2), names = c("a", "key")))
+    Output
+      data.table::data.table(a = 1, 2) |>
+        structure(names = c("a", "key"))
+    Code
+      construct(structure(data.table::data.table(1, 2), names = c("a",
+        "stringsAsFactors")))
+    Output
+      data.table::data.table(a = 1, 2) |>
+        structure(names = c("a", "stringsAsFactors"))
+

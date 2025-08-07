@@ -1,9 +1,10 @@
 url: https://cynkra.github.io/constructive/
 template:
-  bootstrap: 5
+  bootstrap: 5.0
+  package: cynkratemplate
 reference:
 - title: Generate code
-  desc:  The main functions of the package
+  desc: The main functions of the package
 - contents:
   - construct
   - construct_multi
@@ -16,8 +17,7 @@ reference:
   - construct_signature
   - deparse_call
 - title: Inspect problems related to code generation
-- contents:
-  - construct_issues
+- contents: construct_issues
 - title: Global options
 - contents:
   - constructive-global_options

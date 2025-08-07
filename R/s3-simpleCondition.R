@@ -32,7 +32,7 @@ is_corrupted_simpleCondition <- function(x) {
 
 repair_attributes_simpleCondition <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = c("simpleCondition", "condition"),
     ...
   )

@@ -75,7 +75,9 @@ its memory address.
 \itemize{
 \item \code{"list2env"}: We construct the environment as a list then
 use \code{base::list2env()} to convert it to an environment and assign it a parent. By
-default we will use \code{base::topenv()} to construct a parent. If \code{recurse} is \code{TRUE}
+default we use as a parent the first special environment we find when going
+through ancestors, so we can print code that doesn't use \code{.env()}.
+If \code{recurse} is \code{TRUE}
 the parent will be built recursively so all ancestors will be created until
 we meet a known environment, this might be verbose and will fail if environments
 are nested too deep or have a circular relationship. If the environment is empty we use \code{new.env(parent=)}

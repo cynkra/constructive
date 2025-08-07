@@ -44,7 +44,9 @@
 #'   its memory address.
 #' * `"list2env"`: We construct the environment as a list then
 #'   use `base::list2env()` to convert it to an environment and assign it a parent. By
-#'   default we will use `base::topenv()` to construct a parent. If `recurse` is `TRUE`
+#'   default we use as a parent the first special environment we find when going
+#'   through ancestors, so we can print code that doesn't use `.env()`.
+#'   If `recurse` is `TRUE`
 #'   the parent will be built recursively so all ancestors will be created until
 #'   we meet a known environment, this might be verbose and will fail if environments
 #'   are nested too deep or have a circular relationship. If the environment is empty we use `new.env(parent=)`
@@ -156,12 +158,19 @@ is_corrupted_environment <- function(x) {
   }
 
   if (!opts$recurse) {
+    parent_code <- construct_top_env(parent.env(x))
     if (length(names(x))) {
-      code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "list2env", ...)
+      list_code <- .cstr_construct(env2list(x), ...)
+      code <- .cstr_apply(
+        list(list_code, parent = parent_code),
+        "list2env",
+        ...,
+        recurse = FALSE
+      )
       code <- apply_env_locks(x, code, ...)
       return(repair_attributes_environment(x, code, ...))
     }
-    code <- .cstr_apply(list(parent = topenv(x)), "new.env", ...)
+    code <- .cstr_apply(list(parent = parent_code), "new.env", ..., recurse = FALSE)
     code <- apply_env_locks(x, code, ...)
     return(repair_attributes_environment(x, code, ...))
   }
@@ -195,12 +204,19 @@ is_corrupted_environment <- function(x) {
     abort_self_reference()
   }
   if (!opts$recurse) {
+    parent_code <- construct_top_env(parent.env(x))
     if (length(names(x))) {
-      code <- .cstr_apply(list(env2list(x), parent = topenv(x)), "rlang::new_environment", ...)
+      list_code <- .cstr_construct(env2list(x), ...)
+      code <- .cstr_apply(
+        list(list_code, parent = parent_code),
+        "rlang::new_environment",
+        ...,
+        recurse = FALSE
+      )
       code <- apply_env_locks(x, code)
       return(repair_attributes_environment(x, code, ...))
     }
-    code <- .cstr_apply(list(parent = topenv(x)), "rlang::new_environment", ...)
+    code <- .cstr_apply(list(parent = parent_code), "rlang::new_environment", ...)
     code <- apply_env_locks(x, code)
     return(repair_attributes_environment(x, code, ...))
   }

@@ -4,11 +4,11 @@ is_syntactic <- function(x) {
 
 # exceptions -----------------------------------------------------------------
 
-deparse_symbol <- function(call, check_syntactic, unicode_representation, escape) {
+deparse_symbol <- function(call, check_syntactic, unicode_representation) {
   code <- construct_string(
     as.character(call),
     unicode_representation,
-    escape,
+    escape = TRUE,
     mode = "symbol",
     protect = check_syntactic
   )
@@ -91,6 +91,28 @@ deparse_subset2 <- function(call, rec, one_liner, indent, unicode_representation
   sprintf("%s[[%s]]", arg1, other_args)
 }
 
+is_regular_bracket_call <- function(call) {
+  if (!identical(call[[1]], as.symbol("[")) && !identical(call[[1]], as.symbol("[["))) {
+    return(FALSE)
+  }
+  if (length(call) < 3) {
+    # even with empty bracket it is length 3 because x[] uses an empty arg
+    return(FALSE)
+  }
+
+  if (identical(call[[2]], quote(expr=))) return(FALSE)
+  if (!is.call(call[[2]])) return(TRUE)
+
+  lhs_is_call_with_a_symbol_caller <-
+    is.call(call[[2]]) &&
+    is.symbol(call[[2]][[1]])
+
+  if (!lhs_is_call_with_a_symbol_caller) return(TRUE)
+  lhs_caller_chr <- as.character((call[[2]][[1]]))
+  if (is_cf(lhs_caller_chr) || lhs_caller_chr == "function") return(FALSE)
+  precedence(lhs_caller_chr, length(call[[2]])) >= 16
+}
+
 deparse_paren <- function(call, rec) {
   sprintf("(%s)", rec(call[[2]]))
 }
@@ -129,6 +151,10 @@ is_infix_narrow <- function(x) {
 
 is_op <- function(x) {
   is_unary(x) || is_infix_wide(x) || is_infix_narrow(x)
+}
+
+is_cf <- function(x) {
+  x %in% c("if", "while", "for", "repeat")
 }
 
 deparse_unary <- function(caller, call, rec) {
@@ -308,13 +334,21 @@ precedence <- function(x, call_length = 2) {
 # checks if the operator has a higher precedence than both the lhs and rhs
 # of the call
 operands_have_higher_or_equal_precedence <- function(operator, call) {
+  if (any(sapply(call[-1], identical, quote(expr=)))) return(FALSE)
   if (!length(call) %in% c(2, 3)) return(TRUE)
 
   # we need to special case ops with righ to left precedence
   lhs <- call[[2]] # actually rhs when call is length 2
   op_prec <-  precedence(operator, length(call))
   if (is.call(lhs)) {
-    lhs_prec <- precedence(as.character(lhs[[1]]), length(lhs))
+    lhs_caller_chr <- as.character(lhs[[1]])
+    if (length(lhs_caller_chr) == 1 && lhs_caller_chr %in% c("[", "[[")) {
+      lhs_prec <- Inf
+    } else if (length(call) == 3 && length(lhs_caller_chr) == 1 && is_cf(lhs_caller_chr)) {
+      lhs_prec <- 1.5 # just above `?`
+      } else {
+      lhs_prec <- precedence(lhs_caller_chr, length(lhs))
+    }
   } else {
     lhs_prec <- Inf
   }
@@ -323,8 +357,10 @@ operands_have_higher_or_equal_precedence <- function(operator, call) {
   } else {
     rhs_prec <- Inf
   }
-  if (op_prec %in% c(2, 3, 15) && lhs_prec == op_prec) {
-    return(FALSE)
+
+  # `=`, `<-`, and `^` have right to left precedence
+  if (op_prec %in% c(2, 3, 15)) {
+    return(lhs_prec > op_prec && rhs_prec >= op_prec)
   }
-  lhs_prec >= op_prec && rhs_prec >= op_prec
+  lhs_prec >= op_prec && rhs_prec > op_prec
 }

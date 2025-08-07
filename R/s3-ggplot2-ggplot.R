@@ -25,8 +25,7 @@ opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
 }
 
 is_corrupted_ggplot <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export
@@ -66,12 +65,22 @@ is_corrupted_ggplot <- function(x) {
   repair_attributes_ggplot(x, code, ...)
 }
 
-repair_attributes_ggplot <- function(x, code, pipe = NULL, ...) {
-  .cstr_repair_attributes(
-    x, code, pipe,
+repair_attributes_ggplot <- function(x, code, one_liner = FALSE, pipe = NULL, ...) {
+  if (one_liner) {
+    code_with_parens <- paste0("(", code, ")")
+  } else {
+    code_with_parens <- c("(", indent(code), ")")
+  }
+
+  code_with_attrs <- .cstr_repair_attributes(
+    x, code_with_parens, pipe = pipe,
     idiomatic_class = c("gg", "ggplot"),
+    one_liner = one_liner,
     ...
   )
+  nothing_to_repair <- identical(code_with_attrs, code_with_parens)
+  if (nothing_to_repair) return(code)
+  code_with_attrs
 }
 
 construct_ggplot_call <- function(mapping, ...) {
@@ -88,6 +97,7 @@ pipe_from_data <- function(plot_data, code, ...) {
 
 pipe_to_layers <- function(code, layers, plot_env, ..., env) {
   if (!length(layers)) return(code)
+  # FIXME: do we really want env = plot_env here? it seems to mess with the scatter_by() example in ?aes
   layer_lines <- lapply(layers, function(x, ...) .cstr_construct(x, ...), env = plot_env, ...)
   one_liner <- list(...)$one_liner
   layer_code <- Reduce(function(x, y)  .cstr_pipe(x, y, pipe = "plus", one_liner = one_liner, indent = FALSE), layer_lines)
@@ -117,7 +127,7 @@ pipe_to_labels <- function(code, labels, mapping, layers, ...) {
   mappings <- unlist(c(mapping, lapply(layers, function(x) x$mapping)))
   mappings <- mappings[unique(names(mappings))]
   # discard mappings given as syntactic literals
-  litts <- vapply(mappings, rlang::is_syntactic_literal, logical(1))
+  litts <- vapply(mappings, is_syntactic_literal2, logical(1))
   litt_nms <- names(mappings[litts])
   mappings <- mappings[!litts]
   default_labs <- vapply(
@@ -153,8 +163,13 @@ pipe_to_scales <- function(code, scales, ...) {
 
 pipe_to_theme <- function(code, theme, ...) {
   # an empty theme has attributes "complete" and "validate" it has a (non functional) effect
-  if (!length(theme) && !length(attributes(theme))) return(code)
-  class(theme) <- c("theme", "gg")
+  if (with_versions(ggplot2 <= "3.5.2")) {
+    if (!length(theme) && !length(attributes(theme))) return(code)
+    class(theme) <- c("theme", "gg")
+  } else {
+    if (!length(theme)) return(code)
+  }
+
   theme_code <- .cstr_construct(theme, ...)
   .cstr_pipe(code, theme_code, pipe = "plus", one_liner = list(...)$one_liner)
 }
@@ -163,4 +178,10 @@ pipe_to_coord <- function(code, coord, ...) {
   coord_code <- .cstr_construct(coord, ...)
   if (identical(coord_code, "ggplot2::coord_cartesian(default = TRUE)")) return(code)
   .cstr_pipe(code, coord_code, pipe = "plus", one_liner = list(...)$one_liner)
+}
+
+pipe_to_guide <- function(code, guides, ...) {
+  if (!length(guides$guides)) return(code)
+  guides_code <- .cstr_construct(guides, ...)
+  .cstr_pipe(code, guides_code, pipe = "plus", one_liner = list(...)$one_liner)
 }

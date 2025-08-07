@@ -49,6 +49,16 @@ test_that("POSIXlt-from-4.3", {
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("list"))
   })
+
+  withr::local_timezone("CET")
+  sys_time_1970 <- Sys.time()
+  sys_time_1970[[1]] <- 0
+  expect_snapshot({
+    construct(as.POSIXlt(.leap.seconds[1:4]))
+    construct(as.POSIXlt(sys_time_1970))
+    construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))
+    construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("list"))
+  })
 })
 
 # copy of the tests for old R, should be the same except with

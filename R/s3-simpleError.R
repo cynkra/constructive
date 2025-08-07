@@ -32,7 +32,7 @@ is_corrupted_simpleError <- function(x) {
 
 repair_attributes_simpleError <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = c("simpleError", "error", "condition"),
     ...
   )

@@ -65,4 +65,10 @@
       construct_diff(1, 1)
     Message
       No difference to show!
+    Code
+      construct_diff("é", iconv("é", to = "latin1"), interactive = FALSE)
+    Output
+      < "é"                                 > iconv("é", to = "latin1")         
+      @@ 1 @@                               @@ 1 @@                             
+      < "\U{E9}"                            > "\xe9" |> (`Encoding<-`)("latin1")
 

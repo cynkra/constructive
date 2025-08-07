@@ -37,7 +37,7 @@ is_corrupted_formula <- function(x) {
 
 #' @export
 #' @method .cstr_construct.formula default
-.cstr_construct.formula.default <- function(x, ..., env) {
+.cstr_construct.formula.default <- function(x, ..., env = parent.frame()) {
   opts <- list(...)$opts$formula %||% opts_formula()
   env_is_default <- identical(attr(x, ".Environment"), env)
   code <- deparse(x)

@@ -3,11 +3,11 @@
     Code
       construct(grid::unit(c(1L, 1L, 1L), "cm"))
     Output
-      grid::unit(rep(1, 3L), units = "cm")
+      grid::unit(rep(1, 3L), "cm")
     Code
       construct_base(grid::unit(c(1L, 1L, 1L), "cm"))
     Output
-      grid::unit(rep(1, 3L), units = "cm")
+      grid::unit(rep(1, 3L), "cm")
     Code
       construct_dput(grid::unit(c(1L, 1L, 1L), "cm"))
     Output

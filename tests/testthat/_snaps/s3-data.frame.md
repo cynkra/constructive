@@ -121,11 +121,6 @@
       'two words'
       ")
     Code
-      constructive::construct(as.data.frame(list(row.names = 1:2)))
-    Output
-      list(row.names = 1:2) |>
-        structure(class = "data.frame", row.names = c(NA, -2L))
-    Code
       construct(data.frame(row.names = c("a", "b")))
     Output
       data.frame(row.names = c("a", "b"))
@@ -155,4 +150,82 @@
       construct(data.frame(a = 1, a = 2, check.names = FALSE))
     Output
       data.frame(a = 1, a = 2, check.names = FALSE)
+
+# non standard names in data frames
+
+    Code
+      construct(structure(data.frame(1), names = NULL))
+    Output
+      list(1) |>
+        structure(class = "data.frame", row.names = c(NA, -1L))
+    Code
+      construct(structure(data.frame(1), names = ""))
+    Output
+      data.frame(1) |>
+        structure(names = "")
+    Code
+      construct(structure(data.frame(1), names = NA))
+    Output
+      data.frame(1) |>
+        structure(names = NA_character_)
+    Code
+      construct(structure(data.frame(1), names = "row.names"))
+    Output
+      data.frame(1) |>
+        structure(names = "row.names")
+    Code
+      construct(structure(data.frame(1), names = "check.rows"))
+    Output
+      data.frame(1) |>
+        structure(names = "check.rows")
+    Code
+      construct(structure(data.frame(1), names = "check.names"))
+    Output
+      data.frame(1) |>
+        structure(names = "check.names")
+    Code
+      construct(structure(data.frame(1), names = "fix.empty.names"))
+    Output
+      data.frame(1) |>
+        structure(names = "fix.empty.names")
+    Code
+      construct(structure(data.frame(1), names = "stringsAsFactors"))
+    Output
+      data.frame(1) |>
+        structure(names = "stringsAsFactors")
+    Code
+      construct(structure(data.frame(1, 2), names = c("a", "")))
+    Output
+      data.frame(a = 1, 2) |>
+        structure(names = c("a", ""))
+    Code
+      construct(structure(data.frame(1, 2), names = c("a", NA)))
+    Output
+      data.frame(a = 1, 2) |>
+        structure(names = c("a", NA))
+    Code
+      construct(structure(data.frame(1, 2), names = c("a", "row.names")))
+    Output
+      data.frame(a = 1, 2) |>
+        structure(names = c("a", "row.names"))
+    Code
+      construct(structure(data.frame(1, 2), names = c("a", "check.rows")))
+    Output
+      data.frame(a = 1, 2) |>
+        structure(names = c("a", "check.rows"))
+    Code
+      construct(structure(data.frame(1, 2), names = c("a", "check.names")))
+    Output
+      data.frame(a = 1, 2) |>
+        structure(names = c("a", "check.names"))
+    Code
+      construct(structure(data.frame(1, 2), names = c("a", "fix.empty.names")))
+    Output
+      data.frame(a = 1, 2) |>
+        structure(names = c("a", "fix.empty.names"))
+    Code
+      construct(structure(data.frame(1, 2), names = c("a", "stringsAsFactors")))
+    Output
+      data.frame(a = 1, 2) |>
+        structure(names = c("a", "stringsAsFactors"))
 

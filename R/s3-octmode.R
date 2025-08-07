@@ -45,7 +45,7 @@ is_corrupted_octmode <- function(x) {
 
 repair_attributes_octmode <- function(x, code, pipe = NULL, ...) {
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = "octmode",
     ...
   )

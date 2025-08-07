@@ -5,23 +5,21 @@
     Output
       quote(a_symbol)
     Code
+      construct(as.symbol("a\\b"))
+    Output
+      quote(`a\\b`)
+    Code
       construct(quote(a + call))
     Output
       quote(a + call)
     Code
-      construct(body(ave))
-    Output
-      quote({
-        if (missing(...)) x[] <- FUN(x) else {
-          g <- interaction(...)
-          split(x, g) <- lapply(split(x, g), FUN)
-        }
-        x
-      })
-    Code
       construct(quote(expr = ))
     Output
       quote(expr = )
+    Code
+      construct(as.call(list(quote(expr = ))))
+    Output
+      as.call(list(quote(expr = )))
 
 # language after 4.1
 
@@ -52,4 +50,36 @@
       construct(y)
     Output
       as.call(list(c("a", "vector"), 1))
+
+# We can construct calls with empty callers
+
+    Code
+      construct(substitute(X(), list(X = quote(expr = ))))
+    Output
+      as.call(list(quote(expr = )))
+    Code
+      construct(substitute({
+        X(1, 2)
+      }, list(X = quote(expr = ))))
+    Output
+      as.call(list(quote(`{`), as.call(list(quote(expr = ), 1, 2))))
+
+# We can construct calls with non syntactic literals
+
+    Code
+      construct(call("fun", -1))
+    Output
+      as.call(list(quote(fun), -1))
+    Code
+      construct(call("fun", 1 + 0+0i))
+    Output
+      as.call(list(quote(fun), 1+0i))
+    Code
+      construct(call("fun", quote(expr = )))
+    Output
+      as.call(list(quote(fun), quote(expr = )))
+    Code
+      construct(call("+", quote(expr = )))
+    Output
+      as.call(list(quote(`+`), quote(expr = )))
 

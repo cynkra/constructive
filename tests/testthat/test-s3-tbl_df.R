@@ -33,3 +33,17 @@ test_that("duplicate names in tibbles", {
     construct(tibble::tibble(a = 1, a =2, .name_repair = "minimal"))
   })
 })
+
+test_that("non standard names in tibbles", {
+  expect_snapshot({
+    construct(structure(tibble::tibble(1), names = NULL))
+    construct(structure(tibble::tibble(1), names = ""))
+    construct(structure(tibble::tibble(1), names = NA))
+    construct(structure(tibble::tibble(1), names = ".rows"))
+    construct(structure(tibble::tibble(1), names = ".name_repair"))
+    construct(structure(tibble::tibble(1, 2), names = c("a", "")))
+    construct(structure(tibble::tibble(1, 2), names = c("a", NA)))
+    construct(structure(tibble::tibble(1, 2), names = c("a", ".rows")))
+    construct(structure(tibble::tibble(1, 2), names = c("a", ".name_repair")))
+  })
+})

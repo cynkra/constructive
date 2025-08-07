@@ -34,7 +34,7 @@ repair_attributes_error <- function(x, code, pipe = NULL, ...) {
   cl <- class(x)
   cl_is_idiomatic <- identical(tail(cl, 2), c("error", "condition"))
   .cstr_repair_attributes(
-    x, code, pipe,
+    x, code, pipe = pipe,
     idiomatic_class = if(cl_is_idiomatic) cl,
     ...
   )

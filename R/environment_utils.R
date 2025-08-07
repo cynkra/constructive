@@ -30,6 +30,15 @@ construct_special_env <- function(x) {
   }
 }
 
+construct_top_env <- function(x) {
+  repeat {
+    code <- construct_special_env(x)
+    if (!is.null(code)) break
+    x <- parent.env(x)
+  }
+  code
+}
+
 env_memory_address <- function(x, by_name = FALSE) {
   if (identical(Sys.getenv("TESTTHAT"), "true")) return("0x123456789")
   if (by_name) rlang::env_label(x) else rlang::obj_address(x)
@@ -159,7 +168,10 @@ update_predefinition <- function(envir, ...) {
 }
 
 apply_env_locks <- function(x, code, ...) {
-  locked_bindings <- rlang::env_binding_are_locked(x)
+  # since we override S3 dispatch here we can circumvent rlang bug
+  # https://github.com/r-lib/rlang/issues/1783
+  bindings <- names(x)
+  locked_bindings <- rlang::env_binding_are_locked(x, bindings)
   if (environmentIsLocked(x)) {
     if (length(locked_bindings) && all(locked_bindings)) {
       rhs <- c(

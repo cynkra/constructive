@@ -53,21 +53,46 @@ repair_attributes_language <- function(x, code, ...) {
   )
 }
 
+# adapted from rlang::is_syntactic_literal
+is_syntactic_literal2 <- function(x) {
+  if (!is.null(attributes(x))) return(FALSE)
+  switch(
+    typeof(x),
+    "NULL" = TRUE,
+    integer = ,
+    # handles, 0, positive and NA
+    double = length(x) == 1 && !isTRUE(sign(x) == -1),
+    logical = ,
+    character = length(x) == 1,
+    complex = length(x) == 1 && isTRUE(Re(x) == 0) && !isTRUE(Im(x) < 0),
+    FALSE
+  )
+}
+
 is_expression2 <- function(x) {
   non_srcref_attr_nms <-  setdiff(
     names(attributes(x)),
     c("srcref", "srcfile", "wholeSrcref")
   )
   if (length(non_srcref_attr_nms)) return(FALSE)
-  if (rlang::is_syntactic_literal(x) || rlang::is_symbol(x)) return(TRUE)
+  if (is_syntactic_literal2(x) || rlang::is_symbol(x)) return(TRUE)
   if (!rlang::is_call(x)) return(FALSE)
+  # if the caller itself is empty the call can't be syntactic
+  if (identical(x[[1]], quote(expr=))) return(FALSE)
   if (is_regular_function_definition(x)) return(TRUE)
+  if (!is_regular_bracket_call(x)) {
+    # if the only arg is missing then we can't use lisp notation to represent
+    # missing args.
+    if (length(x) == 2 && identical(x[[2]], quote(expr=))) return(FALSE)
+  }
+  if (is_regular_function_definition(x[[1]])) return(FALSE)
   all(vapply(x, is_expression2, logical(1)))
 }
 
 is_regular_function_definition <- function(x) {
+  is.call(x) &&
   identical(x[[1]], as.symbol("function")) &&
-    length(x) == 4 &&
+    length(x) %in% c(3,4) &&
     (
       is.null(x[[2]]) ||
         (is.pairlist(x[[2]]) && all(vapply(x[[2]], is_expression2, logical(1))))

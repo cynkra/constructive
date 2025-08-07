@@ -1,13 +1,13 @@
 #' @export
 #' @rdname other-opts
 opts_Scale <- function(constructor = c("default", "next", "environment"), ...) {
-  .cstr_options("CoordCartesian", constructor = constructor[[1]], ...)
+  .cstr_options("Scale", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct Scale
 .cstr_construct.Scale <- function(x, ...) {
-  opts <- list(...)$opts$Scale %||% opts_CoordCartesian()
+  opts <- list(...)$opts$Scale %||% opts_Scale()
   if (is_corrupted_Scale(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.Scale", structure(NA, class = opts$constructor))
 }
@@ -26,6 +26,34 @@ is_corrupted_Scale <- function(x) {
 #' @export
 #' @method .cstr_construct.Scale default
 .cstr_construct.Scale.default <- function(x, ...) {
+  if (with_versions(ggplot2 > "3.5.2")) {
+    # FIXME: scales are broken, and are very hard to get right, probably
+    # need a lot of special casing, we use a naive approach and hope for the best
+
+    # note for later:
+    # scale_* functions forward args to more general functions like continuous_scale()
+    # but on the way they process args in ways that are not easy to invert, for instance
+    # palette = "Spectral".
+    # the way we use below uses the NSE "backup" done by ggplot but comes with associated caveats
+    # maybe we should fall back to the more general code (but probably often verbose)
+    # whenever an arg calls non base functions.
+    # it seems the structure of the object has changed too, there's a lot of values under x$palette,
+    # and these need sometimes to be renamed or "deprocessed"
+
+    # args_from_palette <- env2list(environment(x$palette))
+    # names(args_from_palette)[names(args_from_palette) %in% c("colors", "colours")] <- "palette"
+    # for (nm in names(args)) {
+    #   args[[nm]] <- args_from_palette[[nm]]
+    # }
+
+    call <- base::`[[`(x, "call")
+    code <- deparse_call0(call, unicode_representation = list(...)$unicode_representation)
+    if (!startsWith(code[[1]], "ggplot2::")) {
+      code[[1]] <- paste0("ggplot2::", code[[1]])
+    }
+    return(code)
+  }
+
   # fetch caller and args from original call
   # here we need the ggplot subsetting method, not the low level [[
   call <- base::`[[`(x, "call")
@@ -73,7 +101,7 @@ is_corrupted_Scale <- function(x) {
   }
 
   # fetch values from ggproto object except special values
-  values <- values[setdiff(names(args), c("super", "palette"))]
+  values <- values[setdiff(names(args), c("super", "palette", "range"))]
 
   # deal with `rescaler` arg, it's typically the name of a function from "scales"
   # so we fetch it there
@@ -89,12 +117,16 @@ is_corrupted_Scale <- function(x) {
   args[names(values)] <- lapply(values, function(x, ...) .cstr_construct(x, ...), ...)
 
   # special case waiver as it's an empty list unfortunately matched to `.data`
-  # FIXME: we should probably not match empty objects, that inclused NULL and zero length objects
+  # FIXME: we should probably not match empty objects, that includes NULL and zero length objects
   if (identical(values$guide, ggplot2::waiver())) {
     args$guide <- "ggplot2::waiver()"
   }
 
   # construct special args
+  if ("range" %in% names(args)) {
+    args$range <- .cstr_construct(environment(x$palette)$range, ...)
+  }
+
   if ("palette" %in% names(args)) {
     # FIXME: Simple heuristics for now, can be improved
     if (identical(args$palette, quote(identity))) {

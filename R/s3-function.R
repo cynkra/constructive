@@ -57,7 +57,7 @@ is_corrupted_function <- function(x) {
 .cstr_construct.function.function <- function(x, ...) {
   opts <- list(...)$opts$`function` %||% opts_function()
   trim <- opts$trim
-  environment <- opts$environment
+  environment <- opts$environment && !identical(environment(x), list(...)$env)
   srcref <- opts$srcref
 
   x_bkp <- x
@@ -99,14 +99,16 @@ is_corrupted_function <- function(x) {
   attrs <- attributes(x)
   if (!srcref) attrs$srcref <- NULL
 
-  if (environment || length(attrs)) {
+  remove_srcref <- srcref && is.null(attr(x, "srcref"))
+
+  if (environment || length(attrs) || remove_srcref) {
     code <- .cstr_wrap(code, fun = "")
   }
   if (environment) {
     envir_code <- .cstr_apply(list(environment(x)), "(`environment<-`)", ...)
     code <- .cstr_pipe(code, envir_code, ...)
   }
-  repair_attributes_function(x_bkp, code, ...)
+  repair_attributes_function(x_bkp, code, remove_srcref = remove_srcref, ...)
 }
 
 #' @export
@@ -118,7 +120,7 @@ is_corrupted_function <- function(x) {
   srcref <- opts$srcref
 
   x_bkp <- x
-  if (!is.null(trim)) x <- trim_function(x)
+  if (!is.null(trim)) x <- trim_function(x, trim)
 
   x_lst <- as.list(unclass(x))
 
@@ -167,12 +169,12 @@ is_corrupted_function <- function(x) {
   repair_attributes_function(x_bkp, code, ...)
 }
 
-repair_attributes_function <- function(x, code, ...) {
+repair_attributes_function <- function(x, code, remove_srcref = FALSE, ...) {
   opts <- list(...)$opts$`function` %||% opts_function()
   srcref <- opts[["srcref"]]
-  ignore <- c("name", "path")
-  if (!srcref) ignore <- c(ignore, "srcref")
-  .cstr_repair_attributes(x, code, opts = opts, ..., ignore = ignore)
+  ignore <- if (!srcref) "srcref"
+  remove <- if (remove_srcref) "srcref"
+  .cstr_repair_attributes(x, code, ..., remove = remove, ignore = ignore)
 }
 
 # returns the srcref as a character vector IF it matches the actual function, NULL otherwise

@@ -81,13 +81,16 @@ is_corrupted_complex <- function(x) {
 
   re <- Re(x)
   im <- Im(x)
+  op <- if (isTRUE(sign(1/im) == -1)) "-" else "+"
+  im <- abs(im)
   # override double options so they don't affect complex numbers
   all_opts$double <- opts
   re_code <- sapply(re, function(x, ..., opts) .cstr_construct.double(x, ..., opts = all_opts), ...)
   im_code <- sapply(im, function(x, ..., opts) .cstr_construct.double(x, ..., opts = all_opts), ...)
 
   # general case
-  code <- sprintf("%s+%si", re_code, im_code)
+
+  code <- sprintf("%s%s%si", re_code, op, im_code)
   # zero real parts can be omitted
   zero_real <- re_code == "0"
   code[zero_real] <- paste0(im_code[zero_real], "i")
