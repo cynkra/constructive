@@ -29,3 +29,4 @@ hyperlinks will remain if supported.}
 \description{
 Print code with syntax highlighting
 }
+\keyword{internal}
