@@ -20,5 +20,6 @@ test_that("construct_diff", {
     )
 
     construct_diff(1,1)
+    construct_diff("é", iconv("é", to = "latin1"), interactive = FALSE)
   })
 })
