@@ -49,10 +49,7 @@ construct_diff <- function(
   mode <- match.arg(mode)
   tar.banner <- format_call_for_diffobj_banner(substitute(target), interactive = interactive)
   cur.banner <- format_call_for_diffobj_banner(substitute(current), interactive = interactive)
-  if (identical(target, current)) {
-    rlang::inform("No difference to show!")
-    return(invisible(NULL))
-  }
+
   target_code <- construct(
     target,
     ...,
@@ -75,6 +72,12 @@ construct_diff <- function(
     template = template,
     classes = classes
   )$code
+
+  if (identical(target_code, current_code)) {
+    rlang::inform("No difference to show!")
+    return(invisible(NULL))
+  }
+
   f <- tempfile(fileext = ".html")
   diffobj::diffChr(
     target_code,
