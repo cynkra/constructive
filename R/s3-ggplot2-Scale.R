@@ -101,7 +101,7 @@ is_corrupted_Scale <- function(x) {
   }
 
   # fetch values from ggproto object except special values
-  values <- values[setdiff(names(args), c("super", "palette"))]
+  values <- values[setdiff(names(args), c("super", "palette", "range"))]
 
   # deal with `rescaler` arg, it's typically the name of a function from "scales"
   # so we fetch it there
@@ -117,12 +117,16 @@ is_corrupted_Scale <- function(x) {
   args[names(values)] <- lapply(values, function(x, ...) .cstr_construct(x, ...), ...)
 
   # special case waiver as it's an empty list unfortunately matched to `.data`
-  # FIXME: we should probably not match empty objects, that inclused NULL and zero length objects
+  # FIXME: we should probably not match empty objects, that includes NULL and zero length objects
   if (identical(values$guide, ggplot2::waiver())) {
     args$guide <- "ggplot2::waiver()"
   }
 
   # construct special args
+  if ("range" %in% names(args)) {
+    args$range <- .cstr_construct(environment(x$palette)$range, ...)
+  }
+
   if ("palette" %in% names(args)) {
     # FIXME: Simple heuristics for now, can be improved
     if (identical(args$palette, quote(identity))) {
