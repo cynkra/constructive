@@ -301,7 +301,10 @@ expect_faithful_ggplot_construction <- function(p, ...) {
 
 keep_only_non_defaults <- function(x, f) {
   fmls <- Filter(function(x) !identical(x, quote(expr=)), formals(f))
-  default_values <- lapply(fmls, eval, environment(f))
+  default_values <- lapply(fmls, function(arg) {
+    try(eval(arg, environment(f)), silent = TRUE)
+  })
+  default_values <- Filter(function(x) !inherits(x, "try-error"), default_values)
   for (nm in names(default_values)) {
     if (identical(x[[nm]], default_values[[nm]])) x[[nm]] <- NULL
   }
