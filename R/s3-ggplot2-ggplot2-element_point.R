@@ -1,6 +1,6 @@
 #' @export
 #' @rdname other-opts
-opts_ggplot2_element_point` <- function(constructor = c("element_point", "next"), ...) {
+opts_ggplot2_element_point <- function(constructor = c("element_point", "next"), ...) {
   .cstr_options("element_point", constructor = constructor[[1]], ...)
 }
 
