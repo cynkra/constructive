@@ -1,13 +1,13 @@
 #' @export
 #' @rdname other-opts
-`opts_ggplot2::element_rect` <- function(constructor = c("element_rect", "next"), ...) {
+opts_ggplot2_element_rect <- function(constructor = c("element_rect", "next"), ...) {
   .cstr_options("element_rect", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::element_rect
 `.cstr_construct.ggplot2::element_rect` <- function(x, ...) {
-  opts <- list(...)$opts$element_rect %||% `opts_ggplot2::element_rect`()
+  opts <- list(...)$opts$element_rect %||% opts_ggplot2_element_rect()
   if (`is_corrupted_ggplot2::element_rect`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::element_rect", structure(NA, class = opts$constructor))
 }

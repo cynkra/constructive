@@ -4,14 +4,14 @@
 
 #' @export
 #' @rdname other-opts
-`opts_ggplot2::mapping` <- function(constructor = c("aes", "next", "list"), ...) {
+opts_ggplot2_mapping <- function(constructor = c("aes", "next", "list"), ...) {
   .cstr_options("uneval", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::mapping
 `.cstr_construct.ggplot2::mapping` <- function(x, ...) {
-  opts <- list(...)$opts$uneval %||% `opts_ggplot2::mapping`()
+  opts <- list(...)$opts$uneval %||% opts_ggplot2_mapping()
   if (`is_corrupted_ggplot2::mapping`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::mapping", structure(NA, class = opts$constructor))
 }
