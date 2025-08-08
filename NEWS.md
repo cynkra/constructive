@@ -1,5 +1,13 @@
 # constructive (development version)
 
+* `cli::code_highlight()` is now used to apply syntax highlighting to console
+  output, removing the dependency on {prettycode}.
+  * If you prefer not to use highlighting you can turn it off using
+    `options(constructive_pretty = FALSE)`. 
+  * The `style` argument of `print.constructive_code()` is deprecated in 
+    favour of the new argument `code_theme`.
+  * {cli} >= 3.1.0 is now required.
+
 # constructive 1.1.0
 
 Features:

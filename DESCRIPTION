@@ -17,7 +17,7 @@ URL: https://github.com/cynkra/constructive,
     https://cynkra.github.io/constructive/
 BugReports: https://github.com/cynkra/constructive/issues
 Imports: 
-    cli,
+    cli (>= 3.1.0),
     diffobj,
     methods,
     rlang (>= 1.0.0),
@@ -36,7 +36,6 @@ Suggests:
     knitr,
     lubridate,
     pixarfilms,
-    prettycode,
     R6,
     reprex,
     rmarkdown,
