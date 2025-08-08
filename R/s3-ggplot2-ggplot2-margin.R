@@ -1,13 +1,13 @@
 #' @export
 #' @rdname other-opts
-`opts_ggplot2::margin` <- function(constructor = c("margin", "next", "double"), ...) {
+opts_ggplot2_margin <- function(constructor = c("margin", "next", "double"), ...) {
   .cstr_options("ggplot2::margin", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::margin
 `.cstr_construct.ggplot2::margin` <- function(x, ...) {
-  opts <- list(...)$opts$`ggplot2::margin` %||% `opts_ggplot2::margin`()
+  opts <- list(...)$opts$`ggplot2::margin` %||% opts_ggplot2_margin()
   if (`is_corrupted_ggplot2::margin`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::margin", structure(NA, class = opts$constructor))
 }

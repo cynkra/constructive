@@ -1,13 +1,13 @@
 #' @export
 #' @rdname other-opts
-`opts_ggplot2::element_blank` <- function(constructor = c("element_blank", "next"), ...) {
+opts_ggplot2_element_blank <- function(constructor = c("element_blank", "next"), ...) {
   .cstr_options("element_blank", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::element_blank
 `.cstr_construct.ggplot2::element_blank` <- function(x, ...) {
-  opts <- list(...)$opts$element_blank %||% `opts_ggplot2::element_blank`()
+  opts <- list(...)$opts$element_blank %||% opts_ggplot2_element_blank()
   if (`is_corrupted_ggplot2::element_blank`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::element_blank", structure(NA, class = opts$constructor))
 }

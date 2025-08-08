@@ -12,14 +12,14 @@
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_ggplot2::ggplot>
 #' @export
-`opts_ggplot2::ggplot` <- function(constructor = c("ggplot", "next", "list"), ...) {
+opts_ggplot2_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
   .cstr_options("ggplot2::ggplot", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::ggplot
 `.cstr_construct.ggplot2::ggplot` <- function(x, ...) {
-  opts <- list(...)$opts$`ggplot2::ggplot` %||% `opts_ggplot2::ggplot`()
+  opts <- list(...)$opts$`ggplot2::ggplot` %||% opts_ggplot2_ggplot()
   if (`is_corrupted_ggplot2::ggplot`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::ggplot", structure(NA, class = opts$constructor))
 }

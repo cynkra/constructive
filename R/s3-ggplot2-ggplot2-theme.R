@@ -1,13 +1,13 @@
 #' @export
 #' @rdname other-opts
-`opts_ggplot2::theme` <- function(constructor = c("theme", "next", "list"), ...) {
+opts_ggplot2_theme <- function(constructor = c("theme", "next", "list"), ...) {
   .cstr_options("ggplot2::theme", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::theme
 `.cstr_construct.ggplot2::theme` <- function(x, ...) {
-  opts <- list(...)$opts$`ggplot2::theme` %||% `opts_ggplot2::theme`()
+  opts <- list(...)$opts$`ggplot2::theme` %||% opts_ggplot2_theme()
   if (`is_corrupted_ggplot2::theme`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::theme", structure(NA, class = opts$constructor))
 }

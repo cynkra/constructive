@@ -181,18 +181,18 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_formula]{opts_formula}(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)}
   \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
   \item \code{\link[=opts_ggplot]{opts_ggplot}(constructor = c("ggplot", "next", "list"), ...)}
-  \item \code{\link[=opts_ggplot2::element_blank]{opts_ggplot2::element_blank}(constructor = c("element_blank", "next"), ...)}
-  \item \code{\link[=opts_ggplot2::element_geom]{opts_ggplot2::element_geom}(constructor = c("element_geom", "next"), ...)}
-  \item \code{\link[=opts_ggplot2::element_line]{opts_ggplot2::element_line}(constructor = c("element_line", "next"), ...)}
-  \item \code{\link[=opts_ggplot2::element_point]{opts_ggplot2::element_point}(constructor = c("element_point", "next"), ...)}
-  \item \code{\link[=opts_ggplot2::element_polygon]{opts_ggplot2::element_polygon}(constructor = c("element_polygon", "next"), ...)}
-  \item \code{\link[=opts_ggplot2::element_rect]{opts_ggplot2::element_rect}(constructor = c("element_rect", "next"), ...)}
-  \item \code{\link[=opts_ggplot2::element_text]{opts_ggplot2::element_text}(constructor = c("element_text", "next"), ...)}
-  \item \code{\link[=opts_ggplot2::ggplot]{opts_ggplot2::ggplot}(constructor = c("ggplot", "next", "list"), ...)}
-  \item \code{\link[=opts_ggplot2::labels]{opts_ggplot2::labels}(constructor = c("labs", "next"), ...)}
-  \item \code{\link[=opts_ggplot2::mapping]{opts_ggplot2::mapping}(constructor = c("aes", "next", "list"), ...)}
-  \item \code{\link[=opts_ggplot2::margin]{opts_ggplot2::margin}(constructor = c("margin", "next", "double"), ...)}
-  \item \code{\link[=opts_ggplot2::theme]{opts_ggplot2::theme}(constructor = c("theme", "next", "list"), ...)}
+  \item \code{\link[=opts_ggplot2_element_blank]{opts_ggplot2_element_blank}(constructor = c("element_blank", "next"), ...)}
+  \item \code{\link[=opts_ggplot2_element_geom]{opts_ggplot2_element_geom}(constructor = c("element_geom", "next"), ...)}
+  \item \code{\link[=opts_ggplot2_element_line]{opts_ggplot2_element_line}(constructor = c("element_line", "next"), ...)}
+  \item \code{\link[=opts_ggplot2_element_point]{opts_ggplot2_element_point}(constructor = c("element_point", "next"), ...)}
+  \item \code{\link[=opts_ggplot2_element_polygon]{opts_ggplot2_element_polygon}(constructor = c("element_polygon", "next"), ...)}
+  \item \code{\link[=opts_ggplot2_element_rect]{opts_ggplot2_element_rect}(constructor = c("element_rect", "next"), ...)}
+  \item \code{\link[=opts_ggplot2_element_text]{opts_ggplot2_element_text}(constructor = c("element_text", "next"), ...)}
+  \item \code{\link[=opts_ggplot2_ggplot]{opts_ggplot2_ggplot}(constructor = c("ggplot", "next", "list"), ...)}
+  \item \code{\link[=opts_ggplot2_labels]{opts_ggplot2_labels}(constructor = c("labs", "next"), ...)}
+  \item \code{\link[=opts_ggplot2_mapping]{opts_ggplot2_mapping}(constructor = c("aes", "next", "list"), ...)}
+  \item \code{\link[=opts_ggplot2_margin]{opts_ggplot2_margin}(constructor = c("margin", "next", "double"), ...)}
+  \item \code{\link[=opts_ggplot2_theme]{opts_ggplot2_theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_Guide]{opts_Guide}(constructor = c("default", "next", "environment"), ...)}

@@ -1,13 +1,13 @@
 #' @export
 #' @rdname other-opts
-`opts_ggplot2::element_geom` <- function(constructor = c("element_geom", "next"), ...) {
+opts_ggplot2_element_geom <- function(constructor = c("element_geom", "next"), ...) {
   .cstr_options("element_geom", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::element_geom
 `.cstr_construct.ggplot2::element_geom` <- function(x, ...) {
-  opts <- list(...)$opts$element_geom %||% `opts_ggplot2::element_geom`()
+  opts <- list(...)$opts$element_geom %||% opts_ggplot2_element_geom()
   if (`is_corrupted_ggplot2::element_geom`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::element_geom", structure(NA, class = opts$constructor))
 }
