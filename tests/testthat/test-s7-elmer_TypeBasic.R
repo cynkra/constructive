@@ -1,4 +1,5 @@
 test_that("ellmer::TypeBasic", {
+  skip_if_not_installed("ellmer")
   expect_construct(
     ellmer::type_array(
       items = ellmer::type_object(
