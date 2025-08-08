@@ -1,13 +1,13 @@
 #' @export
 #' @rdname other-opts
-`opts_ggplot2::element_line` <- function(constructor = c("element_line", "next"), ...) {
+opts_ggplot2_element_line <- function(constructor = c("element_line", "next"), ...) {
   .cstr_options("element_line", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::element_line
 `.cstr_construct.ggplot2::element_line` <- function(x, ...) {
-  opts <- list(...)$opts$element_line %||% `opts_ggplot2::element_line`()
+  opts <- list(...)$opts$element_line %||% opts_ggplot2_element_line()
   if (`is_corrupted_ggplot2::element_line`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::element_line", structure(NA, class = opts$constructor))
 }

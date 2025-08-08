@@ -1,13 +1,13 @@
 #' @export
 #' @rdname other-opts
-`opts_ggplot2::element_polygon` <- function(constructor = c("element_polygon", "next"), ...) {
+opts_ggplot2_element_polygon <- function(constructor = c("element_polygon", "next"), ...) {
   .cstr_options("element_polygon", constructor = constructor[[1]], ...)
 }
 
 #' @export
 #' @method .cstr_construct ggplot2::element_polygon
 `.cstr_construct.ggplot2::element_polygon` <- function(x, ...) {
-  opts <- list(...)$opts$element_polygon %||% `opts_ggplot2::element_polygon`()
+  opts <- list(...)$opts$element_polygon %||% opts_ggplot2_element_polygon()
   if (`is_corrupted_ggplot2::element_polygon`(x) || opts$constructor == "next") return(NextMethod())
   UseMethod(".cstr_construct.ggplot2::element_polygon", structure(NA, class = opts$constructor))
 }

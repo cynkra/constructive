@@ -27,7 +27,6 @@ opts_ellmer_TypeObject <- function(constructor = c("type_object", "TypeObject", 
 
 #' @export
 `.cstr_construct.ellmer::TypeObject.type_object` <- function(x, ...) {
-  # opts <- list(...)$opts$`ellmer::TypeObject` %||% `opts_ellmer::TypeObject`()
   args <- c(
     list(.description = attr(x, "description")),
     attr(x, "properties"),
