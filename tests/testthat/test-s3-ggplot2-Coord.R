@@ -62,6 +62,7 @@ test_that("CoordSf", {
 })
 
 test_that("CoordTrans <= v3.5.2", {
+  skip_if_not_installed("ggplot2")
   skip_if(with_versions(ggplot2 > "3.5.2"))
   expect_silent({
     construct(ggplot2::coord_trans(x = "log10", y = "log10"), check = FALSE)
