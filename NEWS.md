@@ -25,7 +25,7 @@ Features and improvements:
   * "ggplot2::element_geom"
   * "ggplot2::element_line"
   * "ggplot2::element_point"
-  * "ggplot2::element_polygo"
+  * "ggplot2::element_polygon"
   * "ggplot2::element_rect"
   * "ggplot2::element_text"
   * "ggplot2::ggplot"
