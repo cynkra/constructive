@@ -1,4 +1,4 @@
-# constructive (development version)
+# constructive 1.2.0
 
 cynkra (https://cynkra.com) is officially a funder, already was from the start in practice, thanks cynkra!
 
