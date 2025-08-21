@@ -26,7 +26,7 @@ Other contributors:
 \itemize{
   \item Kirill Müller \email{kirill@cynkra.com} (\href{https://orcid.org/0000-0002-1416-3412}{ORCID}) [contributor]
   \item Jacob Scott \email{jscott2718@gmail.com} [contributor]
-  \item cynkra GmbH \email{mail@cynkra.com} (0335t7e62) [funder]
+  \item cynkra GmbH \email{mail@cynkra.com} (\href{https://ror.org/0335t7e62}{ROR}) [funder]
 }
 
 }
