@@ -15,6 +15,7 @@ test_that("CoordFixed", {
 })
 
 test_that("CoordFixed <= v3.5.2", {
+  skip_if_not_installed("ggplot2")
   skip_if(with_versions(ggplot2 > "3.5.2"))
   expect_construct( ggplot2::coord_fixed(xlim = c(15, 30)))
 })
