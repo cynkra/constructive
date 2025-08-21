@@ -52,7 +52,7 @@ Features and improvements:
   and assessing the practical equivalence of the generated code seems more valuable
   than perfect accuracy there. Please open a ticket if this upsets you and we'll work something out.
 * {cli} >= 3.1.0 is now required and `cli::code_highlight()` is now used, removing the dependency on {prettycode}. Turn it off with `options(constructive_pretty = FALSE)`.
-* The `style` argument of `print.constructive_code()` is deprecated in favour of the new argument `code_theme`.
+  The `style` argument of `print.constructive_code()` is deprecated in favour of the new argument `code_theme`. Thanks @wurli!
 
 Bug fixes:
 
