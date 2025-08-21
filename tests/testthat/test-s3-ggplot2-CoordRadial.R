@@ -1,4 +1,5 @@
 test_that("CoordRadial", {
+  skip_if_not_installed("ggplot2")
   skip_if(with_versions(ggplot2 <= "3.5.2"))
   # examples from ?coord_radial
   expect_construct(ggplot2::coord_radial(theta = "y", expand = FALSE))

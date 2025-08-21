@@ -1,4 +1,5 @@
 test_that("GuideCustom", {
+  skip_if_not_installed("ggplot2")
   skip_if(with_versions(ggplot2 <= "3.5.2"))
   circle <- grid::circleGrob()
   expect_construct(
