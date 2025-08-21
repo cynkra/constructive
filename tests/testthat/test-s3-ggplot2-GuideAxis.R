@@ -1,4 +1,5 @@
 test_that("GuideAxis", {
+  if (with_versions(R < "4.2.0")) skip_on_os("linux")
   expect_construct(ggplot2::GuideAxis)
   expect_construct(ggplot2::guide_axis(angle = 90))
   expect_construct(ggplot2::guide_axis(n.dodge = 2))

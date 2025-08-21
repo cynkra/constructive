@@ -1,4 +1,5 @@
 test_that("ggplot-all-versions", {
+  if (with_versions(R < "4.2.0")) skip_on_os("linux")
     mpg_99 <- ggplot2::mpg %>% dplyr::filter(year == 1999)
     base_99 <- ggplot2::ggplot(mpg_99, ggplot2::aes(displ, hwy)) + ggplot2::geom_point()
     p1 <- base_99 + ggplot2::scale_x_continuous(limits = c(1, 7))
