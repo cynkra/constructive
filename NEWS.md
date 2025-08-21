@@ -1,12 +1,66 @@
 # constructive (development version)
 
-* `cli::code_highlight()` is now used to apply syntax highlighting to console
-  output, removing the dependency on {prettycode}.
-  * If you prefer not to use highlighting you can turn it off using
-    `options(constructive_pretty = FALSE)`. 
-  * The `style` argument of `print.constructive_code()` is deprecated in 
-    favour of the new argument `code_theme`.
-  * {cli} >= 3.1.0 is now required.
+cynkra (https://cynkra.com) is officially a funder, already was from the start in practice, thanks cynkra!
+
+Features and improvements:
+ * We now support the "object" type, that many S7 objects are built on.
+   The code to build an empty "object" is either `getClass("S4")@prototype |> asS3(complete = FALSE)`
+   or `S7::S7_object() |> structure(class = NULL)`
+ * We now support classes from the S7 package: 
+   * "S7_Object"
+   * "S7_union"
+   * "S7_S3_class"
+   * "S7_generic"
+   * "S7_class"
+   * "S7_base_class"
+   * "S7_any"
+ * We now support classes from the ellmer classes :
+   * "ellmer::TypeObject"
+   * "ellmer::TypeJsonSchema"
+   * "ellmer::TypeEnum"
+   * "ellmer::TypeBasic"
+   * "ellmer::TypeArray"
+* We now support the new ggplot2 classes:
+  * "ggplot2::element_blank"
+  * "ggplot2::element_geom"
+  * "ggplot2::element_line"
+  * "ggplot2::element_point"
+  * "ggplot2::element_polygo"
+  * "ggplot2::element_rect"
+  * "ggplot2::element_text"
+  * "ggplot2::ggplot"
+  * "ggplot2::label"
+  * "ggplot2::margin"
+  * "ggplot2::theme"
+  * "Guide"
+  * "GuideAxisLogticks"
+  * "GuideAxisStack"
+  * "GuideAxisTheta"
+  * "GuideBins"
+  * "GuideColourBar"
+  * "GuideColourSteps"
+  * "GuideCustom"
+  * "GuideLegend"
+  * "GuideNone"
+  * "Guides"
+  * "labels"
+  * "FacetGrid" (an old class that had been forgotten!)
+* We don't signal a reconstruction inaccuracy when ggplot objects are reconstructed
+  accurately except for stored language elements, e.g we consider `ggplot2::geom_point`
+  and `geom_point` to be equivalent in stored calls. It's not fully satisfying because an aim
+  of constructive is to spot such small details, but we also want to be practical
+  and assessing the practical equivalence of the generated code seems more valuable
+  than perfect accuracy there. Please open a ticket if this upsets you and we'll work something out.
+* {cli} >= 3.1.0 is now required and `cli::code_highlight()` is now used, removing the dependency on {prettycode}. Turn it off with `options(constructive_pretty = FALSE)`.
+  The `style` argument of `print.constructive_code()` is deprecated in favour of the new argument `code_theme`. Thanks @wurli!
+
+Bug fixes:
+
+* `deparse_call()` supports more corner cases (mostly for artificial cases you probably won't encounter)
+* The construction of complex numbers now accounts for negative zeroes in imaginary and real parts
+* Buggy arg forwarding in some internal functions was fixed
+* The "list2env" constructor for environments was improved
+* calls to the `function` function (of type "language") are correctly constructed
 
 # constructive 1.1.0
 
