@@ -1,3 +1,7 @@
+## Notes about version 1.2.0
+
+Fixes and new features, the core of the package stays the same. All checks green AFAICT.
+
 ## Notes about version 1.1.0
 
 A few fixes and new features but no deep changes, all checks green AFAICT.
