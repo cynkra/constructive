@@ -236,6 +236,11 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_element_rect</a>(constructor = c("element_rect", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_element_render</a>(constructor = c("element_render", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_element_text</a>(constructor = c("element_text", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_ellmer_TypeArray.html">opts_ellmer_TypeArray</a>(constructor = c("type_array", "TypeArray", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_ellmer_TypeBasic.html">opts_ellmer_TypeBasic</a>(constructor = c("default", "TypeBasic", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_ellmer_TypeEnum.html">opts_ellmer_TypeEnum</a>(constructor = c("type_enum", "TypeEnum", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_ellmer_TypeJsonSchema.html">opts_ellmer_TypeJsonSchema</a>(constructor = c("type_from_schema", "TypeJsonSchema", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_ellmer_TypeObject.html">opts_ellmer_TypeObject</a>(constructor = c("type_object", "TypeObject", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_environment.html">opts_environment</a>(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_error</a>(constructor = c("errorCondition", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_expression</a>(constructor = c("default"), ...)</code></p></li>
@@ -247,18 +252,18 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_formula.html">opts_formula</a>(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)</code></p></li>
 <li><p><code><a href="opts_function.html">opts_function</a>(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)</code></p></li>
 <li><p><code><a href="opts_ggplot.html">opts_ggplot</a>(constructor = c("ggplot", "next", "list"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::element_blank</a>(constructor = c("element_blank", "next"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::element_geom</a>(constructor = c("element_geom", "next"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::element_line</a>(constructor = c("element_line", "next"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::element_point</a>(constructor = c("element_point", "next"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::element_polygon</a>(constructor = c("element_polygon", "next"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::element_rect</a>(constructor = c("element_rect", "next"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::element_text</a>(constructor = c("element_text", "next"), ...)</code></p></li>
-<li><p><code><a href="opts_ggplot2-colon-colon-ggplot.html">opts_ggplot2::ggplot</a>(constructor = c("ggplot", "next", "list"), ...)</code></p></li>
-<li><p><code><a href="opts_ggplot2-colon-colon-labels.html">opts_ggplot2::labels</a>(constructor = c("labs", "next"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::mapping</a>(constructor = c("aes", "next", "list"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::margin</a>(constructor = c("margin", "next", "double"), ...)</code></p></li>
-<li><p><code><a href="other-opts.html">opts_ggplot2::theme</a>(constructor = c("theme", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_element_blank</a>(constructor = c("element_blank", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_element_geom</a>(constructor = c("element_geom", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_element_line</a>(constructor = c("element_line", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_element_point</a>(constructor = c("element_point", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_element_polygon</a>(constructor = c("element_polygon", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_element_rect</a>(constructor = c("element_rect", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_element_text</a>(constructor = c("element_text", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_ggplot2_ggplot.html">opts_ggplot2_ggplot</a>(constructor = c("ggplot", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_ggplot2_labels.html">opts_ggplot2_labels</a>(constructor = c("labs", "next"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_mapping</a>(constructor = c("aes", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_margin</a>(constructor = c("margin", "next", "double"), ...)</code></p></li>
+<li><p><code><a href="other-opts.html">opts_ggplot2_theme</a>(constructor = c("theme", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_ggproto</a>(constructor = c("default", "ggproto", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_grouped_df.html">opts_grouped_df</a>(constructor = c("default", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_Guide</a>(constructor = c("default", "next", "environment"), ...)</code></p></li>
