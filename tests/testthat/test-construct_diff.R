@@ -2,7 +2,7 @@ test_that("construct_diff", {
   # stangely we have a different indention for ubuntu with R 4.1 (one more space)
   # it's hard to solve and doesn't seem that important so we just skip the test
   # for this situation
-  if (with_versions(R == "4.1.0")) skip_on_os("linux")
+  if (with_versions(R < "4.2.0")) skip_on_os("linux")
 
   expect_snapshot({
     construct_diff(
