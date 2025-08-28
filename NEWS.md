@@ -62,6 +62,7 @@ Bug fixes:
 * The "list2env" constructor for environments was improved
 * calls to the `function` function (of type "language") are correctly constructed
 * We don't recycle with `data.frame()` when a column has attributes that don't support it
+* S4 gains a "prototype" constructor, more general, that we fall back to by default where the class as an "initialize" method
 
 # constructive 1.1.0
 
