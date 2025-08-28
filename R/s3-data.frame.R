@@ -151,7 +151,10 @@ align_numerics <- function(x) {
         length(unique(x)) == 1 # &&
         # !anyDuplicated(names(x)) # not necessary for data frames, but yes for tibble
       ) {
-        return(base::`[`(x, 1))
+        arg <- base::`[`(x, 1)
+        # don't recycle if [ removes attributes
+        if (!identical(attributes(x), attributes(arg))) return(x)
+        return(arg)
       }
       x
     })
