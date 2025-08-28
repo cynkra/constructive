@@ -7,10 +7,14 @@
 #include <R_ext/Error.h> // for error
 #include <R_ext/Rdynload.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* .Call calls */
-extern SEXP external_pointer(SEXP);
-extern SEXP external_pointer_address(SEXP);
-extern SEXP objectFromAddress(SEXP);
+SEXP external_pointer(SEXP);
+SEXP external_pointer_address(SEXP);
+SEXP objectFromAddress(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
   {"external_pointer",         (DL_FUNC) &external_pointer,         1},
@@ -25,13 +29,21 @@ void R_init_constructive(DllInfo *dll)
   R_useDynamicSymbols(dll, FALSE);
 }
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
+
 // Thanks to Randy Lai: https://github.com/randy3k/xptr/
 SEXP external_pointer(SEXP p) {
   if (TYPEOF(p) != STRSXP || LENGTH(p) < 1) {
     error("Input must be a character vector of at least length 1");
   }
   const char* str = CHAR(STRING_ELT(p, 0));
-  void* ptr = (void*) strtol(str, NULL, 0);
+
+  /* robust parse for 64-bit pointers */
+  uintptr_t u = (uintptr_t) strtoull(str, NULL, 0);
+  void* ptr = (void*) u;
+
   return R_MakeExternalPtr(ptr, R_NilValue, R_NilValue);
 }
 
@@ -39,9 +51,9 @@ SEXP external_pointer_address(SEXP s) {
   if (TYPEOF(s) != EXTPTRSXP) {
     error("external_pointer_address() expects an input of type 'externalptr'");
   }
-  char* buf[20];
-  snprintf((char*) buf, 20, "%p", R_ExternalPtrAddr(s));
-  return Rf_mkString((char*) buf);
+  char buf[32];                       /* <-- fix: was char* buf[20] */
+  snprintf(buf, sizeof buf, "%p", R_ExternalPtrAddr(s));
+  return Rf_mkString(buf);
 }
 
 // Thanks to Mikael Lagan: https://stackoverflow.com/questions/75874717
