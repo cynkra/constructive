@@ -1,6 +1,6 @@
 ## Notes about version 1.2.0
 
-Fixes and new features, the core of the package stays the same. All checks green AFAICT.
+Fixes and new features, compiled code also had to be adapted for R 4.5. All checks green AFAICT.
 
 ## Notes about version 1.1.0
 
