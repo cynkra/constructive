@@ -1,6 +1,6 @@
 Package: constructive
 Title: Display Idiomatic Code to Construct Most R Objects
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: c(
     person("Antoine", "Fabri", , "antoine.fabri@gmail.com", role = c("aut", "cre")),
     person("Kirill", "Müller", , "kirill@cynkra.com", role = "ctb",

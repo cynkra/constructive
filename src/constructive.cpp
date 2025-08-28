@@ -36,7 +36,7 @@ void R_init_constructive(DllInfo *dll)
 // Thanks to Randy Lai: https://github.com/randy3k/xptr/
 SEXP external_pointer(SEXP p) {
   if (TYPEOF(p) != STRSXP || LENGTH(p) < 1) {
-    error("Input must be a character vector of at least length 1");
+    Rf_error("Input must be a character vector of at least length 1");
   }
   const char* str = CHAR(STRING_ELT(p, 0));
 
@@ -49,7 +49,7 @@ SEXP external_pointer(SEXP p) {
 
 SEXP external_pointer_address(SEXP s) {
   if (TYPEOF(s) != EXTPTRSXP) {
-    error("external_pointer_address() expects an input of type 'externalptr'");
+    Rf_error("external_pointer_address() expects an input of type 'externalptr'");
   }
   char buf[32];                       /* <-- fix: was char* buf[20] */
   snprintf(buf, sizeof buf, "%p", R_ExternalPtrAddr(s));
@@ -63,7 +63,7 @@ SEXP objectFromAddress(SEXP a) {
   if (TYPEOF(a) != STRSXP || XLENGTH(a) != 1 ||
       (a = STRING_ELT(a, 0)) == NA_STRING ||
       (sscanf(CHAR(a), "%" SCNxPTR, &p) != 1))
-    error("'a' is not a formatted unsigned hexadecimal integer");
+    Rf_error("'a' is not a formatted unsigned hexadecimal integer");
 
   SEXP result = (SEXP) p;
   if (TYPEOF(result) != ENVSXP) return R_NilValue;
