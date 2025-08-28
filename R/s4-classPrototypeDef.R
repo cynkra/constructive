@@ -31,5 +31,10 @@ is_corrupted_classPrototypeDef <- function(x) {
   attrs <- attributes(object)[slots]
   attributes(object)[slots] <- NULL
   code <- .cstr_apply(c(list(object), attrs), fun = "prototype", env = env, ...)
-  repair_attributes_S4(x, code, env = env, ...)
+  .cstr_repair_attributes(
+    x, code, env = env, ...,
+    ignore = names(getSlots(class(x))),
+    idiomatic_class = class(x),
+    flag_s4 = FALSE
+  )
 }

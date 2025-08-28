@@ -1,14 +1,18 @@
 #' Constructive options for class 'S4'
 #'
-#' These options will be used on objects of class 'S4'. Note that the support
-#' for S4 is very experimental so might easily break. Please report issues if it
-#' does.
+#' These options will be used on objects of class 'S4'. 
+#'
+#' Depending on `constructor`, we construct the object as follows:
+#' * `"new"` (default): We build the function using `new()` if possible.
+#'   If the class has a "initialize" method we have no practical way to 
+#'   reverse-engineer the inputs so we fall back to the "prototype" constructor
+#' * `"prototype"` : We start from `getClass("S4")@prototype` and add attributes.
 #'
 #' @param constructor String. Name of the function used to construct the object, see Details section.
 #' @inheritParams opts_atomic
 #' @return An object of class <constructive_options/constructive_options_S4>
 #' @export
-opts_S4 <- function(constructor = c("new"), ...) {
+opts_S4 <- function(constructor = c("new", "prototype"), ...) {
   .cstr_options("S4", constructor = constructor[[1]], ...)
 }
 
@@ -28,6 +32,13 @@ is_corrupted_S4 <- function(x) {
 #' @method .cstr_construct.S4 new
 .cstr_construct.S4.new <- function(x, env, ...) {
   cl <- class(x)
+
+  class_has_initialize <- !is.null(methods::getMethod("initialize", cl, optional = TRUE))
+
+  if (class_has_initialize) {
+    return(.cstr_construct.S4.prototype(x, env = env, ...))
+  }
+
   if (
     attr(cl, "package") == environmentName(env) ||
     (identical(env, .GlobalEnv) && attr(cl, "package") == ".GlobalEnv")) {
@@ -43,14 +54,19 @@ is_corrupted_S4 <- function(x) {
     args <- c(list(cl), attrs)
   }
   code <- .cstr_apply(args, fun = "new", env = env, ...)
-  repair_attributes_S4(x, code, env = env, ...)
-}
-
-repair_attributes_S4 <- function(x, code, ..., selfref = FALSE) {
   .cstr_repair_attributes(
-    x, code, ...,
+    x, code, env = env, ...,
     ignore = names(getSlots(class(x))),
     idiomatic_class = class(x),
+    flag_s4 = FALSE
+  )
+}
+
+#' @export
+.cstr_construct.S4.prototype <- function(x, ...) {
+  code <- "getClass(\"S4\")@prototype"
+  .cstr_repair_attributes(
+    x, code, ...,
     flag_s4 = FALSE
   )
 }

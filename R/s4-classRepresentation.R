@@ -31,5 +31,10 @@ is_corrupted_classRepresentation <- function(x) {
   attr(cl, "package") <- NULL
   pkg <- x@package
   code <- .cstr_apply(list(cl, package = pkg), fun = "getClassDef", env = env, ...)
-  repair_attributes_S4(x, code, env = env, ...)
+  .cstr_repair_attributes(
+    x, code, env = env, ...,
+    ignore = names(getSlots(class(x))),
+    idiomatic_class = class(x),
+    flag_s4 = FALSE
+  )
 }
