@@ -34,5 +34,10 @@ is_corrupted_classGeneratorFunction <- function(x) {
     attr(cl, "package") <- NULL
   }
   code <- .cstr_apply(list(cl, slots = getSlots(cl)), fun = "setClass", env = env, ...)
-  repair_attributes_S4(x, code, env = env, ...)
+  .cstr_repair_attributes(
+    x, code, env = env, ...,
+    ignore = names(getSlots(class(x))),
+    idiomatic_class = class(x),
+    flag_s4 = FALSE
+  )
 }

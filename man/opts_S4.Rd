@@ -4,7 +4,7 @@
 \alias{opts_S4}
 \title{Constructive options for class 'S4'}
 \usage{
-opts_S4(constructor = c("new"), ...)
+opts_S4(constructor = c("new", "prototype"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
@@ -15,7 +15,14 @@ opts_S4(constructor = c("new"), ...)
 An object of class <constructive_options/constructive_options_S4>
 }
 \description{
-These options will be used on objects of class 'S4'. Note that the support
-for S4 is very experimental so might easily break. Please report issues if it
-does.
+These options will be used on objects of class 'S4'.
+}
+\details{
+Depending on \code{constructor}, we construct the object as follows:
+\itemize{
+\item \code{"new"} (default): We build the function using \code{new()} if possible.
+If the class has a "initialize" method we have no practical way to
+reverse-engineer the inputs so we fall back to the "prototype" constructor
+\item \code{"prototype"} : We start from \code{getClass("S4")@prototype} and add attributes.
+}
 }

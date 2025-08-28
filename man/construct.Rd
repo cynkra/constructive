@@ -237,7 +237,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_raw]{opts_raw}(constructor = c("as.raw", "charToRaw"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, representation = c("hexadecimal", "decimal"))}
   \item \code{\link[=opts_rel]{opts_rel}(constructor = c("rel", "next", "double"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
-  \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new"), ...)}
+  \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new", "prototype"), ...)}
   \item \code{\link[=opts_S7_any]{opts_S7_any}(constructor = c("class_any", "next"), ...)}
   \item \code{\link[=opts_S7_base_class]{opts_S7_base_class}(constructor = c("S7", "next"), ...)}
   \item \code{\link[=opts_S7_class]{opts_S7_class}(constructor = c("new_class", "next"), ...)}
