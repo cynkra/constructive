@@ -86,6 +86,11 @@
     Output
       rlang::new_function(args = alist(x = ), body = quote(x))
     Code
+      setNames <- (function(object = nm, nm) {
+        names(object) <- nm
+        object
+      })
+      environment(setNames) <- asNamespace("stats")
       construct(setNames, opts_function(environment = TRUE))
     Output
       (function(object = nm, nm) {

@@ -18,6 +18,13 @@ test_that("function", {
     construct(f2, opts_function("new_function"))
     construct(f1, opts_function("new_function", environment = FALSE))
 
+    # for reproducibility, since base R changes formatting sometimes even for simple functions
+    setNames <- function (object = nm, nm) {
+      names(object) <- nm
+      object
+    }
+    environment(setNames) <- asNamespace("stats")
+    
     construct(setNames, opts_function(environment = TRUE))
     construct(setNames, opts_function("as.function", environment = TRUE))
     # with trim

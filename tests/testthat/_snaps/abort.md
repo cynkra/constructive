@@ -20,12 +20,18 @@
       * ..1 = "z"
       i Did you forget to name an argument?
     Code
-      try(abort_not_string(mean))
+      fun <- (function(x) x)
+      try(abort_not_string(fun))
     Output
-      Error in eval(code, test_env) : `mean` must be a string.
+      Error in eval(code, test_env) : `fun` must be a string.
       i It has type 'closure':
-      (function(x, ...) UseMethod("mean")) |>
-        (`environment<-`)(.BaseNamespaceEnv)
+      (function(x) x) |>
+        (`environment<-`)(
+          constructive::.env(
+            "0x123456789",
+            parents = c("0x123456789", "0x123456789", "namespace:constructive")
+          )
+        )
     Code
       try(abort_not_env_or_named_list(letters))
     Output
@@ -76,24 +82,35 @@
       i `data[[1]]` is "unknown".
       i There is no installed package called 'unknown'
     Code
-      try(abort_wrong_data(mean))
+      try(abort_wrong_data(fun))
     Output
       Error in eval(code, test_env) : `data` has an unexpected value.
       i It has type 'closure':
-      (function(x, ...) UseMethod("mean")) |>
-        (`environment<-`)(.BaseNamespaceEnv)
+      (function(x) x) |>
+        (`environment<-`)(
+          constructive::.env(
+            "0x123456789",
+            parents = c("0x123456789", "0x123456789", "namespace:constructive")
+          )
+        )
     Code
-      try(abort_wrong_data(list(mean)))
+      try(abort_wrong_data(list(fun)))
     Output
       Error in eval(code, test_env) : 
         `data[[1]]` is unnamed and has an unexpected value.
       i It has type 'closure':
-      (function(x, ...) UseMethod("mean")) |>
-        (`environment<-`)(.BaseNamespaceEnv)
+      (function(x) x) |>
+        (`environment<-`)(
+          constructive::.env(
+            "0x123456789",
+            parents = c("0x123456789", "0x123456789", "namespace:constructive")
+          )
+        )
 
 # describe
 
     Code
+      fun <- (function(x) x)
       writeLines(describe(letters))
     Output
       It has type 'character' and length 26:
@@ -102,9 +119,14 @@
         "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
       )
     Code
-      writeLines(describe(mean))
+      writeLines(describe(fun))
     Output
       It has type 'closure':
-      (function(x, ...) UseMethod("mean")) |>
-        (`environment<-`)(.BaseNamespaceEnv)
+      (function(x) x) |>
+        (`environment<-`)(
+          constructive::.env(
+            "0x123456789",
+            parents = c("0x123456789", "0x123456789", "namespace:constructive")
+          )
+        )
 
