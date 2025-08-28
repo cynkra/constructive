@@ -61,6 +61,7 @@ Bug fixes:
 * Buggy arg forwarding in some internal functions was fixed
 * The "list2env" constructor for environments was improved
 * calls to the `function` function (of type "language") are correctly constructed
+* We don't recycle with `data.frame()` when a column has attributes that don't support it
 
 # constructive 1.1.0
 

@@ -143,6 +143,14 @@
       construct(data.frame(a = 1:2, b = as.Date(c("2000-01-01", "2000-01-01"))))
     Output
       data.frame(a = 1:2, b = as.Date("2000-01-01"))
+    Code
+      construct(data.frame(a = 1:2, b = structure(c(1, 1), foo = 1)))
+    Output
+      data.frame(
+        a = 1:2,
+        b = c(1, 1) |>
+          structure(foo = 1)
+      )
 
 # duplicate names in data frames
 

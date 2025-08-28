@@ -55,6 +55,7 @@ test_that("recycle in data frames", {
     construct(data.frame(a = c(1, 1), b = c(1, 1)))
     construct(data.frame(a = 1:2, b = factor(c("a", "a"))))
     construct(data.frame(a = 1:2, b = as.Date(c("2000-01-01", "2000-01-01"))))
+    construct(data.frame(a = 1:2, b = structure(c(1,1), foo = 1)))
   })
 })
 
