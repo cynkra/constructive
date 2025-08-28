@@ -237,6 +237,7 @@ all_classes <- list(
     "list",
     "logical",
     "NULL",
+    "object",
     "pairlist",
     "raw",
     "S4",
@@ -285,6 +286,16 @@ all_classes <- list(
   blob = c(
     "blob"
   ),
+  constructive = c(
+    "constructive_options"
+  ),
+  ellmer = c(
+    "ellmer::TypeArray",
+    "ellmer::TypeBasic", 
+    "ellmer::TypeEnum", 
+    "ellmer::TypeJsonSchema",
+    "ellmer::TypeObject"
+  ),
   ggplot2 = c(
     "CoordCartesian",
     "CoordFixed",
@@ -293,17 +304,45 @@ all_classes <- list(
     "CoordMunch",
     "CoordPolar",
     "CoordQuickmap",
+    "CoordRadial",
     "CoordSf",
     "CoordTrans",
+    "CoordTransform",
     "element_blank",
     "element_grob",
     "element_line",
     "element_rect",
     "element_render",
     "element_text",
+    "FacetGrid",
+    "FacetNull",
     "FacetWrap",
     "ggplot",
+    "ggplot2::element_blank",
+    "ggplot2::element_geom",
+    "ggplot2::element_line",
+    "ggplot2::element_point",
+    "ggplot2::element_polygon",
+    "ggplot2::element_rect",
+    "ggplot2::element_text",
+    "ggplot2::ggplot",
+    "ggplot2::labels",
+    "ggplot2::mapping",
+    "ggplot2::margin",
+    "ggplot2::theme",
     "ggproto",
+    "Guide",
+    "GuideAxis",
+    "GuideAxisLogticks",
+    "GuideAxisStack",
+    "GuideAxisTheta",
+    "GuideBins",
+    "GuideColourbar",
+    "GuideColoursteps",
+    "GuideCustom",
+    "GuideLegend",
+    "GuideNone",
+    "Guides",
     "labels",
     "Layer",
     "margin",
@@ -323,10 +362,38 @@ all_classes <- list(
   grid = c(
     "simpleUnit"
   ),
+  R6 = c(
+    "R6",
+    "R6ClassGenerator"
+  ),
   rlang = c(
     "quosure",
     "quosures"
   ),
-  tibble = c("tbl_df"),
-  vctrs = c("vctrs_list_of")
+  S7 = c(
+    "S7_any", 
+    "S7_base_class", 
+    "S7_class",
+    "S7_external_generic",
+    "S7_generic", 
+    "S7_object", 
+    "S7_property",
+    "S7_S3_class", 
+    "S7_union"
+  ),
+  tibble = c(
+    "tbl_df"
+  ),
+  vctrs = c(
+    "vctrs_list_of"
+  ),
+  xts = c(
+    "xts"
+  ),
+  zoo = c(
+    "yearmon",
+    "yearqtr",
+    "zoo",
+    "zooreg"
+  )
 )
