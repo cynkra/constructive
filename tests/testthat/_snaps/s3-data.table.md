@@ -2,16 +2,16 @@
 
     Code
       dt1 <- data.table::data.table(head(cars, 2))
-      construct(dt1)
+      construct(dt1, check = FALSE)
     Output
       data.table::data.table(speed = 4, dist = c(2, 10))
     Code
-      construct(dt1, opts_data.table(selfref = TRUE))
+      construct(dt1, opts_data.table(selfref = TRUE), check = FALSE)
     Output
       data.table::data.table(speed = 4, dist = c(2, 10)) |>
         structure(.internal.selfref = constructive::.xptr("0x123456789"))
     Code
-      construct(dt1, opts_data.table("next"))
+      construct(dt1, opts_data.table("next"), check = FALSE)
     Output
       data.frame(speed = 4, dist = c(2, 10)) |>
         structure(
@@ -19,7 +19,7 @@
           .internal.selfref = constructive::.xptr("0x123456789")
         )
     Code
-      construct(dt1, opts_data.table("list"))
+      construct(dt1, opts_data.table("list"), check = FALSE)
     Output
       list(speed = c(4, 4), dist = c(2, 10)) |>
         structure(
@@ -29,34 +29,34 @@
         )
     Code
       dt2 <- data.table::data.table(dt1, key = "speed")
-      construct(dt2)
+      construct(dt2, check = FALSE)
     Output
       data.table::data.table(speed = 4, dist = c(2, 10), key = "speed")
 
 # recycle in data tables
 
     Code
-      construct(data.table::data.table(a = 1:2, b = c(1, 1)))
+      construct(data.table::data.table(a = 1:2, b = c(1, 1)), check = FALSE)
     Output
       data.table::data.table(a = 1:2, b = 1)
     Code
-      construct(data.table::data.table(a = c(1, 1), b = c(1, 1)))
+      construct(data.table::data.table(a = c(1, 1), b = c(1, 1)), check = FALSE)
     Output
       data.table::data.table(a = c(1, 1), b = 1)
     Code
-      construct(data.table::data.table(a = 1:2, b = factor(c("a", "a"))))
+      construct(data.table::data.table(a = 1:2, b = factor(c("a", "a"))), check = FALSE)
     Output
       data.table::data.table(a = 1:2, b = factor("a"))
     Code
       construct(data.table::data.table(a = 1:2, b = as.Date(c("2000-01-01",
-        "2000-01-01"))))
+        "2000-01-01"))), check = FALSE)
     Output
       data.table::data.table(a = 1:2, b = as.Date("2000-01-01"))
 
 # duplicate names in data tables
 
     Code
-      construct(data.table::data.table(a = 1, a = 2))
+      construct(data.table::data.table(a = 1, a = 2), check = FALSE)
     Output
       data.table::data.table(a = 1, a = 2)
 
@@ -72,64 +72,67 @@
           .internal.selfref = constructive::.xptr("0x123456789")
         )
     Code
-      construct(structure(data.table::data.table(1), names = ""))
+      construct(structure(data.table::data.table(1), names = ""), check = FALSE)
     Output
       data.table::data.table(1) |>
         structure(names = "")
     Code
-      construct(structure(data.table::data.table(1), names = NA))
+      construct(structure(data.table::data.table(1), names = NA), check = FALSE)
     Output
       data.table::data.table(1) |>
         structure(names = NA_character_)
     Code
-      construct(structure(data.table::data.table(1), names = "keep.rownames"))
+      construct(structure(data.table::data.table(1), names = "keep.rownames"), check = FALSE)
     Output
       data.table::data.table(1) |>
         structure(names = "keep.rownames")
     Code
-      construct(structure(data.table::data.table(1), names = "check.names"))
+      construct(structure(data.table::data.table(1), names = "check.names"), check = FALSE)
     Output
       data.table::data.table(1) |>
         structure(names = "check.names")
     Code
-      construct(structure(data.table::data.table(1), names = "key"))
+      construct(structure(data.table::data.table(1), names = "key"), check = FALSE)
     Output
       data.table::data.table(1) |>
         structure(names = "key")
     Code
-      construct(structure(data.table::data.table(1), names = "stringsAsFactors"))
+      construct(structure(data.table::data.table(1), names = "stringsAsFactors"),
+      check = FALSE)
     Output
       data.table::data.table(1) |>
         structure(names = "stringsAsFactors")
     Code
-      construct(structure(data.table::data.table(1, 2), names = c("a", "")))
+      construct(structure(data.table::data.table(1, 2), names = c("a", "")), check = FALSE)
     Output
       data.table::data.table(a = 1, 2) |>
         structure(names = c("a", ""))
     Code
-      construct(structure(data.table::data.table(1, 2), names = c("a", NA)))
+      construct(structure(data.table::data.table(1, 2), names = c("a", NA)), check = FALSE)
     Output
       data.table::data.table(a = 1, 2) |>
         structure(names = c("a", NA))
     Code
       construct(structure(data.table::data.table(1, 2), names = c("a",
-        "keep.rownames")))
+        "keep.rownames")), check = FALSE)
     Output
       data.table::data.table(a = 1, 2) |>
         structure(names = c("a", "keep.rownames"))
     Code
-      construct(structure(data.table::data.table(1, 2), names = c("a", "check.names")))
+      construct(structure(data.table::data.table(1, 2), names = c("a", "check.names")),
+      check = FALSE)
     Output
       data.table::data.table(a = 1, 2) |>
         structure(names = c("a", "check.names"))
     Code
-      construct(structure(data.table::data.table(1, 2), names = c("a", "key")))
+      construct(structure(data.table::data.table(1, 2), names = c("a", "key")),
+      check = FALSE)
     Output
       data.table::data.table(a = 1, 2) |>
         structure(names = c("a", "key"))
     Code
       construct(structure(data.table::data.table(1, 2), names = c("a",
-        "stringsAsFactors")))
+        "stringsAsFactors")), check = FALSE)
     Output
       data.table::data.table(a = 1, 2) |>
         structure(names = c("a", "stringsAsFactors"))

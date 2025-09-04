@@ -11,7 +11,11 @@ NULL
 #' @return The external pointer (type "externalptr") that the memory address points to.
 #' @export
 .xptr <- function(address) {
-  .Call("external_pointer", PACKAGE = "constructive", address)
+  if (!missing(address) && is.character(address) && length(address) == 1L) {
+    ptr <- globals[["external_pointers"]][[address]]
+    if (!is.null(ptr)) return(ptr)
+  }
+  abort(paste0("No external pointer registered for key ", address))
 }
 
 external_pointer_address <- function(s) {
