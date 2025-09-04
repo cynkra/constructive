@@ -31,7 +31,13 @@ is_corrupted_externalptr <- function(x) {
 #' @export
 #' @method .cstr_construct.externalptr default
 .cstr_construct.externalptr.default <- function(x, ...) {
-  code <- sprintf('constructive::.xptr("%s")', external_pointer_address(x))
+  addr <- external_pointer_address(x)
+  # In tests, use a stable fictional address but do NOT register it,
+  # so lookup fails and faithfulness checks can detect mismatch.
+  if (!identical(Sys.getenv("TESTTHAT"), "true")) {
+    globals[["external_pointers"]][[addr]] <- x
+  }
+  code <- sprintf('constructive::.xptr("%s")', addr)
   repair_attributes_externalptr(x, code, ...)
 }
 
