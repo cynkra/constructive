@@ -51,6 +51,7 @@ Suggests:
     tidyselect,
     vctrs,
     withr,
+    xml2,
     xts,
     zoo
 VignetteBuilder: 

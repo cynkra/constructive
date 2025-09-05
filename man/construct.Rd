@@ -262,6 +262,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_waiver]{opts_waiver}(constructor = c("waiver", "next", "list"), ...)}
   \item \code{\link[=opts_warning]{opts_warning}(constructor = c("warningCondition", "next"), ...)}
   \item \code{\link[=opts_weakref]{opts_weakref}(constructor = c("new_weakref"), ...)}
+  \item \code{\link[=opts_xml_document]{opts_xml_document}(constructor = c("default", "next"), ..., simplify = TRUE)}
   \item \code{\link[=opts_xts]{opts_xts}(constructor = c("as.xts.matrix", "next"), ...)}
   \item \code{\link[=opts_yearmon]{opts_yearmon}(constructor = c("as.yearmon", "yearmon", "next"), ...)}
   \item \code{\link[=opts_yearqtr]{opts_yearqtr}(constructor = c("as.yearqtr", "yearqtr", "next"), ...)}
