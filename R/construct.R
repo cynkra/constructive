@@ -86,7 +86,6 @@ construct <- function(
   # reset globals
   globals$predefinition <- character()
   globals$envs <- data.frame(hash = character(), name = character())
-  globals[["external_pointers"]] <- list()
   globals$pedantic_encoding <- pedantic_encoding
 
   # check inputs
