@@ -47,6 +47,7 @@
   code <- gsub(".CLASS1.", class[[1]], code, fixed = TRUE)
   code <- gsub(".PKG::CONSTRUCTOR.", constructor, code, fixed = TRUE)
   code <- gsub(".CONSTRUCTOR.", sub("^.*::(.*)$", "\\1", constructor), code, fixed = TRUE)
+  code <- paste(code, collapse = "\n")
   rstudioapi::documentNew(code)
   inform(c(
     `*` = "Call `usethis::use_package(\"constructive\"`, \"Suggests\")`",
@@ -70,6 +71,7 @@
   code <- gsub(".CLASS1.", class[[1]], code, fixed = TRUE)
   code <- gsub(".PKG::CONSTRUCTOR.", constructor, code, fixed = TRUE)
   code <- gsub(".CONSTRUCTOR.", sub("^.*::(.*)$", "\\1", constructor), code, fixed = TRUE)
+  code <- paste(code, collapse = "\n")
   rstudioapi::documentNew(code)
   inform(c(
     `*` = "Call `usethis::use_package(\"constructive\"`, \"Suggests\")`",
