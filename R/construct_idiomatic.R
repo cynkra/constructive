@@ -1,7 +1,12 @@
 #' @export
 .cstr_construct.default <- function(x, ...) {
-  if (is.matrix(x)) return(.cstr_construct.matrix(x, ...))
-  if (is.array(x)) return(.cstr_construct.array(x, ...))
+  classes <- list(...)$classes
+  if (is.matrix(x) && (is.null(classes) || "matrix" %in% classes)) {
+    return(.cstr_construct.matrix(x, ...))
+  }
+  if (is.array(x) && (is.null(classes) ||"array" %in% classes)) {
+    return(.cstr_construct.array(x, ...))
+  }
   switch(
     typeof(x),
     environment = .cstr_construct.environment(x, ...),
