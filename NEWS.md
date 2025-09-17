@@ -46,7 +46,7 @@ Features and improvements:
   * "labels"
   * "FacetGrid" (an old class that had been forgotten!)
 * We don't signal a reconstruction inaccuracy when ggplot objects are reconstructed
-  accurately except for stored language elements, e.g we consider `ggplot2::geom_point`
+  accurately except for stored language elements, e.g. we consider `ggplot2::geom_point`
   and `geom_point` to be equivalent in stored calls. It's not fully satisfying because an aim
   of constructive is to spot such small details, but we also want to be practical
   and assessing the practical equivalence of the generated code seems more valuable
