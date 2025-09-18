@@ -1,8 +1,20 @@
+# constructive 1.3.0
+
+1.2.0 couldn't be installed on some OS, R versions, or combinations of the latter, this is addressed in 1.3.0 along with a few additional fixes and features so it ends up being a new minor version.
+
+* We construct external pointers differently, from a global store in the package's namespace rather than from an address. It's more accurate and the previous way seemed to be problematic on Windows. xml2::read_html
+* `matrix()` and `array()` are not used anymore when calling `construct_dput()`, this is consistent with `dput()`.
+* A new "prototype" constructor for objects of class "S4" allows faithful construction of S4 objects that have an `initialize()` method
+*  We construct object of the "xml_document" class using `xml2::read_html()` or `xml2::read_xml()`
+* `.cstr_new_class()` and `.cstr_new_constructor()` work with VSCode and VSCode based editors.
+* We're a bit more careful when using recycling on data frame columns. Previously we were not accurate when recycled columns had some attributes.
+
 # constructive 1.2.0
 
 cynkra (https://cynkra.com) is officially a funder, already was from the start in practice, thanks cynkra!
 
 Features and improvements:
+
  * We now support the "object" type, that many S7 objects are built on.
    The code to build an empty "object" is either `getClass("S4")@prototype |> asS3(complete = FALSE)`
    or `S7::S7_object() |> structure(class = NULL)`
