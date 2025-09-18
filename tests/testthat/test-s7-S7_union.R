@@ -4,7 +4,7 @@ test_that("S7_union", {
     construct(S7::class_vector, opts_S7_union("|"))
     construct(S7::class_vector, opts_S7_union("new_union"))
     construct(S7::class_vector, opts_S7_union("next"))
-    # check = FALSE because of changig environment address issues
+    # check = FALSE because of changing environment address issues
     construct(S7::class_vector, opts_S7_union("next"), opts_S7_base_class("next"), check = FALSE)
   })
 })
