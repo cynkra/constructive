@@ -7,7 +7,7 @@
     <a href="https://cynkra.com" class="external-link logo-cynkra"><img src="https://cynkra.com/assets/img/logo-cynkra-square.svg" alt="cynkra" width="100" height="100"><div class="sr-only">cynkra</div></a>
     <a class="navbar-brand me-2" href="../index.html">constructive</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,10 +38,69 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="constructive-130">constructive 1.3.0<a class="anchor" aria-label="anchor" href="#constructive-130"></a></h2>
+<p>1.2.0 couldn’t be installed on some OS, R versions, or combinations of the latter, this is addressed in 1.3.0 along with a few additional fixes and features so it ends up being a new minor version.</p>
+<ul><li>We construct external pointers differently, from a global store in the package’s namespace rather than from an address. It’s more accurate and the previous way seemed to be problematic on Windows. xml2::read_html</li>
+<li>
+<code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code> and <code><a href="https://rdrr.io/r/base/array.html" class="external-link">array()</a></code> are not used anymore when calling <code><a href="../reference/construct_dput.html">construct_dput()</a></code>, this is consistent with <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code>.</li>
+<li>A new “prototype” constructor for objects of class “S4” allows faithful construction of S4 objects that have an <code>initialize()</code> method</li>
+<li>We construct object of the “xml_document” class using <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_html()</a></code> or <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>
+</li>
+<li>
+<code><a href="../reference/templates.html">.cstr_new_class()</a></code> and <code><a href="../reference/templates.html">.cstr_new_constructor()</a></code> work with VSCode and VSCode based editors.</li>
+<li>We’re a bit more careful when using recycling on data frame columns. Previously we were not accurate when recycled columns had some attributes.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="constructive-120">constructive 1.2.0<a class="anchor" aria-label="anchor" href="#constructive-120"></a></h2><p class="text-muted">CRAN release: 2025-08-28</p>
 <p>cynkra (<a href="https://cynkra.com" class="external-link uri">https://cynkra.com</a>) is officially a funder, already was from the start in practice, thanks cynkra!</p>
-<p>Features and improvements: * We now support the “object” type, that many S7 objects are built on. The code to build an empty “object” is either <code>getClass("S4")@prototype |&gt; asS3(complete = FALSE)</code> or <code>S7::S7_object() |&gt; structure(class = NULL)</code> * We now support classes from the S7 package: * “S7_Object” * “S7_union” * “S7_S3_class” * “S7_generic” * “S7_class” * “S7_base_class” * “S7_any” * We now support classes from the ellmer classes : * “ellmer::TypeObject” * “ellmer::TypeJsonSchema” * “ellmer::TypeEnum” * “ellmer::TypeBasic” * “ellmer::TypeArray” * We now support the new ggplot2 classes: * “ggplot2::element_blank” * “ggplot2::element_geom” * “ggplot2::element_line” * “ggplot2::element_point” * “ggplot2::element_polygon” * “ggplot2::element_rect” * “ggplot2::element_text” * “ggplot2::ggplot” * “ggplot2::label” * “ggplot2::margin” * “ggplot2::theme” * “Guide” * “GuideAxisLogticks” * “GuideAxisStack” * “GuideAxisTheta” * “GuideBins” * “GuideColourBar” * “GuideColourSteps” * “GuideCustom” * “GuideLegend” * “GuideNone” * “Guides” * “labels” * “FacetGrid” (an old class that had been forgotten!) * We don’t signal a reconstruction inaccuracy when ggplot objects are reconstructed accurately except for stored language elements, e.g. we consider <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">ggplot2::geom_point</a></code> and <code>geom_point</code> to be equivalent in stored calls. It’s not fully satisfying because an aim of constructive is to spot such small details, but we also want to be practical and assessing the practical equivalence of the generated code seems more valuable than perfect accuracy there. Please open a ticket if this upsets you and we’ll work something out. * {cli} &gt;= 3.1.0 is now required and <code><a href="https://cli.r-lib.org/reference/code_highlight.html" class="external-link">cli::code_highlight()</a></code> is now used, removing the dependency on {prettycode}. Turn it off with <code>options(constructive_pretty = FALSE)</code>. The <code>style</code> argument of <code><a href="../reference/print.constructive_code.html">print.constructive_code()</a></code> is deprecated in favour of the new argument <code>code_theme</code>. Thanks <a href="https://github.com/wurli" class="external-link">@wurli</a>!</p>
-<p>Bug fixes:</p>
+<p>Features and improvements:</p>
+<ul><li>We now support the “object” type, that many S7 objects are built on. The code to build an empty “object” is either <code>getClass("S4")@prototype |&gt; asS3(complete = FALSE)</code> or <code>S7::S7_object() |&gt; structure(class = NULL)</code>
+</li>
+<li>We now support classes from the S7 package:
+<ul><li>“S7_Object”</li>
+<li>“S7_union”</li>
+<li>“S7_S3_class”</li>
+<li>“S7_generic”</li>
+<li>“S7_class”</li>
+<li>“S7_base_class”</li>
+<li>“S7_any”</li>
+</ul></li>
+<li>We now support classes from the ellmer classes :
+<ul><li>“ellmer::TypeObject”</li>
+<li>“ellmer::TypeJsonSchema”</li>
+<li>“ellmer::TypeEnum”</li>
+<li>“ellmer::TypeBasic”</li>
+<li>“ellmer::TypeArray”</li>
+</ul></li>
+<li>We now support the new ggplot2 classes:
+<ul><li>“ggplot2::element_blank”</li>
+<li>“ggplot2::element_geom”</li>
+<li>“ggplot2::element_line”</li>
+<li>“ggplot2::element_point”</li>
+<li>“ggplot2::element_polygon”</li>
+<li>“ggplot2::element_rect”</li>
+<li>“ggplot2::element_text”</li>
+<li>“ggplot2::ggplot”</li>
+<li>“ggplot2::label”</li>
+<li>“ggplot2::margin”</li>
+<li>“ggplot2::theme”</li>
+<li>“Guide”</li>
+<li>“GuideAxisLogticks”</li>
+<li>“GuideAxisStack”</li>
+<li>“GuideAxisTheta”</li>
+<li>“GuideBins”</li>
+<li>“GuideColourBar”</li>
+<li>“GuideColourSteps”</li>
+<li>“GuideCustom”</li>
+<li>“GuideLegend”</li>
+<li>“GuideNone”</li>
+<li>“Guides”</li>
+<li>“labels”</li>
+<li>“FacetGrid” (an old class that had been forgotten!)</li>
+</ul></li>
+<li>We don’t signal a reconstruction inaccuracy when ggplot objects are reconstructed accurately except for stored language elements, e.g. we consider <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">ggplot2::geom_point</a></code> and <code>geom_point</code> to be equivalent in stored calls. It’s not fully satisfying because an aim of constructive is to spot such small details, but we also want to be practical and assessing the practical equivalence of the generated code seems more valuable than perfect accuracy there. Please open a ticket if this upsets you and we’ll work something out.</li>
+<li>{cli} &gt;= 3.1.0 is now required and <code><a href="https://cli.r-lib.org/reference/code_highlight.html" class="external-link">cli::code_highlight()</a></code> is now used, removing the dependency on {prettycode}. Turn it off with <code>options(constructive_pretty = FALSE)</code>. The <code>style</code> argument of <code><a href="../reference/print.constructive_code.html">print.constructive_code()</a></code> is deprecated in favour of the new argument <code>code_theme</code>. Thanks <a href="https://github.com/wurli" class="external-link">@wurli</a>!</li>
+</ul><p>Bug fixes:</p>
 <ul><li>
 <code><a href="../reference/deparse_call.html">deparse_call()</a></code> supports more corner cases (mostly for artificial cases you probably won’t encounter)</li>
 <li>The construction of complex numbers now accounts for negative zeroes in imaginary and real parts</li>
