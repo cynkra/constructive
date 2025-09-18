@@ -39,13 +39,14 @@ is_corrupted_CoordCartesian <- function(x) {
   args$ratio <- x$ratio
   args <- keep_only_non_defaults(args, ggplot2::coord_cartesian)
   if (identical(names(args), "ratio")) {
-    args <- setdiff(args, 1)
+     if (args$ratio == 1) {
+      args <- list()
+     }
     .cstr_apply(args, "ggplot2::coord_fixed", ...)
   } else {
     .cstr_apply(args, "ggplot2::coord_cartesian", ...)
   }
 }
-
 
 #' @export
 #' @method .cstr_construct.CoordCartesian coord_cartesian
