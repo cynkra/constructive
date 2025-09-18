@@ -3,7 +3,7 @@ test_that("S7_generic", {
     # examples from `?S7::new_property`
     type_of <- S7::new_generic("type_of", dispatch_args = "x")
     construct(type_of)
-    # to avoid issue with changing env adresses
+    # to avoid issue with changing env addresses
     environment(attr(type_of, "S7_class")) <- .GlobalEnv
     environment(attr(attr(type_of, "S7_class"), "constructor")) <- .GlobalEnv
     construct(type_of, opts_S7_generic("next"), opts_function(srcref = TRUE), check = FALSE)

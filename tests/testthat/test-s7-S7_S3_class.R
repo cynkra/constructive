@@ -13,7 +13,7 @@ test_that("S7_S3_class", {
         }
       }
     )
-    # avoid changing environment adress issue
+    # avoid changing environment address issue
     environment(S3_Date$validator) <- .GlobalEnv
     environment(S3_Date$constructor) <- .GlobalEnv
     construct(S3_Date)
