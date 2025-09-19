@@ -9,7 +9,7 @@
 #'
 #' @param constructor String. Name of the constructor, often the function used to construct the object.
 #' @param ... Additional options used by user defined constructors through the `opts` object
-#' @param simplify Whether to remove the "<meta http-equiv ...>" and "<!DOCTYPE ...> tags from the
+#' @param simplify Whether to remove the "meta http-equiv" and "!DOCTYPE" tags from the
 #' input if they're the default ones.
 #' @return An object of class <constructive_options/constructive_options_xml_document>
 #' @export

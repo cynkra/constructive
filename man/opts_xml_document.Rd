@@ -11,7 +11,7 @@ opts_xml_document(constructor = c("default", "next"), ..., simplify = TRUE)
 
 \item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
-\item{simplify}{Whether to remove the "<meta http-equiv ...>" and "\if{html}{\out{<!DOCTYPE ...>}} tags from the
+\item{simplify}{Whether to remove the "meta http-equiv" and "!DOCTYPE" tags from the
 input if they're the default ones.}
 }
 \value{

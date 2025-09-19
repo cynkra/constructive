@@ -1,3 +1,7 @@
+## Notes about version 1.3.0
+
+1.2.0 coudn't be installed on some systems, the C code needed fixing. + a few minor features and fixes.
+
 ## Notes about version 1.2.0
 
 Fixes and new features, compiled code also had to be adapted for R 4.5. All checks green AFAICT.
