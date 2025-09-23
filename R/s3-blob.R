@@ -27,7 +27,9 @@ opts_blob <- function(constructor = c("blob", "next"), ...) {
 }
 
 is_corrupted_blob <- function(x) {
-  !is.list(x) || !all(vapply(x, is.raw, logical(1)))
+  if (!is.list(x) || !all(vapply(x, is.raw, logical(1)))) return(TRUE)
+  if (!identical(attr(x, "ptype"), raw(0))) return(TRUE)
+  FALSE
 }
 
 #' @export
