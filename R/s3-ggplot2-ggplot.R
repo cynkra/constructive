@@ -25,6 +25,7 @@ opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
 }
 
 is_corrupted_ggplot <- function(x) {
+  if (with_versions(ggplot2 < "4.0.0")) return(FALSE)
   if (!is.list(x)) return(TRUE)
   if (!all(c("data", "mapping", "layers", "scales", "theme", "coordinates", "facet", "plot_env", "labels", "guides", "layout", "meta") %in% names(x))) return(TRUE)
   if (!is.null(x$data) && !is.data.frame(x$data) && !ggplot2::is.waiver(x$data)) return(TRUE)

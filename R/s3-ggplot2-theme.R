@@ -13,7 +13,7 @@ opts_theme <- function(constructor = c("theme", "next", "list"), ...) {
 }
 
 is_corrupted_theme <- function(x) {
-  !is.list(x) || !is.null(attr(x, "S7_class"))
+  !is.list(x)
 }
 
 #' @export

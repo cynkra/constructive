@@ -13,6 +13,7 @@ opts_CoordSf <- function(constructor = c("coord_sf", "next", "environment"), ...
 }
 
 is_corrupted_CoordSf <- function(x) {
+  if (with_versions(ggplot2 < "4.0.0")) return(FALSE)
   if (!is.environment(x)) return(TRUE)
   nms <- c(
     "expand", "clip", "limits", "ndiscr", "lims_method", "reverse", "default_crs",

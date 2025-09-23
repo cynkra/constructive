@@ -29,6 +29,7 @@ opts_Layer <- function(constructor = c("default", "layer", "next", "environment"
 }
 
 is_corrupted_Layer <- function(x) {
+  if (with_versions(ggplot2 < "4.0.0")) return(FALSE)
   if (!is.environment(x)) return(TRUE)
   nms <- c(
     "mapping", "geom_params", "show.legend", "constructor", "stat_params", "stat",

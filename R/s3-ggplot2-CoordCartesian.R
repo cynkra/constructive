@@ -13,6 +13,7 @@ opts_CoordCartesian <- function(constructor = c("default", "coord_cartesian", "n
 }
 
 is_corrupted_CoordCartesian <- function(x) {
+  if (with_versions(ggplot2 < "4.0.0")) return(FALSE)
   if (!is.environment(x)) return(TRUE)
   if (!all(c("limits", "expand", "default", "clip") %in% names(x))) return(TRUE)
   if (!is.list(x$limits) || !all(c("x", "y") %in% names(x$limits))) return(TRUE)

@@ -13,6 +13,7 @@ opts_FacetGrid <- function(constructor = c("facet_grid", "ggproto", "next", "env
 }
 
 is_corrupted_FacetGrid <- function(x) {
+  if (with_versions(ggplot2 < "4.0.0")) return(FALSE)
   if (!is.environment(x)) return(TRUE)
   if (!all(c("params", "shrink", "super") %in% names(x))) return(TRUE)
   if (!is.list(x$params)) return(TRUE)
