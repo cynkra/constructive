@@ -32,7 +32,9 @@ opts_formula <- function(constructor = c("default", "formula", "as.formula", "ne
 }
 
 is_corrupted_formula <- function(x) {
-  !is.call(x) || !identical(.subset2(x, 1), quote(`~`))
+  if (!is.call(x) || !identical(.subset2(x, 1), quote(`~`))) return(TRUE)
+  if (!is.environment(attr(x, ".Environment"))) return(TRUE)
+  FALSE
 }
 
 #' @export
