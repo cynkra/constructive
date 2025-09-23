@@ -22,6 +22,9 @@ opts_GuideNone <- function(constructor = c("guide_none", "next"), ...) {
 }
 
 is_corrupted_GuideNone <- function(x) {
+  if (!is.environment(x)) return(TRUE)
+  if (!is.function(x$super)) return(TRUE)
+  if (!is.list(x$params)) return(TRUE)
   FALSE
 }
 
