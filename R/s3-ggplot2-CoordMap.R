@@ -13,7 +13,12 @@ opts_CoordMap <- function(constructor = c("coord_map", "next", "environment"), .
 }
 
 is_corrupted_CoordMap <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("projection", "clip", "params", "limits", "orientation", "super") %in% names(x))) return(TRUE)
+  if (!rlang::is_string(x$projection)) return(TRUE)
+  if (!is.null(x$limits$x) && (!rlang::is_double(x$limits$x, n = 2))) return(TRUE)
+  if (!is.null(x$limits$y) && (!rlang::is_double(x$limits$y, n = 2))) return(TRUE)
+  if (!rlang::is_string(x$clip)) return(TRUE)
   FALSE
 }
 
