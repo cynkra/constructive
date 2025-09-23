@@ -25,8 +25,11 @@ opts_mts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 }
 
 is_corrupted_mts <- function(x) {
-  # TODO
-  !typeof(x) %in% c("integer", "double")
+  if (!typeof(x) %in% c("integer", "double")) return(TRUE)
+  if (!is.matrix(x)) return(TRUE)
+  tsp <- attr(x, "tsp")
+  if (is.null(tsp) || !is.numeric(tsp) || length(tsp) != 3) return(TRUE)
+  FALSE
 }
 
 #' @export
