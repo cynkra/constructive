@@ -27,7 +27,8 @@ opts_quosures <- function(constructor = c("new_quosures", "next", "list"), ...) 
 }
 
 is_corrupted_quosures <- function(x) {
-  # TODO
+  if (!is.list(x)) return(TRUE)
+  if (any(sapply(x, is_corrupted_quosure))) return(TRUE)
   FALSE
 }
 
