@@ -13,7 +13,7 @@ opts_Scale <- function(constructor = c("default", "next", "environment"), ...) {
 }
 
 is_corrupted_Scale <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
   FALSE
 }
 
