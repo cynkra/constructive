@@ -39,6 +39,9 @@ opts_R6 <- function(constructor = c("R6Class", "next"), ...) {
 }
 
 is_corrupted_R6 <- function(x) {
+  if (!is.environment(x)) return(TRUE)
+  if (!exists(".__enclos_env__", envir = x, inherits = FALSE)) return(TRUE)
+  if (!is.environment(x$.__enclos_env__)) return(TRUE)
   FALSE
 }
 
