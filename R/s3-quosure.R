@@ -27,7 +27,10 @@ opts_quosure <- function(constructor = c("new_quosure", "next", "language"), ...
 }
 
 is_corrupted_quosure <- function(x) {
-  # TODO
+  if (!is.call(x) || !identical(.subset2(x, 1), quote(`~`))) return(TRUE)
+  if (!is.environment(attr(x, ".Environment"))) return(TRUE)
+  if (length(x) != 2) return(TRUE)
+  if (!is.language(.subset2(x, 2))) return(TRUE)
   FALSE
 }
 
