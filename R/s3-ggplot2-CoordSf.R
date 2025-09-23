@@ -13,7 +13,22 @@ opts_CoordSf <- function(constructor = c("coord_sf", "next", "environment"), ...
 }
 
 is_corrupted_CoordSf <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  nms <- c(
+    "expand", "clip", "limits", "ndiscr", "lims_method", "reverse", "default_crs",
+    "super", "default", "label_axes", "crs", "label_graticule", "datum"
+  )
+  if (!all(nms %in% names(x))) return(TRUE)
+  if (!is.list(x$limits) || !all(c("x", "y") %in% names(x$limits))) return(TRUE)
+  if (!rlang::is_bool(x$expand)) return(TRUE)
+  if (!is.null(x$crs) && !is.list(x$crs)) return(TRUE)
+  if (!is.null(x$default_crs) && !is.list(x$default_crs)) return(TRUE)
+  if (!is.null(x$datum) && !is.list(x$datum)) return(TRUE)
+  if (!is.character(x$label_graticule) && is_corrupted_waiver(x$label_graticule)) return(TRUE)
+  if (!is.list(x$label_axes)) return(TRUE)
+  if (!rlang::is_string(x$lims_method)) return(TRUE)
+  if (!is.numeric(x$ndiscr)) return(TRUE)
+  if (!rlang::is_string(x$clip)) return(TRUE)
   FALSE
 }
 
