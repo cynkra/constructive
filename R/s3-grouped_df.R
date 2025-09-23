@@ -25,7 +25,10 @@ opts_grouped_df <- function(constructor = c("default", "next", "list"), ...) {
 }
 
 is_corrupted_grouped_df <- function(x) {
-  # TODO
+  if (is_corrupted_tbl_df(x)) return(TRUE)
+  groups <- attr(x, "groups")
+  if (is.null(groups) || !is.data.frame(groups)) return(TRUE)
+  if (is.null(groups$.rows) || !is.list(groups$.rows) || !all(sapply(groups$.rows, is.integer))) return(TRUE)
   FALSE
 }
 
