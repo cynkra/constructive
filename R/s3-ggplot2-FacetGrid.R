@@ -13,7 +13,15 @@ opts_FacetGrid <- function(constructor = c("facet_grid", "ggproto", "next", "env
 }
 
 is_corrupted_FacetGrid <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("params", "shrink", "super") %in% names(x))) return(TRUE)
+  if (!is.list(x$params)) return(TRUE)
+  if (!is.null(x$params$shrink) && !rlang::is_bool(x$params$shrink)) return(TRUE)
+  if (!rlang::is_function(x$params$labeller)) return(TRUE)
+  if (!rlang::is_bool(x$params$as.table)) return(TRUE)
+  if (!rlang::is_bool(x$params$drop)) return(TRUE)
+  if (!rlang::is_bool(x$params$margins)) return(TRUE)
+  if (!is.list(x$params$axis_labels)) return(TRUE)
   FALSE
 }
 
