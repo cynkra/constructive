@@ -22,7 +22,7 @@ opts_S7_base_class <- function(constructor = c("S7", "next"), ...) {
 }
 
 is_corrupted_S7_base_class <- function(x) {
-  FALSE
+  !is.list(x)
 }
 
 #' @export
