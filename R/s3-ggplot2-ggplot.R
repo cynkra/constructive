@@ -25,7 +25,21 @@ opts_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) {
 }
 
 is_corrupted_ggplot <- function(x) {
-  !is.list(x)
+  if (!is.list(x)) return(TRUE)
+  if (!all(c("data", "mapping", "layers", "scales", "theme", "coordinates", "facet", "plot_env", "labels", "guides", "layout", "meta") %in% names(x))) return(TRUE)
+  if (!is.null(x$data) && !is.data.frame(x$data) && !ggplot2::is.waiver(x$data)) return(TRUE)
+  if (!is.list(x$mapping)) return(TRUE)
+  if (!is.list(x$layers)) return(TRUE)
+  if (!is.environment(x$scales)) return(TRUE)
+  if (!is.list(x$theme)) return(TRUE)
+  if (!is.environment(x$coordinates)) return(TRUE)
+  if (!is.environment(x$facet)) return(TRUE)
+  if (!is.environment(x$plot_env)) return(TRUE)
+  if (!is.list(x$labels)) return(TRUE)
+  if (!is.environment(x$guides)) return(TRUE)
+  if (!is.environment(x$layout)) return(TRUE)
+  if (!is.list(x$meta)) return(TRUE)
+  FALSE
 }
 
 #' @export
