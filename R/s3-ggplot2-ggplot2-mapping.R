@@ -56,7 +56,8 @@ opts_ggplot2_mapping <- function(constructor = c("aes", "next", "list"), ...) {
 }
 
 `is_corrupted_ggplot2::mapping` <- function(x) {
-  # TODO
+  if (!is.list(x)) return(TRUE)
+  if (!is.function(attr(x, "S7_class"))) return(TRUE)
   FALSE
 }
 
