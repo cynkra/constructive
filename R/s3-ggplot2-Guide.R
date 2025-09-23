@@ -13,7 +13,10 @@ opts_Guide <- function(constructor = c("default", "next", "environment"), ...) {
 }
 
 is_corrupted_Guide <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("available_aes", "params") %in% names(x))) return(TRUE)
+  if (!is.character(x$available_aes)) return(TRUE)
+  if (!is.list(x$params)) return(TRUE)
   FALSE
 }
 
