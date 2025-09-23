@@ -22,6 +22,14 @@ opts_CoordTransform <- function(constructor = c("coord_transform", "next"), ...)
 }
 
 is_corrupted_CoordTransform <- function(x) {
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("expand", "clip", "limits", "trans", "reverse", "super") %in% names(x))) return(TRUE)
+  if (!is.list(x$trans) || !all(c("x", "y") %in% names(x$trans))) return(TRUE)
+  if (!is.list(x$trans$x) || !is.list(x$trans$y)) return(TRUE)
+  if (!is.list(x$limits) || !all(c("x", "y") %in% names(x$limits))) return(TRUE)
+  if (!rlang::is_string(x$clip)) return(TRUE)
+  if (!rlang::is_bool(x$expand)) return(TRUE)
+  if (!rlang::is_string(x$reverse)) return(TRUE)
   FALSE
 }
 
