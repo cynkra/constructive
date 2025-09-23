@@ -31,7 +31,9 @@ opts_data.table <- function(constructor = c("data.table", "next", "list"), ..., 
 }
 
 is_corrupted_data.table <- function(x) {
-  is_corrupted_data.frame(x)
+  if (is_corrupted_data.frame(x)) return(TRUE)
+  if (typeof(attr(x, ".internal.selfref")) != "externalptr") return(TRUE)
+  FALSE
 }
 
 #' @export
