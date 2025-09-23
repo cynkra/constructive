@@ -31,7 +31,10 @@ opts_matrix  <- function(constructor = c("matrix", "array", "cbind", "rbind", "n
 }
 
 is_corrupted_matrix <- function(x) {
-  is_corrupted_array(x) || length(dim(x)) != 2
+  dim <- attr(x, "dim")
+  if (is.null(dim) || !is.integer(dim) || length(dim) != 2) return(TRUE)
+  if (!(is.atomic(x) || is.list(x) || is.expression(x))) return(TRUE)
+  FALSE
 }
 
 #' @export
