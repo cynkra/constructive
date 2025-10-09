@@ -80,6 +80,15 @@ For closures we fall back to the next method.</p>
     <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"S7_object"</code> (default): We build the object using <code><a href="https://rconsortium.github.io/S7/reference/S7_object.html" class="external-link">S7::S7_object()</a></code>.</p></li>
 <li><p><code>"next"</code> : Use the constructor for the next supported class.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="before-the-object-type">Before the "object" type<a class="anchor" aria-label="anchor" href="#before-the-object-type"></a></h2>
+
+
+
+<p>The information above is correct only starting from R 4.4.
+The "object" type was introduced in R 4.4 and the S7 package uses the "S4" type
+instead for previous versions.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
