@@ -112,3 +112,36 @@
       ) |>
         structure(class = c("POSIXlt", "POSIXt"), tzone = "GMT", balanced = TRUE)
 
+# POSIXlt-pre-4.3
+
+    Code
+      construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))
+    Output
+      list(
+        sec = numeric(4),
+        min = integer(4),
+        hour = integer(4),
+        mday = rep(1L, 4L),
+        mon = c(6L, 0L, 0L, 0L),
+        year = 72:75,
+        wday = c(6L, 1L, 2L, 3L),
+        yday = c(182L, 0L, 0L, 0L),
+        isdst = integer(4)
+      ) |>
+        structure(class = c("POSIXlt", "POSIXt"), tzone = "GMT")
+    Code
+      construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("list"))
+    Output
+      list(
+        sec = numeric(4),
+        min = integer(4),
+        hour = integer(4),
+        mday = rep(1L, 4L),
+        mon = c(6L, 0L, 0L, 0L),
+        year = 72:75,
+        wday = c(6L, 1L, 2L, 3L),
+        yday = c(182L, 0L, 0L, 0L),
+        isdst = integer(4)
+      ) |>
+        structure(class = c("POSIXlt", "POSIXt"), tzone = "GMT")
+
