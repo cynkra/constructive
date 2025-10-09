@@ -36,7 +36,13 @@ is_corrupted_S7_object <- function(x) {
   # for instance ggplot2 themes after v3.5.2
   # here we consider those corrupted as there are no constructors to build those
   # directly anyway
-  typeof(x) != "object"
+  if (with_versions(R < "4.4")) {
+    # see ?opts_S7_object
+    typeof(x) != "S4"
+  } else {
+    typeof(x) != "object"
+  }
+  
 }
 
 
