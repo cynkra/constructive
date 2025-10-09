@@ -22,6 +22,21 @@ opts_CoordRadial <- function(constructor = c("coord_radial", "next"), ...) {
 }
 
 is_corrupted_CoordRadial <- function(x) {
+  if (!is.environment(x)) return(TRUE)
+  nms <- c(
+    "expand", "theta", "clip", "limits", "arc", "inner_radius", "r_axis_inside",
+    "reverse", "super", "rotate_angle", "r"
+  )
+  if (!all(nms %in% names(x))) return(TRUE)
+  if (!rlang::is_string(x$theta)) return(TRUE)
+  if (!rlang::is_string(x$clip)) return(TRUE)
+  if (!is.list(x$limits) || !all(c("theta", "r") %in% names(x$limits))) return(TRUE)
+  if (!rlang::is_double(x$arc, n = 2)) return(TRUE)
+  if (!rlang::is_double(x$inner_radius, n = 2)) return(TRUE)
+  if (!rlang::is_bool(x$r_axis_inside)) return(TRUE)
+  if (!rlang::is_string(x$reverse)) return(TRUE)
+  if (!rlang::is_bool(x$rotate_angle)) return(TRUE)
+  if (!rlang::is_string(x$r)) return(TRUE)
   FALSE
 }
 

@@ -13,7 +13,8 @@ opts_Scale <- function(constructor = c("default", "next", "environment"), ...) {
 }
 
 is_corrupted_Scale <- function(x) {
-  # TODO
+  if (with_versions(ggplot2 < "4.0.0")) return(FALSE)
+  if (!is.environment(x)) return(TRUE)
   FALSE
 }
 

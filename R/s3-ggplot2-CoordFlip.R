@@ -13,7 +13,11 @@ opts_CoordFlip <- function(constructor = c("coord_flip", "next", "environment"),
 }
 
 is_corrupted_CoordFlip <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("limits", "expand", "clip") %in% names(x))) return(TRUE)
+  if (!is.list(x$limits) || !all(c("x", "y") %in% names(x$limits))) return(TRUE)
+  if (!rlang::is_bool(x$expand)) return(TRUE)
+  if (!rlang::is_string(x$clip)) return(TRUE)
   FALSE
 }
 

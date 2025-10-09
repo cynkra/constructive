@@ -13,7 +13,13 @@ opts_CoordTrans <- function(constructor = c("coord_trans", "next", "environment"
 }
 
 is_corrupted_CoordTrans <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("limits", "clip", "expand", "trans") %in% names(x))) return(TRUE)
+  if (!is.list(x$limits) || !all(c("x", "y") %in% names(x$limits))) return(TRUE)
+  if (!rlang::is_string(x$clip)) return(TRUE)
+  if (!rlang::is_bool(x$expand)) return(TRUE)
+  if (!is.list(x$trans) || !all(c("x", "y") %in% names(x$trans))) return(TRUE)
+  if (!is.environment(x$trans$x) || !is.environment(x$trans$y)) return(TRUE)
   FALSE
 }
 

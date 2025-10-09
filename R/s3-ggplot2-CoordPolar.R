@@ -13,7 +13,12 @@ opts_CoordPolar <- function(constructor = c("coord_polar", "next", "environment"
 }
 
 is_corrupted_CoordPolar <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("theta", "start", "direction", "clip") %in% names(x))) return(TRUE)
+  if (!rlang::is_string(x$theta)) return(TRUE)
+  if (!rlang::is_scalar_double(x$start)) return(TRUE)
+  if (!rlang::is_scalar_double(x$direction)) return(TRUE)
+  if (!rlang::is_string(x$clip)) return(TRUE)
   FALSE
 }
 

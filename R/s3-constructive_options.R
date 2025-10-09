@@ -24,8 +24,7 @@ opts_constructive_options <- function(constructor = c("opts", "next"), ...) {
 }
 
 is_corrupted_constructive_options <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export

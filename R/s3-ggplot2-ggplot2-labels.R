@@ -22,6 +22,8 @@ opts_ggplot2_labels <- function(constructor = c("labs", "next"), ...) {
 }
 
 `is_corrupted_ggplot2::labels` <- function(x) {
+  if (!is.list(x)) return(TRUE)
+  if (!is.function(attr(x, "S7_class"))) return(TRUE)
   FALSE
 }
 

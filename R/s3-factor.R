@@ -31,8 +31,11 @@ opts_factor <- function(constructor = c("factor", "as_factor", "new_factor", "ne
 }
 
 is_corrupted_factor <- function(x) {
-  # FIXME
-  typeof(x) != "integer"
+  if (typeof(x) != "integer") return(TRUE)
+  levels <- attr(x, "levels")
+  if (is.null(levels) || !is.character(levels)) return(TRUE)
+  if (any(!is.na(x) & (x < 1 | x > length(levels)))) return(TRUE)
+  FALSE
 }
 
 #' @export

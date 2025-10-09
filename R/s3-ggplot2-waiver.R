@@ -13,7 +13,8 @@ opts_waiver <- function(constructor = c("waiver", "next", "list"), ...) {
 }
 
 is_corrupted_waiver <- function(x) {
-  # TODO
+  if (!is.list(x)) return(TRUE)
+  if (length(x) != 0) return(TRUE)
   FALSE
 }
 

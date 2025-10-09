@@ -25,7 +25,10 @@ opts_rowwise_df <- function(constructor = c("default", "next", "list"), ...) {
 }
 
 is_corrupted_rowwise_df <- function(x) {
-  # TODO
+  if (is_corrupted_grouped_df(x)) return(TRUE)
+  groups <- attr(x, "groups")
+  if (nrow(groups) != nrow(x)) return(TRUE)
+  if (any(lengths(groups$.rows) != 1)) return(TRUE)
   FALSE
 }
 

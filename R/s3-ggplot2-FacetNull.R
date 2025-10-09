@@ -22,6 +22,9 @@ opts_FacetNull <- function(constructor = c("facet_null", "next"), ...) {
 }
 
 is_corrupted_FacetNull <- function(x) {
+  if (!is.environment(x)) return(TRUE)
+  if (!"shrink" %in% names(x)) return(TRUE)
+  if (!rlang::is_bool(x$shrink)) return(TRUE)
   FALSE
 }
 
