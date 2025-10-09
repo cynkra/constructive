@@ -10,6 +10,12 @@
 #' * `"S7_object"` (default): We build the object using `S7::S7_object()`.
 #' * `"next"` : Use the constructor for the next supported class.
 #'
+#' @section Before the "object" type: 
+#' 
+#' The information above is correct only starting from R 4.4.
+#' The "object" type was introduced in R 4.4 and the S7 package uses the "S4" type
+#' instead for previous versions. 
+#' 
 #' @param constructor String. Name of the function used to construct the object.
 #' @param ... Additional options used by user defined constructors through the `opts` object
 #' @return An object of class <constructive_options/constructive_options_S7_object>
