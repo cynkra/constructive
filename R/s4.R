@@ -21,6 +21,13 @@ opts_S4 <- function(constructor = c("new", "prototype"), ...) {
 .cstr_construct.S4 <- function(x, ...) {
   opts <- list(...)$opts$S4 %||% opts_S4()
   if (is_corrupted_S4(x) || opts$constructor == "next") return(NextMethod())
+  if (with_versions(R < "4.4") && !isS4(x)) {
+    # in R < 4.4 we can have objects of type "S4" without the S4 bit on
+    # The S4 bit is recognized by `isS4()` or `isS3()` and set or unset by
+    # `asS4()` or `asS3()`, for later R there is a new type "object" for those
+    # and we can reuse their construction
+    return(.cstr_construct.object.prototype(x, ...))
+  }
   UseMethod(".cstr_construct.S4", structure(NA, class = opts$constructor))
 }
 
