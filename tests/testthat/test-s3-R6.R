@@ -1,4 +1,4 @@
-test_that("multiplication works", {
+test_that("R6", {
   expect_snapshot({
     # example from `?R6::R6Class`
     Queue1 <- R6::R6Class(
@@ -23,7 +23,9 @@ test_that("multiplication works", {
       ),
       private = list(
         queue = list(),
-        length = function() base::length(private$queue)
+        length = function() {
+          base::length(private$queue)
+        }
       )
     )
     # check = FALSE because of environments
@@ -48,7 +50,9 @@ test_that("multiplication works", {
       ),
       private = list(
         queue = list(),
-        length = function() base::length(private$queue)
+        length = function() {
+          base::length(private$queue)
+        }
       )
     )
     # check = FALSE because of environments
