@@ -25,7 +25,7 @@ opts_S4 <- function(constructor = c("new", "prototype"), ...) {
 }
 
 is_corrupted_S4 <- function(x) {
-  !isS4(x)
+  typeof(x) != "S4"
 }
 
 #' @export
