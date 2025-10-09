@@ -28,3 +28,11 @@ Depending on \code{constructor}, we construct the object as follows:
 \item \code{"next"} : Use the constructor for the next supported class.
 }
 }
+\section{Before the "object" type}{
+
+
+The information above is correct only starting from R 4.4.
+The "object" type was introduced in R 4.4 and the S7 package uses the "S4" type
+instead for previous versions.
+}
+

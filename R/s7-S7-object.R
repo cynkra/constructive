@@ -10,6 +10,12 @@
 #' * `"S7_object"` (default): We build the object using `S7::S7_object()`.
 #' * `"next"` : Use the constructor for the next supported class.
 #'
+#' @section Before the "object" type: 
+#' 
+#' The information above is correct only starting from R 4.4.
+#' The "object" type was introduced in R 4.4 and the S7 package uses the "S4" type
+#' instead for previous versions. 
+#' 
 #' @param constructor String. Name of the function used to construct the object.
 #' @param ... Additional options used by user defined constructors through the `opts` object
 #' @return An object of class <constructive_options/constructive_options_S7_object>
@@ -28,9 +34,15 @@ opts_S7_object <- function(constructor = c("S7_object", "next"), ...) {
 is_corrupted_S7_object <- function(x) {
   # many object inheriting from "S7_object" are not of type "object"
   # for instance ggplot2 themes after v3.5.2
-  # her we consider those corrupted as there are no constructors to build those
+  # here we consider those corrupted as there are no constructors to build those
   # directly anyway
-  typeof(x) != "object"
+  if (with_versions(R < "4.4")) {
+    # see ?opts_S7_object
+    typeof(x) != "S4"
+  } else {
+    typeof(x) != "object"
+  }
+  
 }
 
 
