@@ -13,7 +13,9 @@ opts_ScalesList <- function(constructor = c("ScalesList", "next", "list"), ...) 
 }
 
 is_corrupted_ScalesList <- function(x) {
-  # TODO
+  # if (!is.environment(x)) return(TRUE)
+  # if (!is.list(x$scales)) return(TRUE)
+  # if (any(sapply(x$scales, is_corrupted_Scale))) return(TRUE)
   FALSE
 }
 

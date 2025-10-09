@@ -13,7 +13,12 @@ opts_CoordMunch <- function(constructor = c("coord_munch", "next", "environment"
 }
 
 is_corrupted_CoordMunch <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("coordinates", "data", "range", "segment_length") %in% names(x))) return(TRUE)
+  if (!is.environment(x$coordinates)) return(TRUE)
+  if (!is.data.frame(x$data)) return(TRUE)
+  if (!rlang::is_double(x$range, n = 2)) return(TRUE)
+  if (!rlang::is_double(x$segment_length, n = 1)) return(TRUE)
   FALSE
 }
 

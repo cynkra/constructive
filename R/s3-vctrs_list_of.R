@@ -23,7 +23,10 @@ opts_vctrs_list_of <- function(constructor = c("list_of", "next", "list"), ...) 
 }
 
 is_corrupted_vctrs_list_of <- function(x) {
-  # TODO
+  if (!is.list(x)) return(TRUE)
+  ptype <- attr(x, "ptype")
+  if (is.null(ptype)) return(TRUE)
+  if (!all(sapply(x, function(elem) identical(typeof(elem), typeof(ptype))))) return(TRUE)
   FALSE
 }
 

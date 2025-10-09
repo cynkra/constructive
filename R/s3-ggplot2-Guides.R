@@ -22,6 +22,8 @@ opts_Guides <- function(constructor = c("guides", "next"), ...) {
 }
 
 is_corrupted_Guides <- function(x) {
+  if (!is.environment(x)) return(TRUE)
+  if (!is.list(x$guides)) return(TRUE)
   FALSE
 }
 

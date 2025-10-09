@@ -40,7 +40,10 @@ opts_POSIXct <- function(constructor = c("as.POSIXct", ".POSIXct", "as_datetime"
 }
 
 is_corrupted_POSIXct <- function(x) {
-  !is.double(x)
+  if (!is.double(x)) return(TRUE)
+  tzone <- attr(x, "tzone")
+  if (!is.null(tzone) && (!is.character(tzone) || length(tzone) != 1)) return(TRUE)
+  FALSE
 }
 
 #' @export

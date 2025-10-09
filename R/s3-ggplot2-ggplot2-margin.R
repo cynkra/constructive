@@ -13,7 +13,10 @@ opts_ggplot2_margin <- function(constructor = c("margin", "next", "double"), ...
 }
 
 `is_corrupted_ggplot2::margin` <- function(x) {
-  !is.double(x) && !is.null(attr(x, "S7_class"))
+  if (!is.double(x)) return(TRUE)
+  if (!is.integer(attr(x, "unit"))) return(TRUE)
+  if (!is.function(attr(x, "S7_class"))) return(TRUE)
+  FALSE
 }
 
 #' @export

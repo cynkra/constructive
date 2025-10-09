@@ -1,8 +1,8 @@
 colon_colon <- `::`
 
 `::` <- function(x, y) {
-  x_sym <- ensym(x)
-  y_sym <- ensym(y)
+  x_sym <- substitute(x)
+  y_sym <- substitute(y)
   tryCatch(
     inject(colon_colon(!!x_sym, !!y_sym)),
     packageNotFoundError = function(e) {

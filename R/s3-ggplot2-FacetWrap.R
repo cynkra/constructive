@@ -13,7 +13,16 @@ opts_FacetWrap <- function(constructor = c("facet_wrap", "ggproto", "next", "env
 }
 
 is_corrupted_FacetWrap <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
+  if (!all(c("params", "shrink", "super") %in% names(x))) return(TRUE)
+  if (!is.list(x$params)) return(TRUE)
+  if (!is.null(x$params$nrow) && !rlang::is_scalar_integer(x$params$nrow)) return(TRUE)
+  if (!is.null(x$params$ncol) && !rlang::is_scalar_integer(x$params$ncol)) return(TRUE)
+  if (!rlang::is_bool(x$shrink)) return(TRUE)
+  if (!rlang::is_function(x$params$labeller)) return(TRUE)
+  if (!rlang::is_bool(x$params$drop)) return(TRUE)
+  if (!rlang::is_string(x$params$dir)) return(TRUE)
+  if (!rlang::is_string(x$params$strip.position)) return(TRUE)
   FALSE
 }
 

@@ -13,7 +13,7 @@ opts_ggproto <- function(constructor = c("default", "ggproto", "next", "environm
 }
 
 is_corrupted_ggproto <- function(x) {
-  # TODO
+  if (!is.environment(x)) return(TRUE)
   FALSE
 }
 

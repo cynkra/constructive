@@ -29,7 +29,23 @@ opts_Layer <- function(constructor = c("default", "layer", "next", "environment"
 }
 
 is_corrupted_Layer <- function(x) {
-  # TODO
+  if (with_versions(ggplot2 < "4.0.0")) return(FALSE)
+  if (!is.environment(x)) return(TRUE)
+  nms <- c(
+    "mapping", "geom_params", "show.legend", "constructor", "stat_params", "stat",
+    "inherit.aes", "name", "geom", "position", "super", "data", "aes_params",
+    "layout"
+  )
+  if (!all(nms %in% names(x))) return(TRUE)
+  if (!is.environment(x$geom)) return(TRUE)
+  if (!is.environment(x$stat)) return(TRUE)
+  if (!is.null(x$data) && !is.data.frame(x$data) && is_corrupted_waiver(x$data)) return(TRUE)
+  if (!is.null(x$mapping) && !is.list(x$mapping)) return(TRUE)
+  if (!is.environment(x$position)) return(TRUE)
+  if (!is.null(x$parameters) && !is.list(x$parameters)) return(TRUE)
+  if (!rlang::is_bool(x$inherit.aes)) return(TRUE)
+  if (!rlang::is_bool(x$show.legend) && !is.na(x$show.legend)) return(TRUE)
+  if (!is.null(x$key_glyph) && !rlang::is_function(x$key_glyph)) return(TRUE)
   FALSE
 }
 

@@ -13,8 +13,7 @@ opts_labels <- function(constructor = c("labs", "next", "list"), ...) {
 }
 
 is_corrupted_labels <- function(x) {
-  # TODO
-  FALSE
+  !is.list(x)
 }
 
 #' @export

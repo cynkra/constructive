@@ -13,7 +13,11 @@ opts_ggplot2_theme <- function(constructor = c("theme", "next", "list"), ...) {
 }
 
 `is_corrupted_ggplot2::theme` <- function(x) {
-  !is.list(x) || is.null(attr(x, "S7_class"))
+  if (!is.list(x)) return(TRUE)
+  if (!is.function(attr(x, "S7_class"))) return(TRUE)
+  if (!is.logical(attr(x, "complete")) || length(attr(x, "complete")) != 1) return(TRUE)
+  if (!is.logical(attr(x, "validate")) || length(attr(x, "validate")) != 1) return(TRUE)
+  FALSE
 }
 
 #' @export

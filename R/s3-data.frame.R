@@ -34,7 +34,7 @@ opts_data.frame <- function(constructor = c("data.frame", "read.table", "next", 
 is_corrupted_data.frame <- function(x) {
   if (!is.list(x) || any(sapply(unclass(x), is.null))) return(TRUE)
   attrs <- attributes(x)
-  if (!all(c("names", "class", "row.names") %in% names(attrs))) return(TRUE)
+  if (!all(c("names", "row.names") %in% names(attrs))) return(TRUE)
   if (!is.character(attrs$names) || length(attrs$names) != length(x)) return(TRUE)
   elements_and_row_names_all_have_same_length <-
     length(unique(vapply(c(list(attrs$row.names), x), NROW, integer(1)))) == 1

@@ -26,7 +26,11 @@ opts_dm <- function(constructor = c("dm", "next", "list"), ...) {
 }
 
 is_corrupted_dm <- function(x) {
-  # TODO
+  if (!is.list(x)) return(TRUE)
+  def <- x$def
+  if (is.null(def) || !is.data.frame(def)) return(TRUE)
+  expected_names <- c("table", "data", "pks", "fks", "display")
+  if (!all(expected_names %in% names(def))) return(TRUE)
   FALSE
 }
 

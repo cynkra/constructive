@@ -25,8 +25,10 @@ opts_ts  <- function(constructor = c("ts", "next", "atomic"), ...) {
 }
 
 is_corrupted_ts <- function(x) {
-  # FIXME
-  !typeof(x) %in% c("integer", "double")
+  if (!typeof(x) %in% c("integer", "double")) return(TRUE)
+  tsp <- attr(x, "tsp")
+  if (is.null(tsp) || !is.numeric(tsp) || length(tsp) != 3) return(TRUE)
+  FALSE
 }
 
 #' @export

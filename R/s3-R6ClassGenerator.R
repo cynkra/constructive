@@ -22,6 +22,9 @@ opts_R6ClassGenerator <- function(constructor = c("R6Class", "next"), ...) {
 }
 
 is_corrupted_R6ClassGenerator <- function(x) {
+  if (!is.environment(x)) return(TRUE)
+  if (!exists("new", envir = x, inherits = FALSE) || !is.function(x$new)) return(TRUE)
+  if (!exists("public_methods", envir = x, inherits = FALSE) || !is.list(x$public_methods)) return(TRUE)
   FALSE
 }
 

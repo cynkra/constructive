@@ -13,7 +13,8 @@ opts_element_blank <- function(constructor = c("element_blank", "next", "list"),
 }
 
 is_corrupted_element_blank <- function(x) {
-  # TODO
+  if (!is.list(x)) return(TRUE)
+  if (length(x) != 0) return(TRUE)
   FALSE
 }
 
