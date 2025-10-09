@@ -65,6 +65,10 @@ is_corrupted_S4 <- function(x) {
 #' @export
 .cstr_construct.S4.prototype <- function(x, ...) {
   code <- "getClass(\"S4\")@prototype"
+
+  # flag_s4 = FALSE is to make sure we don't use asS4 when unneeded
+  # as is the case here since `getClass(\"S4\")@prototype` already
+  # produces such object
   .cstr_repair_attributes(
     x, code, ...,
     flag_s4 = FALSE
