@@ -28,7 +28,11 @@ opts_POSIXlt <- function(constructor = c("as.POSIXlt", "next", "list"), ...) {
 
 is_corrupted_POSIXlt <- function(x) {
   if (!is.list(x)) return(TRUE)
-  expected_names <- c("sec", "min", "hour", "mday", "mon", "year", "wday", "yday", "isdst", "zone", "gmtoff")
+  if (with_versions(R < "4.3.0")) {
+    expected_names <- c("sec", "min", "hour", "mday", "mon", "year", "wday", "yday", "isdst")
+  } else {
+    expected_names <- c("sec", "min", "hour", "mday", "mon", "year", "wday", "yday", "isdst", "zone", "gmtoff")
+  }
   if (!identical(names(x), expected_names)) return(TRUE)
   tzone <- attr(x, "tzone")
   if (is.null(tzone) || !is.character(tzone)) return(TRUE)
