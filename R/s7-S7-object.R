@@ -34,7 +34,7 @@ opts_S7_object <- function(constructor = c("S7_object", "next"), ...) {
 is_corrupted_S7_object <- function(x) {
   # many object inheriting from "S7_object" are not of type "object"
   # for instance ggplot2 themes after v3.5.2
-  # her we consider those corrupted as there are no constructors to build those
+  # here we consider those corrupted as there are no constructors to build those
   # directly anyway
   typeof(x) != "object"
 }
