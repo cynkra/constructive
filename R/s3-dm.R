@@ -4,6 +4,9 @@
 #'
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"dm"` (default): We use `dm::dm()` and other functions from \pkg{dm} to adjust the content.
+#'   This does not strictly reproduce the object because each dm calls creates different
+#'   `uuid` values for its tables, but the recreated object is functionally equivalent.
+#'   Use the "list" constructor for fully accurate reconstruction.
 #' * `"next"` : Use the constructor for the next supported class. Call `.class2()`
 #'   on the object to see in which order the methods will be tried.
 #' * `"list"` : Use `list()` and treat the class as a regular attribute.

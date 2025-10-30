@@ -21,6 +21,9 @@ These options will be used on objects of class 'dm'.
 Depending on \code{constructor}, we construct the object as follows:
 \itemize{
 \item \code{"dm"} (default): We use \code{dm::dm()} and other functions from \pkg{dm} to adjust the content.
+This does not strictly reproduce the object because each dm calls creates different
+\code{uuid} values for its tables, but the recreated object is functionally equivalent.
+Use the "list" constructor for fully accurate reconstruction.
 \item \code{"next"} : Use the constructor for the next supported class. Call \code{.class2()}
 on the object to see in which order the methods will be tried.
 \item \code{"list"} : Use \code{list()} and treat the class as a regular attribute.
