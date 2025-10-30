@@ -65,7 +65,10 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"dm"</code> (default): We use <code><a href="https://dm.cynkra.com/reference/dm.html" class="external-link">dm::dm()</a></code> and other functions from <span class="pkg">dm</span> to adjust the content.</p></li>
+    <p>Depending on <code>constructor</code>, we construct the object as follows:</p><ul><li><p><code>"dm"</code> (default): We use <code><a href="https://dm.cynkra.com/reference/dm.html" class="external-link">dm::dm()</a></code> and other functions from <span class="pkg">dm</span> to adjust the content.
+This does not strictly reproduce the object because each dm calls creates different
+<code>uuid</code> values for its tables, but the recreated object is functionally equivalent.
+Use the "list" constructor for fully accurate reconstruction.</p></li>
 <li><p><code>"next"</code> : Use the constructor for the next supported class. Call <code><a href="https://rdrr.io/r/base/class.html" class="external-link">.class2()</a></code>
 on the object to see in which order the methods will be tried.</p></li>
 <li><p><code>"list"</code> : Use <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> and treat the class as a regular attribute.</p></li>
