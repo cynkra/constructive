@@ -13,7 +13,7 @@ opts_citationFooter <- function(constructor = c("citFooter", "next"), ...) {
 }
 
 is_corrupted_citationFooter <- function(x) {
-  !is.character(x) || with_versions(R > "4.3.0")
+  !is.character(x) || with_versions(R >= "4.4")
 }
 
 #' @export
