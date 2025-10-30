@@ -1,4 +1,4 @@
-# citationFooter
+# citationHeader
 
     Code
       construct(citHeader("a", "b"))
