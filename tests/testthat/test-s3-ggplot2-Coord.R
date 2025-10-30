@@ -1,4 +1,5 @@
 test_that("CoordCartesian", {
+  skip_if(with_versions(R < "4.4"))
   expect_faithful_ggplot_construction(ggplot2::ggplot() + ggplot2::scale_x_continuous(limits = c(325, 500)))
   expect_faithful_ggplot_construction(ggplot2::ggplot() + ggplot2::coord_cartesian(xlim = c(325, 500)))
   expect_faithful_ggplot_construction(ggplot2::ggplot() + ggplot2::coord_cartesian(xlim = c(325, 500)))
