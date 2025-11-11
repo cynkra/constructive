@@ -62,7 +62,7 @@ more details how the package and its key functions work.
 #>     UseMethod(".cstr_construct", structure(NA_integer_, class = cl))
 #>   }
 #> }
-#> <bytecode: 0x55e66b96cbf0>
+#> <bytecode: 0x563b92168bf0>
 #> <environment: namespace:constructive>
 # a character vector
 .cstr_construct(letters)
@@ -204,7 +204,7 @@ constructive:::.cstr_construct.Date.as.Date
 #>   code <- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
 #>   repair_attributes_Date(x, code, ...)
 #> }
-#> <bytecode: 0x55e66bb721a0>
+#> <bytecode: 0x563b9236e1a0>
 #> <environment: namespace:constructive>
 ```
 
@@ -274,7 +274,7 @@ constructive:::repair_attributes_Date
 #>     idiomatic_class = "Date"
 #>   )
 #> }
-#> <bytecode: 0x55e66d1afb40>
+#> <bytecode: 0x563b939af980>
 #> <environment: namespace:constructive>
 
 constructive:::repair_attributes_factor
@@ -285,7 +285,7 @@ constructive:::repair_attributes_factor
 #>     idiomatic_class = "factor"
 #>   )
 #> }
-#> <bytecode: 0x55e66b931360>
+#> <bytecode: 0x563b9212d398>
 #> <environment: namespace:constructive>
 
 constructive:::repair_attributes_tbl_df
@@ -296,6 +296,6 @@ constructive:::repair_attributes_tbl_df
 #>     idiomatic_class = c("tbl_df", "tbl", "data.frame")
 #>   )
 #> }
-#> <bytecode: 0x55e66b83ff18>
+#> <bytecode: 0x563b9203bf50>
 #> <environment: namespace:constructive>
 ```
