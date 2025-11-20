@@ -10,12 +10,7 @@ construct_serialize <- function(x) {
   data_res <- serialize_data(header_res$x, header_res$i)
 
   # 4. Trim the final trailing comma from each block of code
-  trim_last_comma <- function(code) {
-    # find the last line that contains code, not just a comment or parenthesis
-    last_code_line_idx <- max(which(grepl("^ *0x", code)))
-    code[last_code_line_idx] <- sub(", *$", "", code[last_code_line_idx])
-    code
-  }
+  # (trim_last_comma is defined in utils.R)
   header_code <- trim_last_comma(header_res$code)
   data_code <- trim_last_comma(data_res$code)
 

@@ -161,11 +161,10 @@ serialize_realsxp <- function(x, i) {
       val_bytes <- x[1:8]
       x <- x[-(1:8)]
 
-      val_label <- identify_double(val_bytes)
+      # Get detailed breakdown with formula and byte-level comments
+      breakdown <- explain_double(val_bytes, i)
+      all_code <- c(all_code, breakdown$code)
 
-      val_comment <- sprintf("# %s-%s: %s", i, i + 7, val_label)
-      val_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
-      all_code <- c(all_code, val_comment, val_code)
       i <- i + 8
     }
   }
@@ -173,9 +172,103 @@ serialize_realsxp <- function(x, i) {
   list(code = all_code, x = x, i = i)
 }
 
+explain_double <- function(val_bytes, i) {
+  # Generate detailed breakdown showing IEEE 754 formula and byte-level comments
+  # Returns list(code = character vector with formula line + byte lines)
+
+  byte1 <- as.integer(val_bytes[1])
+  byte2 <- as.integer(val_bytes[2])
+
+  # Extract IEEE 754 components
+  sign_bit <- byte1 %/% 128
+  exp_upper <- byte1 %% 128  # Lower 7 bits of byte1
+  exp_lower <- byte2 %/% 16  # Upper 4 bits of byte2
+  exp_biased <- exp_upper * 16 + exp_lower
+  mantissa_upper <- byte2 %% 16  # Lower 4 bits of byte2
+  mantissa_bytes <- as.integer(val_bytes[3:8])
+  mantissa_hex <- sprintf("0x%x%s", mantissa_upper,
+                          paste(sprintf("%02x", mantissa_bytes), collapse = ""))
+
+  # Convert to actual value
+  val <- readBin(val_bytes, "double", n = 1, size = 8, endian = "big")
+
+  # Check for special cases
+  if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf0))) &&
+      identical(val_bytes[7:8], as.raw(c(0x07, 0xa2)))) {
+    # NA_real_
+    formula <- sprintf("# %d-%d: NA_real_", i, i + 7)
+    byte_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
+    return(list(code = c(formula, byte_code)))
+  }
+
+  if (identical(val_bytes, as.raw(c(0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+    formula <- sprintf("# %d-%d: Inf", i, i + 7)
+    byte_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
+    return(list(code = c(formula, byte_code)))
+  }
+
+  if (identical(val_bytes, as.raw(c(0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+    formula <- sprintf("# %d-%d: -Inf", i, i + 7)
+    byte_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
+    return(list(code = c(formula, byte_code)))
+  }
+
+  if (identical(val_bytes, as.raw(c(0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+    formula <- sprintf("# %d-%d: 0 (all bits zero)", i, i + 7)
+    byte_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
+    return(list(code = c(formula, byte_code)))
+  }
+
+  if (identical(val_bytes, as.raw(c(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+    formula <- sprintf("# %d-%d: -0 (sign=1, all other bits zero)", i, i + 7)
+    byte_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
+    return(list(code = c(formula, byte_code)))
+  }
+
+  # Check for NaN (exponent all 1s, mantissa non-zero)
+  exp_all_ones <- ((byte1 %% 128) == 127) && ((byte2 %/% 16) == 15)
+  if (exp_all_ones) {
+    mantissa_bits <- c(byte2 %% 16, mantissa_bytes)
+    if (any(mantissa_bits != 0)) {
+      if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf8)))) {
+        formula <- sprintf("# %d-%d: NaN (standard pattern)", i, i + 7)
+      } else {
+        formula <- sprintf("# %d-%d: NaN (non-standard payload)", i, i + 7)
+      }
+      byte_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
+      return(list(code = c(formula, byte_code)))
+    }
+  }
+
+  # Regular number - show full breakdown
+  formula <- sprintf(
+    "# %d-%d: (-1)^0x%02x * 2^(16 * 0x%02x + 0x%02x - 1023) * (1 + %s/2^52) == %.15g",
+    i, i + 7, sign_bit, exp_upper, exp_lower, mantissa_hex, val
+  )
+
+  # Byte 1: sign and upper exponent
+  byte1_bin <- paste(as.integer(intToBits(byte1)[8:1]), collapse = "")
+  byte1_comment <- sprintf("0x%02x, # binary: %s => sign==%d, exponent_upper==0x%02x",
+                           byte1, byte1_bin, sign_bit, exp_upper)
+
+  # Byte 2: lower exponent and upper mantissa
+  byte2_bin <- paste(as.integer(intToBits(byte2)[8:1]), collapse = "")
+  byte2_comment <- sprintf("0x%02x, # binary: %s => exponent_lower==0x%02x, mantissa_upper==0x%x",
+                           byte2, byte2_bin, exp_lower, mantissa_upper)
+
+  # Bytes 3-8: rest of mantissa
+  mantissa_rest_hex <- paste(sprintf("%02x", mantissa_bytes), collapse = "")
+  bytes_3_8 <- sprintf("%s # mantissa_lower==0x%s",
+                       paste(sprintf("0x%02x,", mantissa_bytes), collapse = " "),
+                       mantissa_rest_hex)
+
+  list(code = c(formula, byte1_comment, byte2_comment, bytes_3_8))
+}
+
 identify_double <- function(val_bytes) {
   # Identify special double values by their IEEE 754 byte patterns
   # Input: 8 raw bytes in big-endian format
+  # Returns: descriptive string with value
 
   # Check for R's NA_real_ first (specific NaN payload)
   if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf0))) &&
@@ -193,9 +286,14 @@ identify_double <- function(val_bytes) {
     return("-Inf")
   }
 
+  # Check for positive zero
+  if (identical(val_bytes, as.raw(c(0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+    return("0 (sign=0 exp=0 mantissa=0 == 0)")
+  }
+
   # Check for negative zero
   if (identical(val_bytes, as.raw(c(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
-    return("-0")
+    return("-0 (sign=1 exp=0 mantissa=0 == -0)")
   }
 
   # Check for NaN (exponent all 1s, mantissa non-zero)
@@ -223,8 +321,40 @@ identify_double <- function(val_bytes) {
     }
   }
 
-  # Regular numeric value
-  "numeric"
+  # Regular numeric value - decode it and show IEEE 754 breakdown
+  # Convert bytes back to double to get the actual value
+  val <- readBin(val_bytes, "double", n = 1, size = 8, endian = "big")
+
+  # IEEE 754 double precision format (8 bytes = 64 bits):
+  # ┌─────────────────────────────────────────────────────────────────┐
+  # │ Byte 1        │ Byte 2        │ Bytes 3-8 (6 bytes)             │
+  # │ [S][Exp 7bit] │ [Exp 4b][Man] │ [Mantissa 48 bits]              │
+  # └─────────────────────────────────────────────────────────────────┘
+  #   1bit  7bits      4bits  4bits    48 bits
+  # Total: 1 sign + 11 exp + 52 mantissa = 64 bits
+  #
+  # Example for pi (0x40, 0x09, 0x21, ...):
+  # 0x40 = 0100 0000₂ → sign=0, exp upper 7 bits = 100 0000₂ = 64
+  # 0x09 = 0000 1001₂ → exp lower 4 bits = 0000₂, mantissa starts with 1001₂
+
+  sign <- byte1 %/% 128  # Extract bit 0 (sign bit)
+  # Exponent: 11 bits total
+  #   - Upper 7 bits from byte1 (bits 1-7)
+  #   - Lower 4 bits from byte2 (bits 0-3)
+  exp_raw <- ((byte1 %% 128) * 16) + (byte2 %/% 16)  # Biased by 1023
+  exp <- exp_raw - 1023  # Actual exponent
+
+  # Mantissa (fraction): 52 bits total
+  #   - Upper 4 bits from byte2 (bits 4-7)
+  #   - Remaining 48 bits from bytes 3-8
+  mantissa_bytes <- c(byte2 %% 16, as.integer(val_bytes[3:8]))
+  mantissa_hex <- paste(sprintf("%02x", mantissa_bytes), collapse = "")
+
+  # IEEE 754 formula: value = (-1)^sign × 2^(exp_raw - 1023) × (1 + mantissa/2^52)
+  # The "1 +" is the implicit leading bit (always 1 for normalized numbers)
+  # The mantissa/2^52 is the fractional part
+  sprintf("numeric (sign=%d exp=%d mantissa=0x%s: (-1)^%d × 2^%d × (1 + 0x%s/2^52) == %.15g)",
+          sign, exp_raw, mantissa_hex, sign, exp, mantissa_hex, val)
 }
 
 serialize_intsxp <- function(x, i) {
