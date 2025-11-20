@@ -6,6 +6,7 @@ serialize_data <- function(x, i) {
   # Dispatch based on type
   res <- switch(
     as.character(header_info$type),
+    "24" = serialize_rawsxp(header_info$x, header_info$i),   # 0x18 RAWSXP (raw vector)
     "16" = serialize_strsxp(header_info$x, header_info$i),   # 0x10 STRSXP (character vector)
     "15" = serialize_cplxsxp(header_info$x, header_info$i),  # 0x0F CPLXSXP (complex vector)
     "14" = serialize_realsxp(header_info$x, header_info$i),  # 0x0E REALSXP (numeric vector)
@@ -60,6 +61,34 @@ serialize_strsxp <- function(x, i) {
       x <- element_res$x
       i <- element_res$i
     }
+  }
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_rawsxp <- function(x, i) {
+  # Handles a RAWSXP (raw vector)
+  # Raw vectors are sequences of bytes (1 byte each)
+
+  # 1. Read vector length
+  len_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+  len_comment <- sprintf("# %s-%s: length of vector: %d", i, i + 3, len)
+  len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
+  i <- i + 4
+
+  all_code <- c(len_comment, len_code)
+
+  # 2. Read raw bytes
+  if (len > 0) {
+    raw_bytes <- x[1:len]
+    x <- x[-(1:len)]
+
+    raw_comment <- sprintf("# %s-%s: raw bytes", i, i + len - 1)
+    raw_code <- paste(sprintf("0x%s,", as.character(raw_bytes)), collapse = " ")
+    all_code <- c(all_code, raw_comment, raw_code)
+    i <- i + len
   }
 
   list(code = all_code, x = x, i = i)

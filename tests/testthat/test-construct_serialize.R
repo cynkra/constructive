@@ -241,3 +241,41 @@ test_that("construct_serialize works for complex vectors", {
   expect_identical(x7_reconstructed, x7)
   expect_type(x7_reconstructed, "complex")
 })
+
+test_that("construct_serialize works for raw vectors", {
+  # Simple raw vector
+  x1 <- as.raw(c(0x01, 0x02, 0xff, 0x00, 0xaa))
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+
+  # Empty raw vector
+  x2 <- raw(0)
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Single byte
+  x3 <- as.raw(0x42)
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # All zeros
+  x4 <- as.raw(c(0x00, 0x00, 0x00))
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # All 0xFF
+  x5 <- as.raw(c(0xff, 0xff, 0xff))
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+
+  # Sequential bytes
+  x6 <- as.raw(0:255)
+  code6 <- construct_serialize(x6)
+  x6_reconstructed <- eval(parse(text = paste(code6, collapse = "\n")))
+  expect_identical(x6_reconstructed, x6)
+})

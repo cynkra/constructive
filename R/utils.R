@@ -418,3 +418,11 @@ compare_proxy_S7_object <- function(x, path) {
   }
   list(object = x, path = path)
 }
+
+trim_last_comma <- function(code) {
+  # find the last line that contains code, not just a comment or parenthesis
+  # and remove the trailing comma
+  last_code_line_idx <- max(which(grepl("^ *0x", code)))
+  code[last_code_line_idx] <- sub(", *$", "", code[last_code_line_idx])
+  code
+}

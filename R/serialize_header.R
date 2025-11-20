@@ -61,10 +61,7 @@ serialize_header_separator <- function(x, i) {
     '# %s: always 0x0a, the bytecode for "\\n", just a separator',
     i
   )
-  code <- sprintf(
-    "0x%s,", 
-    as.character(header_separator)
-  )
+  code <- sprintf("0x%s,", as.character(header_separator))
   out <- list(
     code = c(comment, code),
     x = x,
