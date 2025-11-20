@@ -14,9 +14,9 @@ Feature to convert any R object to constructive code via its serialized binary r
   - REALSXP (numeric vectors) with NA_real_, NaN, Inf, -Inf support
   - CPLXSXP (complex vectors) with NA_complex_ support
   - RAWSXP (raw vectors) - complete byte-level support
-- Test suite: 58 tests passing
+- Test suite: 63 tests passing
 - Feature branch: f-635-construct_serialize
-- Latest: Added NULL support (NILVALUE_SXP)
+- Latest: Added symbol support (SYMSXP with nested CHARSXP)
 
 ## 1. Core Framework ✅
 
@@ -127,8 +127,8 @@ Handle special representations and non-standard values that appear in serializat
   - Example: bit64::integer64(-42) unclassed gives `ff ff ff ff ff ff ff d6`
   - Implemented general NaN recognition (exponent all 1s, mantissa non-zero)
   - Labels as "NaN (non-standard)" to distinguish from standard NaN
-  - Used in both serialize_realsxp() and serialize_cplxsxp() via shared identify_double()
-
+  - Used in both serialize_realsxp() and serialize_cplxsxp() via shared identify_double()2
+2
 - 🚧 **Alt-rep Sequences (ALTREP_SXP, 0xEE)**: Handle compact integer sequences
   - Current: Returns "UNKNOWN OR UNIMPLEMENTED DATA TYPE"
   - Example: 1:3 serializes as type 0xEE with complex nested structure (133 bytes vs 43)
@@ -142,7 +142,7 @@ Handle special representations and non-standard values that appear in serializat
   - Low priority: Rare in practice, R doesn't create these naturally
   - **Deferred**: Will add after more common types are complete
 
-## 5. NULL and Symbols 🔄
+## 5. NULL and Symbols ✅
 
 Basic building blocks for R expressions and attributes.
 
@@ -151,10 +151,11 @@ Basic building blocks for R expressions and attributes.
 - ✅ Add dispatcher case in serialize_data() (type 254)
 - ✅ Add tests for NULL (2 test assertions)
 
-### 5.2 Symbols (SYMSXP, 0x01) 🚧
-- 🚧 Implement serialize_symsxp() function
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for symbols
+### 5.2 Symbols (SYMSXP, 0x01) ✅
+- ✅ Implement serialize_symsxp() function
+- ✅ Add dispatcher case in serialize_data() (type 1)
+- ✅ Add tests for symbols (5 tests covering simple, multi-char, dotted, and special chars)
+- ✅ Recursive structure: SYMSXP contains a CHARSXP with the symbol name
 
 ## 6. List Types 🚧
 

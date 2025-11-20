@@ -14,6 +14,7 @@ serialize_data <- function(x, i) {
     "13" = serialize_intsxp(header_info$x, header_info$i),   # 0x0D INTSXP (integer vector)
     "10" = serialize_lglsxp(header_info$x, header_info$i),   # 0x0A LGLSXP (logical vector)
     "9"  = serialize_chrsxp(header_info$x, header_info$i),   # 0x09 CHARSXP (a single string)
+    "1"  = serialize_symsxp(header_info$x, header_info$i),   # 0x01 SYMSXP (symbol)
     # Fallback for unknown types
     list(code = "# UNKNOWN OR UNIMPLEMENTED DATA TYPE", x = header_info$x, i = header_info$i)
   )
@@ -504,6 +505,17 @@ serialize_nilvalue_sxp <- function(x, i) {
   # Handles NILVALUE_SXP (NULL)
   # NULL has no data after the packed header, just return empty code
   list(code = character(0), x = x, i = i)
+}
+
+serialize_symsxp <- function(x, i) {
+  # Handles a SYMSXP (symbol)
+  # A symbol contains a CHARSXP that holds the symbol name
+  # We recursively process the CHARSXP
+
+  charsxp_res <- serialize_data(x, i)
+
+  # Return the CHARSXP code
+  list(code = charsxp_res$code, x = charsxp_res$x, i = charsxp_res$i)
 }
 
 serialize_lstsxp <- function(x, i) {

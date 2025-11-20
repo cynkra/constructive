@@ -278,6 +278,33 @@ test_that("construct_serialize works for NULL", {
   expect_null(x1_reconstructed)
 })
 
+test_that("construct_serialize works for symbols", {
+  # Simple symbol
+  x1 <- as.symbol("x")
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_true(is.symbol(x1_reconstructed))
+
+  # Multi-character symbol
+  x2 <- as.symbol("my_variable")
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Symbol with dots
+  x3 <- as.symbol(".Internal")
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # Symbol with special characters (backticks in name)
+  x4 <- as.symbol("my-var")
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+})
+
 test_that("construct_serialize works for raw vectors", {
   # Simple raw vector
   x1 <- as.raw(c(0x01, 0x02, 0xff, 0x00, 0xaa))
