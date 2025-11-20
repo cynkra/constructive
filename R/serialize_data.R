@@ -10,6 +10,7 @@ serialize_data <- function(x, i) {
     "254" = serialize_nilvalue_sxp(header_info$x, header_info$i),  # 0xFE NILVALUE_SXP (NULL)
     "253" = serialize_globalenv_sxp(header_info$x, header_info$i),  # 0xFD GLOBALENV_SXP (global env)
     "251" = serialize_missingarg_sxp(header_info$x, header_info$i),  # 0xFB MISSINGARG_SXP (missing arg)
+    "238" = serialize_altrep_sxp(header_info$x, header_info$i),  # 0xEE ALTREP_SXP (alt-rep)
     "24" = serialize_rawsxp(header_info$x, header_info$i),   # 0x18 RAWSXP (raw vector)
     "20" = serialize_exprsxp(header_info$x, header_info$i),  # 0x14 EXPRSXP (expression vector)
     "19" = serialize_vecsxp(header_info$x, header_info$i),   # 0x13 VECSXP (generic list)
@@ -812,4 +813,45 @@ serialize_refsxp <- function(x, i) {
   i <- i + 4
 
   list(code = c(ref_comment, ref_code), x = x, i = i)
+}
+
+serialize_altrep_sxp <- function(x, i) {
+  # Handles ALTREP_SXP (type 0xEE, 238)
+  # Alt-rep (alternative representation) is used for compact storage of sequences
+  # Structure (from empirical observation):
+  #   Class info pairlist: contains class names ("compact_intseq", "base", etc.)
+  #   Data: implementation-specific, usually REALSXP with (length, start, step)
+  #   Attributes: always present (usually NULL if no attributes)
+
+  all_code <- character(0)
+
+  # Class info (pairlist)
+  class_comment <- sprintf("# %s: ALTREP class info (pairlist)", i)
+  all_code <- c(all_code, class_comment)
+
+  class_res <- serialize_data(x, i)
+  all_code <- c(all_code, class_res$code)
+  x <- class_res$x
+  i <- class_res$i
+
+  # Data (implementation-specific, often REALSXP with parameters)
+  data_comment <- sprintf("# %s: ALTREP data", i)
+  all_code <- c(all_code, data_comment)
+
+  data_res <- serialize_data(x, i)
+  all_code <- c(all_code, data_res$code)
+  x <- data_res$x
+  i <- data_res$i
+
+  # ALTREP always has a 3rd component (attributes), even if it's NULL
+  # This is NOT controlled by HAS_ATTR flag - it's always present
+  attr_comment <- sprintf("# %s: ALTREP attributes (always present)", i)
+  all_code <- c(all_code, attr_comment)
+
+  attr_res <- serialize_data(x, i)
+  all_code <- c(all_code, attr_res$code)
+  x <- attr_res$x
+  i <- attr_res$i
+
+  list(code = all_code, x = x, i = i)
 }
