@@ -14,9 +14,9 @@ Feature to convert any R object to constructive code via its serialized binary r
   - REALSXP (numeric vectors) with NA_real_, NaN, Inf, -Inf support
   - CPLXSXP (complex vectors) with NA_complex_ support
   - RAWSXP (raw vectors) - complete byte-level support
-- Test suite: 49 tests passing
+- Test suite: 56 tests passing
 - Feature branch: f-635-construct_serialize
-- Latest: Completed all atomic vector types including raw vectors
+- Latest: Added edge case support for negative zero and non-standard NaNs
 
 ## 1. Core Framework ✅
 
@@ -112,6 +112,34 @@ We must be careful about alt-rep corner cases and bits used in non standard ways
 - ✅ Implement serialize_rawsxp() function
 - ✅ Add dispatcher case in serialize_data()
 - ✅ Add tests for raw vectors (6 test cases)
+
+### 4.6 Edge Cases for Atomic Vectors 🔄
+Handle special representations and non-standard values that appear in serialization.
+
+- ✅ **Negative Zero (-0)**: Detect and preserve -0 vs 0 distinction in REALSXP/CPLXSXP
+  - Serializes as `80 00 00 00 00 00 00 00` vs `00 00 00 00 00 00 00 00` for +0
+  - Implemented detection in identify_double() for sign bit with all other bytes 0
+  - Tests verify -0 round-trips correctly and 1/(-0) == -Inf
+  - 7 tests added: single -0, vector with both zeros, bit64 non-standard NaN
+
+- ✅ **Non-standard NaNs**: Detect NaN patterns beyond standard IEEE 754
+  - Standard NaN: `7f f8 00 00 00 00 00 00`
+  - Example: bit64::integer64(-42) unclassed gives `ff ff ff ff ff ff ff d6`
+  - Implemented general NaN recognition (exponent all 1s, mantissa non-zero)
+  - Labels as "NaN (non-standard)" to distinguish from standard NaN
+  - Used in both serialize_realsxp() and serialize_cplxsxp() via shared identify_double()
+
+- 🟢 **Alt-rep Sequences (ALTREP_SXP, 0xEE)**: Handle compact integer sequences
+  - Current: Returns "UNKNOWN OR UNIMPLEMENTED DATA TYPE"
+  - Example: 1:3 serializes as type 0xEE with complex structure (133 bytes vs 43)
+  - Need: Implement serialize_altintseq() for "compact_intseq" class
+  - Contains: attributes, class info, base value, length, step
+  - Test: 1:3, 5:10, 100:1 (descending), 1:1000000 (large)
+
+- 🟢 **Non-standard Logical Values**: Handle logical bits outside {0, 1, NA}
+  - Current: Only labels 0=FALSE, 1=TRUE, -2147483648=NA
+  - Need: Label other 4-byte patterns as non-standard
+  - Test: Manually construct raw vector with unusual logical bits
 
 ## 5. NULL and Symbols 🚧
 

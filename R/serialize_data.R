@@ -109,22 +109,6 @@ serialize_cplxsxp <- function(x, i) {
 
   all_code <- c(len_comment, len_code)
 
-  # Helper function to identify special double values
-  identify_double <- function(val_bytes) {
-    if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf0))) &&
-        identical(val_bytes[7:8], as.raw(c(0x07, 0xa2)))) {
-      "NA_real_"
-    } else if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf8)))) {
-      "NaN"
-    } else if (identical(val_bytes, as.raw(c(0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
-      "Inf"
-    } else if (identical(val_bytes, as.raw(c(0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
-      "-Inf"
-    } else {
-      "numeric"
-    }
-  }
-
   # 2. Read each complex value (16 bytes each)
   if (len > 0) {
     for (j in 1:len) {
@@ -176,19 +160,7 @@ serialize_realsxp <- function(x, i) {
       val_bytes <- x[1:8]
       x <- x[-(1:8)]
 
-      # Identify special values by their byte patterns
-      val_label <- if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf0))) &&
-                       identical(val_bytes[7:8], as.raw(c(0x07, 0xa2)))) {
-        "NA_real_"
-      } else if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf8)))) {
-        "NaN"
-      } else if (identical(val_bytes, as.raw(c(0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
-        "Inf"
-      } else if (identical(val_bytes, as.raw(c(0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
-        "-Inf"
-      } else {
-        "numeric"
-      }
+      val_label <- identify_double(val_bytes)
 
       val_comment <- sprintf("# %s-%s: %s", i, i + 7, val_label)
       val_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
@@ -198,6 +170,60 @@ serialize_realsxp <- function(x, i) {
   }
 
   list(code = all_code, x = x, i = i)
+}
+
+identify_double <- function(val_bytes) {
+  # Identify special double values by their IEEE 754 byte patterns
+  # Input: 8 raw bytes in big-endian format
+
+  # Check for R's NA_real_ first (specific NaN payload)
+  if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf0))) &&
+      identical(val_bytes[7:8], as.raw(c(0x07, 0xa2)))) {
+    return("NA_real_")
+  }
+
+  # Check for positive infinity
+  if (identical(val_bytes, as.raw(c(0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+    return("Inf")
+  }
+
+  # Check for negative infinity
+  if (identical(val_bytes, as.raw(c(0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+    return("-Inf")
+  }
+
+  # Check for negative zero
+  if (identical(val_bytes, as.raw(c(0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+    return("-0")
+  }
+
+  # Check for NaN (exponent all 1s, mantissa non-zero)
+  # Byte 1: 0x7f (positive) or 0xff (negative) means sign + top 7 bits of exp
+  # Byte 2: 0xfX means bottom 4 bits of exp are 1s
+  byte1 <- as.integer(val_bytes[1])
+  byte2 <- as.integer(val_bytes[2])
+
+  # Exponent is all 1s if (byte1 & 0x7f) == 0x7f and (byte2 & 0xf0) == 0xf0
+  exp_all_ones <- ((byte1 %% 128) == 127) && ((byte2 %/% 16) == 15)
+
+  if (exp_all_ones) {
+    # Check if mantissa is non-zero (making it NaN, not Inf)
+    # Mantissa is in bottom 4 bits of byte2 and all of bytes 3-8
+    mantissa_bits <- c(byte2 %% 16, as.integer(val_bytes[3:8]))
+    if (any(mantissa_bits != 0)) {
+      # It's some kind of NaN (not Inf, not NA_real_)
+      # Check if it's the standard NaN pattern
+      if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf8)))) {
+        return("NaN")
+      } else {
+        # Non-standard NaN with specific payload
+        return("NaN (non-standard)")
+      }
+    }
+  }
+
+  # Regular numeric value
+  "numeric"
 }
 
 serialize_intsxp <- function(x, i) {

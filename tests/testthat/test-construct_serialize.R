@@ -197,6 +197,33 @@ test_that("construct_serialize works for numeric vectors", {
   expect_type(x7_reconstructed, "double")
 })
 
+test_that("construct_serialize handles negative zero and non-standard NaNs", {
+  # Negative zero
+  x1 <- -0
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  # Test that it's truly negative zero
+  expect_equal(1/x1_reconstructed, -Inf)
+
+  # Vector with both zeros
+  x2 <- c(0, -0)
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+  expect_equal(1/x2_reconstructed[1], Inf)
+  expect_equal(1/x2_reconstructed[2], -Inf)
+
+  # Non-standard NaN (if bit64 is available)
+  skip_if_not_installed("bit64")
+  x3 <- unclass(bit64::as.integer64(-42))
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  # Both should be NaN
+  expect_true(is.nan(x3))
+  expect_true(is.nan(x3_reconstructed))
+})
+
 test_that("construct_serialize works for complex vectors", {
   # Simple complex vector
   x1 <- c(1+2i, 3-4i, 5+0i)
