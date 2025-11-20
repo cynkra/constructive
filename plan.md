@@ -113,7 +113,7 @@ We must be careful about alt-rep corner cases and bits used in non standard ways
 - ✅ Add dispatcher case in serialize_data()
 - ✅ Add tests for raw vectors (6 test cases)
 
-### 4.6 Edge Cases for Atomic Vectors 🔄
+### 4.6 Edge Cases for Atomic Vectors ✅
 Handle special representations and non-standard values that appear in serialization.
 
 - ✅ **Negative Zero (-0)**: Detect and preserve -0 vs 0 distinction in REALSXP/CPLXSXP
@@ -129,17 +129,18 @@ Handle special representations and non-standard values that appear in serializat
   - Labels as "NaN (non-standard)" to distinguish from standard NaN
   - Used in both serialize_realsxp() and serialize_cplxsxp() via shared identify_double()
 
-- 🟢 **Alt-rep Sequences (ALTREP_SXP, 0xEE)**: Handle compact integer sequences
+- 🚧 **Alt-rep Sequences (ALTREP_SXP, 0xEE)**: Handle compact integer sequences
   - Current: Returns "UNKNOWN OR UNIMPLEMENTED DATA TYPE"
-  - Example: 1:3 serializes as type 0xEE with complex structure (133 bytes vs 43)
-  - Need: Implement serialize_altintseq() for "compact_intseq" class
-  - Contains: attributes, class info, base value, length, step
+  - Example: 1:3 serializes as type 0xEE with complex nested structure (133 bytes vs 43)
+  - Structure: Pairlist with class info ("compact_intseq", "base"), then REALSXP with (length, start, step)
+  - Complexity: Requires implementing pairlists, attributes, and nested structure parsing first
+  - **Deferred**: Will implement after basic types (NULL, symbols, lists, pairlists) are working
   - Test: 1:3, 5:10, 100:1 (descending), 1:1000000 (large)
 
-- 🟢 **Non-standard Logical Values**: Handle logical bits outside {0, 1, NA}
+- 🚧 **Non-standard Logical Values**: Handle logical bits outside {0, 1, NA}
   - Current: Only labels 0=FALSE, 1=TRUE, -2147483648=NA
-  - Need: Label other 4-byte patterns as non-standard
-  - Test: Manually construct raw vector with unusual logical bits
+  - Low priority: Rare in practice, R doesn't create these naturally
+  - **Deferred**: Will add after more common types are complete
 
 ## 5. NULL and Symbols 🚧
 
