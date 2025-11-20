@@ -13,10 +13,10 @@ Feature to convert any R object to constructive code via its serialized binary r
   - Advanced: Language objects (LANGSXP), Expression vectors (EXPRSXP), Functions (CLOSXP), Environments (ENVSXP)
   - Special: References (REFSXP), Global environment (GLOBALENV_SXP), Missing arguments (MISSINGARG_SXP)
   - ALTREP: Alternative representations (ALTREP_SXP) for compact sequences like 1:n
-- Test suite: 103 tests (all pass individually, 1 false failure in full suite due to test setup)
+- Test suite: 110 tests (103 previous + 7 builtin/special function tests)
 - Feature branch: f-635-construct_serialize
 - All common R objects now serialize correctly: data.frame, tibble, matrix, array, factor, formula, named lists, etc.
-- Latest: Added ALTREP support (0xEE) - enables data.frame and tibble serialization
+- Latest: Added builtin (BUILTINSXP) and special (SPECIALSXP) function support for primitives like sum, if, for
 
 ## 1. Core Framework ✅
 
@@ -247,9 +247,16 @@ Handle references and special object types.
 - ✅ Tested with simple functions containing variable references
 - ✅ Handles improper lists (pairlist CDR can be any object, not just LISTSXP/NULL)
 
-### 9.2 External Pointers and Builtins 🚧
-- 🚧 Handle EXTPTRSXP (0x16)
-- 🚧 Handle SPECIALSXP (0x07) and BUILTINSXP (0x08)
+### 9.2 Builtin and Special Functions ✅
+- ✅ Implemented serialize_builtinsxp() for type 0x08 (BUILTINSXP)
+- ✅ Implemented serialize_specialsxp() for type 0x07 (SPECIALSXP)
+- ✅ Structure: 4-byte length + N bytes of function name
+- ✅ Added dispatcher cases for types 7 and 8
+- ✅ Added 7 tests (3 builtin: sum, length, c + 4 special: if, for, function, while)
+- ✅ Supports all primitive R functions (builtins and special forms)
+
+### 9.3 External Pointers 🚧
+- 🚧 Handle EXTPTRSXP (0x16) - rarely needed, low priority
 - 🚧 Document limitations for non-serializable types
 
 ## 10. Documentation and Integration 🚧
