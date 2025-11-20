@@ -12,9 +12,10 @@ Feature to convert any R object to constructive code via its serialized binary r
   - LGLSXP (logical vectors) with NA support
   - INTSXP (integer vectors) with NA_integer_ support
   - REALSXP (numeric vectors) with NA_real_, NaN, Inf, -Inf support
-- Test suite: 35 tests passing
+  - CPLXSXP (complex vectors) with NA_complex_ support
+- Test suite: 43 tests passing
 - Feature branch: f-635-construct_serialize
-- Latest: Implemented numeric vector support with IEEE 754 special values
+- Latest: Implemented complex vector support with special value handling
 
 ## 1. Core Framework ✅
 
@@ -73,12 +74,14 @@ Verify current implementation works correctly before expanding to new types.
 ## 4. Atomic Vector Types 🚧
 
 Add support for the most common R data types after character vectors.
+We must be careful about alt-rep corner cases and bits used in non standard ways.
 
 ### 4.1 Logical Vectors (LGLSXP, 0x0A) ✅
 - ✅ Implement serialize_lglsxp() function
 - ✅ Handle TRUE, FALSE, NA values (1, 0, -2147483648)
 - ✅ Add dispatcher case in serialize_data()
 - ✅ Add tests for logical vectors (7 test cases)
+- 🟢 Support non standard bit values outside of standard TRUE FALSE NA bits
 
 ### 4.2 Integer Vectors (INTSXP, 0x0D) ✅
 - ✅ Implement serialize_intsxp() function
@@ -86,6 +89,7 @@ Add support for the most common R data types after character vectors.
 - ✅ Handle negative integers (2's complement)
 - ✅ Add dispatcher case in serialize_data()
 - ✅ Add tests for integer vectors (7 test cases)
+- 🟢 Support alt-rep (1:3)
 
 ### 4.3 Numeric Vectors (REALSXP, 0x0E) ✅
 - ✅ Implement serialize_realsxp() function
@@ -93,17 +97,20 @@ Add support for the most common R data types after character vectors.
 - ✅ Detect special values by byte patterns
 - ✅ Add dispatcher case in serialize_data()
 - ✅ Add tests for numeric vectors (7 test cases)
+- 🟢 Support non standard bit values for non standard NAs
 
-### 4.4 Complex Vectors (CPLXSXP, 0x0F) 🟢
-- 🟢 Implement serialize_cplxsxp() function
-- 🟢 Handle two doubles per complex number (real + imaginary)
+### 4.4 Complex Vectors (CPLXSXP, 0x0F) ✅
+- ✅ Implement serialize_cplxsxp() function
+- ✅ Handle two doubles per complex number (real + imaginary)
+- ✅ Detect special values in both components
+- ✅ Handle NA_complex_ (both parts NA_real_)
+- ✅ Add dispatcher case in serialize_data()
+- ✅ Add tests for complex vectors (7 test cases)
+
+### 4.5 Raw Vectors (RAWSXP, 0x18) 🟢
+- 🟢 Implement serialize_rawsxp() function
 - 🟢 Add dispatcher case in serialize_data()
-- 🟢 Add tests for complex vectors
-
-### 4.5 Raw Vectors (RAWSXP, 0x18) 🚧
-- 🚧 Implement serialize_rawsxp() function
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for raw vectors
+- 🟢 Add tests for raw vectors
 
 ## 5. NULL and Symbols 🚧
 

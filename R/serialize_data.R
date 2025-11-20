@@ -7,6 +7,7 @@ serialize_data <- function(x, i) {
   res <- switch(
     as.character(header_info$type),
     "16" = serialize_strsxp(header_info$x, header_info$i),   # 0x10 STRSXP (character vector)
+    "15" = serialize_cplxsxp(header_info$x, header_info$i),  # 0x0F CPLXSXP (complex vector)
     "14" = serialize_realsxp(header_info$x, header_info$i),  # 0x0E REALSXP (numeric vector)
     "13" = serialize_intsxp(header_info$x, header_info$i),   # 0x0D INTSXP (integer vector)
     "10" = serialize_lglsxp(header_info$x, header_info$i),   # 0x0A LGLSXP (logical vector)
@@ -58,6 +59,68 @@ serialize_strsxp <- function(x, i) {
       all_code <- c(all_code, "c(", paste0("  ", trimmed_code), suffix)
       x <- element_res$x
       i <- element_res$i
+    }
+  }
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_cplxsxp <- function(x, i) {
+  # Handles a CPLXSXP (complex vector)
+  # Each complex value is 16 bytes: 8 bytes real + 8 bytes imaginary
+  # Both parts are IEEE 754 doubles
+
+  # 1. Read vector length
+  len_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+  len_comment <- sprintf("# %s-%s: length of vector: %d", i, i + 3, len)
+  len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
+  i <- i + 4
+
+  all_code <- c(len_comment, len_code)
+
+  # Helper function to identify special double values
+  identify_double <- function(val_bytes) {
+    if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf0))) &&
+        identical(val_bytes[7:8], as.raw(c(0x07, 0xa2)))) {
+      "NA_real_"
+    } else if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf8)))) {
+      "NaN"
+    } else if (identical(val_bytes, as.raw(c(0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+      "Inf"
+    } else if (identical(val_bytes, as.raw(c(0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+      "-Inf"
+    } else {
+      "numeric"
+    }
+  }
+
+  # 2. Read each complex value (16 bytes each)
+  if (len > 0) {
+    for (j in 1:len) {
+      # Read real part (8 bytes)
+      real_bytes <- x[1:8]
+      x <- x[-(1:8)]
+      real_label <- identify_double(real_bytes)
+
+      # Read imaginary part (8 bytes)
+      imag_bytes <- x[1:8]
+      x <- x[-(1:8)]
+      imag_label <- identify_double(imag_bytes)
+
+      # Determine overall label
+      if (real_label == "NA_real_" && imag_label == "NA_real_") {
+        cplx_label <- "NA_complex_"
+      } else {
+        cplx_label <- sprintf("complex (real: %s, imag: %s)", real_label, imag_label)
+      }
+
+      real_comment <- sprintf("# %s-%s: %s", i, i + 15, cplx_label)
+      real_code <- paste(sprintf("0x%s,", as.character(real_bytes)), collapse = " ")
+      imag_code <- paste(sprintf("0x%s,", as.character(imag_bytes)), collapse = " ")
+      all_code <- c(all_code, real_comment, real_code, imag_code)
+      i <- i + 16
     }
   }
 

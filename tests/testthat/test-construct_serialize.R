@@ -196,3 +196,48 @@ test_that("construct_serialize works for numeric vectors", {
   expect_identical(x7_reconstructed, x7)
   expect_type(x7_reconstructed, "double")
 })
+
+test_that("construct_serialize works for complex vectors", {
+  # Simple complex vector
+  x1 <- c(1+2i, 3-4i, 5+0i)
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+
+  # Special values
+  x2 <- c(1+0i, NA_complex_, Inf+2i, 1+NaN*1i)
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Empty complex vector
+  x3 <- complex(0)
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # All NA
+  x4 <- c(NA_complex_, NA_complex_)
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # Single element
+  x5 <- 3+4i
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+
+  # Pure imaginary
+  x6 <- c(0+1i, 0-1i)
+  code6 <- construct_serialize(x6)
+  x6_reconstructed <- eval(parse(text = paste(code6, collapse = "\n")))
+  expect_identical(x6_reconstructed, x6)
+
+  # Pure real (complex type but zero imaginary part)
+  x7 <- c(5+0i, -3+0i)
+  code7 <- construct_serialize(x7)
+  x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
+  expect_identical(x7_reconstructed, x7)
+  expect_type(x7_reconstructed, "complex")
+})
