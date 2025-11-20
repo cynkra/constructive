@@ -107,3 +107,47 @@ test_that("construct_serialize works for logical vectors", {
   x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
   expect_identical(x7_reconstructed, x7)
 })
+
+test_that("construct_serialize works for integer vectors", {
+  # Simple integer vector
+  x1 <- c(1L, 2L, 3L)
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+
+  # Integer vector with NA
+  x2 <- c(1L, NA_integer_, 3L)
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Negative integers
+  x3 <- c(-5L, 0L, -100L)
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # Empty integer vector
+  x4 <- integer(0)
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # Large integers (boundary values)
+  x5 <- c(2147483647L, -2147483647L, 1000000L)
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+
+  # All NA
+  x6 <- c(NA_integer_, NA_integer_)
+  code6 <- construct_serialize(x6)
+  x6_reconstructed <- eval(parse(text = paste(code6, collapse = "\n")))
+  expect_identical(x6_reconstructed, x6)
+
+  # Single element
+  x7 <- 42L
+  code7 <- construct_serialize(x7)
+  x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
+  expect_identical(x7_reconstructed, x7)
+})

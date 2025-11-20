@@ -6,13 +6,14 @@ Feature to convert any R object to constructive code via its serialized binary r
 ## Current Status
 - Basic framework implemented (construct_serialize.R, serialize_header.R, serialize_data.R)
 - Header serialization: Complete (all header components working)
-- Data serialization: Character and logical types fully implemented and tested
+- Data serialization: Character, logical, and integer types fully implemented and tested
   - STRSXP (character vectors) with NA_character_ support
   - CHARSXP (single strings) with NA_character_ support
   - LGLSXP (logical vectors) with NA support
-- Test suite: 20 tests passing
+  - INTSXP (integer vectors) with NA_integer_ support
+- Test suite: 27 tests passing
 - Feature branch: f-635-construct_serialize
-- Latest: Implemented logical vector support with comprehensive tests
+- Latest: Implemented integer vector support with comprehensive tests
 
 ## 1. Core Framework ✅
 
@@ -78,17 +79,18 @@ Add support for the most common R data types after character vectors.
 - ✅ Add dispatcher case in serialize_data()
 - ✅ Add tests for logical vectors (7 test cases)
 
-### 4.2 Integer Vectors (INTSXP, 0x0D) 🟢
-- 🟢 Implement serialize_intsxp() function
-- 🟢 Handle NA_integer_ (-2147483648)
-- 🟢 Add dispatcher case in serialize_data()
-- 🟢 Add tests for integer vectors
+### 4.2 Integer Vectors (INTSXP, 0x0D) ✅
+- ✅ Implement serialize_intsxp() function
+- ✅ Handle NA_integer_ (-2147483648)
+- ✅ Handle negative integers (2's complement)
+- ✅ Add dispatcher case in serialize_data()
+- ✅ Add tests for integer vectors (7 test cases)
 
-### 4.3 Numeric Vectors (REALSXP, 0x0E) 🚧
-- 🚧 Implement serialize_realsxp() function
-- 🚧 Handle NA, NaN, Inf, -Inf (IEEE 754 doubles)
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for numeric vectors
+### 4.3 Numeric Vectors (REALSXP, 0x0E) 🟢
+- 🟢 Implement serialize_realsxp() function
+- 🟢 Handle NA, NaN, Inf, -Inf (IEEE 754 doubles)
+- 🟢 Add dispatcher case in serialize_data()
+- 🟢 Add tests for numeric vectors
 
 ### 4.4 Complex Vectors (CPLXSXP, 0x0F) 🚧
 - 🚧 Implement serialize_cplxsxp() function
