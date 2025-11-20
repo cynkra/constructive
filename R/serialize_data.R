@@ -8,6 +8,7 @@ serialize_data <- function(x, i) {
     as.character(header_info$type),
     "254" = serialize_nilvalue_sxp(header_info$x, header_info$i),  # 0xFE NILVALUE_SXP (NULL)
     "24" = serialize_rawsxp(header_info$x, header_info$i),   # 0x18 RAWSXP (raw vector)
+    "19" = serialize_vecsxp(header_info$x, header_info$i),   # 0x13 VECSXP (generic list)
     "16" = serialize_strsxp(header_info$x, header_info$i),   # 0x10 STRSXP (character vector)
     "15" = serialize_cplxsxp(header_info$x, header_info$i),  # 0x0F CPLXSXP (complex vector)
     "14" = serialize_realsxp(header_info$x, header_info$i),  # 0x0E REALSXP (numeric vector)
@@ -57,8 +58,8 @@ serialize_strsxp <- function(x, i) {
       element_res <- serialize_data(x, i)
       # Trim the comma from the code block of the element
       trimmed_code <- trim_last_comma(element_res$code)
-      # Add a comma only if it's not the last element of the vector
-      suffix <- if (j < len) ")," else ")"
+      # Always add comma after closing paren - trim_last_comma will remove if needed
+      suffix <- if (j < len) ")," else "),"
       all_code <- c(all_code, "c(", paste0("  ", trimmed_code), suffix)
       x <- element_res$x
       i <- element_res$i
@@ -518,10 +519,31 @@ serialize_symsxp <- function(x, i) {
   list(code = charsxp_res$code, x = charsxp_res$x, i = charsxp_res$i)
 }
 
-serialize_lstsxp <- function(x, i) {
-  # Placeholder for pairlists (attributes)
+serialize_vecsxp <- function(x, i) {
+  # Handles a VECSXP (generic list)
+  # 1. Read list length
+  len_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+  len_comment <- sprintf("# %s-%s: length of list: %d", i, i + 3, len)
+  len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
+  i <- i + 4
+
+  all_code <- c(len_comment, len_code)
+
+  # 2. Loop through each element and recursively serialize
+  if (len > 0) {
+    for (j in 1:len) {
+      element_res <- serialize_data(x, i)
+      all_code <- c(all_code, element_res$code)
+      x <- element_res$x
+      i <- element_res$i
+    }
+  }
+
+  list(code = all_code, x = x, i = i)
 }
 
-serialize_vecsxp <- function(x, i) {
-  # Placeholder for generic lists
+serialize_lstsxp <- function(x, i) {
+  # Placeholder for pairlists (attributes)
 }

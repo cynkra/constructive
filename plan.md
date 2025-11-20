@@ -14,9 +14,9 @@ Feature to convert any R object to constructive code via its serialized binary r
   - REALSXP (numeric vectors) with NA_real_, NaN, Inf, -Inf support
   - CPLXSXP (complex vectors) with NA_complex_ support
   - RAWSXP (raw vectors) - complete byte-level support
-- Test suite: 63 tests passing
+- Test suite: 69 tests passing
 - Feature branch: f-635-construct_serialize
-- Latest: Added symbol support (SYMSXP with nested CHARSXP)
+- Latest: Added list support (VECSXP with recursive elements)
 
 ## 1. Core Framework ✅
 
@@ -161,11 +161,12 @@ Basic building blocks for R expressions and attributes.
 
 Container types that hold other objects.
 
-### 6.1 Generic Lists (VECSXP, 0x13) 🚧
-- 🚧 Implement serialize_vecsxp() function (placeholder exists)
-- 🚧 Handle recursive list structures
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for lists
+### 6.1 Generic Lists (VECSXP, 0x13) ✅
+- ✅ Implement serialize_vecsxp() function
+- ✅ Handle recursive list structures
+- ✅ Add dispatcher case in serialize_data()
+- ✅ Add tests for lists (5 test cases: simple, empty, nested, vector elements, single element)
+- 🚧 Named lists (requires attribute support via pairlists)
 
 ### 6.2 Pairlists (LISTSXP, 0x02) 🚧
 - 🚧 Implement serialize_listsxp() function (placeholder exists)

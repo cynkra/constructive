@@ -305,6 +305,39 @@ test_that("construct_serialize works for symbols", {
   expect_identical(x4_reconstructed, x4)
 })
 
+test_that("construct_serialize works for lists", {
+  # Simple list with mixed types
+  x1 <- list(1L, "hello", TRUE)
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_true(is.list(x1_reconstructed))
+
+  # Empty list
+  x2 <- list()
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Nested list (unnamed)
+  x3 <- list(1, list(2, 3))
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # List with vector elements
+  x4 <- list(c(1, 2, 3), c("a", "b"), c(TRUE, FALSE))
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # Single element list
+  x5 <- list(42)
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+})
+
 test_that("construct_serialize works for raw vectors", {
   # Simple raw vector
   x1 <- as.raw(c(0x01, 0x02, 0xff, 0x00, 0xaa))
