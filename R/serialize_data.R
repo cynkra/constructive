@@ -7,6 +7,7 @@ serialize_data <- function(x, i) {
   res <- switch(
     as.character(header_info$type),
     "16" = serialize_strsxp(header_info$x, header_info$i),   # 0x10 STRSXP (character vector)
+    "10" = serialize_lglsxp(header_info$x, header_info$i),   # 0x0A LGLSXP (logical vector)
     "9"  = serialize_chrsxp(header_info$x, header_info$i),   # 0x09 CHARSXP (a single string)
     # Fallback for unknown types
     list(code = "# UNKNOWN OR UNIMPLEMENTED DATA TYPE", x = header_info$x, i = header_info$i)
@@ -55,6 +56,52 @@ serialize_strsxp <- function(x, i) {
       all_code <- c(all_code, "c(", paste0("  ", trimmed_code), suffix)
       x <- element_res$x
       i <- element_res$i
+    }
+  }
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_lglsxp <- function(x, i) {
+  # Handles a LGLSXP (logical vector)
+  # Logical values are stored as 4-byte integers: TRUE=1, FALSE=0, NA=-2147483648
+
+  # 1. Read vector length
+  len_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+  len_comment <- sprintf("# %s-%s: length of vector: %d", i, i + 3, len)
+  len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
+  i <- i + 4
+
+  all_code <- c(len_comment, len_code)
+
+  # 2. Read each logical value (4 bytes each)
+  if (len > 0) {
+    for (j in 1:len) {
+      val_bytes <- x[1:4]
+      x <- x[-(1:4)]
+
+      # Convert to signed integer
+      val <- sum(as.integer(val_bytes) * 256^c(3,2,1,0))
+      # Handle 2's complement for negative values
+      if (val >= 2^31) val <- val - 2^32
+
+      # Determine what the value represents
+      val_label <- if (val == 1) {
+        "TRUE"
+      } else if (val == 0) {
+        "FALSE"
+      } else if (val == -2147483648) {
+        "NA"
+      } else {
+        sprintf("value=%d", val)
+      }
+
+      val_comment <- sprintf("# %s-%s: %s", i, i + 3, val_label)
+      val_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
+      all_code <- c(all_code, val_comment, val_code)
+      i <- i + 4
     }
   }
 

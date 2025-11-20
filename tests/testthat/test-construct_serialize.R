@@ -63,3 +63,47 @@ test_that("construct_serialize output has expected structure", {
   # Check that it ends properly
   expect_match(code[length(code)], "^\\)\\)\\)$")
 })
+
+test_that("construct_serialize works for logical vectors", {
+  # Simple logical vector
+  x1 <- c(TRUE, FALSE, TRUE)
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+
+  # Logical vector with NA
+  x2 <- c(TRUE, NA, FALSE)
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Empty logical vector
+  x3 <- logical(0)
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # All TRUE
+  x4 <- c(TRUE, TRUE, TRUE)
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # All FALSE
+  x5 <- c(FALSE, FALSE)
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+
+  # All NA
+  x6 <- c(NA, NA)
+  code6 <- construct_serialize(x6)
+  x6_reconstructed <- eval(parse(text = paste(code6, collapse = "\n")))
+  expect_identical(x6_reconstructed, x6)
+
+  # Single element
+  x7 <- TRUE
+  code7 <- construct_serialize(x7)
+  x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
+  expect_identical(x7_reconstructed, x7)
+})
