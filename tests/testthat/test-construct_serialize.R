@@ -499,3 +499,36 @@ test_that("construct_serialize works for language objects", {
   x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
   expect_identical(x7_reconstructed, x7)
 })
+
+test_that("construct_serialize works for expression vectors", {
+  # Simple expression vector
+  x1 <- expression(1 + 1, mean(x))
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_true(is.expression(x1_reconstructed))
+
+  # Empty expression
+  x2 <- expression()
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Single expression
+  x3 <- expression(y ~ x)
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # Multiple complex expressions
+  x4 <- expression(a + b, mean(c(1, 2, 3)), if (x > 0) log(x))
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # Expression with literals
+  x5 <- expression(1, "hello", TRUE)
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+})

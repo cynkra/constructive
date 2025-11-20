@@ -8,6 +8,7 @@ serialize_data <- function(x, i) {
     as.character(header_info$type),
     "254" = serialize_nilvalue_sxp(header_info$x, header_info$i),  # 0xFE NILVALUE_SXP (NULL)
     "24" = serialize_rawsxp(header_info$x, header_info$i),   # 0x18 RAWSXP (raw vector)
+    "20" = serialize_exprsxp(header_info$x, header_info$i),  # 0x14 EXPRSXP (expression vector)
     "19" = serialize_vecsxp(header_info$x, header_info$i),   # 0x13 VECSXP (generic list)
     "16" = serialize_strsxp(header_info$x, header_info$i),   # 0x10 STRSXP (character vector)
     "15" = serialize_cplxsxp(header_info$x, header_info$i),  # 0x0F CPLXSXP (complex vector)
@@ -644,6 +645,34 @@ serialize_langsxp <- function(x, i) {
   all_code <- c(all_code, cdr_res$code)
   x <- cdr_res$x
   i <- cdr_res$i
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_exprsxp <- function(x, i) {
+  # Handles an EXPRSXP (expression vector)
+  # Structure: length (4 bytes) + N recursively serialized expressions
+  # Similar to VECSXP but for expressions
+
+  # 1. Read expression vector length
+  len_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+  len_comment <- sprintf("# %s-%s: length of expression vector: %d", i, i + 3, len)
+  len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
+  i <- i + 4
+
+  all_code <- c(len_comment, len_code)
+
+  # 2. Loop through each expression and recursively serialize
+  if (len > 0) {
+    for (j in 1:len) {
+      expr_res <- serialize_data(x, i)
+      all_code <- c(all_code, expr_res$code)
+      x <- expr_res$x
+      i <- expr_res$i
+    }
+  }
 
   list(code = all_code, x = x, i = i)
 }
