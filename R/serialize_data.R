@@ -7,6 +7,7 @@ serialize_data <- function(x, i) {
   res <- switch(
     as.character(header_info$type),
     "16" = serialize_strsxp(header_info$x, header_info$i),   # 0x10 STRSXP (character vector)
+    "14" = serialize_realsxp(header_info$x, header_info$i),  # 0x0E REALSXP (numeric vector)
     "13" = serialize_intsxp(header_info$x, header_info$i),   # 0x0D INTSXP (integer vector)
     "10" = serialize_lglsxp(header_info$x, header_info$i),   # 0x0A LGLSXP (logical vector)
     "9"  = serialize_chrsxp(header_info$x, header_info$i),   # 0x09 CHARSXP (a single string)
@@ -57,6 +58,50 @@ serialize_strsxp <- function(x, i) {
       all_code <- c(all_code, "c(", paste0("  ", trimmed_code), suffix)
       x <- element_res$x
       i <- element_res$i
+    }
+  }
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_realsxp <- function(x, i) {
+  # Handles a REALSXP (numeric/double vector)
+  # Values are stored as 8-byte IEEE 754 double-precision floats (big-endian)
+
+  # 1. Read vector length
+  len_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+  len_comment <- sprintf("# %s-%s: length of vector: %d", i, i + 3, len)
+  len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
+  i <- i + 4
+
+  all_code <- c(len_comment, len_code)
+
+  # 2. Read each double value (8 bytes each)
+  if (len > 0) {
+    for (j in 1:len) {
+      val_bytes <- x[1:8]
+      x <- x[-(1:8)]
+
+      # Identify special values by their byte patterns
+      val_label <- if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf0))) &&
+                       identical(val_bytes[7:8], as.raw(c(0x07, 0xa2)))) {
+        "NA_real_"
+      } else if (identical(val_bytes[1:2], as.raw(c(0x7f, 0xf8)))) {
+        "NaN"
+      } else if (identical(val_bytes, as.raw(c(0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+        "Inf"
+      } else if (identical(val_bytes, as.raw(c(0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)))) {
+        "-Inf"
+      } else {
+        "numeric"
+      }
+
+      val_comment <- sprintf("# %s-%s: %s", i, i + 7, val_label)
+      val_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
+      all_code <- c(all_code, val_comment, val_code)
+      i <- i + 8
     }
   }
 

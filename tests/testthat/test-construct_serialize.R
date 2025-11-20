@@ -151,3 +151,48 @@ test_that("construct_serialize works for integer vectors", {
   x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
   expect_identical(x7_reconstructed, x7)
 })
+
+test_that("construct_serialize works for numeric vectors", {
+  # Simple numeric vector
+  x1 <- c(1.5, 2.0, -3.14)
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+
+  # Special values
+  x2 <- c(1.0, NA_real_, NaN, Inf, -Inf)
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Empty numeric vector
+  x3 <- numeric(0)
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # Very small and very large numbers
+  x4 <- c(1e-300, 1e300, 0, -0)
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # All NA
+  x5 <- c(NA_real_, NA_real_)
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+
+  # Single element
+  x6 <- 3.14159
+  code6 <- construct_serialize(x6)
+  x6_reconstructed <- eval(parse(text = paste(code6, collapse = "\n")))
+  expect_identical(x6_reconstructed, x6)
+
+  # Integer-valued doubles (should maintain type)
+  x7 <- c(1.0, 2.0, 3.0)
+  code7 <- construct_serialize(x7)
+  x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
+  expect_identical(x7_reconstructed, x7)
+  expect_type(x7_reconstructed, "double")
+})
