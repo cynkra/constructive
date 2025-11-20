@@ -15,6 +15,7 @@ serialize_data <- function(x, i) {
     "13" = serialize_intsxp(header_info$x, header_info$i),   # 0x0D INTSXP (integer vector)
     "10" = serialize_lglsxp(header_info$x, header_info$i),   # 0x0A LGLSXP (logical vector)
     "9"  = serialize_chrsxp(header_info$x, header_info$i),   # 0x09 CHARSXP (a single string)
+    "2"  = serialize_listsxp(header_info$x, header_info$i, header_info$flags),  # 0x02 LISTSXP (pairlist)
     "1"  = serialize_symsxp(header_info$x, header_info$i),   # 0x01 SYMSXP (symbol)
     # Fallback for unknown types
     list(code = "# UNKNOWN OR UNIMPLEMENTED DATA TYPE", x = header_info$x, i = header_info$i)
@@ -22,6 +23,20 @@ serialize_data <- function(x, i) {
 
   # Prepend the header code that we already processed
   res$code <- c(header_info$code, res$code)
+
+  # Check if this object has attributes (HAS_ATTR = bit 1 = 0x02)
+  has_attr <- bitwAnd(header_info$flags, 0x02) > 0
+  if (has_attr) {
+    attr_comment <- sprintf("# %s: Object attributes", res$i)
+    res$code <- c(res$code, attr_comment)
+
+    # Recursively parse attributes (pairlist)
+    attr_res <- serialize_data(res$x, res$i)
+    res$code <- c(res$code, attr_res$code)
+    res$x <- attr_res$x
+    res$i <- attr_res$i
+  }
+
   res
 }
 
@@ -29,6 +44,7 @@ serialize_packed_header <- function(x, i) {
   header_bytes <- x[1:4]
   x <- x[-(1:4)]
   type <- as.integer(header_bytes[[4]])
+  flags <- as.integer(header_bytes[[3]])
   # For now, a generic comment. This could be enhanced to show flags.
   comment <- sprintf("# %s-%s: Packed Header (type 0x%x)", i, i + 3, type)
   code <- paste(sprintf("0x%s,", as.character(header_bytes)), collapse = " ")
@@ -36,7 +52,8 @@ serialize_packed_header <- function(x, i) {
     code = c(comment, code),
     x = x,
     i = i + 4,
-    type = type
+    type = type,
+    flags = flags
   )
 }
 
@@ -544,6 +561,58 @@ serialize_vecsxp <- function(x, i) {
   list(code = all_code, x = x, i = i)
 }
 
-serialize_lstsxp <- function(x, i) {
-  # Placeholder for pairlists (attributes)
+serialize_listsxp <- function(x, i, flags) {
+  # Handles a LISTSXP (pairlist node)
+  # Structure depends on flags:
+  #   HAS_ATTR (0x02): if set, attributes follow
+  #   HAS_TAG (0x04): if set, TAG (name) follows
+  # Then CAR (value) and CDR (next node or NULL) always follow
+
+  all_code <- character(0)
+
+  # Check if this node has attributes (HAS_ATTR = bit 1 = 0x02)
+  has_attr <- bitwAnd(flags, 0x02) > 0
+  if (has_attr) {
+    attr_comment <- sprintf("# %s: LISTSXP node attributes", i)
+    all_code <- c(all_code, attr_comment)
+
+    # Recursively parse attributes
+    attr_res <- serialize_data(x, i)
+    all_code <- c(all_code, attr_res$code)
+    x <- attr_res$x
+    i <- attr_res$i
+  }
+
+  # Check if this node has a TAG/name (HAS_TAG = bit 2 = 0x04)
+  has_tag <- bitwAnd(flags, 0x04) > 0
+  if (has_tag) {
+    tag_comment <- sprintf("# %s: LISTSXP TAG (name)", i)
+    all_code <- c(all_code, tag_comment)
+
+    # Recursively parse TAG (usually a SYMSXP)
+    tag_res <- serialize_data(x, i)
+    all_code <- c(all_code, tag_res$code)
+    x <- tag_res$x
+    i <- tag_res$i
+  }
+
+  # CAR: the value of this pairlist element (always present)
+  car_comment <- sprintf("# %s: LISTSXP CAR (value)", i)
+  all_code <- c(all_code, car_comment)
+
+  car_res <- serialize_data(x, i)
+  all_code <- c(all_code, car_res$code)
+  x <- car_res$x
+  i <- car_res$i
+
+  # CDR: next pairlist node or NULL (always present)
+  cdr_comment <- sprintf("# %s: LISTSXP CDR (next node or NULL)", i)
+  all_code <- c(all_code, cdr_comment)
+
+  cdr_res <- serialize_data(x, i)
+  all_code <- c(all_code, cdr_res$code)
+  x <- cdr_res$x
+  i <- cdr_res$i
+
+  list(code = all_code, x = x, i = i)
 }

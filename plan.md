@@ -14,9 +14,9 @@ Feature to convert any R object to constructive code via its serialized binary r
   - REALSXP (numeric vectors) with NA_real_, NaN, Inf, -Inf support
   - CPLXSXP (complex vectors) with NA_complex_ support
   - RAWSXP (raw vectors) - complete byte-level support
-- Test suite: 69 tests passing
+- Test suite: 84 tests passing
 - Feature branch: f-635-construct_serialize
-- Latest: Added list support (VECSXP with recursive elements)
+- Latest: Added pairlist and attribute support (LISTSXP, HAS_ATTR flag)
 
 ## 1. Core Framework ✅
 
@@ -157,7 +157,7 @@ Basic building blocks for R expressions and attributes.
 - ✅ Add tests for symbols (5 tests covering simple, multi-char, dotted, and special chars)
 - ✅ Recursive structure: SYMSXP contains a CHARSXP with the symbol name
 
-## 6. List Types 🚧
+## 6. List Types ✅
 
 Container types that hold other objects.
 
@@ -166,26 +166,29 @@ Container types that hold other objects.
 - ✅ Handle recursive list structures
 - ✅ Add dispatcher case in serialize_data()
 - ✅ Add tests for lists (5 test cases: simple, empty, nested, vector elements, single element)
-- 🚧 Named lists (requires attribute support via pairlists)
+- ✅ Named lists (now working with attribute support)
 
-### 6.2 Pairlists (LISTSXP, 0x02) 🚧
-- 🚧 Implement serialize_listsxp() function (placeholder exists)
-- 🚧 Handle attributes (which use pairlists)
-- 🚧 Handle CAR/CDR/TAG structure
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for pairlists
+### 6.2 Pairlists (LISTSXP, 0x02) ✅
+- ✅ Implement serialize_listsxp() function
+- ✅ Handle HAS_TAG flag for named vs unnamed elements
+- ✅ Handle HAS_ATTR flag for pairlist node attributes
+- ✅ Handle CAR/CDR/TAG structure recursively
+- ✅ Add dispatcher case in serialize_data()
+- ✅ Add tests for pairlists (7 test cases: named, unnamed, empty, single, mixed types, partially named, with vectors)
 
-## 7. Attributes Support 🚧
+## 7. Attributes Support ✅
 
 Objects can have attributes like names, class, dim, etc.
 
-### 7.1 Attribute Handling 🚧
-- 🚧 Detect and handle HAS_ATTR flag in packed header
-- 🚧 Handle names attribute
-- 🚧 Handle class attribute
-- 🚧 Handle dim attribute (for matrices/arrays)
-- 🚧 Handle dimnames attribute
-- 🚧 Add tests for attributed objects
+### 7.1 Attribute Handling ✅
+- ✅ Detect and handle HAS_ATTR flag in packed header
+- ✅ Recursively parse attributes as pairlists after object data
+- ✅ Handle names attribute
+- ✅ Handle class attribute
+- ✅ Handle dim attribute (for matrices/arrays)
+- ✅ Handle dimnames attribute
+- ✅ Handle custom attributes
+- ✅ Add tests for attributed objects (5 test cases: named vectors, named lists, class attributes, multiple attributes)
 
 ## 8. Advanced Types 🚧
 

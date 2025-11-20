@@ -375,3 +375,82 @@ test_that("construct_serialize works for raw vectors", {
   x6_reconstructed <- eval(parse(text = paste(code6, collapse = "\n")))
   expect_identical(x6_reconstructed, x6)
 })
+
+test_that("construct_serialize works for pairlists", {
+  # Named pairlist
+  x1 <- pairlist(a = 1, b = 2)
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_true(is.pairlist(x1_reconstructed))
+
+  # Unnamed pairlist
+  x2 <- pairlist(1, 2, 3)
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Empty pairlist
+  x3 <- pairlist()
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # Single element named pairlist
+  x4 <- pairlist(x = "hello")
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # Mixed types in pairlist
+  x5 <- pairlist(a = 1L, b = "text", c = TRUE, d = 3.14)
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+
+  # Partially named pairlist
+  x6 <- pairlist(a = 1, 2, c = 3)
+  code6 <- construct_serialize(x6)
+  x6_reconstructed <- eval(parse(text = paste(code6, collapse = "\n")))
+  expect_identical(x6_reconstructed, x6)
+
+  # Pairlist with vector elements
+  x7 <- pairlist(x = c(1, 2, 3), y = c("a", "b"))
+  code7 <- construct_serialize(x7)
+  x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
+  expect_identical(x7_reconstructed, x7)
+})
+
+test_that("construct_serialize works for objects with attributes", {
+  # Named numeric vector
+  x1 <- c(a = 1, b = 2, c = 3)
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_equal(names(x1_reconstructed), c("a", "b", "c"))
+
+  # Named character vector
+  x2 <- c(first = "hello", second = "world")
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # Named list
+  x3 <- list(a = 1, b = "text", c = TRUE)
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # Object with custom class attribute
+  x4 <- structure(c(1, 2, 3), class = "my_class")
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+  expect_equal(class(x4_reconstructed), "my_class")
+
+  # Object with multiple attributes
+  x5 <- structure(1:10, names = letters[1:10], class = "custom", my_attr = "value")
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+})
