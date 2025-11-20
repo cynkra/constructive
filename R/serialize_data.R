@@ -15,6 +15,7 @@ serialize_data <- function(x, i) {
     "13" = serialize_intsxp(header_info$x, header_info$i),   # 0x0D INTSXP (integer vector)
     "10" = serialize_lglsxp(header_info$x, header_info$i),   # 0x0A LGLSXP (logical vector)
     "9"  = serialize_chrsxp(header_info$x, header_info$i),   # 0x09 CHARSXP (a single string)
+    "6"  = serialize_langsxp(header_info$x, header_info$i),  # 0x06 LANGSXP (language/call)
     "2"  = serialize_listsxp(header_info$x, header_info$i, header_info$flags),  # 0x02 LISTSXP (pairlist)
     "1"  = serialize_symsxp(header_info$x, header_info$i),   # 0x01 SYMSXP (symbol)
     # Fallback for unknown types
@@ -607,6 +608,36 @@ serialize_listsxp <- function(x, i, flags) {
 
   # CDR: next pairlist node or NULL (always present)
   cdr_comment <- sprintf("# %s: LISTSXP CDR (next node or NULL)", i)
+  all_code <- c(all_code, cdr_comment)
+
+  cdr_res <- serialize_data(x, i)
+  all_code <- c(all_code, cdr_res$code)
+  x <- cdr_res$x
+  i <- cdr_res$i
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_langsxp <- function(x, i) {
+  # Handles a LANGSXP (language object / function call)
+  # Structure:
+  #   CAR: the function to call (usually a SYMSXP)
+  #   CDR: the arguments (LISTSXP or NILVALUE_SXP)
+  # Similar to LISTSXP but without TAG support
+
+  all_code <- character(0)
+
+  # CAR: the function to call
+  car_comment <- sprintf("# %s: LANGSXP CAR (function)", i)
+  all_code <- c(all_code, car_comment)
+
+  car_res <- serialize_data(x, i)
+  all_code <- c(all_code, car_res$code)
+  x <- car_res$x
+  i <- car_res$i
+
+  # CDR: arguments pairlist or NULL
+  cdr_comment <- sprintf("# %s: LANGSXP CDR (arguments)", i)
   all_code <- c(all_code, cdr_comment)
 
   cdr_res <- serialize_data(x, i)

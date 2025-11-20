@@ -454,3 +454,48 @@ test_that("construct_serialize works for objects with attributes", {
   x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
   expect_identical(x5_reconstructed, x5)
 })
+
+test_that("construct_serialize works for language objects", {
+  # Simple function call
+  x1 <- quote(mean(x))
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_true(is.language(x1_reconstructed))
+
+  # Multiple arguments
+  x2 <- quote(sum(a, b, c))
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+
+  # No arguments
+  x3 <- quote(foo())
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+
+  # Named arguments
+  x4 <- quote(plot(x = data, y = values, main = "Title"))
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+
+  # Nested calls
+  x5 <- quote(mean(log(x + 1)))
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  expect_identical(x5_reconstructed, x5)
+
+  # Binary operator
+  x6 <- quote(a + b)
+  code6 <- construct_serialize(x6)
+  x6_reconstructed <- eval(parse(text = paste(code6, collapse = "\n")))
+  expect_identical(x6_reconstructed, x6)
+
+  # Complex expression
+  x7 <- quote(if (x > 0) sqrt(x) else 0)
+  code7 <- construct_serialize(x7)
+  x7_reconstructed <- eval(parse(text = paste(code7, collapse = "\n")))
+  expect_identical(x7_reconstructed, x7)
+})

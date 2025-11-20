@@ -14,9 +14,9 @@ Feature to convert any R object to constructive code via its serialized binary r
   - REALSXP (numeric vectors) with NA_real_, NaN, Inf, -Inf support
   - CPLXSXP (complex vectors) with NA_complex_ support
   - RAWSXP (raw vectors) - complete byte-level support
-- Test suite: 84 tests passing
+- Test suite: 92 tests passing
 - Feature branch: f-635-construct_serialize
-- Latest: Added pairlist and attribute support (LISTSXP, HAS_ATTR flag)
+- Latest: Added language object support (LANGSXP for function calls and expressions)
 
 ## 1. Core Framework ✅
 
@@ -194,10 +194,11 @@ Objects can have attributes like names, class, dim, etc.
 
 More complex R objects.
 
-### 8.1 Language Objects (LANGSXP, 0x06) 🚧
-- 🚧 Implement serialize_langsxp() function
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for language objects
+### 8.1 Language Objects (LANGSXP, 0x06) ✅
+- ✅ Implement serialize_langsxp() function
+- ✅ Handle CAR (function) and CDR (arguments) structure
+- ✅ Add dispatcher case in serialize_data()
+- ✅ Add tests for language objects (7 test cases: simple calls, multiple args, no args, named args, nested calls, operators, complex expressions)
 
 ### 8.2 Expression Vectors (EXPRSXP, 0x14) 🚧
 - 🚧 Implement serialize_exprsxp() function
