@@ -45,17 +45,17 @@ serialize_strsxp <- function(x, i) {
   all_code <- c(len_comment, len_code)
 
   # 2. Loop and process each element (which will be a CHARSXP)
-  for (j in 1:len) {
-    # Recursively call the main dispatcher for each element
-    element_res <- serialize_data(x, i)
-    all_code <- c(
-      all_code, 
-      "c(", 
-      paste0("  ", element_res$code),
-       "),"
-    )
-    x <- element_res$x
-    i <- element_res$i
+  if (len > 0) {
+    for (j in 1:len) {
+      element_res <- serialize_data(x, i)
+      # Trim the comma from the code block of the element
+      trimmed_code <- trim_last_comma(element_res$code)
+      # Add a comma only if it's not the last element of the vector
+      suffix <- if (j < len) ")," else ")"
+      all_code <- c(all_code, "c(", paste0("  ", trimmed_code), suffix)
+      x <- element_res$x
+      i <- element_res$i
+    }
   }
 
   list(code = all_code, x = x, i = i)
@@ -67,6 +67,18 @@ serialize_chrsxp <- function(x, i) {
   len_bytes <- x[1:4]
   x <- x[-(1:4)]
   len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+
+  # Check for NA_character_ (length = -1, which is 0xffffffff)
+  if (identical(len_bytes, as.raw(c(0xff, 0xff, 0xff, 0xff)))) {
+    len_comment <- sprintf("# %s-%s: NA_character_ (length = -1)", i, i + 3)
+    len_code <- paste(sprintf("0x%s", as.character(len_bytes)), collapse = ", ")
+    return(list(
+      code = c(len_comment, len_code),
+      x = x,
+      i = i + 4
+    ))
+  }
+
   len_comment <- sprintf("# %s-%s: length of string in bytes: %d", i, i + 3, len)
   len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
   i <- i + 4
