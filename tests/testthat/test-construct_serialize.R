@@ -269,6 +269,15 @@ test_that("construct_serialize works for complex vectors", {
   expect_type(x7_reconstructed, "complex")
 })
 
+test_that("construct_serialize works for NULL", {
+  # NULL value
+  x1 <- NULL
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_null(x1_reconstructed)
+})
+
 test_that("construct_serialize works for raw vectors", {
   # Simple raw vector
   x1 <- as.raw(c(0x01, 0x02, 0xff, 0x00, 0xaa))

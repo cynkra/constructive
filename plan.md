@@ -14,9 +14,9 @@ Feature to convert any R object to constructive code via its serialized binary r
   - REALSXP (numeric vectors) with NA_real_, NaN, Inf, -Inf support
   - CPLXSXP (complex vectors) with NA_complex_ support
   - RAWSXP (raw vectors) - complete byte-level support
-- Test suite: 56 tests passing
+- Test suite: 58 tests passing
 - Feature branch: f-635-construct_serialize
-- Latest: Added edge case support for negative zero and non-standard NaNs
+- Latest: Added NULL support (NILVALUE_SXP)
 
 ## 1. Core Framework ✅
 
@@ -142,14 +142,14 @@ Handle special representations and non-standard values that appear in serializat
   - Low priority: Rare in practice, R doesn't create these naturally
   - **Deferred**: Will add after more common types are complete
 
-## 5. NULL and Symbols 🚧
+## 5. NULL and Symbols 🔄
 
 Basic building blocks for R expressions and attributes.
 
-### 5.1 NULL Values (NILVALUE_SXP, 0xFE) 🟢
-- 🟢 Implement serialize_nilvalue() function
-- 🟢 Add dispatcher case in serialize_data()
-- 🟢 Add tests for NULL
+### 5.1 NULL Values (NILVALUE_SXP, 0xFE) ✅
+- ✅ Implement serialize_nilvalue_sxp() function
+- ✅ Add dispatcher case in serialize_data() (type 254)
+- ✅ Add tests for NULL (2 test assertions)
 
 ### 5.2 Symbols (SYMSXP, 0x01) 🚧
 - 🚧 Implement serialize_symsxp() function

@@ -6,6 +6,7 @@ serialize_data <- function(x, i) {
   # Dispatch based on type
   res <- switch(
     as.character(header_info$type),
+    "254" = serialize_nilvalue_sxp(header_info$x, header_info$i),  # 0xFE NILVALUE_SXP (NULL)
     "24" = serialize_rawsxp(header_info$x, header_info$i),   # 0x18 RAWSXP (raw vector)
     "16" = serialize_strsxp(header_info$x, header_info$i),   # 0x10 STRSXP (character vector)
     "15" = serialize_cplxsxp(header_info$x, header_info$i),  # 0x0F CPLXSXP (complex vector)
@@ -363,6 +364,12 @@ serialize_chrsxp <- function(x, i) {
     x = x,
     i = i
   )
+}
+
+serialize_nilvalue_sxp <- function(x, i) {
+  # Handles NILVALUE_SXP (NULL)
+  # NULL has no data after the packed header, just return empty code
+  list(code = character(0), x = x, i = i)
 }
 
 serialize_lstsxp <- function(x, i) {
