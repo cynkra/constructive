@@ -207,29 +207,43 @@ More complex R objects.
 - ✅ Add tests for expressions (5 test cases: simple, empty, single, multiple complex, literals)
 
 ### 8.3 Functions (CLOSXP, 0x03) 🚧
-- 🚧 Implement serialize_closxp() function
-- 🚧 Handle formals, body, environment
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for functions
+- ✅ Implemented serialize_closxp() - parses environment, formals, body
+- ✅ Implemented serialize_globalenv_sxp() for type 0xFD (global environment reference)
+- ✅ Implemented serialize_missingarg_sxp() for type 0xFB (parameters without defaults)
+- ✅ Added dispatcher cases in serialize_data() for types 3, 251, 253
+- ✅ Added 5 function tests (with srcref removal and GlobalEnv assignment)
+- 🚧 **BLOCKER**: Generated code produces 140 bytes vs actual 130 bytes (10 extra bytes)
+  - Investigation findings:
+    - Simple functions work outside test context (f <- function(x) { x + 1 } works!)
+    - Test context functions fail with "read error" from unserialize()
+    - Root cause: Missing final NULL (bytes 127-130) in generated output
+    - Actual serialized data has 3 NULLs: formals CDR (53-56), body CDR (123-126), unknown (127-130)
+    - Generated code only produces 2 NULLs, missing the third
+  - Next steps to try:
+    1. Trace where bytes 127-130 come from in actual serialization
+    2. Check if CLOSXP with flags 0x04 needs special handling
+    3. Verify if outer LANGSXP needs additional CDR parsing
+    4. Check if there's an attribute pairlist being missed
 
 ### 8.4 Environments (ENVSXP, 0x04) 🚧
-- 🚧 Implement serialize_envsxp() function
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for environments
+- ✅ Implemented serialize_envsxp() - handles locked flag, enclosing env, frame, hashtab
+- ✅ Added dispatcher case for type 4
+- 🚧 Not fully tested (blocked by function serialization issue)
+- Note: Test environment serialization is complex, using GlobalEnv for tests instead
 
 ### 8.5 S4 Objects (S4SXP, 0x19) 🚧
-- 🚧 Implement serialize_s4sxp() function
-- 🚧 Add dispatcher case in serialize_data()
-- 🚧 Add tests for S4 objects
+- 🚧 Not started - implement after functions work
 
 ## 9. Special Cases 🚧
 
 Handle references and special object types.
 
-### 9.1 Reference Types 🚧
-- 🚧 Handle REFSXP (0xFF) for shared objects
-- 🚧 Track and reuse references
-- 🚧 Add tests for objects with references
+### 9.1 Reference Types ✅
+- ✅ Implemented serialize_refsxp() for type 0xFF (REFSXP)
+- ✅ Structure: 4-byte packed header + 4-byte reference index
+- ✅ Added dispatcher case for type 255
+- ✅ Tested with simple functions containing variable references
+- ✅ Handles improper lists (pairlist CDR can be any object, not just LISTSXP/NULL)
 
 ### 9.2 External Pointers and Builtins 🚧
 - 🚧 Handle EXTPTRSXP (0x16)

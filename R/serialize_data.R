@@ -6,7 +6,10 @@ serialize_data <- function(x, i) {
   # Dispatch based on type
   res <- switch(
     as.character(header_info$type),
+    "255" = serialize_refsxp(header_info$x, header_info$i),  # 0xFF REFSXP (reference)
     "254" = serialize_nilvalue_sxp(header_info$x, header_info$i),  # 0xFE NILVALUE_SXP (NULL)
+    "253" = serialize_globalenv_sxp(header_info$x, header_info$i),  # 0xFD GLOBALENV_SXP (global env)
+    "251" = serialize_missingarg_sxp(header_info$x, header_info$i),  # 0xFB MISSINGARG_SXP (missing arg)
     "24" = serialize_rawsxp(header_info$x, header_info$i),   # 0x18 RAWSXP (raw vector)
     "20" = serialize_exprsxp(header_info$x, header_info$i),  # 0x14 EXPRSXP (expression vector)
     "19" = serialize_vecsxp(header_info$x, header_info$i),   # 0x13 VECSXP (generic list)
@@ -17,6 +20,8 @@ serialize_data <- function(x, i) {
     "10" = serialize_lglsxp(header_info$x, header_info$i),   # 0x0A LGLSXP (logical vector)
     "9"  = serialize_chrsxp(header_info$x, header_info$i),   # 0x09 CHARSXP (a single string)
     "6"  = serialize_langsxp(header_info$x, header_info$i),  # 0x06 LANGSXP (language/call)
+    "4"  = serialize_envsxp(header_info$x, header_info$i),   # 0x04 ENVSXP (environment)
+    "3"  = serialize_closxp(header_info$x, header_info$i),   # 0x03 CLOSXP (function)
     "2"  = serialize_listsxp(header_info$x, header_info$i, header_info$flags),  # 0x02 LISTSXP (pairlist)
     "1"  = serialize_symsxp(header_info$x, header_info$i),   # 0x01 SYMSXP (symbol)
     # Fallback for unknown types
@@ -675,4 +680,125 @@ serialize_exprsxp <- function(x, i) {
   }
 
   list(code = all_code, x = x, i = i)
+}
+
+serialize_globalenv_sxp <- function(x, i) {
+  # Handles GLOBALENV_SXP (type 0xFD, 253)
+  # This is a special reference to the global environment
+  # It has no data beyond the header
+  list(code = character(0), x = x, i = i)
+}
+
+serialize_envsxp <- function(x, i) {
+  # Handles an ENVSXP (environment)
+  # Structure:
+  #   Locked flag (4 bytes): 0 = not locked, 1 = locked
+  #   Enclosing environment (ENVSXP or reference)
+  #   Frame (LISTSXP pairlist of bindings, or NULL)
+  #   Hashtab (VECSXP hash table, or NULL)
+  #   Attributes (if HAS_ATTR flag set)
+
+  all_code <- character(0)
+
+  # Locked flag
+  locked_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  locked <- sum(as.integer(locked_bytes) * 256^c(3,2,1,0))
+  locked_comment <- sprintf("# %s-%s: ENVSXP locked flag: %d", i, i + 3, locked)
+  locked_code <- paste(sprintf("0x%s,", as.character(locked_bytes)), collapse = " ")
+  i <- i + 4
+  all_code <- c(all_code, locked_comment, locked_code)
+
+  # Enclosing environment
+  enclos_comment <- sprintf("# %s: ENVSXP enclosing environment", i)
+  all_code <- c(all_code, enclos_comment)
+
+  enclos_res <- serialize_data(x, i)
+  all_code <- c(all_code, enclos_res$code)
+  x <- enclos_res$x
+  i <- enclos_res$i
+
+  # Frame (bindings)
+  frame_comment <- sprintf("# %s: ENVSXP frame (bindings)", i)
+  all_code <- c(all_code, frame_comment)
+
+  frame_res <- serialize_data(x, i)
+  all_code <- c(all_code, frame_res$code)
+  x <- frame_res$x
+  i <- frame_res$i
+
+  # Hashtab
+  hashtab_comment <- sprintf("# %s: ENVSXP hashtab", i)
+  all_code <- c(all_code, hashtab_comment)
+
+  hashtab_res <- serialize_data(x, i)
+  all_code <- c(all_code, hashtab_res$code)
+  x <- hashtab_res$x
+  i <- hashtab_res$i
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_closxp <- function(x, i) {
+  # Handles a CLOSXP (function/closure)
+  # Structure:
+  #   Environment: reference to function's environment (ENVSXP or special reference)
+  #   Formals: parameter list (LISTSXP pairlist or NILVALUE_SXP)
+  #   Body: function body (usually LANGSXP or { } block)
+
+  all_code <- character(0)
+
+  # Environment
+  env_comment <- sprintf("# %s: CLOSXP environment", i)
+  all_code <- c(all_code, env_comment)
+
+  env_res <- serialize_data(x, i)
+  all_code <- c(all_code, env_res$code)
+  x <- env_res$x
+  i <- env_res$i
+
+  # Formals (parameters)
+  formals_comment <- sprintf("# %s: CLOSXP formals (parameters)", i)
+  all_code <- c(all_code, formals_comment)
+
+  formals_res <- serialize_data(x, i)
+  all_code <- c(all_code, formals_res$code)
+  x <- formals_res$x
+  i <- formals_res$i
+
+  # Body
+  body_comment <- sprintf("# %s: CLOSXP body", i)
+  all_code <- c(all_code, body_comment)
+
+  body_res <- serialize_data(x, i)
+  all_code <- c(all_code, body_res$code)
+  x <- body_res$x
+  i <- body_res$i
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_missingarg_sxp <- function(x, i) {
+  # Handles MISSINGARG_SXP (type 0xFB, 251)
+  # This represents a missing argument in a function's formals
+  # (parameters without default values)
+  # It has no data beyond the header
+  list(code = character(0), x = x, i = i)
+}
+
+serialize_refsxp <- function(x, i) {
+  # Handles REFSXP (type 0xFF, 255)
+  # This represents a reference to a previously serialized object
+  # Structure: 4-byte reference index
+
+  # Read reference index
+  ref_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  ref_idx <- sum(as.integer(ref_bytes) * 256^c(3,2,1,0))
+
+  ref_comment <- sprintf("# %s-%s: REFSXP reference index: %d", i, i + 3, ref_idx)
+  ref_code <- paste(sprintf("0x%s,", as.character(ref_bytes)), collapse = " ")
+  i <- i + 4
+
+  list(code = c(ref_comment, ref_code), x = x, i = i)
 }

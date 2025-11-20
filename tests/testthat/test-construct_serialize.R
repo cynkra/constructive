@@ -532,3 +532,69 @@ test_that("construct_serialize works for expression vectors", {
   x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
   expect_identical(x5_reconstructed, x5)
 })
+
+test_that("construct_serialize works for functions", {
+  # Simple function with parameters
+  x1 <- function(x, y = 1) { x + y }
+  attr(x1, 'srcref') <- NULL  # Remove srcref to avoid test environment complexity
+  environment(x1) <- .GlobalEnv  # Use global environment to avoid test environment serialization
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  attr(x1_reconstructed, 'srcref') <- NULL
+  expect_identical(x1_reconstructed, x1)
+  expect_true(is.function(x1_reconstructed))
+  expect_equal(x1(5), x1_reconstructed(5))
+  expect_equal(x1(5, 2), x1_reconstructed(5, 2))
+
+  # Function with no parameters
+  x2 <- function() { 42 }
+  attr(x2, 'srcref') <- NULL
+  environment(x2) <- .GlobalEnv
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  attr(x2_reconstructed, 'srcref') <- NULL
+  expect_identical(x2_reconstructed, x2)
+  expect_equal(x2(), x2_reconstructed())
+
+  # Function with multiple parameters
+  x3 <- function(a, b, c = 0) { a + b + c }
+  attr(x3, 'srcref') <- NULL
+  environment(x3) <- .GlobalEnv
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  attr(x3_reconstructed, 'srcref') <- NULL
+  expect_identical(x3_reconstructed, x3)
+  expect_equal(x3(1, 2), x3_reconstructed(1, 2))
+  expect_equal(x3(1, 2, 3), x3_reconstructed(1, 2, 3))
+
+  # Function with complex body
+  x4 <- function(x) {
+    if (x > 0) {
+      log(x)
+    } else {
+      0
+    }
+  }
+  attr(x4, 'srcref') <- NULL
+  environment(x4) <- .GlobalEnv
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  attr(x4_reconstructed, 'srcref') <- NULL
+  expect_identical(x4_reconstructed, x4)
+  expect_equal(x4(10), x4_reconstructed(10))
+  expect_equal(x4(-5), x4_reconstructed(-5))
+
+  # Function that returns a function
+  x5 <- function(a) {
+    function(b) { a + b }
+  }
+  attr(x5, 'srcref') <- NULL
+  environment(x5) <- .GlobalEnv
+  code5 <- construct_serialize(x5)
+  x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
+  attr(x5_reconstructed, 'srcref') <- NULL
+  expect_identical(x5_reconstructed, x5)
+  f_orig <- x5(10)
+  f_recon <- x5_reconstructed(10)
+  expect_equal(f_orig(5), f_recon(5))
+})
