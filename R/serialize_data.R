@@ -20,6 +20,8 @@ serialize_data <- function(x, i) {
     "13" = serialize_intsxp(header_info$x, header_info$i),   # 0x0D INTSXP (integer vector)
     "10" = serialize_lglsxp(header_info$x, header_info$i),   # 0x0A LGLSXP (logical vector)
     "9"  = serialize_chrsxp(header_info$x, header_info$i),   # 0x09 CHARSXP (a single string)
+    "8"  = serialize_builtinsxp(header_info$x, header_info$i),  # 0x08 BUILTINSXP (builtin function)
+    "7"  = serialize_specialsxp(header_info$x, header_info$i),  # 0x07 SPECIALSXP (special function)
     "6"  = serialize_langsxp(header_info$x, header_info$i),  # 0x06 LANGSXP (language/call)
     "4"  = serialize_envsxp(header_info$x, header_info$i),   # 0x04 ENVSXP (environment)
     "3"  = serialize_closxp(header_info$x, header_info$i),   # 0x03 CLOSXP (function)
@@ -852,6 +854,83 @@ serialize_altrep_sxp <- function(x, i) {
   all_code <- c(all_code, attr_res$code)
   x <- attr_res$x
   i <- attr_res$i
+
+  list(code = all_code, x = x, i = i)
+}
+serialize_builtinsxp <- function(x, i) {
+  # Handles BUILTINSXP (type 0x08, 8)
+  # Builtin functions like sum, mean, length, etc.
+  # Structure: 4-byte length + N bytes of function name (as raw bytes)
+
+  # 1. Read name length
+  len_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+
+  len_comment <- sprintf("# %s-%s: BUILTINSXP name length: %d", i, i + 3, len)
+  len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
+  i <- i + 4
+
+  all_code <- c(len_comment, len_code)
+
+  # 2. Read name bytes
+  if (len > 0) {
+    name_bytes <- x[1:len]
+    x <- x[-(1:len)]
+    name <- rawToChar(name_bytes)
+
+    name_comment <- sprintf("# %s-%s: BUILTINSXP name: \"%s\"", i, i + len - 1, name)
+    all_code <- c(all_code, name_comment)
+
+    # Format name bytes in rows of 8
+    byte_code <- sprintf("0x%s,", as.character(name_bytes))
+    for (row_start in seq(1, len, by = 8)) {
+      row_end <- min(row_start + 7, len)
+      row <- paste(byte_code[row_start:row_end], collapse = " ")
+      all_code <- c(all_code, row)
+    }
+
+    i <- i + len
+  }
+
+  list(code = all_code, x = x, i = i)
+}
+
+serialize_specialsxp <- function(x, i) {
+  # Handles SPECIALSXP (type 0x07, 7)
+  # Special functions like if, for, while, function, etc.
+  # Structure: 4-byte length + N bytes of function name (as raw bytes)
+
+  # 1. Read name length
+  len_bytes <- x[1:4]
+  x <- x[-(1:4)]
+  len <- sum(as.integer(len_bytes) * 256^c(3,2,1,0))
+
+  len_comment <- sprintf("# %s-%s: SPECIALSXP name length: %d", i, i + 3, len)
+  len_code <- paste(sprintf("0x%s,", as.character(len_bytes)), collapse = " ")
+  i <- i + 4
+
+  all_code <- c(len_comment, len_code)
+
+  # 2. Read name bytes
+  if (len > 0) {
+    name_bytes <- x[1:len]
+    x <- x[-(1:len)]
+    name <- rawToChar(name_bytes)
+
+    name_comment <- sprintf("# %s-%s: SPECIALSXP name: \"%s\"", i, i + len - 1, name)
+    all_code <- c(all_code, name_comment)
+
+    # Format name bytes in rows of 8
+    byte_code <- sprintf("0x%s,", as.character(name_bytes))
+    for (row_start in seq(1, len, by = 8)) {
+      row_end <- min(row_start + 7, len)
+      row <- paste(byte_code[row_start:row_end], collapse = " ")
+      all_code <- c(all_code, row)
+    }
+
+    i <- i + len
+  }
 
   list(code = all_code, x = x, i = i)
 }

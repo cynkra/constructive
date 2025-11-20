@@ -598,3 +598,54 @@ test_that("construct_serialize works for functions", {
   f_recon <- x5_reconstructed(10)
   expect_equal(f_orig(5), f_recon(5))
 })
+
+test_that("construct_serialize works for builtin functions", {
+  # Builtin function: sum
+  x1 <- sum
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_true(is.primitive(x1_reconstructed))
+  expect_equal(x1(1:10), x1_reconstructed(1:10))
+  
+  # Builtin function: length
+  x2 <- length
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+  expect_equal(x2(1:5), x2_reconstructed(1:5))
+  
+  # Builtin function: c
+  x3 <- c
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+  expect_equal(x3(1, 2, 3), x3_reconstructed(1, 2, 3))
+})
+
+test_that("construct_serialize works for special functions", {
+  # Special function: if
+  x1 <- `if`
+  code1 <- construct_serialize(x1)
+  x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
+  expect_identical(x1_reconstructed, x1)
+  expect_true(is.primitive(x1_reconstructed))
+  
+  # Special function: for
+  x2 <- `for`
+  code2 <- construct_serialize(x2)
+  x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
+  expect_identical(x2_reconstructed, x2)
+  
+  # Special function: function
+  x3 <- `function`
+  code3 <- construct_serialize(x3)
+  x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
+  expect_identical(x3_reconstructed, x3)
+  
+  # Special function: while
+  x4 <- `while`
+  code4 <- construct_serialize(x4)
+  x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
+  expect_identical(x4_reconstructed, x4)
+})
