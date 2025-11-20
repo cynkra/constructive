@@ -247,12 +247,16 @@ explain_double <- function(val_bytes, i) {
   )
 
   # Byte 1: sign and upper exponent
-  byte1_bin <- paste(as.integer(intToBits(byte1)[8:1]), collapse = "")
+  byte1_bits <- as.integer(intToBits(byte1)[8:1])
+  byte1_bin <- sprintf("%d %s", byte1_bits[1], paste(byte1_bits[2:8], collapse = ""))
   byte1_comment <- sprintf("0x%02x, # binary: %s => sign==%d, exponent_upper==0x%02x",
                            byte1, byte1_bin, sign_bit, exp_upper)
 
   # Byte 2: lower exponent and upper mantissa
-  byte2_bin <- paste(as.integer(intToBits(byte2)[8:1]), collapse = "")
+  byte2_bits <- as.integer(intToBits(byte2)[8:1])
+  byte2_bin <- sprintf("%s %s",
+                       paste(byte2_bits[1:4], collapse = ""),
+                       paste(byte2_bits[5:8], collapse = ""))
   byte2_comment <- sprintf("0x%02x, # binary: %s => exponent_lower==0x%02x, mantissa_upper==0x%x",
                            byte2, byte2_bin, exp_lower, mantissa_upper)
 
