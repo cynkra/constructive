@@ -741,10 +741,11 @@ serialize_envsxp <- function(x, i) {
 
 serialize_closxp <- function(x, i) {
   # Handles a CLOSXP (function/closure)
-  # Structure:
+  # Structure (from empirical observation):
   #   Environment: reference to function's environment (ENVSXP or special reference)
   #   Formals: parameter list (LISTSXP pairlist or NILVALUE_SXP)
   #   Body: function body (usually LANGSXP or { } block)
+  #   Attributes: always present (usually NULL if no attributes)
 
   all_code <- character(0)
 
@@ -774,6 +775,16 @@ serialize_closxp <- function(x, i) {
   all_code <- c(all_code, body_res$code)
   x <- body_res$x
   i <- body_res$i
+
+  # CLOSXP always has a 4th component (attributes), even if it's NULL
+  # This is NOT controlled by HAS_ATTR flag - it's always present
+  attr_comment <- sprintf("# %s: CLOSXP attributes (always present)", i)
+  all_code <- c(all_code, attr_comment)
+
+  attr_res <- serialize_data(x, i)
+  all_code <- c(all_code, attr_res$code)
+  x <- attr_res$x
+  i <- attr_res$i
 
   list(code = all_code, x = x, i = i)
 }
