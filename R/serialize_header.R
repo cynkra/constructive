@@ -1,4 +1,4 @@
-serialize_header <- function(x, i = 1) {
+serialize_header <- function(x, i = 1, collapse = FALSE) {
   serialization_format <- serialize_serialization_format(x, i)
   header_separator <- serialize_header_separator(
     serialization_format$x,
@@ -20,14 +20,23 @@ serialize_header <- function(x, i = 1) {
     minimum_version$x,
     minimum_version$i
   )
-  code <- c(
-    serialization_format$code,
-    header_separator$code,
-    workspace_format$code,
-    r_version$code,
-    minimum_version$code,
-    character_set$code
-  )
+
+  if (collapse) {
+    # Collect all bytes and create a collapsed one-line representation
+    all_bytes <- x[1:(character_set$i - 1)]
+    code <- sprintf("0x%s", as.character(all_bytes))
+    code <- paste(code, collapse = ", ")
+  } else {
+    code <- c(
+      serialization_format$code,
+      header_separator$code,
+      workspace_format$code,
+      r_version$code,
+      minimum_version$code,
+      character_set$code
+    )
+  }
+
   list(
     code = code,
     x = character_set$x,

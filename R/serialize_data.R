@@ -575,21 +575,84 @@ serialize_chrsxp <- function(x, i) {
   chars <- strsplit(full_string, "")[[1]]
   bytes_per_char <- sapply(chars, function(ch) length(charToRaw(ch)))
 
-  # Create a comment string that aligns each character over its corresponding bytes
-  padded_chars <- mapply(function(char, byte_len) {
-    # Each hex code is formatted as "0xXX, ", roughly 6 characters wide
-    total_width <- byte_len * 6 - 1
-    # We center the character in the allocated space
-    padding <- floor((total_width - nchar(char)) / 2)
-    paste0(strrep(" ", padding), char, strrep(" ", total_width - nchar(char) - padding))
-  }, chars, bytes_per_char)
-  char_comment <- paste0("#  ", paste(padded_chars, collapse = " "))
+  # Split into chunks of max 12 bytes per line
+  all_code <- c(len_comment, len_code)
 
-  str_code <- paste(sprintf("0x%s,", as.character(str_bytes)), collapse = " ")
+  if (len > 0) {
+    byte_idx <- 1
+    char_idx <- 1
+
+    while (byte_idx <= len) {
+      # Determine how many bytes fit in this line (max 12)
+      line_bytes_count <- 0
+      line_chars <- character(0)
+      line_bytes_per_char <- integer(0)
+
+      while (char_idx <= length(chars) && line_bytes_count + bytes_per_char[char_idx] <= 12) {
+        line_chars <- c(line_chars, chars[char_idx])
+        line_bytes_per_char <- c(line_bytes_per_char, bytes_per_char[char_idx])
+        line_bytes_count <- line_bytes_count + bytes_per_char[char_idx]
+        char_idx <- char_idx + 1
+      }
+
+      # Get the bytes for this line
+      line_bytes <- str_bytes[byte_idx:(byte_idx + line_bytes_count - 1)]
+
+      # Create character comment with proper alignment
+      # Pattern: "#  " prefix, then chars spaced to align with bytes below
+      # Single-byte chars: left-aligned like UTF-8 header
+      # Multi-byte chars: centered with adjusted spacing
+      padded_chars <- character(0)
+      for (j in seq_along(line_chars)) {
+        char <- line_chars[j]
+        byte_len <- line_bytes_per_char[j]
+
+        # Calculate total width for this character's bytes
+        is_last_char_in_line <- (j == length(line_chars))
+        is_last_line <- (byte_idx + line_bytes_count > len)
+        is_last_byte_of_string <- is_last_char_in_line && is_last_line
+
+        if (is_last_byte_of_string) {
+          # Last byte has no comma
+          total_width <- (byte_len - 1) * 6 + 4
+        } else {
+          total_width <- byte_len * 6
+        }
+
+        char_width <- nchar(char, type = "width")
+
+        if (byte_len == 1) {
+          # Single-byte character: left-align (like UTF-8 header)
+          padded_char <- paste0(char, strrep(" ", total_width - char_width))
+        } else {
+          # Multi-byte character: center in its byte span
+          left_padding <- floor((total_width - char_width) / 2)
+          right_padding <- total_width - char_width - left_padding
+          padded_char <- paste0(
+            strrep(" ", left_padding),
+            char,
+            strrep(" ", right_padding)
+          )
+        }
+        padded_chars <- c(padded_chars, padded_char)
+      }
+
+      char_comment <- paste0("#  ", paste(padded_chars, collapse = ""))
+
+      # Create byte code for this line
+      # Always add commas - trim_last_comma will remove the final one if needed
+      line_code <- sprintf("0x%s,", as.character(line_bytes))
+      line_code <- paste(line_code, collapse = " ")
+
+      all_code <- c(all_code, char_comment, line_code)
+      byte_idx <- byte_idx + line_bytes_count
+    }
+  }
+
   i <- i + len
 
   list(
-    code = c(len_comment, len_code, char_comment, str_code),
+    code = all_code,
     x = x,
     i = i
   )
