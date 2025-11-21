@@ -4,10 +4,14 @@
 \alias{construct_serialize}
 \title{Build code to recreate an object from its serialized form}
 \usage{
-construct_serialize(x)
+construct_serialize(x, collapse_header = FALSE)
 }
 \arguments{
 \item{x}{An R object to serialize and reconstruct.}
+
+\item{collapse_header}{Logical. If \code{TRUE}, the serialization header is displayed
+as a single collapsed line (\code{c(0x58, 0x0a, ..., 0x38)}). If \code{FALSE} (default),
+the header is displayed with detailed comments explaining each component.}
 }
 \value{
 An object of class \code{"constructive_code"} containing the generated code
