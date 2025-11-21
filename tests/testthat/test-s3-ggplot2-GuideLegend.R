@@ -1,6 +1,7 @@
 test_that("GuideLegend", {
   skip_if_not_installed("ggplot2")
   skip_if(with_versions(ggplot2 <= "3.5.2"))
+  skip_if(with_versions(R < "4.4"))
   expect_construct(ggplot2::guide_legend(
     title = "LEFT",
     theme = ggplot2::theme(legend.title.position = "left")

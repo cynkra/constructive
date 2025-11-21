@@ -1,4 +1,5 @@
 test_that("theme", {
+  skip_if(with_versions(R < "4.3"))
   expect_snapshot({
     construct(ggplot2::theme_bw())
     construct(ggplot2::theme_bw(base_size = 11, base_line_size = 0.5))
