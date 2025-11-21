@@ -51,12 +51,66 @@ serialize_data <- function(x, i) {
 }
 
 serialize_packed_header <- function(x, i) {
+  # Packed header is 4 bytes:
+  # - Bytes 1-2: GP bits and levs (not commonly used)
+  # - Byte 3: Flags (HAS_ATTR=0x02, HAS_TAG=0x04, IS_S4=0x08, etc.)
+  # - Byte 4: Type code identifying the SEXP type
   header_bytes <- x[1:4]
   x <- x[-(1:4)]
   type <- as.integer(header_bytes[[4]])
   flags <- as.integer(header_bytes[[3]])
-  # For now, a generic comment. This could be enhanced to show flags.
-  comment <- sprintf("# %s-%s: Packed Header (type 0x%x)", i, i + 3, type)
+
+  # Map type codes to SEXP names
+  type_names <- c(
+    "0" = "NILSXP (NULL)",
+    "1" = "SYMSXP (symbol)",
+    "2" = "LISTSXP (pairlist)",
+    "3" = "CLOSXP (function closure)",
+    "4" = "ENVSXP (environment)",
+    "6" = "LANGSXP (language/call)",
+    "7" = "SPECIALSXP (special function)",
+    "8" = "BUILTINSXP (builtin function)",
+    "9" = "CHARSXP (string)",
+    "10" = "LGLSXP (logical vector)",
+    "13" = "INTSXP (integer vector)",
+    "14" = "REALSXP (numeric vector)",
+    "15" = "CPLXSXP (complex vector)",
+    "16" = "STRSXP (character vector)",
+    "19" = "VECSXP (list)",
+    "20" = "EXPRSXP (expression vector)",
+    "24" = "RAWSXP (raw vector)",
+    "238" = "ALTREP_SXP (alternative representation)",
+    "251" = "MISSINGARG_SXP (missing argument)",
+    "253" = "GLOBALENV_SXP (global environment)",
+    "254" = "NILVALUE_SXP (NULL value)",
+    "255" = "REFSXP (reference)"
+  )
+
+  type_name <- type_names[as.character(type)]
+  if (is.na(type_name)) {
+    type_name <- sprintf("Unknown type (0x%x)", type)
+  }
+
+  # Decode flags
+  flag_descriptions <- character(0)
+  if (bitwAnd(flags, 0x02) > 0) {
+    flag_descriptions <- c(flag_descriptions, "HAS_ATTR")
+  }
+  if (bitwAnd(flags, 0x04) > 0) {
+    flag_descriptions <- c(flag_descriptions, "HAS_TAG")
+  }
+  if (bitwAnd(flags, 0x08) > 0) {
+    flag_descriptions <- c(flag_descriptions, "IS_S4")
+  }
+
+  # Build comment
+  if (length(flag_descriptions) > 0) {
+    flag_str <- sprintf(" | flags: %s", paste(flag_descriptions, collapse = ", "))
+  } else {
+    flag_str <- ""
+  }
+
+  comment <- sprintf("# %s-%s: %s%s", i, i + 3, type_name, flag_str)
   code <- paste(sprintf("0x%s,", as.character(header_bytes)), collapse = " ")
   list(
     code = c(comment, code),
