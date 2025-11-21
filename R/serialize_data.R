@@ -162,7 +162,10 @@ serialize_cplxsxp <- function(x, i) {
       real_comment <- sprintf("# %s-%s: %s", i, i + 15, cplx_label)
       real_code <- paste(sprintf("0x%s,", as.character(real_bytes)), collapse = " ")
       imag_code <- paste(sprintf("0x%s,", as.character(imag_bytes)), collapse = " ")
-      all_code <- c(all_code, real_comment, real_code, imag_code)
+      # Wrap in c() with proper indentation
+      element_code <- c(real_comment, real_code, imag_code)
+      trimmed_code <- trim_last_comma(element_code)
+      all_code <- c(all_code, "c(", paste0("  ", trimmed_code), "),")
       i <- i + 16
     }
   }
@@ -192,7 +195,10 @@ serialize_realsxp <- function(x, i) {
 
       # Get detailed breakdown with formula and byte-level comments
       breakdown <- explain_double(val_bytes, i)
-      all_code <- c(all_code, breakdown$code)
+      # Trim the comma from the code block of the element
+      trimmed_code <- trim_last_comma(breakdown$code)
+      # Wrap in c() with proper indentation
+      all_code <- c(all_code, "c(", paste0("  ", trimmed_code), "),")
 
       i <- i + 8
     }
@@ -424,7 +430,10 @@ serialize_intsxp <- function(x, i) {
 
       val_comment <- sprintf("# %s-%s: %s", i, i + 3, val_label)
       val_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
-      all_code <- c(all_code, val_comment, val_code)
+      # Wrap in c() with proper indentation
+      element_code <- c(val_comment, val_code)
+      trimmed_code <- trim_last_comma(element_code)
+      all_code <- c(all_code, "c(", paste0("  ", trimmed_code), "),")
       i <- i + 4
     }
   }
@@ -470,7 +479,10 @@ serialize_lglsxp <- function(x, i) {
 
       val_comment <- sprintf("# %s-%s: %s", i, i + 3, val_label)
       val_code <- paste(sprintf("0x%s,", as.character(val_bytes)), collapse = " ")
-      all_code <- c(all_code, val_comment, val_code)
+      # Wrap in c() with proper indentation
+      element_code <- c(val_comment, val_code)
+      trimmed_code <- trim_last_comma(element_code)
+      all_code <- c(all_code, "c(", paste0("  ", trimmed_code), "),")
       i <- i + 4
     }
   }
@@ -562,7 +574,10 @@ serialize_vecsxp <- function(x, i) {
   if (len > 0) {
     for (j in 1:len) {
       element_res <- serialize_data(x, i)
-      all_code <- c(all_code, element_res$code)
+      # Trim the comma from the code block of the element
+      trimmed_code <- trim_last_comma(element_res$code)
+      # Wrap in c() with proper indentation
+      all_code <- c(all_code, "c(", paste0("  ", trimmed_code), "),")
       x <- element_res$x
       i <- element_res$i
     }
@@ -676,7 +691,10 @@ serialize_exprsxp <- function(x, i) {
   if (len > 0) {
     for (j in 1:len) {
       expr_res <- serialize_data(x, i)
-      all_code <- c(all_code, expr_res$code)
+      # Trim the comma from the code block of the expression
+      trimmed_code <- trim_last_comma(expr_res$code)
+      # Wrap in c() with proper indentation
+      all_code <- c(all_code, "c(", paste0("  ", trimmed_code), "),")
       x <- expr_res$x
       i <- expr_res$i
     }

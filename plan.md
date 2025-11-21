@@ -17,6 +17,11 @@ Feature to convert any R object to constructive code via its serialized binary r
 - Test suite: 110 comprehensive tests covering all implemented types
 - Documentation: Complete roxygen2 documentation with extensive examples
 - Integration: Exported in NAMESPACE, ready for use
+- Output formatting: Enhanced with nested c() calls for better visual granularity
+  - Header section wrapped in c() with proper indentation
+  - Data section wrapped in c() with proper indentation
+  - Individual vector/list elements wrapped in nested c() calls
+  - Hierarchical structure clearly shows serialization boundaries
 - Feature branch: f-635-construct_serialize
 - All common R objects serialize correctly: data.frame, tibble, matrix, array, factor, formula, expressions, functions, primitives, named lists, dates, etc.
 
@@ -275,6 +280,50 @@ Handle references and special object types.
 - ✅ construct_serialize is exported in NAMESPACE via @export directive
 - ✅ Package documentation generated and complete
 - 🟢 Consider adding to main package README (optional enhancement)
+
+## 11. Output Formatting Enhancements ✅
+
+Improve visual granularity and readability of generated code.
+
+### 11.1 Nested c() Structure ✅
+- ✅ Add hierarchical c() calls to group related sections
+  - Top-level: HEADER and DATA sections wrapped in separate c() calls
+  - Element-level: Individual list/vector elements in nested c() calls
+  - Maintain proper indentation reflecting nesting depth
+- ✅ Update all serialize_* functions to support nested structure
+  - Modified: serialize_realsxp, serialize_intsxp, serialize_lglsxp, serialize_cplxsxp
+  - Modified: serialize_vecsxp, serialize_exprsxp
+  - All elements now wrapped in nested c() with proper indentation
+- ✅ Add indentation parameter to track nesting depth
+  - Using paste0("  ", ...) for proper 2-space indentation
+- ✅ Test with various object types to ensure proper formatting
+  - Tested: numeric vectors, integer vectors, logical vectors, complex vectors
+  - Tested: lists, expression vectors
+  - All round-trip tests pass successfully
+
+Goal: Transform flat output into hierarchical structure like:
+```r
+unserialize(as.raw(c(
+  # --- HEADER ---
+  c(
+    # format, separator, versions, encoding
+    ...
+  ),
+  # --- DATA ---
+  c(
+    # packed header, length
+    ...,
+    c(
+      # first element
+      ...
+    ),
+    c(
+      # second element
+      ...
+    )
+  )
+)))
+```
 
 ## References
 - R Internals: https://cran.r-project.org/doc/manuals/r-release/R-ints.html#Serialization-Formats
