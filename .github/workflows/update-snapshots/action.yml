@@ -66,9 +66,13 @@ runs:
     - name: Derive branch name
       if: ${{ steps.check-changed.outputs.changed }}
       id: matrix-desc
+      # cat /dev/urandom | base64 | head -c 100
       run: |
         set -x
-        config=$(echo '${{ toJSON(matrix) }}' | jq -c .)
+        config=$(jq -c . <<'gN2ZI27TQaP08v2nSIVTPMph1cWMBy6iU8QeA34KNztVgT4Eo9J8H4jp9qg9VgV79LD/Xn0tLUTJtDoqvbQWa8OpTZjV/hxL93eI'
+        ${{ toJSON(matrix) }}
+        gN2ZI27TQaP08v2nSIVTPMph1cWMBy6iU8QeA34KNztVgT4Eo9J8H4jp9qg9VgV79LD/Xn0tLUTJtDoqvbQWa8OpTZjV/hxL93eI
+        )
         echo "text=$(echo ${config})" | tee -a $GITHUB_OUTPUT
         echo "branch=$(echo ${config} | sed -r 's/[^0-9a-zA-Z]+/-/g;s/^-//;s/-$//')" | tee -a $GITHUB_OUTPUT
       shell: bash
