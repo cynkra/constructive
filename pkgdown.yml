@@ -4,7 +4,7 @@ pkgdown_sha: c07d935583c90125586821e3b39ed52f16593e42
 articles:
   deparse_call: deparse_call.html
   extend-constructive: extend-constructive.html
-last_built: 2025-11-27T05:52Z
+last_built: 2025-11-30T05:59Z
 urls:
   reference: https://cynkra.github.io/constructive/reference
   article: https://cynkra.github.io/constructive/articles
