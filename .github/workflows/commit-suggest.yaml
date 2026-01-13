@@ -17,11 +17,8 @@ jobs:
 
     steps:
       - name: Show event payload
-        # cat /dev/urandom | base64 | head -c 100
         run: |
-          jq . <<'v1lx8ehvJP+Yk23BsA88q78WSgMkm7d988rL//pOIcHt6YlCrWgI8k13SgXlajaYujAVYnEeNMUVoPLLz/B6JhMQ/aPGBvVzhcpe'
-          ${{ toJson(github.event) }}
-          v1lx8ehvJP+Yk23BsA88q78WSgMkm7d988rL//pOIcHt6YlCrWgI8k13SgXlajaYujAVYnEeNMUVoPLLz/B6JhMQ/aPGBvVzhcpe
+          echo '${{ toJson(github.event) }}' | jq .
         shell: bash
 
       - name: Checkout PR
