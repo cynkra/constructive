@@ -1,5 +1,8 @@
 test_that("ellmer::TypeBasic", {
   skip_if_not_installed("ellmer")
+  # `.additional_properties` is deprecated in `type_object()` as of ellmer 0.5.0;
+  # we still exercise it here to test round-tripping of `additional_properties`.
+  withr::local_options(lifecycle_verbosity = "quiet")
   expect_construct(
     ellmer::type_array(
       items = ellmer::type_object(
@@ -94,6 +97,9 @@ test_that("ellmer::TypeBasic v <= 0.2.1", {
 test_that("ellmer::TypeBasic v > 0.2.1", {
   skip_if_not_installed("ellmer")
   skip_if(with_versions(ellmer <= "0.2.1"))
+  # `.additional_properties` is deprecated in `type_object()` as of ellmer 0.5.0;
+  # we still exercise it here to test round-tripping of `additional_properties`.
+  withr::local_options(lifecycle_verbosity = "quiet")
 
   # from o.3.0 .additional_properties in type_object() and
   # additional_properties in TypeObject() both default to FALSE
