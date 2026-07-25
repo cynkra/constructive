@@ -10,6 +10,19 @@ test_that("ellmer::TypeBasic", {
       )
     )
   )
+  expect_construct(
+    ellmer::type_array(
+      "An array",
+      items = ellmer::type_object(
+        "An object",
+        x = ellmer::type_boolean("A boolean", required = FALSE),
+        y = ellmer::type_string("A string"),
+        z = ellmer::type_number("A number"),
+        json = ellmer::type_from_schema("[1,2]")
+      ),
+      required = FALSE
+    )
+  )
 })
 
 test_that("ellmer::TypeBasic v <= 0.2.1", {
