@@ -554,9 +554,19 @@ export(opts_yearqtr)
 export(opts_zoo)
 export(opts_zooreg)
 import(rlang)
-importFrom(grDevices,dev.off)
-importFrom(grDevices,pdf)
+importFrom(grDevices,
+  dev.off,
+  pdf
+)
 importFrom(methods,getSlots)
 importFrom(stats,setNames)
+importFrom(utils,
+  capture.output,
+  getFromNamespace,
+  head,
+  methods,
+  packageDescription,
+  tail
+)
 useDynLib("")
 useDynLib(constructive)
