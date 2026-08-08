@@ -96,7 +96,7 @@
       construct(structure(tibble::tibble(1), names = NULL))
     Output
       list(1) |>
-        structure(class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, -1L))
+        structure(row.names = c(NA, -1L), class = c("tbl_df", "tbl", "data.frame"))
     Code
       construct(structure(tibble::tibble(1), names = ""))
     Output
