@@ -18,8 +18,7 @@ test_that("ellmer::TypeBasic", {
         x = ellmer::type_boolean("A boolean", required = FALSE),
         y = ellmer::type_string("A string"),
         z = ellmer::type_number("A number"),
-        json = ellmer::type_from_schema("[1,2]"),
-        .additional_properties = TRUE
+        json = ellmer::type_from_schema("[1,2]")
       ),
       required = FALSE
     )
@@ -91,9 +90,9 @@ test_that("ellmer::TypeBasic v <= 0.2.1", {
   )
 })
 
-test_that("ellmer::TypeBasic v > 0.2.1", {
+test_that("ellmer::TypeBasic v > 0.2.1 and v < 0.4.2", {
   skip_if_not_installed("ellmer")
-  skip_if(with_versions(ellmer <= "0.2.1"))
+  skip_if(with_versions(ellmer <= "0.2.1" || ellmer >= "0.4.2"))
 
   # from o.3.0 .additional_properties in type_object() and
   # additional_properties in TypeObject() both default to FALSE
