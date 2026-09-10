@@ -30,10 +30,8 @@ opts_ellmer_TypeObject <- function(constructor = c("type_object", "TypeObject", 
   args <- c(
     list(.description = attr(x, "description")),
     attr(x, "properties"),
-    list(
-      .required = attr(x, "required"),
-      .additional_properties = attr(x, "additional_properties")
-    )
+    list(.required = attr(x, "required")),
+    if (with_versions(ellmer < "0.4.2")) list(.additional_properties = attr(x, "additional_properties"))
   )
   args <- keep_only_non_defaults(args, ellmer::type_object)
   names(args)[names(args) == ".description"] <- ""
