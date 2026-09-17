@@ -536,7 +536,8 @@ test_that("construct_serialize works for expression vectors", {
 test_that("construct_serialize works for functions", {
   # Simple function with parameters
   x1 <- function(x, y = 1) { x + y }
-  attr(x1, 'srcref') <- NULL  # Remove srcref to avoid test environment complexity
+  # Remove srcrefs, including nested ones, they'd embed this whole file and its parse data
+  x1 <- utils::removeSource(x1)
   environment(x1) <- .GlobalEnv  # Use global environment to avoid test environment serialization
   code1 <- construct_serialize(x1)
   x1_reconstructed <- eval(parse(text = paste(code1, collapse = "\n")))
@@ -548,7 +549,8 @@ test_that("construct_serialize works for functions", {
 
   # Function with no parameters
   x2 <- function() { 42 }
-  attr(x2, 'srcref') <- NULL
+  # Remove srcrefs, including nested ones, they'd embed this whole file and its parse data
+  x2 <- utils::removeSource(x2)
   environment(x2) <- .GlobalEnv
   code2 <- construct_serialize(x2)
   x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
@@ -558,7 +560,8 @@ test_that("construct_serialize works for functions", {
 
   # Function with multiple parameters
   x3 <- function(a, b, c = 0) { a + b + c }
-  attr(x3, 'srcref') <- NULL
+  # Remove srcrefs, including nested ones, they'd embed this whole file and its parse data
+  x3 <- utils::removeSource(x3)
   environment(x3) <- .GlobalEnv
   code3 <- construct_serialize(x3)
   x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
@@ -575,7 +578,8 @@ test_that("construct_serialize works for functions", {
       0
     }
   }
-  attr(x4, 'srcref') <- NULL
+  # Remove srcrefs, including nested ones, they'd embed this whole file and its parse data
+  x4 <- utils::removeSource(x4)
   environment(x4) <- .GlobalEnv
   code4 <- construct_serialize(x4)
   x4_reconstructed <- eval(parse(text = paste(code4, collapse = "\n")))
@@ -588,7 +592,7 @@ test_that("construct_serialize works for functions", {
   x5 <- function(a) {
     function(b) { a + b }
   }
-  attr(x5, 'srcref') <- NULL
+  x5 <- utils::removeSource(x5)
   environment(x5) <- .GlobalEnv
   code5 <- construct_serialize(x5)
   x5_reconstructed <- eval(parse(text = paste(code5, collapse = "\n")))
@@ -597,6 +601,132 @@ test_that("construct_serialize works for functions", {
   f_orig <- x5(10)
   f_recon <- x5_reconstructed(10)
   expect_equal(f_orig(5), f_recon(5))
+})
+
+# The bytes found in the generated code should be exactly the serialized object,
+# this is stricter than a round trip since `unserialize()` ignores trailing bytes
+expect_serialize_bytes <- function(x) {
+  code <- construct_serialize(x)
+  code[[1]] <- "as.raw(c("
+  code[[length(code)]] <- "))"
+  bytes <- eval(parse(text = code))
+  expect_identical(bytes, serialize(x, NULL, FALSE))
+}
+
+test_that("construct_serialize works with srcrefs", {
+  f <- eval(parse(text = "function(x, y = 1) {\n  x + y\n}", keep.source = TRUE))
+  environment(f) <- .GlobalEnv
+  b <- body(f)
+  expect_named(attributes(b), c("srcref", "srcfile", "wholeSrcref"))
+
+  # closure with attributes, they come first
+  expect_serialize_bytes(f)
+  # call with attributes, they come first too
+  expect_serialize_bytes(b)
+  # the srcfile is an environment, found several times and stored as a reference
+  expect_serialize_bytes(attr(f, "srcref"))
+  expect_serialize_bytes(attr(b, "srcfile"))
+
+  code <- construct_serialize(f)
+  f_reconstructed <- eval(parse(text = code))
+  expect_identical(deparse(f_reconstructed), deparse(f))
+  expect_identical(
+    as.character(attr(f_reconstructed, "srcref")),
+    as.character(attr(f, "srcref"))
+  )
+  expect_equal(f_reconstructed(1), 2)
+  expect_true(any(grepl("# \\d+: CLOSXP attributes", code)))
+  expect_true(any(grepl("# \\d+: LANGSXP attributes", code)))
+})
+
+test_that("construct_serialize works with references", {
+  # repeated symbols are references
+  x <- quote(x + x)
+  expect_serialize_bytes(x)
+  code <- construct_serialize(x)
+  expect_true(any(grepl("REFSXP reference index: 2 (symbol `x`)", code, fixed = TRUE)))
+  # no byte follows the header of a reference
+  expect_false(any(grepl("UNKNOWN", code)))
+
+  # self referencing environment
+  e <- new.env(parent = emptyenv())
+  e$self <- e
+  expect_serialize_bytes(e)
+  expect_true(any(grepl("(environment)", construct_serialize(e), fixed = TRUE)))
+})
+
+test_that("construct_serialize works with environments", {
+  e <- new.env(parent = emptyenv())
+  e$a <- 1
+  expect_serialize_bytes(e)
+  expect_true(any(grepl("ENVSXP attributes (always present)", construct_serialize(e), fixed = TRUE)))
+  expect_serialize_bytes(structure(new.env(parent = baseenv()), class = "foo"))
+  expect_serialize_bytes(globalenv())
+  expect_serialize_bytes(emptyenv())
+  expect_serialize_bytes(baseenv())
+  expect_serialize_bytes(asNamespace("base"))
+  expect_serialize_bytes(asNamespace("stats"))
+  suppressWarnings(expect_serialize_bytes(as.environment("package:stats")))
+
+  # closure with a regular environment
+  f <- function(x) x + a
+  attr(f, "srcref") <- NULL
+  environment(f) <- list2env(list(a = 1), parent = baseenv())
+  expect_serialize_bytes(f)
+  f_reconstructed <- eval(parse(text = construct_serialize(f)))
+  expect_equal(f_reconstructed(1), 2)
+})
+
+test_that("construct_serialize works with byte code", {
+  # no srcref, as it would embed this whole file and its parse data
+  f <- eval(parse(text = "function(x) {\n  for (i in 1:3) x <- x + i\n  x\n}", keep.source = FALSE))
+  # to be done before compiling, `environment<-` drops the byte code
+  environment(f) <- .GlobalEnv
+  f <- compiler::cmpfun(f, options = list(suppressAll = TRUE))
+  expect_serialize_bytes(f)
+  code <- construct_serialize(f)
+  expect_true(any(grepl("BCODESXP number of constants", code)))
+  f_reconstructed <- eval(parse(text = code))
+  expect_equal(f_reconstructed(0), 6)
+  expect_serialize_bytes(stats::sd)
+})
+
+test_that("construct_serialize works with calls and pairlists with attributes", {
+  expect_serialize_bytes(structure(quote(a + b), class = "foo", extra = 1:3))
+  expect_serialize_bytes(structure(pairlist(a = 1, 2), foo = "bar"))
+  # formula, its environment shouldn't be the test environment
+  expect_serialize_bytes(structure(y ~ x + z, .Environment = globalenv()))
+  expect_serialize_bytes(quote(f(a = 1, b = a)))
+})
+
+test_that("construct_serialize works with S4 objects and external pointers", {
+  expect_serialize_bytes(methods::new("numeric", 1))
+  expect_serialize_bytes(methods::getClass("numeric"))
+  expect_serialize_bytes(methods::new("externalptr"))
+  code <- construct_serialize(methods::getClass("numeric"))
+  expect_true(any(grepl("S4SXP.*IS_S4", code)))
+})
+
+test_that("construct_serialize works with special strings", {
+  expect_serialize_bytes(c("", NA, "a\nb", "\u00e9"))
+  latin1 <- "caf\xe9"
+  Encoding(latin1) <- "latin1"
+  expect_serialize_bytes(latin1)
+  bytes <- "a\xffb"
+  Encoding(bytes) <- "bytes"
+  expect_serialize_bytes(bytes)
+  code <- construct_serialize(c(latin1, bytes, "a\nb"))
+  expect_true(any(grepl("flags: LATIN1", code)))
+  expect_true(any(grepl("flags: BYTES", code)))
+  expect_true(any(grepl("#  a     \\xff  b", code, fixed = TRUE)))
+  expect_true(any(grepl("#  a     \\n    b", code, fixed = TRUE)))
+  expect_serialize_bytes(as.symbol("a\nb"))
+})
+
+test_that("construct_serialize consumes all bytes for complex objects", {
+  expect_serialize_bytes(iris)
+  expect_serialize_bytes(local(lm(mpg ~ cyl, mtcars), envir = new.env(parent = globalenv())))
+  expect_serialize_bytes(list(sum, `if`, quote(expr = ), mean))
 })
 
 test_that("construct_serialize works for builtin functions", {
@@ -608,7 +738,7 @@ test_that("construct_serialize works for builtin functions", {
   expect_true(is.primitive(x1_reconstructed))
   expect_equal(x1(1:10), x1_reconstructed(1:10))
   
-  # Builtin function: length
+  # closure: length
   x2 <- length
   code2 <- construct_serialize(x2)
   x2_reconstructed <- eval(parse(text = paste(code2, collapse = "\n")))
@@ -616,7 +746,7 @@ test_that("construct_serialize works for builtin functions", {
   expect_equal(x2(1:5), x2_reconstructed(1:5))
   
   # Builtin function: c
-  x3 <- c
+  x3 <- base::c
   code3 <- construct_serialize(x3)
   x3_reconstructed <- eval(parse(text = paste(code3, collapse = "\n")))
   expect_identical(x3_reconstructed, x3)

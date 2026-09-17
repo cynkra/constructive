@@ -85,8 +85,18 @@
 #' construct_serialize(quote(mean(x)))
 #' construct_serialize(expression(x + 1, y * 2))
 #'
+  # the reference table is filled as we meet symbols, environments etc
+  globals[["serialize_refs"]] <- character(0)
 #' # Special values
 #' construct_serialize(c(NA, NaN, Inf, -Inf))
+  # all bytes should be consumed, no more no less
+  if (length(data_res$x) > 0 || data_res$i != length(raw_vector) + 1) {
+    abort(sprintf(
+      "Internal error: parsed %s bytes out of %s, please report this issue",
+      data_res$i - 1, length(raw_vector)
+    ))
+  }
+
 #'
 #' # Builtin functions
 #' construct_serialize(sum)
