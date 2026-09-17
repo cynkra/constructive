@@ -67,7 +67,7 @@
       ) |>
         structure(class = c("POSIXlt", "POSIXt"), tzone = "GMT", balanced = TRUE)
 
----
+# POSIXlt-from-4.3, CET
 
     Code
       construct(as.POSIXlt(.leap.seconds[1:4]))
