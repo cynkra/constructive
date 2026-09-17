@@ -4,12 +4,21 @@
 \alias{opts_matrix}
 \title{Constructive options for matrices}
 \usage{
-opts_matrix(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...)
+opts_matrix(
+  constructor = c("matrix", "array", "cbind", "rbind", "next"),
+  ...,
+  byrow = FALSE
+)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object.}
 
 \item{...}{Additional options used by user defined constructors through the \code{opts} object}
+
+\item{byrow}{Boolean. Only considered if \code{constructor} is \code{"matrix"}. If \code{TRUE}
+atomic matrices are constructed with \code{byrow = TRUE}, one row per line and
+with aligned columns, as with \code{tibble::tribble()}. Ignored for list and
+expression matrices, matrices with no row or column, and one liners.}
 }
 \value{
 An object of class <constructive_options/constructive_options_matrix>
