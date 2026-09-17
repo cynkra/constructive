@@ -10,3 +10,4 @@ ignored
 *.gcov
 /doc/
 /Meta/
+.ccache/
