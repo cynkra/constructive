@@ -20,41 +20,22 @@
 #' The generated code includes detailed comments explaining the binary structure,
 #' making it useful for understanding R's serialization format.
 #'
-#' ## When to use construct_serialize()
-#'
-#' Use `construct_serialize()` when:
-#' - You need a guaranteed way to reconstruct any R object
-#' - Idiomatic construction is unavailable or produces incorrect results
-#' - You want to understand R's serialization format
-#' - You need to preserve exact binary representation (e.g., special NA values)
-#'
-#' Prefer `construct()` when:
-#' - You want readable, idiomatic R code
-#' - The object has a natural constructor (e.g., `data.frame()`, `matrix()`)
-#' - You're sharing code with others who need to understand it
-#'
-#' ## Supported Types
-#'
-#' `construct_serialize()` supports all commonly used R object types:
-#' - **Atomic vectors**: character, logical, integer, numeric, complex, raw
-#' - **Special values**: NULL, NA, NaN, Inf, -Inf, -0 (negative zero)
-#' - **Containers**: lists, pairlists, data.frames
-#' - **Attributes**: names, class, dim, dimnames, custom attributes
-#' - **Functions**: closures, builtins (sum, length), special forms (if, for)
-#' - **Expressions**: symbols, language objects (calls), expression vectors
-#' - **Environments**: global environment references, custom environments
-#' - **Advanced**: ALTREP sequences (1:n), references, factors, dates, formulas
-#'
 #' ## Limitations
 #'
-#' Some R objects cannot be fully serialized:
-#' - **External pointers**: Cannot be reconstructed in a new session
-#' - **Namespace environments**: May reference package-specific state
-#' - **Active bindings**: The binding mechanism isn't preserved
-#' - **Connections**: File handles and network connections
-#' - **Promises**: Unevaluated function arguments
+#' `construct_serialize()` reproduces faithfully what `serialize()` does, so it
+#' shares its limitations. Some objects don't survive serialization or can be
+#' restored only in some conditions:
+#' - **External pointers**: The address is lost, we get a null pointer
+#' - **Weak references**: The key and value are lost
+#' - **Connections**: Only the connection number is stored, the reconstructed
+#'   object is valid only in the same session, as long as the connection is open
+#' - **Namespaces and package environments**: They are stored by name, so the
+#'   package must be available when the code is run
 #'
-#' For these cases, `unserialize()` may return a placeholder or fail.
+#' The function is designed for small objects, every byte is documented so the
+#' output is long and large objects (hundreds of kilobytes once serialized) are
+#' slow to process. Note that functions defined in a file keep a reference to
+#' the whole file through their srcref, use `utils::removeSource()` to get rid of it.
 #'
 #' @param x An R object to serialize and reconstruct.
 #' @param collapse_header Logical. If `TRUE`, the serialization header is displayed
@@ -85,18 +66,8 @@
 #' construct_serialize(quote(mean(x)))
 #' construct_serialize(expression(x + 1, y * 2))
 #'
-  # the reference table is filled as we meet symbols, environments etc
-  globals[["serialize_refs"]] <- character(0)
 #' # Special values
 #' construct_serialize(c(NA, NaN, Inf, -Inf))
-  # all bytes should be consumed, no more no less
-  if (length(data_res$x) > 0 || data_res$i != length(raw_vector) + 1) {
-    abort(sprintf(
-      "Internal error: parsed %s bytes out of %s, please report this issue",
-      data_res$i - 1, length(raw_vector)
-    ))
-  }
-
 #'
 #' # Builtin functions
 #' construct_serialize(sum)
@@ -114,7 +85,17 @@ construct_serialize <- function(x, collapse_header = FALSE) {
   header_res <- serialize_header(raw_vector, collapse = collapse_header)
 
   # 3. Process the data part of the raw vector
+  # the reference table is filled as we meet symbols, environments etc
+  globals[["serialize_refs"]] <- character(0)
   data_res <- serialize_data(header_res$x, header_res$i)
+
+  # all bytes should be consumed, no more no less
+  if (length(data_res$x) > 0 || data_res$i != length(raw_vector) + 1) {
+    abort(sprintf(
+      "Internal error: parsed %s bytes out of %s, please report this issue",
+      data_res$i - 1, length(raw_vector)
+    ))
+  }
 
   # 4. Trim the final trailing comma from each block of code
   # (trim_last_comma is defined in utils.R)

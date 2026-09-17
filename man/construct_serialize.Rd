@@ -36,51 +36,24 @@ This function generates code in the form:
 
 The generated code includes detailed comments explaining the binary structure,
 making it useful for understanding R's serialization format.
-\subsection{When to use construct_serialize()}{
-
-Use \code{construct_serialize()} when:
-\itemize{
-\item You need a guaranteed way to reconstruct any R object
-\item Idiomatic construction is unavailable or produces incorrect results
-\item You want to understand R's serialization format
-\item You need to preserve exact binary representation (e.g., special NA values)
-}
-
-Prefer \code{construct()} when:
-\itemize{
-\item You want readable, idiomatic R code
-\item The object has a natural constructor (e.g., \code{data.frame()}, \code{matrix()})
-\item You're sharing code with others who need to understand it
-}
-}
-
-\subsection{Supported Types}{
-
-\code{construct_serialize()} supports all commonly used R object types:
-\itemize{
-\item \strong{Atomic vectors}: character, logical, integer, numeric, complex, raw
-\item \strong{Special values}: NULL, NA, NaN, Inf, -Inf, -0 (negative zero)
-\item \strong{Containers}: lists, pairlists, data.frames
-\item \strong{Attributes}: names, class, dim, dimnames, custom attributes
-\item \strong{Functions}: closures, builtins (sum, length), special forms (if, for)
-\item \strong{Expressions}: symbols, language objects (calls), expression vectors
-\item \strong{Environments}: global environment references, custom environments
-\item \strong{Advanced}: ALTREP sequences (1:n), references, factors, dates, formulas
-}
-}
-
 \subsection{Limitations}{
 
-Some R objects cannot be fully serialized:
+\code{construct_serialize()} reproduces faithfully what \code{serialize()} does, so it
+shares its limitations. Some objects don't survive serialization or can be
+restored only in some conditions:
 \itemize{
-\item \strong{External pointers}: Cannot be reconstructed in a new session
-\item \strong{Namespace environments}: May reference package-specific state
-\item \strong{Active bindings}: The binding mechanism isn't preserved
-\item \strong{Connections}: File handles and network connections
-\item \strong{Promises}: Unevaluated function arguments
+\item \strong{External pointers}: The address is lost, we get a null pointer
+\item \strong{Weak references}: The key and value are lost
+\item \strong{Connections}: Only the connection number is stored, the reconstructed
+object is valid only in the same session, as long as the connection is open
+\item \strong{Namespaces and package environments}: They are stored by name, so the
+package must be available when the code is run
 }
 
-For these cases, \code{unserialize()} may return a placeholder or fail.
+The function is designed for small objects, every byte is documented so the
+output is long and large objects (hundreds of kilobytes once serialized) are
+slow to process. Note that functions defined in a file keep a reference to
+the whole file through their srcref, use \code{utils::removeSource()} to get rid of it.
 }
 }
 \examples{
