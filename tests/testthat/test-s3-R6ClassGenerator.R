@@ -71,3 +71,15 @@ test_that("R6Class, R < 4.3.0", {
     construct(Queue, check = FALSE)
   })
 })
+
+test_that("R6Class name attribute", {
+  expect_snapshot({
+    # the name set by `R6Class()` is not repaired
+    construct(R6::R6Class("Foo", parent_env = .GlobalEnv), check = FALSE)
+    construct(R6::R6Class(parent_env = .GlobalEnv), check = FALSE)
+    # a modified name is
+    generator <- R6::R6Class("Foo", parent_env = .GlobalEnv)
+    attr(generator, "name") <- "Bar"
+    construct(generator, check = FALSE)
+  })
+})

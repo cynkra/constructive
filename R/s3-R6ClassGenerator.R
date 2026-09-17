@@ -59,8 +59,12 @@ is_corrupted_R6ClassGenerator <- function(x) {
   if (isFALSE(args$lock_class)) args$lock_class <- NULL
   if (isTRUE(args$cloneable)) args$cloneable <- NULL
   code <- constructive::.cstr_apply(args, fun = "R6::R6Class", ...)
+  # `R6Class()` sets the "name" attribute itself, so we repair it only if it
+  # was modified
+  ignore <- if (identical(attr(x, "name"), paste0(x$classname, "_generator"))) "name"
   constructive::.cstr_repair_attributes(
     x, code, ...,
+    ignore = ignore,
     idiomatic_class = "R6ClassGenerator"
   )
 }
