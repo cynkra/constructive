@@ -43,7 +43,10 @@ is_corrupted_integer64 <- function(x) {
 #' @export
 #' @method .cstr_construct.integer64 as.integer64
 .cstr_construct.integer64.as.integer64 <- function(x, ...) {
-  code <- .cstr_apply(list(trimws(format(x))), "bit64::as.integer64", ...)
+  chr <- trimws(format(x))
+  # bit64 >= 4.8 warns when coercing the string "NA", but not `NA`
+  chr[is.na(x)] <- NA
+  code <- .cstr_apply(list(chr), "bit64::as.integer64", ...)
   repair_attributes_integer64(x, code, ...)
 }
 
