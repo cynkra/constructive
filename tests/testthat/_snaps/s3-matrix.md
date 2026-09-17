@@ -84,103 +84,26 @@
 # matrix with `byrow = TRUE`
 
     Code
-      construct(matrix(c(1, 20, 300, 4000, 5, 6), 2), opts_matrix(byrow = TRUE))
+      construct(matrix(1:6, 2), opts_matrix(byrow = TRUE))
     Output
-      matrix(
-        c(
-          1,  300,  5,
-          20, 4000, 6
-        ),
-        nrow = 2L,
-        ncol = 3L,
-        byrow = TRUE
-      )
+      matrix(c(1L, 3L, 5L, 2L, 4L, 6L), nrow = 2L, ncol = 3L, byrow = TRUE)
     Code
-      construct(matrix(1:6, 2, dimnames = list(c("a", "b"), c("x", "y", "z"))),
+      construct(matrix(c("a", "b", NA, "d"), 2, dimnames = list(c("x", "y"), NULL)),
       opts_matrix(byrow = TRUE))
     Output
       matrix(
-        c(
-          1L, 3L, 5L,
-          2L, 4L, 6L
-        ),
+        c("a", NA, "b", "d"),
         nrow = 2L,
-        ncol = 3L,
+        ncol = 2L,
         byrow = TRUE,
-        dimnames = list(c("a", "b"), c("x", "y", "z"))
-      )
-    Code
-      construct(matrix(c("a", "bbb", NA, "d"), 2), opts_matrix(byrow = TRUE))
-    Output
-      matrix(
-        c(
-          "a",   NA,
-          "bbb", "d"
-        ),
-        nrow = 2L,
-        ncol = 2L,
-        byrow = TRUE
-      )
-    Code
-      construct(matrix(NA_real_, 2, 2), opts_matrix(byrow = TRUE))
-    Output
-      matrix(
-        c(
-          NA_real_, NA_real_,
-          NA_real_, NA_real_
-        ),
-        nrow = 2L,
-        ncol = 2L,
-        byrow = TRUE
-      )
-    Code
-      construct(matrix(c(TRUE, NA, FALSE, TRUE), 1), opts_matrix(byrow = TRUE))
-    Output
-      matrix(
-        c(
-          TRUE, NA, FALSE, TRUE
-        ),
-        nrow = 1L,
-        ncol = 4L,
-        byrow = TRUE
-      )
-    Code
-      construct(structure(matrix(1:4, 2), foo = "bar"), opts_matrix(byrow = TRUE))
-    Output
-      matrix(
-        c(
-          1L, 3L,
-          2L, 4L
-        ),
-        nrow = 2L,
-        ncol = 2L,
-        byrow = TRUE
-      ) |>
-        structure(foo = "bar")
-    Code
-      construct(list(m = matrix(1:4, 2)), opts_matrix(byrow = TRUE))
-    Output
-      list(
-        m = matrix(
-          c(
-            1L, 3L,
-            2L, 4L
-          ),
-          nrow = 2L,
-          ncol = 2L,
-          byrow = TRUE
-        )
+        dimnames = list(c("x", "y"), NULL)
       )
     Code
       construct(matrix(list(1, "a", TRUE, NULL), 2), opts_matrix(byrow = TRUE))
     Output
-      matrix(list(1, "a", TRUE, NULL), nrow = 2L, ncol = 2L)
+      matrix(list(1, TRUE, "a", NULL), nrow = 2L, ncol = 2L, byrow = TRUE)
     Code
       construct(matrix(numeric(0), 0, 3), opts_matrix(byrow = TRUE))
     Output
-      matrix(numeric(0), nrow = 0L, ncol = 3L)
-    Code
-      construct(matrix(1:4, 2), opts_matrix(byrow = TRUE), one_liner = TRUE)
-    Output
-      matrix(1:4, nrow = 2L, ncol = 2L)
+      matrix(numeric(0), nrow = 0L, ncol = 3L, byrow = TRUE)
 

@@ -15,10 +15,8 @@ opts_matrix(
 
 \item{...}{Additional options used by user defined constructors through the \code{opts} object}
 
-\item{byrow}{Boolean. Only considered if \code{constructor} is \code{"matrix"}. If \code{TRUE}
-atomic matrices are constructed with \code{byrow = TRUE}, one row per line and
-with aligned columns, as with \code{tibble::tribble()}. Ignored for list and
-expression matrices, matrices with no row or column, and one liners.}
+\item{byrow}{Boolean. Only considered if \code{constructor} is \code{"matrix"}. Whether
+to provide the elements row by row and use \code{byrow = TRUE}.}
 }
 \value{
 An object of class <constructive_options/constructive_options_matrix>
