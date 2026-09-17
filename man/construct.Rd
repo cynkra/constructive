@@ -170,7 +170,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ellmer_TypeEnum]{opts_ellmer_TypeEnum}(constructor = c("type_enum", "TypeEnum", "next"), ...)}
   \item \code{\link[=opts_ellmer_TypeJsonSchema]{opts_ellmer_TypeJsonSchema}(constructor = c("type_from_schema", "TypeJsonSchema", "next"), ...)}
   \item \code{\link[=opts_ellmer_TypeObject]{opts_ellmer_TypeObject}(constructor = c("type_object", "TypeObject", "next"), ...)}
-  \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE)}
+  \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE, context = c("parents", "attributes", "locked"))}
   \item \code{\link[=opts_error]{opts_error}(constructor = c("errorCondition", "next"), ...)}
   \item \code{\link[=opts_expression]{opts_expression}(constructor = c("default"), ...)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
