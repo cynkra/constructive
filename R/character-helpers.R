@@ -161,3 +161,46 @@ repair_encoding <- function(code, string_is_ascii, encoding) {
 deparse_no_quotes <- function(x) {
   sub("^.(.*).$", "\\1", sapply(x, deparse))
 }
+
+# Replace the "\\n" escape sequences found in string literals of `code` by
+# actual new lines, e.g. `"a\\nb"` becomes `"a<new line>b"`.
+# A whitespace character followed by a new line would be invisible so it is
+# escaped using the "\\U{}" notation.
+# The code stays a single element so indentation of the calling code won't
+# alter the string.
+use_literal_new_lines <- function(code) {
+  if (!grepl("\\n", code, fixed = TRUE)) return(code)
+  chars <- strsplit(code, "")[[1]]
+  out <- character(0)
+  quote <- NULL
+  i <- 1
+  n <- length(chars)
+  while (i <= n) {
+    char <- chars[[i]]
+    if (is.null(quote)) {
+      # raw strings never contain "\\n" sequences so we don't need to handle them
+      if (char %in% c('"', "'")) quote <- char
+      out[[length(out) + 1]] <- char
+      i <- i + 1
+      next
+    }
+    if (char == "\\" && i < n) {
+      if (chars[[i + 1]] == "n") {
+        last <- length(out)
+        if (last && grepl("^[[:space:]]$", out[[last]])) {
+          out[[last]] <- sprintf("\\U{%X}", utf8ToInt(out[[last]]))
+        }
+        out[[length(out) + 1]] <- "\n"
+      } else {
+        out[[length(out) + 1]] <- paste0(char, chars[[i + 1]])
+      }
+      i <- i + 2
+      next
+    }
+    if (char == quote) quote <- NULL
+    out[[length(out) + 1]] <- char
+    i <- i + 1
+  }
+  paste(out, collapse = "")
+}
+

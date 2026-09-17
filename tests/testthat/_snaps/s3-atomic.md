@@ -818,3 +818,59 @@
     Output
       "\U{1F436}"
 
+# character with `multiline = TRUE`
+
+    Code
+      construct("a\nb", opts_character(multiline = TRUE))
+    Output
+      "a
+      b"
+    Code
+      construct("ends with a new line\n", opts_character(multiline = TRUE))
+    Output
+      "ends with a new line
+      "
+    Code
+      construct(list(a = list(b = "deep\nnested\n  indented")), opts_character(
+        multiline = TRUE))
+    Output
+      list(a = list(b = "deep
+      nested
+        indented"))
+    Code
+      construct(c(x = "named\nvalue", y = "z"), opts_character(multiline = TRUE))
+    Output
+      c(x = "named
+      value", y = "z")
+    Code
+      construct(structure("with\nattributes", foo = 1), opts_character(multiline = TRUE))
+    Output
+      "with
+      attributes" |>
+        structure(foo = 1)
+    Code
+      construct(rep("a\nb", 3), opts_character(multiline = TRUE))
+    Output
+      rep("a
+      b", 3L)
+    Code
+      construct("trailing space  \nand tab\t\nend", opts_character(multiline = TRUE))
+    Output
+      "trailing space \U{20}
+      and tab\t
+      end"
+    Code
+      construct("back\\nslash\nnew line", opts_character(multiline = TRUE))
+    Output
+      "back\\nslash
+      new line"
+    Code
+      construct("back\\nslash\nnew line", opts_character(multiline = TRUE), escape = TRUE)
+    Output
+      "back\\nslash
+      new line"
+    Code
+      construct("a\nb", opts_character(multiline = TRUE), one_liner = TRUE)
+    Output
+      "a\nb"
+

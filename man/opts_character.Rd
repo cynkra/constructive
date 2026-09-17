@@ -11,7 +11,8 @@ opts_character(
   fill = c("default", "rlang", "+", "...", "none"),
   compress = TRUE,
   unicode_representation = c("ascii", "latin", "character", "unicode"),
-  escape = FALSE
+  escape = FALSE,
+  multiline = FALSE
 )
 }
 \arguments{
@@ -43,6 +44,11 @@ single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
 \code{unicode_representation} \code{escape = FALSE} cannot be applied on all strings.}
+
+\item{multiline}{Boolean. Whether to construct strings containing new lines
+on several lines, rather than using \code{"\\n"}. A whitespace character
+followed by a new line would be invisible, so it's escaped using the
+\code{"\\U{}"} notation. Ignored if \code{one_liner} is \code{TRUE} in the main function.}
 }
 \value{
 An object of class <constructive_options/constructive_options_character>
