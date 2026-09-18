@@ -375,7 +375,9 @@ highlight_code <- function(x, code_theme = NULL, colored = getOption("constructi
   if (isFALSE(colored)) {
     return(x)
   }
-  cli::code_highlight(x, code_theme)
+  # an element can contain several lines, e.g. with `opts_character(multiline = TRUE)`,
+  # the highlighting is wrong in this case so we split lines first
+  cli::code_highlight(split_by_line(x), code_theme)
 }
 
 strip <- function(x) {

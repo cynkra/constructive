@@ -4,12 +4,19 @@
 \alias{opts_matrix}
 \title{Constructive options for matrices}
 \usage{
-opts_matrix(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...)
+opts_matrix(
+  constructor = c("matrix", "array", "cbind", "rbind", "next"),
+  ...,
+  byrow = FALSE
+)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object.}
 
 \item{...}{Additional options used by user defined constructors through the \code{opts} object}
+
+\item{byrow}{Boolean. Only considered if \code{constructor} is \code{"matrix"}. Whether
+to provide the elements row by row and use \code{byrow = TRUE}.}
 }
 \value{
 An object of class <constructive_options/constructive_options_matrix>

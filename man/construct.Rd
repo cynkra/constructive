@@ -133,7 +133,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_bibentry]{opts_bibentry}(constructor = c("bibentry", "next"), ...)}
   \item \code{\link[=opts_blob]{opts_blob}(constructor = c("blob", "next"), ...)}
-  \item \code{\link[=opts_character]{opts_character}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)}
+  \item \code{\link[=opts_character]{opts_character}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE, multiline = FALSE)}
   \item \code{\link[=opts_citationFooter]{opts_citationFooter}(constructor = c("citFooter", "next"), ...)}
   \item \code{\link[=opts_citationHeader]{opts_citationHeader}(constructor = c("citHeader", "next"), ...)}
   \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}(constructor = c("setClass"), ...)}
@@ -170,7 +170,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ellmer_TypeEnum]{opts_ellmer_TypeEnum}(constructor = c("type_enum", "TypeEnum", "next"), ...)}
   \item \code{\link[=opts_ellmer_TypeJsonSchema]{opts_ellmer_TypeJsonSchema}(constructor = c("type_from_schema", "TypeJsonSchema", "next"), ...)}
   \item \code{\link[=opts_ellmer_TypeObject]{opts_ellmer_TypeObject}(constructor = c("type_object", "TypeObject", "next"), ...)}
-  \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE)}
+  \item \code{\link[=opts_environment]{opts_environment}(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE, context = c("parents", "attributes", "locked"))}
   \item \code{\link[=opts_error]{opts_error}(constructor = c("errorCondition", "next"), ...)}
   \item \code{\link[=opts_expression]{opts_expression}(constructor = c("default"), ...)}
   \item \code{\link[=opts_externalptr]{opts_externalptr}(constructor = c("default"), ...)}
@@ -216,7 +216,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
   \item \code{\link[=opts_logical]{opts_logical}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_margin]{opts_margin}(constructor = c("margin", "next", "double"), ...)}
-  \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...)}
+  \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "cbind", "rbind", "next"), ..., byrow = FALSE)}
   \item \code{\link[=opts_mts]{opts_mts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_noquote]{opts_noquote}(constructor = c("noquote", "next"), ...)}
   \item \code{\link[=opts_NULL]{opts_NULL}(constructor = "NULL", ...)}

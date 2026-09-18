@@ -47,8 +47,7 @@
           "0x123456789",
           parents = c("0x123456789", "0x123456789", "namespace:constructive")
         )
-      ) |>
-        structure(name = "Queue_generator")
+      )
 
 # R6Class, R < 4.3.0
 
@@ -99,6 +98,23 @@
           "0x123456789",
           parents = c("0x123456789", "0x123456789", "namespace:constructive")
         )
-      ) |>
-        structure(name = "Queue_generator")
+      )
+
+# R6Class name attribute
+
+    Code
+      construct(R6::R6Class("Foo", parent_env = .GlobalEnv), check = FALSE)
+    Output
+      R6::R6Class("Foo", parent_env = .GlobalEnv)
+    Code
+      construct(R6::R6Class(parent_env = .GlobalEnv), check = FALSE)
+    Output
+      R6::R6Class(NULL, parent_env = .GlobalEnv)
+    Code
+      generator <- R6::R6Class("Foo", parent_env = .GlobalEnv)
+      attr(generator, "name") <- "Bar"
+      construct(generator, check = FALSE)
+    Output
+      R6::R6Class("Foo", parent_env = .GlobalEnv) |>
+        structure(name = "Bar")
 

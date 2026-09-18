@@ -84,3 +84,25 @@ test_that("environments with names method are constructed properly", {
 
 
 
+
+test_that("`context` arg of `opts_environment()`", {
+  parent <- new.env(parent = asNamespace("stats"))
+  parent$z <- 3
+  env <- new.env(parent = parent)
+  env$b <- "x"
+  env$a <- 1
+  env$self <- env
+  # active and lazy bindings are not evaluated
+  makeActiveBinding("active", function() stop("should not be called"), env)
+  delayedAssign("lazy", stop("should not be forced"), assign.env = env)
+  attr(env, "foo") <- "bar"
+  lockEnvironment(env)
+  expect_snapshot({
+    construct(env, check = FALSE)
+    construct(env, opts_environment(context = c("parents", "names")), check = FALSE)
+    construct(env, opts_environment(context = "objects"), check = FALSE)
+    construct(env, opts_environment(context = c("parent", "locked")), check = FALSE)
+    construct(env, opts_environment(context = character(0)), check = FALSE)
+  })
+  expect_error(opts_environment(context = "foo"), "must be a character vector")
+})

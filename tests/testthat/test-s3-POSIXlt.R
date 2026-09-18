@@ -49,7 +49,23 @@ test_that("POSIXlt-from-4.3", {
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("next"))
     construct(as.POSIXlt(.leap.seconds[1:4]), opts_POSIXlt("list"))
   })
+})
 
+test_that("POSIXlt-from-4.3, CET", {
+  skip_if(with_versions(R < "4.3"))
+  skip_if_tz_unavailable("CET")
+  # For stability
+  .leap.seconds <- as.POSIXct(
+    c(
+      "1972-07-01", "1973-01-01", "1974-01-01", "1975-01-01", "1976-01-01",
+      "1977-01-01", "1978-01-01", "1979-01-01", "1980-01-01", "1981-07-01",
+      "1982-07-01", "1983-07-01", "1985-07-01", "1988-01-01", "1990-01-01",
+      "1991-01-01", "1992-07-01", "1993-07-01", "1994-07-01", "1996-01-01",
+      "1997-07-01", "1999-01-01", "2006-01-01", "2009-01-01", "2012-07-01",
+      "2015-07-01", "2017-01-01"
+    ),
+    tz = "GMT"
+  )
   withr::local_timezone("CET")
   sys_time_1970 <- Sys.time()
   sys_time_1970[[1]] <- 0

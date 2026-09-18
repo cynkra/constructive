@@ -90,13 +90,24 @@
     Output
       tibble::tibble(a = 1, a = 2, .name_repair = "minimal")
 
-# non standard names in tibbles
+# tibbles with NULL names, vctrs < 0.7.2
 
     Code
       construct(structure(tibble::tibble(1), names = NULL))
     Output
       list(1) |>
         structure(class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, -1L))
+
+# tibbles with NULL names, vctrs >= 0.7.2
+
+    Code
+      construct(structure(tibble::tibble(1), names = NULL))
+    Output
+      list(1) |>
+        structure(row.names = c(NA, -1L), class = c("tbl_df", "tbl", "data.frame"))
+
+# non standard names in tibbles
+
     Code
       construct(structure(tibble::tibble(1), names = ""))
     Output
