@@ -218,3 +218,42 @@
       list2env(list(x = 1), parent = asNamespace("constructive")) |>
         structure(class = "foo")
 
+# `context` arg of `opts_environment()`
+
+    Code
+      construct(env, check = FALSE)
+    Output
+      constructive::.env(
+        "0x123456789",
+        parents = c("0x123456789", "namespace:stats"),
+        foo = "bar",
+        locked = TRUE
+      )
+    Code
+      construct(env, opts_environment(context = c("parents", "names")), check = FALSE)
+    Output
+      constructive::.env(
+        "0x123456789",
+        parents = c("0x123456789", "namespace:stats"),
+        names = c("a", "active", "b", "lazy", "self")
+      )
+    Code
+      construct(env, opts_environment(context = "objects"), check = FALSE)
+    Output
+      constructive::.env(
+        "0x123456789",
+        objects = list(a = 1, b = "x", self = constructive::.env("0x123456789"))
+      )
+    Code
+      construct(env, opts_environment(context = c("parent", "locked")), check = FALSE)
+    Output
+      constructive::.env(
+        "0x123456789",
+        parent = constructive::.env("0x123456789", parent = asNamespace("stats")),
+        locked = TRUE
+      )
+    Code
+      construct(env, opts_environment(context = character(0)), check = FALSE)
+    Output
+      constructive::.env("0x123456789")
+

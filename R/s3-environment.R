@@ -41,7 +41,8 @@
 #' We might set the `constructor` argument to:
 #'
 #' - `".env"` (default): use `constructive::.env()` to construct the environment from
-#'   its memory address.
+#'   its memory address. Additional information is displayed through its
+#'   non-functional arguments, see the `context` argument.
 #' * `"list2env"`: We construct the environment as a list then
 #'   use `base::list2env()` to convert it to an environment and assign it a parent. By
 #'   default we use as a parent the first special environment we find when going
@@ -77,18 +78,44 @@
 #'   `"new_environment"`. Whether to attempt to recreate all parent environments
 #'   until a known environment is found, if `FALSE` (the default) we will use
 #'    `topenv()` to find a known ancestor to set as the parent.
+#' @param context Character vector. Only considered if `constructor` is `".env"`.
+#'   Information to display as arguments of `.env()`, they are ignored by the
+#'   function and don't change the constructed object. A subset of:
+#'   * `"parents"`: the names or memory addresses of the parent environments,
+#'     until a special environment is found
+#'   * `"attributes"`: the attributes of the environment
+#'   * `"locked"`: `locked = TRUE` if the environment is locked
+#'   * `"names"`: the names of the bindings
+#'   * `"objects"`: the construction of the bindings, active and lazy bindings
+#'     are omitted so they're not evaluated
+#'   * `"parent"`: the construction of the parent environment, repeated until a
+#'     special environment is found
+#'
+#'   Environments found in `"objects"` and `"parent"` don't display objects, and
+#'   environments found in `"objects"` don't display their parent.
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE) {
+opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE, context = c("parents", "attributes", "locked")) {
   if (isTRUE(list(...)$predefine)) {
     msg <- "`predefine = TRUE` in `opts_environment()` is deprecated"
     info <- "Use `constructor = \"predefine\"` instead."
     rlang::warn(c(msg, i = info))
     constructor <- "predefine"
   }
-  .cstr_options("environment", constructor = constructor[[1]], ..., recurse = recurse)
+  .cstr_combine_errors(
+    abort_not_boolean(recurse),
+    if (!is.character(context) || anyNA(context) || !all(context %in% env_context_values)) {
+      abort(c(
+        "`context` must be a character vector containing only the following values:",
+        paste(sprintf('"%s"', env_context_values), collapse = ", ")
+      ))
+    }
+  )
+  .cstr_options("environment", constructor = constructor[[1]], ..., recurse = recurse, context = context)
 }
+
+env_context_values <- c("parents", "attributes", "locked", "names", "objects", "parent")
 
 #' @export
 #' @method .cstr_construct environment
@@ -132,14 +159,53 @@ is_corrupted_environment <- function(x) {
 #' @method .cstr_construct.environment .env
 .cstr_construct.environment..env <- function(x, ...) {
   opts <- list(...)$opts$environment %||% opts_environment()
-  args <- c(
-    list(env_memory_address(x), parents = fetch_parent_names(x)),
-    attributes(x)
-  )
-  if (environmentIsLocked(x)) args <- c(args, locked = TRUE)
-  if (!length(args$parents)) args$parents <- NULL
-  code <- .cstr_apply(args, "constructive::.env", ...)
+  context <- opts$context %||% c("parents", "attributes", "locked")
+  args <- list(env_memory_address(x))
+  if ("parents" %in% context) {
+    parents <- fetch_parent_names(x)
+    if (length(parents)) args$parents <- parents
+  }
+  if ("names" %in% context) {
+    args$names <- sort(ls(x, all.names = TRUE, sorted = FALSE), method = "radix")
+  }
+  if ("attributes" %in% context) args <- c(args, attributes(x))
+  if ("locked" %in% context && environmentIsLocked(x)) args$locked <- TRUE
+  code <- lapply(args, function(arg) .cstr_construct(arg, ...))
+
+  # objects and the parent are constructed as information, environments
+  # that they contain don't display objects and parents, to avoid infinite
+  # recursion
+  if (any(c("objects", "parent") %in% context)) {
+    dots <- list(...)
+    nested_opts <- opts
+    nested_opts$context <- setdiff(context, c("objects", "parent"))
+    dots$opts$environment <- nested_opts
+    if ("objects" %in% context) {
+      code$objects <- do.call(.cstr_construct, c(list(env_regular_bindings(x)), dots))
+    }
+    if ("parent" %in% context && !is.null(parent.env(x))) {
+      # the parent's own parent is displayed too, until we reach a special env
+      parent_dots <- list(...)
+      parent_opts <- opts
+      parent_opts$context <- setdiff(context, "objects")
+      parent_dots$opts$environment <- parent_opts
+      code$parent <- do.call(.cstr_construct, c(list(parent.env(x)), parent_dots))
+    }
+    # keep "locked" and the attributes last
+    first <- intersect(c("", "parents", "names", "objects", "parent"), names2(code))
+    code <- code[c(which(names2(code) %in% first), which(!names2(code) %in% first))]
+  }
+  code <- .cstr_apply(code, "constructive::.env", ..., recurse = FALSE)
   repair_attributes_environment(x, code, ...)
+}
+
+# list of the bindings that are not active or lazy, so we don't trigger side
+# effects when displaying them
+env_regular_bindings <- function(x) {
+  nms <- sort(ls(x, all.names = TRUE, sorted = FALSE), method = "radix")
+  nms <- nms[!vapply(nms, bindingIsActive, logical(1), x)]
+  nms <- nms[!rlang::env_binding_are_lazy(x, nms)]
+  mget(nms, envir = x)
 }
 
 #' @export
