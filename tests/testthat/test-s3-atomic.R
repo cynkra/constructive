@@ -230,3 +230,25 @@ test_that("opts_atomic() inheritance", {
     construct("🐶", opts_atomic(unicode_representation = "unicode"), opts_character(unicode_representation = "ascii"))
   })
 })
+
+test_that("character with `multiline = TRUE`", {
+  expect_snapshot({
+    construct("a\nb", opts_character(multiline = TRUE))
+    construct("ends with a new line\n", opts_character(multiline = TRUE))
+    # nested code is indented but strings are not altered
+    construct(list(a = list(b = "deep\nnested\n  indented")), opts_character(multiline = TRUE))
+    construct(c(x = "named\nvalue", y = "z"), opts_character(multiline = TRUE))
+    construct(structure("with\nattributes", foo = 1), opts_character(multiline = TRUE))
+    construct(rep("a\nb", 3), opts_character(multiline = TRUE))
+    # trailing white space before a new line is escaped
+    construct("trailing space  \nand tab\t\nend", opts_character(multiline = TRUE))
+    # a backslash followed by "n" is not a new line
+    construct("back\\nslash\nnew line", opts_character(multiline = TRUE))
+    construct("back\\nslash\nnew line", opts_character(multiline = TRUE), escape = TRUE)
+    # ignored for one liners
+    construct("a\nb", opts_character(multiline = TRUE), one_liner = TRUE)
+  })
+  # not in the snapshot since the echoed code would depend on the locale
+  code <- construct("no break\u00a0\nspace", opts_character(multiline = TRUE), unicode_representation = "unicode")
+  expect_identical(unclass(code$code), "\"no break\\U{A0}\nspace\"")
+})

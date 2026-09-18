@@ -14,6 +14,10 @@
 #' @inheritParams opts_atomic
 #' @inheritParams other-opts
 #' @param fill String. Method to use to represent the trimmed elements. See `?opts_atomic`
+#' @param multiline Boolean. Whether to construct strings containing new lines
+#'   on several lines, rather than using `"\n"`. A whitespace character
+#'   followed by a new line would be invisible, so it's escaped using the
+#'   `"\U{}"` notation. Ignored if `one_liner` is `TRUE` in the main function.
 #' @return An object of class <constructive_options/constructive_options_character>
 #' @export
 opts_character <- function(
@@ -23,13 +27,15 @@ opts_character <- function(
     fill = c("default", "rlang", "+", "...", "none"),
     compress = TRUE,
     unicode_representation = c("ascii", "latin", "character", "unicode"),
-    escape = FALSE) {
+    escape = FALSE,
+    multiline = FALSE) {
   .cstr_combine_errors(
     abort_not_null_or_integerish(trim),
     { fill <- rlang::arg_match(fill) },
     abort_not_boolean(compress),
     { unicode_representation <- rlang::arg_match(unicode_representation) },
-    abort_not_boolean(escape)
+    abort_not_boolean(escape),
+    abort_not_boolean(multiline)
   )
   .cstr_options(
     "character",
@@ -39,7 +45,8 @@ opts_character <- function(
     fill = fill,
     compress = compress,
     unicode_representation = unicode_representation,
-    escape = escape
+    escape = escape,
+    multiline = multiline
   )
 }
 
@@ -91,6 +98,9 @@ is_corrupted_character <- function(x) {
 
   # build code for strings with relevant format (a better sapply(x, deparse))
   strings <- construct_strings(x, ...)
+  if (isTRUE(opts$multiline) && !isTRUE(list(...)$one_liner)) {
+    strings[] <- vapply(strings, use_literal_new_lines, character(1))
+  }
 
   # return length 1 object early, no need for c() or NA compaction
   if (length(strings) == 1 && is.null(names(x))) {
