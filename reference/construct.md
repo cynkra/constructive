@@ -176,7 +176,7 @@ class and is documented on its own page.
 
 - [`opts_blob`](https://cynkra.github.io/constructive/reference/opts_blob.md)`(constructor = c("blob", "next"), ...)`
 
-- [`opts_character`](https://cynkra.github.io/constructive/reference/opts_character.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE, multiline = FALSE)`
+- [`opts_character`](https://cynkra.github.io/constructive/reference/opts_character.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)`
 
 - [`opts_citationFooter`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("citFooter", "next"), ...)`
 
