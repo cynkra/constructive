@@ -18,6 +18,10 @@ Useful links:
 
 **Maintainer**: Antoine Fabri <antoine.fabri@gmail.com>
 
+Authors:
+
+- Antoine Fabri <antoine.fabri@gmail.com>
+
 Other contributors:
 
 - Kirill Müller <kirill@cynkra.com>

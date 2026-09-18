@@ -15,6 +15,7 @@ with a slightly different scope, and 3 main differences:
   are not syntactic tokens
 
 ``` r
+
 x <- call('+', c(1, 2))
 base::deparse(x)
 #> [1] "+c(1, 2)"
@@ -40,6 +41,7 @@ y[[2]]
   accuracy.
 
 ``` r
+
 x <- quote(`*`(a + b, c))
 base::deparse(x)
 #> [1] "(a + b) * c"
@@ -69,6 +71,7 @@ y[[2]]
   however unprobable or unpractical they might be.
 
 ``` r
+
 x <- call("[")
 base::deparse(x)
 #> [1] "NULL[]"
@@ -94,17 +97,18 @@ are not wrong, but
 [`constructive::deparse_call()`](https://cynkra.github.io/constructive/reference/deparse_call.md)
 is clearer.
 
-|                                                                 | constructive::deparse_call()      | base::deparse()              | rlang::expr_deparse()        |
-|-----------------------------------------------------------------|-----------------------------------|------------------------------|------------------------------|
-| Simple quotes make strings that use double quotes more readable | `'"oh" "hey" "there"'`            | `"\"oh\" \"hey\" \"there\""` | `"\"oh\" \"hey\" \"there\""` |
-| Raw strings make more complex strings more readable             | `r"["oh"\'hey'\"there"]"`         | `"\"oh\"\\'hey'\\\"there\""` | `"\"oh\"\\'hey'\\\"there\""` |
-| Homoglyphs are dangerous, we can use the `\U{XX}` notation      | `"\U{410} \U{A0} A"`              | `"А   A"`                    | `"А   A"`                    |
-| For symbols we need the `\xXX` notation                         | `` c(`\xd0\x90`, "\U{A0}" = 1) `` | `` c(А, ` ` = 1) ``          | `` c(А, ` ` = 1) ``          |
-| Emojis depend on font so are ambiguous                          | `"\U{1F436}"`                     | `"🐶"`                       | `"🐶"`                       |
+|  | constructive::deparse_call() | base::deparse() | rlang::expr_deparse() |
+|----|----|----|----|
+| Simple quotes make strings that use double quotes more readable | `'"oh" "hey" "there"'` | `"\"oh\" \"hey\" \"there\""` | `"\"oh\" \"hey\" \"there\""` |
+| Raw strings make more complex strings more readable | `r"["oh"\'hey'\"there"]"` | `"\"oh\"\\'hey'\\\"there\""` | `"\"oh\"\\'hey'\\\"there\""` |
+| Homoglyphs are dangerous, we can use the `\U{XX}` notation | `"\U{410} \U{A0} A"` | `"А   A"` | `"А   A"` |
+| For symbols we need the `\xXX` notation | `` c(`\xd0\x90`, "\U{A0}" = 1) `` | `` c(А, ` ` = 1) `` | `` c(А, ` ` = 1) `` |
+| Emojis depend on font so are ambiguous | `"\U{1F436}"` | `"🐶"` | `"🐶"` |
 
 ## `deparse_call()` fails rather than making things up
 
 ``` r
+
 x <- call("(", -1)
 base::deparse(x)
 #> [1] "(-1)"

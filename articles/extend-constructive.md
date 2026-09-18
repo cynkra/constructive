@@ -1,6 +1,7 @@
 # Extend constructive
 
 ``` r
+
 library(constructive)
 ```
 
@@ -46,6 +47,7 @@ more details how the package and its key functions work.
     can work.
 
 ``` r
+
 .cstr_construct
 #> function(x, ..., data = NULL, classes = NULL) {
 #>   data_name <- perfect_match(x, data)
@@ -62,7 +64,7 @@ more details how the package and its key functions work.
 #>     UseMethod(".cstr_construct", structure(NA_integer_, class = cl))
 #>   }
 #> }
-#> <bytecode: 0x563bd8178f58>
+#> <bytecode: 0x635249b02960>
 #> <environment: namespace:constructive>
 # a character vector
 .cstr_construct(letters)
@@ -84,6 +86,7 @@ construct(letters)
 typically have this form:
 
 ``` r
+
 .cstr_construct.Date <- function(x, ...) {
   opts <- list(...)$opts$Date %||% opts_Date()
   if (is_corrupted_Date(x) || opts$constructor == "next") return(NextMethod())
@@ -115,6 +118,7 @@ default behavior.
 It should always have this form:
 
 ``` r
+
 opts_Date <- function(
     constructor = c(
       "as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), 
@@ -158,16 +162,19 @@ object cannot be built with
 date constructors.
 
 ``` r
+
 x <- structure("12345", class = "Date")
 x
 #> [1] "2003-10-20"
 x + 1
-#> Error in unclass(e1) + unclass(e2): non-numeric argument to binary operator
+#> Error in `unclass(e1) + unclass(e2)`:
+#> ! non-numeric argument to binary operator
 ```
 
 We have defined :
 
 ``` r
+
 is_corrupted_Date <- function(x) {
   !is.double(x)
 }
@@ -179,6 +186,7 @@ be called through
 the object using an atomic vector constructor:
 
 ``` r
+
 construct(x)
 #> "12345" |>
 #>   structure(class = "Date")
@@ -192,6 +200,7 @@ constructors are functions named as
 For instance the default constructor for “Date” is :
 
 ``` r
+
 constructive:::.cstr_construct.Date.as.Date
 #> function(x, ...) {
 #>   opts <- list(...)$opts$Date %||% opts_Date()
@@ -204,7 +213,7 @@ constructive:::.cstr_construct.Date.as.Date
 #>   code <- .cstr_apply(list(format(x)),  "as.Date", ..., new_line = FALSE)
 #>   repair_attributes_Date(x, code, ...)
 #> }
-#> <bytecode: 0x563bd8384258>
+#> <bytecode: 0x635249cff8e0>
 #> <environment: namespace:constructive>
 ```
 
@@ -222,6 +231,7 @@ dates cannot be represented by a string wrapped by
 [`as.Date()`](https://rdrr.io/r/base/as.Date.html).
 
 ``` r
+
 x <- structure(c(12345, 20000), class = "Date")
 y <- structure(c(12345, Inf), class = "Date")
 construct(x)
@@ -244,6 +254,7 @@ constructors such as [`as.Date()`](https://rdrr.io/r/base/as.Date.html)
 have defined their data and canonical attributes.
 
 ``` r
+
 x <- structure(c(12345, 20000), class = "Date", some_attr = 42)
 # attributes are not visible due to "Date"'s printing method
 x
@@ -267,6 +278,7 @@ essentially sets attributes with exceptions :
   factors)
 
 ``` r
+
 constructive:::repair_attributes_Date
 #> function(x, code, ...) {
 #>   .cstr_repair_attributes(
@@ -274,7 +286,7 @@ constructive:::repair_attributes_Date
 #>     idiomatic_class = "Date"
 #>   )
 #> }
-#> <bytecode: 0x563bd98843b8>
+#> <bytecode: 0x63524dec6428>
 #> <environment: namespace:constructive>
 
 constructive:::repair_attributes_factor
@@ -285,7 +297,7 @@ constructive:::repair_attributes_factor
 #>     idiomatic_class = "factor"
 #>   )
 #> }
-#> <bytecode: 0x563bd8136650>
+#> <bytecode: 0x63524d3085c0>
 #> <environment: namespace:constructive>
 
 constructive:::repair_attributes_tbl_df
@@ -296,6 +308,6 @@ constructive:::repair_attributes_tbl_df
 #>     idiomatic_class = c("tbl_df", "tbl", "data.frame")
 #>   )
 #> }
-#> <bytecode: 0x563bd8042520>
+#> <bytecode: 0x63524d34a288>
 #> <environment: namespace:constructive>
 ```

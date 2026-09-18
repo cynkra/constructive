@@ -24,6 +24,7 @@ Some use cases are:
 Install the last stable version from CRAN:
 
 ``` r
+
 install.packages('constructive')
 ```
 
@@ -31,6 +32,7 @@ Or install the development version from [cynkra
 R-universe](https://cynkra.r-universe.dev):
 
 ``` r
+
 install.packages('constructive', repos = c('https://cynkra.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
@@ -46,6 +48,7 @@ A few examples compared to their
 [`dput()`](https://rdrr.io/r/base/dput.html) output.
 
 ``` r
+
 library(constructive)
 
 construct(head(iris, 2))
@@ -106,6 +109,7 @@ don’t print more than necessary, for instance improving the previous
 example:
 
 ``` r
+
 construct(grouped_band_members, data = "dplyr")
 #> band_members |>
 #>   dplyr::group_by(band)
@@ -124,6 +128,7 @@ code, namely setting the constructor itself or options used by the
 constructor
 
 ``` r
+
 construct(band_members, opts_tbl_df("tribble"))
 #> tibble::tribble(
 #>   ~name,  ~band,
@@ -156,6 +161,7 @@ constructor is available, so we can conveniently explore objects using
 lower level constructors.
 
 ``` r
+
 construct(band_members, opts_tbl_df("next"))
 #> data.frame(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>
 #>   structure(class = c("tbl_df", "tbl", "data.frame"))
@@ -218,6 +224,7 @@ In some case we can build code that points to a specific environment,
 for instance:
 
 ``` r
+
 construct(globalenv())
 #> .GlobalEnv
 construct(environment(setNames))
@@ -229,6 +236,7 @@ When it’s not possible we use
 function for this purpose.
 
 ``` r
+
 e1 <- new.env(parent = .GlobalEnv)
 e1$x <- 1
 construct(e1)
@@ -250,6 +258,7 @@ different constructions in
 For the case above, choosing `"list2env"` works well :
 
 ``` r
+
 construct(e1, opts_environment("list2env"))
 #> list2env(list(x = 1), parent = .GlobalEnv)
 ```

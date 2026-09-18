@@ -2,7 +2,7 @@
 
 Set these options to tweak {constructive}'s global behavior, to set them
 permanently you can edit your `.RProfile1`, e.g. using
-[`usethis::edit_r_profile()`](https://usethis.r-lib.org/reference/edit.html).
+`usethis::edit_r_profile()`.
 
 ## Details
 
