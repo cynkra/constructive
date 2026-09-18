@@ -34,9 +34,23 @@ test_that("duplicate names in tibbles", {
   })
 })
 
-test_that("non standard names in tibbles", {
+# vctrs 0.7.2 changed the order of the attributes of tibbles
+test_that("tibbles with NULL names, vctrs < 0.7.2", {
+  skip_if(with_versions(vctrs >= "0.7.2"))
   expect_snapshot({
     construct(structure(tibble::tibble(1), names = NULL))
+  })
+})
+
+test_that("tibbles with NULL names, vctrs >= 0.7.2", {
+  skip_if(with_versions(vctrs < "0.7.2"))
+  expect_snapshot({
+    construct(structure(tibble::tibble(1), names = NULL))
+  })
+})
+
+test_that("non standard names in tibbles", {
+  expect_snapshot({
     construct(structure(tibble::tibble(1), names = ""))
     construct(structure(tibble::tibble(1), names = NA))
     construct(structure(tibble::tibble(1), names = ".rows"))
