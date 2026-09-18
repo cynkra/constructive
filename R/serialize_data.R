@@ -478,16 +478,16 @@ identify_double <- function(val_bytes) {
   val <- readBin(val_bytes, "double", n = 1, size = 8, endian = "big")
 
   # IEEE 754 double precision format (8 bytes = 64 bits):
-  # ┌─────────────────────────────────────────────────────────────────┐
-  # │ Byte 1        │ Byte 2        │ Bytes 3-8 (6 bytes)             │
-  # │ [S][Exp 7bit] │ [Exp 4b][Man] │ [Mantissa 48 bits]              │
-  # └─────────────────────────────────────────────────────────────────┘
+  # +---------------+---------------+---------------------------------+
+  # | Byte 1        | Byte 2        | Bytes 3-8 (6 bytes)             |
+  # | [S][Exp 7bit] | [Exp 4b][Man] | [Mantissa 48 bits]              |
+  # +---------------+---------------+---------------------------------+
   #   1bit  7bits      4bits  4bits    48 bits
   # Total: 1 sign + 11 exp + 52 mantissa = 64 bits
   #
   # Example for pi (0x40, 0x09, 0x21, ...):
-  # 0x40 = 0100 0000₂ → sign=0, exp upper 7 bits = 100 0000₂ = 64
-  # 0x09 = 0000 1001₂ → exp lower 4 bits = 0000₂, mantissa starts with 1001₂
+  # 0x40 = 0100 0000 -> sign=0, exp upper 7 bits = 100 0000 = 64
+  # 0x09 = 0000 1001 -> exp lower 4 bits = 0000, mantissa starts with 1001
 
   sign <- byte1 %/% 128  # Extract bit 0 (sign bit)
   # Exponent: 11 bits total
@@ -502,10 +502,10 @@ identify_double <- function(val_bytes) {
   mantissa_bytes <- c(byte2 %% 16, as.integer(val_bytes[3:8]))
   mantissa_hex <- paste(sprintf("%02x", mantissa_bytes), collapse = "")
 
-  # IEEE 754 formula: value = (-1)^sign × 2^(exp_raw - 1023) × (1 + mantissa/2^52)
+  # IEEE 754 formula: value = (-1)^sign * 2^(exp_raw - 1023) * (1 + mantissa/2^52)
   # The "1 +" is the implicit leading bit (always 1 for normalized numbers)
   # The mantissa/2^52 is the fractional part
-  sprintf("numeric (sign=%d exp=%d mantissa=0x%s: (-1)^%d × 2^%d × (1 + 0x%s/2^52) == %.15g)",
+  sprintf("numeric (sign=%d exp=%d mantissa=0x%s: (-1)^%d * 2^%d * (1 + 0x%s/2^52) == %.15g)",
           sign, exp_raw, mantissa_hex, sign, exp, mantissa_hex, val)
 }
 
