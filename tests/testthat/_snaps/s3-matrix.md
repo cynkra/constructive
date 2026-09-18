@@ -81,3 +81,29 @@
     Output
       rbind(c(c = 1L, d = 3L), c(c = 2L, d = 4L))
 
+# matrix with `byrow = TRUE`
+
+    Code
+      construct(matrix(1:6, 2), opts_matrix(byrow = TRUE))
+    Output
+      matrix(c(1L, 3L, 5L, 2L, 4L, 6L), nrow = 2L, ncol = 3L, byrow = TRUE)
+    Code
+      construct(matrix(c("a", "b", NA, "d"), 2, dimnames = list(c("x", "y"), NULL)),
+      opts_matrix(byrow = TRUE))
+    Output
+      matrix(
+        c("a", NA, "b", "d"),
+        nrow = 2L,
+        ncol = 2L,
+        byrow = TRUE,
+        dimnames = list(c("x", "y"), NULL)
+      )
+    Code
+      construct(matrix(list(1, "a", TRUE, NULL), 2), opts_matrix(byrow = TRUE))
+    Output
+      matrix(list(1, TRUE, "a", NULL), nrow = 2L, ncol = 2L, byrow = TRUE)
+    Code
+      construct(matrix(numeric(0), 0, 3), opts_matrix(byrow = TRUE))
+    Output
+      matrix(numeric(0), nrow = 0L, ncol = 3L, byrow = TRUE)
+

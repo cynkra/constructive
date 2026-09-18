@@ -14,12 +14,15 @@
 #' * `"atomic"` : We define as an atomic vector and repair attributes
 #'
 #' @param constructor String. Name of the function used to construct the object.
+#' @param byrow Boolean. Only considered if `constructor` is `"matrix"`. Whether
+#'   to provide the elements row by row and use `byrow = TRUE`.
 #' @inheritParams opts_atomic
 #'
 #' @return An object of class <constructive_options/constructive_options_matrix>
 #' @export
-opts_matrix  <- function(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...) {
-  .cstr_options("matrix", constructor = constructor[[1]], ...)
+opts_matrix  <- function(constructor = c("matrix", "array", "cbind", "rbind", "next"), ..., byrow = FALSE) {
+  abort_not_boolean(byrow)
+  .cstr_options("matrix", constructor = constructor[[1]], ..., byrow = byrow)
 }
 
 #' @export
@@ -40,13 +43,19 @@ is_corrupted_matrix <- function(x) {
 #' @export
 #' @method .cstr_construct.matrix matrix
 .cstr_construct.matrix.matrix <- function(x, ...) {
+  opts <- list(...)$opts$matrix %||% opts_matrix()
   dim <- attr(x, "dim")
   dimnames <- attr(x, "dimnames")
   dim_names_lst <- if (!is.null(dimnames)) list(dimnames = dimnames)
   x_stripped <- x
   attributes(x_stripped) <- NULL
+  byrow_lst <- NULL
+  if (isTRUE(opts$byrow)) {
+    x_stripped <- x_stripped[t(matrix(seq_along(x_stripped), dim[[1]], dim[[2]]))]
+    byrow_lst <- list(byrow = TRUE)
+  }
   code <- .cstr_apply(
-    c(list(x_stripped, nrow = dim[[1]], ncol = dim[[2]]), dim_names_lst),
+    c(list(x_stripped, nrow = dim[[1]], ncol = dim[[2]]), byrow_lst, dim_names_lst),
     "matrix",
     ...
   )
