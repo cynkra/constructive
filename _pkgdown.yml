@@ -9,6 +9,7 @@ reference:
   - construct
   - construct_multi
   - construct_dput
+  - construct_serialize
   - construct_base
   - construct_clip
   - construct_dump
