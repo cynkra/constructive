@@ -18,7 +18,8 @@ opts_environment(
   constructor = c(".env", "list2env", "as.environment", "new.env", "topenv",
     "new_environment", "predefine"),
   ...,
-  recurse = FALSE
+  recurse = FALSE,
+  context = c("parents", "attributes", "locked")
 )
 ```
 
@@ -42,6 +43,33 @@ opts_environment(
   default) we will use
   [`topenv()`](https://rdrr.io/r/base/ns-topenv.html) to find a known
   ancestor to set as the parent.
+
+- context:
+
+  Character vector. Only considered if `constructor` is `".env"`.
+  Information to display as arguments of
+  [`.env()`](https://cynkra.github.io/constructive/reference/dot-env.md),
+  they are ignored by the function and don't change the constructed
+  object. A subset of:
+
+  - `"parents"`: the names or memory addresses of the parent
+    environments, until a special environment is found
+
+  - `"attributes"`: the attributes of the environment
+
+  - `"locked"`: `locked = TRUE` if the environment is locked
+
+  - `"names"`: the names of the bindings
+
+  - `"objects"`: the construction of the bindings, active and lazy
+    bindings are omitted so they're not evaluated
+
+  - `"parent"`: the construction of the parent environment, repeated
+    until a special environment is found
+
+  Environments found in `"objects"` and `"parent"` don't display
+  objects, and environments found in `"objects"` don't display their
+  parent.
 
 ## Value
 
@@ -100,7 +128,9 @@ We might set the `constructor` argument to:
 
 - `".env"` (default): use
   [`constructive::.env()`](https://cynkra.github.io/constructive/reference/dot-env.md)
-  to construct the environment from its memory address.
+  to construct the environment from its memory address. Additional
+  information is displayed through its non-functional arguments, see the
+  `context` argument.
 
 &nbsp;
 

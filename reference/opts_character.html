@@ -66,7 +66,8 @@ symbols and argument names as well.</p>
 <span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"default"</span>, <span class="st">"rlang"</span>, <span class="st">"+"</span>, <span class="st">"..."</span>, <span class="st">"none"</span><span class="op">)</span>,</span>
 <span>  compress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  unicode_representation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ascii"</span>, <span class="st">"latin"</span>, <span class="st">"character"</span>, <span class="st">"unicode"</span><span class="op">)</span>,</span>
-<span>  escape <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  escape <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  multiline <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -115,6 +116,13 @@ single quotes to surround strings (including variable and element names)
 containing double quotes, and raw strings for strings that contain backslashes
 and/or a combination of single and double quotes. Depending on
 <code>unicode_representation</code> <code>escape = FALSE</code> cannot be applied on all strings.</p></dd>
+
+
+<dt id="arg-multiline">multiline<a class="anchor" aria-label="anchor" href="#arg-multiline"></a></dt>
+<dd><p>Boolean. Whether to construct strings containing new lines
+on several lines, rather than using <code>"\n"</code>. A whitespace character
+followed by a new line would be invisible, so it's escaped using the
+<code>"\U{}"</code> notation. Ignored if <code>one_liner</code> is <code>TRUE</code> in the main function.</p></dd>
 
 </dl></div>
     <div class="section level2">

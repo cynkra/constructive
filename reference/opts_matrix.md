@@ -6,7 +6,11 @@ with a `"dim"` attributes of length 2.
 ## Usage
 
 ``` r
-opts_matrix(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...)
+opts_matrix(
+  constructor = c("matrix", "array", "cbind", "rbind", "next"),
+  ...,
+  byrow = FALSE
+)
 ```
 
 ## Arguments
@@ -19,6 +23,11 @@ opts_matrix(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...)
 
   Additional options used by user defined constructors through the
   `opts` object
+
+- byrow:
+
+  Boolean. Only considered if `constructor` is `"matrix"`. Whether to
+  provide the elements row by row and use `byrow = TRUE`.
 
 ## Value
 

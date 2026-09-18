@@ -22,7 +22,8 @@ opts_character(
   fill = c("default", "rlang", "+", "...", "none"),
   compress = TRUE,
   unicode_representation = c("ascii", "latin", "character", "unicode"),
-  escape = FALSE
+  escape = FALSE,
+  multiline = FALSE
 )
 ```
 
@@ -77,6 +78,13 @@ opts_character(
   that contain backslashes and/or a combination of single and double
   quotes. Depending on `unicode_representation` `escape = FALSE` cannot
   be applied on all strings.
+
+- multiline:
+
+  Boolean. Whether to construct strings containing new lines on several
+  lines, rather than using `"\n"`. A whitespace character followed by a
+  new line would be invisible, so it's escaped using the `"\U{}"`
+  notation. Ignored if `one_liner` is `TRUE` in the main function.
 
 ## Value
 

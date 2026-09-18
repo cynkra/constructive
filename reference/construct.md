@@ -176,7 +176,7 @@ class and is documented on its own page.
 
 - [`opts_blob`](https://cynkra.github.io/constructive/reference/opts_blob.md)`(constructor = c("blob", "next"), ...)`
 
-- [`opts_character`](https://cynkra.github.io/constructive/reference/opts_character.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE)`
+- [`opts_character`](https://cynkra.github.io/constructive/reference/opts_character.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE, multiline = FALSE)`
 
 - [`opts_citationFooter`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("citFooter", "next"), ...)`
 
@@ -250,7 +250,7 @@ class and is documented on its own page.
 
 - [`opts_ellmer_TypeObject`](https://cynkra.github.io/constructive/reference/opts_ellmer_TypeObject.md)`(constructor = c("type_object", "TypeObject", "next"), ...)`
 
-- [`opts_environment`](https://cynkra.github.io/constructive/reference/opts_environment.md)`(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE)`
+- [`opts_environment`](https://cynkra.github.io/constructive/reference/opts_environment.md)`(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE, context = c("parents", "attributes", "locked"))`
 
 - [`opts_error`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("errorCondition", "next"), ...)`
 
@@ -342,7 +342,7 @@ class and is documented on its own page.
 
 - [`opts_margin`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("margin", "next", "double"), ...)`
 
-- [`opts_matrix`](https://cynkra.github.io/constructive/reference/opts_matrix.md)`(constructor = c("matrix", "array", "cbind", "rbind", "next"), ...)`
+- [`opts_matrix`](https://cynkra.github.io/constructive/reference/opts_matrix.md)`(constructor = c("matrix", "array", "cbind", "rbind", "next"), ..., byrow = FALSE)`
 
 - [`opts_mts`](https://cynkra.github.io/constructive/reference/opts_mts.md)`(constructor = c("ts", "next", "atomic"), ...)`
 
