@@ -36,6 +36,7 @@ test_that("duplicate names in tibbles", {
 
 # vctrs 0.7.2 changed the order of the attributes of tibbles
 test_that("tibbles with NULL names, vctrs < 0.7.2", {
+  skip_if_not_installed("vctrs")
   skip_if(with_versions(vctrs >= "0.7.2"))
   expect_snapshot({
     construct(structure(tibble::tibble(1), names = NULL))
@@ -43,6 +44,7 @@ test_that("tibbles with NULL names, vctrs < 0.7.2", {
 })
 
 test_that("tibbles with NULL names, vctrs >= 0.7.2", {
+  skip_if_not_installed("vctrs")
   skip_if(with_versions(vctrs < "0.7.2"))
   expect_snapshot({
     construct(structure(tibble::tibble(1), names = NULL))
