@@ -1,4 +1,6 @@
 test_that("dm", {
+  # dm prints a startup message when igraph is not installed
+  suppressPackageStartupMessages(skip_if_not_installed("dm"))
   expect_snapshot({
     # simple dm
     construct(dm::dm(cars1 = head(cars,2), cars2 = tail(cars,2)), check = FALSE)
