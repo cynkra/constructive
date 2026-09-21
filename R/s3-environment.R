@@ -71,6 +71,12 @@
 #'   call, using placeholder names `..env.1..`, `..env.2..` etc.
 #'   The caveat is that the created code won't be a single call
 #'   and will create objects in the workspace. `recurse` is ignored.
+#' * `"unserialize"` : We serialize the environment and construct it with
+#'   `unserialize()` on the raw vector. The code is not readable but it
+#'   reproduces the environment exactly in a new session: its parents up to a
+#'   special environment, its bindings including active bindings and promises,
+#'   its attributes and whether it is locked. Special environments met on the
+#'   way, like namespaces, are serialized by name. `recurse` is ignored.
 #' @param constructor String. Name of the function used to construct the
 #'   environment, see **Constructors** section.
 #' @inheritParams opts_atomic
@@ -96,7 +102,7 @@
 #'
 #' @return An object of class <constructive_options/constructive_options_environment>
 #' @export
-opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE, context = c("parents", "attributes", "locked")) {
+opts_environment <- function(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine", "unserialize"), ..., recurse = FALSE, context = c("parents", "attributes", "locked")) {
   if (isTRUE(list(...)$predefine)) {
     msg <- "`predefine = TRUE` in `opts_environment()` is deprecated"
     info <- "Use `constructor = \"predefine\"` instead."
@@ -330,6 +336,13 @@ env_regular_bindings <- function(x) {
   )
   code <- apply_env_locks(x, code)
   repair_attributes_environment(x, code, ...)
+}
+
+#' @export
+#' @method .cstr_construct.environment unserialize
+.cstr_construct.environment.unserialize <- function(x, ...) {
+  # attributes are serialized too so no repair is needed
+  .cstr_apply(list(serialize(x, NULL)), "unserialize", ...)
 }
 
 #' @export

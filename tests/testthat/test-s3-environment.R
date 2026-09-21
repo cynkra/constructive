@@ -106,3 +106,28 @@ test_that("`context` arg of `opts_environment()`", {
   })
   expect_error(opts_environment(context = "foo"), "must be a character vector")
 })
+
+test_that("environment with `constructor = \"unserialize\"`", {
+  parent <- new.env(parent = asNamespace("stats"))
+  parent$z <- 3
+  env <- new.env(parent = parent)
+  env$a <- 1
+  env$self <- env
+  makeActiveBinding("active", function() "active value", env)
+  attr(env, "foo") <- "bar"
+  lockEnvironment(env)
+
+  code <- construct(env, opts_environment("unserialize"), check = FALSE)
+  expect_match(code$code[[1]], "^unserialize\\(")
+  recreated <- eval(parse(text = code$code))
+  expect_false(identical(recreated, env))
+  expect_identical(recreated$a, 1)
+  expect_identical(recreated$self, recreated)
+  expect_true(bindingIsActive("active", recreated))
+  expect_identical(recreated$active, "active value")
+  expect_identical(attr(recreated, "foo"), "bar")
+  expect_true(environmentIsLocked(recreated))
+  expect_identical(parent.env(recreated)$z, 3)
+  expect_identical(parent.env(parent.env(recreated)), asNamespace("stats"))
+})
+
