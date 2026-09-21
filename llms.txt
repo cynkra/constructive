@@ -287,6 +287,8 @@ The main functions of the package
 - [`construct_dput()`](https://cynkra.github.io/constructive/reference/construct_dput.md)
   [`construct_base()`](https://cynkra.github.io/constructive/reference/construct_dput.md)
   : Construct using only low level constructors
+- [`construct_serialize()`](https://cynkra.github.io/constructive/reference/construct_serialize.md)
+  : Build code to recreate an object from its serialized form
 - [`construct_clip()`](https://cynkra.github.io/constructive/reference/construct_clip.md)
   : Construct to clipboard
 - [`construct_dump()`](https://cynkra.github.io/constructive/reference/construct_dump.md)
