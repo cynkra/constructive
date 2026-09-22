@@ -271,6 +271,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_uneval]{opts_uneval}(constructor = c("aes", "next", "list"), ...)}
   \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}(constructor = c("list_of", "next", "list"), ...)}
+  \item \code{\link[=opts_vctrs_rcrd]{opts_vctrs_rcrd}(constructor = c("new_rcrd", "next", "list"), ...)}
+  \item \code{\link[=opts_vctrs_unspecified]{opts_vctrs_unspecified}(constructor = c("unspecified", "next"), ...)}
+  \item \code{\link[=opts_vctrs_vctr]{opts_vctrs_vctr}(constructor = c("new_vctr", "next"), ...)}
   \item \code{\link[=opts_waiver]{opts_waiver}(constructor = c("waiver", "next", "list"), ...)}
   \item \code{\link[=opts_warning]{opts_warning}(constructor = c("warningCondition", "next"), ...)}
   \item \code{\link[=opts_weakref]{opts_weakref}(constructor = c("new_weakref"), ...)}

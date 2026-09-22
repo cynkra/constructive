@@ -406,7 +406,10 @@ all_classes <- list(
     "yearweek"
   ),
   vctrs = c(
-    "vctrs_list_of"
+    "vctrs_list_of",
+    "vctrs_rcrd",
+    "vctrs_unspecified",
+    "vctrs_vctr"
   ),
   xts = c(
     "xts"
