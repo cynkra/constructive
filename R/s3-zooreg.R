@@ -32,7 +32,8 @@ is_corrupted_zooreg <- function(x) {
 .cstr_construct.zooreg.zooreg <- function(x, ...) {
   args <- list(
     structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
-    start = attr(x, "index")[[1]],
+    # keep the class of the index (e.g. "yearqtr", "Date") through its `[[` method
+    start = base::`[[`(attr(x, "index"), 1),
     frequency = attr(x, "frequency")
   )
   code <- .cstr_apply(args, fun = "zoo::zooreg", ...)
