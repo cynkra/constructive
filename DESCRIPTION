@@ -39,6 +39,7 @@ Suggests:
     glue,
     haven,
     hms,
+    htmltools,
     jsonlite,
     knitr,
     lubridate,
