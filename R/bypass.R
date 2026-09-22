@@ -62,7 +62,9 @@ length <- function(x) {
 }
 
 lengths <- function(x, use.names = TRUE) {
-  sapply(x, length, USE.NAMES = use.names)
+  out <- vapply(x, length, integer(1), USE.NAMES = FALSE)
+  if (use.names) names(out) <- names(x)
+  out
 }
 
 dim <- function(x) {

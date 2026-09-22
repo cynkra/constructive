@@ -47,3 +47,21 @@ test_that("backslash and emojis in names work for R >= 4.1", {
     construct(c("\\🐶" = "\\"))
   })
 })
+
+test_that("the lengths() shim matches base::lengths() without dispatching", {
+  x <- list(a = 1:2, b = NULL)
+  expect_identical(constructive:::lengths(x), c(a = 2L, b = 0L))
+  expect_identical(constructive:::lengths(x, use.names = FALSE), c(2L, 0L))
+  expect_identical(constructive:::lengths(list()), integer(0))
+  expect_identical(constructive:::lengths(c("a", "b")), c(1L, 1L))
+
+  lying <- structure(list(1:3, 1), class = "lying")
+  local_bindings(
+    length.lying = function(x) 99L,
+    as.list.lying = function(x, ...) stop("dispatched"),
+    .env = globalenv()
+  )
+  expect_identical(base::lengths(list(lying)), 99L)
+  expect_identical(constructive:::lengths(list(lying)), 2L)
+  expect_identical(constructive:::lengths(lying), c(3L, 1L))
+})
