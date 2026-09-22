@@ -366,6 +366,12 @@ all_classes <- list(
     "R6",
     "R6ClassGenerator"
   ),
+  readr = c(
+    "col_spec",
+    "collector",
+    "date_names",
+    "locale"
+  ),
   rlang = c(
     "quosure",
     "quosures"
