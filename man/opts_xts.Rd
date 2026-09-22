@@ -4,7 +4,10 @@
 \alias{opts_xts}
 \title{Constructive options for class 'xts'}
 \usage{
-opts_xts(constructor = c("as.xts.matrix", "next"), ...)
+opts_xts(
+  constructor = c("xts", "as.xts.matrix", "as.xts.data.frame", ".xts", "next"),
+  ...
+)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object.}
@@ -20,11 +23,14 @@ These options will be used on objects of class 'xts'.
 \details{
 Depending on \code{constructor}, we construct the object as follows:
 \itemize{
-\item \code{"as.xts.matrix"} (default): We build the object using \code{xts::as.xts.matrix()}.
+\item \code{"xts"} (default): We build the object using \code{xts::xts()}, the index is
+provided as a \code{Date} or \code{POSIXct} vector depending on its class.
+\item \code{"as.xts.matrix"}: We build the object using \code{xts::as.xts.matrix()}, the
+index is provided through row names, which doesn't preserve its class and
+time zone.
 \item \code{"as.xts.data.frame"}: We build the object using \code{xts::as.xts.data.frame()},
 this is probably the most readable option but couldn't be made the default
 constructor because it requires the 'xts' package to be installed .
-\item \code{"xts"}: We build the object using \code{xts::xts()}.
 \item \code{".xts"}: We build the object using \code{xts::.xts()}.
 \item \code{"next"}: Use the constructor for the next supported class.
 }

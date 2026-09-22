@@ -20,6 +20,7 @@ test_that("xts", {
     )
     x <- xts::as.xts(mat)
     construct(x)
+    construct(x, opts_xts("as.xts.matrix"))
     construct(x, opts_xts("as.xts.data.frame"))
     construct(x, opts_xts("xts"))
     construct(x, opts_xts(".xts"))
@@ -28,5 +29,7 @@ test_that("xts", {
     construct(x, opts_xts("next"))
     construct_dput(x)
     construct_base(x)
+    # Date index and no column names
+    construct(xts::xts(1:3, as.Date("2024-01-01") + 0:2))
   })
 })
