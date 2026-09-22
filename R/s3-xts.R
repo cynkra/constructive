@@ -45,6 +45,7 @@ is_corrupted_xts <- function(x) {
   index <- attr(x, "index")
   index_is_corrupted <-
     !is.double(index) ||
+    is.object(index) ||
     !is.character(attr(index, "tzone")) ||
     !is.character(attr(index, "tclass"))
   if (index_is_corrupted) return(TRUE)
@@ -56,7 +57,8 @@ is_corrupted_xts <- function(x) {
 .cstr_construct.xts.as.xts.matrix <- function(x, ...) {
   dimnames_ <- dimnames(x)
   dimnames_[[1]] <- as.character(as.POSIXct(
-    attr(x,"index"),
+    # `unclass()` so `as.numeric()` doesn't dispatch
+    as.numeric(unclass(attr(x,"index"))),
     tz = attr(attr(x,"index"), "tzone"),
     # for compat with R < 4.3.0
     origin = "1970-01-01"
