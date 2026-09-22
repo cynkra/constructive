@@ -359,6 +359,7 @@ all_classes <- list(
     "grouped_df",
     "rowwise_df"
   ),
+  glue = c("glue"),
   grid = c(
     "simpleUnit"
   ),

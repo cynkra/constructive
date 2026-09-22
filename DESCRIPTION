@@ -34,6 +34,7 @@ Suggests:
     ellmer,
     forcats,
     ggplot2,
+    glue,
     jsonlite,
     knitr,
     lubridate,
