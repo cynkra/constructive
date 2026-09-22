@@ -123,15 +123,17 @@ is_corrupted_xts <- function(x) {
 #' @export
 #' @method .cstr_construct.xts xts
 .cstr_construct.xts.xts <- function(x, ...) {
-  # `xts()` sets the "tclass" and "tzone" attributes of the index from `order.by`
-  order_by <- as.POSIXct(
-    as.numeric(attr(x,"index")),
-    tz = attr(attr(x,"index"), "tzone"),
-    # for compat with R < 4.3.0
-    origin = "1970-01-01"
-  )
-  # the index of xts objects built from dates has the "Date" tclass
-  if (identical(attr(attr(x, "index"), "tclass"), "Date")) order_by <- as.Date(order_by)
+  # `xts()` sets the "tclass" and "tzone" attributes of the index from
+  # `order.by`, we build it with `structure()` to avoid S3 dispatch
+  index <- attr(x, "index")
+  tclass <- attr(index, "tclass")
+  tzone <- attr(index, "tzone")
+  attributes(index) <- NULL
+  order_by <- if (identical(tclass, "Date")) {
+    structure(index / 86400, class = "Date")
+  } else {
+    structure(index, class = c("POSIXct", "POSIXt"), tzone = tzone)
+  }
   if (list(...)$one_liner) {
     args <- list(
       structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
