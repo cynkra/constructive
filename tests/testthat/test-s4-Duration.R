@@ -1,6 +1,11 @@
 test_that("Duration", {
   skip_if_not_installed("lubridate")
   expect_snapshot({
+    # the years and months of durations are fixed approximations
+    construct(lubridate::dyears(1))
+    construct(lubridate::dyears(0.5))
+    construct(lubridate::dmonths(1))
+    construct(lubridate::dmonths(1.5))
     construct(lubridate::dweeks(2))
     construct(lubridate::ddays(3))
     construct(lubridate::dhours(1))
@@ -16,9 +21,6 @@ test_that("Duration", {
     # a larger unit would be arbitrary
     construct(lubridate::dseconds(0))
     construct(lubridate::duration())
-    # approximations, we don't use `dyears()` and `dmonths()`
-    construct(lubridate::dyears(1))
-    construct(lubridate::dmonths(1))
     construct(structure(lubridate::dminutes(1), foo = "bar"))
     construct(lubridate::ddays(1:3), opts_Duration("default"))
     construct(lubridate::ddays(1:3), opts_Duration("dseconds"))

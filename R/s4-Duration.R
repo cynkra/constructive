@@ -4,15 +4,16 @@
 #'
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"default"` (default): We build the object using the largest of
-#'   `lubridate::dweeks()`, `lubridate::ddays()`, `lubridate::dhours()`,
-#'   `lubridate::dminutes()` and `lubridate::dseconds()` for which all the
-#'   elements are whole numbers and the object is reproduced exactly, so an
-#'   hour is built with `lubridate::dhours(1)` rather than
-#'   `lubridate::dseconds(3600)`. `NA` elements don't constrain the choice, and
+#'   `lubridate::dyears()`, `lubridate::dmonths()`, `lubridate::dweeks()`,
+#'   `lubridate::ddays()`, `lubridate::dhours()`, `lubridate::dminutes()` and
+#'   `lubridate::dseconds()` for which all the elements are whole numbers and
+#'   the object is reproduced exactly, so an hour is built with
+#'   `lubridate::dhours(1)` rather than `lubridate::dseconds(3600)`. Note that
+#'   the years and months of 'lubridate' durations are fixed approximations,
+#'   of 365.25 and 30.4375 days respectively, so 31557600 seconds come out as
+#'   `lubridate::dyears(1)`. `NA` elements don't constrain the choice, and
 #'   we use `lubridate::dseconds()` if all elements are `NA` or zero, or if the
-#'   object is empty. We never use `lubridate::dyears()` and
-#'   `lubridate::dmonths()` because they are approximations (365.25 and 30.4375
-#'   days), so using them on arbitrary durations would be surprising.
+#'   object is empty.
 #' * `"dseconds"` : We build the object using `lubridate::dseconds()`
 #'   on a number of seconds.
 #' * `"duration"` : We build the object using `lubridate::duration()`
@@ -43,10 +44,16 @@ is_corrupted_Duration <- function(x) {
 #' @method .cstr_construct.Duration default
 .cstr_construct.Duration.default <- function(x, ...) {
   data <- x@.Data
-  # `lubridate::dyears()` and `lubridate::dmonths()` are left out on purpose,
-  # they are approximations (365.25 and 30.4375 days) so using them on
-  # arbitrary durations would be surprising
-  units <- c(dweeks = 604800, ddays = 86400, dhours = 3600, dminutes = 60)
+  # the years and months of 'lubridate' durations are fixed approximations,
+  # of 365.25 and 30.4375 days respectively
+  units <- c(
+    dyears = 31557600,
+    dmonths = 2629800,
+    dweeks = 604800,
+    ddays = 86400,
+    dhours = 3600,
+    dminutes = 60
+  )
   # a larger unit would be arbitrary if we have nothing but zeroes and `NA`s
   if (any(data != 0, na.rm = TRUE)) {
     for (nm in names(units)) {

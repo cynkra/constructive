@@ -1,6 +1,22 @@
 # Duration
 
     Code
+      construct(lubridate::dyears(1))
+    Output
+      lubridate::dyears(1)
+    Code
+      construct(lubridate::dyears(0.5))
+    Output
+      lubridate::dmonths(6)
+    Code
+      construct(lubridate::dmonths(1))
+    Output
+      lubridate::dmonths(1)
+    Code
+      construct(lubridate::dmonths(1.5))
+    Output
+      lubridate::dminutes(65745)
+    Code
       construct(lubridate::dweeks(2))
     Output
       lubridate::dweeks(2)
@@ -44,14 +60,6 @@
       construct(lubridate::duration())
     Output
       lubridate::dseconds(numeric(0))
-    Code
-      construct(lubridate::dyears(1))
-    Output
-      lubridate::dhours(8766)
-    Code
-      construct(lubridate::dmonths(1))
-    Output
-      lubridate::dminutes(43830)
     Code
       construct(structure(lubridate::dminutes(1), foo = "bar"))
     Output
