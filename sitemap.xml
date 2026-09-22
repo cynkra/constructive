@@ -97,6 +97,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ggplot2_ggplot.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ggplot2_labels.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_grouped_df.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_grouped_ts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_hexmode.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_integer.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_integer64.html</loc></url>
@@ -120,13 +121,17 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_sfc.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_sfg.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_tbl_df.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_tbl_ts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_vctrs_list_of.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_weakref.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_xml_document.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_xts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_yearmon.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_yearmonth.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_yearqtr.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_yearquarter.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_yearweek.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_zoo.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_zooreg.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/other-opts.html</loc></url>

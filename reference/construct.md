@@ -310,6 +310,8 @@ class and is documented on its own page.
 
 - [`opts_grouped_df`](https://cynkra.github.io/constructive/reference/opts_grouped_df.md)`(constructor = c("default", "next", "list"), ...)`
 
+- [`opts_grouped_ts`](https://cynkra.github.io/constructive/reference/opts_grouped_ts.md)`(constructor = c("group_by", "next"), ...)`
+
 - [`opts_Guide`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("default", "next", "environment"), ...)`
 
 - [`opts_GuideAxis`](https://cynkra.github.io/constructive/reference/opts_GuideAxis.md)`(constructor = c("guide_axis", "next"), ...)`
@@ -438,6 +440,8 @@ class and is documented on its own page.
 
 - [`opts_tbl_df`](https://cynkra.github.io/constructive/reference/opts_tbl_df.md)`(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"), recycle = TRUE)`
 
+- [`opts_tbl_ts`](https://cynkra.github.io/constructive/reference/opts_tbl_ts.md)`(constructor = c("tsibble", "as_tsibble", "next"), ...)`
+
 - [`opts_theme`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("theme", "next", "list"), ...)`
 
 - [`opts_ts`](https://cynkra.github.io/constructive/reference/opts_ts.md)`(constructor = c("ts", "next", "atomic"), ...)`
@@ -458,7 +462,13 @@ class and is documented on its own page.
 
 - [`opts_yearmon`](https://cynkra.github.io/constructive/reference/opts_yearmon.md)`(constructor = c("as.yearmon", "yearmon", "next"), ...)`
 
+- [`opts_yearmonth`](https://cynkra.github.io/constructive/reference/opts_yearmonth.md)`(constructor = c("yearmonth", "next"), ...)`
+
 - [`opts_yearqtr`](https://cynkra.github.io/constructive/reference/opts_yearqtr.md)`(constructor = c("as.yearqtr", "yearqtr", "next"), ...)`
+
+- [`opts_yearquarter`](https://cynkra.github.io/constructive/reference/opts_yearquarter.md)`(constructor = c("yearquarter", "next"), ...)`
+
+- [`opts_yearweek`](https://cynkra.github.io/constructive/reference/opts_yearweek.md)`(constructor = c("yearweek", "next"), ...)`
 
 - [`opts_zoo`](https://cynkra.github.io/constructive/reference/opts_zoo.md)`(constructor = c("zoo", "next"), ...)`
 

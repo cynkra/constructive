@@ -541,6 +541,9 @@ The main functions of the package
 - [`opts_grouped_df()`](https://cynkra.github.io/constructive/reference/opts_grouped_df.md)
   : Constructive options for class 'grouped_df'
 
+- [`opts_grouped_ts()`](https://cynkra.github.io/constructive/reference/opts_grouped_ts.md)
+  : Constructive options for class 'grouped_ts'
+
 - [`opts_hexmode()`](https://cynkra.github.io/constructive/reference/opts_hexmode.md)
   : Constructive options for class 'hexmode'
 
@@ -610,6 +613,9 @@ The main functions of the package
 - [`opts_tbl_df()`](https://cynkra.github.io/constructive/reference/opts_tbl_df.md)
   : Constructive options for tibbles
 
+- [`opts_tbl_ts()`](https://cynkra.github.io/constructive/reference/opts_tbl_ts.md)
+  : Constructive options for class 'tbl_ts'
+
 - [`opts_ts()`](https://cynkra.github.io/constructive/reference/opts_ts.md)
   : Constructive options for time-series objets
 
@@ -630,8 +636,17 @@ The main functions of the package
 - [`opts_yearmon()`](https://cynkra.github.io/constructive/reference/opts_yearmon.md)
   : Constructive options for class 'yearmon'
 
+- [`opts_yearmonth()`](https://cynkra.github.io/constructive/reference/opts_yearmonth.md)
+  : Constructive options for class 'yearmonth'
+
 - [`opts_yearqtr()`](https://cynkra.github.io/constructive/reference/opts_yearqtr.md)
   : Constructive options for class 'yearqtr'
+
+- [`opts_yearquarter()`](https://cynkra.github.io/constructive/reference/opts_yearquarter.md)
+  : Constructive options for class 'yearquarter'
+
+- [`opts_yearweek()`](https://cynkra.github.io/constructive/reference/opts_yearweek.md)
+  : Constructive options for class 'yearweek'
 
 - [`opts_zoo()`](https://cynkra.github.io/constructive/reference/opts_zoo.md)
   : Constructive options for class 'zoo'
