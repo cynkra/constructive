@@ -36,6 +36,7 @@ Suggests:
     ggplot2,
     glue,
     hms,
+    htmltools,
     jsonlite,
     knitr,
     lubridate,
