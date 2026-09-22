@@ -13,3 +13,12 @@ test_that("date_names", {
     construct(readr::date_names_lang("en"), opts_date_names("list"))
   })
 })
+
+test_that("date_names with non ASCII month names on UTF-8 system", {
+  skip_if_not_installed("readr")
+  skip_if(!l10n_info()$`UTF-8`)
+  expect_snapshot({
+    construct(readr::date_names_lang("fr"), opts_date_names("date_names"))
+    construct(readr::date_names_lang("fr"), opts_date_names("list"))
+  })
+})

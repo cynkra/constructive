@@ -19,3 +19,11 @@ test_that("locale", {
     construct(readr::locale("fr"), opts_locale("list"))
   })
 })
+
+test_that("locale with non ASCII date names on UTF-8 system", {
+  skip_if_not_installed("readr")
+  skip_if(!l10n_info()$`UTF-8`)
+  expect_snapshot({
+    construct(readr::locale("fr"), opts_date_names("date_names"))
+  })
+})
