@@ -184,6 +184,12 @@ The main functions of the package
 - [`opts_classRepresentation()`](https://cynkra.github.io/constructive/reference/opts_classRepresentation.md)
   : Constructive options for class 'classRepresentation'
 
+- [`opts_col_spec()`](https://cynkra.github.io/constructive/reference/opts_col_spec.md)
+  : Constructive options for class 'col_spec'
+
+- [`opts_collector()`](https://cynkra.github.io/constructive/reference/opts_collector.md)
+  : Constructive options for class 'collector'
+
 - [`opts_complex()`](https://cynkra.github.io/constructive/reference/opts_complex.md)
   : Constructive options for type 'complex'
 
@@ -197,6 +203,9 @@ The main functions of the package
 
 - [`opts_data.table()`](https://cynkra.github.io/constructive/reference/opts_data.table.md)
   : Constructive options for class 'data.table'
+
+- [`opts_date_names()`](https://cynkra.github.io/constructive/reference/opts_date_names.md)
+  : Constructive options for class 'date_names'
 
 - [`opts_dm()`](https://cynkra.github.io/constructive/reference/opts_dm.md)
   : Constructive options class 'dm'
@@ -263,6 +272,9 @@ The main functions of the package
 
 - [`opts_list()`](https://cynkra.github.io/constructive/reference/opts_list.md)
   : Constructive options for type 'list'
+
+- [`opts_locale()`](https://cynkra.github.io/constructive/reference/opts_locale.md)
+  : Constructive options for class 'locale'
 
 - [`opts_logical()`](https://cynkra.github.io/constructive/reference/opts_logical.md)
   : Constructive options for type 'logical'

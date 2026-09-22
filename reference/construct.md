@@ -188,6 +188,10 @@ class and is documented on its own page.
 
 - [`opts_classRepresentation`](https://cynkra.github.io/constructive/reference/opts_classRepresentation.md)`(constructor = c("getClassDef"), ...)`
 
+- [`opts_col_spec`](https://cynkra.github.io/constructive/reference/opts_col_spec.md)`(constructor = c("cols", "next", "list"), ...)`
+
+- [`opts_collector`](https://cynkra.github.io/constructive/reference/opts_collector.md)`(constructor = c("col", "next", "list"), ...)`
+
 - [`opts_complex`](https://cynkra.github.io/constructive/reference/opts_complex.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
 - [`opts_constructive_options`](https://cynkra.github.io/constructive/reference/opts_constructive_options.md)`(constructor = c("opts", "next"), ...)`
@@ -219,6 +223,8 @@ class and is documented on its own page.
 - [`opts_data.table`](https://cynkra.github.io/constructive/reference/opts_data.table.md)`(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE)`
 
 - [`opts_Date`](https://cynkra.github.io/constructive/reference/opts_Date.md)`(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")`
+
+- [`opts_date_names`](https://cynkra.github.io/constructive/reference/opts_date_names.md)`(constructor = c("date_names_lang", "date_names", "next", "list"), ...)`
 
 - [`opts_difftime`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("as.difftime", "next"), ...)`
 
@@ -337,6 +343,8 @@ class and is documented on its own page.
 - [`opts_Layer`](https://cynkra.github.io/constructive/reference/opts_Layer.md)`(constructor = c("default", "layer", "next", "environment"), ...)`
 
 - [`opts_list`](https://cynkra.github.io/constructive/reference/opts_list.md)`(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))`
+
+- [`opts_locale`](https://cynkra.github.io/constructive/reference/opts_locale.md)`(constructor = c("locale", "next", "list"), ...)`
 
 - [`opts_logical`](https://cynkra.github.io/constructive/reference/opts_logical.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
