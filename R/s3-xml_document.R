@@ -37,6 +37,7 @@ is_corrupted_xml_document <- function(x) {
     return(out)
   }
   opts <- list(...)$opts$xml_document %||% opts_xml_document()
+  # dispatch on purpose, xml2 does not export `as.character.xml_document()`
   arg <- base::as.character(x)
   type <- getFromNamespace("doc_type", "xml2")(x)
   if (type == "xml") {

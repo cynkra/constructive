@@ -56,7 +56,7 @@ is_corrupted_factor <- function(x) {
 #' @method .cstr_construct.factor as_factor
 .cstr_construct.factor.as_factor <- function(x, ...) {
   levs <- levels(x)
-  x_chr <- base::as.character(x)
+  x_chr <- as.character.factor(x)
   if (!identical(unique(x_chr), levs) || NA %in% levs) return(.cstr_construct.factor.factor(x, ...))
   x_chr_named <- setNames(x_chr, names(x))
   code <- .cstr_apply(list(x_chr_named), "forcats::as_factor", new_line =  FALSE, ...)
@@ -67,7 +67,7 @@ is_corrupted_factor <- function(x) {
 #' @method .cstr_construct.factor factor
 .cstr_construct.factor.factor <- function(x, ...) {
   levs <- levels(x)
-  x_chr <- base::as.character(x)
+  x_chr <- as.character.factor(x)
   x_chr_named <- setNames(x_chr, names(x))
   default_levs <- sort(unique(x_chr))
   args <- list(x_chr_named)

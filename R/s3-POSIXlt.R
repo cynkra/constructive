@@ -63,8 +63,8 @@ is_corrupted_POSIXlt <- function(x) {
   }
 
   x_chr <- format(x)
-  split_s <- base::as.numeric(x) %% 1
-  dec_lgl <- split_s != 0 & !base::is.na(x)
+  split_s <- as.double.POSIXlt(x) %% 1
+  dec_lgl <- split_s != 0 & !is.na.POSIXlt(x)
   dec_seconds <- vapply(strip(x)$sec[dec_lgl], .cstr_construct, character(1))
   dec_seconds <- sub("^.*(\\..*)", "\\1", dec_seconds)
   x_chr[dec_lgl] <- paste0(x_chr[dec_lgl], dec_seconds)

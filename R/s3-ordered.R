@@ -41,8 +41,8 @@ is_corrupted_ordered <- function(x) {
 #' @method .cstr_construct.ordered ordered
 .cstr_construct.ordered.ordered <- function(x, ...) {
   levs <- levels(x)
-  args <- list(setNames(base::as.character(x), names(x)))
-  default_levs <- sort(unique(base::as.character(x)))
+  args <- list(setNames(as.character.factor(x), names(x)))
+  default_levs <- sort(unique(as.character.factor(x)))
   if (!identical(default_levs, levs)) args$levels <- levs
   if (NA %in% levs) args["exclude"] <- list(NULL)
   if (length(args) == 1) {
@@ -57,8 +57,8 @@ is_corrupted_ordered <- function(x) {
 #' @method .cstr_construct.ordered factor
 .cstr_construct.ordered.factor <- function(x, ...) {
   levs <- levels(x)
-  args <- list(setNames(base::as.character(x), names(x)))
-  default_levs <- sort(unique(base::as.character(x)))
+  args <- list(setNames(as.character.factor(x), names(x)))
+  default_levs <- sort(unique(as.character.factor(x)))
   if (!identical(default_levs, levs)) args$levels <- levs
   if (NA %in% levs) args["exclude"] <- list(NULL)
   args$ordered <- TRUE
