@@ -384,6 +384,13 @@ all_classes <- list(
   tibble = c(
     "tbl_df"
   ),
+  tsibble = c(
+    "grouped_ts",
+    "tbl_ts",
+    "yearmonth",
+    "yearquarter",
+    "yearweek"
+  ),
   vctrs = c(
     "vctrs_list_of"
   ),

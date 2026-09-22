@@ -48,6 +48,7 @@ Suggests:
     testthat (>= 3.0.0),
     tibble,
     tidyselect,
+    tsibble,
     vctrs,
     withr,
     xml2,
