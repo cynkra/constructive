@@ -538,6 +538,9 @@ The main functions of the package
 - [`opts_ggplot2_labels()`](https://cynkra.github.io/constructive/reference/opts_ggplot2_labels.md)
   : Constructive options for class 'ggplot2::labels'
 
+- [`opts_glue()`](https://cynkra.github.io/constructive/reference/opts_glue.md)
+  : Constructive options for class 'glue'
+
 - [`opts_grouped_df()`](https://cynkra.github.io/constructive/reference/opts_grouped_df.md)
   : Constructive options for class 'grouped_df'
 

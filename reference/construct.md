@@ -308,6 +308,8 @@ class and is documented on its own page.
 
 - [`opts_ggproto`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("default", "ggproto", "next", "environment"), ...)`
 
+- [`opts_glue`](https://cynkra.github.io/constructive/reference/opts_glue.md)`(constructor = c("as_glue", "next"), ...)`
+
 - [`opts_grouped_df`](https://cynkra.github.io/constructive/reference/opts_grouped_df.md)`(constructor = c("default", "next", "list"), ...)`
 
 - [`opts_grouped_ts`](https://cynkra.github.io/constructive/reference/opts_grouped_ts.md)`(constructor = c("group_by", "next"), ...)`
