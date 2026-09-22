@@ -37,7 +37,7 @@ is_corrupted_xml_document <- function(x) {
     return(out)
   }
   opts <- list(...)$opts$xml_document %||% opts_xml_document()
-  arg <- as.character(x)
+  arg <- base::as.character(x)
   type <- getFromNamespace("doc_type", "xml2")(x)
   if (type == "xml") {
     fun <- "xml2::read_xml"

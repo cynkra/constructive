@@ -182,7 +182,7 @@ code_from_srcref <- function(x) {
   srcref <- attr(x, "srcref")
   # srcref might have been zapped or function built withoiut srcref
   if (is.null(srcref)) return(NULL)
-  srcref_chr <- as.character(srcref)
+  srcref_chr <- base::as.character(srcref)
   # srcref might have been manipulated and not parseable -> try
   parsed <- try(parse(text = srcref_chr)[[1]], silent = TRUE)
   if (
