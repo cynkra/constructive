@@ -161,9 +161,11 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_date_names]{opts_date_names}(constructor = c("date_names_lang", "date_names", "next", "list"), ...)}
   \item \code{\link[=opts_difftime]{opts_difftime}(constructor = c("as.difftime", "next"), ...)}
+  \item \code{\link[=opts_dist]{opts_dist}(constructor = c("as.dist", "next"), ...)}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
   \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
   \item \code{\link[=opts_double]{opts_double}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
+  \item \code{\link[=opts_ecdf]{opts_ecdf}(constructor = c("ecdf", "next"), ...)}
   \item \code{\link[=opts_element_blank]{opts_element_blank}(constructor = c("element_blank", "next", "list"), ...)}
   \item \code{\link[=opts_element_grob]{opts_element_grob}(constructor = c("element_grob", "next", "list"), ...)}
   \item \code{\link[=opts_element_line]{opts_element_line}(constructor = c("element_line", "next", "list"), ...)}
@@ -184,6 +186,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_FacetWrap]{opts_FacetWrap}(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...)}
   \item \code{\link[=opts_formula]{opts_formula}(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)}
+  \item \code{\link[=opts_ftable]{opts_ftable}(constructor = c("ftable", "next"), ...)}
   \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
   \item \code{\link[=opts_ggplot]{opts_ggplot}(constructor = c("ggplot", "next", "list"), ...)}
   \item \code{\link[=opts_ggplot2_element_blank]{opts_ggplot2_element_blank}(constructor = c("element_blank", "next"), ...)}
@@ -242,8 +245,10 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_R_system_version]{opts_R_system_version}(constructor = c("R_system_version", "next", "list"), ...)}
   \item \code{\link[=opts_R6]{opts_R6}(constructor = c("R6Class", "next"), ...)}
   \item \code{\link[=opts_R6ClassGenerator]{opts_R6ClassGenerator}(constructor = c("R6Class", "next"), ...)}
+  \item \code{\link[=opts_raster]{opts_raster}(constructor = c("as.raster", "next"), ...)}
   \item \code{\link[=opts_raw]{opts_raw}(constructor = c("as.raw", "charToRaw"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, representation = c("hexadecimal", "decimal"))}
   \item \code{\link[=opts_rel]{opts_rel}(constructor = c("rel", "next", "double"), ...)}
+  \item \code{\link[=opts_roman]{opts_roman}(constructor = c("as.roman", "next"), ...)}
   \item \code{\link[=opts_rowwise_df]{opts_rowwise_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_S4]{opts_S4}(constructor = c("new", "prototype"), ...)}
   \item \code{\link[=opts_S7_any]{opts_S7_any}(constructor = c("class_any", "next"), ...)}
@@ -265,6 +270,8 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_simpleMessage]{opts_simpleMessage}(constructor = c("simpleMessage", "next"), ...)}
   \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = c("unit", "next", "double"), ...)}
   \item \code{\link[=opts_simpleWarning]{opts_simpleWarning}(constructor = c("simpleWarning", "next"), ...)}
+  \item \code{\link[=opts_stepfun]{opts_stepfun}(constructor = c("stepfun", "next"), ...)}
+  \item \code{\link[=opts_table]{opts_table}(constructor = c("as.table", "next"), ...)}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"), recycle = TRUE)}
   \item \code{\link[=opts_tbl_ts]{opts_tbl_ts}(constructor = c("tsibble", "as_tsibble", "next"), ...)}
   \item \code{\link[=opts_theme]{opts_theme}(constructor = c("theme", "next", "list"), ...)}
