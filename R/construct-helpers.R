@@ -201,7 +201,7 @@ process_classes <- function(classes) {
   if (!length(classes)) return(NULL)
   classes <- setdiff(classes, "*none*")
   if ("*base*" %in% classes) {
-    base_packages <- c("base", "utils", "stats", "methods", "grid")
+    base_packages <- c("base", "utils", "stats", "methods", "grDevices", "grid")
     classes <- setdiff(c(classes, unlist(all_classes[base_packages])), "*base*")
   }
   exclude <- classes[startsWith(classes, "-")]
@@ -265,16 +265,22 @@ all_classes <- list(
     "simpleError",
     "simpleMessage",
     "simpleWarning",
+    "table",
     "warning"
   ),
   utils = c(
     "bibentry",
     "citationFooter",
     "citationHeader",
-    "person"
+    "person",
+    "roman"
   ),
   stats = c(
+    "dist",
+    "ecdf",
+    "ftable",
     "mts",
+    "stepfun",
     "ts"
   ),
   methods = c(
@@ -360,6 +366,9 @@ all_classes <- list(
     "rowwise_df"
   ),
   glue = c("glue"),
+  grDevices = c(
+    "raster"
+  ),
   grid = c(
     "simpleUnit"
   ),
