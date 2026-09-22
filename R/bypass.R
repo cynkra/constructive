@@ -23,6 +23,37 @@ vapply <- function(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE) {
   base::vapply(unclass(X), FUN, FUN.VALUE, ..., USE.NAMES = USE.NAMES)
 }
 
+# coercion and predicates =====================================================
+# These are internal generics: they dispatch on the class of objects. We call the
+# base version on the unclassed object, which gives the default behaviour.
+# Note that `as.numeric()` is `as.double()`, methods are defined for the latter.
+
+as.character <- function(x, ...) base::as.character(unclass(x), ...)
+
+as.double <- function(x, ...) base::as.double(unclass(x), ...)
+
+as.numeric <- as.double
+
+as.integer <- function(x, ...) base::as.integer(unclass(x), ...)
+
+as.logical <- function(x, ...) base::as.logical(unclass(x), ...)
+
+as.complex <- function(x, ...) base::as.complex(unclass(x), ...)
+
+as.raw <- function(x) base::as.raw(unclass(x))
+
+is.na <- function(x) base::is.na(unclass(x))
+
+is.nan <- function(x) base::is.nan(unclass(x))
+
+is.finite <- function(x) base::is.finite(unclass(x))
+
+is.infinite <- function(x) base::is.infinite(unclass(x))
+
+anyNA <- function(x, recursive = FALSE) base::anyNA(unclass(x), recursive = recursive)
+
+is.numeric <- function(x) base::is.numeric(unclass(x))
+
 # dimensions ===================================================================
 
 length <- function(x) {
