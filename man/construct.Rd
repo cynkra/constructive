@@ -139,6 +139,8 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}(constructor = c("setClass"), ...)}
   \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}(constructor = c("prototype"), ...)}
   \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}
+  \item \code{\link[=opts_col_spec]{opts_col_spec}(constructor = c("cols", "next", "list"), ...)}
+  \item \code{\link[=opts_collector]{opts_collector}(constructor = c("col", "next", "list"), ...)}
   \item \code{\link[=opts_complex]{opts_complex}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_constructive_options]{opts_constructive_options}(constructor = c("opts", "next"), ...)}
   \item \code{\link[=opts_CoordCartesian]{opts_CoordCartesian}(constructor = c("default", "coord_cartesian", "next", "environment"), ...)}
@@ -155,6 +157,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ..., recycle = TRUE)}
   \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE)}
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")}
+  \item \code{\link[=opts_date_names]{opts_date_names}(constructor = c("date_names_lang", "date_names", "next", "list"), ...)}
   \item \code{\link[=opts_difftime]{opts_difftime}(constructor = c("as.difftime", "next"), ...)}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
   \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
@@ -214,6 +217,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
   \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "next", "environment"), ...)}
   \item \code{\link[=opts_list]{opts_list}(constructor = c("list", "list2"), ..., trim = NULL, fill = c("vector", "new_list", "+", "...", "none"))}
+  \item \code{\link[=opts_locale]{opts_locale}(constructor = c("locale", "next", "list"), ...)}
   \item \code{\link[=opts_logical]{opts_logical}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_margin]{opts_margin}(constructor = c("margin", "next", "double"), ...)}
   \item \code{\link[=opts_matrix]{opts_matrix}(constructor = c("matrix", "array", "cbind", "rbind", "next"), ..., byrow = FALSE)}

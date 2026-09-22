@@ -38,6 +38,7 @@ Suggests:
     knitr,
     lubridate,
     R6,
+    readr,
     reprex,
     rmarkdown,
     roxygen2,

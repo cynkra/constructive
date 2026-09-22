@@ -1,0 +1,25 @@
+test_that("collector", {
+  skip_if_not_installed("readr")
+  expect_snapshot({
+    construct(readr::col_character())
+    construct(readr::col_date())
+    construct(readr::col_date(format = "%d/%m/%Y"))
+    construct(readr::col_datetime(format = "%Y-%m-%d %H:%M"))
+    construct(readr::col_double())
+    construct(readr::col_factor())
+    construct(readr::col_factor(levels = c("a", "b"), ordered = TRUE, include_na = TRUE))
+    construct(readr::col_guess())
+    construct(readr::col_integer())
+    construct(readr::col_logical())
+    construct(readr::col_number())
+    construct(readr::col_skip())
+    construct(readr::col_time(format = "%H:%M"))
+    # extra attributes are repaired
+    construct(structure(readr::col_double(), foo = "bar"))
+    # corrupted collectors fall back to list
+    construct(structure(list(1), class = c("collector_double", "collector")))
+    construct(structure(list(), class = c("collector_unknown", "collector")))
+    construct(readr::col_date(format = "%Y"), opts_collector("next"))
+    construct(readr::col_date(format = "%Y"), opts_collector("list"))
+  })
+})
