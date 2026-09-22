@@ -4,7 +4,7 @@
 \alias{opts_Duration}
 \title{Constructive options for class 'Duration'}
 \usage{
-opts_Duration(constructor = c("dseconds", "duration", "next"), ...)
+opts_Duration(constructor = c("default", "dseconds", "duration", "next"), ...)
 }
 \arguments{
 \item{constructor}{String. Name of the function used to construct the object, see Details section.}
@@ -20,7 +20,17 @@ These options will be used on objects of class 'Duration'.
 \details{
 Depending on \code{constructor}, we construct the object as follows:
 \itemize{
-\item \code{"dseconds"} (default): We build the object using \code{lubridate::dseconds()}
+\item \code{"default"} (default): We build the object using the largest of
+\code{lubridate::dweeks()}, \code{lubridate::ddays()}, \code{lubridate::dhours()},
+\code{lubridate::dminutes()} and \code{lubridate::dseconds()} for which all the
+elements are whole numbers and the object is reproduced exactly, so an
+hour is built with \code{lubridate::dhours(1)} rather than
+\code{lubridate::dseconds(3600)}. \code{NA} elements don't constrain the choice, and
+we use \code{lubridate::dseconds()} if all elements are \code{NA} or zero, or if the
+object is empty. We never use \code{lubridate::dyears()} and
+\code{lubridate::dmonths()} because they are approximations (365.25 and 30.4375
+days), so using them on arbitrary durations would be surprising.
+\item \code{"dseconds"} : We build the object using \code{lubridate::dseconds()}
 on a number of seconds.
 \item \code{"duration"} : We build the object using \code{lubridate::duration()}
 on a number of seconds.
