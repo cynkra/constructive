@@ -353,7 +353,11 @@ all_classes <- list(
     "uneval",
     "waiver"
   ),
-  data.table = c("data.table"),
+  data.table = c(
+    "data.table",
+    "IDate",
+    "ITime"
+  ),
   dm = c("dm"),
   dplyr = c(
     "grouped_df",
