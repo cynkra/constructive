@@ -5,10 +5,6 @@
     Output
       units::mixed_units(c(1, 2), c("m", "s"))
     Code
-      construct(units::mixed_units(c(a = 1, b = NA), c("km/h", "1")))
-    Output
-      units::mixed_units(c(a = 1, b = NA), c("km h-1", "1"))
-    Code
       construct(units::mixed_units(numeric(), character()))
     Output
       units::mixed_units(numeric(0), character(0))
@@ -25,4 +21,18 @@
         units::set_units(2, "s", mode = "standard")
       ) |>
         structure(class = c("mixed_units", "list"))
+
+# mixed_units, units < 1.0-1
+
+    Code
+      construct(units::mixed_units(c(a = 1, b = NA), c("km/h", "1")))
+    Output
+      units::mixed_units(c(a = 1, b = NA), c("km h-1", ""))
+
+# mixed_units, units >= 1.0-1
+
+    Code
+      construct(units::mixed_units(c(a = 1, b = NA), c("km/h", "1")))
+    Output
+      units::mixed_units(c(a = 1, b = NA), c("km h-1", "1"))
 

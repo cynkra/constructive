@@ -17,10 +17,6 @@
     Output
       units::set_units(1, "s-1", mode = "standard")
     Code
-      construct(units::set_units(1, 1))
-    Output
-      units::set_units(1, "1", mode = "standard")
-    Code
       construct(units::set_units(numeric(), "m", mode = "standard"))
     Output
       units::set_units(numeric(0), "m", mode = "standard")
@@ -60,6 +56,34 @@
             structure(class = "symbolic_units"),
           class = "units"
         )
+
+# units, units < 1.0-1
+
+    Code
+      construct(units::set_units(1, 1))
+    Output
+      units::set_units(1, "", mode = "standard")
+    Code
+      construct(units::set_units(1, "1/s", mode = "standard"))
+    Output
+      units::set_units(1, "s-1", mode = "standard")
+    Code
+      construct(structure(1, units = structure(list(numerator = c("m", "kg"),
+      denominator = character(0)), class = "symbolic_units"), class = "units"))
+    Output
+      1 |>
+        structure(
+          units = list(numerator = c("m", "kg"), denominator = character(0)) |>
+            structure(class = "symbolic_units"),
+          class = "units"
+        )
+
+# units, units >= 1.0-1
+
+    Code
+      construct(units::set_units(1, 1))
+    Output
+      units::set_units(1, "1", mode = "standard")
     Code
       construct(units::set_units(1, "1/s", mode = "standard"))
     Output
@@ -69,4 +93,9 @@
             structure(class = "symbolic_units"),
           class = "units"
         )
+    Code
+      construct(structure(1, units = structure(list(numerator = c("m", "kg"),
+      denominator = character(0)), class = "symbolic_units"), class = "units"))
+    Output
+      units::set_units(1, "m kg", mode = "standard")
 
