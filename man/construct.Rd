@@ -140,6 +140,17 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_classGeneratorFunction]{opts_classGeneratorFunction}(constructor = c("setClass"), ...)}
   \item \code{\link[=opts_classPrototypeDef]{opts_classPrototypeDef}(constructor = c("prototype"), ...)}
   \item \code{\link[=opts_classRepresentation]{opts_classRepresentation}(constructor = c("getClassDef"), ...)}
+  \item \code{\link[=opts_clock_duration]{opts_clock_duration}(constructor = c("duration", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_iso_year_week_day]{opts_clock_iso_year_week_day}(constructor = c("iso_year_week_day", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_naive_time]{opts_clock_naive_time}(constructor = c("as_naive_time", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_sys_time]{opts_clock_sys_time}(constructor = c("as_sys_time", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_weekday]{opts_clock_weekday}(constructor = c("weekday", "next", "integer"), ...)}
+  \item \code{\link[=opts_clock_year_day]{opts_clock_year_day}(constructor = c("year_day", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_year_month_day]{opts_clock_year_month_day}(constructor = c("year_month_day", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_year_month_weekday]{opts_clock_year_month_weekday}(constructor = c("year_month_weekday", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_year_quarter_day]{opts_clock_year_quarter_day}(constructor = c("year_quarter_day", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_year_week_day]{opts_clock_year_week_day}(constructor = c("year_week_day", "next", "list"), ...)}
+  \item \code{\link[=opts_clock_zoned_time]{opts_clock_zoned_time}(constructor = c("as_zoned_time", "next", "list"), ...)}
   \item \code{\link[=opts_col_spec]{opts_col_spec}(constructor = c("cols", "next", "list"), ...)}
   \item \code{\link[=opts_collector]{opts_collector}(constructor = c("col", "next", "list"), ...)}
   \item \code{\link[=opts_complex]{opts_complex}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
