@@ -388,6 +388,13 @@ all_classes <- list(
   hms = c(
     "hms"
   ),
+  htmltools = c(
+    "html",
+    "html_dependency",
+    "shiny.tag",
+    "shiny.tag.function",
+    "shiny.tag.list"
+  ),
   lubridate = c(
     "Duration",
     "Interval",
