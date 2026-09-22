@@ -3,11 +3,14 @@
 #' These options will be used on objects of class 'xts'.
 #'
 #' Depending on `constructor`, we construct the object as follows:
-#' * `"as.xts.matrix"` (default): We build the object using `xts::as.xts.matrix()`.
+#' * `"xts"` (default): We build the object using `xts::xts()`, the index is
+#'   provided as a `Date` or `POSIXct` vector depending on its class.
+#' * `"as.xts.matrix"`: We build the object using `xts::as.xts.matrix()`, the
+#'   index is provided through row names, which doesn't preserve its class and
+#'   time zone.
 #' * `"as.xts.data.frame"`: We build the object using `xts::as.xts.data.frame()`,
 #'   this is probably the most readable option but couldn't be made the default
 #'   constructor because it requires the 'xts' package to be installed .
-#' * `"xts"`: We build the object using `xts::xts()`.
 #' * `".xts"`: We build the object using `xts::.xts()`.
 #' * `"next"`: Use the constructor for the next supported class.
 #'
@@ -15,7 +18,7 @@
 #' @param ... Additional options used by user defined constructors through the `opts` object
 #' @return An object of class <constructive_options/constructive_options_xts>
 #' @export
-opts_xts <- function(constructor = c("as.xts.matrix", "next"), ...) {
+opts_xts <- function(constructor = c("xts", "as.xts.matrix", "as.xts.data.frame", ".xts", "next"), ...) {
   .cstr_options("xts", constructor = constructor[[1]], ...)
 }
 
@@ -31,11 +34,13 @@ is_corrupted_xts <- function(x) {
   if (!typeof(x) %in% c("integer", "double")) return(TRUE)
   if (length(dim(x)) != 2) return(TRUE)
   dn <- dimnames(x)
-  dimnames_are_corrupted <-
+  # xts objects have no dimnames if they have no column names
+  dimnames_are_corrupted <- !is.null(dn) && (
     length(dn) != 2 ||
     !is.null(dn[[1]]) ||
     !is.character(dn[[2]]) ||
     length(dn[[2]]) != dim(x)[[2]]
+  )
   if (dimnames_are_corrupted) return(TRUE)
   index <- attr(x, "index")
   index_is_corrupted <-
@@ -118,32 +123,27 @@ is_corrupted_xts <- function(x) {
 #' @export
 #' @method .cstr_construct.xts xts
 .cstr_construct.xts.xts <- function(x, ...) {
-
+  # `xts()` sets the "tclass" and "tzone" attributes of the index from `order.by`
+  order_by <- as.POSIXct(
+    as.numeric(attr(x,"index")),
+    tz = attr(attr(x,"index"), "tzone"),
+    # for compat with R < 4.3.0
+    origin = "1970-01-01"
+  )
+  # the index of xts objects built from dates has the "Date" tclass
+  if (identical(attr(attr(x, "index"), "tclass"), "Date")) order_by <- as.Date(order_by)
   if (list(...)$one_liner) {
     args <- list(
       structure(strip(x), dim = dim(x), dimnames = dimnames(x)),
-      order.by = as.POSIXct(
-        attr(x,"index"),
-        tz = attr(attr(x,"index"), "tzone"),
-        # for compat with R < 4.3.0
-        origin = "1970-01-01"
-      )
+      order.by = order_by
     )
     code <- .cstr_apply(args, fun = "xts::xts", ...)
   } else {
-    args <- list(
-      order.by = as.POSIXct(
-        attr(x,"index"),
-        tz = attr(attr(x,"index"), "tzone"),
-        # for compat with R < 4.3.0
-        origin = "1970-01-01"
-      )
-    )
     code <- .cstr_pipe(
       .cstr_construct(
         structure(strip(x), dim = dim(x), dimnames = dimnames(x))
       ),
-      .cstr_apply(args, fun = "xts::xts", ...),
+      .cstr_apply(list(order.by = order_by), fun = "xts::xts", ...),
       ...
     )
   }

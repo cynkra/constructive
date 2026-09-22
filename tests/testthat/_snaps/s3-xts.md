@@ -8,6 +8,19 @@
       x <- xts::as.xts(mat)
       construct(x)
     Output
+      matrix(
+        c(
+          50.0397819115463, 50.2304961977954, 50.420955209067, 50.3734680543285,
+          50.2443255196795, 50.1321122972067, 50.0355467742705, 49.9948860954217
+        ),
+        nrow = 2L,
+        ncol = 4L,
+        dimnames = list(NULL, c("Open", "High", "Low", "Close"))
+      ) |>
+        xts::xts(order.by = as.POSIXct(c("2007-01-02", "2007-01-03")))
+    Code
+      construct(x, opts_xts("as.xts.matrix"))
+    Output
       xts::as.xts(matrix(
         c(
           50.0397819115463, 50.2304961977954, 50.420955209067, 50.3734680543285,
@@ -39,10 +52,7 @@
         ncol = 4L,
         dimnames = list(NULL, c("Open", "High", "Low", "Close"))
       ) |>
-        xts::xts(
-          order.by = as.POSIXct(c("2007-01-02", "2007-01-03")) |>
-            structure(tclass = c("POSIXct", "POSIXt"))
-        )
+        xts::xts(order.by = as.POSIXct(c("2007-01-02", "2007-01-03")))
     Code
       construct(x, opts_xts(".xts"))
     Output
@@ -62,7 +72,7 @@
     Code
       construct(x, opts_xts("xts"), one_liner = TRUE)
     Output
-      xts::xts(matrix(c(50.0397819115463, 50.2304961977954, 50.420955209067, 50.3734680543285, 50.2443255196795, 50.1321122972067, 50.0355467742705, 49.9948860954217), nrow = 2L, ncol = 4L, dimnames = list(NULL, c("Open", "High", "Low", "Close"))), order.by = as.POSIXct(c("2007-01-02", "2007-01-03")) |> structure(tclass = c("POSIXct", "POSIXt")))
+      xts::xts(matrix(c(50.0397819115463, 50.2304961977954, 50.420955209067, 50.3734680543285, 50.2443255196795, 50.1321122972067, 50.0355467742705, 49.9948860954217), nrow = 2L, ncol = 4L, dimnames = list(NULL, c("Open", "High", "Low", "Close"))), order.by = as.POSIXct(c("2007-01-02", "2007-01-03")))
     Code
       construct(x, opts_xts(".xts"), one_liner = TRUE)
     Output
@@ -115,4 +125,9 @@
             structure(tzone = "", tclass = c("POSIXct", "POSIXt")),
           class = c("xts", "zoo")
         )
+    Code
+      construct(xts::xts(1:3, as.Date("2024-01-01") + 0:2))
+    Output
+      matrix(1:3, nrow = 3L, ncol = 1L) |>
+        xts::xts(order.by = as.Date(c("2024-01-01", "2024-01-02", "2024-01-03")))
 
