@@ -25,6 +25,7 @@ Imports:
 Suggests: 
     bit64,
     blob,
+    clock,
     clipr,
     data.table,
     DiagrammeR,
