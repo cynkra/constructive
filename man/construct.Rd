@@ -164,6 +164,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
   \item \code{\link[=opts_dots]{opts_dots}(constructor = c("default"), ...)}
   \item \code{\link[=opts_double]{opts_double}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
+  \item \code{\link[=opts_Duration]{opts_Duration}(constructor = c("dseconds", "duration", "next"), ...)}
   \item \code{\link[=opts_element_blank]{opts_element_blank}(constructor = c("element_blank", "next", "list"), ...)}
   \item \code{\link[=opts_element_grob]{opts_element_grob}(constructor = c("element_grob", "next", "list"), ...)}
   \item \code{\link[=opts_element_line]{opts_element_line}(constructor = c("element_line", "next", "list"), ...)}
@@ -218,6 +219,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_hms]{opts_hms}(constructor = c("as_hms", "hms", "new_hms", "next", "double"), ...)}
   \item \code{\link[=opts_integer]{opts_integer}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_integer64]{opts_integer64}(constructor = c("as.integer64", "next", "double"), ...)}
+  \item \code{\link[=opts_Interval]{opts_Interval}(constructor = c("interval", "next"), ...)}
   \item \code{\link[=opts_labels]{opts_labels}(constructor = c("labs", "next", "list"), ...)}
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
   \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "next", "environment"), ...)}
@@ -236,6 +238,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ordered]{opts_ordered}(constructor = c("ordered", "factor", "new_ordered", "next", "integer"), ...)}
   \item \code{\link[=opts_package_version]{opts_package_version}(constructor = c("package_version", "next", "list"), ...)}
   \item \code{\link[=opts_pairlist]{opts_pairlist}(constructor = c("pairlist", "pairlist2"), ...)}
+  \item \code{\link[=opts_Period]{opts_Period}(constructor = c("period", "next"), ...)}
   \item \code{\link[=opts_person]{opts_person}(constructor = c("person", "next"), ...)}
   \item \code{\link[=opts_POSIXct]{opts_POSIXct}(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_POSIXlt]{opts_POSIXlt}(constructor = c("as.POSIXlt", "next", "list"), ...)}
