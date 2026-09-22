@@ -200,6 +200,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ggplot2_theme]{opts_ggplot2_theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
+  \item \code{\link[=opts_grouped_ts]{opts_grouped_ts}(constructor = c("group_by", "next"), ...)}
   \item \code{\link[=opts_Guide]{opts_Guide}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_GuideAxis]{opts_GuideAxis}(constructor = c("guide_axis", "next"), ...)}
   \item \code{\link[=opts_GuideAxisLogticks]{opts_GuideAxisLogticks}(constructor = c("guide_axis_logticks", "next"), ...)}
@@ -264,6 +265,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = c("unit", "next", "double"), ...)}
   \item \code{\link[=opts_simpleWarning]{opts_simpleWarning}(constructor = c("simpleWarning", "next"), ...)}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"), recycle = TRUE)}
+  \item \code{\link[=opts_tbl_ts]{opts_tbl_ts}(constructor = c("tsibble", "as_tsibble", "next"), ...)}
   \item \code{\link[=opts_theme]{opts_theme}(constructor = c("theme", "next", "list"), ...)}
   \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_uneval]{opts_uneval}(constructor = c("aes", "next", "list"), ...)}
@@ -274,7 +276,10 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_xml_document]{opts_xml_document}(constructor = c("default", "next"), ..., simplify = TRUE)}
   \item \code{\link[=opts_xts]{opts_xts}(constructor = c("as.xts.matrix", "next"), ...)}
   \item \code{\link[=opts_yearmon]{opts_yearmon}(constructor = c("as.yearmon", "yearmon", "next"), ...)}
+  \item \code{\link[=opts_yearmonth]{opts_yearmonth}(constructor = c("yearmonth", "next"), ...)}
   \item \code{\link[=opts_yearqtr]{opts_yearqtr}(constructor = c("as.yearqtr", "yearqtr", "next"), ...)}
+  \item \code{\link[=opts_yearquarter]{opts_yearquarter}(constructor = c("yearquarter", "next"), ...)}
+  \item \code{\link[=opts_yearweek]{opts_yearweek}(constructor = c("yearweek", "next"), ...)}
   \item \code{\link[=opts_zoo]{opts_zoo}(constructor = c("zoo", "next"), ...)}
   \item \code{\link[=opts_zooreg]{opts_zooreg}(constructor = c("zooreg", "next"), ...)}
 }
