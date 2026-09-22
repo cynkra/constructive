@@ -366,6 +366,11 @@ all_classes <- list(
   hms = c(
     "hms"
   ),
+  lubridate = c(
+    "Duration",
+    "Interval",
+    "Period"
+  ),
   R6 = c(
     "R6",
     "R6ClassGenerator"

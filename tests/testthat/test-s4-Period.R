@@ -1,0 +1,15 @@
+test_that("Period", {
+  skip_if_not_installed("lubridate")
+  expect_snapshot({
+    construct(lubridate::period(years = 1, days = 2))
+    construct(lubridate::period(years = c(1, 0), months = c(0, 2), seconds = c(0.5, 0)))
+    construct(lubridate::period(hours = c(1, NA), minutes = 30))
+    construct(lubridate::period(weeks = 1))
+    construct(lubridate::period(seconds = c(0, 0)))
+    construct(lubridate::period(-1.5, "second"))
+    construct(lubridate::period())
+    construct(structure(lubridate::period(days = 1), foo = "bar"))
+    construct(lubridate::period(years = 1, days = 2), opts_Period("period"))
+    construct(lubridate::period(years = 1, days = 2), opts_Period("next"))
+  })
+})
