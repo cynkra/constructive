@@ -6,7 +6,7 @@
 \usage{
 opts_environment(
   constructor = c(".env", "list2env", "as.environment", "new.env", "topenv",
-    "new_environment", "predefine"),
+    "new_environment", "predefine", "unserialize"),
   ...,
   recurse = FALSE,
   context = c("parents", "attributes", "locked")
@@ -121,6 +121,12 @@ we define the environments and their content  above the object returning
 call, using placeholder names \code{..env.1..}, \code{..env.2..} etc.
 The caveat is that the created code won't be a single call
 and will create objects in the workspace. \code{recurse} is ignored.
+\item \code{"unserialize"} : We serialize the environment and construct it with
+\code{unserialize()} on the raw vector. The code is not readable but it
+reproduces the environment exactly in a new session: its parents up to a
+special environment, its bindings including active bindings and promises,
+its attributes and whether it is locked. Special environments met on the
+way, like namespaces, are serialized by name. \code{recurse} is ignored.
 }
 }
 
