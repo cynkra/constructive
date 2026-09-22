@@ -33,6 +33,7 @@ Suggests:
     dplyr,
     ellmer,
     forcats,
+    fs,
     ggplot2,
     jsonlite,
     knitr,
