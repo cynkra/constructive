@@ -363,6 +363,9 @@ all_classes <- list(
   grid = c(
     "simpleUnit"
   ),
+  hms = c(
+    "hms"
+  ),
   R6 = c(
     "R6",
     "R6ClassGenerator"
