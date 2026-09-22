@@ -76,6 +76,10 @@ names <- function(x) {
   out
 }
 
+`[[` <- function(x, ...) {
+  .subset2(x, ...)
+}
+
 `[<-` <- function(x, ..., value) {
   cl <- oldClass(x)
   x <- unclass(x)
