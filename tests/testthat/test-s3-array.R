@@ -5,6 +5,7 @@ test_that("array", {
     construct(array(1:3, c(2,4)))
     construct(structure(1, class = "array"))
     construct(structure(1, class = "array", dim = 1))
+    construct(array(1:8, c(2, 2, 2), dimnames = list(a = c("x", "y"), NULL, NULL)))
   })
 })
 
