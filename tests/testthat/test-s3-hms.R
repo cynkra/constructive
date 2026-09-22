@@ -1,0 +1,17 @@
+test_that("hms", {
+  skip_if_not_installed("hms")
+  expect_snapshot({
+    construct(hms::as_hms(c("12:34:56", "00:00:00", NA, "24:00:00")))
+    construct(hms::new_hms(c(a = 0.5, b = 45296.25)))
+    construct(hms::hms(c(-5, 90000, 1 / 3, NA)))
+    construct(hms::hms(NA))
+    construct(hms::hms())
+    construct(hms::hms(hours = 1))
+    construct(hms::as_hms(c("12:34:56", "01:00:05", NA)), opts_hms("hms"))
+    construct(hms::new_hms(c(a = 60, b = 120)), opts_hms("hms"))
+    construct(hms::hms(c(-3661, 1 / 3)), opts_hms("hms"))
+    construct(hms::new_hms(c(a = 45296, b = NA)), opts_hms("new_hms"))
+    construct(hms::hms(45296), opts_hms("next"))
+    construct(hms::hms(45296), opts_hms("double"))
+  })
+})
