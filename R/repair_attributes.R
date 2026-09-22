@@ -85,3 +85,19 @@ repair_attributes <- function(x, code, ..., pipe = NULL) {
   }
   code
 }
+
+# Repair attributes of `x` given `reference`, the object that `code` evaluates
+# to: attributes that the constructor computed identically are ignored, those
+# that it added and that `x` doesn't have are removed.
+repair_attributes_from_reference <- function(x, code, ..., reference) {
+  x_attrs <- attributes(x)
+  ref_attrs <- attributes(reference)
+  same_lgl <- mapply(identical, x_attrs, ref_attrs[names(x_attrs)])
+  .cstr_repair_attributes(
+    x, code, ...,
+    ignore = setdiff(names(x_attrs)[same_lgl], "class"),
+    idiomatic_class = oldClass(reference),
+    remove = setdiff(names(ref_attrs), names(x_attrs)),
+    repair_names = TRUE
+  )
+}

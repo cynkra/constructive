@@ -131,6 +131,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_array]{opts_array}(constructor = c("array", "next"), ...)}
   \item \code{\link[=opts_AsIs]{opts_AsIs}(constructor = c("I", "next"), ...)}
   \item \code{\link[=opts_atomic]{opts_atomic}(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
+  \item \code{\link[=opts_bbox]{opts_bbox}(constructor = c("st_bbox", "next"), ...)}
   \item \code{\link[=opts_bibentry]{opts_bibentry}(constructor = c("bibentry", "next"), ...)}
   \item \code{\link[=opts_blob]{opts_blob}(constructor = c("blob", "next"), ...)}
   \item \code{\link[=opts_character]{opts_character}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, unicode_representation = c("ascii", "latin", "character", "unicode"), escape = FALSE, multiline = FALSE)}
@@ -154,6 +155,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_CoordSf]{opts_CoordSf}(constructor = c("coord_sf", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordTrans]{opts_CoordTrans}(constructor = c("coord_trans", "next", "environment"), ...)}
   \item \code{\link[=opts_CoordTransform]{opts_CoordTransform}(constructor = c("coord_transform", "next"), ...)}
+  \item \code{\link[=opts_crs]{opts_crs}(constructor = c("st_crs", "next"), ...)}
   \item \code{\link[=opts_data.frame]{opts_data.frame}(constructor = c("data.frame", "read.table", "next", "list"), ..., recycle = TRUE)}
   \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE)}
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")}
@@ -253,6 +255,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_S7_union]{opts_S7_union}(constructor = c("default", "|", "new_union", "next"), ...)}
   \item \code{\link[=opts_Scale]{opts_Scale}(constructor = c("default", "next", "environment"), ...)}
   \item \code{\link[=opts_ScalesList]{opts_ScalesList}(constructor = c("ScalesList", "next", "list"), ...)}
+  \item \code{\link[=opts_sf]{opts_sf}(constructor = c("st_sf", "next"), ...)}
+  \item \code{\link[=opts_sfc]{opts_sfc}(constructor = c("st_sfc", "next"), ...)}
+  \item \code{\link[=opts_sfg]{opts_sfg}(constructor = c("st_sfg", "next"), ...)}
   \item \code{\link[=opts_simpleCondition]{opts_simpleCondition}(constructor = c("simpleCondition", "next"), ...)}
   \item \code{\link[=opts_simpleError]{opts_simpleError}(constructor = c("simpleError", "next"), ...)}
   \item \code{\link[=opts_simpleMessage]{opts_simpleMessage}(constructor = c("simpleMessage", "next"), ...)}

@@ -387,6 +387,13 @@ all_classes <- list(
     "S7_S3_class", 
     "S7_union"
   ),
+  sf = c(
+    "bbox",
+    "crs",
+    "sf",
+    "sfc",
+    "sfg"
+  ),
   tibble = c(
     "tbl_df"
   ),
