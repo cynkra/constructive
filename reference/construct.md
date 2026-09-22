@@ -458,7 +458,7 @@ class and is documented on its own page.
 
 - [`opts_xml_document`](https://cynkra.github.io/constructive/reference/opts_xml_document.md)`(constructor = c("default", "next"), ..., simplify = TRUE)`
 
-- [`opts_xts`](https://cynkra.github.io/constructive/reference/opts_xts.md)`(constructor = c("as.xts.matrix", "next"), ...)`
+- [`opts_xts`](https://cynkra.github.io/constructive/reference/opts_xts.md)`(constructor = c("xts", "as.xts.matrix", "as.xts.data.frame", ".xts", "next"), ...)`
 
 - [`opts_yearmon`](https://cynkra.github.io/constructive/reference/opts_yearmon.md)`(constructor = c("as.yearmon", "yearmon", "next"), ...)`
 
