@@ -395,6 +395,9 @@ all_classes <- list(
     "sfc",
     "sfg"
   ),
+  survival = c(
+    "Surv"
+  ),
   tibble = c(
     "tbl_df"
   ),
