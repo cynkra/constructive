@@ -57,8 +57,7 @@ is_corrupted_xts <- function(x) {
 .cstr_construct.xts.as.xts.matrix <- function(x, ...) {
   dimnames_ <- dimnames(x)
   dimnames_[[1]] <- as.character(as.POSIXct(
-    # `unclass()` so `as.numeric()` doesn't dispatch
-    as.numeric(unclass(attr(x,"index"))),
+    as.numeric(attr(x,"index")),
     tz = attr(attr(x,"index"), "tzone"),
     # for compat with R < 4.3.0
     origin = "1970-01-01"
@@ -129,8 +128,7 @@ is_corrupted_xts <- function(x) {
   # `order.by`, we build it with `structure()` to avoid S3 dispatch
   tclass <- attr(attr(x, "index"), "tclass")
   tzone <- attr(attr(x, "index"), "tzone")
-  # `unclass()` so `as.numeric()` doesn't dispatch
-  index <- as.numeric(unclass(attr(x, "index")))
+  index <- as.numeric(attr(x, "index"))
   order_by <- if (identical(tclass, "Date")) {
     structure(index / 86400, class = "Date")
   } else {
