@@ -179,6 +179,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_FacetWrap]{opts_FacetWrap}(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_factor]{opts_factor}(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...)}
   \item \code{\link[=opts_formula]{opts_formula}(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)}
+  \item \code{\link[=opts_fs_bytes]{opts_fs_bytes}(constructor = c("as_fs_bytes", "next"), ...)}
+  \item \code{\link[=opts_fs_path]{opts_fs_path}(constructor = c("path", "as_fs_path", "next"), ...)}
+  \item \code{\link[=opts_fs_perms]{opts_fs_perms}(constructor = c("as_fs_perms", "next"), ...)}
   \item \code{\link[=opts_function]{opts_function}(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)}
   \item \code{\link[=opts_ggplot]{opts_ggplot}(constructor = c("ggplot", "next", "list"), ...)}
   \item \code{\link[=opts_ggplot2_element_blank]{opts_ggplot2_element_blank}(constructor = c("element_blank", "next"), ...)}
