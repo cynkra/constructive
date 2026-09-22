@@ -33,7 +33,7 @@ opts_ggplot2_theme <- function(constructor = c("default", "theme", "next", "list
   if (attr(x, "complete")) {
     code <- guess_complete_theme(x, ...)
     if (!is.null(code)) {
-      `repair_attributes_ggplot2::theme`(x, code, ...)
+      code <- `repair_attributes_ggplot2::theme`(x, code, ...)
       return(code)
     }
   }
