@@ -125,10 +125,10 @@ is_corrupted_xts <- function(x) {
 .cstr_construct.xts.xts <- function(x, ...) {
   # `xts()` sets the "tclass" and "tzone" attributes of the index from
   # `order.by`, we build it with `structure()` to avoid S3 dispatch
-  index <- attr(x, "index")
-  tclass <- attr(index, "tclass")
-  tzone <- attr(index, "tzone")
-  attributes(index) <- NULL
+  tclass <- attr(attr(x, "index"), "tclass")
+  tzone <- attr(attr(x, "index"), "tzone")
+  # `unclass()` so `as.numeric()` doesn't dispatch
+  index <- as.numeric(unclass(attr(x, "index")))
   order_by <- if (identical(tclass, "Date")) {
     structure(index / 86400, class = "Date")
   } else {
