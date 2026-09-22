@@ -51,6 +51,7 @@ Suggests:
     tibble,
     tidyselect,
     tsibble,
+    units,
     vctrs,
     withr,
     xml2,

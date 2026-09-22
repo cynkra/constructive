@@ -405,6 +405,10 @@ all_classes <- list(
     "yearquarter",
     "yearweek"
   ),
+  units = c(
+    "mixed_units",
+    "units"
+  ),
   vctrs = c(
     "vctrs_list_of"
   ),
