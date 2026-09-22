@@ -13,8 +13,22 @@ colon_colon <- `::`
 
 # we want regular behavior of internal generics in the tests
 `[` <- base::`[`
+`[[` <- base::`[[`
 `$` <- base::`$`
 length <- base::length
+as.character <- base::as.character
+as.double <- base::as.double
+as.numeric <- base::as.numeric
+as.integer <- base::as.integer
+as.logical <- base::as.logical
+as.complex <- base::as.complex
+as.raw <- base::as.raw
+is.na <- base::is.na
+is.nan <- base::is.nan
+is.finite <- base::is.finite
+is.infinite <- base::is.infinite
+anyNA <- base::anyNA
+is.numeric <- base::is.numeric
 
 expect_snapshot <- function(code) {
   eval.parent(substitute(

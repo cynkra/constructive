@@ -56,7 +56,7 @@ is_corrupted_xts <- function(x) {
 #' @method .cstr_construct.xts as.xts.matrix
 .cstr_construct.xts.as.xts.matrix <- function(x, ...) {
   dimnames_ <- dimnames(x)
-  dimnames_[[1]] <- as.character(as.POSIXct(
+  dimnames_[[1]] <- as.character.POSIXt(as.POSIXct.numeric(
     as.numeric(attr(x,"index")),
     tz = attr(attr(x,"index"), "tzone"),
     # for compat with R < 4.3.0
