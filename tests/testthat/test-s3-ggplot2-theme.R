@@ -10,3 +10,19 @@ test_that("theme", {
     construct(ggplot2::theme(axis.title = "foo"))
   })
 })
+
+test_that("theme with `constructor = \"theme\"`", {
+  skip_if_not_installed("ggplot2")
+  # the default constructor guesses complete themes
+  code <- construct(ggplot2::theme_bw())
+  expect_identical(unclass(code$code), "ggplot2::theme_bw()")
+  # the "theme" constructor always uses `theme()`, the full output depends on
+  # the ggplot2 version and platform so it's neither snapshotted nor checked
+  code <- construct(
+    ggplot2::theme_bw(),
+    opts_theme("theme"),
+    opts_ggplot2_theme("theme"),
+    check = FALSE
+  )
+  expect_match(code$code[[1]], "^ggplot2::theme\\(")
+})

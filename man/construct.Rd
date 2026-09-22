@@ -192,7 +192,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_ggplot2_labels]{opts_ggplot2_labels}(constructor = c("labs", "next"), ...)}
   \item \code{\link[=opts_ggplot2_mapping]{opts_ggplot2_mapping}(constructor = c("aes", "next", "list"), ...)}
   \item \code{\link[=opts_ggplot2_margin]{opts_ggplot2_margin}(constructor = c("margin", "next", "double"), ...)}
-  \item \code{\link[=opts_ggplot2_theme]{opts_ggplot2_theme}(constructor = c("theme", "next", "list"), ...)}
+  \item \code{\link[=opts_ggplot2_theme]{opts_ggplot2_theme}(constructor = c("default", "theme", "next", "list"), ...)}
   \item \code{\link[=opts_ggproto]{opts_ggproto}(constructor = c("default", "ggproto", "next", "environment"), ...)}
   \item \code{\link[=opts_grouped_df]{opts_grouped_df}(constructor = c("default", "next", "list"), ...)}
   \item \code{\link[=opts_Guide]{opts_Guide}(constructor = c("default", "next", "environment"), ...)}
@@ -255,7 +255,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = c("unit", "next", "double"), ...)}
   \item \code{\link[=opts_simpleWarning]{opts_simpleWarning}(constructor = c("simpleWarning", "next"), ...)}
   \item \code{\link[=opts_tbl_df]{opts_tbl_df}(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"), recycle = TRUE)}
-  \item \code{\link[=opts_theme]{opts_theme}(constructor = c("theme", "next", "list"), ...)}
+  \item \code{\link[=opts_theme]{opts_theme}(constructor = c("default", "theme", "next", "list"), ...)}
   \item \code{\link[=opts_ts]{opts_ts}(constructor = c("ts", "next", "atomic"), ...)}
   \item \code{\link[=opts_uneval]{opts_uneval}(constructor = c("aes", "next", "list"), ...)}
   \item \code{\link[=opts_vctrs_list_of]{opts_vctrs_list_of}(constructor = c("list_of", "next", "list"), ...)}
