@@ -250,7 +250,7 @@ class and is documented on its own page.
 
 - [`opts_ellmer_TypeObject`](https://cynkra.github.io/constructive/reference/opts_ellmer_TypeObject.md)`(constructor = c("type_object", "TypeObject", "next"), ...)`
 
-- [`opts_environment`](https://cynkra.github.io/constructive/reference/opts_environment.md)`(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine"), ..., recurse = FALSE, context = c("parents", "attributes", "locked"))`
+- [`opts_environment`](https://cynkra.github.io/constructive/reference/opts_environment.md)`(constructor = c(".env", "list2env", "as.environment", "new.env", "topenv", "new_environment", "predefine", "unserialize"), ..., recurse = FALSE, context = c("parents", "attributes", "locked"))`
 
 - [`opts_error`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("errorCondition", "next"), ...)`
 

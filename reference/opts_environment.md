@@ -16,7 +16,7 @@ or formula has one they're hard to avoid.
 ``` r
 opts_environment(
   constructor = c(".env", "list2env", "as.environment", "new.env", "topenv",
-    "new_environment", "predefine"),
+    "new_environment", "predefine", "unserialize"),
   ...,
   recurse = FALSE,
   context = c("parents", "attributes", "locked")
@@ -177,3 +177,11 @@ We might set the `constructor` argument to:
   `..env.1..`, `..env.2..` etc. The caveat is that the created code
   won't be a single call and will create objects in the workspace.
   `recurse` is ignored.
+
+- `"unserialize"` : We serialize the environment and construct it with
+  [`unserialize()`](https://rdrr.io/r/base/serialize.html) on the raw
+  vector. The code is not readable but it reproduces the environment
+  exactly in a new session: its parents up to a special environment, its
+  bindings including active bindings and promises, its attributes and
+  whether it is locked. Special environments met on the way, like
+  namespaces, are serialized by name. `recurse` is ignored.
