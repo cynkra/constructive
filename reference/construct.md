@@ -340,6 +340,8 @@ class and is documented on its own page.
 
 - [`opts_hexmode`](https://cynkra.github.io/constructive/reference/opts_hexmode.md)`(constructor = c("as.hexmode", "next"), ..., integer = FALSE)`
 
+- [`opts_hms`](https://cynkra.github.io/constructive/reference/opts_hms.md)`(constructor = c("as_hms", "hms", "new_hms", "next", "double"), ...)`
+
 - [`opts_integer`](https://cynkra.github.io/constructive/reference/opts_integer.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
 - [`opts_integer64`](https://cynkra.github.io/constructive/reference/opts_integer64.md)`(constructor = c("as.integer64", "next", "double"), ...)`
@@ -359,6 +361,8 @@ class and is documented on its own page.
 - [`opts_margin`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("margin", "next", "double"), ...)`
 
 - [`opts_matrix`](https://cynkra.github.io/constructive/reference/opts_matrix.md)`(constructor = c("matrix", "array", "cbind", "rbind", "next"), ..., byrow = FALSE)`
+
+- [`opts_mixed_units`](https://cynkra.github.io/constructive/reference/opts_mixed_units.md)`(constructor = c("mixed_units", "next"), ...)`
 
 - [`opts_mts`](https://cynkra.github.io/constructive/reference/opts_mts.md)`(constructor = c("ts", "next", "atomic"), ...)`
 
@@ -449,6 +453,8 @@ class and is documented on its own page.
 - [`opts_ts`](https://cynkra.github.io/constructive/reference/opts_ts.md)`(constructor = c("ts", "next", "atomic"), ...)`
 
 - [`opts_uneval`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("aes", "next", "list"), ...)`
+
+- [`opts_units`](https://cynkra.github.io/constructive/reference/opts_units.md)`(constructor = c("set_units", "as_units", "next"), ...)`
 
 - [`opts_vctrs_list_of`](https://cynkra.github.io/constructive/reference/opts_vctrs_list_of.md)`(constructor = c("list_of", "next", "list"), ...)`
 

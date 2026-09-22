@@ -100,6 +100,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_grouped_df.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_grouped_ts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_hexmode.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_hms.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_integer.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_integer64.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_language.html</loc></url>
@@ -107,6 +108,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_locale.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_logical.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_matrix.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_mixed_units.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_mts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_numeric_version.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_object.html</loc></url>
@@ -124,6 +126,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_tbl_df.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_tbl_ts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ts.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_units.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_vctrs_list_of.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_weakref.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_xml_document.html</loc></url>
