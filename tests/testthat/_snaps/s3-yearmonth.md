@@ -8,8 +8,7 @@
     Code
       construct(x, opts_yearmonth("next"))
     Output
-      c(19723, 19692) |>
-        structure(class = c("yearmonth", "vctrs_vctr"))
+      vctrs::new_vctr(c(19723, 19692), class = "yearmonth")
     Code
       construct(tsibble::yearmonth(as.Date(c("2024-01-01", NA))))
     Output
@@ -30,6 +29,5 @@
     Code
       construct(structure(19724, class = c("yearmonth", "vctrs_vctr")))
     Output
-      19724 |>
-        structure(class = c("yearmonth", "vctrs_vctr"))
+      vctrs::new_vctr(19724, class = "yearmonth")
 

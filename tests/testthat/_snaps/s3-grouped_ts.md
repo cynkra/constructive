@@ -19,21 +19,24 @@
           index = "t" |>
             structure(ordered = TRUE),
           index2 = "t",
-          interval = list(
-            year = 0,
-            quarter = 0,
-            month = 0,
-            week = 0,
-            day = 0,
-            hour = 0,
-            minute = 0,
-            second = 0,
-            millisecond = 0,
-            microsecond = 0,
-            nanosecond = 0,
-            unit = 1
-          ) |>
-            structure(.regular = TRUE, class = c("interval", "vctrs_rcrd", "vctrs_vctr")),
+          interval = vctrs::new_rcrd(
+            list(
+              year = 0,
+              quarter = 0,
+              month = 0,
+              week = 0,
+              day = 0,
+              hour = 0,
+              minute = 0,
+              second = 0,
+              millisecond = 0,
+              microsecond = 0,
+              nanosecond = 0,
+              unit = 1
+            ),
+            .regular = TRUE,
+            class = "interval"
+          ),
           class = c("grouped_ts", "grouped_df", "tbl_ts", "tbl_df", "tbl", "data.frame")
         )
     Code
