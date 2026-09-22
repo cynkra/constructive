@@ -169,6 +169,9 @@ The main functions of the package
 - [`opts_atomic()`](https://cynkra.github.io/constructive/reference/opts_atomic.md)
   : Constructive options for atomic types
 
+- [`opts_bbox()`](https://cynkra.github.io/constructive/reference/opts_bbox.md)
+  : Constructive options for class 'bbox'
+
 - [`opts_blob()`](https://cynkra.github.io/constructive/reference/opts_blob.md)
   : Constructive options for class 'blob'
 
@@ -197,6 +200,9 @@ The main functions of the package
   :
 
   Constructive options for the class `constructive_options`
+
+- [`opts_crs()`](https://cynkra.github.io/constructive/reference/opts_crs.md)
+  : Constructive options for class 'crs'
 
 - [`opts_data.frame()`](https://cynkra.github.io/constructive/reference/opts_data.frame.md)
   : Constructive options for class 'data.frame'
@@ -314,6 +320,15 @@ The main functions of the package
 
 - [`opts_rowwise_df()`](https://cynkra.github.io/constructive/reference/opts_rowwise_df.md)
   : Constructive options for class 'rowwise_df'
+
+- [`opts_sf()`](https://cynkra.github.io/constructive/reference/opts_sf.md)
+  : Constructive options for class 'sf'
+
+- [`opts_sfc()`](https://cynkra.github.io/constructive/reference/opts_sfc.md)
+  : Constructive options for class 'sfc'
+
+- [`opts_sfg()`](https://cynkra.github.io/constructive/reference/opts_sfg.md)
+  : Constructive options for class 'sfg'
 
 - [`opts_tbl_df()`](https://cynkra.github.io/constructive/reference/opts_tbl_df.md)
   : Constructive options for tibbles

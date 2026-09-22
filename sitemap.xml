@@ -66,6 +66,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_S7_union.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_array.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_atomic.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_bbox.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_blob.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_character.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_classGeneratorFunction.html</loc></url>
@@ -75,6 +76,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_collector.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_complex.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_constructive_options.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_crs.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_data.frame.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_data.table.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_date_names.html</loc></url>
@@ -114,6 +116,9 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_quosures.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_raw.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_rowwise_df.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_sf.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_sfc.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_sfg.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_tbl_df.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ts.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_vctrs_list_of.html</loc></url>

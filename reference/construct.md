@@ -172,6 +172,8 @@ class and is documented on its own page.
 
 - [`opts_atomic`](https://cynkra.github.io/constructive/reference/opts_atomic.md)`(..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
+- [`opts_bbox`](https://cynkra.github.io/constructive/reference/opts_bbox.md)`(constructor = c("st_bbox", "next"), ...)`
+
 - [`opts_bibentry`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("bibentry", "next"), ...)`
 
 - [`opts_blob`](https://cynkra.github.io/constructive/reference/opts_blob.md)`(constructor = c("blob", "next"), ...)`
@@ -217,6 +219,8 @@ class and is documented on its own page.
 - [`opts_CoordTrans`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("coord_trans", "next", "environment"), ...)`
 
 - [`opts_CoordTransform`](https://cynkra.github.io/constructive/reference/opts_CoordTransform.md)`(constructor = c("coord_transform", "next"), ...)`
+
+- [`opts_crs`](https://cynkra.github.io/constructive/reference/opts_crs.md)`(constructor = c("st_crs", "next"), ...)`
 
 - [`opts_data.frame`](https://cynkra.github.io/constructive/reference/opts_data.frame.md)`(constructor = c("data.frame", "read.table", "next", "list"), ..., recycle = TRUE)`
 
@@ -415,6 +419,12 @@ class and is documented on its own page.
 - [`opts_Scale`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("default", "next", "environment"), ...)`
 
 - [`opts_ScalesList`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("ScalesList", "next", "list"), ...)`
+
+- [`opts_sf`](https://cynkra.github.io/constructive/reference/opts_sf.md)`(constructor = c("st_sf", "next"), ...)`
+
+- [`opts_sfc`](https://cynkra.github.io/constructive/reference/opts_sfc.md)`(constructor = c("st_sfc", "next"), ...)`
+
+- [`opts_sfg`](https://cynkra.github.io/constructive/reference/opts_sfg.md)`(constructor = c("st_sfg", "next"), ...)`
 
 - [`opts_simpleCondition`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("simpleCondition", "next"), ...)`
 
