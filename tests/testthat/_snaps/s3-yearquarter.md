@@ -8,8 +8,7 @@
     Code
       construct(x, opts_yearquarter("next"))
     Output
-      c(19723, 19631) |>
-        structure(fiscal_start = 1, class = c("yearquarter", "vctrs_vctr"))
+      vctrs::new_vctr(c(19723, 19631), fiscal_start = 1, class = "yearquarter")
     Code
       construct(tsibble::yearquarter(c("2024 Q1", "2023 Q4"), fiscal_start = 4))
     Output
@@ -31,6 +30,5 @@
       construct(structure(19724, fiscal_start = 1, class = c("yearquarter",
         "vctrs_vctr")))
     Output
-      19724 |>
-        structure(fiscal_start = 1, class = c("yearquarter", "vctrs_vctr"))
+      vctrs::new_vctr(19724, fiscal_start = 1, class = "yearquarter")
 
