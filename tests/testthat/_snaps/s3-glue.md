@@ -35,8 +35,7 @@
       glue::as_glue("hello") |>
         structure(foo = 1)
     Code
-      construct(structure(`Encoding<-`("caf\351", "latin1"), class = c("glue",
-        "character")))
+      construct(latin1_glue)
     Output
       "caf\xe9" |> (`Encoding<-`)("latin1") |>
         structure(class = c("glue", "character"))
