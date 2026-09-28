@@ -634,5 +634,4 @@ importFrom(utils,
   packageDescription,
   tail
 )
-useDynLib("")
 useDynLib(constructive)
