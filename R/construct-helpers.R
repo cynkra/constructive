@@ -286,6 +286,19 @@ all_classes <- list(
   blob = c(
     "blob"
   ),
+  clock = c(
+    "clock_duration",
+    "clock_iso_year_week_day",
+    "clock_naive_time",
+    "clock_sys_time",
+    "clock_weekday",
+    "clock_year_day",
+    "clock_year_month_day",
+    "clock_year_month_weekday",
+    "clock_year_quarter_day",
+    "clock_year_week_day",
+    "clock_zoned_time"
+  ),
   constructive = c(
     "constructive_options"
   ),
