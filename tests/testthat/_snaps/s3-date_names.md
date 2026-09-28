@@ -96,3 +96,38 @@
       ) |>
         structure(class = "date_names")
 
+# date_names with non ASCII month names on UTF-8 system
+
+    Code
+      construct(readr::date_names_lang("fr"), opts_date_names("date_names"))
+    Output
+      readr::date_names(
+        mon = c(
+          "janvier", "f\U{E9}vrier", "mars", "avril", "mai", "juin", "juillet",
+          "ao\U{FB}t", "septembre", "octobre", "novembre", "d\U{E9}cembre"
+        ),
+        mon_ab = c(
+          "janv.", "f\U{E9}vr.", "mars", "avr.", "mai", "juin", "juil.", "ao\U{FB}t",
+          "sept.", "oct.", "nov.", "d\U{E9}c."
+        ),
+        day = c("dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"),
+        day_ab = c("dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam.")
+      )
+    Code
+      construct(readr::date_names_lang("fr"), opts_date_names("list"))
+    Output
+      list(
+        mon = c(
+          "janvier", "f\U{E9}vrier", "mars", "avril", "mai", "juin", "juillet",
+          "ao\U{FB}t", "septembre", "octobre", "novembre", "d\U{E9}cembre"
+        ),
+        mon_ab = c(
+          "janv.", "f\U{E9}vr.", "mars", "avr.", "mai", "juin", "juil.", "ao\U{FB}t",
+          "sept.", "oct.", "nov.", "d\U{E9}c."
+        ),
+        day = c("dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"),
+        day_ab = c("dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."),
+        am_pm = c("AM", "PM")
+      ) |>
+        structure(class = "date_names")
+
