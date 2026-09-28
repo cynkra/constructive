@@ -413,7 +413,10 @@ all_classes <- list(
     "units"
   ),
   vctrs = c(
-    "vctrs_list_of"
+    "vctrs_list_of",
+    "vctrs_rcrd",
+    "vctrs_unspecified",
+    "vctrs_vctr"
   ),
   xts = c(
     "xts"
