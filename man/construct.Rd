@@ -216,8 +216,10 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_Guides]{opts_Guides}(constructor = c("guides", "next"), ...)}
   \item \code{\link[=opts_hexmode]{opts_hexmode}(constructor = c("as.hexmode", "next"), ..., integer = FALSE)}
   \item \code{\link[=opts_hms]{opts_hms}(constructor = c("as_hms", "hms", "new_hms", "next", "double"), ...)}
+  \item \code{\link[=opts_IDate]{opts_IDate}(constructor = c("as.IDate", "next", "integer"), ...)}
   \item \code{\link[=opts_integer]{opts_integer}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_integer64]{opts_integer64}(constructor = c("as.integer64", "next", "double"), ...)}
+  \item \code{\link[=opts_ITime]{opts_ITime}(constructor = c("as.ITime", "next", "integer"), ...)}
   \item \code{\link[=opts_labels]{opts_labels}(constructor = c("labs", "next", "list"), ...)}
   \item \code{\link[=opts_language]{opts_language}(constructor = c("default"), ...)}
   \item \code{\link[=opts_Layer]{opts_Layer}(constructor = c("default", "layer", "next", "environment"), ...)}
