@@ -366,6 +366,13 @@ all_classes <- list(
   hms = c(
     "hms"
   ),
+  htmltools = c(
+    "html",
+    "html_dependency",
+    "shiny.tag",
+    "shiny.tag.function",
+    "shiny.tag.list"
+  ),
   R6 = c(
     "R6",
     "R6ClassGenerator"

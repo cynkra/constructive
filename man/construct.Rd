@@ -216,6 +216,8 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_Guides]{opts_Guides}(constructor = c("guides", "next"), ...)}
   \item \code{\link[=opts_hexmode]{opts_hexmode}(constructor = c("as.hexmode", "next"), ..., integer = FALSE)}
   \item \code{\link[=opts_hms]{opts_hms}(constructor = c("as_hms", "hms", "new_hms", "next", "double"), ...)}
+  \item \code{\link[=opts_html]{opts_html}(constructor = c("HTML", "next"), ...)}
+  \item \code{\link[=opts_html_dependency]{opts_html_dependency}(constructor = c("htmlDependency", "next"), ...)}
   \item \code{\link[=opts_integer]{opts_integer}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_integer64]{opts_integer64}(constructor = c("as.integer64", "next", "double"), ...)}
   \item \code{\link[=opts_labels]{opts_labels}(constructor = c("labs", "next", "list"), ...)}
@@ -262,6 +264,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_sf]{opts_sf}(constructor = c("st_sf", "next"), ...)}
   \item \code{\link[=opts_sfc]{opts_sfc}(constructor = c("st_sfc", "next"), ...)}
   \item \code{\link[=opts_sfg]{opts_sfg}(constructor = c("st_sfg", "next"), ...)}
+  \item \code{\link[=opts_shiny.tag]{opts_shiny.tag}(constructor = c("tags", "tag", "next"), ...)}
+  \item \code{\link[=opts_shiny.tag.function]{opts_shiny.tag.function}(constructor = c("tagFunction", "next"), ...)}
+  \item \code{\link[=opts_shiny.tag.list]{opts_shiny.tag.list}(constructor = c("tagList", "next"), ...)}
   \item \code{\link[=opts_simpleCondition]{opts_simpleCondition}(constructor = c("simpleCondition", "next"), ...)}
   \item \code{\link[=opts_simpleError]{opts_simpleError}(constructor = c("simpleError", "next"), ...)}
   \item \code{\link[=opts_simpleMessage]{opts_simpleMessage}(constructor = c("simpleMessage", "next"), ...)}
