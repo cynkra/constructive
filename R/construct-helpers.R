@@ -366,6 +366,13 @@ all_classes <- list(
   hms = c(
     "hms"
   ),
+  Matrix = c(
+    "denseMatrix",
+    "diagonalMatrix",
+    "indMatrix",
+    "sparseMatrix",
+    "sparseVector"
+  ),
   R6 = c(
     "R6",
     "R6ClassGenerator"
