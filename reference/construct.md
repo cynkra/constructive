@@ -482,6 +482,8 @@ class and is documented on its own page.
 
 - [`opts_simpleWarning`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("simpleWarning", "next"), ...)`
 
+- [`opts_Surv`](https://cynkra.github.io/constructive/reference/opts_Surv.md)`(constructor = c("Surv", "next"), ...)`
+
 - [`opts_tbl_df`](https://cynkra.github.io/constructive/reference/opts_tbl_df.md)`(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"), recycle = TRUE)`
 
 - [`opts_tbl_ts`](https://cynkra.github.io/constructive/reference/opts_tbl_ts.md)`(constructor = c("tsibble", "as_tsibble", "next"), ...)`
