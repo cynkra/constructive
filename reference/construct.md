@@ -190,6 +190,28 @@ class and is documented on its own page.
 
 - [`opts_classRepresentation`](https://cynkra.github.io/constructive/reference/opts_classRepresentation.md)`(constructor = c("getClassDef"), ...)`
 
+- [`opts_clock_duration`](https://cynkra.github.io/constructive/reference/opts_clock_duration.md)`(constructor = c("duration", "next", "list"), ...)`
+
+- [`opts_clock_iso_year_week_day`](https://cynkra.github.io/constructive/reference/opts_clock_iso_year_week_day.md)`(constructor = c("iso_year_week_day", "next", "list"), ...)`
+
+- [`opts_clock_naive_time`](https://cynkra.github.io/constructive/reference/opts_clock_naive_time.md)`(constructor = c("as_naive_time", "next", "list"), ...)`
+
+- [`opts_clock_sys_time`](https://cynkra.github.io/constructive/reference/opts_clock_sys_time.md)`(constructor = c("as_sys_time", "next", "list"), ...)`
+
+- [`opts_clock_weekday`](https://cynkra.github.io/constructive/reference/opts_clock_weekday.md)`(constructor = c("weekday", "next", "integer"), ...)`
+
+- [`opts_clock_year_day`](https://cynkra.github.io/constructive/reference/opts_clock_year_day.md)`(constructor = c("year_day", "next", "list"), ...)`
+
+- [`opts_clock_year_month_day`](https://cynkra.github.io/constructive/reference/opts_clock_year_month_day.md)`(constructor = c("year_month_day", "next", "list"), ...)`
+
+- [`opts_clock_year_month_weekday`](https://cynkra.github.io/constructive/reference/opts_clock_year_month_weekday.md)`(constructor = c("year_month_weekday", "next", "list"), ...)`
+
+- [`opts_clock_year_quarter_day`](https://cynkra.github.io/constructive/reference/opts_clock_year_quarter_day.md)`(constructor = c("year_quarter_day", "next", "list"), ...)`
+
+- [`opts_clock_year_week_day`](https://cynkra.github.io/constructive/reference/opts_clock_year_week_day.md)`(constructor = c("year_week_day", "next", "list"), ...)`
+
+- [`opts_clock_zoned_time`](https://cynkra.github.io/constructive/reference/opts_clock_zoned_time.md)`(constructor = c("as_zoned_time", "next", "list"), ...)`
+
 - [`opts_col_spec`](https://cynkra.github.io/constructive/reference/opts_col_spec.md)`(constructor = c("cols", "next", "list"), ...)`
 
 - [`opts_collector`](https://cynkra.github.io/constructive/reference/opts_collector.md)`(constructor = c("col", "next", "list"), ...)`
@@ -238,6 +260,8 @@ class and is documented on its own page.
 
 - [`opts_double`](https://cynkra.github.io/constructive/reference/opts_double.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
+- [`opts_Duration`](https://cynkra.github.io/constructive/reference/opts_Duration.md)`(constructor = c("default", "dseconds", "duration", "next"), ...)`
+
 - [`opts_element_blank`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("element_blank", "next", "list"), ...)`
 
 - [`opts_element_grob`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("element_grob", "next", "list"), ...)`
@@ -277,6 +301,12 @@ class and is documented on its own page.
 - [`opts_factor`](https://cynkra.github.io/constructive/reference/opts_factor.md)`(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...)`
 
 - [`opts_formula`](https://cynkra.github.io/constructive/reference/opts_formula.md)`(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)`
+
+- [`opts_fs_bytes`](https://cynkra.github.io/constructive/reference/opts_fs_bytes.md)`(constructor = c("as_fs_bytes", "next"), ...)`
+
+- [`opts_fs_path`](https://cynkra.github.io/constructive/reference/opts_fs_path.md)`(constructor = c("path", "as_fs_path", "next"), ...)`
+
+- [`opts_fs_perms`](https://cynkra.github.io/constructive/reference/opts_fs_perms.md)`(constructor = c("as_fs_perms", "next"), ...)`
 
 - [`opts_function`](https://cynkra.github.io/constructive/reference/opts_function.md)`(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)`
 
@@ -338,6 +368,10 @@ class and is documented on its own page.
 
 - [`opts_Guides`](https://cynkra.github.io/constructive/reference/opts_Guides.md)`(constructor = c("guides", "next"), ...)`
 
+- [`opts_haven_labelled`](https://cynkra.github.io/constructive/reference/opts_haven_labelled.md)`(constructor = c("labelled", "next"), ...)`
+
+- [`opts_haven_labelled_spss`](https://cynkra.github.io/constructive/reference/opts_haven_labelled_spss.md)`(constructor = c("labelled_spss", "next"), ...)`
+
 - [`opts_hexmode`](https://cynkra.github.io/constructive/reference/opts_hexmode.md)`(constructor = c("as.hexmode", "next"), ..., integer = FALSE)`
 
 - [`opts_hms`](https://cynkra.github.io/constructive/reference/opts_hms.md)`(constructor = c("as_hms", "hms", "new_hms", "next", "double"), ...)`
@@ -345,6 +379,8 @@ class and is documented on its own page.
 - [`opts_integer`](https://cynkra.github.io/constructive/reference/opts_integer.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
 - [`opts_integer64`](https://cynkra.github.io/constructive/reference/opts_integer64.md)`(constructor = c("as.integer64", "next", "double"), ...)`
+
+- [`opts_Interval`](https://cynkra.github.io/constructive/reference/opts_Interval.md)`(constructor = c("interval", "next"), ...)`
 
 - [`opts_labels`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("labs", "next", "list"), ...)`
 
@@ -381,6 +417,8 @@ class and is documented on its own page.
 - [`opts_package_version`](https://cynkra.github.io/constructive/reference/opts_package_version.md)`(constructor = c("package_version", "next", "list"), ...)`
 
 - [`opts_pairlist`](https://cynkra.github.io/constructive/reference/opts_pairlist.md)`(constructor = c("pairlist", "pairlist2"), ...)`
+
+- [`opts_Period`](https://cynkra.github.io/constructive/reference/opts_Period.md)`(constructor = c("period", "next"), ...)`
 
 - [`opts_person`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("person", "next"), ...)`
 

@@ -211,6 +211,17 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_classGeneratorFunction.html">opts_classGeneratorFunction</a>(constructor = c("setClass"), ...)</code></p></li>
 <li><p><code><a href="opts_classPrototypeDef.html">opts_classPrototypeDef</a>(constructor = c("prototype"), ...)</code></p></li>
 <li><p><code><a href="opts_classRepresentation.html">opts_classRepresentation</a>(constructor = c("getClassDef"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_duration.html">opts_clock_duration</a>(constructor = c("duration", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_iso_year_week_day.html">opts_clock_iso_year_week_day</a>(constructor = c("iso_year_week_day", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_naive_time.html">opts_clock_naive_time</a>(constructor = c("as_naive_time", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_sys_time.html">opts_clock_sys_time</a>(constructor = c("as_sys_time", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_weekday.html">opts_clock_weekday</a>(constructor = c("weekday", "next", "integer"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_year_day.html">opts_clock_year_day</a>(constructor = c("year_day", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_year_month_day.html">opts_clock_year_month_day</a>(constructor = c("year_month_day", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_year_month_weekday.html">opts_clock_year_month_weekday</a>(constructor = c("year_month_weekday", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_year_quarter_day.html">opts_clock_year_quarter_day</a>(constructor = c("year_quarter_day", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_year_week_day.html">opts_clock_year_week_day</a>(constructor = c("year_week_day", "next", "list"), ...)</code></p></li>
+<li><p><code><a href="opts_clock_zoned_time.html">opts_clock_zoned_time</a>(constructor = c("as_zoned_time", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_col_spec.html">opts_col_spec</a>(constructor = c("cols", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_collector.html">opts_collector</a>(constructor = c("col", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_complex.html">opts_complex</a>(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)</code></p></li>
@@ -235,6 +246,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_dm.html">opts_dm</a>(constructor = c("dm", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_dots.html">opts_dots</a>(constructor = c("default"), ...)</code></p></li>
 <li><p><code><a href="opts_double.html">opts_double</a>(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)</code></p></li>
+<li><p><code><a href="opts_Duration.html">opts_Duration</a>(constructor = c("default", "dseconds", "duration", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_element_blank</a>(constructor = c("element_blank", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_element_grob</a>(constructor = c("element_grob", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_element_line</a>(constructor = c("element_line", "next", "list"), ...)</code></p></li>
@@ -255,6 +267,9 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="other-opts.html">opts_FacetWrap</a>(constructor = c("facet_wrap", "ggproto", "next", "environment"), ...)</code></p></li>
 <li><p><code><a href="opts_factor.html">opts_factor</a>(constructor = c("factor", "as_factor", "new_factor", "next", "integer"), ...)</code></p></li>
 <li><p><code><a href="opts_formula.html">opts_formula</a>(constructor = c("default", "formula", "as.formula", "new_formula", "next"), ..., environment = TRUE)</code></p></li>
+<li><p><code><a href="opts_fs_bytes.html">opts_fs_bytes</a>(constructor = c("as_fs_bytes", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_fs_path.html">opts_fs_path</a>(constructor = c("path", "as_fs_path", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_fs_perms.html">opts_fs_perms</a>(constructor = c("as_fs_perms", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_function.html">opts_function</a>(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)</code></p></li>
 <li><p><code><a href="opts_ggplot.html">opts_ggplot</a>(constructor = c("ggplot", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_ggplot2_element_blank</a>(constructor = c("element_blank", "next"), ...)</code></p></li>
@@ -285,10 +300,13 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_GuideLegend.html">opts_GuideLegend</a>(constructor = c("guide_legend", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_GuideNone.html">opts_GuideNone</a>(constructor = c("guide_none", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_Guides.html">opts_Guides</a>(constructor = c("guides", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_haven_labelled.html">opts_haven_labelled</a>(constructor = c("labelled", "next"), ...)</code></p></li>
+<li><p><code><a href="opts_haven_labelled_spss.html">opts_haven_labelled_spss</a>(constructor = c("labelled_spss", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_hexmode.html">opts_hexmode</a>(constructor = c("as.hexmode", "next"), ..., integer = FALSE)</code></p></li>
 <li><p><code><a href="opts_hms.html">opts_hms</a>(constructor = c("as_hms", "hms", "new_hms", "next", "double"), ...)</code></p></li>
 <li><p><code><a href="opts_integer.html">opts_integer</a>(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)</code></p></li>
 <li><p><code><a href="opts_integer64.html">opts_integer64</a>(constructor = c("as.integer64", "next", "double"), ...)</code></p></li>
+<li><p><code><a href="opts_Interval.html">opts_Interval</a>(constructor = c("interval", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_labels</a>(constructor = c("labs", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_language.html">opts_language</a>(constructor = c("default"), ...)</code></p></li>
 <li><p><code><a href="opts_Layer.html">opts_Layer</a>(constructor = c("default", "layer", "next", "environment"), ...)</code></p></li>
@@ -307,6 +325,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
 <li><p><code><a href="opts_ordered.html">opts_ordered</a>(constructor = c("ordered", "factor", "new_ordered", "next", "integer"), ...)</code></p></li>
 <li><p><code><a href="opts_package_version.html">opts_package_version</a>(constructor = c("package_version", "next", "list"), ...)</code></p></li>
 <li><p><code><a href="opts_pairlist.html">opts_pairlist</a>(constructor = c("pairlist", "pairlist2"), ...)</code></p></li>
+<li><p><code><a href="opts_Period.html">opts_Period</a>(constructor = c("period", "next"), ...)</code></p></li>
 <li><p><code><a href="other-opts.html">opts_person</a>(constructor = c("person", "next"), ...)</code></p></li>
 <li><p><code><a href="opts_POSIXct.html">opts_POSIXct</a>(constructor = c("as.POSIXct", ".POSIXct", "as_datetime", "as.POSIXct.numeric", "as_datetime.numeric", "next", "atomic"), ..., origin = "1970-01-01")</code></p></li>
 <li><p><code><a href="opts_POSIXlt.html">opts_POSIXlt</a>(constructor = c("as.POSIXlt", "next", "list"), ...)</code></p></li>

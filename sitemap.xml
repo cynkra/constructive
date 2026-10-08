@@ -36,6 +36,7 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_CoordRadial.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_CoordTransform.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_Date.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_Duration.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_FacetNull.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_GuideAxis.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_GuideAxisLogticks.html</loc></url>
@@ -48,9 +49,11 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_GuideLegend.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_GuideNone.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_Guides.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_Interval.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_Layer.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_POSIXct.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_POSIXlt.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_Period.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_R6.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_R6ClassGenerator.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_R_system_version.html</loc></url>
@@ -72,6 +75,17 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_classGeneratorFunction.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_classPrototypeDef.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_classRepresentation.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_duration.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_iso_year_week_day.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_naive_time.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_sys_time.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_weekday.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_year_day.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_year_month_day.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_year_month_weekday.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_year_quarter_day.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_year_week_day.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_clock_zoned_time.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_col_spec.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_collector.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_complex.html</loc></url>
@@ -92,6 +106,9 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_externalptr.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_factor.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_formula.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_fs_bytes.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_fs_path.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_fs_perms.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_function.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ggplot.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_ggplot2_ggplot.html</loc></url>
@@ -99,6 +116,8 @@
 <url><loc>https://cynkra.github.io/constructive/reference/opts_glue.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_grouped_df.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_grouped_ts.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_haven_labelled.html</loc></url>
+<url><loc>https://cynkra.github.io/constructive/reference/opts_haven_labelled_spss.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_hexmode.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_hms.html</loc></url>
 <url><loc>https://cynkra.github.io/constructive/reference/opts_integer.html</loc></url>

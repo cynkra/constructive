@@ -355,6 +355,9 @@ The main functions of the package
 - [`opts_Date()`](https://cynkra.github.io/constructive/reference/opts_Date.md)
   : Constructive options class 'Date'
 
+- [`opts_Duration()`](https://cynkra.github.io/constructive/reference/opts_Duration.md)
+  : Constructive options for class 'Duration'
+
 - [`opts_FacetNull()`](https://cynkra.github.io/constructive/reference/opts_FacetNull.md)
   : Constructive options for class 'FacetNull'
 
@@ -391,6 +394,9 @@ The main functions of the package
 - [`opts_Guides()`](https://cynkra.github.io/constructive/reference/opts_Guides.md)
   : Constructive options for class 'Guides'
 
+- [`opts_Interval()`](https://cynkra.github.io/constructive/reference/opts_Interval.md)
+  : Constructive options for class 'Interval'
+
 - [`opts_Layer()`](https://cynkra.github.io/constructive/reference/opts_Layer.md)
   : Constructive options for class 'Layer' (ggplot2)
 
@@ -399,6 +405,9 @@ The main functions of the package
 
 - [`opts_POSIXlt()`](https://cynkra.github.io/constructive/reference/opts_POSIXlt.md)
   : Constructive options for class 'POSIXlt'
+
+- [`opts_Period()`](https://cynkra.github.io/constructive/reference/opts_Period.md)
+  : Constructive options for class 'Period'
 
 - [`opts_R6()`](https://cynkra.github.io/constructive/reference/opts_R6.md)
   : Constructive options for class 'R6'
@@ -463,6 +472,39 @@ The main functions of the package
 - [`opts_classRepresentation()`](https://cynkra.github.io/constructive/reference/opts_classRepresentation.md)
   : Constructive options for class 'classRepresentation'
 
+- [`opts_clock_duration()`](https://cynkra.github.io/constructive/reference/opts_clock_duration.md)
+  : Constructive options for class 'clock_duration'
+
+- [`opts_clock_iso_year_week_day()`](https://cynkra.github.io/constructive/reference/opts_clock_iso_year_week_day.md)
+  : Constructive options for class 'clock_iso_year_week_day'
+
+- [`opts_clock_naive_time()`](https://cynkra.github.io/constructive/reference/opts_clock_naive_time.md)
+  : Constructive options for class 'clock_naive_time'
+
+- [`opts_clock_sys_time()`](https://cynkra.github.io/constructive/reference/opts_clock_sys_time.md)
+  : Constructive options for class 'clock_sys_time'
+
+- [`opts_clock_weekday()`](https://cynkra.github.io/constructive/reference/opts_clock_weekday.md)
+  : Constructive options for class 'clock_weekday'
+
+- [`opts_clock_year_day()`](https://cynkra.github.io/constructive/reference/opts_clock_year_day.md)
+  : Constructive options for class 'clock_year_day'
+
+- [`opts_clock_year_month_day()`](https://cynkra.github.io/constructive/reference/opts_clock_year_month_day.md)
+  : Constructive options for class 'clock_year_month_day'
+
+- [`opts_clock_year_month_weekday()`](https://cynkra.github.io/constructive/reference/opts_clock_year_month_weekday.md)
+  : Constructive options for class 'clock_year_month_weekday'
+
+- [`opts_clock_year_quarter_day()`](https://cynkra.github.io/constructive/reference/opts_clock_year_quarter_day.md)
+  : Constructive options for class 'clock_year_quarter_day'
+
+- [`opts_clock_year_week_day()`](https://cynkra.github.io/constructive/reference/opts_clock_year_week_day.md)
+  : Constructive options for class 'clock_year_week_day'
+
+- [`opts_clock_zoned_time()`](https://cynkra.github.io/constructive/reference/opts_clock_zoned_time.md)
+  : Constructive options for class 'clock_zoned_time'
+
 - [`opts_col_spec()`](https://cynkra.github.io/constructive/reference/opts_col_spec.md)
   : Constructive options for class 'col_spec'
 
@@ -525,6 +567,15 @@ The main functions of the package
 - [`opts_formula()`](https://cynkra.github.io/constructive/reference/opts_formula.md)
   : Constructive options for formulas
 
+- [`opts_fs_bytes()`](https://cynkra.github.io/constructive/reference/opts_fs_bytes.md)
+  : Constructive options for class 'fs_bytes'
+
+- [`opts_fs_path()`](https://cynkra.github.io/constructive/reference/opts_fs_path.md)
+  : Constructive options for class 'fs_path'
+
+- [`opts_fs_perms()`](https://cynkra.github.io/constructive/reference/opts_fs_perms.md)
+  : Constructive options for class 'fs_perms'
+
 - [`opts_function()`](https://cynkra.github.io/constructive/reference/opts_function.md)
   : Constructive options for functions
 
@@ -545,6 +596,12 @@ The main functions of the package
 
 - [`opts_grouped_ts()`](https://cynkra.github.io/constructive/reference/opts_grouped_ts.md)
   : Constructive options for class 'grouped_ts'
+
+- [`opts_haven_labelled()`](https://cynkra.github.io/constructive/reference/opts_haven_labelled.md)
+  : Constructive options for class 'haven_labelled'
+
+- [`opts_haven_labelled_spss()`](https://cynkra.github.io/constructive/reference/opts_haven_labelled_spss.md)
+  : Constructive options for class 'haven_labelled_spss'
 
 - [`opts_hexmode()`](https://cynkra.github.io/constructive/reference/opts_hexmode.md)
   : Constructive options for class 'hexmode'
