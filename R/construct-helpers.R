@@ -309,6 +309,11 @@ all_classes <- list(
     "ellmer::TypeJsonSchema",
     "ellmer::TypeObject"
   ),
+  fs = c(
+    "fs_bytes",
+    "fs_path",
+    "fs_perms"
+  ),
   ggplot2 = c(
     "CoordCartesian",
     "CoordFixed",
