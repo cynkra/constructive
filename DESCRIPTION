@@ -51,6 +51,7 @@ Suggests:
     S7,
     scales,
     sf,
+    survival,
     testthat (>= 3.0.0),
     tibble,
     tidyselect,
