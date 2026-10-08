@@ -12,7 +12,6 @@ globals$ggpackages <- "ggplot2"
 #' @importFrom stats setNames
 #' @importFrom methods getSlots
 #' @importFrom grDevices pdf dev.off
-#' @useDynLib
 NULL
 
 ## usethis namespace: start
