@@ -55,9 +55,9 @@ construct(head(iris, 2))
 #> data.frame(
 #>   Sepal.Length = c(5.1, 4.9),
 #>   Sepal.Width = c(3.5, 3),
-#>   Petal.Length = c(1.4, 1.4),
-#>   Petal.Width = c(0.2, 0.2),
-#>   Species = factor(c("setosa", "setosa"), levels = c("setosa", "versicolor", "virginica"))
+#>   Petal.Length = 1.4,
+#>   Petal.Width = 0.2,
+#>   Species = factor("setosa", levels = c("setosa", "versicolor", "virginica"))
 #> )
 
 dput(head(iris, 2))
@@ -91,12 +91,11 @@ grouped_band_members <- group_by(band_members, band)
 
 dput(grouped_band_members)
 #> structure(list(name = c("Mick", "John", "Paul"), band = c("Stones", 
-#> "Beatles", "Beatles")), class = c("grouped_df", "tbl_df", "tbl", 
-#> "data.frame"), row.names = c(NA, -3L), groups = structure(list(
-#>     band = c("Beatles", "Stones"), .rows = structure(list(2:3, 
-#>         1L), ptype = integer(0), class = c("vctrs_list_of", "vctrs_vctr", 
-#>     "list"))), class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, 
-#> -2L), .drop = TRUE))
+#> "Beatles", "Beatles")), groups = structure(list(band = c("Beatles", 
+#> "Stones"), .rows = structure(list(2:3, 1L), ptype = integer(0), class = c("vctrs_list_of", 
+#> "vctrs_vctr", "list"))), row.names = c(NA, -2L), class = c("tbl_df", 
+#> "tbl", "data.frame"), .drop = TRUE), row.names = c(NA, -3L), class = c("grouped_df", 
+#> "tbl_df", "tbl", "data.frame"))
 
 construct(grouped_band_members)
 #> tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |>

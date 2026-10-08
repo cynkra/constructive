@@ -98,9 +98,9 @@
 <span><span class="co">#&gt; data.frame(</span></span>
 <span><span class="co">#&gt;   Sepal.Length = c(5.1, 4.9),</span></span>
 <span><span class="co">#&gt;   Sepal.Width = c(3.5, 3),</span></span>
-<span><span class="co">#&gt;   Petal.Length = c(1.4, 1.4),</span></span>
-<span><span class="co">#&gt;   Petal.Width = c(0.2, 0.2),</span></span>
-<span><span class="co">#&gt;   Species = factor(c("setosa", "setosa"), levels = c("setosa", "versicolor", "virginica"))</span></span>
+<span><span class="co">#&gt;   Petal.Length = 1.4,</span></span>
+<span><span class="co">#&gt;   Petal.Width = 0.2,</span></span>
+<span><span class="co">#&gt;   Species = factor("setosa", levels = c("setosa", "versicolor", "virginica"))</span></span>
 <span><span class="co">#&gt; )</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">iris</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
@@ -134,12 +134,11 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="va">grouped_band_members</span><span class="op">)</span></span>
 <span><span class="co">#&gt; structure(list(name = c("Mick", "John", "Paul"), band = c("Stones", </span></span>
-<span><span class="co">#&gt; "Beatles", "Beatles")), class = c("grouped_df", "tbl_df", "tbl", </span></span>
-<span><span class="co">#&gt; "data.frame"), row.names = c(NA, -3L), groups = structure(list(</span></span>
-<span><span class="co">#&gt;     band = c("Beatles", "Stones"), .rows = structure(list(2:3, </span></span>
-<span><span class="co">#&gt;         1L), ptype = integer(0), class = c("vctrs_list_of", "vctrs_vctr", </span></span>
-<span><span class="co">#&gt;     "list"))), class = c("tbl_df", "tbl", "data.frame"), row.names = c(NA, </span></span>
-<span><span class="co">#&gt; -2L), .drop = TRUE))</span></span>
+<span><span class="co">#&gt; "Beatles", "Beatles")), groups = structure(list(band = c("Beatles", </span></span>
+<span><span class="co">#&gt; "Stones"), .rows = structure(list(2:3, 1L), ptype = integer(0), class = c("vctrs_list_of", </span></span>
+<span><span class="co">#&gt; "vctrs_vctr", "list"))), row.names = c(NA, -2L), class = c("tbl_df", </span></span>
+<span><span class="co">#&gt; "tbl", "data.frame"), .drop = TRUE), row.names = c(NA, -3L), class = c("grouped_df", </span></span>
+<span><span class="co">#&gt; "tbl_df", "tbl", "data.frame"))</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/construct.html">construct</a></span><span class="op">(</span><span class="va">grouped_band_members</span><span class="op">)</span></span>
 <span><span class="co">#&gt; tibble::tibble(name = c("Mick", "John", "Paul"), band = c("Stones", "Beatles", "Beatles")) |&gt;</span></span>
