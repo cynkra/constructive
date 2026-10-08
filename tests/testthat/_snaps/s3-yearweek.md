@@ -8,8 +8,7 @@
     Code
       construct(x, opts_yearweek("next"))
     Output
-      c(19723, 18624) |>
-        structure(week_start = 1, class = c("yearweek", "vctrs_vctr"))
+      vctrs::new_vctr(c(19723, 18624), week_start = 1, class = "yearweek")
     Code
       construct(tsibble::yearweek(c("2024 W01", "2020 W53"), week_start = 7))
     Output
@@ -30,6 +29,5 @@
     Code
       construct(structure(19724, week_start = 1, class = c("yearweek", "vctrs_vctr")))
     Output
-      19724 |>
-        structure(week_start = 1, class = c("yearweek", "vctrs_vctr"))
+      vctrs::new_vctr(19724, week_start = 1, class = "yearweek")
 
