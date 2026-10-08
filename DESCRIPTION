@@ -36,6 +36,7 @@ Suggests:
     forcats,
     ggplot2,
     glue,
+    haven,
     hms,
     jsonlite,
     knitr,

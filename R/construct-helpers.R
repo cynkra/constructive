@@ -376,6 +376,10 @@ all_classes <- list(
   grid = c(
     "simpleUnit"
   ),
+  haven = c(
+    "haven_labelled",
+    "haven_labelled_spss"
+  ),
   hms = c(
     "hms"
   ),
