@@ -42,6 +42,7 @@ Suggests:
     jsonlite,
     knitr,
     lubridate,
+    Matrix,
     R6,
     readr,
     reprex,
