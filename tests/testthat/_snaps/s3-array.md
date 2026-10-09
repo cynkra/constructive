@@ -26,6 +26,10 @@
     Output
       array(1, dim = 1L) |>
         structure(class = "array")
+    Code
+      construct(array(1:8, c(2, 2, 2), dimnames = list(a = c("x", "y"), NULL, NULL)))
+    Output
+      array(1:8, dim = rep(2L, 3L), dimnames = list(a = c("x", "y"), NULL, NULL))
 
 # classed array
 
