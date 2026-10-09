@@ -163,7 +163,7 @@ opts_ggplot2_mapping(constructor = c("aes", "next", "list"), ...)
 
 opts_ggplot2_margin(constructor = c("margin", "next", "double"), ...)
 
-opts_ggplot2_theme(constructor = c("theme", "next", "list"), ...)
+opts_ggplot2_theme(constructor = c("default", "theme", "next", "list"), ...)
 
 opts_ggproto(constructor = c("default", "ggproto", "next", "environment"), ...)
 
@@ -173,7 +173,7 @@ opts_margin(constructor = c("margin", "next", "double"), ...)
 
 opts_rel(constructor = c("rel", "next", "double"), ...)
 
-opts_theme(constructor = c("theme", "next", "list"), ...)
+opts_theme(constructor = c("default", "theme", "next", "list"), ...)
 
 opts_uneval(constructor = c("aes", "next", "list"), ...)
 
