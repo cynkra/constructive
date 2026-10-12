@@ -32,11 +32,11 @@
     Code
       construct(clock::year_month_day(2024, 1, 15), opts_clock_year_month_day("next"))
     Output
-      list(year = 2024L, month = 1L, day = 15L) |>
-        structure(
-          class = c("clock_year_month_day", "clock_calendar", "clock_rcrd", "vctrs_rcrd", "vctrs_vctr"),
-          precision = 4L
-        )
+      vctrs::new_rcrd(
+        list(year = 2024L, month = 1L, day = 15L),
+        precision = 4L,
+        class = c("clock_year_month_day", "clock_calendar", "clock_rcrd")
+      )
     Code
       construct(clock::year_month_day(2024, 1, 15), opts_clock_year_month_day("list"))
     Output

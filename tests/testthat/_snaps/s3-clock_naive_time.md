@@ -25,12 +25,12 @@
       construct(clock::as_naive_time(clock::year_month_day(2024, 1, 15)),
       opts_clock_naive_time("next"))
     Output
-      list(lower = 2147483648, upper = 19737) |>
-        structure(
-          class = c("clock_naive_time", "clock_time_point", "clock_rcrd", "vctrs_rcrd", "vctrs_vctr"),
-          precision = 4L,
-          clock = 1L
-        )
+      vctrs::new_rcrd(
+        list(lower = 2147483648, upper = 19737),
+        precision = 4L,
+        clock = 1L,
+        class = c("clock_naive_time", "clock_time_point", "clock_rcrd")
+      )
     Code
       construct(clock::as_naive_time(clock::year_month_day(2024, 1, 15)),
       opts_clock_naive_time("list"))

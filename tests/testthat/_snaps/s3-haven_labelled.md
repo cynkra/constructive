@@ -39,11 +39,9 @@
       construct(haven::labelled(c(1, 2), labels = c(Male = 1)), opts_haven_labelled(
         "next"))
     Output
-      c(1, 2) |>
-        structure(labels = c(Male = 1), class = c("haven_labelled", "vctrs_vctr", "double"))
+      vctrs::new_vctr(c(1, 2), labels = c(Male = 1), class = "haven_labelled", inherit_base_type = TRUE)
     Code
       construct(structure(TRUE, class = c("haven_labelled", "vctrs_vctr", "logical")))
     Output
-      TRUE |>
-        structure(class = c("haven_labelled", "vctrs_vctr", "logical"))
+      vctrs::new_vctr(TRUE, class = "haven_labelled", inherit_base_type = TRUE)
 

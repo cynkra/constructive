@@ -19,11 +19,11 @@
     Code
       construct(clock::year_day(2024, 45), opts_clock_year_day("next"))
     Output
-      list(year = 2024L, day = 45L) |>
-        structure(
-          class = c("clock_year_day", "clock_calendar", "clock_rcrd", "vctrs_rcrd", "vctrs_vctr"),
-          precision = 4L
-        )
+      vctrs::new_rcrd(
+        list(year = 2024L, day = 45L),
+        precision = 4L,
+        class = c("clock_year_day", "clock_calendar", "clock_rcrd")
+      )
     Code
       construct(clock::year_day(2024, 45), opts_clock_year_day("list"))
     Output

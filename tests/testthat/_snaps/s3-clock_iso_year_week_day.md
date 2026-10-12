@@ -12,14 +12,11 @@
       construct(clock::iso_year_week_day(2024, 2, 3), opts_clock_iso_year_week_day(
         "next"))
     Output
-      list(year = 2024L, week = 2L, day = 3L) |>
-        structure(
-          class = c(
-            "clock_iso_year_week_day", "clock_calendar", "clock_rcrd", "vctrs_rcrd",
-            "vctrs_vctr"
-          ),
-          precision = 4L
-        )
+      vctrs::new_rcrd(
+        list(year = 2024L, week = 2L, day = 3L),
+        precision = 4L,
+        class = c("clock_iso_year_week_day", "clock_calendar", "clock_rcrd")
+      )
     Code
       construct(clock::iso_year_week_day(2024, 2, 3), opts_clock_iso_year_week_day(
         "list"))
