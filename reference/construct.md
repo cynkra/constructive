@@ -340,7 +340,7 @@ class and is documented on its own page.
 
 - [`opts_ggplot2_margin`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("margin", "next", "double"), ...)`
 
-- [`opts_ggplot2_theme`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("theme", "next", "list"), ...)`
+- [`opts_ggplot2_theme`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("default", "theme", "next", "list"), ...)`
 
 - [`opts_ggproto`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("default", "ggproto", "next", "environment"), ...)`
 
@@ -512,7 +512,7 @@ class and is documented on its own page.
 
 - [`opts_tbl_ts`](https://cynkra.github.io/constructive/reference/opts_tbl_ts.md)`(constructor = c("tsibble", "as_tsibble", "next"), ...)`
 
-- [`opts_theme`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("theme", "next", "list"), ...)`
+- [`opts_theme`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("default", "theme", "next", "list"), ...)`
 
 - [`opts_ts`](https://cynkra.github.io/constructive/reference/opts_ts.md)`(constructor = c("ts", "next", "atomic"), ...)`
 
