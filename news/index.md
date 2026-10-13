@@ -1,5 +1,16 @@
 # Changelog
 
+## constructive (development version)
+
+- `constructive` now declares a dependency on R \>= 4.0.0. This is not a
+  reduction in support: `rlang` and `waldo`, which we import, have
+  required R \>= 4.0.0 for a while, so the package could never be
+  installed on older versions anyway. Declaring it explicitly matters
+  because R before 3.0.2 could only register 500 S3 methods per package,
+  and we now ship more than that as we support more classes. Without a
+  declared minimum, `R CMD check` assumes we might run on those versions
+  and reports the method count.
+
 ## constructive 1.3.0
 
 CRAN release: 2025-09-19
