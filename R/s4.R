@@ -82,3 +82,11 @@ is_corrupted_S4 <- function(x) {
   )
 }
 
+# Are the slots and class of the S4 objects `x` and `y` identical?
+# Used to check that an idiomatic constructor reproduces `x`, other attributes
+# are ignored since they are repaired afterwards
+identical_slots <- function(x, y) {
+  nms <- c(methods::slotNames(x), "class")
+  identical(attributes(x)[nms], attributes(y)[nms])
+}
+

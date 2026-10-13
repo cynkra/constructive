@@ -171,6 +171,8 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_data.table]{opts_data.table}(constructor = c("data.table", "next", "list"), ..., selfref = FALSE, recycle = TRUE)}
   \item \code{\link[=opts_Date]{opts_Date}(constructor = c("as.Date", "as_date", "date", "new_date", "as.Date.numeric", "as_date.numeric", "next", "double"), ..., origin = "1970-01-01")}
   \item \code{\link[=opts_date_names]{opts_date_names}(constructor = c("date_names_lang", "date_names", "next", "list"), ...)}
+  \item \code{\link[=opts_denseMatrix]{opts_denseMatrix}(constructor = c("Matrix", "next"), ...)}
+  \item \code{\link[=opts_diagonalMatrix]{opts_diagonalMatrix}(constructor = c("Diagonal", "next"), ...)}
   \item \code{\link[=opts_difftime]{opts_difftime}(constructor = c("as.difftime", "next"), ...)}
   \item \code{\link[=opts_dist]{opts_dist}(constructor = c("as.dist", "next"), ...)}
   \item \code{\link[=opts_dm]{opts_dm}(constructor = c("dm", "next", "list"), ...)}
@@ -239,6 +241,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_html]{opts_html}(constructor = c("HTML", "next"), ...)}
   \item \code{\link[=opts_html_dependency]{opts_html_dependency}(constructor = c("htmlDependency", "next"), ...)}
   \item \code{\link[=opts_IDate]{opts_IDate}(constructor = c("as.IDate", "next", "integer"), ...)}
+  \item \code{\link[=opts_indMatrix]{opts_indMatrix}(constructor = c("as", "next"), ...)}
   \item \code{\link[=opts_integer]{opts_integer}(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)}
   \item \code{\link[=opts_integer64]{opts_integer64}(constructor = c("as.integer64", "next", "double"), ...)}
   \item \code{\link[=opts_Interval]{opts_Interval}(constructor = c("interval", "next"), ...)}
@@ -298,6 +301,8 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_simpleMessage]{opts_simpleMessage}(constructor = c("simpleMessage", "next"), ...)}
   \item \code{\link[=opts_simpleUnit]{opts_simpleUnit}(constructor = c("unit", "next", "double"), ...)}
   \item \code{\link[=opts_simpleWarning]{opts_simpleWarning}(constructor = c("simpleWarning", "next"), ...)}
+  \item \code{\link[=opts_sparseMatrix]{opts_sparseMatrix}(constructor = c("sparseMatrix", "next"), ...)}
+  \item \code{\link[=opts_sparseVector]{opts_sparseVector}(constructor = c("sparseVector", "next"), ...)}
   \item \code{\link[=opts_stepfun]{opts_stepfun}(constructor = c("stepfun", "next"), ...)}
   \item \code{\link[=opts_Surv]{opts_Surv}(constructor = c("Surv", "next"), ...)}
   \item \code{\link[=opts_table]{opts_table}(constructor = c("as.table", "next"), ...)}
