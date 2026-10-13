@@ -621,6 +621,12 @@ The main functions of the package
 - [`opts_hms()`](https://cynkra.github.io/constructive/reference/opts_hms.md)
   : Constructive options for class 'hms'
 
+- [`opts_html()`](https://cynkra.github.io/constructive/reference/opts_html.md)
+  : Constructive options for class 'html'
+
+- [`opts_html_dependency()`](https://cynkra.github.io/constructive/reference/opts_html_dependency.md)
+  : Constructive options for class 'html_dependency'
+
 - [`opts_integer()`](https://cynkra.github.io/constructive/reference/opts_integer.md)
   : Constructive options for type 'integer'
 
@@ -692,6 +698,15 @@ The main functions of the package
 
 - [`opts_sfg()`](https://cynkra.github.io/constructive/reference/opts_sfg.md)
   : Constructive options for class 'sfg'
+
+- [`opts_shiny.tag()`](https://cynkra.github.io/constructive/reference/opts_shiny.tag.md)
+  : Constructive options for class 'shiny.tag'
+
+- [`opts_shiny.tag.function()`](https://cynkra.github.io/constructive/reference/opts_shiny.tag.function.md)
+  : Constructive options for class 'shiny.tag.function'
+
+- [`opts_shiny.tag.list()`](https://cynkra.github.io/constructive/reference/opts_shiny.tag.list.md)
+  : Constructive options for class 'shiny.tag.list'
 
 - [`opts_stepfun()`](https://cynkra.github.io/constructive/reference/opts_stepfun.md)
   : Constructive options for class 'stepfun'

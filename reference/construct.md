@@ -382,6 +382,10 @@ class and is documented on its own page.
 
 - [`opts_hms`](https://cynkra.github.io/constructive/reference/opts_hms.md)`(constructor = c("as_hms", "hms", "new_hms", "next", "double"), ...)`
 
+- [`opts_html`](https://cynkra.github.io/constructive/reference/opts_html.md)`(constructor = c("HTML", "next"), ...)`
+
+- [`opts_html_dependency`](https://cynkra.github.io/constructive/reference/opts_html_dependency.md)`(constructor = c("htmlDependency", "next"), ...)`
+
 - [`opts_integer`](https://cynkra.github.io/constructive/reference/opts_integer.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
 - [`opts_integer64`](https://cynkra.github.io/constructive/reference/opts_integer64.md)`(constructor = c("as.integer64", "next", "double"), ...)`
@@ -481,6 +485,12 @@ class and is documented on its own page.
 - [`opts_sfc`](https://cynkra.github.io/constructive/reference/opts_sfc.md)`(constructor = c("st_sfc", "next"), ...)`
 
 - [`opts_sfg`](https://cynkra.github.io/constructive/reference/opts_sfg.md)`(constructor = c("st_sfg", "next"), ...)`
+
+- [`opts_shiny.tag`](https://cynkra.github.io/constructive/reference/opts_shiny.tag.md)`(constructor = c("tags", "tag", "next"), ...)`
+
+- [`opts_shiny.tag.function`](https://cynkra.github.io/constructive/reference/opts_shiny.tag.function.md)`(constructor = c("tagFunction", "next"), ...)`
+
+- [`opts_shiny.tag.list`](https://cynkra.github.io/constructive/reference/opts_shiny.tag.list.md)`(constructor = c("tagList", "next"), ...)`
 
 - [`opts_simpleCondition`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("simpleCondition", "next"), ...)`
 
