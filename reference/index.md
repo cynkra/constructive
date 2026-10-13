@@ -417,6 +417,15 @@ The main functions of the package
 - [`opts_vctrs_list_of()`](https://cynkra.github.io/constructive/reference/opts_vctrs_list_of.md)
   : Constructive options for class 'data.table'
 
+- [`opts_vctrs_rcrd()`](https://cynkra.github.io/constructive/reference/opts_vctrs_rcrd.md)
+  : Constructive options for class 'vctrs_rcrd'
+
+- [`opts_vctrs_unspecified()`](https://cynkra.github.io/constructive/reference/opts_vctrs_unspecified.md)
+  : Constructive options for class 'vctrs_unspecified'
+
+- [`opts_vctrs_vctr()`](https://cynkra.github.io/constructive/reference/opts_vctrs_vctr.md)
+  : Constructive options for class 'vctrs_vctr'
+
 - [`opts_weakref()`](https://cynkra.github.io/constructive/reference/opts_weakref.md)
   :
 

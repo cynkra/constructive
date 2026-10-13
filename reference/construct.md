@@ -498,6 +498,12 @@ class and is documented on its own page.
 
 - [`opts_vctrs_list_of`](https://cynkra.github.io/constructive/reference/opts_vctrs_list_of.md)`(constructor = c("list_of", "next", "list"), ...)`
 
+- [`opts_vctrs_rcrd`](https://cynkra.github.io/constructive/reference/opts_vctrs_rcrd.md)`(constructor = c("new_rcrd", "next", "list"), ...)`
+
+- [`opts_vctrs_unspecified`](https://cynkra.github.io/constructive/reference/opts_vctrs_unspecified.md)`(constructor = c("unspecified", "next"), ...)`
+
+- [`opts_vctrs_vctr`](https://cynkra.github.io/constructive/reference/opts_vctrs_vctr.md)`(constructor = c("new_vctr", "next"), ...)`
+
 - [`opts_waiver`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("waiver", "next", "list"), ...)`
 
 - [`opts_warning`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("warningCondition", "next"), ...)`
