@@ -1,6 +1,6 @@
 #' @export
 #' @rdname other-opts
-opts_theme <- function(constructor = c("theme", "next", "list"), ...) {
+opts_theme <- function(constructor = c("default", "theme", "next", "list"), ...) {
   .cstr_options("theme", constructor = constructor[[1]], ...)
 }
 
@@ -25,11 +25,9 @@ is_corrupted_theme <- function(x) {
 }
 
 #' @export
-#' @method .cstr_construct.theme theme
-.cstr_construct.theme.theme <- function(x, ...) {
-  args <- unclass(x)
-  args$complete <- if (attr(x, "complete")) TRUE
-  args$validate <- if (!attr(x, "validate")) FALSE
+#' @method .cstr_construct.theme default
+.cstr_construct.theme.default <- function(x, ...) {
+  # use a complete theme such as `theme_bw()` if we can guess it
   if (attr(x, "complete")) {
     code <- guess_complete_theme(x, ...)
     if (!is.null(code)) {
@@ -37,6 +35,15 @@ is_corrupted_theme <- function(x) {
       return(code)
     }
   }
+  .cstr_construct.theme.theme(x, ...)
+}
+
+#' @export
+#' @method .cstr_construct.theme theme
+.cstr_construct.theme.theme <- function(x, ...) {
+  args <- unclass(x)
+  args$complete <- if (attr(x, "complete")) TRUE
+  args$validate <- if (!attr(x, "validate")) FALSE
   code <- .cstr_apply(args, "ggplot2::theme", ...)
   repair_attributes_theme(x, code, ...)
 }
