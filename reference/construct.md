@@ -252,6 +252,10 @@ class and is documented on its own page.
 
 - [`opts_date_names`](https://cynkra.github.io/constructive/reference/opts_date_names.md)`(constructor = c("date_names_lang", "date_names", "next", "list"), ...)`
 
+- [`opts_denseMatrix`](https://cynkra.github.io/constructive/reference/opts_denseMatrix.md)`(constructor = c("Matrix", "next"), ...)`
+
+- [`opts_diagonalMatrix`](https://cynkra.github.io/constructive/reference/opts_diagonalMatrix.md)`(constructor = c("Diagonal", "next"), ...)`
+
 - [`opts_difftime`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("as.difftime", "next"), ...)`
 
 - [`opts_dist`](https://cynkra.github.io/constructive/reference/opts_dist.md)`(constructor = c("as.dist", "next"), ...)`
@@ -388,6 +392,8 @@ class and is documented on its own page.
 
 - [`opts_IDate`](https://cynkra.github.io/constructive/reference/opts_IDate.md)`(constructor = c("as.IDate", "next", "integer"), ...)`
 
+- [`opts_indMatrix`](https://cynkra.github.io/constructive/reference/opts_indMatrix.md)`(constructor = c("as", "next"), ...)`
+
 - [`opts_integer`](https://cynkra.github.io/constructive/reference/opts_integer.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
 - [`opts_integer64`](https://cynkra.github.io/constructive/reference/opts_integer64.md)`(constructor = c("as.integer64", "next", "double"), ...)`
@@ -505,6 +511,10 @@ class and is documented on its own page.
 - [`opts_simpleUnit`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("unit", "next", "double"), ...)`
 
 - [`opts_simpleWarning`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("simpleWarning", "next"), ...)`
+
+- [`opts_sparseMatrix`](https://cynkra.github.io/constructive/reference/opts_sparseMatrix.md)`(constructor = c("sparseMatrix", "next"), ...)`
+
+- [`opts_sparseVector`](https://cynkra.github.io/constructive/reference/opts_sparseVector.md)`(constructor = c("sparseVector", "next"), ...)`
 
 - [`opts_stepfun`](https://cynkra.github.io/constructive/reference/opts_stepfun.md)`(constructor = c("stepfun", "next"), ...)`
 

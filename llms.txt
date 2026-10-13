@@ -540,6 +540,12 @@ The main functions of the package
 - [`opts_date_names()`](https://cynkra.github.io/constructive/reference/opts_date_names.md)
   : Constructive options for class 'date_names'
 
+- [`opts_denseMatrix()`](https://cynkra.github.io/constructive/reference/opts_denseMatrix.md)
+  : Constructive options for class 'denseMatrix'
+
+- [`opts_diagonalMatrix()`](https://cynkra.github.io/constructive/reference/opts_diagonalMatrix.md)
+  : Constructive options for class 'diagonalMatrix'
+
 - [`opts_dist()`](https://cynkra.github.io/constructive/reference/opts_dist.md)
   : Constructive options for class 'dist'
 
@@ -633,6 +639,9 @@ The main functions of the package
 - [`opts_html_dependency()`](https://cynkra.github.io/constructive/reference/opts_html_dependency.md)
   : Constructive options for class 'html_dependency'
 
+- [`opts_indMatrix()`](https://cynkra.github.io/constructive/reference/opts_indMatrix.md)
+  : Constructive options for class 'indMatrix'
+
 - [`opts_integer()`](https://cynkra.github.io/constructive/reference/opts_integer.md)
   : Constructive options for type 'integer'
 
@@ -713,6 +722,12 @@ The main functions of the package
 
 - [`opts_shiny.tag.list()`](https://cynkra.github.io/constructive/reference/opts_shiny.tag.list.md)
   : Constructive options for class 'shiny.tag.list'
+
+- [`opts_sparseMatrix()`](https://cynkra.github.io/constructive/reference/opts_sparseMatrix.md)
+  : Constructive options for class 'sparseMatrix'
+
+- [`opts_sparseVector()`](https://cynkra.github.io/constructive/reference/opts_sparseVector.md)
+  : Constructive options for class 'sparseVector'
 
 - [`opts_stepfun()`](https://cynkra.github.io/constructive/reference/opts_stepfun.md)
   : Constructive options for class 'stepfun'
