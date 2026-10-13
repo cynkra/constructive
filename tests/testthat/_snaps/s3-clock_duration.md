@@ -23,11 +23,11 @@
     Code
       construct(clock::duration_days(3), opts_clock_duration("next"))
     Output
-      list(lower = 2147483648, upper = 3) |>
-        structure(
-          class = c("clock_duration", "clock_rcrd", "vctrs_rcrd", "vctrs_vctr"),
-          precision = 4L
-        )
+      vctrs::new_rcrd(
+        list(lower = 2147483648, upper = 3),
+        precision = 4L,
+        class = c("clock_duration", "clock_rcrd")
+      )
     Code
       construct(clock::duration_days(3), opts_clock_duration("list"))
     Output

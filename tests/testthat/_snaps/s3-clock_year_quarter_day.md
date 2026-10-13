@@ -16,15 +16,12 @@
       construct(clock::year_quarter_day(2024, 2, 3), opts_clock_year_quarter_day(
         "next"))
     Output
-      list(year = 2024L, quarter = 2L, day = 3L) |>
-        structure(
-          class = c(
-            "clock_year_quarter_day", "clock_calendar", "clock_rcrd", "vctrs_rcrd",
-            "vctrs_vctr"
-          ),
-          precision = 4L,
-          start = 1L
-        )
+      vctrs::new_rcrd(
+        list(year = 2024L, quarter = 2L, day = 3L),
+        precision = 4L,
+        start = 1L,
+        class = c("clock_year_quarter_day", "clock_calendar", "clock_rcrd")
+      )
     Code
       construct(clock::year_quarter_day(2024, 2, 3), opts_clock_year_quarter_day(
         "list"))

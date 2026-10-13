@@ -31,7 +31,7 @@ is_corrupted_CoordCartesian <- function(x) {
 
 
 #' @export
-#' @method .cstr_construct.CoordCartesian coord_cartesian
+#' @method .cstr_construct.CoordCartesian default
 .cstr_construct.CoordCartesian.default <- function(x, ...) {
   args <- list(
     xlim = x$limits$x,

@@ -15,8 +15,7 @@
     Code
       construct(clock::weekday(1:2), opts_clock_weekday("next"))
     Output
-      1:2 |>
-        structure(class = c("clock_weekday", "vctrs_vctr"))
+      vctrs::new_vctr(1:2, class = "clock_weekday")
     Code
       construct(clock::weekday(1:2), opts_clock_weekday("integer"))
     Output

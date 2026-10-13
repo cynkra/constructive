@@ -40,12 +40,12 @@
       construct(clock::as_zoned_time(naive, "America/New_York"),
       opts_clock_zoned_time("next"))
     Output
-      list(lower = 2147483648, upper = 1705305845) |>
-        structure(
-          class = c("clock_zoned_time", "clock_rcrd", "vctrs_rcrd", "vctrs_vctr"),
-          precision = 7L,
-          zone = "America/New_York"
-        )
+      vctrs::new_rcrd(
+        list(lower = 2147483648, upper = 1705305845),
+        precision = 7L,
+        zone = "America/New_York",
+        class = c("clock_zoned_time", "clock_rcrd")
+      )
     Code
       construct(clock::as_zoned_time(naive, "America/New_York"),
       opts_clock_zoned_time("list"))
