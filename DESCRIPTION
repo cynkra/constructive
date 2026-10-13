@@ -16,6 +16,8 @@ License: MIT + file LICENSE
 URL: https://github.com/cynkra/constructive,
     https://cynkra.github.io/constructive/
 BugReports: https://github.com/cynkra/constructive/issues
+Depends: 
+    R (>= 4.0.0)
 Imports: 
     cli (>= 3.1.0),
     diffobj,
