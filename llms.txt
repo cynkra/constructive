@@ -534,6 +534,9 @@ The main functions of the package
 - [`opts_date_names()`](https://cynkra.github.io/constructive/reference/opts_date_names.md)
   : Constructive options for class 'date_names'
 
+- [`opts_dist()`](https://cynkra.github.io/constructive/reference/opts_dist.md)
+  : Constructive options for class 'dist'
+
 - [`opts_dm()`](https://cynkra.github.io/constructive/reference/opts_dm.md)
   : Constructive options class 'dm'
 
@@ -542,6 +545,9 @@ The main functions of the package
 
 - [`opts_double()`](https://cynkra.github.io/constructive/reference/opts_double.md)
   : Constructive options for type 'double'
+
+- [`opts_ecdf()`](https://cynkra.github.io/constructive/reference/opts_ecdf.md)
+  : Constructive options for class 'ecdf'
 
 - [`opts_ellmer_TypeArray()`](https://cynkra.github.io/constructive/reference/opts_ellmer_TypeArray.md)
   : Constructive options for class 'ellmer::TypeArray\`'
@@ -578,6 +584,9 @@ The main functions of the package
 
 - [`opts_fs_perms()`](https://cynkra.github.io/constructive/reference/opts_fs_perms.md)
   : Constructive options for class 'fs_perms'
+
+- [`opts_ftable()`](https://cynkra.github.io/constructive/reference/opts_ftable.md)
+  : Constructive options for class 'ftable'
 
 - [`opts_function()`](https://cynkra.github.io/constructive/reference/opts_function.md)
   : Constructive options for functions
@@ -663,8 +672,14 @@ The main functions of the package
 - [`opts_quosures()`](https://cynkra.github.io/constructive/reference/opts_quosures.md)
   : Constructive options for class 'quosures'
 
+- [`opts_raster()`](https://cynkra.github.io/constructive/reference/opts_raster.md)
+  : Constructive options for class 'raster'
+
 - [`opts_raw()`](https://cynkra.github.io/constructive/reference/opts_raw.md)
   : Constructive options for type 'raw'
+
+- [`opts_roman()`](https://cynkra.github.io/constructive/reference/opts_roman.md)
+  : Constructive options for class 'roman'
 
 - [`opts_rowwise_df()`](https://cynkra.github.io/constructive/reference/opts_rowwise_df.md)
   : Constructive options for class 'rowwise_df'
@@ -677,6 +692,12 @@ The main functions of the package
 
 - [`opts_sfg()`](https://cynkra.github.io/constructive/reference/opts_sfg.md)
   : Constructive options for class 'sfg'
+
+- [`opts_stepfun()`](https://cynkra.github.io/constructive/reference/opts_stepfun.md)
+  : Constructive options for class 'stepfun'
+
+- [`opts_table()`](https://cynkra.github.io/constructive/reference/opts_table.md)
+  : Constructive options for class 'table'
 
 - [`opts_tbl_df()`](https://cynkra.github.io/constructive/reference/opts_tbl_df.md)
   : Constructive options for tibbles

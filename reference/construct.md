@@ -254,6 +254,8 @@ class and is documented on its own page.
 
 - [`opts_difftime`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("as.difftime", "next"), ...)`
 
+- [`opts_dist`](https://cynkra.github.io/constructive/reference/opts_dist.md)`(constructor = c("as.dist", "next"), ...)`
+
 - [`opts_dm`](https://cynkra.github.io/constructive/reference/opts_dm.md)`(constructor = c("dm", "next", "list"), ...)`
 
 - [`opts_dots`](https://cynkra.github.io/constructive/reference/opts_dots.md)`(constructor = c("default"), ...)`
@@ -261,6 +263,8 @@ class and is documented on its own page.
 - [`opts_double`](https://cynkra.github.io/constructive/reference/opts_double.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
 - [`opts_Duration`](https://cynkra.github.io/constructive/reference/opts_Duration.md)`(constructor = c("default", "dseconds", "duration", "next"), ...)`
+
+- [`opts_ecdf`](https://cynkra.github.io/constructive/reference/opts_ecdf.md)`(constructor = c("ecdf", "next"), ...)`
 
 - [`opts_element_blank`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("element_blank", "next", "list"), ...)`
 
@@ -307,6 +311,8 @@ class and is documented on its own page.
 - [`opts_fs_path`](https://cynkra.github.io/constructive/reference/opts_fs_path.md)`(constructor = c("path", "as_fs_path", "next"), ...)`
 
 - [`opts_fs_perms`](https://cynkra.github.io/constructive/reference/opts_fs_perms.md)`(constructor = c("as_fs_perms", "next"), ...)`
+
+- [`opts_ftable`](https://cynkra.github.io/constructive/reference/opts_ftable.md)`(constructor = c("ftable", "next"), ...)`
 
 - [`opts_function`](https://cynkra.github.io/constructive/reference/opts_function.md)`(constructor = c("function", "as.function", "new_function"), ..., environment = TRUE, srcref = FALSE, trim = NULL)`
 
@@ -436,9 +442,13 @@ class and is documented on its own page.
 
 - [`opts_R6ClassGenerator`](https://cynkra.github.io/constructive/reference/opts_R6ClassGenerator.md)`(constructor = c("R6Class", "next"), ...)`
 
+- [`opts_raster`](https://cynkra.github.io/constructive/reference/opts_raster.md)`(constructor = c("as.raster", "next"), ...)`
+
 - [`opts_raw`](https://cynkra.github.io/constructive/reference/opts_raw.md)`(constructor = c("as.raw", "charToRaw"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE, representation = c("hexadecimal", "decimal"))`
 
 - [`opts_rel`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("rel", "next", "double"), ...)`
+
+- [`opts_roman`](https://cynkra.github.io/constructive/reference/opts_roman.md)`(constructor = c("as.roman", "next"), ...)`
 
 - [`opts_rowwise_df`](https://cynkra.github.io/constructive/reference/opts_rowwise_df.md)`(constructor = c("default", "next", "list"), ...)`
 
@@ -482,7 +492,11 @@ class and is documented on its own page.
 
 - [`opts_simpleWarning`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("simpleWarning", "next"), ...)`
 
+- [`opts_stepfun`](https://cynkra.github.io/constructive/reference/opts_stepfun.md)`(constructor = c("stepfun", "next"), ...)`
+
 - [`opts_Surv`](https://cynkra.github.io/constructive/reference/opts_Surv.md)`(constructor = c("Surv", "next"), ...)`
+
+- [`opts_table`](https://cynkra.github.io/constructive/reference/opts_table.md)`(constructor = c("as.table", "next"), ...)`
 
 - [`opts_tbl_df`](https://cynkra.github.io/constructive/reference/opts_tbl_df.md)`(constructor = c("tibble", "tribble", "next", "list"), ..., trailing_comma = TRUE, justify = c("left", "right", "centre", "none"), recycle = TRUE)`
 
