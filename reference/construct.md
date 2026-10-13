@@ -386,11 +386,15 @@ class and is documented on its own page.
 
 - [`opts_html_dependency`](https://cynkra.github.io/constructive/reference/opts_html_dependency.md)`(constructor = c("htmlDependency", "next"), ...)`
 
+- [`opts_IDate`](https://cynkra.github.io/constructive/reference/opts_IDate.md)`(constructor = c("as.IDate", "next", "integer"), ...)`
+
 - [`opts_integer`](https://cynkra.github.io/constructive/reference/opts_integer.md)`(constructor = c("default"), ..., trim = NULL, fill = c("default", "rlang", "+", "...", "none"), compress = TRUE)`
 
 - [`opts_integer64`](https://cynkra.github.io/constructive/reference/opts_integer64.md)`(constructor = c("as.integer64", "next", "double"), ...)`
 
 - [`opts_Interval`](https://cynkra.github.io/constructive/reference/opts_Interval.md)`(constructor = c("interval", "next"), ...)`
+
+- [`opts_ITime`](https://cynkra.github.io/constructive/reference/opts_ITime.md)`(constructor = c("as.ITime", "next", "integer"), ...)`
 
 - [`opts_labels`](https://cynkra.github.io/constructive/reference/other-opts.md)`(constructor = c("labs", "next", "list"), ...)`
 

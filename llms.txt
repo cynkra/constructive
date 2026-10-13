@@ -394,6 +394,12 @@ The main functions of the package
 - [`opts_Guides()`](https://cynkra.github.io/constructive/reference/opts_Guides.md)
   : Constructive options for class 'Guides'
 
+- [`opts_IDate()`](https://cynkra.github.io/constructive/reference/opts_IDate.md)
+  : Constructive options for class 'IDate'
+
+- [`opts_ITime()`](https://cynkra.github.io/constructive/reference/opts_ITime.md)
+  : Constructive options for class 'ITime'
+
 - [`opts_Interval()`](https://cynkra.github.io/constructive/reference/opts_Interval.md)
   : Constructive options for class 'Interval'
 
