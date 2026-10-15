@@ -1,9 +1,9 @@
 # roman
 
     Code
-      construct(as.roman(c(1, 12, NA, 3999)))
+      construct(as.roman(c(1, 12, NA, 3899)))
     Output
-      as.roman(c("I", "XII", NA, "MMMCMXCIX"))
+      as.roman(c("I", "XII", NA, "MMMDCCCXCIX"))
     Code
       construct(as.roman(integer()))
     Output
