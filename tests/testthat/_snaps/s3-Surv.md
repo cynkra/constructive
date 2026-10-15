@@ -58,13 +58,6 @@
     Output
       survival::Surv(c(0, 1, 2), c(1, 2, 3), factor(c("a", NA, "none"), levels = c("none", "a", "b")))
     Code
-      x <- survival::Surv(c(1, 2, 3), factor(c("1", "2", "0")))
-      attr(x, "inputAttributes") <- NULL
-      construct(x)
-    Output
-      survival::Surv(c(1, 2, 3), factor(c("1", "2", "censor"), levels = c("censor", "1", "2"))) |>
-        structure(inputAttributes = NULL)
-    Code
       construct(survival::Surv(c(a = 1, b = 2), c(1, 0)))
     Output
       survival::Surv(c(1, 2), c(1, 0)) |>
@@ -77,4 +70,24 @@
     Output
       survival::Surv(c(1, 2), c(1, 0)) |>
         structure(dimnames = list(c("a", "b"), c("time", "status")), foo = "bar")
+
+# Surv without inputAttributes, survival < 3.8-12
+
+    Code
+      x <- survival::Surv(c(1, 2, 3), factor(c("1", "2", "0")))
+      attr(x, "inputAttributes") <- NULL
+      construct(x)
+    Output
+      survival::Surv(c(1, 2, 3), factor(c("1", "2", "censor"), levels = c("censor", "1", "2"))) |>
+        structure(inputAttributes = NULL)
+
+# Surv without inputAttributes, survival >= 3.8-12
+
+    Code
+      x <- survival::Surv(c(1, 2, 3), factor(c("1", "2", "0")))
+      attr(x, "inputAttributes") <- NULL
+      construct(x)
+    Output
+      survival::Surv(c(1, 2, 3), factor(c("1", "2", "censor"), levels = c("censor", "1", "2"))) |>
+        structure(clabel = "0", inputAttributes = NULL)
 

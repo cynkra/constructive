@@ -31,7 +31,7 @@ opts_indMatrix <- function(constructor = c("as", "next"), ...) {
 is_corrupted_indMatrix <- function(x) {
   if (typeof(x) != "S4") return(TRUE)
   y <- do.call(methods::as, indMatrix_args(x))
-  if (x@margin == 2L) y <- Matrix::t(y)
+  if (indMatrix_margin(x) == 2L) y <- Matrix::t(y)
   !identical_slots(x, y)
 }
 
@@ -39,7 +39,7 @@ is_corrupted_indMatrix <- function(x) {
 #' @method .cstr_construct.indMatrix as
 .cstr_construct.indMatrix.as <- function(x, ...) {
   code <- .cstr_apply(indMatrix_args(x), "as", ...)
-  if (x@margin == 2L) code <- .cstr_apply(list(code), "Matrix::t", ..., recurse = FALSE)
+  if (indMatrix_margin(x) == 2L) code <- .cstr_apply(list(code), "Matrix::t", ..., recurse = FALSE)
   repair_attributes_indMatrix(x, code, ...)
 }
 
@@ -52,9 +52,16 @@ repair_attributes_indMatrix <- function(x, code, ...) {
   )
 }
 
+# The `margin` slot was added to 'indMatrix' in a later version of Matrix.
+# Objects created by earlier versions have no such slot and always index rows,
+# which is what `margin = 1` means.
+indMatrix_margin <- function(x) {
+  if (methods::.hasSlot(x, "margin")) x@margin else 1L
+}
+
 indMatrix_args <- function(x) {
   # number of columns of the (untransposed) index matrix
-  n <- x@Dim[[3L - x@margin]]
+  n <- x@Dim[[3L - indMatrix_margin(x)]]
   from <- if (n == max(x@perm, 0L)) x@perm else list(x@perm, n)
   cl <- class(x)
   attr(cl, "package") <- NULL

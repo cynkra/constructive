@@ -1,5 +1,8 @@
 test_that("fs_perms", {
   skip_if_not_installed("fs")
+  # File modes are a POSIX concept; on Windows `fs` rejects symbolic modes
+  # ("Invalid mode 'rw-r--r--'") and models permissions differently
+  skip_on_os("windows")
   expect_snapshot({
     construct(fs::as_fs_perms("rw-r--r--"))
     construct(fs::as_fs_perms(c("644", "4755")))

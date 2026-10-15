@@ -193,17 +193,21 @@ guess_complete_theme <- function(x, ...) {
           args$base_rect_size <- x$rect$linewidth
         }
       } else {
-        if (th_val$text@size != x$text@size) {
-          args$base_size <- x$text@size
+        # Theme elements are S7 objects here. `@` only reads S7 properties from
+        # R 4.3 on, so go through `S7::prop()` to stay portable on older R.
+        # ggplot2 imports S7, so it is available whenever we land here.
+        text_size <- S7::prop(x$text, "size")
+        if (S7::prop(th_val$text, "size") != text_size) {
+          args$base_size <- text_size
         }
-        if (th_val$text@family != x$text@family) {
-          args$base_family <- x$text@family
+        if (S7::prop(th_val$text, "family") != S7::prop(x$text, "family")) {
+          args$base_family <- S7::prop(x$text, "family")
         }
-        if (x$line@linewidth != x$text@size / 22) {
-          args$base_line_size <- x$line@linewidth
+        if (S7::prop(x$line, "linewidth") != text_size / 22) {
+          args$base_line_size <- S7::prop(x$line, "linewidth")
         }
-        if (x$rect@linewidth != x$text@size / 22) {
-          args$base_rect_size <- x$rect@linewidth
+        if (S7::prop(x$rect, "linewidth") != text_size / 22) {
+          args$base_rect_size <- S7::prop(x$rect, "linewidth")
         }
       }
 

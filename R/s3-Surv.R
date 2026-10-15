@@ -72,6 +72,7 @@ is_corrupted_Surv <- function(x) {
   times <- lapply(seq_len(ncol - 1), function(j) m[, j])
   status <- m[, ncol]
   input_attributes <- NULL
+  clabel <- NULL
   if (type %in% c("mright", "mcounting")) {
     # `type = "mstate"` with a numeric event is deprecated, we always use a factor
     states <- attr(x, "states")
@@ -81,6 +82,8 @@ is_corrupted_Surv <- function(x) {
     }
     event <- factor(levels[status + 1], levels = levels)
     input_attributes <- list(event = attributes(event))
+    # from survival 3.8-12 on, `Surv()` records the censoring level
+    clabel <- levels[[1]]
     args <- c(times, list(event))
   } else if (type == "interval") {
     is_finite_time1 <- is.finite(m[, 1])
@@ -103,10 +106,10 @@ is_corrupted_Surv <- function(x) {
     if (type == "left") args$type <- "left"
   }
   code <- .cstr_apply(args, "survival::Surv", ...)
-  repair_attributes_Surv(x, code, ..., input_attributes = input_attributes)
+  repair_attributes_Surv(x, code, ..., input_attributes = input_attributes, clabel = clabel)
 }
 
-repair_attributes_Surv <- function(x, code, ..., input_attributes = NULL) {
+repair_attributes_Surv <- function(x, code, ..., input_attributes = NULL, clabel = NULL) {
   type <- attr(x, "type")
   ncol <- attr(x, "dim")[[2]]
   col_names <- if (ncol == 2) {
@@ -120,6 +123,9 @@ repair_attributes_Surv <- function(x, code, ..., input_attributes = NULL) {
   if (type %in% c("mright", "mcounting")) ignore <- c(ignore, "states")
   if (identical(attr(x, "dimnames"), list(NULL, col_names))) {
     ignore <- c(ignore, "dimnames")
+  }
+  if (identical(attr(x, "clabel"), clabel)) {
+    ignore <- c(ignore, "clabel")
   }
   x_input_attributes <- attr(x, "inputAttributes")
   if (identical(x_input_attributes, input_attributes)) {
