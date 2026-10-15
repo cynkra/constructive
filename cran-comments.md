@@ -1,3 +1,16 @@
+## Notes about version 1.4.0
+
+This resubmission addresses the archival of 1.3.0. Its tests failed against
+ellmer 0.5.0, which deprecated the `.additional_properties` argument of
+`type_object()`; we don't emit that argument anymore.
+
+Also a large batch of new features, mostly support for the classes of 14 more
+packages, and a declared dependency on R >= 4.0.0, which our imports rlang and
+waldo have required for a while.
+
+Checked on the R versions from 4.2 to devel, on Linux, macOS and Windows, and
+with each suggested package removed in turn. All green.
+
 ## Notes about version 1.3.0
 
 1.2.0 coudn't be installed on some systems, the C code needed fixing. + a few minor features and fixes.
