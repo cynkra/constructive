@@ -39,8 +39,84 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="constructive-development-version">constructive (development version)<a class="anchor" aria-label="anchor" href="#constructive-development-version"></a></h2>
+<p>This version handles the changes in dependencies that broke the previous version, supports idiomatic construction for many new classes and integrates a couple of new features.</p>
+<p>New features:</p>
 <ul><li>
-<code>constructive</code> now declares a dependency on R &gt;= 4.0.0. This is not a reduction in support: <code>rlang</code> and <code>waldo</code>, which we import, have required R &gt;= 4.0.0 for a while, so the package could never be installed on older versions anyway. Declaring it explicitly matters because R before 3.0.2 could only register 500 S3 methods per package, and we now ship more than that as we support more classes. Without a declared minimum, <code>R CMD check</code> assumes we might run on those versions and reports the method count.</li>
+<code><a href="../reference/construct_serialize.html">construct_serialize()</a></code> shows how to rebuild an object from its serialized form, which is useful for objects that have no idiomatic constructor.</li>
+<li>
+<code>opts_character(multiline = TRUE)</code> prints strings containing new lines on several lines rather than escaping them.</li>
+<li>
+<code>opts_matrix(byrow = TRUE)</code> lays matrices out by row, in the spirit of <code><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tibble::tribble()</a></code>.</li>
+<li>
+<code>opts_environment(context =)</code> controls which aspects of an environment we describe: parents, attributes, locks, names, objects.</li>
+<li>
+<code>opts_environment("unserialize")</code> reconstructs an environment from its serialized form, preserving active bindings, locks and self references.</li>
+<li>A <code>"default"</code> constructor for <code>ggplot2</code> themes guesses the <code>theme_*()</code> function an object comes from, and falls back on a plain <code>theme()</code> call.</li>
+<li>Durations are constructed with whole years and months where that is exact.</li>
+</ul><p>New supported classes:</p>
+<ul><li>base R and recommended packages: <code>"table"</code>, <code>"ftable"</code>, <code>"dist"</code>, <code>"ecdf"</code>, <code>"stepfun"</code>, <code>"roman"</code> and <code>"raster"</code>
+</li>
+<li>
+<code>clock</code>: the 6 calendars, <code>"clock_naive_time"</code>, <code>"clock_sys_time"</code>, <code>"clock_zoned_time"</code>, <code>"clock_duration"</code> and <code>"clock_weekday"</code>
+</li>
+<li>
+<code>data.table</code>: <code>"IDate"</code> and <code>"ITime"</code>
+</li>
+<li>
+<code>fs</code>: <code>"fs_path"</code>, <code>"fs_bytes"</code> and <code>"fs_perms"</code>
+</li>
+<li>
+<code>glue</code>: <code>"glue"</code>
+</li>
+<li>
+<code>haven</code>: <code>"haven_labelled"</code> and <code>"haven_labelled_spss"</code>
+</li>
+<li>
+<code>hms</code>: <code>"hms"</code>
+</li>
+<li>
+<code>htmltools</code>: <code>"shiny.tag"</code>, <code>"shiny.tag.list"</code>, <code>"shiny.tag.function"</code>, <code>"html"</code> and <code>"html_dependency"</code>
+</li>
+<li>
+<code>lubridate</code>: <code>"Period"</code>, <code>"Duration"</code> and <code>"Interval"</code>
+</li>
+<li>
+<code>Matrix</code>: <code>"sparseMatrix"</code>, <code>"denseMatrix"</code>, <code>"diagonalMatrix"</code>, <code>"indMatrix"</code> and <code>"sparseVector"</code>
+</li>
+<li>
+<code>readr</code>: <code>"col_spec"</code>, <code>"collector"</code>, <code>"locale"</code> and <code>"date_names"</code>
+</li>
+<li>
+<code>sf</code>: <code>"sf"</code>, <code>"sfc"</code>, <code>"sfg"</code>, <code>"crs"</code> and <code>"bbox"</code>
+</li>
+<li>
+<code>survival</code>: <code>"Surv"</code>
+</li>
+<li>
+<code>tsibble</code>: <code>"tbl_ts"</code>, <code>"grouped_ts"</code>, <code>"yearmonth"</code>, <code>"yearquarter"</code> and <code>"yearweek"</code>
+</li>
+<li>
+<code>units</code>: <code>"units"</code> and <code>"mixed_units"</code>
+</li>
+<li>
+<code>vctrs</code>: <code>"vctrs_vctr"</code>, <code>"vctrs_rcrd"</code> and <code>"vctrs_unspecified"</code>
+</li>
+</ul><p>Fixes and improvements:</p>
+<ul><li>We don’t emit the deprecated <code>.additional_properties</code> argument of <code><a href="https://ellmer.tidyverse.org/reference/type_boolean.html" class="external-link">ellmer::type_object()</a></code> anymore. <code>ellmer</code> 0.5.0 made it <code>deprecated()</code>.</li>
+<li>Coercion generics and <code>NA</code> predicates (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>, <code>[[</code> and friends) are shimmed internally so a class with its own methods cannot alter the code we generate.</li>
+<li>
+<code>xts</code> objects are constructed exactly, with <code><a href="https://rdrr.io/pkg/xts/man/xts.html" class="external-link">xts::xts()</a></code> rather than <code>as.xts()</code> on a matrix, which used to lose the index class and time zone.</li>
+<li>Missing <code>integer64</code> values are constructed with <code>NA</code> rather than the string <code>"NA"</code>, which newer <code>bit64</code> warns about.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths()</a></code> is shimmed to honour <code>use.names = FALSE</code> and to return <code>integer(0)</code> on empty input.</li>
+<li>The redundant <code>name</code> attribute of <code>R6</code> generators is not repaired anymore.</li>
+<li>
+<code><a href="https://rdrr.io/r/base/array.html" class="external-link">array()</a></code> gets its <code>dimnames</code> argument right.</li>
+<li>
+<code>.cstr_construct.CoordCartesian.default()</code> is registered, it was missing due to a wrong roxygen tag.</li>
+</ul><p>Other:</p>
+<ul><li>
+<code>constructive</code> now declares a dependency on R &gt;= 4.0.0.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3.0" id="constructive-130">constructive 1.3.0<a class="anchor" aria-label="anchor" href="#constructive-130"></a></h2><p class="text-muted">CRAN release: 2025-09-19</p>

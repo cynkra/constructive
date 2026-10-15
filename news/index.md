@@ -2,14 +2,82 @@
 
 ## constructive (development version)
 
-- `constructive` now declares a dependency on R \>= 4.0.0. This is not a
-  reduction in support: `rlang` and `waldo`, which we import, have
-  required R \>= 4.0.0 for a while, so the package could never be
-  installed on older versions anyway. Declaring it explicitly matters
-  because R before 3.0.2 could only register 500 S3 methods per package,
-  and we now ship more than that as we support more classes. Without a
-  declared minimum, `R CMD check` assumes we might run on those versions
-  and reports the method count.
+This version handles the changes in dependencies that broke the previous
+version, supports idiomatic construction for many new classes and
+integrates a couple of new features.
+
+New features:
+
+- [`construct_serialize()`](https://cynkra.github.io/constructive/reference/construct_serialize.md)
+  shows how to rebuild an object from its serialized form, which is
+  useful for objects that have no idiomatic constructor.
+- `opts_character(multiline = TRUE)` prints strings containing new lines
+  on several lines rather than escaping them.
+- `opts_matrix(byrow = TRUE)` lays matrices out by row, in the spirit of
+  [`tibble::tribble()`](https://tibble.tidyverse.org/reference/tribble.html).
+- `opts_environment(context =)` controls which aspects of an environment
+  we describe: parents, attributes, locks, names, objects.
+- `opts_environment("unserialize")` reconstructs an environment from its
+  serialized form, preserving active bindings, locks and self
+  references.
+- A `"default"` constructor for `ggplot2` themes guesses the `theme_*()`
+  function an object comes from, and falls back on a plain `theme()`
+  call.
+- Durations are constructed with whole years and months where that is
+  exact.
+
+New supported classes:
+
+- base R and recommended packages: `"table"`, `"ftable"`, `"dist"`,
+  `"ecdf"`, `"stepfun"`, `"roman"` and `"raster"`
+- `clock`: the 6 calendars, `"clock_naive_time"`, `"clock_sys_time"`,
+  `"clock_zoned_time"`, `"clock_duration"` and `"clock_weekday"`
+- `data.table`: `"IDate"` and `"ITime"`
+- `fs`: `"fs_path"`, `"fs_bytes"` and `"fs_perms"`
+- `glue`: `"glue"`
+- `haven`: `"haven_labelled"` and `"haven_labelled_spss"`
+- `hms`: `"hms"`
+- `htmltools`: `"shiny.tag"`, `"shiny.tag.list"`,
+  `"shiny.tag.function"`, `"html"` and `"html_dependency"`
+- `lubridate`: `"Period"`, `"Duration"` and `"Interval"`
+- `Matrix`: `"sparseMatrix"`, `"denseMatrix"`, `"diagonalMatrix"`,
+  `"indMatrix"` and `"sparseVector"`
+- `readr`: `"col_spec"`, `"collector"`, `"locale"` and `"date_names"`
+- `sf`: `"sf"`, `"sfc"`, `"sfg"`, `"crs"` and `"bbox"`
+- `survival`: `"Surv"`
+- `tsibble`: `"tbl_ts"`, `"grouped_ts"`, `"yearmonth"`, `"yearquarter"`
+  and `"yearweek"`
+- `units`: `"units"` and `"mixed_units"`
+- `vctrs`: `"vctrs_vctr"`, `"vctrs_rcrd"` and `"vctrs_unspecified"`
+
+Fixes and improvements:
+
+- We don’t emit the deprecated `.additional_properties` argument of
+  [`ellmer::type_object()`](https://ellmer.tidyverse.org/reference/type_boolean.html)
+  anymore. `ellmer` 0.5.0 made it `deprecated()`.
+- Coercion generics and `NA` predicates
+  ([`as.character()`](https://rdrr.io/r/base/character.html),
+  [`is.na()`](https://rdrr.io/r/base/NA.html), `[[` and friends) are
+  shimmed internally so a class with its own methods cannot alter the
+  code we generate.
+- `xts` objects are constructed exactly, with
+  [`xts::xts()`](https://rdrr.io/pkg/xts/man/xts.html) rather than
+  `as.xts()` on a matrix, which used to lose the index class and time
+  zone.
+- Missing `integer64` values are constructed with `NA` rather than the
+  string `"NA"`, which newer `bit64` warns about.
+- [`lengths()`](https://rdrr.io/r/base/lengths.html) is shimmed to
+  honour `use.names = FALSE` and to return `integer(0)` on empty input.
+- The redundant `name` attribute of `R6` generators is not repaired
+  anymore.
+- [`array()`](https://rdrr.io/r/base/array.html) gets its `dimnames`
+  argument right.
+- `.cstr_construct.CoordCartesian.default()` is registered, it was
+  missing due to a wrong roxygen tag.
+
+Other:
+
+- `constructive` now declares a dependency on R \>= 4.0.0.
 
 ## constructive 1.3.0
 
