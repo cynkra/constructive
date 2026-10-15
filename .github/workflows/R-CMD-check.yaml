@@ -524,7 +524,7 @@ jobs:
       - name: Remove ${{ matrix.package }} and all strong dependencies
         run: |
           pkg <- "${{ matrix.package }}"
-          pkgs <- tools::package_dependencies(pkg, reverse = TRUE)[[1]]
+          pkgs <- tools::package_dependencies(pkg, recursive = TRUE, reverse = TRUE)[[1]]
           installed <- rownames(utils::installed.packages())
           # `pkg` belongs inside the intersect() as much as its reverse
           # dependencies do. It may legitimately not be installed -- a package
