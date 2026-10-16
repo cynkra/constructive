@@ -15,3 +15,8 @@
 ^doc$
 ^Meta$
 ^\.ccache$
+^\.claude$
+^CLAUDE\.md$
+^CLAUDE_obsolete\.md$
+^plan\.md$
+^debug_test\.R$
