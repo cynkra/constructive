@@ -1,6 +1,6 @@
 # Changelog
 
-## constructive 1.4.0
+## constructive (development version)
 
 This version handles the changes in dependencies that broke the previous
 version, supports idiomatic construction for many new classes and
