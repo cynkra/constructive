@@ -11,3 +11,5 @@ ignored
 /doc/
 /Meta/
 .ccache/
+.claude/settings.local.json
+.claude/worktrees/
