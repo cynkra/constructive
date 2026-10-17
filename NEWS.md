@@ -1,4 +1,4 @@
-# constructive (development version)
+# constructive 1.4.0
 
 This version handles the changes in dependencies that broke the previous version,
 supports idiomatic construction for many new classes and integrates a couple of new features.
