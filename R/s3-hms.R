@@ -44,8 +44,9 @@ is_corrupted_hms <- function(x) {
   if (all(is.na(x_dbl)) || !all(is.na(x_dbl) | (x_dbl >= 0 & x_dbl <= 86400))) {
     return(.cstr_construct.hms.hms(x, ...))
   }
-  hours <- x_dbl %/% 3600
-  minutes <- x_dbl %% 3600 %/% 60
+  # integers for sprintf's "%d", whole doubles are not accepted on all platforms
+  hours <- as.integer(x_dbl %/% 3600)
+  minutes <- as.integer(x_dbl %% 3600 %/% 60)
   seconds <- as.character(x_dbl %% 60)
   seconds <- ifelse(x_dbl %% 60 < 10, paste0("0", seconds), seconds)
   chr <- sprintf("%02d:%02d:%s", hours, minutes, seconds)
