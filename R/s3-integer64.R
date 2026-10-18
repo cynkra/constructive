@@ -44,9 +44,11 @@ is_corrupted_integer64 <- function(x) {
 #' @method .cstr_construct.integer64 as.integer64
 .cstr_construct.integer64.as.integer64 <- function(x, ...) {
   chr <- trimws(format(x))
-  # bit64 >= 4.8 warns when coercing the string "NA", but not `NA`
-  # `base::is.na()` dispatches to bit64's method, not exported since bit64 4.8.99
-  chr[base::is.na(x)] <- NA
+  # bit64 >= 4.8 warns when coercing the string "NA", but not `NA`.
+  # integer64 NAs are encoded as the double -0, equal to 0 but with 1 / x = -Inf.
+  # `==` and `/` are our shims, they work on the unclassed doubles so we don't
+  # depend on bit64's methods. Values whose doubles are NaN give NA, dropped by which().
+  chr[which(x == 0 & 1 / x == -Inf)] <- NA
   code <- .cstr_apply(list(chr), "bit64::as.integer64", ...)
   repair_attributes_integer64(x, code, ...)
 }
