@@ -15,7 +15,7 @@ opts_theme <- function(constructor = c("default", "theme", "next", "list"), ...)
 is_corrupted_theme <- function(x) {
   # because it's the main class in new ggplot we do this to keep the logic separate
   # for new and old ggplot
-  !is.list(x) || !is.null(attr(x, "S7_class"))
+  !is.list(x) || !is.null(s7_class(x))
 }
 
 #' @export

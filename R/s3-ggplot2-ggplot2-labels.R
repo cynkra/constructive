@@ -23,7 +23,7 @@ opts_ggplot2_labels <- function(constructor = c("labs", "next"), ...) {
 
 `is_corrupted_ggplot2::labels` <- function(x) {
   if (!is.list(x)) return(TRUE)
-  if (!is.function(attr(x, "S7_class"))) return(TRUE)
+  if (!is.function(s7_class(x))) return(TRUE)
   FALSE
 }
 
@@ -34,7 +34,7 @@ opts_ggplot2_labels <- function(constructor = c("labs", "next"), ...) {
   code <- constructive::.cstr_apply(args, fun = "ggplot2::labs", ...)
   constructive::.cstr_repair_attributes(
     x, code, ...,
-    ignore = "S7_class",
+    ignore = s7_internal_attrs,
     idiomatic_class = c("ggplot2::labels", "gg", "S7_object")
   )
 }

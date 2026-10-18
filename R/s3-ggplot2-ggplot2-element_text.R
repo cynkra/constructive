@@ -38,7 +38,7 @@ opts_ggplot2_element_text <- function(constructor = c("element_text", "next"), .
 }
 
 `repair_attributes_ggplot2::element_text` <- function(x, ...) {
-  property_names <- names(attr(attr(x, "S7_class"),"properties"))
+  property_names <- names(attr(s7_class(x),"properties"))
   .cstr_repair_attributes(
     x,
     idiomatic_class = c(
@@ -48,7 +48,7 @@ opts_ggplot2_element_text <- function(constructor = c("element_text", "next"), .
       "S7_object",
       "element"
     ),
-    ignore = c("S7_class", property_names),
+    ignore = c(s7_internal_attrs, property_names),
     ...
   )
 }

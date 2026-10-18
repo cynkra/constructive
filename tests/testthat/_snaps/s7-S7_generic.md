@@ -1,4 +1,4 @@
-# S7_generic
+# S7_generic, S7 <= 0.2.1
 
     Code
       type_of <- S7::new_generic("type_of", dispatch_args = "x")
@@ -34,6 +34,34 @@
             )
           )) |>
             (`environment<-`)(.GlobalEnv),
+          name = "type_of",
+          methods = constructive::.env("0x123456789", parents = "empty"),
+          dispatch_args = "x",
+          srcref = NULL
+        )
+    Code
+      S7::method(type_of, S7::class_character) <- (function(x, ...)
+        "A character vector")
+      S7::method(type_of, S7::new_S3_class("data.frame")) <- (function(x, ...)
+        "A data frame")
+      S7::method(type_of, S7::class_function) <- (function(x, ...) "A function")
+
+# S7_generic, S7 > 0.2.1
+
+    Code
+      type_of <- S7::new_generic("type_of", dispatch_args = "x")
+      construct(type_of)
+    Output
+      S7::new_generic("type_of", dispatch_args = "x")
+    Code
+      construct(type_of, opts_S7_generic("next"), opts_function(srcref = TRUE),
+      check = FALSE)
+    Output
+      (function(x, ...) S7::S7_dispatch()) |>
+        structure(
+          class = c("S7_generic", "function", "S7_object"),
+          `_S7_version` = 1L,
+          `_S7_class` = constructive::.env("0x123456789", parents = "empty", class = "S7_class_ref"),
           name = "type_of",
           methods = constructive::.env("0x123456789", parents = "empty"),
           dispatch_args = "x",

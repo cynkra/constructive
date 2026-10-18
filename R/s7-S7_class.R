@@ -39,17 +39,27 @@ is_corrupted_S7_class <- function(x) {
     args$constructor <- NULL
   }
   args$properties <- simplify_s7_class_properties(args$properties)
+  # Since S7 0.2.2.9000 `new_class()` wraps the constructor's environment into
+  # a new one holding a reference to the class, so we provide the original
+  # environment and let `new_class()` create the wrapper
+  wrapped_env <- exists(".S7_class_ref", environment(x), inherits = FALSE)
+  if (wrapped_env && !is.null(args$constructor)) {
+    environment(args$constructor) <- parent.env(environment(x))
+  }
 
   code <- constructive::.cstr_apply(args, fun = "S7::new_class", ...)
 
   # repair environment
-  code <- .cstr_wrap(code, fun = "")
-  envir_code <- .cstr_apply(list(environment(x)), "(`environment<-`)", ...)
-  code <- .cstr_pipe(code, envir_code, ...)
+  if (!wrapped_env) {
+    code <- .cstr_wrap(code, fun = "")
+    envir_code <- .cstr_apply(list(environment(x)), "(`environment<-`)", ...)
+    code <- .cstr_pipe(code, envir_code, ...)
+  }
 
   constructive::.cstr_repair_attributes(
     x, code, ...,
-    ignore = attr_names,
+    # the last 3 are computed by `new_class()` since S7 0.2.2.9000
+    ignore = c(attr_names, "S7_class_name", "S7_dispatch", "S7_version"),
     idiomatic_class = c("S7_class", "S7_object")
   )
 }

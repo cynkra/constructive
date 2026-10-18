@@ -14,7 +14,7 @@ opts_ggplot2_theme <- function(constructor = c("default", "theme", "next", "list
 
 `is_corrupted_ggplot2::theme` <- function(x) {
   if (!is.list(x)) return(TRUE)
-  if (!is.function(attr(x, "S7_class"))) return(TRUE)
+  if (!is.function(s7_class(x))) return(TRUE)
   if (!is.logical(attr(x, "complete")) || length(attr(x, "complete")) != 1) return(TRUE)
   if (!is.logical(attr(x, "validate")) || length(attr(x, "validate")) != 1) return(TRUE)
   FALSE
@@ -131,7 +131,7 @@ guess_complete_theme <- function(x, ...) {
 }
 
 `repair_attributes_ggplot2::theme` <- function(x, code, ...) {
-  ignore <- c("S7_class", "complete", "validate")
+  ignore <- c(s7_internal_attrs, "complete", "validate")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
   .cstr_repair_attributes(x, code, idiomatic_class = c("theme", "ggplot2::theme", "gg", "S7_object"), ignore = ignore, ...)
 }

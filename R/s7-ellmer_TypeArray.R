@@ -37,7 +37,7 @@ opts_ellmer_TypeArray <- function(constructor = c("type_array", "TypeArray", "ne
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("ellmer::TypeArray", "ellmer::Type", "S7_object"),
-    ignore = c("S7_class", "description", "required", "items")
+    ignore = c(s7_internal_attrs, "description", "required", "items")
   )
 }
 
@@ -54,6 +54,6 @@ opts_ellmer_TypeArray <- function(constructor = c("type_array", "TypeArray", "ne
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("ellmer::TypeArray", "ellmer::Type", "S7_object"),
-    ignore = c("S7_class", "description", "required", "items")
+    ignore = c(s7_internal_attrs, "description", "required", "items")
   )
 }

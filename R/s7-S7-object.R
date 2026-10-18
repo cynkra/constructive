@@ -48,28 +48,42 @@ is_corrupted_S7_object <- function(x) {
 
 #' @export
 .cstr_construct.S7_object.new_class<- function(x, ...) {
-  constructor <- attr(attr(x, "S7_class"), "constructor")
+  constructor <- attr(s7_class(x), "constructor")
   we_can_use_compact_syntax <-
     !identical(x, S7::S7_object()) && is_default_s7_class_constructor(constructor)
   if (!we_can_use_compact_syntax) return(.cstr_construct.S7_object.S7_object(x, ...))
-  fun_code <- .cstr_construct(attr(x, "S7_class"), ...)
+  fun_code <- .cstr_construct(s7_class(x), ...)
   args <- attributes(x)
   args$class <- NULL
-  args$S7_class <- NULL
+  args[s7_internal_attrs] <- NULL
   code <- constructive::.cstr_apply(args, fun = fun_code, ...)
   constructive::.cstr_repair_attributes(
     x, code, ...,
     ignore = setdiff(names(attributes(x)), "class"),
-    idiomatic_class = c(attr(attr(x, "S7_class"), "name"), "S7_object")
+    idiomatic_class = c(attr(s7_class(x), "name"), "S7_object")
   )
 }
 
 #' @export
 .cstr_construct.S7_object.S7_object <- function(x, ...) {
   code <- "S7::S7_object()"
+  # since S7 0.2.2.9000 `S7_object()` sets "_S7_version"
+  version_set <- identical(attr(x, "_S7_version"), attr(S7::S7_object(), "_S7_version"))
   constructive::.cstr_repair_attributes(
     x, code, ...,
+    ignore = if (version_set) "_S7_version",
     idiomatic_class = "S7_object"
   )
 }
 
+
+# Attributes that S7 sets itself. The class of an object is stored in the
+# "S7_class" attribute up to S7 0.2.1, and since S7 0.2.2.9000 in "_S7_class"
+# along with "_S7_version", generally through a shared reference to the class
+s7_internal_attrs <- c("S7_class", "_S7_class", "_S7_version")
+
+s7_class <- function(x) {
+  class <- attr(x, "_S7_class") %||% attr(x, "S7_class")
+  if (is.environment(class)) class <- get("class", envir = class)
+  class
+}

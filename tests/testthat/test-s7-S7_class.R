@@ -23,6 +23,35 @@ test_that("S7_class", {
   )
   expect_snapshot({
     construct(S7::S7_object)
+  })
+})
+
+test_that("S7_class, next, S7 <= 0.2.1", {
+  # see comments above
+  testthat::skip_on_os("linux")
+  skip_if_not_installed("S7")
+  skip_if(with_versions(S7 > "0.2.1"))
+  skip_if(
+    !is.null(attr(S7::S7_object@constructor, "srcref")),
+    "S7 was installed with source references"
+  )
+  expect_snapshot({
     construct(S7::S7_object, opts_S7_class("next"))
+  })
+})
+
+test_that("S7_class, next, S7 > 0.2.1", {
+  # see comments above
+  testthat::skip_on_os("linux")
+  skip_if_not_installed("S7")
+  skip_if(with_versions(S7 <= "0.2.1"))
+  skip_if(
+    !is.null(attr(S7::S7_object@constructor, "srcref")),
+    "S7 was installed with source references"
+  )
+  expect_snapshot({
+    # the class's environment holds a reference to the class, it is constructed
+    # from its memory address so we use check = FALSE
+    construct(S7::S7_object, opts_S7_class("next"), check = FALSE)
   })
 })
