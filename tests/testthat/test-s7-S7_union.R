@@ -7,19 +7,19 @@ test_that("S7_union", {
   })
 })
 
-test_that("S7_union, S7 <= 0.2.1", {
+test_that("S7_union, S7 <= 0.2.2", {
   skip_if_not_installed("S7")
-  skip_if(with_versions(S7 > "0.2.1"))
+  skip_if(with_versions(S7 > "0.2.2"))
   expect_snapshot({
     # check = FALSE because of changing environment address issues
     construct(S7::class_vector, opts_S7_union("next"), opts_S7_base_class("next"), check = FALSE)
   })
 })
 
-test_that("S7_union, S7 > 0.2.1", {
+test_that("S7_union, S7 > 0.2.2", {
   # the base classes are defined differently
   skip_if_not_installed("S7")
-  skip_if(with_versions(S7 <= "0.2.1"))
+  skip_if(with_versions(S7 <= "0.2.2"))
   expect_snapshot({
     construct(S7::class_vector, opts_S7_union("next"), opts_S7_base_class("next"), check = FALSE)
   })

@@ -1,6 +1,6 @@
-test_that("S7_generic, S7 <= 0.2.1", {
+test_that("S7_generic, S7 <= 0.2.2", {
   skip_if_not_installed("S7")
-  skip_if(with_versions(S7 > "0.2.1"))
+  skip_if(with_versions(S7 > "0.2.2"))
   expect_snapshot({
     # examples from `?S7::new_property`
     type_of <- S7::new_generic("type_of", dispatch_args = "x")
@@ -15,11 +15,11 @@ test_that("S7_generic, S7 <= 0.2.1", {
   })
 })
 
-test_that("S7_generic, S7 > 0.2.1", {
+test_that("S7_generic, S7 > 0.2.2", {
   # The class is stored in a reference shared by all generics, so we don't
   # change its environment, check = FALSE because of environment addresses
   skip_if_not_installed("S7")
-  skip_if(with_versions(S7 <= "0.2.1"))
+  skip_if(with_versions(S7 <= "0.2.2"))
   expect_snapshot({
     # examples from `?S7::new_property`
     type_of <- S7::new_generic("type_of", dispatch_args = "x")

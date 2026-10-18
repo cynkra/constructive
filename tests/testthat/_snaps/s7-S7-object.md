@@ -5,7 +5,7 @@
     Output
       S7::S7_object()
 
-# S7_object, S7 <= 0.2.1
+# S7_object, S7 <= 0.2.2
 
     Code
       construct(S7::S7_object(), opts_S7_object("next"))
@@ -14,7 +14,7 @@
         asS3(complete = FALSE) |>
         structure(class = "S7_object")
 
-# S7_object, S7 > 0.2.1
+# S7_object, S7 > 0.2.2
 
     Code
       construct(S7::S7_object(), opts_S7_object("next"))

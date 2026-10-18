@@ -26,7 +26,7 @@
       ) |>
         structure(class = "S7_union")
 
-# S7_union, S7 <= 0.2.1
+# S7_union, S7 <= 0.2.2
 
     Code
       construct(S7::class_vector, opts_S7_union("next"), opts_S7_base_class("next"),
@@ -134,7 +134,7 @@
       ) |>
         structure(class = "S7_union")
 
-# S7_union, S7 > 0.2.1
+# S7_union, S7 > 0.2.2
 
     Code
       construct(S7::class_vector, opts_S7_union("next"), opts_S7_base_class("next"),

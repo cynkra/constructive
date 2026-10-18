@@ -1,4 +1,4 @@
-# S7_generic, S7 <= 0.2.1
+# S7_generic, S7 <= 0.2.2
 
     Code
       type_of <- S7::new_generic("type_of", dispatch_args = "x")
@@ -46,7 +46,7 @@
         "A data frame")
       S7::method(type_of, S7::class_function) <- (function(x, ...) "A function")
 
-# S7_generic, S7 > 0.2.1
+# S7_generic, S7 > 0.2.2
 
     Code
       type_of <- S7::new_generic("type_of", dispatch_args = "x")
