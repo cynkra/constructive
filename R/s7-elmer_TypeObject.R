@@ -46,7 +46,7 @@ opts_ellmer_TypeObject <- function(constructor = c("type_object", "TypeObject", 
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("ellmer::TypeObject", "ellmer::Type", "S7_object"),
-    ignore = c(s7_internal_attrs, "description", "required", "additional_properties", "properties")
+    ignore = c(s7_internal_attrs(), "description", "required", "additional_properties", "properties")
   )
 }
 
@@ -64,6 +64,6 @@ opts_ellmer_TypeObject <- function(constructor = c("type_object", "TypeObject", 
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("ellmer::TypeObject", "ellmer::Type", "S7_object"),
-    ignore = c(s7_internal_attrs, "description", "required", "additional_properties", "properties")
+    ignore = c(s7_internal_attrs(), "description", "required", "additional_properties", "properties")
   )
 }

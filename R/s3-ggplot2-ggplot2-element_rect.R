@@ -43,7 +43,7 @@ opts_ggplot2_element_rect <- function(constructor = c("element_rect", "next"), .
       "S7_object",
       "element"
     ),
-    ignore = c(s7_internal_attrs, property_names),
+    ignore = c(s7_internal_attrs(), property_names),
     ...
   )
 }

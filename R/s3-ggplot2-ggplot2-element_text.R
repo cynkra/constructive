@@ -48,7 +48,7 @@ opts_ggplot2_element_text <- function(constructor = c("element_text", "next"), .
       "S7_object",
       "element"
     ),
-    ignore = c(s7_internal_attrs, property_names),
+    ignore = c(s7_internal_attrs(), property_names),
     ...
   )
 }

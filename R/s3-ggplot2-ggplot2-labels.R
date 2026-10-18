@@ -34,7 +34,7 @@ opts_ggplot2_labels <- function(constructor = c("labs", "next"), ...) {
   code <- constructive::.cstr_apply(args, fun = "ggplot2::labs", ...)
   constructive::.cstr_repair_attributes(
     x, code, ...,
-    ignore = s7_internal_attrs,
+    ignore = s7_internal_attrs(),
     idiomatic_class = c("ggplot2::labels", "gg", "S7_object")
   )
 }

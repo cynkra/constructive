@@ -41,7 +41,7 @@ opts_ggplot2_element_point <- function(constructor = c("element_point", "next"),
       "ggplot2::element",
       "S7_object"
     ),
-    ignore = c(s7_internal_attrs, property_names),
+    ignore = c(s7_internal_attrs(), property_names),
     ...
   )
 }

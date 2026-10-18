@@ -65,7 +65,7 @@ opts_ggplot2_element_geom <- function(constructor = c("element_geom", "next"), .
       "ggplot2::element",
       "S7_object"
     ),
-    ignore = c(s7_internal_attrs, property_names),
+    ignore = c(s7_internal_attrs(), property_names),
     ...
   )
 }

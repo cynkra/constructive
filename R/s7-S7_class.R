@@ -58,8 +58,11 @@ is_corrupted_S7_class <- function(x) {
 
   constructive::.cstr_repair_attributes(
     x, code, ...,
-    # the last 3 are computed by `new_class()` since S7 0.2.2.9000
-    ignore = c(attr_names, "S7_class_name", "S7_dispatch", "S7_version"),
+    # `new_class()` also computes these since S7 0.2.2.9000
+    ignore = c(
+      attr_names,
+      if (with_versions(S7 > "0.2.2")) c("S7_class_name", "S7_dispatch", "S7_version")
+    ),
     idiomatic_class = c("S7_class", "S7_object")
   )
 }

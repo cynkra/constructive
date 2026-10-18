@@ -65,7 +65,7 @@ opts_ggplot2_mapping <- function(constructor = c("aes", "next", "list"), ...) {
   .cstr_repair_attributes(
     x, code, pipe = pipe,
     idiomatic_class = c("ggplot2::mapping", "uneval", "gg", "S7_object"),
-    ignore = s7_internal_attrs,
+    ignore = s7_internal_attrs(),
     ...
   )
 }

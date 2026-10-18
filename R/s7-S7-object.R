@@ -55,7 +55,8 @@ is_corrupted_S7_object <- function(x) {
   fun_code <- .cstr_construct(s7_class(x), ...)
   args <- attributes(x)
   args$class <- NULL
-  args[s7_internal_attrs] <- NULL
+  # the S7 attributes of any S7 version, they're not properties
+  args[c("S7_class", "_S7_class", "_S7_version")] <- NULL
   code <- constructive::.cstr_apply(args, fun = fun_code, ...)
   constructive::.cstr_repair_attributes(
     x, code, ...,
@@ -77,11 +78,13 @@ is_corrupted_S7_object <- function(x) {
   )
 }
 
-
-# Attributes that S7 sets itself. The class of an object is stored in the
-# "S7_class" attribute up to S7 0.2.2, and since S7 0.2.2.9000 in "_S7_class"
-# along with "_S7_version", generally through a shared reference to the class
-s7_internal_attrs <- c("S7_class", "_S7_class", "_S7_version")
+# Attributes that the installed S7 sets itself. The class of an object is stored
+# in the "S7_class" attribute up to S7 0.2.2, and since S7 0.2.2.9000 in
+# "_S7_class" along with "_S7_version", generally through a shared reference to
+# the class
+s7_internal_attrs <- function() {
+  if (with_versions(S7 > "0.2.2")) c("_S7_class", "_S7_version") else "S7_class"
+}
 
 s7_class <- function(x) {
   class <- attr(x, "_S7_class") %||% attr(x, "S7_class")

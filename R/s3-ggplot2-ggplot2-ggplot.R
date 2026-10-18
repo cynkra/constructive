@@ -79,7 +79,7 @@ opts_ggplot2_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) 
     x, code_with_parens, pipe = pipe,
     idiomatic_class = c("ggplot2::ggplot", "ggplot", "ggplot2::gg", "S7_object", "gg"),
     ignore = c(
-      s7_internal_attrs, "data", "layers", "scales", "guides", "mapping", "theme",
+      s7_internal_attrs(), "data", "layers", "scales", "guides", "mapping", "theme",
       "coordinates", "facet", "layout", "labels", "meta", "plot_env"
     ),
     one_liner = one_liner,

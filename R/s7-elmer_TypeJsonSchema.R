@@ -33,7 +33,7 @@ opts_ellmer_TypeJsonSchema <- function(constructor = c("type_from_schema", "Type
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("ellmer::TypeJsonSchema", "ellmer::Type", "S7_object"),
-    ignore = c(s7_internal_attrs, "json", "required")
+    ignore = c(s7_internal_attrs(), "json", "required")
   )
 }
 
@@ -50,6 +50,6 @@ opts_ellmer_TypeJsonSchema <- function(constructor = c("type_from_schema", "Type
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("ellmer::TypeJsonSchema", "ellmer::Type", "S7_object"),
-    ignore = c(s7_internal_attrs, "description", "required", "json")
+    ignore = c(s7_internal_attrs(), "description", "required", "json")
   )
 }

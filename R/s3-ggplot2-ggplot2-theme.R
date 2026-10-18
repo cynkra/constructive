@@ -131,7 +131,7 @@ guess_complete_theme <- function(x, ...) {
 }
 
 `repair_attributes_ggplot2::theme` <- function(x, code, ...) {
-  ignore <- c(s7_internal_attrs, "complete", "validate")
+  ignore <- c(s7_internal_attrs(), "complete", "validate")
   if (identical(names(x), character())) ignore <- c(ignore, "names")
   .cstr_repair_attributes(x, code, idiomatic_class = c("theme", "ggplot2::theme", "gg", "S7_object"), ignore = ignore, ...)
 }

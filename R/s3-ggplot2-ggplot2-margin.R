@@ -45,7 +45,7 @@ opts_ggplot2_margin <- function(constructor = c("margin", "next", "double"), ...
     x,
     code,
     idiomatic_class = c("ggplot2::margin", "simpleUnit", "unit", "unit_v2", "S7_object"),
-    ignore = c(s7_internal_attrs, "unit"),
+    ignore = c(s7_internal_attrs(), "unit"),
     ...
   )
 }
