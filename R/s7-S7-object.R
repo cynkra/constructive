@@ -67,8 +67,9 @@ is_corrupted_S7_object <- function(x) {
 #' @export
 .cstr_construct.S7_object.S7_object <- function(x, ...) {
   code <- "S7::S7_object()"
-  # since S7 0.2.2.9000 `S7_object()` sets "_S7_version"
-  version_set <- identical(attr(x, "_S7_version"), attr(S7::S7_object(), "_S7_version"))
+  # since S7 0.2.2.9000 `S7_object()` sets `_S7_version = 1L`
+  version_set <-
+    with_versions(S7 > "0.2.1") && identical(attr(x, "_S7_version"), 1L)
   constructive::.cstr_repair_attributes(
     x, code, ...,
     ignore = if (version_set) "_S7_version",
