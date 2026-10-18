@@ -44,12 +44,18 @@ is_corrupted_yearweek <- function(x) {
   # tsibble can't parse NA strings, or years that don't have 4 digits, and
   # can't format empty objects, in these cases we use a Date input
   use_date <- !length(x) || anyNA(x)
+  week_start <- attr(x, "week_start")
   if (!use_date) {
     x_chr <- unname(getFromNamespace("format.yearweek", "tsibble")(x))
     use_date <- !all(grepl("^[0-9]{4} ", x_chr))
   }
+  # we also use a Date input if the strings don't parse back to the same data,
+  # e.g. tsibble 1.2.0.9000 formats some weeks with the wrong year when week_start != 1
+  if (!use_date) {
+    parsed <- tsibble::yearweek(x_chr, week_start = week_start)
+    use_date <- !identical(as.double(parsed), as.double(x))
+  }
   args <- if (use_date) list(.Date(as.double(x))) else list(x_chr)
-  week_start <- attr(x, "week_start")
   if (!identical(week_start, 1)) args$week_start <- week_start
   code <- .cstr_apply(args, fun = "tsibble::yearweek", ..., new_line = FALSE)
   repair_attributes_yearweek(x, code, ...)
