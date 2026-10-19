@@ -1,4 +1,5 @@
 test_that("mixed_units", {
+  skip_on_valgrind()
   skip_if_not_installed("units")
   expect_snapshot({
     construct(units::mixed_units(c(1, 2), c("m", "s")))
@@ -11,6 +12,7 @@ test_that("mixed_units", {
 # units 1.0 changed the deparsing of unitless objects, deparsed as "1" rather
 # than ""
 test_that("mixed_units, units < 1.0-1", {
+  skip_on_valgrind()
   skip_if_not_installed("units")
   skip_if(with_versions(units >= "1.0-1"))
   expect_snapshot({
@@ -19,6 +21,7 @@ test_that("mixed_units, units < 1.0-1", {
 })
 
 test_that("mixed_units, units >= 1.0-1", {
+  skip_on_valgrind()
   skip_if_not_installed("units")
   skip_if(with_versions(units < "1.0-1"))
   expect_snapshot({

@@ -1,4 +1,5 @@
 test_that("sfg", {
+  skip_on_valgrind()
   skip_if_not_installed("sf")
   expect_snapshot({
     construct(sf::st_point(c(1, 2)))

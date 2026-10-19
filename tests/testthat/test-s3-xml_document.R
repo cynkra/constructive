@@ -1,4 +1,5 @@
 test_that("xml_document", {
+  skip_on_valgrind()
   expect_snapshot({
     x <- xml2::read_xml("<foo><bar /></foo>")
     construct(x)
