@@ -439,6 +439,9 @@ The main functions of the package
 - [`opts_S7_class()`](https://cynkra.github.io/constructive/reference/opts_S7_class.md)
   : Constructive options for class 'S7_class'
 
+- [`opts_S7_class_ref()`](https://cynkra.github.io/constructive/reference/opts_S7_class_ref.md)
+  : Constructive options for class 'S7_class_ref'
+
 - [`opts_S7_external_generic()`](https://cynkra.github.io/constructive/reference/opts_S7_external_generic.md)
   : Constructive options for class 'S7_external_generic'
 

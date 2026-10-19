@@ -87,6 +87,8 @@
 <code>readr</code>: <code>"col_spec"</code>, <code>"collector"</code>, <code>"locale"</code> and <code>"date_names"</code>
 </li>
 <li>
+<code>S7</code>: <code>"S7_class_ref"</code>, used by S7 &gt; 0.2.2 to store the class of an object</li>
+<li>
 <code>sf</code>: <code>"sf"</code>, <code>"sfc"</code>, <code>"sfg"</code>, <code>"crs"</code> and <code>"bbox"</code>
 </li>
 <li>
@@ -102,7 +104,8 @@
 <code>vctrs</code>: <code>"vctrs_vctr"</code>, <code>"vctrs_rcrd"</code> and <code>"vctrs_unspecified"</code>
 </li>
 </ul><p>Fixes and improvements:</p>
-<ul><li>We don’t emit the deprecated <code>.additional_properties</code> argument of <code><a href="https://ellmer.tidyverse.org/reference/type_boolean.html" class="external-link">ellmer::type_object()</a></code> anymore. <code>ellmer</code> 0.5.0 made it <code>deprecated()</code>.</li>
+<ul><li>We support S7 &gt; 0.2.2, which stores the class of an object differently. S7 objects built with an S7 version that stores it differently than the installed one are considered corrupted.</li>
+<li>We don’t emit the deprecated <code>.additional_properties</code> argument of <code><a href="https://ellmer.tidyverse.org/reference/type_boolean.html" class="external-link">ellmer::type_object()</a></code> anymore. <code>ellmer</code> 0.5.0 made it <code>deprecated()</code>.</li>
 <li>Coercion generics and <code>NA</code> predicates (<code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>, <code>[[</code> and friends) are shimmed internally so a class with its own methods cannot alter the code we generate.</li>
 <li>
 <code>xts</code> objects are constructed exactly, with <code><a href="https://rdrr.io/pkg/xts/man/xts.html" class="external-link">xts::xts()</a></code> rather than <code>as.xts()</code> on a matrix, which used to lose the index class and time zone.</li>

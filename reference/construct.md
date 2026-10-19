@@ -474,6 +474,8 @@ class and is documented on its own page.
 
 - [`opts_S7_class`](https://cynkra.github.io/constructive/reference/opts_S7_class.md)`(constructor = c("new_class", "next"), ...)`
 
+- [`opts_S7_class_ref`](https://cynkra.github.io/constructive/reference/opts_S7_class_ref.md)`(constructor = c("environment", "next"), ...)`
+
 - [`opts_S7_external_generic`](https://cynkra.github.io/constructive/reference/opts_S7_external_generic.md)`(constructor = c("new_external_generic", "next"), ...)`
 
 - [`opts_S7_generic`](https://cynkra.github.io/constructive/reference/opts_S7_generic.md)`(constructor = c("new_generic", "next"), ...)`

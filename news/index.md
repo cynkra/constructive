@@ -43,6 +43,8 @@ New supported classes:
 - `Matrix`: `"sparseMatrix"`, `"denseMatrix"`, `"diagonalMatrix"`,
   `"indMatrix"` and `"sparseVector"`
 - `readr`: `"col_spec"`, `"collector"`, `"locale"` and `"date_names"`
+- `S7`: `"S7_class_ref"`, used by S7 \> 0.2.2 to store the class of an
+  object
 - `sf`: `"sf"`, `"sfc"`, `"sfg"`, `"crs"` and `"bbox"`
 - `survival`: `"Surv"`
 - `tsibble`: `"tbl_ts"`, `"grouped_ts"`, `"yearmonth"`, `"yearquarter"`
@@ -52,6 +54,9 @@ New supported classes:
 
 Fixes and improvements:
 
+- We support S7 \> 0.2.2, which stores the class of an object
+  differently. S7 objects built with an S7 version that stores it
+  differently than the installed one are considered corrupted.
 - We don’t emit the deprecated `.additional_properties` argument of
   [`ellmer::type_object()`](https://ellmer.tidyverse.org/reference/type_boolean.html)
   anymore. `ellmer` 0.5.0 made it `deprecated()`.
