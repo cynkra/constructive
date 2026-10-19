@@ -22,7 +22,7 @@ opts_ellmer_TypeBasic <- function(constructor = c("default", "TypeBasic", "next"
 }
 
 `is_corrupted_ellmer::TypeBasic` <- function(x) {
-  FALSE
+  has_foreign_s7_attrs(x)
 }
 
 #' @export

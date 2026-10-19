@@ -22,7 +22,7 @@ opts_ellmer_TypeJsonSchema <- function(constructor = c("type_from_schema", "Type
 }
 
 `is_corrupted_ellmer::TypeJsonSchema` <- function(x) {
-  FALSE
+  has_foreign_s7_attrs(x)
 }
 
 #' @export

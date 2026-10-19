@@ -13,7 +13,7 @@ opts_ggplot2_element_text <- function(constructor = c("element_text", "next"), .
 }
 
 `is_corrupted_ggplot2::element_text` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export

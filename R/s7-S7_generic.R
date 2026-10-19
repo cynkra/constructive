@@ -22,7 +22,7 @@ opts_S7_generic <- function(constructor = c("new_generic", "next"), ...) {
 }
 
 is_corrupted_S7_generic <- function(x) {
-  FALSE
+  has_foreign_s7_attrs(x)
 }
 
 #' @export

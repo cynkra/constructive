@@ -13,7 +13,7 @@ opts_ggplot2_element_rect <- function(constructor = c("element_rect", "next"), .
 }
 
 `is_corrupted_ggplot2::element_rect` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export

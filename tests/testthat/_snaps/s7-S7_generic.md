@@ -61,7 +61,28 @@
         structure(
           class = c("S7_generic", "function", "S7_object"),
           `_S7_version` = 1L,
-          `_S7_class` = constructive::.env("0x123456789", parents = "empty", class = "S7_class_ref"),
+          `_S7_class` = environment(
+            S7::new_class(
+              "S7_generic",
+              parent = S7::class_function,
+              properties = list(
+                name = S7::class_character,
+                methods = S7::class_environment,
+                dispatch_args = S7::class_character
+              ),
+              constructor = as.function(
+                list(
+                  .data = quote(function() NULL),
+                  name = character(0),
+                  methods = quote(new.env(parent = emptyenv())),
+                  dispatch_args = character(0),
+                  quote(new_object(fun(.data = .data), name = name, methods = methods, dispatch_args = dispatch_args))
+                ),
+                envir = constructive::.env("0x123456789", parents = c("0x123456789", "namespace:S7"))
+              ) |>
+                structure(class = "S7_constructor")
+            )
+          )$.S7_class_ref,
           name = "type_of",
           methods = constructive::.env("0x123456789", parents = "empty"),
           dispatch_args = "x",

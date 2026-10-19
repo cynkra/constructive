@@ -22,7 +22,7 @@ opts_ellmer_TypeArray <- function(constructor = c("type_array", "TypeArray", "ne
 }
 
 `is_corrupted_ellmer::TypeArray` <- function(x) {
-  FALSE
+  has_foreign_s7_attrs(x)
 }
 
 #' @export

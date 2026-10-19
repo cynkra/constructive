@@ -13,7 +13,7 @@ opts_ggplot2_element_geom <- function(constructor = c("element_geom", "next"), .
 }
 
 `is_corrupted_ggplot2::element_geom` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export

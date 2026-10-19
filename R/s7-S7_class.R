@@ -22,7 +22,15 @@ opts_S7_class <- function(constructor = c("new_class", "next"), ...) {
 }
 
 is_corrupted_S7_class <- function(x) {
-  FALSE
+  # Since S7 0.2.2.9000 `new_class()` wraps the constructor's environment into
+  # a new one holding a reference to the class, and sets "S7_version", classes
+  # built with another S7 version than the installed one are corrupted
+  wrapped_env <- exists(".S7_class_ref", environment(x), inherits = FALSE)
+  if (with_versions(S7 <= "0.2.2")) {
+    wrapped_env || !is.null(attr(x, "S7_version"))
+  } else {
+    !wrapped_env || is.null(attr(x, "S7_version"))
+  }
 }
 
 #' @export
@@ -42,7 +50,7 @@ is_corrupted_S7_class <- function(x) {
   # Since S7 0.2.2.9000 `new_class()` wraps the constructor's environment into
   # a new one holding a reference to the class, so we provide the original
   # environment and let `new_class()` create the wrapper
-  wrapped_env <- exists(".S7_class_ref", environment(x), inherits = FALSE)
+  wrapped_env <- with_versions(S7 > "0.2.2")
   if (wrapped_env && !is.null(args$constructor)) {
     environment(args$constructor) <- parent.env(environment(x))
   }

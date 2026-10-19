@@ -282,6 +282,7 @@ We can provide calls to `opts_*()` functions to the `...` argument. Each of thes
   \item \code{\link[=opts_S7_any]{opts_S7_any}(constructor = c("class_any", "next"), ...)}
   \item \code{\link[=opts_S7_base_class]{opts_S7_base_class}(constructor = c("S7", "next"), ...)}
   \item \code{\link[=opts_S7_class]{opts_S7_class}(constructor = c("new_class", "next"), ...)}
+  \item \code{\link[=opts_S7_class_ref]{opts_S7_class_ref}(constructor = c("environment", "next"), ...)}
   \item \code{\link[=opts_S7_external_generic]{opts_S7_external_generic}(constructor = c("new_external_generic", "next"), ...)}
   \item \code{\link[=opts_S7_generic]{opts_S7_generic}(constructor = c("new_generic", "next"), ...)}
   \item \code{\link[=opts_S7_object]{opts_S7_object}(constructor = c("S7_object", "next"), ...)}

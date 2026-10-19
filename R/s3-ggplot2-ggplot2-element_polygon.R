@@ -13,7 +13,7 @@ opts_ggplot2_element_polygon <- function(constructor = c("element_polygon", "nex
 }
 
 `is_corrupted_ggplot2::element_polygon` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export

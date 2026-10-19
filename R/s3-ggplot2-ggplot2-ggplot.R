@@ -25,7 +25,7 @@ opts_ggplot2_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) 
 }
 
 `is_corrupted_ggplot2::ggplot` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export

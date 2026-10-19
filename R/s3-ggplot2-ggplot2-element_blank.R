@@ -13,7 +13,7 @@ opts_ggplot2_element_blank <- function(constructor = c("element_blank", "next"),
 }
 
 `is_corrupted_ggplot2::element_blank` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export

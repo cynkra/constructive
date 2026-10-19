@@ -22,7 +22,7 @@ opts_ellmer_TypeEnum <- function(constructor = c("type_enum", "TypeEnum", "next"
 }
 
 `is_corrupted_ellmer::TypeEnum` <- function(x) {
-  FALSE
+  has_foreign_s7_attrs(x)
 }
 
 #' @export

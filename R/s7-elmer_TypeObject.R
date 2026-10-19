@@ -22,7 +22,7 @@ opts_ellmer_TypeObject <- function(constructor = c("type_object", "TypeObject", 
 }
 
 `is_corrupted_ellmer::TypeObject` <- function(x) {
-  FALSE
+  has_foreign_s7_attrs(x)
 }
 
 #' @export

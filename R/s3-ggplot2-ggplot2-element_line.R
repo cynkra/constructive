@@ -13,7 +13,7 @@ opts_ggplot2_element_line <- function(constructor = c("element_line", "next"), .
 }
 
 `is_corrupted_ggplot2::element_line` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export
