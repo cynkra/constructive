@@ -25,7 +25,7 @@ opts_ggplot2_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) 
 }
 
 `is_corrupted_ggplot2::ggplot` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export
@@ -79,7 +79,7 @@ opts_ggplot2_ggplot <- function(constructor = c("ggplot", "next", "list"), ...) 
     x, code_with_parens, pipe = pipe,
     idiomatic_class = c("ggplot2::ggplot", "ggplot", "ggplot2::gg", "S7_object", "gg"),
     ignore = c(
-      "S7_class", "data", "layers", "scales", "guides", "mapping", "theme",
+      s7_internal_attrs(), "data", "layers", "scales", "guides", "mapping", "theme",
       "coordinates", "facet", "layout", "labels", "meta", "plot_env"
     ),
     one_liner = one_liner,

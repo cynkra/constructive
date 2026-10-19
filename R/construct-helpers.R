@@ -438,6 +438,7 @@ all_classes <- list(
     "S7_any", 
     "S7_base_class", 
     "S7_class",
+    "S7_class_ref",
     "S7_external_generic",
     "S7_generic", 
     "S7_object", 

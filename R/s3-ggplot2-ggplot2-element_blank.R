@@ -13,7 +13,7 @@ opts_ggplot2_element_blank <- function(constructor = c("element_blank", "next"),
 }
 
 `is_corrupted_ggplot2::element_blank` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export
@@ -24,7 +24,7 @@ opts_ggplot2_element_blank <- function(constructor = c("element_blank", "next"),
 }
 
 `repair_attributes_ggplot2::element_blank` <- function(x, ...) {
-  property_names <- names(attr(attr(x, "S7_class"),"properties"))
+  property_names <- names(attr(s7_class(x),"properties"))
   .cstr_repair_attributes(
     x,
     idiomatic_class = c(
@@ -34,7 +34,7 @@ opts_ggplot2_element_blank <- function(constructor = c("element_blank", "next"),
       "S7_object",
       "element"
     ),
-    ignore = "S7_class",
+    ignore = s7_internal_attrs(),
     ...
   )
 }

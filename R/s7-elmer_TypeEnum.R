@@ -22,7 +22,7 @@ opts_ellmer_TypeEnum <- function(constructor = c("type_enum", "TypeEnum", "next"
 }
 
 `is_corrupted_ellmer::TypeEnum` <- function(x) {
-  FALSE
+  has_foreign_s7_attrs(x)
 }
 
 #' @export
@@ -38,7 +38,7 @@ opts_ellmer_TypeEnum <- function(constructor = c("type_enum", "TypeEnum", "next"
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("ellmer::TypeEnum", "ellmer::Type", "S7_object"),
-    ignore = c("S7_class", "description", "required", "values")
+    ignore = c(s7_internal_attrs(), "description", "required", "values")
   )
 }
 
@@ -55,6 +55,6 @@ opts_ellmer_TypeEnum <- function(constructor = c("type_enum", "TypeEnum", "next"
   constructive::.cstr_repair_attributes(
     x, code, ...,
     idiomatic_class = c("ellmer::TypeEnum", "ellmer::Type", "S7_object"),
-    ignore = c("S7_class", "description", "required", "values")
+    ignore = c(s7_internal_attrs(), "description", "required", "values")
   )
 }

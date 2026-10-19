@@ -13,7 +13,7 @@ opts_ggplot2_element_line <- function(constructor = c("element_line", "next"), .
 }
 
 `is_corrupted_ggplot2::element_line` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export
@@ -38,7 +38,7 @@ opts_ggplot2_element_line <- function(constructor = c("element_line", "next"), .
 }
 
 `repair_attributes_ggplot2::element_line` <- function(x, ...) {
-  property_names <- names(attr(attr(x, "S7_class"),"properties"))
+  property_names <- names(attr(s7_class(x),"properties"))
   .cstr_repair_attributes(
     x,
     idiomatic_class = c(
@@ -48,7 +48,7 @@ opts_ggplot2_element_line <- function(constructor = c("element_line", "next"), .
       "S7_object",
       "element"
     ),
-    ignore = c("S7_class", property_names),
+    ignore = c(s7_internal_attrs(), property_names),
     ...
   )
 }

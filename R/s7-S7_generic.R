@@ -22,7 +22,7 @@ opts_S7_generic <- function(constructor = c("new_generic", "next"), ...) {
 }
 
 is_corrupted_S7_generic <- function(x) {
-  FALSE
+  has_foreign_s7_attrs(x)
 }
 
 #' @export
@@ -54,7 +54,7 @@ is_corrupted_S7_generic <- function(x) {
   constructive::.cstr_repair_attributes(
     x, code, ...,
     ignore = c(
-      "name", "dispatch_args", "S7_class", "parent", "properties",
+      s7_internal_attrs(), "name", "dispatch_args", "parent", "properties",
       "constructor", "methods", "srcref"
     ),
     idiomatic_class = c("S7_generic", "function", "S7_object")

@@ -38,38 +38,66 @@ is_corrupted_S7_object <- function(x) {
   # directly anyway
   if (with_versions(R < "4.4")) {
     # see ?opts_S7_object
-    typeof(x) != "S4"
+    if (typeof(x) != "S4") return(TRUE)
   } else {
-    typeof(x) != "object"
+    if (typeof(x) != "object") return(TRUE)
   }
-  
+  has_foreign_s7_attrs(x)
 }
 
 
 #' @export
 .cstr_construct.S7_object.new_class<- function(x, ...) {
-  constructor <- attr(attr(x, "S7_class"), "constructor")
+  constructor <- attr(s7_class(x), "constructor")
   we_can_use_compact_syntax <-
     !identical(x, S7::S7_object()) && is_default_s7_class_constructor(constructor)
   if (!we_can_use_compact_syntax) return(.cstr_construct.S7_object.S7_object(x, ...))
-  fun_code <- .cstr_construct(attr(x, "S7_class"), ...)
+  fun_code <- .cstr_construct(s7_class(x), ...)
   args <- attributes(x)
   args$class <- NULL
-  args$S7_class <- NULL
+  args[s7_internal_attrs()] <- NULL
   code <- constructive::.cstr_apply(args, fun = fun_code, ...)
   constructive::.cstr_repair_attributes(
     x, code, ...,
     ignore = setdiff(names(attributes(x)), "class"),
-    idiomatic_class = c(attr(attr(x, "S7_class"), "name"), "S7_object")
+    idiomatic_class = c(attr(s7_class(x), "name"), "S7_object")
   )
 }
 
 #' @export
 .cstr_construct.S7_object.S7_object <- function(x, ...) {
   code <- "S7::S7_object()"
+  # since S7 0.2.2.9000 `S7_object()` sets `_S7_version = 1L`
+  version_set <-
+    with_versions(S7 > "0.2.2") && identical(attr(x, "_S7_version"), 1L)
   constructive::.cstr_repair_attributes(
     x, code, ...,
+    ignore = if (version_set) "_S7_version",
     idiomatic_class = "S7_object"
   )
 }
 
+# Attributes that the installed S7 sets itself. The class of an object is stored
+# in the "S7_class" attribute up to S7 0.2.2, and since S7 0.2.2.9000 in
+# "_S7_class" along with "_S7_version", generally through a shared reference to
+# the class
+s7_internal_attrs <- function() {
+  if (with_versions(S7 > "0.2.2")) c("_S7_class", "_S7_version") else "S7_class"
+}
+
+s7_class <- function(x) {
+  if (with_versions(S7 <= "0.2.2")) return(attr(x, "S7_class"))
+  class <- attr(x, "_S7_class")
+  if (is.environment(class)) class <- get("class", envir = class)
+  class
+}
+
+# S7 objects built with an S7 version that stores the class differently than the
+# installed one can't be built idiomatically, we consider them corrupted
+has_foreign_s7_attrs <- function(x) {
+  if (with_versions(S7 <= "0.2.2")) {
+    !is.null(attr(x, "_S7_class")) || !is.null(attr(x, "_S7_version"))
+  } else {
+    !is.null(attr(x, "S7_class")) || is.null(attr(x, "_S7_version"))
+  }
+}

@@ -13,7 +13,7 @@ opts_ggplot2_element_geom <- function(constructor = c("element_geom", "next"), .
 }
 
 `is_corrupted_ggplot2::element_geom` <- function(x) {
-  typeof(x) != "object"
+  typeof(x) != "object" || has_foreign_s7_attrs(x)
 }
 
 #' @export
@@ -57,7 +57,7 @@ opts_ggplot2_element_geom <- function(constructor = c("element_geom", "next"), .
 }
 
 `repair_attributes_ggplot2::element_geom` <- function(x, ...) {
-  property_names <- names(attr(attr(x, "S7_class"),"properties"))
+  property_names <- names(attr(s7_class(x),"properties"))
   .cstr_repair_attributes(
     x,
     idiomatic_class = c(
@@ -65,7 +65,7 @@ opts_ggplot2_element_geom <- function(constructor = c("element_geom", "next"), .
       "ggplot2::element",
       "S7_object"
     ),
-    ignore = c("S7_class", property_names),
+    ignore = c(s7_internal_attrs(), property_names),
     ...
   )
 }
