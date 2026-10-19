@@ -1,4 +1,5 @@
 test_that("sf", {
+  skip_on_valgrind()
   skip_if_not_installed("sf")
   skip_if_not_installed("tibble")
   skip_if(is.na(suppressWarnings(sf::st_crs(4326)$input)))

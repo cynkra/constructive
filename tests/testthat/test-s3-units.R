@@ -1,4 +1,5 @@
 test_that("units", {
+  skip_on_valgrind()
   skip_if_not_installed("units")
   expect_snapshot({
     construct(units::set_units(c(a = 1, b = 2.5), "km/h", mode = "standard"))
@@ -19,6 +20,7 @@ test_that("units", {
 # deparsed as "1" rather than "", and `set_units(1, "1/s")` has a "1" numerator,
 # which `deparse_unit()` can't reproduce
 test_that("units, units < 1.0-1", {
+  skip_on_valgrind()
   skip_if_not_installed("units")
   skip_if(with_versions(units >= "1.0-1"))
   expect_snapshot({
@@ -34,6 +36,7 @@ test_that("units, units < 1.0-1", {
 })
 
 test_that("units, units >= 1.0-1", {
+  skip_on_valgrind()
   skip_if_not_installed("units")
   skip_if(with_versions(units < "1.0-1"))
   expect_snapshot({
