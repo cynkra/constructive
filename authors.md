@@ -17,16 +17,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/cynkra/constructive/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/cynkra/constructive/blob/cran-1.4.0/DESCRIPTION)
 
 Fabri A (2026). *constructive: Display Idiomatic Code to Construct Most
-R Objects*. R package version 1.3.0,
+R Objects*. R package version 1.4.0,
 <https://github.com/cynkra/constructive>.
 
     @Manual{,
       title = {constructive: Display Idiomatic Code to Construct Most R Objects},
       author = {Antoine Fabri},
       year = {2026},
-      note = {R package version 1.3.0},
+      note = {R package version 1.4.0},
       url = {https://github.com/cynkra/constructive},
     }
