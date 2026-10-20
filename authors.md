@@ -17,7 +17,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/cynkra/constructive/blob/cran-1.4.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/cynkra/constructive/blob/main/DESCRIPTION)
 
 Fabri A (2026). *constructive: Display Idiomatic Code to Construct Most
 R Objects*. R package version 1.4.0,
