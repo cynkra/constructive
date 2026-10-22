@@ -1,0 +1,124 @@
+# Reproduces the CRAN incoming pretest, which caught NOTEs our other checks miss:
+# HTML manual validation (needs tidy), ORCID/URL lookups, and an Author
+# field stale because the tarball was built with an older R than the checker's.
+on:
+  push:
+    branches:
+      - "cran-*"
+  pull_request:
+    paths:
+      - "DESCRIPTION"
+      - "man/**"
+      - ".github/workflows/cran-incoming.yaml"
+  workflow_dispatch:
+
+name: CRAN incoming
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+    timeout-minutes: 60
+
+    # The R the tarball is built with, release mimics a local submission
+    name: build ${{ matrix.build }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [release, devel]
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.build }}
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgbuild
+          # Building skips the vignettes, the suggested packages aren't needed
+          dependencies: '"hard"'
+
+      - name: Build the tarball
+        run: |
+          dir.create("tarball")
+          pkgbuild::build(dest_path = "tarball", manual = TRUE, vignettes = FALSE, args = "--no-build-vignettes")
+        shell: Rscript {0}
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: tarball-${{ matrix.build }}
+          path: tarball
+
+  check:
+    runs-on: ubuntu-26.04
+    # Suggested packages are installed from source on R-devel until cached
+    timeout-minutes: 120
+    needs: build
+
+    name: build ${{ matrix.build }}, check devel
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [release, devel]
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      _R_CHECK_CRAN_INCOMING_: true
+      _R_CHECK_CRAN_INCOMING_REMOTE_: true
+      _R_CHECK_RD_VALIDATE_RD2HTML_: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install HTML Tidy, used to validate the HTML manual
+        run: sudo apt-get install -y tidy
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: devel
+
+      - name: Install LaTeX, used to build the PDF manual
+        run: sudo apt-get install -y --no-install-recommends texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texinfo
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+
+      - uses: actions/download-artifact@v7
+        with:
+          name: tarball-${{ matrix.build }}
+          path: tarball
+
+      - name: Check the tarball as CRAN incoming
+        run: |
+          tarball <- Sys.glob("tarball/constructive_*.tar.gz")
+          res <- rcmdcheck::rcmdcheck(
+            tarball,
+            args = c("--as-cran", "--no-tests", "--no-examples", "--no-vignettes", "--ignore-vignettes"),
+            error_on = "never",
+            check_dir = "check"
+          )
+          notes <- res$notes
+          # ror.org answers automated requests with a 429 bot challenge, so every ROR
+          # ID looks invalid (along with its URL), these aren't actionable
+          notes <- gsub("\n  URL: https://ror\\.org/\\S+\n    From: [^\n]*\n    Status: 429\n    Message: [^\n]*", "", notes)
+          notes <- gsub("\nFound the following \\(possibly\\) invalid ROR IDs:(\n  [^\n]*)*", "", notes)
+          notes <- gsub("\nFound the following \\(possibly\\) invalid URLs:(?=\n[^ ]|$)", "", notes, perl = TRUE)
+          # The incoming feasibility NOTE always lists the maintainer, we only
+          # care about it when it found invalid URLs, DOIs, ORCIDs...
+          incoming <- grepl("^checking CRAN incoming feasibility", notes)
+          notes <- notes[!incoming | grepl("Found the following", notes)]
+          if (length(c(res$errors, res$warnings, notes))) {
+            print(res)
+            stop("CRAN incoming check found problems")
+          }
+        shell: Rscript {0}
