@@ -86,10 +86,8 @@ jobs:
         with:
           r-version: devel
 
-      - uses: r-lib/actions/setup-tinytex@v2
-
-      - name: Install the LaTeX packages used by the PDF manual
-        run: tlmgr install inconsolata
+      - name: Install LaTeX, used to build the PDF manual
+        run: sudo apt-get install -y --no-install-recommends texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texinfo
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
