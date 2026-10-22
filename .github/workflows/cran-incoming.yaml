@@ -43,6 +43,8 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::pkgbuild
+          # Building skips the vignettes, the suggested packages aren't needed
+          dependencies: '"hard"'
 
       - name: Build the tarball
         run: pkgbuild::build(dest_path = "tarball", manual = TRUE, vignettes = FALSE, args = "--no-build-vignettes")
@@ -55,7 +57,8 @@ jobs:
 
   check:
     runs-on: ubuntu-26.04
-    timeout-minutes: 60
+    # Suggested packages are installed from source on R-devel until cached
+    timeout-minutes: 120
     needs: build
 
     name: build ${{ matrix.build }}, check devel
