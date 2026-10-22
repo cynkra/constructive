@@ -17,8 +17,9 @@ About the incoming pretest NOTEs of the first submission:
 * The Author field differed because the tarball was built with R 4.4, which
   formats ORCID and ROR comments differently, it is now built with R 4.6.
 * The ROR ID 0335t7e62 (cynkra GmbH) is valid, see
-  https://api.ror.org/v2/organizations/0335t7e62 , we believe the check was
-  rate limited (status 429 on Windows).
+  https://api.ror.org/v2/organizations/0335t7e62 . ror.org currently answers
+  automated requests with a 429 bot challenge, so `tools:::.ROR_ID_is_alive()`
+  returns `FALSE` for any ROR ID, valid or not.
 
 ## Notes about version 1.3.0
 
