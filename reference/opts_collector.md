@@ -5,8 +5,8 @@ specifications as created by
 [`readr::col_double()`](https://readr.tidyverse.org/reference/parse_atomic.html),
 [`readr::col_date()`](https://readr.tidyverse.org/reference/parse_datetime.html),
 [`readr::col_factor()`](https://readr.tidyverse.org/reference/parse_factor.html)
-etc. They all share the class 'collector' and a subclass 'collector\_'
-that maps to the constructor `readr::col_<type>()`.
+etc. They all share the class 'collector' and a subclass
+`collector_<type>` that maps to the constructor `readr::col_<type>()`.
 
 ## Usage
 
