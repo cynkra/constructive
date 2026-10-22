@@ -47,7 +47,9 @@ jobs:
           dependencies: '"hard"'
 
       - name: Build the tarball
-        run: pkgbuild::build(dest_path = "tarball", manual = TRUE, vignettes = FALSE, args = "--no-build-vignettes")
+        run: |
+          dir.create("tarball")
+          pkgbuild::build(dest_path = "tarball", manual = TRUE, vignettes = FALSE, args = "--no-build-vignettes")
         shell: Rscript {0}
 
       - uses: actions/upload-artifact@v6
