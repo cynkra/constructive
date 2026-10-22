@@ -11,6 +11,15 @@ waldo have required for a while.
 Checked on the R versions from 4.2 to devel, on Linux, macOS and Windows, and
 with suggested packages removed in turn. All green.
 
+About the incoming pretest NOTEs of the first submission:
+
+* The HTML manual validation problem in `opts_collector.Rd` is fixed.
+* The Author field differed because the tarball was built with R 4.4, which
+  formats ORCID and ROR comments differently, it is now built with R 4.6.
+* The ROR ID 0335t7e62 (cynkra GmbH) is valid, see
+  https://api.ror.org/v2/organizations/0335t7e62 , we believe the check was
+  rate limited (status 429 on Windows).
+
 ## Notes about version 1.3.0
 
 1.2.0 coudn't be installed on some systems, the C code needed fixing. + a few minor features and fixes.

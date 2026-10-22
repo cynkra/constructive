@@ -3,7 +3,7 @@
 #' These options will be used on objects of class 'collector', i.e. column
 #' specifications as created by `readr::col_double()`, `readr::col_date()`,
 #' `readr::col_factor()` etc. They all share the class 'collector' and a subclass
-#' 'collector_<type>' that maps to the constructor `readr::col_<type>()`.
+#' `collector_<type>` that maps to the constructor `readr::col_<type>()`.
 #'
 #' Depending on `constructor`, we construct the object as follows:
 #' * `"col"` (default): We build the object using the relevant `readr::col_*()`

@@ -18,7 +18,7 @@ An object of class <constructive_options/constructive_options_collector>
 These options will be used on objects of class 'collector', i.e. column
 specifications as created by \code{readr::col_double()}, \code{readr::col_date()},
 \code{readr::col_factor()} etc. They all share the class 'collector' and a subclass
-'collector_\if{html}{\out{<type>}}' that maps to the constructor \verb{readr::col_<type>()}.
+\verb{collector_<type>} that maps to the constructor \verb{readr::col_<type>()}.
 }
 \details{
 Depending on \code{constructor}, we construct the object as follows:
