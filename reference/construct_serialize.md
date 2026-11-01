@@ -89,8 +89,8 @@ construct_serialize(1:5)
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -182,8 +182,8 @@ construct_serialize(c("hello", "world"))
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -228,8 +228,8 @@ construct_serialize(data.frame(a = 1:3, b = letters[1:3]))
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -443,8 +443,8 @@ construct_serialize(matrix(1:6, nrow = 2))
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -526,8 +526,8 @@ construct_serialize(x)
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -618,8 +618,8 @@ construct_serialize(quote(mean(x)))
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -668,8 +668,8 @@ construct_serialize(expression(x + 1, y * 2))
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -782,8 +782,8 @@ construct_serialize(c(NA, NaN, Inf, -Inf))
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -828,8 +828,8 @@ construct_serialize(sum)
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
@@ -858,8 +858,8 @@ construct_serialize(`if`)
 #>     0x0a,
 #>     # 3-6: The workspace format version, 3 since R 3.5.0, always 2 before that
 #>     0x00, 0x00, 0x00, 0x03,
-#>     # 7-10: The R version used to serialize, here 4.6.1
-#>     0x00, 0x04, 0x06, 0x01,
+#>     # 7-10: The R version used to serialize, here 4.6.2
+#>     0x00, 0x04, 0x06, 0x02,
 #>     # 11-14: The minimal R version that can unserialize this, e.g. 3.5.0
 #>     0x00, 0x03, 0x05, 0x00,
 #>     # 15-18: The length of the character set name in bytes: 5
