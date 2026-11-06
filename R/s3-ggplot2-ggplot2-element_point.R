@@ -39,6 +39,7 @@ opts_ggplot2_element_point <- function(constructor = c("element_point", "next"),
     idiomatic_class = c(
       "ggplot2::element_point",
       "ggplot2::element",
+      "element",
       "S7_object"
     ),
     ignore = c(s7_internal_attrs(), property_names),

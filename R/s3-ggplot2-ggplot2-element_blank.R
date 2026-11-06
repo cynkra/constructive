@@ -31,8 +31,8 @@ opts_ggplot2_element_blank <- function(constructor = c("element_blank", "next"),
       "ggplot2::element_blank",
       "element_blank",
       "ggplot2::element",
-      "S7_object",
-      "element"
+      "element",
+      "S7_object"
     ),
     ignore = s7_internal_attrs(),
     ...

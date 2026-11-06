@@ -39,6 +39,7 @@ opts_ggplot2_element_polygon <- function(constructor = c("element_polygon", "nex
     idiomatic_class = c(
       "ggplot2::element_polygon",
       "ggplot2::element",
+      "element",
       "S7_object"
     ),
     ignore = c(s7_internal_attrs(), property_names),

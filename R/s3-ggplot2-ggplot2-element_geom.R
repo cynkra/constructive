@@ -63,6 +63,7 @@ opts_ggplot2_element_geom <- function(constructor = c("element_geom", "next"), .
     idiomatic_class = c(
       "ggplot2::element_geom",
       "ggplot2::element",
+      "element",
       "S7_object"
     ),
     ignore = c(s7_internal_attrs(), property_names),

@@ -45,8 +45,8 @@ opts_ggplot2_element_line <- function(constructor = c("element_line", "next"), .
       "ggplot2::element_line",
       "element_line",
       "ggplot2::element",
-      "S7_object",
-      "element"
+      "element",
+      "S7_object"
     ),
     ignore = c(s7_internal_attrs(), property_names),
     ...
