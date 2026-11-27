@@ -21,5 +21,13 @@
         ggplot2::ggplot(ggplot2::aes(drv, model)) +
         ggplot2::geom_point() +
         ggplot2::facet_grid(rows = manufacturer ~ ., scales = "free", space = "free") +
-        ggplot2::theme(strip.text.y = ggplot2::element_text(angle = 0))
+        ggplot2::theme(
+          strip.text.y = ggplot2::element_text(angle = 0) |>
+            structure(
+              class = c(
+                "ggplot2::element_text", "element_text", "ggplot2::element", "element",
+                "S7_object"
+              )
+            )
+        )
 
